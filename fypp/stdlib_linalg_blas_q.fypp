@@ -1,5 +1,5 @@
 #:include "common.fypp" 
-#!if WITH_QP 
+#:if WITH_QP 
 module stdlib_linalg_blas_q
      use stdlib_linalg_constants
      use stdlib_linalg_blas_aux
@@ -12,114 +12,42 @@ module stdlib_linalg_blas_q
 
 
      public :: sp,dp,qp,lk,ilp
-#!if WITH_QP 
      public :: stdlib_qasum
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qaxpy
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qcopy
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qdot
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgbmv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgemm
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgemv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qger
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qnrm2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qrot
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qrotg
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qrotm
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qrotmg
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qsbmv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qscal
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qsdot
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qspmv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qspr
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qspr2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qswap
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qsymm
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qsymv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qsyr
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qsyr2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qsyr2k
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qsyrk
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qtbmv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qtbsv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qtpmv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qtpsv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qtrmm
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qtrmv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qtrsm
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qtrsv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qzasum
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qznrm2
-#!endif 
 
      ! 128-bit real constants 
      real(qp),    parameter, private ::     negone = -1.00_qp
@@ -160,8 +88,6 @@ module stdlib_linalg_blas_q
 
 
      contains
-
-#!if WITH_QP 
 
      !> DASUM: takes the sum of the absolute values.
 
@@ -210,9 +136,6 @@ module stdlib_linalg_blas_q
            stdlib_qasum = dtemp
            return
      end function stdlib_qasum
-#!endif 
-
-#!if WITH_QP 
 
      !> DAXPY: constant times a vector plus a vector.
      !> uses unrolled loops for increments equal to one.
@@ -266,9 +189,6 @@ module stdlib_linalg_blas_q
            end if
            return
      end subroutine stdlib_qaxpy
-#!endif 
-
-#!if WITH_QP 
 
      !> DCOPY: copies a vector, x, to a vector, y.
      !> uses unrolled loops for increments equal to 1.
@@ -323,9 +243,6 @@ module stdlib_linalg_blas_q
            end if
            return
      end subroutine stdlib_qcopy
-#!endif 
-
-#!if WITH_QP 
 
      !> DDOT: forms the dot product of two vectors.
      !> uses unrolled loops for increments equal to one.
@@ -381,9 +298,6 @@ module stdlib_linalg_blas_q
            stdlib_qdot = dtemp
            return
      end function stdlib_qdot
-#!endif 
-
-#!if WITH_QP 
 
      !> DGBMV:  performs one of the matrix-vector operations
      !> y := alpha*A*x + beta*y,   or   y := alpha*A**T*x + beta*y,
@@ -539,9 +453,6 @@ module stdlib_linalg_blas_q
            end if
            return
      end subroutine stdlib_qgbmv
-#!endif 
-
-#!if WITH_QP 
 
      !> DGEMM:  performs one of the matrix-matrix operations
      !> C := alpha*op( A )*op( B ) + beta*C,
@@ -705,9 +616,6 @@ module stdlib_linalg_blas_q
            end if
            return
      end subroutine stdlib_qgemm
-#!endif 
-
-#!if WITH_QP 
 
      !> DGEMV:  performs one of the matrix-vector operations
      !> y := alpha*A*x + beta*y,   or   y := alpha*A**T*x + beta*y,
@@ -852,9 +760,6 @@ module stdlib_linalg_blas_q
            end if
            return
      end subroutine stdlib_qgemv
-#!endif 
-
-#!if WITH_QP 
 
      !> DGER:   performs the rank 1 operation
      !> A := alpha*x*y**T + A,
@@ -934,9 +839,6 @@ module stdlib_linalg_blas_q
            end if
            return
      end subroutine stdlib_qger
-#!endif 
-
-#!if WITH_QP 
 
      !> !
      !>
@@ -1027,9 +929,6 @@ module stdlib_linalg_blas_q
         stdlib_qnrm2 = scl*sqrt( sumsq )
         return
      end function stdlib_qnrm2
-#!endif 
-
-#!if WITH_QP 
 
      !> DROT: applies a plane rotation.
 
@@ -1071,9 +970,6 @@ module stdlib_linalg_blas_q
            end if
            return
      end subroutine stdlib_qrot
-#!endif 
-
-#!if WITH_QP 
 
      !> !
      !>
@@ -1137,9 +1033,6 @@ module stdlib_linalg_blas_q
         end if
         return
      end subroutine stdlib_qrotg
-#!endif 
-
-#!if WITH_QP 
 
      !> APPLY THE MODIFIED GIVENS TRANSFORMATION, H, TO THE 2 BY N MATRIX
      !> (DX**T) , WHERE **T INDICATES TRANSPOSE. THE ELEMENTS OF DX ARE IN
@@ -1247,9 +1140,6 @@ module stdlib_linalg_blas_q
            end if
            return
      end subroutine stdlib_qrotm
-#!endif 
-
-#!if WITH_QP 
 
      !> CONSTRUCT THE MODIFIED GIVENS TRANSFORMATION MATRIX H WHICH ZEROS
      !> THE SECOND COMPONENT OF THE 2-VECTOR  (SQRT(DD1)*DX1,SQRT(DD2)    DY2)**T.
@@ -1416,9 +1306,6 @@ module stdlib_linalg_blas_q
            dparam(1) = dflag
            return
      end subroutine stdlib_qrotmg
-#!endif 
-
-#!if WITH_QP 
 
      !> DSBMV:  performs the matrix-vector  operation
      !> y := alpha*A*x + beta*y,
@@ -1581,9 +1468,6 @@ module stdlib_linalg_blas_q
            end if
            return
      end subroutine stdlib_qsbmv
-#!endif 
-
-#!if WITH_QP 
 
      !> DSCAL: scales a vector by a constant.
      !> uses unrolled loops for increment equal to 1.
@@ -1630,9 +1514,6 @@ module stdlib_linalg_blas_q
            end if
            return
      end subroutine stdlib_qscal
-#!endif 
-
-#!if WITH_QP 
 
      !> Compute the inner product of two vectors with extended
      !> precision accumulation and result.
@@ -1680,9 +1561,6 @@ module stdlib_linalg_blas_q
            end if
            return
      end function stdlib_qsdot
-#!endif 
-
-#!if WITH_QP 
 
      !> DSPMV:  performs the matrix-vector operation
      !> y := alpha*A*x + beta*y,
@@ -1839,9 +1717,6 @@ module stdlib_linalg_blas_q
            end if
            return
      end subroutine stdlib_qspmv
-#!endif 
-
-#!if WITH_QP 
 
      !> DSPR:    performs the symmetric rank 1 operation
      !> A := alpha*x*x**T + A,
@@ -1949,9 +1824,6 @@ module stdlib_linalg_blas_q
            end if
            return
      end subroutine stdlib_qspr
-#!endif 
-
-#!if WITH_QP 
 
      !> DSPR2:  performs the symmetric rank 2 operation
      !> A := alpha*x*y**T + alpha*y*x**T + A,
@@ -2079,9 +1951,6 @@ module stdlib_linalg_blas_q
            end if
            return
      end subroutine stdlib_qspr2
-#!endif 
-
-#!if WITH_QP 
 
      !> DSWAP: interchanges two vectors.
      !> uses unrolled loops for increments equal to 1.
@@ -2142,9 +2011,6 @@ module stdlib_linalg_blas_q
            end if
            return
      end subroutine stdlib_qswap
-#!endif 
-
-#!if WITH_QP 
 
      !> DSYMM:  performs one of the matrix-matrix operations
      !> C := alpha*A*B + beta*C,
@@ -2292,9 +2158,6 @@ module stdlib_linalg_blas_q
            end if
            return
      end subroutine stdlib_qsymm
-#!endif 
-
-#!if WITH_QP 
 
      !> DSYMV:  performs the matrix-vector  operation
      !> y := alpha*A*x + beta*y,
@@ -2447,9 +2310,6 @@ module stdlib_linalg_blas_q
            end if
            return
      end subroutine stdlib_qsymv
-#!endif 
-
-#!if WITH_QP 
 
      !> DSYR:   performs the symmetric rank 1 operation
      !> A := alpha*x*x**T + A,
@@ -2553,9 +2413,6 @@ module stdlib_linalg_blas_q
            end if
            return
      end subroutine stdlib_qsyr
-#!endif 
-
-#!if WITH_QP 
 
      !> DSYR2:  performs the symmetric rank 2 operation
      !> A := alpha*x*y**T + alpha*y*x**T + A,
@@ -2679,9 +2536,6 @@ module stdlib_linalg_blas_q
            end if
            return
      end subroutine stdlib_qsyr2
-#!endif 
-
-#!if WITH_QP 
 
      !> DSYR2K:  performs one of the symmetric rank 2k operations
      !> C := alpha*A*B**T + alpha*B*A**T + beta*C,
@@ -2857,9 +2711,6 @@ module stdlib_linalg_blas_q
            end if
            return
      end subroutine stdlib_qsyr2k
-#!endif 
-
-#!if WITH_QP 
 
      !> DSYRK:  performs one of the symmetric rank k operations
      !> C := alpha*A*A**T + beta*C,
@@ -3027,9 +2878,6 @@ module stdlib_linalg_blas_q
            end if
            return
      end subroutine stdlib_qsyrk
-#!endif 
-
-#!if WITH_QP 
 
      !> DTBMV:  performs one of the matrix-vector operations
      !> x := A*x,   or   x := A**T*x,
@@ -3213,9 +3061,6 @@ module stdlib_linalg_blas_q
            end if
            return
      end subroutine stdlib_qtbmv
-#!endif 
-
-#!if WITH_QP 
 
      !> DTBSV:  solves one of the systems of equations
      !> A*x = b,   or   A**T*x = b,
@@ -3402,9 +3247,6 @@ module stdlib_linalg_blas_q
            end if
            return
      end subroutine stdlib_qtbsv
-#!endif 
-
-#!if WITH_QP 
 
      !> DTPMV:  performs one of the matrix-vector operations
      !> x := A*x,   or   x := A**T*x,
@@ -3587,9 +3429,6 @@ module stdlib_linalg_blas_q
            end if
            return
      end subroutine stdlib_qtpmv
-#!endif 
-
-#!if WITH_QP 
 
      !> DTPSV:  solves one of the systems of equations
      !> A*x = b,   or   A**T*x = b,
@@ -3774,9 +3613,6 @@ module stdlib_linalg_blas_q
            end if
            return
      end subroutine stdlib_qtpsv
-#!endif 
-
-#!if WITH_QP 
 
      !> DTRMM:  performs one of the matrix-matrix operations
      !> B := alpha*op( A )*B,   or   B := alpha*B*op( A ),
@@ -3983,9 +3819,6 @@ module stdlib_linalg_blas_q
            end if
            return
      end subroutine stdlib_qtrmm
-#!endif 
-
-#!if WITH_QP 
 
      !> DTRMV:  performs one of the matrix-vector operations
      !> x := A*x,   or   x := A**T*x,
@@ -4152,9 +3985,6 @@ module stdlib_linalg_blas_q
            end if
            return
      end subroutine stdlib_qtrmv
-#!endif 
-
-#!if WITH_QP 
 
      !> DTRSM:  solves one of the matrix equations
      !> op( A )*X = alpha*B,   or   X*op( A ) = alpha*B,
@@ -4386,9 +4216,6 @@ module stdlib_linalg_blas_q
            end if
            return
      end subroutine stdlib_qtrsm
-#!endif 
-
-#!if WITH_QP 
 
      !> DTRSV:  solves one of the systems of equations
      !> A*x = b,   or   A**T*x = b,
@@ -4557,9 +4384,6 @@ module stdlib_linalg_blas_q
            end if
            return
      end subroutine stdlib_qtrsv
-#!endif 
-
-#!if WITH_QP 
 
      !> DZASUM: takes the sum of the (|Re(.)| + |Im(.)|)'s of a complex vector and
      !> returns a quad precision result.
@@ -4594,9 +4418,6 @@ module stdlib_linalg_blas_q
            stdlib_qzasum = stemp
            return
      end function stdlib_qzasum
-#!endif 
-
-#!if WITH_QP 
 
      !> !
      !>
@@ -4696,9 +4517,8 @@ module stdlib_linalg_blas_q
         stdlib_qznrm2 = scl*sqrt( sumsq )
         return
      end function stdlib_qznrm2
-#!endif 
 
 
 
 end module stdlib_linalg_blas_q
-#!endif
+#:endif

@@ -228,7 +228,7 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix,ext_functi
             print(module_name+"_"+initials[m]+": function "+old_names[k])
 
         print_function_tree(fortran_functions,old_names,ext_functions,fid,INDENT,MAX_LINE_LENGTH, \
-                            initials[m],stdlib_export)
+                            initials[m],stdlib_export and not is_quad_module)
 
         # Close module
         fid.write("\n\n\nend module {}\n".format(this_module))

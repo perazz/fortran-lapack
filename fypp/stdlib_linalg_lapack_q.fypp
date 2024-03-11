@@ -1,5 +1,5 @@
 #:include "common.fypp" 
-#!if WITH_QP 
+#:if WITH_QP 
 module stdlib_linalg_lapack_q
      use stdlib_linalg_constants
      use stdlib_linalg_blas
@@ -13,1413 +13,475 @@ module stdlib_linalg_lapack_q
 
 
      public :: sp,dp,qp,lk,ilp
-#!if WITH_QP 
      public :: stdlib_qbbcsd
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qbdsdc
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qbdsqr
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qdisna
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgbbrd
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgbcon
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgbequ
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgbequb
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgbrfs
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgbsv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgbsvx
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgbtf2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgbtrf
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgbtrs
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgebak
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgebal
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgebd2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgebrd
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgecon
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgeequ
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgeequb
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgees
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgeesx
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgeev
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgeevx
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgehd2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgehrd
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgejsv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgelq
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgelq2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgelqf
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgelqt
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgelqt3
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgels
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgelsd
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgelss
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgelsy
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgemlq
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgemlqt
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgemqr
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgemqrt
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgeql2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgeqlf
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgeqp3
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgeqr
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgeqr2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgeqr2p
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgeqrf
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgeqrfp
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgeqrt
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgeqrt2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgeqrt3
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgerfs
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgerq2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgerqf
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgesc2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgesdd
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgesv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgesvd
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgesvdq
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgesvj
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgesvx
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgetc2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgetf2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgetrf
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgetrf2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgetri
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgetrs
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgetsls
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgetsqrhrt
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qggbak
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qggbal
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgges
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgges3
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qggesx
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qggev
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qggev3
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qggevx
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qggglm
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgghd3
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgghrd
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgglse
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qggqrf
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qggrqf
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgsvj0
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgsvj1
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgtcon
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgtrfs
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgtsv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgtsvx
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgttrf
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgttrs
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qgtts2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qhgeqz
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qhsein
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qhseqr
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qisnan
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qla_gbamv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qla_gbrcond
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qla_gbrpvgrw
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qla_geamv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qla_gercond
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qla_gerpvgrw
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qla_lin_berr
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qla_porcond
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qla_porpvgrw
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qla_syamv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qla_syrcond
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qla_syrpvgrw
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qla_wwaddw
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlabad
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlabrd
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlacn2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlacon
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlacpy
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qladiv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qladiv1
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qladiv2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlae2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlaebz
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlaed0
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlaed1
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlaed2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlaed3
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlaed4
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlaed5
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlaed6
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlaed7
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlaed8
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlaed9
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlaeda
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlaein
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlaev2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlaexc
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlag2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlag2s
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlags2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlagtf
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlagtm
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlagts
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlagv2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlahqr
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlahr2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlaic1
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlaisnan
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlaln2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlals0
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlalsa
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlalsd
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlamch
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlamc3
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlamrg
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlamswlq
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlamtsqr
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlaneg
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlangb
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlange
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlangt
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlanhs
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlansb
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlansf
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlansp
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlanst
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlansy
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlantb
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlantp
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlantr
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlanv2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlaorhr_col_getrfnp
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlaorhr_col_getrfnp2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlapll
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlapmr
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlapmt
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlapy2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlapy3
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlaqgb
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlaqge
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlaqp2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlaqps
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlaqr0
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlaqr1
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlaqr2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlaqr3
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlaqr4
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlaqr5
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlaqsb
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlaqsp
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlaqsy
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlaqtr
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlaqz0
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlaqz1
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlaqz2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlaqz3
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlaqz4
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlar1v
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlar2v
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlarf
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlarfb
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlarfb_gett
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlarfg
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlarfgp
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlarft
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlarfx
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlarfy
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlargv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlarnv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlarra
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlarrb
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlarrc
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlarrd
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlarre
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlarrf
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlarrj
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlarrk
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlarrr
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlarrv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlartg
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlartgp
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlartgs
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlartv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlaruv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlarz
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlarzb
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlarzt
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlas2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlascl
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlasd0
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlasd1
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlasd2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlasd3
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlasd4
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlasd5
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlasd6
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlasd7
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlasd8
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlasda
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlasdq
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlasdt
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlaset
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlasq1
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlasq2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlasq3
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlasq4
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlasq5
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlasq6
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlasr
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlasrt
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlassq
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlasv2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlaswlq
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlaswp
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlasy2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlasyf
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlasyf_aa
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlasyf_rk
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlasyf_rook
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlat2s
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlatbs
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlatdf
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlatps
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlatrd
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlatrs
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlatrz
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlatsqr
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlauu2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlauum
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qopgtr
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qopmtr
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qorbdb
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qorbdb1
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qorbdb2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qorbdb3
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qorbdb4
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qorbdb5
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qorbdb6
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qorcsd
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qorcsd2by1
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qorg2l
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qorg2r
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qorgbr
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qorghr
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qorgl2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qorglq
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qorgql
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qorgqr
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qorgr2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qorgrq
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qorgtr
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qorgtsqr
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qorgtsqr_row
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qorhr_col
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qorm22
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qorm2l
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qorm2r
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qormbr
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qormhr
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qorml2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qormlq
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qormql
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qormqr
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qormr2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qormr3
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qormrq
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qormrz
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qormtr
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qpbcon
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qpbequ
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qpbrfs
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qpbstf
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qpbsv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qpbsvx
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qpbtf2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qpbtrf
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qpbtrs
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qpftrf
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qpftri
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qpftrs
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qpocon
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qpoequ
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qpoequb
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qporfs
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qposv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qposvx
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qpotf2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qpotrf
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qpotrf2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qpotri
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qpotrs
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qppcon
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qppequ
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qpprfs
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qppsv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qppsvx
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qpptrf
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qpptri
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qpptrs
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qpstf2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qpstrf
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qptcon
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qpteqr
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qptrfs
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qptsv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qptsvx
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qpttrf
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qpttrs
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qptts2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qrscl
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qsb2st_kernels
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qsbev
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qsbevd
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qsbevx
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qsbgst
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qsbgv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qsbgvd
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qsbgvx
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qsbtrd
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qsfrk
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qsgesv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qspcon
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qspev
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qspevd
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qspevx
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qspgst
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qspgv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qspgvd
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qspgvx
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qsposv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qsprfs
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qspsv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qspsvx
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qsptrd
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qsptrf
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qsptri
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qsptrs
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qstebz
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qstedc
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qstegr
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qstein
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qstemr
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qsteqr
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qsterf
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qstev
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qstevd
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qstevr
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qstevx
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qsycon
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qsycon_rook
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qsyconv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qsyconvf
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qsyconvf_rook
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qsyequb
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qsyev
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qsyevd
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qsyevr
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qsyevx
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qsygs2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qsygst
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qsygv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qsygvd
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qsygvx
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qsyrfs
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qsysv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qsysv_aa
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qsysv_rk
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qsysv_rook
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qsysvx
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qsyswapr
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qsytd2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qsytf2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qsytf2_rk
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qsytf2_rook
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qsytrd
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qsytrd_sb2st
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qsytrd_sy2sb
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qsytrf
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qsytrf_aa
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qsytrf_rk
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qsytrf_rook
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qsytri
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qsytri_rook
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qsytrs
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qsytrs2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qsytrs_3
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qsytrs_aa
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qsytrs_rook
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qtbcon
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qtbrfs
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qtbtrs
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qtfsm
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qtftri
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qtfttp
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qtfttr
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qtgevc
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qtgex2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qtgexc
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qtgsen
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qtgsja
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qtgsna
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qtgsy2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qtgsyl
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qtpcon
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qtplqt
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qtplqt2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qtpmlqt
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qtpmqrt
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qtpqrt
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qtpqrt2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qtprfb
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qtprfs
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qtptri
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qtptrs
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qtpttf
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qtpttr
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qtrcon
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qtrevc
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qtrevc3
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qtrexc
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qtrrfs
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qtrsen
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qtrsna
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qtrsyl
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qtrti2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qtrtri
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qtrtrs
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qtrttf
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qtrttp
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qtzrzf
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qzsum1
-#!endif 
-#!if WITH_QP 
      public :: stdlib_qlag2q
-#!endif 
 
      ! 128-bit real constants 
      real(qp),    parameter, private ::     negone = -1.00_qp
@@ -1460,8 +522,6 @@ module stdlib_linalg_lapack_q
 
 
      contains
-
-#!if WITH_QP 
 
      !> DBBCSD: computes the CS decomposition of an orthogonal matrix in
      !> bidiagonal-block form,
@@ -2070,9 +1130,6 @@ module stdlib_linalg_lapack_q
            end do
            return
      end subroutine stdlib_qbbcsd
-#!endif 
-
-#!if WITH_QP 
 
      !> DBDSDC: computes the singular value decomposition (SVD) of a real
      !> N-by-N (upper or lower) bidiagonal matrix B:  B = U * S * VT,
@@ -2331,9 +1388,6 @@ module stdlib_linalg_lapack_q
                      , work( n ), u, ldu )
            return
      end subroutine stdlib_qbdsdc
-#!endif 
-
-#!if WITH_QP 
 
      !> DBDSQR: computes the singular values and, optionally, the right and/or
      !> left singular vectors from the singular value decomposition (SVD) of
@@ -2800,9 +1854,6 @@ module stdlib_linalg_lapack_q
            220 continue
            return
      end subroutine stdlib_qbdsqr
-#!endif 
-
-#!if WITH_QP 
 
      !> DDISNA: computes the reciprocal condition numbers for the eigenvectors
      !> of a real symmetric or complex Hermitian matrix or for the left or
@@ -2908,9 +1959,6 @@ module stdlib_linalg_lapack_q
            end do
            return
      end subroutine stdlib_qdisna
-#!endif 
-
-#!if WITH_QP 
 
      !> DGBBRD: reduces a real general m-by-n band matrix A to upper
      !> bidiagonal form B by an orthogonal transformation: Q**T * A * P = B.
@@ -3168,9 +2216,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qgbbrd
-#!endif 
-
-#!if WITH_QP 
 
      !> DGBCON: estimates the reciprocal of the condition number of a real
      !> general band matrix A, in either the 1-norm or the infinity-norm,
@@ -3300,9 +2345,6 @@ module stdlib_linalg_lapack_q
            40 continue
            return
      end subroutine stdlib_qgbcon
-#!endif 
-
-#!if WITH_QP 
 
      !> DGBEQU: computes row and column scalings intended to equilibrate an
      !> M-by-N band matrix A and reduce its condition number.  R returns the
@@ -3433,9 +2475,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qgbequ
-#!endif 
-
-#!if WITH_QP 
 
      !> DGBEQUB: computes row and column scalings intended to equilibrate an
      !> M-by-N matrix A and reduce its condition number.  R returns the row
@@ -3581,9 +2620,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qgbequb
-#!endif 
-
-#!if WITH_QP 
 
      !> DGBRFS: improves the computed solution to a system of linear
      !> equations when the coefficient matrix is banded, and provides
@@ -3785,9 +2821,6 @@ module stdlib_linalg_lapack_q
            end do loop_140
            return
      end subroutine stdlib_qgbrfs
-#!endif 
-
-#!if WITH_QP 
 
      !> DGBSV: computes the solution to a real system of linear equations
      !> A * X = B, where A is a band matrix of order N with KL subdiagonals
@@ -3840,9 +2873,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qgbsv
-#!endif 
-
-#!if WITH_QP 
 
      !> DGBSVX: uses the LU factorization to compute the solution to a real
      !> system of linear equations A * X = B, A**T * X = B, or A**H * X = B,
@@ -4066,9 +3096,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = rpvgrw
            return
      end subroutine stdlib_qgbsvx
-#!endif 
-
-#!if WITH_QP 
 
      !> DGBTF2: computes an LU factorization of a real m-by-n band matrix A
      !> using partial pivoting with row interchanges.
@@ -4155,9 +3182,6 @@ module stdlib_linalg_lapack_q
            end do loop_40
            return
      end subroutine stdlib_qgbtf2
-#!endif 
-
-#!if WITH_QP 
 
      !> DGBTRF: computes an LU factorization of a real m-by-n band matrix A
      !> using partial pivoting with row interchanges.
@@ -4408,9 +3432,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qgbtrf
-#!endif 
-
-#!if WITH_QP 
 
      !> DGBTRS: solves a system of linear equations
      !> A * X = B  or  A**T * X = B
@@ -4505,9 +3526,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qgbtrs
-#!endif 
-
-#!if WITH_QP 
 
      !> DGEBAK: forms the right or left eigenvectors of a real general matrix
      !> by backward transformation on the computed eigenvectors of the
@@ -4605,9 +3623,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qgebak
-#!endif 
-
-#!if WITH_QP 
 
      !> DGEBAL: balances a general real matrix A.  This involves, first,
      !> permuting A by a similarity transformation to isolate eigenvalues
@@ -4776,9 +3791,6 @@ module stdlib_linalg_lapack_q
            ihi = l
            return
      end subroutine stdlib_qgebal
-#!endif 
-
-#!if WITH_QP 
 
      !> DGEBD2: reduces a real general m by n matrix A to upper or lower
      !> bidiagonal form B by an orthogonal transformation: Q**T * A * P = B.
@@ -4871,9 +3883,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qgebd2
-#!endif 
-
-#!if WITH_QP 
 
      !> DGEBRD: reduces a general real M-by-N matrix A to upper or lower
      !> bidiagonal form B by an orthogonal transformation: Q**T * A * P = B.
@@ -4979,9 +3988,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = ws
            return
      end subroutine stdlib_qgebrd
-#!endif 
-
-#!if WITH_QP 
 
      !> DGECON: estimates the reciprocal of the condition number of a general
      !> real matrix A, in either the 1-norm or the infinity-norm, using
@@ -5083,9 +4089,6 @@ module stdlib_linalg_lapack_q
            20 continue
            return
      end subroutine stdlib_qgecon
-#!endif 
-
-#!if WITH_QP 
 
      !> DGEEQU: computes row and column scalings intended to equilibrate an
      !> M-by-N matrix A and reduce its condition number.  R returns the row
@@ -5209,9 +4212,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qgeequ
-#!endif 
-
-#!if WITH_QP 
 
      !> DGEEQUB: computes row and column scalings intended to equilibrate an
      !> M-by-N matrix A and reduce its condition number.  R returns the row
@@ -5351,9 +4351,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qgeequb
-#!endif 
-
-#!if WITH_QP 
 
      !> DGEES: computes for an N-by-N real nonsymmetric matrix A, the
      !> eigenvalues, the real Schur form T, and, optionally, the matrix of
@@ -5600,9 +4597,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = maxwrk
            return
      end subroutine stdlib_qgees
-#!endif 
-
-#!if WITH_QP 
 
      !> DGEESX: computes for an N-by-N real nonsymmetric matrix A, the
      !> eigenvalues, the real Schur form T, and, optionally, the matrix of
@@ -5897,9 +4891,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qgeesx
-#!endif 
-
-#!if WITH_QP 
 
      !> DGEEV: computes for an N-by-N real nonsymmetric matrix A, the
      !> eigenvalues and, optionally, the left and/or right eigenvectors.
@@ -6159,9 +5150,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = maxwrk
            return
      end subroutine stdlib_qgeev
-#!endif 
-
-#!if WITH_QP 
 
      !> DGEEVX: computes for an N-by-N real nonsymmetric matrix A, the
      !> eigenvalues and, optionally, the left and/or right eigenvectors.
@@ -6474,9 +5462,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = maxwrk
            return
      end subroutine stdlib_qgeevx
-#!endif 
-
-#!if WITH_QP 
 
      !> DGEHD2: reduces a real general matrix A to upper Hessenberg form H by
      !> an orthogonal similarity transformation:  Q**T * A * Q = H .
@@ -6529,9 +5514,6 @@ module stdlib_linalg_lapack_q
            end do
            return
      end subroutine stdlib_qgehd2
-#!endif 
-
-#!if WITH_QP 
 
      !> DGEHRD: reduces a real general matrix A to upper Hessenberg form H by
      !> an orthogonal similarity transformation:  Q**T * A * Q = H .
@@ -6661,9 +5643,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = lwkopt
            return
      end subroutine stdlib_qgehrd
-#!endif 
-
-#!if WITH_QP 
 
      !> DGEJSV: computes the singular value decomposition (SVD) of a real M-by-N
      !> matrix [A], where M >= N. The SVD of [A] is written as
@@ -7754,9 +6733,6 @@ module stdlib_linalg_lapack_q
            iwork(3) = warning
            return
      end subroutine stdlib_qgejsv
-#!endif 
-
-#!if WITH_QP 
 
      !> DGELQ: computes an LQ factorization of a real M-by-N matrix A:
      !> A = ( L 0 ) *  Q
@@ -7882,9 +6858,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = lwreq
            return
      end subroutine stdlib_qgelq
-#!endif 
-
-#!if WITH_QP 
 
      !> DGELQ2: computes an LQ factorization of a real m-by-n matrix A:
      !> A = ( L 0 ) *  Q
@@ -7939,9 +6912,6 @@ module stdlib_linalg_lapack_q
            end do
            return
      end subroutine stdlib_qgelq2
-#!endif 
-
-#!if WITH_QP 
 
      !> DGELQF: computes an LQ factorization of a real M-by-N matrix A:
      !> A = ( L 0 ) *  Q
@@ -8039,9 +7009,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = iws
            return
      end subroutine stdlib_qgelqf
-#!endif 
-
-#!if WITH_QP 
 
      !> DGELQT: computes a blocked LQ factorization of a real M-by-N matrix A
      !> using the compact WY representation of Q.
@@ -8093,9 +7060,6 @@ module stdlib_linalg_lapack_q
            end do
            return
      end subroutine stdlib_qgelqt
-#!endif 
-
-#!if WITH_QP 
 
      !> DGELQT3: recursively computes a LQ factorization of a real M-by-N
      !> matrix A, using the compact WY representation of Q.
@@ -8183,9 +7147,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qgelqt3
-#!endif 
-
-#!if WITH_QP 
 
      !> DGELS: solves overdetermined or underdetermined real linear systems
      !> involving an M-by-N matrix A, or its transpose, using a QR or LQ
@@ -8403,9 +7364,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = real( wsize,KIND=qp)
            return
      end subroutine stdlib_qgels
-#!endif 
-
-#!if WITH_QP 
 
      !> DGELSD: computes the minimum-norm solution to a real linear least
      !> squares problem:
@@ -8729,9 +7687,6 @@ module stdlib_linalg_lapack_q
            iwork( 1 ) = liwork
            return
      end subroutine stdlib_qgelsd
-#!endif 
-
-#!if WITH_QP 
 
      !> DGELSS: computes the minimum norm solution to a real linear least
      !> squares problem:
@@ -9174,9 +8129,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = maxwrk
            return
      end subroutine stdlib_qgelss
-#!endif 
-
-#!if WITH_QP 
 
      !> DGELSY: computes the minimum-norm solution to a real linear least
      !> squares problem:
@@ -9410,9 +8362,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = lwkopt
            return
      end subroutine stdlib_qgelsy
-#!endif 
-
-#!if WITH_QP 
 
      !> DGEMLQ: overwrites the general real M-by-N matrix C with
      !> SIDE = 'L'     SIDE = 'R'
@@ -9510,9 +8459,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = lw
            return
      end subroutine stdlib_qgemlq
-#!endif 
-
-#!if WITH_QP 
 
      !> DGEMLQT: overwrites the general real M-by-N matrix C with
      !> SIDE = 'L'     SIDE = 'R'
@@ -9611,9 +8557,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qgemlqt
-#!endif 
-
-#!if WITH_QP 
 
      !> DGEMQR: overwrites the general real M-by-N matrix C with
      !> SIDE = 'L'     SIDE = 'R'
@@ -9711,9 +8654,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = lw
            return
      end subroutine stdlib_qgemqr
-#!endif 
-
-#!if WITH_QP 
 
      !> DGEMQRT: overwrites the general real M-by-N matrix C with
      !> SIDE = 'L'     SIDE = 'R'
@@ -9812,9 +8752,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qgemqrt
-#!endif 
-
-#!if WITH_QP 
 
      !> DGEQL2: computes a QL factorization of a real m by n matrix A:
      !> A = Q * L.
@@ -9864,9 +8801,6 @@ module stdlib_linalg_lapack_q
            end do
            return
      end subroutine stdlib_qgeql2
-#!endif 
-
-#!if WITH_QP 
 
      !> DGEQLF: computes a QL factorization of a real M-by-N matrix A:
      !> A = Q * L.
@@ -9973,9 +8907,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = iws
            return
      end subroutine stdlib_qgeqlf
-#!endif 
-
-#!if WITH_QP 
 
      !> DGEQP3: computes a QR factorization with column pivoting of a
      !> matrix A:  A*P = Q*R  using Level 3 BLAS.
@@ -10126,9 +9057,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = iws
            return
      end subroutine stdlib_qgeqp3
-#!endif 
-
-#!if WITH_QP 
 
      !> DGEQR: computes a QR factorization of a real M-by-N matrix A:
      !> A = Q * ( R ),
@@ -10244,9 +9172,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = max( 1, nb*n )
            return
      end subroutine stdlib_qgeqr
-#!endif 
-
-#!if WITH_QP 
 
      !> DGEQR2: computes a QR factorization of a real m-by-n matrix A:
      !> A = Q * ( R ),
@@ -10302,9 +9227,6 @@ module stdlib_linalg_lapack_q
            end do
            return
      end subroutine stdlib_qgeqr2
-#!endif 
-
-#!if WITH_QP 
 
      !> DGEQR2P: computes a QR factorization of a real m-by-n matrix A:
      !> A = Q * ( R ),
@@ -10361,9 +9283,6 @@ module stdlib_linalg_lapack_q
            end do
            return
      end subroutine stdlib_qgeqr2p
-#!endif 
-
-#!if WITH_QP 
 
      !> DGEQRF: computes a QR factorization of a real M-by-N matrix A:
      !> A = Q * ( R ),
@@ -10466,9 +9385,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = iws
            return
      end subroutine stdlib_qgeqrf
-#!endif 
-
-#!if WITH_QP 
 
      !> DGEQR2P computes a QR factorization of a real M-by-N matrix A:
      !> A = Q * ( R ),
@@ -10568,9 +9484,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = iws
            return
      end subroutine stdlib_qgeqrfp
-#!endif 
-
-#!if WITH_QP 
 
      !> DGEQRT: computes a blocked QR factorization of a real M-by-N matrix A
      !> using the compact WY representation of Q.
@@ -10628,9 +9541,6 @@ module stdlib_linalg_lapack_q
            end do
            return
      end subroutine stdlib_qgeqrt
-#!endif 
-
-#!if WITH_QP 
 
      !> DGEQRT2: computes a QR factorization of a real M-by-N matrix A,
      !> using the compact WY representation of Q.
@@ -10699,9 +9609,6 @@ module stdlib_linalg_lapack_q
                  t( i, 1) = zero
            end do
      end subroutine stdlib_qgeqrt2
-#!endif 
-
-#!if WITH_QP 
 
      !> DGEQRT3: recursively computes a QR factorization of a real M-by-N
      !> matrix A, using the compact WY representation of Q.
@@ -10787,9 +9694,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qgeqrt3
-#!endif 
-
-#!if WITH_QP 
 
      !> DGERFS: improves the computed solution to a system of linear
      !> equations and provides error bounds and backward error estimates for
@@ -10983,9 +9887,6 @@ module stdlib_linalg_lapack_q
            end do loop_140
            return
      end subroutine stdlib_qgerfs
-#!endif 
-
-#!if WITH_QP 
 
      !> DGERQ2: computes an RQ factorization of a real m by n matrix A:
      !> A = R * Q.
@@ -11035,9 +9936,6 @@ module stdlib_linalg_lapack_q
            end do
            return
      end subroutine stdlib_qgerq2
-#!endif 
-
-#!if WITH_QP 
 
      !> DGERQF: computes an RQ factorization of a real M-by-N matrix A:
      !> A = R * Q.
@@ -11144,9 +10042,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = iws
            return
      end subroutine stdlib_qgerqf
-#!endif 
-
-#!if WITH_QP 
 
      !> DGESC2: solves a system of linear equations
      !> A * X = scale* RHS
@@ -11205,9 +10100,6 @@ module stdlib_linalg_lapack_q
            call stdlib_qlaswp( 1, rhs, lda, 1, n-1, jpiv, -1 )
            return
      end subroutine stdlib_qgesc2
-#!endif 
-
-#!if WITH_QP 
 
      !> DGESDD: computes the singular value decomposition (SVD) of a real
      !> M-by-N matrix A, optionally computing the left and right singular
@@ -12179,9 +11071,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = stdlib_qroundup_lwork( maxwrk )
            return
      end subroutine stdlib_qgesdd
-#!endif 
-
-#!if WITH_QP 
 
      !> DGESV: computes the solution to a real system of linear equations
      !> A * X = B,
@@ -12230,9 +11119,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qgesv
-#!endif 
-
-#!if WITH_QP 
 
      !> DGESVD: computes the singular value decomposition (SVD) of a real
      !> M-by-N matrix A, optionally computing the left and/or right singular
@@ -14492,9 +13378,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = maxwrk
            return
      end subroutine stdlib_qgesvd
-#!endif 
-
-#!if WITH_QP 
 
      !> DGESVDQ: computes the singular value decomposition (SVD) of a real
      !> M-by-N matrix A, where M >= N. The SVD of A is written as
@@ -15360,9 +14243,6 @@ module stdlib_linalg_lapack_q
            numrank = nr
            return
      end subroutine stdlib_qgesvdq
-#!endif 
-
-#!if WITH_QP 
 
      !> DGESVJ: computes the singular value decomposition (SVD) of a real
      !> M-by-N matrix A, where M >= N. The SVD of A is written as
@@ -16342,9 +15222,6 @@ module stdlib_linalg_lapack_q
            ! in the last sweep
            return
      end subroutine stdlib_qgesvj
-#!endif 
-
-#!if WITH_QP 
 
      !> DGESVX: uses the LU factorization to compute the solution to a real
      !> system of linear equations
@@ -16549,9 +15426,6 @@ module stdlib_linalg_lapack_q
            if( rcond<stdlib_qlamch( 'EPSILON' ) )info = n + 1
            return
      end subroutine stdlib_qgesvx
-#!endif 
-
-#!if WITH_QP 
 
      !> DGETC2: computes an LU factorization with complete pivoting of the
      !> n-by-n matrix A. The factorization has the form A = P * L * U * Q,
@@ -16636,9 +15510,6 @@ module stdlib_linalg_lapack_q
            jpiv( n ) = n
            return
      end subroutine stdlib_qgetc2
-#!endif 
-
-#!if WITH_QP 
 
      !> DGETF2: computes an LU factorization of a general m-by-n matrix A
      !> using partial pivoting with row interchanges.
@@ -16712,9 +15583,6 @@ module stdlib_linalg_lapack_q
            end do
            return
      end subroutine stdlib_qgetf2
-#!endif 
-
-#!if WITH_QP 
 
      !> DGETRF: computes an LU factorization of a general M-by-N matrix A
      !> using partial pivoting with row interchanges.
@@ -16793,9 +15661,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qgetrf
-#!endif 
-
-#!if WITH_QP 
 
      !> DGETRF2: computes an LU factorization of a general M-by-N matrix A
      !> using partial pivoting with row interchanges.
@@ -16911,9 +15776,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qgetrf2
-#!endif 
-
-#!if WITH_QP 
 
      !> DGETRI: computes the inverse of a matrix using the LU factorization
      !> computed by DGETRF.
@@ -17016,9 +15878,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = iws
            return
      end subroutine stdlib_qgetri
-#!endif 
-
-#!if WITH_QP 
 
      !> DGETRS: solves a system of linear equations
      !> A * X = B  or  A**T * X = B
@@ -17088,9 +15947,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qgetrs
-#!endif 
-
-#!if WITH_QP 
 
      !> DGETSLS: solves overdetermined or underdetermined real linear systems
      !> involving an M-by-N matrix A, using a tall skinny QR or short wide LQ
@@ -17327,9 +16183,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = real( tszo + lwo,KIND=qp)
            return
      end subroutine stdlib_qgetsls
-#!endif 
-
-#!if WITH_QP 
 
      !> DGETSQRHRT: computes a NB2-sized column blocked QR-factorization
      !> of a real M-by-N matrix A with M >= N,
@@ -17463,9 +16316,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = real( lworkopt,KIND=qp)
            return
      end subroutine stdlib_qgetsqrhrt
-#!endif 
-
-#!if WITH_QP 
 
      !> DGGBAK: forms the right or left eigenvectors of a real generalized
      !> eigenvalue problem A*x = lambda*B*x, by backward transformation on
@@ -17579,9 +16429,6 @@ module stdlib_linalg_lapack_q
            110 continue
            return
      end subroutine stdlib_qggbak
-#!endif 
-
-#!if WITH_QP 
 
      !> DGGBAL: balances a pair of general real matrices (A,B).  This
      !> involves, first, permuting A and B by similarity transformations to
@@ -17876,9 +16723,6 @@ module stdlib_linalg_lapack_q
            end do
            return
      end subroutine stdlib_qggbal
-#!endif 
-
-#!if WITH_QP 
 
      !> DGGES: computes for a pair of N-by-N real nonsymmetric matrices (A,B),
      !> the generalized eigenvalues, the generalized real Schur form (S,T),
@@ -18198,9 +17042,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = maxwrk
            return
      end subroutine stdlib_qgges
-#!endif 
-
-#!if WITH_QP 
 
      !> DGGES3: computes for a pair of N-by-N real nonsymmetric matrices (A,B),
      !> the generalized eigenvalues, the generalized real Schur form (S,T),
@@ -18515,9 +17356,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = lwkopt
            return
      end subroutine stdlib_qgges3
-#!endif 
-
-#!if WITH_QP 
 
      !> DGGESX: computes for a pair of N-by-N real nonsymmetric matrices
      !> (A,B), the generalized eigenvalues, the real Schur form (S,T), and,
@@ -18888,9 +17726,6 @@ module stdlib_linalg_lapack_q
            iwork( 1 ) = liwmin
            return
      end subroutine stdlib_qggesx
-#!endif 
-
-#!if WITH_QP 
 
      !> DGGEV: computes for a pair of N-by-N real nonsymmetric matrices (A,B)
      !> the generalized eigenvalues, and optionally, the left and/or right
@@ -19189,9 +18024,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = maxwrk
            return
      end subroutine stdlib_qggev
-#!endif 
-
-#!if WITH_QP 
 
      !> DGGEV3: computes for a pair of N-by-N real nonsymmetric matrices (A,B)
      !> the generalized eigenvalues, and optionally, the left and/or right
@@ -19492,9 +18324,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = lwkopt
            return
      end subroutine stdlib_qggev3
-#!endif 
-
-#!if WITH_QP 
 
      !> DGGEVX: computes for a pair of N-by-N real nonsymmetric matrices (A,B)
      !> the generalized eigenvalues, and optionally, the left and/or right
@@ -19890,9 +18719,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = maxwrk
            return
      end subroutine stdlib_qggevx
-#!endif 
-
-#!if WITH_QP 
 
      !> DGGGLM: solves a general Gauss-Markov linear model (GLM) problem:
      !> minimize || y ||_2   subject to   d = A*x + B*y
@@ -20029,9 +18855,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = m + np + max( lopt, int( work( m+np+1 ),KIND=ilp) )
            return
      end subroutine stdlib_qggglm
-#!endif 
-
-#!if WITH_QP 
 
      !> DGGHD3: reduces a pair of real matrices (A,B) to generalized upper
      !> Hessenberg form using orthogonal transformations, where A is a
@@ -20559,9 +19382,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = real( lwkopt,KIND=qp)
            return
      end subroutine stdlib_qgghd3
-#!endif 
-
-#!if WITH_QP 
 
      !> DGGHRD: reduces a pair of real matrices (A,B) to generalized upper
      !> Hessenberg form using orthogonal transformations, where A is a
@@ -20692,9 +19512,6 @@ module stdlib_linalg_lapack_q
            end do
            return
      end subroutine stdlib_qgghrd
-#!endif 
-
-#!if WITH_QP 
 
      !> DGGLSE: solves the linear equality-constrained least squares (LSE)
      !> problem:
@@ -20827,9 +19644,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = p + mn + max( lopt, int( work( p+mn+1 ),KIND=ilp) )
            return
      end subroutine stdlib_qgglse
-#!endif 
-
-#!if WITH_QP 
 
      !> DGGQRF: computes a generalized QR factorization of an N-by-M matrix A
      !> and an N-by-P matrix B:
@@ -20908,9 +19722,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = max( lopt, int( work( 1 ),KIND=ilp) )
            return
      end subroutine stdlib_qggqrf
-#!endif 
-
-#!if WITH_QP 
 
      !> DGGRQF: computes a generalized RQ factorization of an M-by-N matrix A
      !> and a P-by-N matrix B:
@@ -20989,9 +19800,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = max( lopt, int( work( 1 ),KIND=ilp) )
            return
      end subroutine stdlib_qggrqf
-#!endif 
-
-#!if WITH_QP 
 
      !> DGSVJ0: is called from DGESVJ as a pre-processor and that is its main
      !> purpose. It applies Jacobi rotations in the same way as DGESVJ does, but
@@ -21640,9 +20448,6 @@ module stdlib_linalg_lapack_q
            end do
            return
      end subroutine stdlib_qgsvj0
-#!endif 
-
-#!if WITH_QP 
 
      !> DGSVJ1: is called from DGESVJ as a pre-processor and that is its main
      !> purpose. It applies Jacobi rotations in the same way as DGESVJ does, but
@@ -22074,9 +20879,6 @@ module stdlib_linalg_lapack_q
            end do
            return
      end subroutine stdlib_qgsvj1
-#!endif 
-
-#!if WITH_QP 
 
      !> DGTCON: estimates the reciprocal of the condition number of a real
      !> tridiagonal matrix A using the LU factorization as computed by
@@ -22160,9 +20962,6 @@ module stdlib_linalg_lapack_q
            if( ainvnm/=zero )rcond = ( one / ainvnm ) / anorm
            return
      end subroutine stdlib_qgtcon
-#!endif 
-
-#!if WITH_QP 
 
      !> DGTRFS: improves the computed solution to a system of linear
      !> equations when the coefficient matrix is tridiagonal, and provides
@@ -22365,9 +21164,6 @@ module stdlib_linalg_lapack_q
            end do loop_110
            return
      end subroutine stdlib_qgtrfs
-#!endif 
-
-#!if WITH_QP 
 
      !> DGTSV:  solves the equation
      !> A*X = B,
@@ -22547,9 +21343,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qgtsv
-#!endif 
-
-#!if WITH_QP 
 
      !> DGTSVX: uses the LU factorization to compute the solution to a real
      !> system of linear equations A * X = B or A**T * X = B,
@@ -22639,9 +21432,6 @@ module stdlib_linalg_lapack_q
            if( rcond<stdlib_qlamch( 'EPSILON' ) )info = n + 1
            return
      end subroutine stdlib_qgtsvx
-#!endif 
-
-#!if WITH_QP 
 
      !> DGTTRF: computes an LU factorization of a real tridiagonal matrix A
      !> using elimination with partial pivoting and row interchanges.
@@ -22734,9 +21524,6 @@ module stdlib_linalg_lapack_q
            50 continue
            return
      end subroutine stdlib_qgttrf
-#!endif 
-
-#!if WITH_QP 
 
      !> DGTTRS: solves one of the systems of equations
      !> A*X = B  or  A**T*X = B,
@@ -22801,9 +21588,6 @@ module stdlib_linalg_lapack_q
               end do
            end if
      end subroutine stdlib_qgttrs
-#!endif 
-
-#!if WITH_QP 
 
      !> DGTTS2: solves one of the systems of equations
      !> A*X = B  or  A**T*X = B,
@@ -22917,9 +21701,6 @@ module stdlib_linalg_lapack_q
               end if
            end if
      end subroutine stdlib_qgtts2
-#!endif 
-
-#!if WITH_QP 
 
      !> DHGEQZ: computes the eigenvalues of a real matrix pair (H,T),
      !> where H is an upper Hessenberg matrix and T is upper triangular,
@@ -23795,9 +22576,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = real( n,KIND=qp)
            return
      end subroutine stdlib_qhgeqz
-#!endif 
-
-#!if WITH_QP 
 
      !> DHSEIN: uses inverse iteration to find specified right and/or left
      !> eigenvectors of a real upper Hessenberg matrix H.
@@ -24013,9 +22791,6 @@ module stdlib_linalg_lapack_q
            end do loop_120
            return
      end subroutine stdlib_qhsein
-#!endif 
-
-#!if WITH_QP 
 
      !> DHSEQR: computes the eigenvalues of a Hessenberg matrix H
      !> and, optionally, the matrices T and Z from the Schur decomposition
@@ -24163,9 +22938,6 @@ module stdlib_linalg_lapack_q
               work( 1 ) = max( real( max( 1, n ),KIND=qp), work( 1 ) )
            end if
      end subroutine stdlib_qhseqr
-#!endif 
-
-#!if WITH_QP 
 
      !> DISNAN: returns .TRUE. if its argument is NaN, and .FALSE.
      !> otherwise.  To be replaced by the Fortran 2003 intrinsic in the
@@ -24182,9 +22954,6 @@ module stdlib_linalg_lapack_q
            stdlib_qisnan = stdlib_qlaisnan(din,din)
            return
      end function stdlib_qisnan
-#!endif 
-
-#!if WITH_QP 
 
      !> DLA_GBAMV:  performs one of the matrix-vector operations
      !> y := alpha*abs(A)*abs(x) + beta*abs(y),
@@ -24371,9 +23140,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qla_gbamv
-#!endif 
-
-#!if WITH_QP 
 
      !> DLA_GBRCOND: Estimates the Skeel condition number of  op(A) * op2(C)
      !> where op2 is determined by CMODE as follows
@@ -24532,9 +23298,6 @@ module stdlib_linalg_lapack_q
            if( ainvnm /= zero )stdlib_qla_gbrcond = ( one / ainvnm )
            return
      end function stdlib_qla_gbrcond
-#!endif 
-
-#!if WITH_QP 
 
      !> DLA_GBRPVGRW: computes the reciprocal pivot growth factor
      !> norm(A)/norm(U). The "max absolute element" norm is used. If this is
@@ -24575,9 +23338,6 @@ module stdlib_linalg_lapack_q
            end do
            stdlib_qla_gbrpvgrw = rpvgrw
      end function stdlib_qla_gbrpvgrw
-#!endif 
-
-#!if WITH_QP 
 
      !> DLA_GEAMV:  performs one of the matrix-vector operations
      !> y := alpha*abs(A)*abs(x) + beta*abs(y),
@@ -24757,9 +23517,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qla_geamv
-#!endif 
-
-#!if WITH_QP 
 
      !> DLA_GERCOND: estimates the Skeel condition number of op(A) * op2(C)
      !> where op2 is determined by CMODE as follows
@@ -24910,9 +23667,6 @@ module stdlib_linalg_lapack_q
            if( ainvnm /= zero )stdlib_qla_gercond = ( one / ainvnm )
            return
      end function stdlib_qla_gercond
-#!endif 
-
-#!if WITH_QP 
 
      !> DLA_GERPVGRW: computes the reciprocal pivot growth factor
      !> norm(A)/norm(U). The "max absolute element" norm is used. If this is
@@ -24952,9 +23706,6 @@ module stdlib_linalg_lapack_q
            end do
            stdlib_qla_gerpvgrw = rpvgrw
      end function stdlib_qla_gerpvgrw
-#!endif 
-
-#!if WITH_QP 
 
      !> DLA_LIN_BERR: computes component-wise relative backward error from
      !> the formula
@@ -24996,9 +23747,6 @@ module stdlib_linalg_lapack_q
               end do
            end do
      end subroutine stdlib_qla_lin_berr
-#!endif 
-
-#!if WITH_QP 
 
      !> DLA_PORCOND: Estimates the Skeel condition number of  op(A) * op2(C)
      !> where op2 is determined by CMODE as follows
@@ -25158,9 +23906,6 @@ module stdlib_linalg_lapack_q
            if( ainvnm /= zero )stdlib_qla_porcond = ( one / ainvnm )
            return
      end function stdlib_qla_porcond
-#!endif 
-
-#!if WITH_QP 
 
      !> DLA_PORPVGRW: computes the reciprocal pivot growth factor
      !> norm(A)/norm(U). The "max absolute element" norm is used. If this is
@@ -25249,9 +23994,6 @@ module stdlib_linalg_lapack_q
            end if
            stdlib_qla_porpvgrw = rpvgrw
      end function stdlib_qla_porpvgrw
-#!endif 
-
-#!if WITH_QP 
 
      !> DLA_SYAMV:  performs the matrix-vector operation
      !> y := alpha*abs(A)*abs(x) + beta*abs(y),
@@ -25441,9 +24183,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qla_syamv
-#!endif 
-
-#!if WITH_QP 
 
      !> DLA_SYRCOND: estimates the Skeel condition number of  op(A) * op2(C)
      !> where op2 is determined by CMODE as follows
@@ -25611,9 +24350,6 @@ module stdlib_linalg_lapack_q
            if( ainvnm /= zero )stdlib_qla_syrcond = ( one / ainvnm )
            return
      end function stdlib_qla_syrcond
-#!endif 
-
-#!if WITH_QP 
 
      !> DLA_SYRPVGRW: computes the reciprocal pivot growth factor
      !> norm(A)/norm(U). The "max absolute element" norm is used. If this is
@@ -25798,9 +24534,6 @@ module stdlib_linalg_lapack_q
            end if
            stdlib_qla_syrpvgrw = rpvgrw
      end function stdlib_qla_syrpvgrw
-#!endif 
-
-#!if WITH_QP 
 
      !> DLA_WWADDW: adds a vector W into a doubled-single vector (X, Y).
      !> This works for all extant IBM's hex and binary floating point
@@ -25828,9 +24561,6 @@ module stdlib_linalg_lapack_q
              10 continue
            return
      end subroutine stdlib_qla_wwaddw
-#!endif 
-
-#!if WITH_QP 
 
      !> DLABAD: takes as input the values computed by DLAMCH for underflow and
      !> overflow, and returns the square root of each of these values if the
@@ -25859,9 +24589,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qlabad
-#!endif 
-
-#!if WITH_QP 
 
      !> DLABRD: reduces the first NB rows and columns of a real general
      !> m by n matrix A to upper or lower bidiagonal form by an orthogonal
@@ -25992,9 +24719,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qlabrd
-#!endif 
-
-#!if WITH_QP 
 
      !> DLACN2: estimates the 1-norm of a square, real matrix A.
      !> Reverse communication is used for evaluating matrix-vector products.
@@ -26128,9 +24852,6 @@ module stdlib_linalg_lapack_q
            kase = 0
            return
      end subroutine stdlib_qlacn2
-#!endif 
-
-#!if WITH_QP 
 
      !> DLACON: estimates the 1-norm of a square, real matrix A.
      !> Reverse communication is used for evaluating matrix-vector products.
@@ -26252,9 +24973,6 @@ module stdlib_linalg_lapack_q
            kase = 0
            return
      end subroutine stdlib_qlacon
-#!endif 
-
-#!if WITH_QP 
 
      !> DLACPY: copies all or part of a two-dimensional matrix A to another
      !> matrix B.
@@ -26296,9 +25014,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qlacpy
-#!endif 
-
-#!if WITH_QP 
 
      !> DLADIV: performs complex division in  real arithmetic
      !> a + i*b
@@ -26367,9 +25082,6 @@ module stdlib_linalg_lapack_q
            q = q * s
            return
      end subroutine stdlib_qladiv
-#!endif 
-
-#!if WITH_QP 
 
 
      pure subroutine stdlib_qladiv1( a, b, c, d, p, q )
@@ -26392,9 +25104,6 @@ module stdlib_linalg_lapack_q
            q = stdlib_qladiv2(b, a, c, d, r, t)
            return
      end subroutine stdlib_qladiv1
-#!endif 
-
-#!if WITH_QP 
 
 
      pure real(qp) function stdlib_qladiv2( a, b, c, d, r, t )
@@ -26420,9 +25129,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end function stdlib_qladiv2
-#!endif 
-
-#!if WITH_QP 
 
      !> DLAE2:  computes the eigenvalues of a 2-by-2 symmetric matrix
      !> [  A   B  ]
@@ -26487,9 +25193,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qlae2
-#!endif 
-
-#!if WITH_QP 
 
      !> DLAEBZ: contains the iteration loops which compute and use the
      !> function N(w), which is the count of eigenvalues of a symmetric
@@ -26761,9 +25464,6 @@ module stdlib_linalg_lapack_q
            mout = kl
            return
      end subroutine stdlib_qlaebz
-#!endif 
-
-#!if WITH_QP 
 
      !> DLAED0: computes all eigenvalues and corresponding eigenvectors of a
      !> symmetric tridiagonal matrix using the divide and conquer method.
@@ -26968,9 +25668,6 @@ module stdlib_linalg_lapack_q
            140 continue
            return
      end subroutine stdlib_qlaed0
-#!endif 
-
-#!if WITH_QP 
 
      !> DLAED1: computes the updated eigensystem of a diagonal
      !> matrix after modification by a rank-one symmetric matrix.  This
@@ -27074,9 +25771,6 @@ module stdlib_linalg_lapack_q
            20 continue
            return
      end subroutine stdlib_qlaed1
-#!endif 
-
-#!if WITH_QP 
 
      !> DLAED2: merges the two sets of eigenvalues together into a single
      !> sorted set.  Then it tries to deflate the size of the problem.
@@ -27334,9 +26028,6 @@ module stdlib_linalg_lapack_q
            190 continue
            return
      end subroutine stdlib_qlaed2
-#!endif 
-
-#!if WITH_QP 
 
      !> DLAED3: finds the roots of the secular equation, as defined by the
      !> values in D, W, and RHO, between 1 and K.  It makes the
@@ -27472,9 +26163,6 @@ module stdlib_linalg_lapack_q
            120 continue
            return
      end subroutine stdlib_qlaed3
-#!endif 
-
-#!if WITH_QP 
 
      !> This subroutine computes the I-th updated eigenvalue of a symmetric
      !> rank-one modification to a diagonal matrix whose elements are
@@ -28080,9 +26768,6 @@ module stdlib_linalg_lapack_q
            250 continue
            return
      end subroutine stdlib_qlaed4
-#!endif 
-
-#!if WITH_QP 
 
      !> This subroutine computes the I-th eigenvalue of a symmetric rank-one
      !> modification of a 2-by-2 diagonal matrix
@@ -28154,9 +26839,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qlaed5
-#!endif 
-
-#!if WITH_QP 
 
      !> DLAED6: computes the positive or negative root (closest to the origin)
      !> of
@@ -28383,9 +27065,6 @@ module stdlib_linalg_lapack_q
            if( scale )tau = tau*sclinv
            return
      end subroutine stdlib_qlaed6
-#!endif 
-
-#!if WITH_QP 
 
      !> DLAED7: computes the updated eigensystem of a diagonal
      !> matrix after modification by a rank-one symmetric matrix. This
@@ -28520,9 +27199,6 @@ module stdlib_linalg_lapack_q
            30 continue
            return
      end subroutine stdlib_qlaed7
-#!endif 
-
-#!if WITH_QP 
 
      !> DLAED8: merges the two sets of eigenvalues together into a single
      !> sorted set.  Then it tries to deflate the size of the problem.
@@ -28746,9 +27422,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qlaed8
-#!endif 
-
-#!if WITH_QP 
 
      !> DLAED9: finds the roots of the secular equation, as defined by the
      !> values in D, Z, and RHO, between KSTART and KSTOP.  It makes the
@@ -28855,9 +27528,6 @@ module stdlib_linalg_lapack_q
            120 continue
            return
      end subroutine stdlib_qlaed9
-#!endif 
-
-#!if WITH_QP 
 
      !> DLAEDA: computes the Z vector corresponding to the merge step in the
      !> CURLVLth step of the merge process with TLVLS steps for the CURPBMth
@@ -28963,9 +27633,6 @@ module stdlib_linalg_lapack_q
            end do loop_70
            return
      end subroutine stdlib_qlaeda
-#!endif 
-
-#!if WITH_QP 
 
      !> DLAEIN: uses inverse iteration to find a right or left eigenvector
      !> corresponding to the eigenvalue (WR,WI) of a real upper Hessenberg
@@ -29312,9 +27979,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qlaein
-#!endif 
-
-#!if WITH_QP 
 
      !> DLAEV2: computes the eigendecomposition of a 2-by-2 symmetric matrix
      !> [  A   B  ]
@@ -29414,9 +28078,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qlaev2
-#!endif 
-
-#!if WITH_QP 
 
      !> DLAEXC: swaps adjacent diagonal blocks T11 and T22 of order 1 or 2 in
      !> an upper quasi-triangular matrix T by an orthogonal similarity
@@ -29615,9 +28276,6 @@ module stdlib_linalg_lapack_q
            info = 1
            return
      end subroutine stdlib_qlaexc
-#!endif 
-
-#!if WITH_QP 
 
      !> DLAG2: computes the eigenvalues of a 2 x 2 generalized eigenvalue
      !> problem  A - w B, with scaling as necessary to avoid over-/underflow.
@@ -29802,9 +28460,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qlag2
-#!endif 
-
-#!if WITH_QP 
 
      !> DLAG2S: converts a DOUBLE PRECISION matrix, SA, to a SINGLE
      !> PRECISION matrix, A.
@@ -29842,9 +28497,6 @@ module stdlib_linalg_lapack_q
            30 continue
            return
      end subroutine stdlib_qlag2s
-#!endif 
-
-#!if WITH_QP 
 
      !> DLAGS2: computes 2-by-2 orthogonal matrices U, V and Q, such
      !> that if ( UPPER ) then
@@ -30005,9 +28657,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qlags2
-#!endif 
-
-#!if WITH_QP 
 
      !> DLAGTF: factorizes the matrix (T - lambda*I), where T is an n by n
      !> tridiagonal matrix and lambda is a scalar, as
@@ -30099,9 +28748,6 @@ module stdlib_linalg_lapack_q
            if( ( abs( a( n ) )<=scale1*tl ) .and. ( in( n )==0 ) )in( n ) = n
            return
      end subroutine stdlib_qlagtf
-#!endif 
-
-#!if WITH_QP 
 
      !> DLAGTM: performs a matrix-vector product of the form
      !> B := alpha * A * X + beta * B
@@ -30204,9 +28850,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qlagtm
-#!endif 
-
-#!if WITH_QP 
 
      !> DLAGTS: may be used to solve one of the systems of equations
      !> (T - lambda*I)*x = y   or   (T - lambda*I)**T*x = y,
@@ -30404,9 +29047,6 @@ module stdlib_linalg_lapack_q
               end do
            end if
      end subroutine stdlib_qlagts
-#!endif 
-
-#!if WITH_QP 
 
      !> DLAGV2: computes the Generalized Schur factorization of a real 2-by-2
      !> matrix pencil (A,B) where B is upper triangular. This routine
@@ -30571,9 +29211,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qlagv2
-#!endif 
-
-#!if WITH_QP 
 
      !> DLAHQR: is an auxiliary routine called by DHSEQR to update the
      !> eigenvalues and Schur decomposition already computed by DHSEQR, by
@@ -30883,9 +29520,6 @@ module stdlib_linalg_lapack_q
            160 continue
            return
      end subroutine stdlib_qlahqr
-#!endif 
-
-#!if WITH_QP 
 
      !> DLAHR2: reduces the first NB columns of A real general n-BY-(n-k+1)
      !> matrix A so that elements below the k-th subdiagonal are zero. The
@@ -30974,9 +29608,6 @@ module stdlib_linalg_lapack_q
                      ldy )
            return
      end subroutine stdlib_qlahr2
-#!endif 
-
-#!if WITH_QP 
 
      !> DLAIC1: applies one step of incremental condition estimation in
      !> its simplest version:
@@ -31189,9 +29820,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qlaic1
-#!endif 
-
-#!if WITH_QP 
 
      !> This routine is not for general use.  It exists solely to avoid
      !> over-optimization in DISNAN.
@@ -31216,9 +29844,6 @@ module stdlib_linalg_lapack_q
            stdlib_qlaisnan = (din1/=din2)
            return
      end function stdlib_qlaisnan
-#!endif 
-
-#!if WITH_QP 
 
      !> DLALN2: solves a system of the form  (ca A - w D ) X = s B
      !> or (ca A**T - w D) X = s B   with possible scaling ("s") and
@@ -31544,9 +30169,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qlaln2
-#!endif 
-
-#!if WITH_QP 
 
      !> DLALS0: applies back the multiplying factors of either the left or the
      !> right singular vector matrix of a diagonal matrix appended by a row
@@ -31744,9 +30366,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qlals0
-#!endif 
-
-#!if WITH_QP 
 
      !> DLALSA: is an itermediate step in solving the least squares problem
      !> by computing the SVD of the coefficient matrix in compact form (The
@@ -31931,9 +30550,6 @@ module stdlib_linalg_lapack_q
            90 continue
            return
      end subroutine stdlib_qlalsa
-#!endif 
-
-#!if WITH_QP 
 
      !> DLALSD: uses the singular value decomposition of A to solve the least
      !> squares problem of finding X to minimize the Euclidean norm of each
@@ -32207,9 +30823,6 @@ module stdlib_linalg_lapack_q
            call stdlib_qlascl( 'G', 0, 0, orgnrm, one, n, nrhs, b, ldb, info )
            return
      end subroutine stdlib_qlalsd
-#!endif 
-
-#!if WITH_QP 
 
      !> DLAMCH: determines quad precision machine parameters.
 
@@ -32266,9 +30879,6 @@ module stdlib_linalg_lapack_q
            stdlib_qlamch = rmach
            return
      end function stdlib_qlamch
-#!endif 
-
-#!if WITH_QP 
 
 
      pure real(qp) function stdlib_qlamc3( a, b )
@@ -32281,9 +30891,6 @@ module stdlib_linalg_lapack_q
            stdlib_qlamc3 = a + b
            return
      end function stdlib_qlamc3
-#!endif 
-
-#!if WITH_QP 
 
      !> DLAMRG: will create a permutation list which will merge the elements
      !> of A (which is composed of two independently sorted sets) into a
@@ -32348,9 +30955,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qlamrg
-#!endif 
-
-#!if WITH_QP 
 
      !> DLAMSWLQ: overwrites the general real M-by-N matrix C with
      !> SIDE = 'L'     SIDE = 'R'
@@ -32509,9 +31113,6 @@ module stdlib_linalg_lapack_q
            work(1) = lw
            return
      end subroutine stdlib_qlamswlq
-#!endif 
-
-#!if WITH_QP 
 
      !> DLAMTSQR: overwrites the general real M-by-N matrix C with
      !> SIDE = 'L'     SIDE = 'R'
@@ -32674,9 +31275,6 @@ module stdlib_linalg_lapack_q
            work(1) = lw
            return
      end subroutine stdlib_qlamtsqr
-#!endif 
-
-#!if WITH_QP 
 
      !> DLANEG: computes the Sturm count, the number of negative pivots
      !> encountered while factoring tridiagonal T - sigma I = L D L^T.
@@ -32782,9 +31380,6 @@ module stdlib_linalg_lapack_q
            if( gamma<zero ) negcnt = negcnt+1
            stdlib_qlaneg = negcnt
      end function stdlib_qlaneg
-#!endif 
-
-#!if WITH_QP 
 
      !> DLANGB:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the element of  largest absolute value  of an
@@ -32860,9 +31455,6 @@ module stdlib_linalg_lapack_q
            stdlib_qlangb = value
            return
      end function stdlib_qlangb
-#!endif 
-
-#!if WITH_QP 
 
      !> DLANGE:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the  element of  largest absolute value  of a
@@ -32935,9 +31527,6 @@ module stdlib_linalg_lapack_q
            stdlib_qlange = value
            return
      end function stdlib_qlange
-#!endif 
-
-#!if WITH_QP 
 
      !> DLANGT:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the  element of  largest absolute value  of a
@@ -33014,9 +31603,6 @@ module stdlib_linalg_lapack_q
            stdlib_qlangt = anorm
            return
      end function stdlib_qlangt
-#!endif 
-
-#!if WITH_QP 
 
      !> DLANHS:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the  element of  largest absolute value  of a
@@ -33089,9 +31675,6 @@ module stdlib_linalg_lapack_q
            stdlib_qlanhs = value
            return
      end function stdlib_qlanhs
-#!endif 
-
-#!if WITH_QP 
 
      !> DLANSB:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the element of  largest absolute value  of an
@@ -33197,9 +31780,6 @@ module stdlib_linalg_lapack_q
            stdlib_qlansb = value
            return
      end function stdlib_qlansb
-#!endif 
-
-#!if WITH_QP 
 
      !> DLANSF: returns the value of the one norm, or the Frobenius norm, or
      !> the infinity norm, or the element of largest absolute value of a
@@ -33904,9 +32484,6 @@ module stdlib_linalg_lapack_q
            stdlib_qlansf = value
            return
      end function stdlib_qlansf
-#!endif 
-
-#!if WITH_QP 
 
      !> DLANSP:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the  element of  largest absolute value  of a
@@ -34031,9 +32608,6 @@ module stdlib_linalg_lapack_q
            stdlib_qlansp = value
            return
      end function stdlib_qlansp
-#!endif 
-
-#!if WITH_QP 
 
      !> DLANST:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the  element of  largest absolute value  of a
@@ -34096,9 +32670,6 @@ module stdlib_linalg_lapack_q
            stdlib_qlanst = anorm
            return
      end function stdlib_qlanst
-#!endif 
-
-#!if WITH_QP 
 
      !> DLANSY:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the  element of  largest absolute value  of a
@@ -34195,9 +32766,6 @@ module stdlib_linalg_lapack_q
            stdlib_qlansy = value
            return
      end function stdlib_qlansy
-#!endif 
-
-#!if WITH_QP 
 
      !> DLANTB:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the element of  largest absolute value  of an
@@ -34391,9 +32959,6 @@ module stdlib_linalg_lapack_q
            stdlib_qlantb = value
            return
      end function stdlib_qlantb
-#!endif 
-
-#!if WITH_QP 
 
      !> DLANTP:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the  element of  largest absolute value  of a
@@ -34600,9 +33165,6 @@ module stdlib_linalg_lapack_q
            stdlib_qlantp = value
            return
      end function stdlib_qlantp
-#!endif 
-
-#!if WITH_QP 
 
      !> DLANTR:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the  element of  largest absolute value  of a
@@ -34789,9 +33351,6 @@ module stdlib_linalg_lapack_q
            stdlib_qlantr = value
            return
      end function stdlib_qlantr
-#!endif 
-
-#!if WITH_QP 
 
      !> DLANV2: computes the Schur factorization of a real 2-by-2 nonsymmetric
      !> matrix in standard form:
@@ -34938,9 +33497,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qlanv2
-#!endif 
-
-#!if WITH_QP 
 
      !> DLAORHR_COL_GETRFNP: computes the modified LU factorization without
      !> pivoting of a real general M-by-N matrix A. The factorization has
@@ -35035,9 +33591,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qlaorhr_col_getrfnp
-#!endif 
-
-#!if WITH_QP 
 
      !> DLAORHR_COL_GETRFNP2: computes the modified LU factorization without
      !> pivoting of a real general M-by-N matrix A. The factorization has
@@ -35168,9 +33721,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qlaorhr_col_getrfnp2
-#!endif 
-
-#!if WITH_QP 
 
      !> Given two column vectors X and Y, let
      !> A = ( X Y ).
@@ -35211,9 +33761,6 @@ module stdlib_linalg_lapack_q
            call stdlib_qlas2( a11, a12, a22, ssmin, ssmax )
            return
      end subroutine stdlib_qlapll
-#!endif 
-
-#!if WITH_QP 
 
      !> DLAPMR: rearranges the rows of the M by N matrix X as specified
      !> by the permutation K(1),K(2),...,K(M) of the integers 1,...,M.
@@ -35282,9 +33829,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qlapmr
-#!endif 
-
-#!if WITH_QP 
 
      !> DLAPMT: rearranges the columns of the M by N matrix X as specified
      !> by the permutation K(1),K(2),...,K(N) of the integers 1,...,N.
@@ -35353,9 +33897,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qlapmt
-#!endif 
-
-#!if WITH_QP 
 
      !> DLAPY2: returns sqrt(x**2+y**2), taking care not to cause unnecessary
      !> overflow and unnecessary underflow.
@@ -35393,9 +33934,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end function stdlib_qlapy2
-#!endif 
-
-#!if WITH_QP 
 
      !> DLAPY3: returns sqrt(x**2+y**2+z**2), taking care not to cause
      !> unnecessary overflow and unnecessary underflow.
@@ -35428,9 +33966,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end function stdlib_qlapy3
-#!endif 
-
-#!if WITH_QP 
 
      !> DLAQGB: equilibrates a general M by N band matrix A with KL
      !> subdiagonals and KU superdiagonals using the row and scaling factors
@@ -35501,9 +34036,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qlaqgb
-#!endif 
-
-#!if WITH_QP 
 
      !> DLAQGE: equilibrates a general M by N matrix A using the row and
      !> column scaling factors in the vectors R and C.
@@ -35570,9 +34102,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qlaqge
-#!endif 
-
-#!if WITH_QP 
 
      !> DLAQP2: computes a QR factorization with column pivoting of
      !> the block A(OFFSET+1:M,1:N).
@@ -35650,9 +34179,6 @@ module stdlib_linalg_lapack_q
            end do loop_20
            return
      end subroutine stdlib_qlaqp2
-#!endif 
-
-#!if WITH_QP 
 
      !> DLAQPS: computes a step of QR factorization with column pivoting
      !> of a real M-by-N matrix A by using Blas-3.  It tries to factorize
@@ -35787,9 +34313,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qlaqps
-#!endif 
-
-#!if WITH_QP 
 
      !> DLAQR0: computes the eigenvalues of a Hessenberg matrix H
      !> and, optionally, the matrices T and Z from the Schur decomposition
@@ -36160,9 +34683,6 @@ module stdlib_linalg_lapack_q
            ! ==== return the optimal value of lwork. ====
            work( 1 ) = real( lwkopt,KIND=qp)
      end subroutine stdlib_qlaqr0
-#!endif 
-
-#!if WITH_QP 
 
      !> Given a 2-by-2 or 3-by-3 matrix H, DLAQR1: sets v to a
      !> scalar multiple of the first column of the product
@@ -36223,9 +34743,6 @@ module stdlib_linalg_lapack_q
               end if
            end if
      end subroutine stdlib_qlaqr1
-#!endif 
-
-#!if WITH_QP 
 
      !> DLAQR2: is identical to DLAQR3 except that it avoids
      !> recursion by calling DLAHQR instead of DLAQR4.
@@ -36529,9 +35046,6 @@ module stdlib_linalg_lapack_q
             ! ==== return optimal workspace. ====
            work( 1 ) = real( lwkopt,KIND=qp)
      end subroutine stdlib_qlaqr2
-#!endif 
-
-#!if WITH_QP 
 
      !> Aggressive early deflation:
      !> DLAQR3: accepts as input an upper Hessenberg matrix
@@ -36843,9 +35357,6 @@ module stdlib_linalg_lapack_q
             ! ==== return optimal workspace. ====
            work( 1 ) = real( lwkopt,KIND=qp)
      end subroutine stdlib_qlaqr3
-#!endif 
-
-#!if WITH_QP 
 
      !> DLAQR4: implements one level of recursion for DLAQR0.
      !> It is a complete implementation of the small bulge multi-shift
@@ -37217,9 +35728,6 @@ module stdlib_linalg_lapack_q
            ! ==== return the optimal value of lwork. ====
            work( 1 ) = real( lwkopt,KIND=qp)
      end subroutine stdlib_qlaqr4
-#!endif 
-
-#!if WITH_QP 
 
      !> DLAQR5:, called by DLAQR0, performs a
      !> single small-bulge multi-shift QR sweep.
@@ -37627,9 +36135,6 @@ module stdlib_linalg_lapack_q
               end if
            end do loop_180
      end subroutine stdlib_qlaqr5
-#!endif 
-
-#!if WITH_QP 
 
      !> DLAQSB: equilibrates a symmetric band matrix A using the scaling
      !> factors in the vector S.
@@ -37690,9 +36195,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qlaqsb
-#!endif 
-
-#!if WITH_QP 
 
      !> DLAQSP: equilibrates a symmetric matrix A using the scaling factors
      !> in the vector S.
@@ -37755,9 +36257,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qlaqsp
-#!endif 
-
-#!if WITH_QP 
 
      !> DLAQSY: equilibrates a symmetric matrix A using the scaling factors
      !> in the vector S.
@@ -37816,9 +36315,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qlaqsy
-#!endif 
-
-#!if WITH_QP 
 
      !> DLAQTR: solves the real quasi-triangular system
      !> op(T)*p = scale*c,               if LREAL = .TRUE.
@@ -38265,9 +36761,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qlaqtr
-#!endif 
-
-#!if WITH_QP 
 
      !> DLAQZ0: computes the eigenvalues of a real matrix pair (H,T),
      !> where H is an upper Hessenberg matrix and T is upper triangular,
@@ -38660,9 +37153,6 @@ module stdlib_linalg_lapack_q
                   beta, q, ldq, z, ldz, work, lwork,norm_info )
            info = norm_info
      end subroutine stdlib_qlaqz0
-#!endif 
-
-#!if WITH_QP 
 
      !> Given a 3-by-3 matrix pencil (A,B), DLAQZ1: sets v to a
      !> scalar multiple of the first column of the product
@@ -38718,9 +37208,6 @@ module stdlib_linalg_lapack_q
               v( 3 ) = zero
            end if
      end subroutine stdlib_qlaqz1
-#!endif 
-
-#!if WITH_QP 
 
      !> DLAQZ2: chases a 2x2 shift bulge in a matrix pencil down a single position
 
@@ -38832,9 +37319,6 @@ module stdlib_linalg_lapack_q
               end if
            end if
      end subroutine stdlib_qlaqz2
-#!endif 
-
-#!if WITH_QP 
 
      !> DLAQZ3: performs AED
 
@@ -39107,9 +37591,6 @@ module stdlib_linalg_lapack_q
               call stdlib_qlacpy( 'ALL', n, jw, work, n, z( 1, kwtop ), ldz )
            end if
      end subroutine stdlib_qlaqz3
-#!endif 
-
-#!if WITH_QP 
 
      !> DLAQZ4: Executes a single multishift QZ sweep
 
@@ -39367,9 +37848,6 @@ module stdlib_linalg_lapack_q
               call stdlib_qlacpy( 'ALL', n, ns+1, work, n, z( 1, ihi-ns ), ldz )
            end if
      end subroutine stdlib_qlaqz4
-#!endif 
-
-#!if WITH_QP 
 
      !> DLAR1V: computes the (scaled) r-th column of the inverse of
      !> the sumbmatrix in rows B1 through BN of the tridiagonal matrix
@@ -39592,9 +38070,6 @@ module stdlib_linalg_lapack_q
            rqcorr = mingma*tmp
            return
      end subroutine stdlib_qlar1v
-#!endif 
-
-#!if WITH_QP 
 
      !> DLAR2V: applies a vector of real plane rotations from both sides to
      !> a sequence of 2-by-2 real symmetric matrices, defined by the elements
@@ -39638,9 +38113,6 @@ module stdlib_linalg_lapack_q
            end do
            return
      end subroutine stdlib_qlar2v
-#!endif 
-
-#!if WITH_QP 
 
      !> DLARF: applies a real elementary reflector H to a real m by n matrix
      !> C, from either the left or the right. H is represented in the form
@@ -39718,9 +38190,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qlarf
-#!endif 
-
-#!if WITH_QP 
 
      !> DLARFB: applies a real block reflector H or its transpose H**T to a
      !> real m by n matrix C, from either the left or the right.
@@ -40043,9 +38512,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qlarfb
-#!endif 
-
-#!if WITH_QP 
 
      !> DLARFB_GETT: applies a real Householder block reflector H from the
      !> left to a real (K+M)-by-N  "triangular-pentagonal" matrix
@@ -40183,9 +38649,6 @@ module stdlib_linalg_lapack_q
            end do
            return
      end subroutine stdlib_qlarfb_gett
-#!endif 
-
-#!if WITH_QP 
 
      !> DLARFG: generates a real elementary reflector H of order n, such
      !> that
@@ -40255,9 +38718,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qlarfg
-#!endif 
-
-#!if WITH_QP 
 
      !> DLARFGP: generates a real elementary reflector H of order n, such
      !> that
@@ -40366,9 +38826,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qlarfgp
-#!endif 
-
-#!if WITH_QP 
 
      !> DLARFT: forms the triangular factor T of a real block reflector H
      !> of order n, which is defined as a product of k elementary reflectors.
@@ -40496,9 +38953,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qlarft
-#!endif 
-
-#!if WITH_QP 
 
      !> DLARFX: applies a real elementary reflector H to a real m by n
      !> matrix C, from either the left or the right. H is represented in the
@@ -41002,9 +39456,6 @@ module stdlib_linalg_lapack_q
            410 continue
            return
      end subroutine stdlib_qlarfx
-#!endif 
-
-#!if WITH_QP 
 
      !> DLARFY: applies an elementary reflector, or Householder matrix, H,
      !> to an n x n symmetric matrix C, from both the left and the right.
@@ -41039,9 +39490,6 @@ module stdlib_linalg_lapack_q
            call stdlib_qsyr2( uplo, n, -tau, v, incv, work, 1, c, ldc )
            return
      end subroutine stdlib_qlarfy
-#!endif 
-
-#!if WITH_QP 
 
      !> DLARGV: generates a vector of real plane rotations, determined by
      !> elements of the real vectors x and y. For i = 1,2,...,n
@@ -41096,9 +39544,6 @@ module stdlib_linalg_lapack_q
            end do loop_10
            return
      end subroutine stdlib_qlargv
-#!endif 
-
-#!if WITH_QP 
 
      !> DLARNV: returns a vector of n random real numbers from a uniform or
      !> normal distribution.
@@ -41155,9 +39600,6 @@ module stdlib_linalg_lapack_q
               40 continue
            return
      end subroutine stdlib_qlarnv
-#!endif 
-
-#!if WITH_QP 
 
      !> Compute the splitting points with threshold SPLTOL.
      !> DLARRA: sets any "small" off-diagonal elements to zero.
@@ -41216,9 +39658,6 @@ module stdlib_linalg_lapack_q
            isplit( nsplit ) = n
            return
      end subroutine stdlib_qlarra
-#!endif 
-
-#!if WITH_QP 
 
      !> Given the relatively robust representation(RRR) L D L^T, DLARRB:
      !> does "limited" bisection to refine the eigenvalues of L D L^T,
@@ -41392,9 +39831,6 @@ module stdlib_linalg_lapack_q
            end do
            return
      end subroutine stdlib_qlarrb
-#!endif 
-
-#!if WITH_QP 
 
      !> Find the number of eigenvalues of the symmetric tridiagonal matrix T
      !> that are in the interval (VL,VU] if JOBT = 'T', and of L D L^T
@@ -41488,9 +39924,6 @@ module stdlib_linalg_lapack_q
            eigcnt = rcnt - lcnt
            return
      end subroutine stdlib_qlarrc
-#!endif 
-
-#!if WITH_QP 
 
      !> DLARRD: computes the eigenvalues of a symmetric tridiagonal
      !> matrix T to suitable accuracy. This is an auxiliary code to be
@@ -41962,9 +40395,6 @@ module stdlib_linalg_lapack_q
            if( toofew )info = info + 2
            return
      end subroutine stdlib_qlarrd
-#!endif 
-
-#!if WITH_QP 
 
      !> To find the desired eigenvalues of a given real symmetric
      !> tridiagonal matrix T, DLARRE: sets any "small" off-diagonal
@@ -42490,9 +40920,6 @@ module stdlib_linalg_lapack_q
            end do loop_170
            return
      end subroutine stdlib_qlarre
-#!endif 
-
-#!if WITH_QP 
 
      !> Given the initial representation L D L^T and its cluster of close
      !> eigenvalues (in a relative measure), W( CLSTRT ), W( CLSTRT+1 ), ...
@@ -42752,9 +41179,6 @@ module stdlib_linalg_lapack_q
            endif
            return
      end subroutine stdlib_qlarrf
-#!endif 
-
-#!if WITH_QP 
 
      !> Given the initial eigenvalue approximations of T, DLARRJ:
      !> does  bisection to refine the eigenvalues of T,
@@ -42933,9 +41357,6 @@ module stdlib_linalg_lapack_q
            end do
            return
      end subroutine stdlib_qlarrj
-#!endif 
-
-#!if WITH_QP 
 
      !> DLARRK: computes one eigenvalue of a symmetric tridiagonal
      !> matrix T to suitable accuracy. This is an auxiliary code to be
@@ -43016,9 +41437,6 @@ module stdlib_linalg_lapack_q
            werr = half * abs( right - left )
            return
      end subroutine stdlib_qlarrk
-#!endif 
-
-#!if WITH_QP 
 
      !> Perform tests to decide whether the symmetric tridiagonal matrix T
      !> warrants expensive computations which guarantee high relative accuracy
@@ -43101,9 +41519,6 @@ module stdlib_linalg_lapack_q
            ! to the computed eigenvectors (and the support)
            return
      end subroutine stdlib_qlarrr
-#!endif 
-
-#!if WITH_QP 
 
      !> DLARRV: computes the eigenvectors of the tridiagonal matrix
      !> T = L D L**T given L, D and APPROXIMATIONS to the eigenvalues of L D L**T.
@@ -43735,9 +42150,6 @@ module stdlib_linalg_lapack_q
            end do loop_170
            return
      end subroutine stdlib_qlarrv
-#!endif 
-
-#!if WITH_QP 
 
      !> !
      !>
@@ -43807,9 +42219,6 @@ module stdlib_linalg_lapack_q
         end if
         return
      end subroutine stdlib_qlartg
-#!endif 
-
-#!if WITH_QP 
 
      !> DLARTGP: generates a plane rotation so that
      !> [  CS  SN  ]  .  [ F ]  =  [ R ]   where CS**2 + SN**2 = 1.
@@ -43904,9 +42313,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qlartgp
-#!endif 
-
-#!if WITH_QP 
 
      !> DLARTGS: generates a plane rotation designed to introduce a bulge in
      !> Golub-Reinsch-style implicit QR iteration for the bidiagonal SVD
@@ -43963,9 +42369,6 @@ module stdlib_linalg_lapack_q
            return
            ! end stdlib_qlartgs
      end subroutine stdlib_qlartgs
-#!endif 
-
-#!if WITH_QP 
 
      !> DLARTV: applies a vector of real plane rotations to elements of the
      !> real vectors x and y. For i = 1,2,...,n
@@ -44000,9 +42403,6 @@ module stdlib_linalg_lapack_q
            end do
            return
      end subroutine stdlib_qlartv
-#!endif 
-
-#!if WITH_QP 
 
      !> DLARUV: returns a vector of n random real numbers from a uniform (0,1)
      !> distribution (n <= 128).
@@ -44205,9 +42605,6 @@ module stdlib_linalg_lapack_q
            iseed( 4 ) = it4
            return
      end subroutine stdlib_qlaruv
-#!endif 
-
-#!if WITH_QP 
 
      !> DLARZ: applies a real elementary reflector H to a real M-by-N
      !> matrix C, from either the left or the right. H is represented in the
@@ -44263,9 +42660,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qlarz
-#!endif 
-
-#!if WITH_QP 
 
      !> DLARZB: applies a real block reflector H or its transpose H**T to
      !> a real distributed M-by-N  C from the left or the right.
@@ -44355,9 +42749,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qlarzb
-#!endif 
-
-#!if WITH_QP 
 
      !> DLARZT: forms the triangular factor T of a real block reflector
      !> H of order > n, which is defined as a product of k elementary
@@ -44420,9 +42811,6 @@ module stdlib_linalg_lapack_q
            end do
            return
      end subroutine stdlib_qlarzt
-#!endif 
-
-#!if WITH_QP 
 
      !> DLAS2:  computes the singular values of the 2-by-2 matrix
      !> [  F   G  ]
@@ -44487,9 +42875,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qlas2
-#!endif 
-
-#!if WITH_QP 
 
      !> DLASCL: multiplies the M by N real matrix A by the real scalar
      !> CTO/CFROM.  This is done without over/underflow as long as the final
@@ -44660,9 +43045,6 @@ module stdlib_linalg_lapack_q
            if( .not.done )go to 10
            return
      end subroutine stdlib_qlascl
-#!endif 
-
-#!if WITH_QP 
 
      !> Using a divide and conquer approach, DLASD0: computes the singular
      !> value decomposition (SVD) of a real upper bidiagonal N-by-M
@@ -44802,9 +43184,6 @@ module stdlib_linalg_lapack_q
            end do loop_50
            return
      end subroutine stdlib_qlasd0
-#!endif 
-
-#!if WITH_QP 
 
      !> DLASD1: computes the SVD of an upper bidiagonal N-by-M matrix B,
      !> where N = NL + NR + 1 and M = N + SQRE. DLASD1 is called from DLASD0.
@@ -44920,9 +43299,6 @@ module stdlib_linalg_lapack_q
            call stdlib_qlamrg( n1, n2, d, 1, -1, idxq )
            return
      end subroutine stdlib_qlasd1
-#!endif 
-
-#!if WITH_QP 
 
      !> DLASD2: merges the two sets of singular values together into a single
      !> sorted set.  Then it tries to deflate the size of the problem.
@@ -45208,9 +43584,6 @@ module stdlib_linalg_lapack_q
            end do
            return
      end subroutine stdlib_qlasd2
-#!endif 
-
-#!if WITH_QP 
 
      !> DLASD3: finds all the square roots of the roots of the secular
      !> equation, as defined by the values in D and Z.  It makes the
@@ -45413,9 +43786,6 @@ module stdlib_linalg_lapack_q
                      , ldvt2, zero, vt( 1, nlp2 ), ldvt )
            return
      end subroutine stdlib_qlasd3
-#!endif 
-
-#!if WITH_QP 
 
      !> This subroutine computes the square root of the I-th updated
      !> eigenvalue of a positive symmetric rank-one modification to
@@ -46144,9 +44514,6 @@ module stdlib_linalg_lapack_q
            240 continue
            return
      end subroutine stdlib_qlasd4
-#!endif 
-
-#!if WITH_QP 
 
      !> This subroutine computes the square root of the I-th eigenvalue
      !> of a positive symmetric rank-one modification of a 2-by-2 diagonal
@@ -46242,9 +44609,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qlasd5
-#!endif 
-
-#!if WITH_QP 
 
      !> DLASD6: computes the SVD of an updated upper bidiagonal matrix B
      !> obtained by merging two smaller ones by appending a row. This
@@ -46373,9 +44737,6 @@ module stdlib_linalg_lapack_q
            call stdlib_qlamrg( n1, n2, d, 1, -1, idxq )
            return
      end subroutine stdlib_qlasd6
-#!endif 
-
-#!if WITH_QP 
 
      !> DLASD7: merges the two sets of singular values together into a single
      !> sorted set. Then it tries to deflate the size of the problem. There
@@ -46615,9 +44976,6 @@ module stdlib_linalg_lapack_q
            call stdlib_qcopy( n-1, vlw( 2 ), 1, vl( 2 ), 1 )
            return
      end subroutine stdlib_qlasd7
-#!endif 
-
-#!if WITH_QP 
 
      !> DLASD8: finds the square roots of the roots of the secular equation,
      !> as defined by the values in DSIGMA and Z. It makes the appropriate
@@ -46754,9 +45112,6 @@ module stdlib_linalg_lapack_q
            call stdlib_qcopy( k, work( iwk3 ), 1, vl, 1 )
            return
      end subroutine stdlib_qlasd8
-#!endif 
-
-#!if WITH_QP 
 
      !> Using a divide and conquer approach, DLASDA: computes the singular
      !> value decomposition (SVD) of a real upper bidiagonal N-by-M matrix
@@ -46959,9 +45314,6 @@ module stdlib_linalg_lapack_q
            end do loop_50
            return
      end subroutine stdlib_qlasda
-#!endif 
-
-#!if WITH_QP 
 
      !> DLASDQ: computes the singular value decomposition (SVD) of a real
      !> (upper or lower) bidiagonal matrix with diagonal D and offdiagonal
@@ -47127,9 +45479,6 @@ module stdlib_linalg_lapack_q
            end do
            return
      end subroutine stdlib_qlasdq
-#!endif 
-
-#!if WITH_QP 
 
      !> DLASDT: creates a tree of subproblems for bidiagonal divide and
      !> conquer.
@@ -47181,9 +45530,6 @@ module stdlib_linalg_lapack_q
            nd = llst*2 - 1
            return
      end subroutine stdlib_qlasdt
-#!endif 
-
-#!if WITH_QP 
 
      !> DLASET: initializes an m-by-n matrix A to BETA on the diagonal and
      !> ALPHA on the offdiagonals.
@@ -47234,9 +45580,6 @@ module stdlib_linalg_lapack_q
            end do
            return
      end subroutine stdlib_qlaset
-#!endif 
-
-#!if WITH_QP 
 
      !> DLASQ1: computes the singular values of a real N-by-N bidiagonal
      !> matrix with diagonal D and off-diagonal E. The singular values
@@ -47329,9 +45672,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qlasq1
-#!endif 
-
-#!if WITH_QP 
 
      !> DLASQ2: computes all the eigenvalues of the symmetric positive
      !> definite tridiagonal matrix associated with the qd array Z to high
@@ -47720,9 +46060,6 @@ module stdlib_linalg_lapack_q
            z( 2*n+5 ) = hundrd*nfail / real( iter,KIND=qp)
            return
      end subroutine stdlib_qlasq2
-#!endif 
-
-#!if WITH_QP 
 
      !> DLASQ3: checks for deflation, computes a shift (TAU) and calls dqds.
      !> In case of failure it changes shifts, and tries again until output
@@ -47893,9 +46230,6 @@ module stdlib_linalg_lapack_q
            sigma = t
            return
      end subroutine stdlib_qlasq3
-#!endif 
-
-#!if WITH_QP 
 
      !> DLASQ4: computes an approximation TAU to the smallest eigenvalue
      !> using values of d from the previous transform.
@@ -48104,9 +46438,6 @@ module stdlib_linalg_lapack_q
            tau = s
            return
      end subroutine stdlib_qlasq4
-#!endif 
-
-#!if WITH_QP 
 
      !> DLASQ5: computes one dqds transform in ping-pong form, one
      !> version for IEEE machines another for non IEEE machines.
@@ -48335,9 +46666,6 @@ module stdlib_linalg_lapack_q
            z( 4*n0-pp ) = emin
            return
      end subroutine stdlib_qlasq5
-#!endif 
-
-#!if WITH_QP 
 
      !> DLASQ6: computes one dqd (shift equal to zero) transform in
      !> ping-pong form, with protection against underflow and overflow.
@@ -48448,9 +46776,6 @@ module stdlib_linalg_lapack_q
            z( 4*n0-pp ) = emin
            return
      end subroutine stdlib_qlasq6
-#!endif 
-
-#!if WITH_QP 
 
      !> DLASR: applies a sequence of plane rotations to a real matrix A,
      !> from either the left or the right.
@@ -48710,9 +47035,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qlasr
-#!endif 
-
-#!if WITH_QP 
 
      !> Sort the numbers in D in increasing order (if ID = 'I') or
      !> in decreasing order (if ID = 'D' ).
@@ -48887,9 +47209,6 @@ module stdlib_linalg_lapack_q
            if( stkpnt>0 )go to 10
            return
      end subroutine stdlib_qlasrt
-#!endif 
-
-#!if WITH_QP 
 
      !> !
      !>
@@ -49007,9 +47326,6 @@ module stdlib_linalg_lapack_q
         end if
         return
      end subroutine stdlib_qlassq
-#!endif 
-
-#!if WITH_QP 
 
      !> DLASV2: computes the singular value decomposition of a 2-by-2
      !> triangular matrix
@@ -49155,9 +47471,6 @@ module stdlib_linalg_lapack_q
            ssmin = sign( ssmin, tsign*sign( one, f )*sign( one, h ) )
            return
      end subroutine stdlib_qlasv2
-#!endif 
-
-#!if WITH_QP 
 
      !> DLASWLQ: computes a blocked Tall-Skinny LQ factorization of
      !> a real M-by-N matrix A for M <= N:
@@ -49242,9 +47555,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = m * mb
            return
      end subroutine stdlib_qlaswlq
-#!endif 
-
-#!if WITH_QP 
 
      !> DLASWP: performs a series of row interchanges on the matrix A.
      !> One row interchange is initiated for each of rows K1 through K2 of A.
@@ -49312,9 +47622,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qlaswp
-#!endif 
-
-#!if WITH_QP 
 
      !> DLASY2: solves for the N1 by N2 matrix X, 1 <= N1,N2 <= 2, in
      !> op(TL)*X + ISGN*X*op(TR) = SCALE*B,
@@ -49575,9 +47882,6 @@ module stdlib_linalg_lapack_q
            xnorm = max( abs( tmp( 1 ) )+abs( tmp( 3 ) ),abs( tmp( 2 ) )+abs( tmp( 4 ) ) )
            return
      end subroutine stdlib_qlasy2
-#!endif 
-
-#!if WITH_QP 
 
      !> DLASYF: computes a partial factorization of a real symmetric matrix A
      !> using the Bunch-Kaufman diagonal pivoting method. The partial
@@ -50015,9 +48319,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qlasyf
-#!endif 
-
-#!if WITH_QP 
 
      !> DLATRF_AA factorizes a panel of a real symmetric matrix A using
      !> the Aasen's algorithm. The panel consists of a set of NB rows of A
@@ -50252,9 +48553,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qlasyf_aa
-#!endif 
-
-#!if WITH_QP 
 
      !> DLASYF_RK: computes a partial factorization of a real symmetric
      !> matrix A using the bounded Bunch-Kaufman (rook) diagonal
@@ -50696,9 +48994,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qlasyf_rk
-#!endif 
-
-#!if WITH_QP 
 
      !> DLASYF_ROOK: computes a partial factorization of a real symmetric
      !> matrix A using the bounded Bunch-Kaufman ("rook") diagonal
@@ -51160,9 +49455,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qlasyf_rook
-#!endif 
-
-#!if WITH_QP 
 
      !> DLAT2S: converts a DOUBLE PRECISION triangular matrix, SA, to a SINGLE
      !> PRECISION triangular matrix, A.
@@ -51214,9 +49506,6 @@ module stdlib_linalg_lapack_q
            50 continue
            return
      end subroutine stdlib_qlat2s
-#!endif 
-
-#!if WITH_QP 
 
      !> DLATBS: solves one of the triangular systems
      !> A *x = s*b  or  A**T*x = s*b
@@ -51637,9 +49926,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qlatbs
-#!endif 
-
-#!if WITH_QP 
 
      !> DLATDF: uses the LU factorization of the n-by-n matrix Z computed by
      !> DGETC2 and computes a contribution to the reciprocal Dif-estimate
@@ -51750,9 +50036,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qlatdf
-#!endif 
-
-#!if WITH_QP 
 
      !> DLATPS: solves one of the triangular systems
      !> A *x = s*b  or  A**T*x = s*b
@@ -52171,9 +50454,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qlatps
-#!endif 
-
-#!if WITH_QP 
 
      !> DLATRD: reduces NB rows and columns of a real symmetric matrix A to
      !> symmetric tridiagonal form by an orthogonal similarity
@@ -52276,9 +50556,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qlatrd
-#!endif 
-
-#!if WITH_QP 
 
      !> DLATRS: solves one of the triangular systems
      !> A *x = s*b  or  A**T *x = s*b
@@ -52680,9 +50957,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qlatrs
-#!endif 
-
-#!if WITH_QP 
 
      !> DLATRZ: factors the M-by-(M+L) real upper trapezoidal matrix
      !> [ A1 A2 ] = [ A(1:M,1:M) A(1:M,N-L+1:N) ] as ( R  0 ) * Z, by means
@@ -52723,9 +50997,6 @@ module stdlib_linalg_lapack_q
            end do
            return
      end subroutine stdlib_qlatrz
-#!endif 
-
-#!if WITH_QP 
 
      !> DLATSQR: computes a blocked Tall-Skinny QR factorization of
      !> a real M-by-N matrix A for M >= N:
@@ -52811,9 +51082,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = n*nb
            return
      end subroutine stdlib_qlatsqr
-#!endif 
-
-#!if WITH_QP 
 
      !> DLAUU2: computes the product U * U**T or L**T * L, where the triangular
      !> factor U or L is stored in the upper or lower triangular part of
@@ -52886,9 +51154,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qlauu2
-#!endif 
-
-#!if WITH_QP 
 
      !> DLAUUM: computes the product U * U**T or L**T * L, where the triangular
      !> factor U or L is stored in the upper or lower triangular part of
@@ -52972,9 +51237,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qlauum
-#!endif 
-
-#!if WITH_QP 
 
      !> DOPGTR: generates a real orthogonal matrix Q which is defined as the
      !> product of n-1 elementary reflectors H(i) of order n, as returned by
@@ -53062,9 +51324,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qopgtr
-#!endif 
-
-#!if WITH_QP 
 
      !> DOPMTR: overwrites the general real M-by-N matrix C with
      !> SIDE = 'L'     SIDE = 'R'
@@ -53212,9 +51471,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qopmtr
-#!endif 
-
-#!if WITH_QP 
 
      !> DORBDB: simultaneously bidiagonalizes the blocks of an M-by-M
      !> partitioned orthogonal matrix X:
@@ -53543,9 +51799,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qorbdb
-#!endif 
-
-#!if WITH_QP 
 
      !> DORBDB1: simultaneously bidiagonalizes the blocks of a tall and skinny
      !> matrix X with orthonomal columns:
@@ -53649,9 +51902,6 @@ module stdlib_linalg_lapack_q
            end do
            return
      end subroutine stdlib_qorbdb1
-#!endif 
-
-#!if WITH_QP 
 
      !> DORBDB2: simultaneously bidiagonalizes the blocks of a tall and skinny
      !> matrix X with orthonomal columns:
@@ -53765,9 +52015,6 @@ module stdlib_linalg_lapack_q
            end do
            return
      end subroutine stdlib_qorbdb2
-#!endif 
-
-#!if WITH_QP 
 
      !> DORBDB3: simultaneously bidiagonalizes the blocks of a tall and skinny
      !> matrix X with orthonomal columns:
@@ -53880,9 +52127,6 @@ module stdlib_linalg_lapack_q
            end do
            return
      end subroutine stdlib_qorbdb3
-#!endif 
-
-#!if WITH_QP 
 
      !> DORBDB4: simultaneously bidiagonalizes the blocks of a tall and skinny
      !> matrix X with orthonomal columns:
@@ -54025,9 +52269,6 @@ module stdlib_linalg_lapack_q
            end do
            return
      end subroutine stdlib_qorbdb4
-#!endif 
-
-#!if WITH_QP 
 
      !> DORBDB5: orthogonalizes the column vector
      !> X = [ X1 ]
@@ -54127,9 +52368,6 @@ module stdlib_linalg_lapack_q
            end do
            return
      end subroutine stdlib_qorbdb5
-#!endif 
-
-#!if WITH_QP 
 
      !> DORBDB6: orthogonalizes the column vector
      !> X = [ X1 ]
@@ -54258,9 +52496,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qorbdb6
-#!endif 
-
-#!if WITH_QP 
 
      !> DORCSD: computes the CS decomposition of an M-by-M partitioned
      !> orthogonal matrix X:
@@ -54536,9 +52771,6 @@ module stdlib_linalg_lapack_q
            return
            ! end stdlib_qorcsd
      end subroutine stdlib_qorcsd
-#!endif 
-
-#!if WITH_QP 
 
      !> DORCSD2BY1: computes the CS decomposition of an M-by-Q matrix X with
      !> orthonormal columns that has been partitioned into a 2-by-1 block
@@ -54954,9 +53186,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qorcsd2by1
-#!endif 
-
-#!if WITH_QP 
 
      !> DORG2L: generates an m by n real matrix Q with orthonormal columns,
      !> which is defined as the last n columns of a product of k elementary
@@ -55021,9 +53250,6 @@ module stdlib_linalg_lapack_q
            end do
            return
      end subroutine stdlib_qorg2l
-#!endif 
-
-#!if WITH_QP 
 
      !> DORG2R: generates an m by n real matrix Q with orthonormal columns,
      !> which is defined as the first n columns of a product of k elementary
@@ -55089,9 +53315,6 @@ module stdlib_linalg_lapack_q
            end do
            return
      end subroutine stdlib_qorg2r
-#!endif 
-
-#!if WITH_QP 
 
      !> DORGBR: generates one of the real orthogonal matrices Q or P**T
      !> determined by DGEBRD when reducing a real matrix A to bidiagonal
@@ -55241,9 +53464,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = lwkopt
            return
      end subroutine stdlib_qorgbr
-#!endif 
-
-#!if WITH_QP 
 
      !> DORGHR: generates a real orthogonal matrix Q which is defined as the
      !> product of IHI-ILO elementary reflectors of order N, as returned by
@@ -55334,9 +53554,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = lwkopt
            return
      end subroutine stdlib_qorghr
-#!endif 
-
-#!if WITH_QP 
 
      !> DORGL2: generates an m by n real matrix Q with orthonormal rows,
      !> which is defined as the first m rows of a product of k elementary
@@ -55406,9 +53623,6 @@ module stdlib_linalg_lapack_q
            end do
            return
      end subroutine stdlib_qorgl2
-#!endif 
-
-#!if WITH_QP 
 
      !> DORGLQ: generates an M-by-N real matrix Q with orthonormal rows,
      !> which is defined as the first M rows of a product of K elementary
@@ -55525,9 +53739,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = iws
            return
      end subroutine stdlib_qorglq
-#!endif 
-
-#!if WITH_QP 
 
      !> DORGQL: generates an M-by-N real matrix Q with orthonormal columns,
      !> which is defined as the last N columns of a product of K elementary
@@ -55649,9 +53860,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = iws
            return
      end subroutine stdlib_qorgql
-#!endif 
-
-#!if WITH_QP 
 
      !> DORGQR: generates an M-by-N real matrix Q with orthonormal columns,
      !> which is defined as the first N columns of a product of K elementary
@@ -55768,9 +53976,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = iws
            return
      end subroutine stdlib_qorgqr
-#!endif 
-
-#!if WITH_QP 
 
      !> DORGR2: generates an m by n real matrix Q with orthonormal rows,
      !> which is defined as the last m rows of a product of k elementary
@@ -55837,9 +54042,6 @@ module stdlib_linalg_lapack_q
            end do
            return
      end subroutine stdlib_qorgr2
-#!endif 
-
-#!if WITH_QP 
 
      !> DORGRQ: generates an M-by-N real matrix Q with orthonormal rows,
      !> which is defined as the last M rows of a product of K elementary
@@ -55961,9 +54163,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = iws
            return
      end subroutine stdlib_qorgrq
-#!endif 
-
-#!if WITH_QP 
 
      !> DORGTR: generates a real orthogonal matrix Q which is defined as the
      !> product of n-1 elementary reflectors of order N, as returned by
@@ -56065,9 +54264,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = lwkopt
            return
      end subroutine stdlib_qorgtr
-#!endif 
-
-#!if WITH_QP 
 
      !> DORGTSQR: generates an M-by-N real matrix Q_out with orthonormal columns,
      !> which are the first N columns of a product of real orthogonal
@@ -56166,9 +54362,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = real( lworkopt,KIND=qp)
            return
      end subroutine stdlib_qorgtsqr
-#!endif 
-
-#!if WITH_QP 
 
      !> DORGTSQR_ROW: generates an M-by-N real matrix Q_out with
      !> orthonormal columns from the output of DLATSQR. These N orthonormal
@@ -56312,9 +54505,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = real( lworkopt,KIND=qp)
            return
      end subroutine stdlib_qorgtsqr_row
-#!endif 
-
-#!if WITH_QP 
 
      !> DORHR_COL: takes an M-by-N real matrix Q_in with orthonormal columns
      !> as input, stored in A, and performs Householder Reconstruction (HR),
@@ -56452,9 +54642,6 @@ module stdlib_linalg_lapack_q
            end do
            return
      end subroutine stdlib_qorhr_col
-#!endif 
-
-#!if WITH_QP 
 
 
      pure subroutine stdlib_qorm22( side, trans, m, n, n1, n2, q, ldq, c, ldc,work, lwork, info )
@@ -56637,9 +54824,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = real( lwkopt,KIND=qp)
            return
      end subroutine stdlib_qorm22
-#!endif 
-
-#!if WITH_QP 
 
      !> DORM2L: overwrites the general real m by n matrix C with
      !> Q * C  if SIDE = 'L' and TRANS = 'N', or
@@ -56734,9 +54918,6 @@ module stdlib_linalg_lapack_q
            end do
            return
      end subroutine stdlib_qorm2l
-#!endif 
-
-#!if WITH_QP 
 
      !> DORM2R: overwrites the general real m by n matrix C with
      !> Q * C  if SIDE = 'L' and TRANS = 'N', or
@@ -56836,9 +55017,6 @@ module stdlib_linalg_lapack_q
            end do
            return
      end subroutine stdlib_qorm2r
-#!endif 
-
-#!if WITH_QP 
 
      !> If VECT = 'Q', DORMBR: overwrites the general real M-by-N matrix C
      !> with
@@ -56997,9 +55175,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = lwkopt
            return
      end subroutine stdlib_qormbr
-#!endif 
-
-#!if WITH_QP 
 
      !> DORMHR: overwrites the general real M-by-N matrix C with
      !> SIDE = 'L'     SIDE = 'R'
@@ -57099,9 +55274,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = lwkopt
            return
      end subroutine stdlib_qormhr
-#!endif 
-
-#!if WITH_QP 
 
      !> DORML2: overwrites the general real m by n matrix C with
      !> Q * C  if SIDE = 'L' and TRANS = 'N', or
@@ -57201,9 +55373,6 @@ module stdlib_linalg_lapack_q
            end do
            return
      end subroutine stdlib_qorml2
-#!endif 
-
-#!if WITH_QP 
 
      !> DORMLQ: overwrites the general real M-by-N matrix C with
      !> SIDE = 'L'     SIDE = 'R'
@@ -57347,9 +55516,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = lwkopt
            return
      end subroutine stdlib_qormlq
-#!endif 
-
-#!if WITH_QP 
 
      !> DORMQL: overwrites the general real M-by-N matrix C with
      !> SIDE = 'L'     SIDE = 'R'
@@ -57487,9 +55653,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = lwkopt
            return
      end subroutine stdlib_qormql
-#!endif 
-
-#!if WITH_QP 
 
      !> DORMQR: overwrites the general real M-by-N matrix C with
      !> SIDE = 'L'     SIDE = 'R'
@@ -57627,9 +55790,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = lwkopt
            return
      end subroutine stdlib_qormqr
-#!endif 
-
-#!if WITH_QP 
 
      !> DORMR2: overwrites the general real m by n matrix C with
      !> Q * C  if SIDE = 'L' and TRANS = 'N', or
@@ -57724,9 +55884,6 @@ module stdlib_linalg_lapack_q
            end do
            return
      end subroutine stdlib_qormr2
-#!endif 
-
-#!if WITH_QP 
 
      !> DORMR3: overwrites the general real m by n matrix C with
      !> Q * C  if SIDE = 'L' and TRANS = 'N', or
@@ -57826,9 +55983,6 @@ module stdlib_linalg_lapack_q
            end do
            return
      end subroutine stdlib_qormr3
-#!endif 
-
-#!if WITH_QP 
 
      !> DORMRQ: overwrites the general real M-by-N matrix C with
      !> SIDE = 'L'     SIDE = 'R'
@@ -57972,9 +56126,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = lwkopt
            return
      end subroutine stdlib_qormrq
-#!endif 
-
-#!if WITH_QP 
 
      !> DORMRZ: overwrites the general real M-by-N matrix C with
      !> SIDE = 'L'     SIDE = 'R'
@@ -58128,9 +56279,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = lwkopt
            return
      end subroutine stdlib_qormrz
-#!endif 
-
-#!if WITH_QP 
 
      !> DORMTR: overwrites the general real M-by-N matrix C with
      !> SIDE = 'L'     SIDE = 'R'
@@ -58247,9 +56395,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = lwkopt
            return
      end subroutine stdlib_qormtr
-#!endif 
-
-#!if WITH_QP 
 
      !> DPBCON: estimates the reciprocal of the condition number (in the
      !> 1-norm) of a real symmetric positive definite band matrix using the
@@ -58348,9 +56493,6 @@ module stdlib_linalg_lapack_q
            20 continue
            return
      end subroutine stdlib_qpbcon
-#!endif 
-
-#!if WITH_QP 
 
      !> DPBEQU: computes row and column scalings intended to equilibrate a
      !> symmetric positive definite band matrix A and reduce its condition
@@ -58438,9 +56580,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qpbequ
-#!endif 
-
-#!if WITH_QP 
 
      !> DPBRFS: improves the computed solution to a system of linear
      !> equations when the coefficient matrix is symmetric positive definite
@@ -58635,9 +56774,6 @@ module stdlib_linalg_lapack_q
            end do loop_140
            return
      end subroutine stdlib_qpbrfs
-#!endif 
-
-#!if WITH_QP 
 
      !> DPBSTF: computes a split Cholesky factorization of a real
      !> symmetric positive definite band matrix A.
@@ -58756,9 +56892,6 @@ module stdlib_linalg_lapack_q
            info = j
            return
      end subroutine stdlib_qpbstf
-#!endif 
-
-#!if WITH_QP 
 
      !> DPBSV: computes the solution to a real system of linear equations
      !> A * X = B,
@@ -58813,9 +56946,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qpbsv
-#!endif 
-
-#!if WITH_QP 
 
      !> DPBSVX: uses the Cholesky factorization A = U**T*U or A = L*L**T to
      !> compute the solution to a real system of linear equations
@@ -58972,9 +57102,6 @@ module stdlib_linalg_lapack_q
            if( rcond<stdlib_qlamch( 'EPSILON' ) )info = n + 1
            return
      end subroutine stdlib_qpbsvx
-#!endif 
-
-#!if WITH_QP 
 
      !> DPBTF2: computes the Cholesky factorization of a real symmetric
      !> positive definite band matrix A.
@@ -59062,9 +57189,6 @@ module stdlib_linalg_lapack_q
            info = j
            return
      end subroutine stdlib_qpbtf2
-#!endif 
-
-#!if WITH_QP 
 
      !> DPBTRF: computes the Cholesky factorization of a real symmetric
      !> positive definite band matrix A.
@@ -59264,9 +57388,6 @@ module stdlib_linalg_lapack_q
            150 continue
            return
      end subroutine stdlib_qpbtrf
-#!endif 
-
-#!if WITH_QP 
 
      !> DPBTRS: solves a system of linear equations A*X = B with a symmetric
      !> positive definite band matrix A using the Cholesky factorization
@@ -59335,9 +57456,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qpbtrs
-#!endif 
-
-#!if WITH_QP 
 
      !> DPFTRF: computes the Cholesky factorization of a real symmetric
      !> positive definite matrix A.
@@ -59513,9 +57631,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qpftrf
-#!endif 
-
-#!if WITH_QP 
 
      !> DPFTRI: computes the inverse of a (real) symmetric positive definite
      !> matrix A using the Cholesky factorization A = U**T*U or A = L*L**T
@@ -59674,9 +57789,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qpftri
-#!endif 
-
-#!if WITH_QP 
 
      !> DPFTRS: solves a system of linear equations A*X = B with a symmetric
      !> positive definite matrix A using the Cholesky factorization
@@ -59731,9 +57843,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qpftrs
-#!endif 
-
-#!if WITH_QP 
 
      !> DPOCON: estimates the reciprocal of the condition number (in the
      !> 1-norm) of a real symmetric positive definite matrix using the
@@ -59829,9 +57938,6 @@ module stdlib_linalg_lapack_q
            20 continue
            return
      end subroutine stdlib_qpocon
-#!endif 
-
-#!if WITH_QP 
 
      !> DPOEQU: computes row and column scalings intended to equilibrate a
      !> symmetric positive definite matrix A and reduce its condition number
@@ -59906,9 +58012,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qpoequ
-#!endif 
-
-#!if WITH_QP 
 
      !> DPOEQUB: computes row and column scalings intended to equilibrate a
      !> symmetric positive definite matrix A and reduce its condition number
@@ -59991,9 +58094,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qpoequb
-#!endif 
-
-#!if WITH_QP 
 
      !> DPORFS: improves the computed solution to a system of linear
      !> equations when the coefficient matrix is symmetric positive definite,
@@ -60183,9 +58283,6 @@ module stdlib_linalg_lapack_q
            end do loop_140
            return
      end subroutine stdlib_qporfs
-#!endif 
-
-#!if WITH_QP 
 
      !> DPOSV: computes the solution to a real system of linear equations
      !> A * X = B,
@@ -60237,9 +58334,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qposv
-#!endif 
-
-#!if WITH_QP 
 
      !> DPOSVX: uses the Cholesky factorization A = U**T*U or A = L*L**T to
      !> compute the solution to a real system of linear equations
@@ -60383,9 +58477,6 @@ module stdlib_linalg_lapack_q
            if( rcond<stdlib_qlamch( 'EPSILON' ) )info = n + 1
            return
      end subroutine stdlib_qposvx
-#!endif 
-
-#!if WITH_QP 
 
      !> DPOTF2: computes the Cholesky factorization of a real symmetric
      !> positive definite matrix A.
@@ -60473,9 +58564,6 @@ module stdlib_linalg_lapack_q
            40 continue
            return
      end subroutine stdlib_qpotf2
-#!endif 
-
-#!if WITH_QP 
 
      !> DPOTRF: computes the Cholesky factorization of a real symmetric
      !> positive definite matrix A.
@@ -60570,9 +58658,6 @@ module stdlib_linalg_lapack_q
            40 continue
            return
      end subroutine stdlib_qpotrf
-#!endif 
-
-#!if WITH_QP 
 
      !> DPOTRF2: computes the Cholesky factorization of a real symmetric
      !> positive definite matrix A using the recursive algorithm.
@@ -60671,9 +58756,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qpotrf2
-#!endif 
-
-#!if WITH_QP 
 
      !> DPOTRI: computes the inverse of a real symmetric positive definite
      !> matrix A using the Cholesky factorization A = U**T*U or A = L*L**T
@@ -60715,9 +58797,6 @@ module stdlib_linalg_lapack_q
            call stdlib_qlauum( uplo, n, a, lda, info )
            return
      end subroutine stdlib_qpotri
-#!endif 
-
-#!if WITH_QP 
 
      !> DPOTRS: solves a system of linear equations A*X = B with a symmetric
      !> positive definite matrix A using the Cholesky factorization
@@ -60780,9 +58859,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qpotrs
-#!endif 
-
-#!if WITH_QP 
 
      !> DPPCON: estimates the reciprocal of the condition number (in the
      !> 1-norm) of a real symmetric positive definite packed matrix using
@@ -60877,9 +58953,6 @@ module stdlib_linalg_lapack_q
            20 continue
            return
      end subroutine stdlib_qppcon
-#!endif 
-
-#!if WITH_QP 
 
      !> DPPEQU: computes row and column scalings intended to equilibrate a
      !> symmetric positive definite matrix A in packed storage and reduce
@@ -60973,9 +59046,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qppequ
-#!endif 
-
-#!if WITH_QP 
 
      !> DPPRFS: improves the computed solution to a system of linear
      !> equations when the coefficient matrix is symmetric positive definite
@@ -61168,9 +59238,6 @@ module stdlib_linalg_lapack_q
            end do loop_140
            return
      end subroutine stdlib_qpprfs
-#!endif 
-
-#!if WITH_QP 
 
      !> DPPSV: computes the solution to a real system of linear equations
      !> A * X = B,
@@ -61220,9 +59287,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qppsv
-#!endif 
-
-#!if WITH_QP 
 
      !> DPPSVX: uses the Cholesky factorization A = U**T*U or A = L*L**T to
      !> compute the solution to a real system of linear equations
@@ -61362,9 +59426,6 @@ module stdlib_linalg_lapack_q
            if( rcond<stdlib_qlamch( 'EPSILON' ) )info = n + 1
            return
      end subroutine stdlib_qppsvx
-#!endif 
-
-#!if WITH_QP 
 
      !> DPPTRF: computes the Cholesky factorization of a real symmetric
      !> positive definite matrix A stored in packed format.
@@ -61450,9 +59511,6 @@ module stdlib_linalg_lapack_q
            40 continue
            return
      end subroutine stdlib_qpptrf
-#!endif 
-
-#!if WITH_QP 
 
      !> DPPTRI: computes the inverse of a real symmetric positive definite
      !> matrix A using the Cholesky factorization A = U**T*U or A = L*L**T
@@ -61515,9 +59573,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qpptri
-#!endif 
-
-#!if WITH_QP 
 
      !> DPPTRS: solves a system of linear equations A*X = B with a symmetric
      !> positive definite matrix A in packed storage using the Cholesky
@@ -61580,9 +59635,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qpptrs
-#!endif 
-
-#!if WITH_QP 
 
      !> DPSTF2: computes the Cholesky factorization with complete
      !> pivoting of a real symmetric positive semidefinite matrix A.
@@ -61762,9 +59814,6 @@ module stdlib_linalg_lapack_q
            170 continue
            return
      end subroutine stdlib_qpstf2
-#!endif 
-
-#!if WITH_QP 
 
      !> DPSTRF: computes the Cholesky factorization with complete
      !> pivoting of a real symmetric positive semidefinite matrix A.
@@ -61976,9 +60025,6 @@ module stdlib_linalg_lapack_q
            200 continue
            return
      end subroutine stdlib_qpstrf
-#!endif 
-
-#!if WITH_QP 
 
      !> DPTCON: computes the reciprocal of the condition number (in the
      !> 1-norm) of a real symmetric positive definite tridiagonal matrix
@@ -62052,9 +60098,6 @@ module stdlib_linalg_lapack_q
            if( ainvnm/=zero )rcond = ( one / ainvnm ) / anorm
            return
      end subroutine stdlib_qptcon
-#!endif 
-
-#!if WITH_QP 
 
      !> DPTEQR: computes all eigenvalues and, optionally, eigenvectors of a
      !> symmetric positive definite tridiagonal matrix by first factoring the
@@ -62149,9 +60192,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qpteqr
-#!endif 
-
-#!if WITH_QP 
 
      !> DPTRFS: improves the computed solution to a system of linear
      !> equations when the coefficient matrix is symmetric positive definite
@@ -62324,9 +60364,6 @@ module stdlib_linalg_lapack_q
            end do loop_90
            return
      end subroutine stdlib_qptrfs
-#!endif 
-
-#!if WITH_QP 
 
      !> DPTSV: computes the solution to a real system of linear equations
      !> A*X = B, where A is an N-by-N symmetric positive definite tridiagonal
@@ -62368,9 +60405,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qptsv
-#!endif 
-
-#!if WITH_QP 
 
      !> DPTSVX: uses the factorization A = L*D*L**T to compute the solution
      !> to a real system of linear equations A*X = B, where A is an N-by-N
@@ -62445,9 +60479,6 @@ module stdlib_linalg_lapack_q
            if( rcond<stdlib_qlamch( 'EPSILON' ) )info = n + 1
            return
      end subroutine stdlib_qptsvx
-#!endif 
-
-#!if WITH_QP 
 
      !> DPTTRF: computes the L*D*L**T factorization of a real symmetric
      !> positive definite tridiagonal matrix A.  The factorization may also
@@ -62531,9 +60562,6 @@ module stdlib_linalg_lapack_q
            30 continue
            return
      end subroutine stdlib_qpttrf
-#!endif 
-
-#!if WITH_QP 
 
      !> DPTTRS: solves a tridiagonal system of the form
      !> A * X = B
@@ -62589,9 +60617,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qpttrs
-#!endif 
-
-#!if WITH_QP 
 
      !> DPTTS2: solves a tridiagonal system of the form
      !> A * X = B
@@ -62633,9 +60658,6 @@ module stdlib_linalg_lapack_q
            end do
            return
      end subroutine stdlib_qptts2
-#!endif 
-
-#!if WITH_QP 
 
      !> DRSCL: multiplies an n-element real vector x by the real scalar 1/a.
      !> This is done without overflow or underflow as long as
@@ -62690,9 +60712,6 @@ module stdlib_linalg_lapack_q
            if( .not.done )go to 10
            return
      end subroutine stdlib_qrscl
-#!endif 
-
-#!if WITH_QP 
 
      !> DSB2ST_KERNELS: is an internal routine used by the DSYTRD_SB2ST
      !> subroutine.
@@ -62838,9 +60857,6 @@ module stdlib_linalg_lapack_q
            endif
            return
      end subroutine stdlib_qsb2st_kernels
-#!endif 
-
-#!if WITH_QP 
 
      !> DSBEV: computes all the eigenvalues and, optionally, eigenvectors of
      !> a real symmetric band matrix A.
@@ -62943,9 +60959,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qsbev
-#!endif 
-
-#!if WITH_QP 
 
      !> DSBEVD: computes all the eigenvalues and, optionally, eigenvectors of
      !> a real symmetric band matrix A. If eigenvectors are desired, it uses
@@ -63078,9 +61091,6 @@ module stdlib_linalg_lapack_q
            iwork( 1 ) = liwmin
            return
      end subroutine stdlib_qsbevd
-#!endif 
-
-#!if WITH_QP 
 
      !> DSBEVX: computes selected eigenvalues and, optionally, eigenvectors
      !> of a real symmetric band matrix A.  Eigenvalues and eigenvectors can
@@ -63307,9 +61317,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qsbevx
-#!endif 
-
-#!if WITH_QP 
 
      !> DSBGST: reduces a real symmetric-definite banded generalized
      !> eigenproblem  A*x = lambda*B*x  to standard form  C*y = lambda*y,
@@ -64223,9 +62230,6 @@ module stdlib_linalg_lapack_q
            end if
            go to 490
      end subroutine stdlib_qsbgst
-#!endif 
-
-#!if WITH_QP 
 
      !> DSBGV: computes all the eigenvalues, and optionally, the eigenvectors
      !> of a real generalized symmetric-definite banded eigenproblem, of
@@ -64304,9 +62308,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qsbgv
-#!endif 
-
-#!if WITH_QP 
 
      !> DSBGVD: computes all the eigenvalues, and optionally, the eigenvectors
      !> of a real generalized symmetric-definite banded eigenproblem, of the
@@ -64424,9 +62425,6 @@ module stdlib_linalg_lapack_q
            iwork( 1 ) = liwmin
            return
      end subroutine stdlib_qsbgvd
-#!endif 
-
-#!if WITH_QP 
 
      !> DSBGVX: computes selected eigenvalues, and optionally, eigenvectors
      !> of a real generalized symmetric-definite banded eigenproblem, of
@@ -64612,9 +62610,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qsbgvx
-#!endif 
-
-#!if WITH_QP 
 
      !> DSBTRD: reduces a real symmetric band matrix A to symmetric
      !> tridiagonal form T by an orthogonal similarity transformation:
@@ -64946,9 +62941,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qsbtrd
-#!endif 
-
-#!if WITH_QP 
 
      !> Level 3 BLAS like routine for C in RFP Format.
      !> DSFRK: performs one of the symmetric rank--k operations
@@ -65205,9 +63197,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qsfrk
-#!endif 
-
-#!if WITH_QP 
 
      !> DSGESV: computes the solution to a real system of linear equations
      !> A * X = B,
@@ -65388,9 +63377,6 @@ module stdlib_linalg_lapack_q
            call stdlib_qgetrs( 'NO TRANSPOSE', n, nrhs, a, lda, ipiv, x, ldx,info )
            return
      end subroutine stdlib_qsgesv
-#!endif 
-
-#!if WITH_QP 
 
      !> DSPCON: estimates the reciprocal of the condition number (in the
      !> 1-norm) of a real symmetric packed matrix A using the factorization
@@ -65473,9 +63459,6 @@ module stdlib_linalg_lapack_q
            if( ainvnm/=zero )rcond = ( one / ainvnm ) / anorm
            return
      end subroutine stdlib_qspcon
-#!endif 
-
-#!if WITH_QP 
 
      !> DSPEV: computes all the eigenvalues and, optionally, eigenvectors of a
      !> real symmetric matrix A in packed storage.
@@ -65569,9 +63552,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qspev
-#!endif 
-
-#!if WITH_QP 
 
      !> DSPEVD: computes all the eigenvalues and, optionally, eigenvectors
      !> of a real symmetric matrix A in packed storage. If eigenvectors are
@@ -65697,9 +63677,6 @@ module stdlib_linalg_lapack_q
            iwork( 1 ) = liwmin
            return
      end subroutine stdlib_qspevd
-#!endif 
-
-#!if WITH_QP 
 
      !> DSPEVX: computes selected eigenvalues and, optionally, eigenvectors
      !> of a real symmetric matrix A in packed storage.  Eigenvalues/vectors
@@ -65913,9 +63890,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qspevx
-#!endif 
-
-#!if WITH_QP 
 
      !> DSPGST: reduces a real symmetric-definite generalized eigenproblem
      !> to standard form, using packed storage.
@@ -66038,9 +64012,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qspgst
-#!endif 
-
-#!if WITH_QP 
 
      !> DSPGV: computes all the eigenvalues and, optionally, the eigenvectors
      !> of a real generalized symmetric-definite eigenproblem, of the form
@@ -66125,9 +64096,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qspgv
-#!endif 
-
-#!if WITH_QP 
 
      !> DSPGVD: computes all the eigenvalues, and optionally, the eigenvectors
      !> of a real generalized symmetric-definite eigenproblem, of the form
@@ -66252,9 +64220,6 @@ module stdlib_linalg_lapack_q
            iwork( 1 ) = liwmin
            return
      end subroutine stdlib_qspgvd
-#!endif 
-
-#!if WITH_QP 
 
      !> DSPGVX: computes selected eigenvalues, and optionally, eigenvectors
      !> of a real generalized symmetric-definite eigenproblem, of the form
@@ -66367,9 +64332,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qspgvx
-#!endif 
-
-#!if WITH_QP 
 
      !> DSPOSV: computes the solution to a real system of linear equations
      !> A * X = B,
@@ -66549,9 +64511,6 @@ module stdlib_linalg_lapack_q
            call stdlib_qpotrs( uplo, n, nrhs, a, lda, x, ldx, info )
            return
      end subroutine stdlib_qsposv
-#!endif 
-
-#!if WITH_QP 
 
      !> DSPRFS: improves the computed solution to a system of linear
      !> equations when the coefficient matrix is symmetric indefinite
@@ -66745,9 +64704,6 @@ module stdlib_linalg_lapack_q
            end do loop_140
            return
      end subroutine stdlib_qsprfs
-#!endif 
-
-#!if WITH_QP 
 
      !> DSPSV: computes the solution to a real system of linear equations
      !> A * X = B,
@@ -66799,9 +64755,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qspsv
-#!endif 
-
-#!if WITH_QP 
 
      !> DSPSVX: uses the diagonal pivoting factorization A = U*D*U**T or
      !> A = L*D*L**T to compute the solution to a real system of linear
@@ -66880,9 +64833,6 @@ module stdlib_linalg_lapack_q
            if( rcond<stdlib_qlamch( 'EPSILON' ) )info = n + 1
            return
      end subroutine stdlib_qspsvx
-#!endif 
-
-#!if WITH_QP 
 
      !> DSPTRD: reduces a real symmetric matrix A stored in packed form to
      !> symmetric tridiagonal form T by an orthogonal similarity
@@ -66980,9 +64930,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qsptrd
-#!endif 
-
-#!if WITH_QP 
 
      !> DSPTRF: computes the factorization of a real symmetric matrix A stored
      !> in packed format using the Bunch-Kaufman diagonal pivoting method:
@@ -67306,9 +65253,6 @@ module stdlib_linalg_lapack_q
            110 continue
            return
      end subroutine stdlib_qsptrf
-#!endif 
-
-#!if WITH_QP 
 
      !> DSPTRI: computes the inverse of a real symmetric indefinite matrix
      !> A in packed storage using the factorization A = U*D*U**T or
@@ -67520,9 +65464,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qsptri
-#!endif 
-
-#!if WITH_QP 
 
      !> DSPTRS: solves a system of linear equations A*X = B with a real
      !> symmetric matrix A stored in packed format using the factorization
@@ -67743,9 +65684,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qsptrs
-#!endif 
-
-#!if WITH_QP 
 
      !> DSTEBZ: computes the eigenvalues of a symmetric tridiagonal
      !> matrix T.  The user may ask for all eigenvalues, all eigenvalues
@@ -68139,9 +66077,6 @@ module stdlib_linalg_lapack_q
            if( toofew )info = info + 2
            return
      end subroutine stdlib_qstebz
-#!endif 
-
-#!if WITH_QP 
 
      !> DSTEDC: computes all eigenvalues and, optionally, eigenvectors of a
      !> symmetric tridiagonal matrix using the divide and conquer method.
@@ -68368,9 +66303,6 @@ module stdlib_linalg_lapack_q
            iwork( 1 ) = liwmin
            return
      end subroutine stdlib_qstedc
-#!endif 
-
-#!if WITH_QP 
 
      !> DSTEGR: computes selected eigenvalues and, optionally, eigenvectors
      !> of a real symmetric tridiagonal matrix T. Any such unreduced matrix has
@@ -68413,9 +66345,6 @@ module stdlib_linalg_lapack_q
            call stdlib_qstemr( jobz, range, n, d, e, vl, vu, il, iu,m, w, z, ldz, n, isuppz, &
                      tryrac, work, lwork,iwork, liwork, info )
      end subroutine stdlib_qstegr
-#!endif 
-
-#!if WITH_QP 
 
      !> DSTEIN: computes the eigenvectors of a real symmetric tridiagonal
      !> matrix T corresponding to specified eigenvalues, using inverse
@@ -68614,9 +66543,6 @@ module stdlib_linalg_lapack_q
            end do loop_160
            return
      end subroutine stdlib_qstein
-#!endif 
-
-#!if WITH_QP 
 
      !> DSTEMR: computes selected eigenvalues and, optionally, eigenvectors
      !> of a real symmetric tridiagonal matrix T. Any such unreduced matrix has
@@ -69037,9 +66963,6 @@ module stdlib_linalg_lapack_q
            iwork( 1 ) = liwmin
            return
      end subroutine stdlib_qstemr
-#!endif 
-
-#!if WITH_QP 
 
      !> DSTEQR: computes all eigenvalues and, optionally, eigenvectors of a
      !> symmetric tridiagonal matrix using the implicit QL or QR method.
@@ -69357,9 +67280,6 @@ module stdlib_linalg_lapack_q
            190 continue
            return
      end subroutine stdlib_qsteqr
-#!endif 
-
-#!if WITH_QP 
 
      !> DSTERF: computes all eigenvalues of a symmetric tridiagonal matrix
      !> using the Pal-Walker-Kahan variant of the QL or QR algorithm.
@@ -69595,9 +67515,6 @@ module stdlib_linalg_lapack_q
            180 continue
            return
      end subroutine stdlib_qsterf
-#!endif 
-
-#!if WITH_QP 
 
      !> DSTEV: computes all eigenvalues and, optionally, eigenvectors of a
      !> real symmetric tridiagonal matrix A.
@@ -69681,9 +67598,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qstev
-#!endif 
-
-#!if WITH_QP 
 
      !> DSTEVD: computes all eigenvalues and, optionally, eigenvectors of a
      !> real symmetric tridiagonal matrix. If eigenvectors are desired, it
@@ -69789,9 +67703,6 @@ module stdlib_linalg_lapack_q
            iwork( 1 ) = liwmin
            return
      end subroutine stdlib_qstevd
-#!endif 
-
-#!if WITH_QP 
 
      !> DSTEVR: computes selected eigenvalues and, optionally, eigenvectors
      !> of a real symmetric tridiagonal matrix T.  Eigenvalues and
@@ -70042,9 +67953,6 @@ module stdlib_linalg_lapack_q
            iwork( 1 ) = liwmin
            return
      end subroutine stdlib_qstevr
-#!endif 
-
-#!if WITH_QP 
 
      !> DSTEVX: computes selected eigenvalues and, optionally, eigenvectors
      !> of a real symmetric tridiagonal matrix A.  Eigenvalues and
@@ -70239,9 +68147,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qstevx
-#!endif 
-
-#!if WITH_QP 
 
      !> DSYCON: estimates the reciprocal of the condition number (in the
      !> 1-norm) of a real symmetric matrix A using the factorization
@@ -70325,9 +68230,6 @@ module stdlib_linalg_lapack_q
            if( ainvnm/=zero )rcond = ( one / ainvnm ) / anorm
            return
      end subroutine stdlib_qsycon
-#!endif 
-
-#!if WITH_QP 
 
      !> DSYCON_ROOK: estimates the reciprocal of the condition number (in the
      !> 1-norm) of a real symmetric matrix A using the factorization
@@ -70411,9 +68313,6 @@ module stdlib_linalg_lapack_q
            if( ainvnm/=zero )rcond = ( one / ainvnm ) / anorm
            return
      end subroutine stdlib_qsycon_rook
-#!endif 
-
-#!if WITH_QP 
 
      !> DSYCONV: convert A given by TRF into L and D and vice-versa.
      !> Get Non-diag elements of D (returned in workspace) and
@@ -70619,9 +68518,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qsyconv
-#!endif 
-
-#!if WITH_QP 
 
      !> If parameter WAY = 'C':
      !> DSYCONVF: converts the factorization output format used in
@@ -70877,9 +68773,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qsyconvf
-#!endif 
-
-#!if WITH_QP 
 
      !> If parameter WAY = 'C':
      !> DSYCONVF_ROOK: converts the factorization output format used in
@@ -71133,9 +69026,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qsyconvf_rook
-#!endif 
-
-#!if WITH_QP 
 
      !> DSYEQUB: computes row and column scalings intended to equilibrate a
      !> symmetric matrix A (with respect to the Euclidean norm) and reduce
@@ -71312,9 +69202,6 @@ module stdlib_linalg_lapack_q
            end do
            scond = max( smin, smlnum ) / min( smax, bignum )
      end subroutine stdlib_qsyequb
-#!endif 
-
-#!if WITH_QP 
 
      !> DSYEV: computes all eigenvalues and, optionally, eigenvectors of a
      !> real symmetric matrix A.
@@ -71422,9 +69309,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = lwkopt
            return
      end subroutine stdlib_qsyev
-#!endif 
-
-#!if WITH_QP 
 
      !> DSYEVD: computes all eigenvalues and, optionally, eigenvectors of a
      !> real symmetric matrix A. If eigenvectors are desired, it uses a
@@ -71559,9 +69443,6 @@ module stdlib_linalg_lapack_q
            iwork( 1 ) = liopt
            return
      end subroutine stdlib_qsyevd
-#!endif 
-
-#!if WITH_QP 
 
      !> DSYEVR: computes selected eigenvalues and, optionally, eigenvectors
      !> of a real symmetric matrix A.  Eigenvalues and eigenvectors can be
@@ -71884,9 +69765,6 @@ module stdlib_linalg_lapack_q
            iwork( 1 ) = liwmin
            return
      end subroutine stdlib_qsyevr
-#!endif 
-
-#!if WITH_QP 
 
      !> DSYEVX: computes selected eigenvalues and, optionally, eigenvectors
      !> of a real symmetric matrix A.  Eigenvalues and eigenvectors can be
@@ -72134,9 +70012,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = lwkopt
            return
      end subroutine stdlib_qsyevx
-#!endif 
-
-#!if WITH_QP 
 
      !> DSYGS2: reduces a real symmetric-definite generalized eigenproblem
      !> to standard form.
@@ -72260,9 +70135,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qsygs2
-#!endif 
-
-#!if WITH_QP 
 
      !> DSYGST: reduces a real symmetric-definite generalized eigenproblem
      !> to standard form.
@@ -72402,9 +70274,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qsygst
-#!endif 
-
-#!if WITH_QP 
 
      !> DSYGV: computes all the eigenvalues, and optionally, the eigenvectors
      !> of a real generalized symmetric-definite eigenproblem, of the form
@@ -72505,9 +70374,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = lwkopt
            return
      end subroutine stdlib_qsygv
-#!endif 
-
-#!if WITH_QP 
 
      !> DSYGVD: computes all the eigenvalues, and optionally, the eigenvectors
      !> of a real generalized symmetric-definite eigenproblem, of the form
@@ -72629,9 +70495,6 @@ module stdlib_linalg_lapack_q
            iwork( 1 ) = liopt
            return
      end subroutine stdlib_qsygvd
-#!endif 
-
-#!if WITH_QP 
 
      !> DSYGVX: computes selected eigenvalues, and optionally, eigenvectors
      !> of a real generalized symmetric-definite eigenproblem, of the form
@@ -72760,9 +70623,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = lwkopt
            return
      end subroutine stdlib_qsygvx
-#!endif 
-
-#!if WITH_QP 
 
      !> DSYRFS: improves the computed solution to a system of linear
      !> equations when the coefficient matrix is symmetric indefinite, and
@@ -72952,9 +70812,6 @@ module stdlib_linalg_lapack_q
            end do loop_140
            return
      end subroutine stdlib_qsyrfs
-#!endif 
-
-#!if WITH_QP 
 
      !> DSYSV: computes the solution to a real system of linear equations
      !> A * X = B,
@@ -73033,9 +70890,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = lwkopt
            return
      end subroutine stdlib_qsysv
-#!endif 
-
-#!if WITH_QP 
 
      !> DSYSV computes the solution to a real system of linear equations
      !> A * X = B,
@@ -73108,9 +70962,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = lwkopt
            return
      end subroutine stdlib_qsysv_aa
-#!endif 
-
-#!if WITH_QP 
 
      !> DSYSV_RK: computes the solution to a real system of linear
      !> equations A * X = B, where A is an N-by-N symmetric matrix
@@ -73188,9 +71039,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = lwkopt
            return
      end subroutine stdlib_qsysv_rk
-#!endif 
-
-#!if WITH_QP 
 
      !> DSYSV_ROOK: computes the solution to a real system of linear
      !> equations
@@ -73270,9 +71118,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = lwkopt
            return
      end subroutine stdlib_qsysv_rook
-#!endif 
-
-#!if WITH_QP 
 
      !> DSYSVX: uses the diagonal pivoting factorization to compute the
      !> solution to a real system of linear equations A * X = B,
@@ -73370,9 +71215,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = lwkopt
            return
      end subroutine stdlib_qsysvx
-#!endif 
-
-#!if WITH_QP 
 
      !> DSYSWAPR: applies an elementary permutation on the rows and the columns of
      !> a symmetric matrix.
@@ -73441,9 +71283,6 @@ module stdlib_linalg_lapack_q
                end do
            endif
      end subroutine stdlib_qsyswapr
-#!endif 
-
-#!if WITH_QP 
 
      !> DSYTD2: reduces a real symmetric matrix A to symmetric tridiagonal
      !> form T by an orthogonal similarity transformation: Q**T * A * Q = T.
@@ -73538,9 +71377,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qsytd2
-#!endif 
-
-#!if WITH_QP 
 
      !> DSYTF2: computes the factorization of a real symmetric matrix A using
      !> the Bunch-Kaufman diagonal pivoting method:
@@ -73826,9 +71662,6 @@ module stdlib_linalg_lapack_q
            70 continue
            return
      end subroutine stdlib_qsytf2
-#!endif 
-
-#!if WITH_QP 
 
      !> DSYTF2_RK: computes the factorization of a real symmetric matrix A
      !> using the bounded Bunch-Kaufman (rook) diagonal pivoting method:
@@ -74281,9 +72114,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qsytf2_rk
-#!endif 
-
-#!if WITH_QP 
 
      !> DSYTF2_ROOK: computes the factorization of a real symmetric matrix A
      !> using the bounded Bunch-Kaufman ("rook") diagonal pivoting method:
@@ -74695,9 +72525,6 @@ module stdlib_linalg_lapack_q
            70 continue
            return
      end subroutine stdlib_qsytf2_rook
-#!endif 
-
-#!if WITH_QP 
 
      !> DSYTRD: reduces a real symmetric matrix A to real symmetric
      !> tridiagonal form T by an orthogonal similarity transformation:
@@ -74824,9 +72651,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = lwkopt
            return
      end subroutine stdlib_qsytrd
-#!endif 
-
-#!if WITH_QP 
 
      !> DSYTRD_SB2ST: reduces a real symmetric band matrix A to real symmetric
      !> tridiagonal form T by a orthogonal similarity transformation:
@@ -75085,9 +72909,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = lwmin
            return
      end subroutine stdlib_qsytrd_sb2st
-#!endif 
-
-#!if WITH_QP 
 
      !> DSYTRD_SY2SB: reduces a real symmetric matrix A to real symmetric
      !> band-diagonal form AB by a orthogonal similarity transformation:
@@ -75264,9 +73085,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = lwmin
            return
      end subroutine stdlib_qsytrd_sy2sb
-#!endif 
-
-#!if WITH_QP 
 
      !> DSYTRF: computes the factorization of a real symmetric matrix A using
      !> the Bunch-Kaufman diagonal pivoting method.  The form of the
@@ -75393,9 +73211,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = lwkopt
            return
      end subroutine stdlib_qsytrf
-#!endif 
-
-#!if WITH_QP 
 
      !> DSYTRF_AA: computes the factorization of a real symmetric matrix A
      !> using the Aasen's algorithm.  The form of the factorization is
@@ -75620,9 +73435,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = lwkopt
            return
      end subroutine stdlib_qsytrf_aa
-#!endif 
-
-#!if WITH_QP 
 
      !> DSYTRF_RK: computes the factorization of a real symmetric matrix A
      !> using the bounded Bunch-Kaufman (rook) diagonal pivoting method:
@@ -75789,9 +73601,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = lwkopt
            return
      end subroutine stdlib_qsytrf_rk
-#!endif 
-
-#!if WITH_QP 
 
      !> DSYTRF_ROOK: computes the factorization of a real symmetric matrix A
      !> using the bounded Bunch-Kaufman ("rook") diagonal pivoting method.
@@ -75920,9 +73729,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = lwkopt
            return
      end subroutine stdlib_qsytrf_rook
-#!endif 
-
-#!if WITH_QP 
 
      !> DSYTRI: computes the inverse of a real symmetric indefinite matrix
      !> A using the factorization A = U*D*U**T or A = L*D*L**T computed by
@@ -76111,9 +73917,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qsytri
-#!endif 
-
-#!if WITH_QP 
 
      !> DSYTRI_ROOK: computes the inverse of a real symmetric
      !> matrix A using the factorization A = U*D*U**T or A = L*D*L**T
@@ -76342,9 +74145,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qsytri_rook
-#!endif 
-
-#!if WITH_QP 
 
      !> DSYTRS: solves a system of linear equations A*X = B with a real
      !> symmetric matrix A using the factorization A = U*D*U**T or
@@ -76555,9 +74355,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qsytrs
-#!endif 
-
-#!if WITH_QP 
 
      !> DSYTRS2: solves a system of linear equations A*X = B with a real
      !> symmetric matrix A using the factorization A = U*D*U**T or
@@ -76736,9 +74533,6 @@ module stdlib_linalg_lapack_q
            call stdlib_qsyconv( uplo, 'R', n, a, lda, ipiv, work, iinfo )
            return
      end subroutine stdlib_qsytrs2
-#!endif 
-
-#!if WITH_QP 
 
      !> DSYTRS_3: solves a system of linear equations A * X = B with a real
      !> symmetric matrix A using the factorization computed
@@ -76896,9 +74690,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qsytrs_3
-#!endif 
-
-#!if WITH_QP 
 
      !> DSYTRS_AA: solves a system of linear equations A*X = B with a real
      !> symmetric matrix A using the factorization A = U**T*T*U or
@@ -77018,9 +74809,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qsytrs_aa
-#!endif 
-
-#!if WITH_QP 
 
      !> DSYTRS_ROOK: solves a system of linear equations A*X = B with
      !> a real symmetric matrix A using the factorization A = U*D*U**T or
@@ -77243,9 +75031,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qsytrs_rook
-#!endif 
-
-#!if WITH_QP 
 
      !> DTBCON: estimates the reciprocal of the condition number of a
      !> triangular band matrix A, in either the 1-norm or the infinity-norm.
@@ -77350,9 +75135,6 @@ module stdlib_linalg_lapack_q
            20 continue
            return
      end subroutine stdlib_qtbcon
-#!endif 
-
-#!if WITH_QP 
 
      !> DTBRFS: provides error bounds and backward error estimates for the
      !> solution to a system of linear equations with a triangular band
@@ -77591,9 +75373,6 @@ module stdlib_linalg_lapack_q
            end do loop_250
            return
      end subroutine stdlib_qtbrfs
-#!endif 
-
-#!if WITH_QP 
 
      !> DTBTRS: solves a triangular system of the form
      !> A * X = B  or  A**T * X = B,
@@ -77667,9 +75446,6 @@ module stdlib_linalg_lapack_q
            end do
            return
      end subroutine stdlib_qtbtrs
-#!endif 
-
-#!if WITH_QP 
 
      !> Level 3 BLAS like routine for A in RFP Format.
      !> DTFSM:  solves the matrix equation
@@ -78172,9 +75948,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qtfsm
-#!endif 
-
-#!if WITH_QP 
 
      !> DTFTRI: computes the inverse of a triangular matrix A stored in RFP
      !> format.
@@ -78358,9 +76131,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qtftri
-#!endif 
-
-#!if WITH_QP 
 
      !> DTFTTP: copies a triangular matrix A from rectangular full packed
      !> format (TF) to standard packed format (TP).
@@ -78617,9 +76387,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qtfttp
-#!endif 
-
-#!if WITH_QP 
 
      !> DTFTTR: copies a triangular matrix A from rectangular full packed
      !> format (TF) to standard full format (TR).
@@ -78849,9 +76616,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qtfttr
-#!endif 
-
-#!if WITH_QP 
 
      !> DTGEVC: computes some or all of the right and/or left eigenvectors of
      !> a pair of real matrices (S,P), where S is a quasi-triangular matrix
@@ -79582,9 +77346,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qtgevc
-#!endif 
-
-#!if WITH_QP 
 
      !> DTGEX2: swaps adjacent diagonal blocks (A11, B11) and (A22, B22)
      !> of size 1-by-1 or 2-by-2 in an upper (quasi) triangular matrix pair
@@ -79950,9 +77711,6 @@ module stdlib_linalg_lapack_q
            info = 1
            return
      end subroutine stdlib_qtgex2
-#!endif 
-
-#!if WITH_QP 
 
      !> DTGEXC: reorders the generalized real Schur decomposition of a real
      !> matrix pair (A,B) using an orthogonal equivalence transformation
@@ -80202,9 +77960,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = lwmin
            return
      end subroutine stdlib_qtgexc
-#!endif 
-
-#!if WITH_QP 
 
      !> DTGSEN: reorders the generalized real Schur decomposition of a real
      !> matrix pair (A, B) (in terms of an orthonormal equivalence trans-
@@ -80531,9 +78286,6 @@ module stdlib_linalg_lapack_q
            iwork( 1 ) = liwmin
            return
      end subroutine stdlib_qtgsen
-#!endif 
-
-#!if WITH_QP 
 
      !> DTGSJA: computes the generalized singular value decomposition (GSVD)
      !> of two real upper triangular (or trapezoidal) matrices A and B.
@@ -80775,9 +78527,6 @@ module stdlib_linalg_lapack_q
            ncycle = kcycle
            return
      end subroutine stdlib_qtgsja
-#!endif 
-
-#!if WITH_QP 
 
      !> DTGSNA: estimates reciprocal condition numbers for specified
      !> eigenvalues and/or eigenvectors of a matrix pair (A, B) in
@@ -81026,9 +78775,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = lwmin
            return
      end subroutine stdlib_qtgsna
-#!endif 
-
-#!if WITH_QP 
 
      !> DTGSY2: solves the generalized Sylvester equation:
      !> A * R - L * B = scale * C                (1)
@@ -81669,9 +79415,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qtgsy2
-#!endif 
-
-#!if WITH_QP 
 
      !> DTGSYL: solves the generalized Sylvester equation:
      !> A * R - L * B = scale * C                 (1)
@@ -82001,9 +79744,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = lwmin
            return
      end subroutine stdlib_qtgsyl
-#!endif 
-
-#!if WITH_QP 
 
      !> DTPCON: estimates the reciprocal of the condition number of a packed
      !> triangular matrix A, in either the 1-norm or the infinity-norm.
@@ -82103,9 +79843,6 @@ module stdlib_linalg_lapack_q
            20 continue
            return
      end subroutine stdlib_qtpcon
-#!endif 
-
-#!if WITH_QP 
 
      !> DTPLQT: computes a blocked LQ factorization of a real
      !> "triangular-pentagonal" matrix C, which is composed of a
@@ -82168,9 +79905,6 @@ module stdlib_linalg_lapack_q
            end do
            return
      end subroutine stdlib_qtplqt
-#!endif 
-
-#!if WITH_QP 
 
      !> DTPLQT2: computes a LQ a factorization of a real "triangular-pentagonal"
      !> matrix C, which is composed of a triangular block A and pentagonal block B,
@@ -82268,9 +80002,6 @@ module stdlib_linalg_lapack_q
               end do
            end do
      end subroutine stdlib_qtplqt2
-#!endif 
-
-#!if WITH_QP 
 
      !> DTPMQRT applies a real orthogonal matrix Q obtained from a
      !> "triangular-pentagonal" real block reflector H to a general
@@ -82389,9 +80120,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qtpmlqt
-#!endif 
-
-#!if WITH_QP 
 
      !> DTPMQRT: applies a real orthogonal matrix Q obtained from a
      !> "triangular-pentagonal" real block reflector H to a general
@@ -82512,9 +80240,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qtpmqrt
-#!endif 
-
-#!if WITH_QP 
 
      !> DTPQRT: computes a blocked QR factorization of a real
      !> "triangular-pentagonal" matrix C, which is composed of a
@@ -82577,9 +80302,6 @@ module stdlib_linalg_lapack_q
            end do
            return
      end subroutine stdlib_qtpqrt
-#!endif 
-
-#!if WITH_QP 
 
      !> DTPQRT2: computes a QR factorization of a real "triangular-pentagonal"
      !> matrix C, which is composed of a triangular block A and pentagonal block B,
@@ -82671,9 +80393,6 @@ module stdlib_linalg_lapack_q
               t( i, 1 ) = zero
            end do
      end subroutine stdlib_qtpqrt2
-#!endif 
-
-#!if WITH_QP 
 
      !> DTPRFB: applies a real "triangular-pentagonal" block reflector H or its
      !> transpose H**T to a real matrix C, which is composed of two
@@ -83092,9 +80811,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qtprfb
-#!endif 
-
-#!if WITH_QP 
 
      !> DTPRFS: provides error bounds and backward error estimates for the
      !> solution to a system of linear equations with a triangular packed
@@ -83340,9 +81056,6 @@ module stdlib_linalg_lapack_q
            end do loop_250
            return
      end subroutine stdlib_qtprfs
-#!endif 
-
-#!if WITH_QP 
 
      !> DTPTRI: computes the inverse of a real upper or lower triangular
      !> matrix A stored in packed format.
@@ -83433,9 +81146,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qtptri
-#!endif 
-
-#!if WITH_QP 
 
      !> DTPTRS: solves a triangular system of the form
      !> A * X = B  or  A**T * X = B,
@@ -83509,9 +81219,6 @@ module stdlib_linalg_lapack_q
            end do
            return
      end subroutine stdlib_qtptrs
-#!endif 
-
-#!if WITH_QP 
 
      !> DTPTTF: copies a triangular matrix A from standard packed format (TP)
      !> to rectangular full packed format (TF).
@@ -83754,9 +81461,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qtpttf
-#!endif 
-
-#!if WITH_QP 
 
      !> DTPTTR: copies a triangular matrix A from standard packed format (TP)
      !> to standard full format (TR).
@@ -83811,9 +81515,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qtpttr
-#!endif 
-
-#!if WITH_QP 
 
      !> DTRCON: estimates the reciprocal of the condition number of a
      !> triangular matrix A, in either the 1-norm or the infinity-norm.
@@ -83915,9 +81616,6 @@ module stdlib_linalg_lapack_q
            20 continue
            return
      end subroutine stdlib_qtrcon
-#!endif 
-
-#!if WITH_QP 
 
      !> DTREVC: computes some or all of the right and/or left eigenvectors of
      !> a real upper quasi-triangular matrix T.
@@ -84531,9 +82229,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qtrevc
-#!endif 
-
-#!if WITH_QP 
 
      !> DTREVC3: computes some or all of the right and/or left eigenvectors of
      !> a real upper quasi-triangular matrix T.
@@ -85356,9 +83051,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qtrevc3
-#!endif 
-
-#!if WITH_QP 
 
      !> DTREXC: reorders the real Schur factorization of a real matrix
      !> A = Q*T*Q**T, so that the diagonal block of T with row index IFST is
@@ -85563,9 +83255,6 @@ module stdlib_linalg_lapack_q
            ilst = here
            return
      end subroutine stdlib_qtrexc
-#!endif 
-
-#!if WITH_QP 
 
      !> DTRRFS: provides error bounds and backward error estimates for the
      !> solution to a system of linear equations with a triangular
@@ -85801,9 +83490,6 @@ module stdlib_linalg_lapack_q
            end do loop_250
            return
      end subroutine stdlib_qtrrfs
-#!endif 
-
-#!if WITH_QP 
 
      !> DTRSEN: reorders the real Schur factorization of a real matrix
      !> A = Q*T*Q**T, so that a selected cluster of eigenvalues appears in
@@ -85999,9 +83685,6 @@ module stdlib_linalg_lapack_q
            iwork( 1 ) = liwmin
            return
      end subroutine stdlib_qtrsen
-#!endif 
-
-#!if WITH_QP 
 
      !> DTRSNA: estimates reciprocal condition numbers for specified
      !> eigenvalues and/or right eigenvectors of a real upper
@@ -86247,9 +83930,6 @@ module stdlib_linalg_lapack_q
            end do loop_60
            return
      end subroutine stdlib_qtrsna
-#!endif 
-
-#!if WITH_QP 
 
      !> DTRSYL: solves the real Sylvester matrix equation:
      !> op(A)*X + X*op(B) = scale*C or
@@ -86911,9 +84591,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qtrsyl
-#!endif 
-
-#!if WITH_QP 
 
      !> DTRTI2: computes the inverse of a real upper or lower triangular
      !> matrix.
@@ -86988,9 +84665,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qtrti2
-#!endif 
-
-#!if WITH_QP 
 
      !> DTRTRI: computes the inverse of a real upper or lower triangular
      !> matrix A.
@@ -87078,9 +84752,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qtrtri
-#!endif 
-
-#!if WITH_QP 
 
      !> DTRTRS: solves a triangular system of the form
      !> A * X = B  or  A**T * X = B,
@@ -87141,9 +84812,6 @@ module stdlib_linalg_lapack_q
            call stdlib_qtrsm( 'LEFT', uplo, trans, diag, n, nrhs, one, a, lda, b,ldb )
            return
      end subroutine stdlib_qtrtrs
-#!endif 
-
-#!if WITH_QP 
 
      !> DTRTTF: copies a triangular matrix A from standard full format (TR)
      !> to rectangular full packed format (TF) .
@@ -87372,9 +85040,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qtrttf
-#!endif 
-
-#!if WITH_QP 
 
      !> DTRTTP: copies a triangular matrix A from full format (TR) to standard
      !> packed format (TP).
@@ -87429,9 +85094,6 @@ module stdlib_linalg_lapack_q
            end if
            return
      end subroutine stdlib_qtrttp
-#!endif 
-
-#!if WITH_QP 
 
      !> DTZRZF: reduces the M-by-N ( M<=N ) real upper trapezoidal matrix A
      !> to upper triangular form by means of orthogonal transformations.
@@ -87548,9 +85210,6 @@ module stdlib_linalg_lapack_q
            work( 1 ) = lwkopt
            return
      end subroutine stdlib_qtzrzf
-#!endif 
-
-#!if WITH_QP 
 
      !> DZSUM1: takes the sum of the absolute values of a complex
      !> vector and returns a quad precision result.
@@ -87593,9 +85252,6 @@ module stdlib_linalg_lapack_q
            stdlib_qzsum1 = stemp
            return
      end function stdlib_qzsum1
-#!endif 
-
-#!if WITH_QP 
 
      !> DLAG2Q: converts a SINGLE PRECISION matrix, SA, to a DOUBLE
      !> PRECISION matrix, A.
@@ -87626,9 +85282,8 @@ module stdlib_linalg_lapack_q
            end do
            return
      end subroutine stdlib_qlag2q
-#!endif 
 
 
 
 end module stdlib_linalg_lapack_q
-#!endif
+#:endif

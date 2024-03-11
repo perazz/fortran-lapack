@@ -1,5 +1,5 @@
 #:include "common.fypp" 
-#!if WITH_QP 
+#:if WITH_QP 
 module stdlib_linalg_lapack_w
      use stdlib_linalg_constants
      use stdlib_linalg_blas
@@ -8,1367 +8,463 @@ module stdlib_linalg_lapack_w
      use stdlib_linalg_lapack_c
      use stdlib_linalg_lapack_d
      use stdlib_linalg_lapack_z
-#!if WITH_QP 
      use stdlib_linalg_lapack_q
-#!endif 
      implicit none(type,external)
      private
 
 
      public :: sp,dp,qp,lk,ilp
-#!if WITH_QP 
      public :: stdlib_wlag2w
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wbbcsd
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wbdsqr
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wcgesv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wcposv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wdrscl
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgbbrd
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgbcon
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgbequ
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgbequb
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgbrfs
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgbsv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgbsvx
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgbtf2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgbtrf
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgbtrs
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgebak
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgebal
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgebd2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgebrd
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgecon
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgeequ
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgeequb
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgees
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgeesx
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgeev
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgeevx
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgehd2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgehrd
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgejsv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgelq
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgelq2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgelqf
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgelqt
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgelqt3
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgels
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgelsd
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgelss
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgelsy
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgemlq
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgemlqt
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgemqr
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgemqrt
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgeql2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgeqlf
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgeqp3
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgeqr
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgeqr2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgeqr2p
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgeqrf
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgeqrfp
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgeqrt
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgeqrt2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgeqrt3
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgerfs
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgerq2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgerqf
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgesc2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgesdd
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgesv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgesvd
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgesvdq
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgesvj
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgesvx
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgetc2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgetf2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgetrf
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgetrf2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgetri
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgetrs
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgetsls
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgetsqrhrt
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wggbak
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wggbal
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgges
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgges3
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wggesx
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wggev
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wggev3
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wggevx
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wggglm
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgghd3
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgghrd
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgglse
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wggqrf
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wggrqf
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgsvj0
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgsvj1
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgtcon
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgtrfs
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgtsv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgtsvx
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgttrf
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgttrs
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgtts2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_whb2st_kernels
-#!endif 
-#!if WITH_QP 
      public :: stdlib_whbev
-#!endif 
-#!if WITH_QP 
      public :: stdlib_whbevd
-#!endif 
-#!if WITH_QP 
      public :: stdlib_whbevx
-#!endif 
-#!if WITH_QP 
      public :: stdlib_whbgst
-#!endif 
-#!if WITH_QP 
      public :: stdlib_whbgv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_whbgvd
-#!endif 
-#!if WITH_QP 
      public :: stdlib_whbgvx
-#!endif 
-#!if WITH_QP 
      public :: stdlib_whbtrd
-#!endif 
-#!if WITH_QP 
      public :: stdlib_whecon
-#!endif 
-#!if WITH_QP 
      public :: stdlib_whecon_rook
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wheequb
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wheev
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wheevd
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wheevr
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wheevx
-#!endif 
-#!if WITH_QP 
      public :: stdlib_whegs2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_whegst
-#!endif 
-#!if WITH_QP 
      public :: stdlib_whegv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_whegvd
-#!endif 
-#!if WITH_QP 
      public :: stdlib_whegvx
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wherfs
-#!endif 
-#!if WITH_QP 
      public :: stdlib_whesv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_whesv_aa
-#!endif 
-#!if WITH_QP 
      public :: stdlib_whesv_rk
-#!endif 
-#!if WITH_QP 
      public :: stdlib_whesv_rook
-#!endif 
-#!if WITH_QP 
      public :: stdlib_whesvx
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wheswapr
-#!endif 
-#!if WITH_QP 
      public :: stdlib_whetd2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_whetf2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_whetf2_rk
-#!endif 
-#!if WITH_QP 
      public :: stdlib_whetf2_rook
-#!endif 
-#!if WITH_QP 
      public :: stdlib_whetrd
-#!endif 
-#!if WITH_QP 
      public :: stdlib_whetrd_hb2st
-#!endif 
-#!if WITH_QP 
      public :: stdlib_whetrd_he2hb
-#!endif 
-#!if WITH_QP 
      public :: stdlib_whetrf
-#!endif 
-#!if WITH_QP 
      public :: stdlib_whetrf_aa
-#!endif 
-#!if WITH_QP 
      public :: stdlib_whetrf_rk
-#!endif 
-#!if WITH_QP 
      public :: stdlib_whetrf_rook
-#!endif 
-#!if WITH_QP 
      public :: stdlib_whetri
-#!endif 
-#!if WITH_QP 
      public :: stdlib_whetri_rook
-#!endif 
-#!if WITH_QP 
      public :: stdlib_whetrs
-#!endif 
-#!if WITH_QP 
      public :: stdlib_whetrs2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_whetrs_3
-#!endif 
-#!if WITH_QP 
      public :: stdlib_whetrs_aa
-#!endif 
-#!if WITH_QP 
      public :: stdlib_whetrs_rook
-#!endif 
-#!if WITH_QP 
      public :: stdlib_whfrk
-#!endif 
-#!if WITH_QP 
      public :: stdlib_whgeqz
-#!endif 
-#!if WITH_QP 
      public :: stdlib_whpcon
-#!endif 
-#!if WITH_QP 
      public :: stdlib_whpev
-#!endif 
-#!if WITH_QP 
      public :: stdlib_whpevd
-#!endif 
-#!if WITH_QP 
      public :: stdlib_whpevx
-#!endif 
-#!if WITH_QP 
      public :: stdlib_whpgst
-#!endif 
-#!if WITH_QP 
      public :: stdlib_whpgv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_whpgvd
-#!endif 
-#!if WITH_QP 
      public :: stdlib_whpgvx
-#!endif 
-#!if WITH_QP 
      public :: stdlib_whprfs
-#!endif 
-#!if WITH_QP 
      public :: stdlib_whpsv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_whpsvx
-#!endif 
-#!if WITH_QP 
      public :: stdlib_whptrd
-#!endif 
-#!if WITH_QP 
      public :: stdlib_whptrf
-#!endif 
-#!if WITH_QP 
      public :: stdlib_whptri
-#!endif 
-#!if WITH_QP 
      public :: stdlib_whptrs
-#!endif 
-#!if WITH_QP 
      public :: stdlib_whsein
-#!endif 
-#!if WITH_QP 
      public :: stdlib_whseqr
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wla_gbamv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wla_gbrcond_c
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wla_gbrpvgrw
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wla_geamv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wla_gercond_c
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wla_gerpvgrw
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wla_heamv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wla_hercond_c
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wla_herpvgrw
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wla_lin_berr
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wla_porcond_c
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wla_porpvgrw
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wla_syamv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wla_syrcond_c
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wla_syrpvgrw
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wla_wwaddw
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlabrd
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlacgv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlacn2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlacon
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlacp2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlacpy
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlacrm
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlacrt
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wladiv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlaed0
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlaed7
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlaed8
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlaein
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlaesy
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlaev2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlag2c
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlags2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlagtm
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlahef
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlahef_aa
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlahef_rk
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlahef_rook
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlahqr
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlahr2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlaic1
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlals0
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlalsa
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlalsd
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlamswlq
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlamtsqr
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlangb
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlange
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlangt
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlanhb
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlanhe
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlanhf
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlanhp
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlanhs
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlanht
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlansb
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlansp
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlansy
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlantb
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlantp
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlantr
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlapll
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlapmr
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlapmt
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlaqgb
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlaqge
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlaqhb
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlaqhe
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlaqhp
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlaqp2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlaqps
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlaqr0
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlaqr1
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlaqr2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlaqr3
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlaqr4
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlaqr5
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlaqsb
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlaqsp
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlaqsy
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlaqz0
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlaqz1
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlaqz2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlaqz3
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlar1v
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlar2v
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlarcm
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlarf
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlarfb
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlarfb_gett
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlarfg
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlarfgp
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlarft
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlarfx
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlarfy
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlargv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlarnv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlarrv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlartg
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlartv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlarz
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlarzb
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlarzt
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlascl
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlaset
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlasr
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlassq
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlaswlq
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlaswp
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlasyf
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlasyf_aa
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlasyf_rk
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlasyf_rook
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlat2c
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlatbs
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlatdf
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlatps
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlatrd
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlatrs
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlatrz
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlatsqr
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlaunhr_col_getrfnp
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlaunhr_col_getrfnp2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlauu2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wlauum
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wpbcon
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wpbequ
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wpbrfs
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wpbstf
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wpbsv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wpbsvx
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wpbtf2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wpbtrf
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wpbtrs
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wpftrf
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wpftri
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wpftrs
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wpocon
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wpoequ
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wpoequb
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wporfs
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wposv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wposvx
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wpotf2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wpotrf
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wpotrf2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wpotri
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wpotrs
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wppcon
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wppequ
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wpprfs
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wppsv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wppsvx
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wpptrf
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wpptri
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wpptrs
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wpstf2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wpstrf
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wptcon
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wpteqr
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wptrfs
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wptsv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wptsvx
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wpttrf
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wpttrs
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wptts2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wrot
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wspcon
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wspmv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wspr
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wsprfs
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wspsv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wspsvx
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wsptrf
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wsptri
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wsptrs
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wstedc
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wstegr
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wstein
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wstemr
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wsteqr
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wsycon
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wsycon_rook
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wsyconv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wsyconvf
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wsyconvf_rook
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wsyequb
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wsymv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wsyr
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wsyrfs
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wsysv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wsysv_aa
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wsysv_rk
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wsysv_rook
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wsysvx
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wsyswapr
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wsytf2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wsytf2_rk
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wsytf2_rook
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wsytrf
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wsytrf_aa
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wsytrf_rk
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wsytrf_rook
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wsytri
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wsytri_rook
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wsytrs
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wsytrs2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wsytrs_3
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wsytrs_aa
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wsytrs_rook
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wtbcon
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wtbrfs
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wtbtrs
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wtfsm
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wtftri
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wtfttp
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wtfttr
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wtgevc
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wtgex2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wtgexc
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wtgsen
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wtgsja
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wtgsna
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wtgsy2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wtgsyl
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wtpcon
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wtplqt
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wtplqt2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wtpmlqt
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wtpmqrt
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wtpqrt
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wtpqrt2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wtprfb
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wtprfs
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wtptri
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wtptrs
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wtpttf
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wtpttr
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wtrcon
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wtrevc
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wtrevc3
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wtrexc
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wtrrfs
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wtrsen
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wtrsna
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wtrsyl
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wtrti2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wtrtri
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wtrtrs
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wtrttf
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wtrttp
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wtzrzf
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wunbdb
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wunbdb1
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wunbdb2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wunbdb3
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wunbdb4
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wunbdb5
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wunbdb6
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wuncsd
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wuncsd2by1
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wung2l
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wung2r
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wungbr
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wunghr
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wungl2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wunglq
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wungql
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wungqr
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wungr2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wungrq
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wungtr
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wungtsqr
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wungtsqr_row
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wunhr_col
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wunm22
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wunm2l
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wunm2r
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wunmbr
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wunmhr
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wunml2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wunmlq
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wunmql
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wunmqr
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wunmr2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wunmr3
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wunmrq
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wunmrz
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wunmtr
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wupgtr
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wupmtr
-#!endif 
 
      ! 128-bit real constants 
      real(qp),    parameter, private ::     negone = -1.00_qp
@@ -1410,8 +506,6 @@ module stdlib_linalg_lapack_w
 
      contains
 
-#!if WITH_QP 
-
      !> ZLAG2W: converts a COMPLEX matrix, SA, to a COMPLEX*16 matrix, A.
      !> Note that while it is possible to overflow while converting
      !> from double to single, it is not possible to overflow when
@@ -1440,9 +534,6 @@ module stdlib_linalg_lapack_w
            end do
            return
      end subroutine stdlib_wlag2w
-#!endif 
-
-#!if WITH_QP 
 
      !> ZBBCSD: computes the CS decomposition of a unitary matrix in
      !> bidiagonal-block form,
@@ -2056,9 +1147,6 @@ module stdlib_linalg_lapack_w
            end do
            return
      end subroutine stdlib_wbbcsd
-#!endif 
-
-#!if WITH_QP 
 
      !> ZBDSQR: computes the singular values and, optionally, the right and/or
      !> left singular vectors from the singular value decomposition (SVD) of
@@ -2522,9 +1610,6 @@ module stdlib_linalg_lapack_w
            220 continue
            return
      end subroutine stdlib_wbdsqr
-#!endif 
-
-#!if WITH_QP 
 
      !> ZCGESV: computes the solution to a complex system of linear equations
      !> A * X = B,
@@ -2711,9 +1796,6 @@ module stdlib_linalg_lapack_w
            call stdlib_wgetrs( 'NO TRANSPOSE', n, nrhs, a, lda, ipiv, x, ldx,info )
            return
      end subroutine stdlib_wcgesv
-#!endif 
-
-#!if WITH_QP 
 
      !> ZCPOSV: computes the solution to a complex system of linear equations
      !> A * X = B,
@@ -2901,9 +1983,6 @@ module stdlib_linalg_lapack_w
            call stdlib_wpotrs( uplo, n, nrhs, a, lda, x, ldx, info )
            return
      end subroutine stdlib_wcposv
-#!endif 
-
-#!if WITH_QP 
 
      !> ZDRSCL: multiplies an n-element complex vector x by the real scalar
      !> 1/a.  This is done without overflow or underflow as long as
@@ -2958,9 +2037,6 @@ module stdlib_linalg_lapack_w
            if( .not.done )go to 10
            return
      end subroutine stdlib_wdrscl
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGBBRD: reduces a complex general m-by-n band matrix A to real upper
      !> bidiagonal form B by a unitary transformation: Q**H * A * P = B.
@@ -3238,9 +2314,6 @@ module stdlib_linalg_lapack_w
            end do loop_120
            return
      end subroutine stdlib_wgbbrd
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGBCON: estimates the reciprocal of the condition number of a complex
      !> general band matrix A, in either the 1-norm or the infinity-norm,
@@ -3375,9 +2448,6 @@ module stdlib_linalg_lapack_w
            40 continue
            return
      end subroutine stdlib_wgbcon
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGBEQU: computes row and column scalings intended to equilibrate an
      !> M-by-N band matrix A and reduce its condition number.  R returns the
@@ -3513,9 +2583,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wgbequ
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGBEQUB: computes row and column scalings intended to equilibrate an
      !> M-by-N matrix A and reduce its condition number.  R returns the row
@@ -3666,9 +2733,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wgbequb
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGBRFS: improves the computed solution to a system of linear
      !> equations when the coefficient matrix is banded, and provides
@@ -3875,9 +2939,6 @@ module stdlib_linalg_lapack_w
            end do loop_140
            return
      end subroutine stdlib_wgbrfs
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGBSV: computes the solution to a complex system of linear equations
      !> A * X = B, where A is a band matrix of order N with KL subdiagonals
@@ -3930,9 +2991,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wgbsv
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGBSVX: uses the LU factorization to compute the solution to a complex
      !> system of linear equations A * X = B, A**T * X = B, or A**H * X = B,
@@ -4160,9 +3218,6 @@ module stdlib_linalg_lapack_w
            rwork( 1 ) = rpvgrw
            return
      end subroutine stdlib_wgbsvx
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGBTF2: computes an LU factorization of a complex m-by-n band matrix
      !> A using partial pivoting with row interchanges.
@@ -4249,9 +3304,6 @@ module stdlib_linalg_lapack_w
            end do loop_40
            return
      end subroutine stdlib_wgbtf2
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGBTRF: computes an LU factorization of a complex m-by-n band matrix A
      !> using partial pivoting with row interchanges.
@@ -4502,9 +3554,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wgbtrf
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGBTRS: solves a system of linear equations
      !> A * X = B,  A**T * X = B,  or  A**H * X = B
@@ -4618,9 +3667,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wgbtrs
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGEBAK: forms the right or left eigenvectors of a complex general
      !> matrix by backward transformation on the computed eigenvectors of the
@@ -4718,9 +3764,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wgebak
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGEBAL: balances a general complex matrix A.  This involves, first,
      !> permuting A by a similarity transformation to isolate eigenvalues
@@ -4891,9 +3934,6 @@ module stdlib_linalg_lapack_w
            ihi = l
            return
      end subroutine stdlib_wgebal
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGEBD2: reduces a complex general m by n matrix A to upper or lower
      !> real bidiagonal form B by a unitary transformation: Q**H * A * P = B.
@@ -4992,9 +4032,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wgebd2
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGEBRD: reduces a general complex M-by-N matrix A to upper or lower
      !> bidiagonal form B by a unitary transformation: Q**H * A * P = B.
@@ -5102,9 +4139,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = ws
            return
      end subroutine stdlib_wgebrd
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGECON: estimates the reciprocal of the condition number of a general
      !> complex matrix A, in either the 1-norm or the infinity-norm, using
@@ -5211,9 +4245,6 @@ module stdlib_linalg_lapack_w
            20 continue
            return
      end subroutine stdlib_wgecon
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGEEQU: computes row and column scalings intended to equilibrate an
      !> M-by-N matrix A and reduce its condition number.  R returns the row
@@ -5342,9 +4373,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wgeequ
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGEEQUB: computes row and column scalings intended to equilibrate an
      !> M-by-N matrix A and reduce its condition number.  R returns the row
@@ -5489,9 +4517,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wgeequb
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGEES: computes for an N-by-N complex nonsymmetric matrix A, the
      !> eigenvalues, the Schur form T, and, optionally, the matrix of Schur
@@ -5663,9 +4688,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = maxwrk
            return
      end subroutine stdlib_wgees
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGEESX: computes for an N-by-N complex nonsymmetric matrix A, the
      !> eigenvalues, the Schur form T, and, optionally, the matrix of Schur
@@ -5868,9 +4890,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = maxwrk
            return
      end subroutine stdlib_wgeesx
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGEEV: computes for an N-by-N complex nonsymmetric matrix A, the
      !> eigenvalues and, optionally, the left and/or right eigenvectors.
@@ -6120,9 +5139,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = maxwrk
            return
      end subroutine stdlib_wgeev
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGEEVX: computes for an N-by-N complex nonsymmetric matrix A, the
      !> eigenvalues and, optionally, the left and/or right eigenvectors.
@@ -6425,9 +5441,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = maxwrk
            return
      end subroutine stdlib_wgeevx
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGEHD2: reduces a complex general matrix A to upper Hessenberg form H
      !> by a unitary similarity transformation:  Q**H * A * Q = H .
@@ -6480,9 +5493,6 @@ module stdlib_linalg_lapack_w
            end do
            return
      end subroutine stdlib_wgehd2
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGEHRD: reduces a complex general matrix A to upper Hessenberg form H by
      !> an unitary similarity transformation:  Q**H * A * Q = H .
@@ -6613,9 +5623,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = lwkopt
            return
      end subroutine stdlib_wgehrd
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGEJSV: computes the singular value decomposition (SVD) of a complex M-by-N
      !> matrix [A], where M >= N. The SVD of [A] is written as
@@ -8021,9 +7028,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wgejsv
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGELQ: computes an LQ factorization of a complex M-by-N matrix A:
      !> A = ( L 0 ) *  Q
@@ -8149,9 +7153,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = lwreq
            return
      end subroutine stdlib_wgelq
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGELQ2: computes an LQ factorization of a complex m-by-n matrix A:
      !> A = ( L 0 ) *  Q
@@ -8208,9 +7209,6 @@ module stdlib_linalg_lapack_w
            end do
            return
      end subroutine stdlib_wgelq2
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGELQF: computes an LQ factorization of a complex M-by-N matrix A:
      !> A = ( L 0 ) *  Q
@@ -8308,9 +7306,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = iws
            return
      end subroutine stdlib_wgelqf
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGELQT: computes a blocked LQ factorization of a complex M-by-N matrix A
      !> using the compact WY representation of Q.
@@ -8362,9 +7357,6 @@ module stdlib_linalg_lapack_w
            end do
            return
      end subroutine stdlib_wgelqt
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGELQT3: recursively computes a LQ factorization of a complex M-by-N
      !> matrix A, using the compact WY representation of Q.
@@ -8455,9 +7447,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wgelqt3
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGELS: solves overdetermined or underdetermined complex linear systems
      !> involving an M-by-N matrix A, or its conjugate-transpose, using a QR
@@ -8676,9 +7665,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = real( wsize,KIND=qp)
            return
      end subroutine stdlib_wgels
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGELSD: computes the minimum-norm solution to a real linear least
      !> squares problem:
@@ -9017,9 +8003,6 @@ module stdlib_linalg_lapack_w
            rwork( 1 ) = lrwork
            return
      end subroutine stdlib_wgelsd
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGELSS: computes the minimum norm solution to a complex linear
      !> least squares problem:
@@ -9478,9 +8461,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = maxwrk
            return
      end subroutine stdlib_wgelss
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGELSY: computes the minimum-norm solution to a complex linear least
      !> squares problem:
@@ -9706,9 +8686,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = cmplx( lwkopt,KIND=qp)
            return
      end subroutine stdlib_wgelsy
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGEMLQ: overwrites the general real M-by-N matrix C with
      !> SIDE = 'L'     SIDE = 'R'
@@ -9806,9 +8783,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = lw
            return
      end subroutine stdlib_wgemlq
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGEMLQT: overwrites the general complex M-by-N matrix C with
      !> SIDE = 'L'     SIDE = 'R'
@@ -9907,9 +8881,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wgemlqt
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGEMQR: overwrites the general real M-by-N matrix C with
      !> SIDE = 'L'     SIDE = 'R'
@@ -10007,9 +8978,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = lw
            return
      end subroutine stdlib_wgemqr
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGEMQRT: overwrites the general complex M-by-N matrix C with
      !> SIDE = 'L'     SIDE = 'R'
@@ -10108,9 +9076,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wgemqrt
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGEQL2: computes a QL factorization of a complex m by n matrix A:
      !> A = Q * L.
@@ -10160,9 +9125,6 @@ module stdlib_linalg_lapack_w
            end do
            return
      end subroutine stdlib_wgeql2
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGEQLF: computes a QL factorization of a complex M-by-N matrix A:
      !> A = Q * L.
@@ -10269,9 +9231,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = iws
            return
      end subroutine stdlib_wgeqlf
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGEQP3: computes a QR factorization with column pivoting of a
      !> matrix A:  A*P = Q*R  using Level 3 BLAS.
@@ -10424,9 +9383,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = cmplx( lwkopt,KIND=qp)
            return
      end subroutine stdlib_wgeqp3
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGEQR: computes a QR factorization of a complex M-by-N matrix A:
      !> A = Q * ( R ),
@@ -10542,9 +9498,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = max( 1, nb*n )
            return
      end subroutine stdlib_wgeqr
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGEQR2: computes a QR factorization of a complex m-by-n matrix A:
      !> A = Q * ( R ),
@@ -10600,9 +9553,6 @@ module stdlib_linalg_lapack_w
            end do
            return
      end subroutine stdlib_wgeqr2
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGEQR2P: computes a QR factorization of a complex m-by-n matrix A:
      !> A = Q * ( R ),
@@ -10659,9 +9609,6 @@ module stdlib_linalg_lapack_w
            end do
            return
      end subroutine stdlib_wgeqr2p
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGEQRF: computes a QR factorization of a complex M-by-N matrix A:
      !> A = Q * ( R ),
@@ -10764,9 +9711,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = iws
            return
      end subroutine stdlib_wgeqrf
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGEQR2P computes a QR factorization of a complex M-by-N matrix A:
      !> A = Q * ( R ),
@@ -10866,9 +9810,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = iws
            return
      end subroutine stdlib_wgeqrfp
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGEQRT: computes a blocked QR factorization of a complex M-by-N matrix A
      !> using the compact WY representation of Q.
@@ -10926,9 +9867,6 @@ module stdlib_linalg_lapack_w
            end do
            return
      end subroutine stdlib_wgeqrt
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGEQRT2: computes a QR factorization of a complex M-by-N matrix A,
      !> using the compact WY representation of Q.
@@ -10997,9 +9935,6 @@ module stdlib_linalg_lapack_w
                  t( i, 1) = czero
            end do
      end subroutine stdlib_wgeqrt2
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGEQRT3: recursively computes a QR factorization of a complex M-by-N
      !> matrix A, using the compact WY representation of Q.
@@ -11088,9 +10023,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wgeqrt3
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGERFS: improves the computed solution to a system of linear
      !> equations and provides error bounds and backward error estimates for
@@ -11288,9 +10220,6 @@ module stdlib_linalg_lapack_w
            end do loop_140
            return
      end subroutine stdlib_wgerfs
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGERQ2: computes an RQ factorization of a complex m by n matrix A:
      !> A = R * Q.
@@ -11342,9 +10271,6 @@ module stdlib_linalg_lapack_w
            end do
            return
      end subroutine stdlib_wgerq2
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGERQF: computes an RQ factorization of a complex M-by-N matrix A:
      !> A = R * Q.
@@ -11451,9 +10377,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = iws
            return
      end subroutine stdlib_wgerqf
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGESC2: solves a system of linear equations
      !> A * X = scale* RHS
@@ -11513,9 +10436,6 @@ module stdlib_linalg_lapack_w
            call stdlib_wlaswp( 1, rhs, lda, 1, n-1, jpiv, -1 )
            return
      end subroutine stdlib_wgesc2
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGESDD: computes the singular value decomposition (SVD) of a complex
      !> M-by-N matrix A, optionally computing the left and/or right singular
@@ -13011,9 +11931,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = stdlib_qroundup_lwork( maxwrk )
            return
      end subroutine stdlib_wgesdd
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGESV: computes the solution to a complex system of linear equations
      !> A * X = B,
@@ -13062,9 +11979,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wgesv
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGESVD: computes the singular value decomposition (SVD) of a complex
      !> M-by-N matrix A, optionally computing the left and/or right singular
@@ -15511,9 +14425,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = maxwrk
            return
      end subroutine stdlib_wgesvd
-#!endif 
-
-#!if WITH_QP 
 
      !> ZCGESVDQ computes the singular value decomposition (SVD) of a complex
      !> M-by-N matrix A, where M >= N. The SVD of A is written as
@@ -16392,9 +15303,6 @@ module stdlib_linalg_lapack_w
            numrank = nr
            return
      end subroutine stdlib_wgesvdq
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGESVJ: computes the singular value decomposition (SVD) of a complex
      !> M-by-N matrix A, where M >= N. The SVD of A is written as
@@ -17247,9 +16155,6 @@ module stdlib_linalg_lapack_w
            ! in the last sweep
            return
      end subroutine stdlib_wgesvj
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGESVX: uses the LU factorization to compute the solution to a complex
      !> system of linear equations
@@ -17455,9 +16360,6 @@ module stdlib_linalg_lapack_w
            rwork( 1 ) = rpvgrw
            return
      end subroutine stdlib_wgesvx
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGETC2: computes an LU factorization, using complete pivoting, of the
      !> n-by-n matrix A. The factorization has the form A = P * L * U * Q,
@@ -17542,9 +16444,6 @@ module stdlib_linalg_lapack_w
            jpiv( n ) = n
            return
      end subroutine stdlib_wgetc2
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGETF2: computes an LU factorization of a general m-by-n matrix A
      !> using partial pivoting with row interchanges.
@@ -17618,9 +16517,6 @@ module stdlib_linalg_lapack_w
            end do
            return
      end subroutine stdlib_wgetf2
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGETRF: computes an LU factorization of a general M-by-N matrix A
      !> using partial pivoting with row interchanges.
@@ -17699,9 +16595,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wgetrf
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGETRF2: computes an LU factorization of a general M-by-N matrix A
      !> using partial pivoting with row interchanges.
@@ -17818,9 +16711,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wgetrf2
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGETRI: computes the inverse of a matrix using the LU factorization
      !> computed by ZGETRF.
@@ -17923,9 +16813,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = iws
            return
      end subroutine stdlib_wgetri
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGETRS: solves a system of linear equations
      !> A * X = B,  A**T * X = B,  or  A**H * X = B
@@ -17995,9 +16882,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wgetrs
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGETSLS: solves overdetermined or underdetermined complex linear systems
      !> involving an M-by-N matrix A, using a tall skinny QR or short wide LQ
@@ -18235,9 +17119,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = real( tszo + lwo,KIND=qp)
            return
      end subroutine stdlib_wgetsls
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGETSQRHRT: computes a NB2-sized column blocked QR-factorization
      !> of a complex M-by-N matrix A with M >= N,
@@ -18371,9 +17252,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = cmplx( lworkopt,KIND=qp)
            return
      end subroutine stdlib_wgetsqrhrt
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGGBAK: forms the right or left eigenvectors of a complex generalized
      !> eigenvalue problem A*x = lambda*B*x, by backward transformation on
@@ -18487,9 +17365,6 @@ module stdlib_linalg_lapack_w
            110 continue
            return
      end subroutine stdlib_wggbak
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGGBAL: balances a pair of general complex matrices (A,B).  This
      !> involves, first, permuting A and B by similarity transformations to
@@ -18794,9 +17669,6 @@ module stdlib_linalg_lapack_w
            end do
            return
      end subroutine stdlib_wggbal
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGGES: computes for a pair of N-by-N complex nonsymmetric matrices
      !> (A,B), the generalized eigenvalues, the generalized complex Schur
@@ -19049,9 +17921,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = lwkopt
            return
      end subroutine stdlib_wgges
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGGES3: computes for a pair of N-by-N complex nonsymmetric matrices
      !> (A,B), the generalized eigenvalues, the generalized complex Schur
@@ -19303,9 +18172,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = cmplx( lwkopt,KIND=qp)
            return
      end subroutine stdlib_wgges3
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGGESX: computes for a pair of N-by-N complex nonsymmetric matrices
      !> (A,B), the generalized eigenvalues, the complex Schur form (S,T),
@@ -19616,9 +18482,6 @@ module stdlib_linalg_lapack_w
            iwork( 1 ) = liwmin
            return
      end subroutine stdlib_wggesx
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGGEV: computes for a pair of N-by-N complex nonsymmetric matrices
      !> (A,B), the generalized eigenvalues, and optionally, the left and/or
@@ -19889,9 +18752,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = lwkopt
            return
      end subroutine stdlib_wggev
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGGEV3: computes for a pair of N-by-N complex nonsymmetric matrices
      !> (A,B), the generalized eigenvalues, and optionally, the left and/or
@@ -20164,9 +19024,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = cmplx( lwkopt,KIND=qp)
            return
      end subroutine stdlib_wggev3
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGGEVX: computes for a pair of N-by-N complex nonsymmetric matrices
      !> (A,B) the generalized eigenvalues, and optionally, the left and/or
@@ -20515,9 +19372,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = maxwrk
            return
      end subroutine stdlib_wggevx
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGGGLM: solves a general Gauss-Markov linear model (GLM) problem:
      !> minimize || y ||_2   subject to   d = A*x + B*y
@@ -20654,9 +19508,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = m + np + max( lopt, int( work( m+np+1 ),KIND=ilp) )
            return
      end subroutine stdlib_wggglm
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGGHD3: reduces a pair of complex matrices (A,B) to generalized upper
      !> Hessenberg form using unitary transformations, where A is a
@@ -21187,9 +20038,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = cmplx( lwkopt,KIND=qp)
            return
      end subroutine stdlib_wgghd3
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGGHRD: reduces a pair of complex matrices (A,B) to generalized upper
      !> Hessenberg form using unitary transformations, where A is a
@@ -21322,9 +20170,6 @@ module stdlib_linalg_lapack_w
            end do
            return
      end subroutine stdlib_wgghrd
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGGLSE: solves the linear equality-constrained least squares (LSE)
      !> problem:
@@ -21457,9 +20302,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = p + mn + max( lopt, int( work( p+mn+1 ),KIND=ilp) )
            return
      end subroutine stdlib_wgglse
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGGQRF: computes a generalized QR factorization of an N-by-M matrix A
      !> and an N-by-P matrix B:
@@ -21538,9 +20380,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = max( lopt, int( work( 1 ),KIND=ilp) )
            return
      end subroutine stdlib_wggqrf
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGGRQF: computes a generalized RQ factorization of an M-by-N matrix A
      !> and a P-by-N matrix B:
@@ -21619,9 +20458,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = max( lopt, int( work( 1 ),KIND=ilp) )
            return
      end subroutine stdlib_wggrqf
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGSVJ0: is called from ZGESVJ as a pre-processor and that is its main
      !> purpose. It applies Jacobi rotations in the same way as ZGESVJ does, but
@@ -22163,9 +20999,6 @@ module stdlib_linalg_lapack_w
            end do
            return
      end subroutine stdlib_wgsvj0
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGSVJ1: is called from ZGESVJ as a pre-processor and that is its main
      !> purpose. It applies Jacobi rotations in the same way as ZGESVJ does, but
@@ -22539,9 +21372,6 @@ module stdlib_linalg_lapack_w
            end do
            return
      end subroutine stdlib_wgsvj1
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGTCON: estimates the reciprocal of the condition number of a complex
      !> tridiagonal matrix A using the LU factorization as computed by
@@ -22626,9 +21456,6 @@ module stdlib_linalg_lapack_w
            if( ainvnm/=zero )rcond = ( one / ainvnm ) / anorm
            return
      end subroutine stdlib_wgtcon
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGTRFS: improves the computed solution to a system of linear
      !> equations when the coefficient matrix is tridiagonal, and provides
@@ -22836,9 +21663,6 @@ module stdlib_linalg_lapack_w
            end do loop_110
            return
      end subroutine stdlib_wgtrfs
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGTSV:  solves the equation
      !> A*X = B,
@@ -22931,9 +21755,6 @@ module stdlib_linalg_lapack_w
            end do
            return
      end subroutine stdlib_wgtsv
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGTSVX: uses the LU factorization to compute the solution to a complex
      !> system of linear equations A * X = B, A**T * X = B, or A**H * X = B,
@@ -23022,9 +21843,6 @@ module stdlib_linalg_lapack_w
            if( rcond<stdlib_qlamch( 'EPSILON' ) )info = n + 1
            return
      end subroutine stdlib_wgtsvx
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGTTRF: computes an LU factorization of a complex tridiagonal matrix A
      !> using elimination with partial pivoting and row interchanges.
@@ -23121,9 +21939,6 @@ module stdlib_linalg_lapack_w
            50 continue
            return
      end subroutine stdlib_wgttrf
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGTTRS: solves one of the systems of equations
      !> A * X = B,  A**T * X = B,  or  A**H * X = B,
@@ -23190,9 +22005,6 @@ module stdlib_linalg_lapack_w
               end do
            end if
      end subroutine stdlib_wgttrs
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGTTS2: solves one of the systems of equations
      !> A * X = B,  A**T * X = B,  or  A**H * X = B,
@@ -23364,9 +22176,6 @@ module stdlib_linalg_lapack_w
               end if
            end if
      end subroutine stdlib_wgtts2
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHB2ST_KERNELS: is an internal routine used by the ZHETRD_HB2ST
      !> subroutine.
@@ -23512,9 +22321,6 @@ module stdlib_linalg_lapack_w
            endif
            return
      end subroutine stdlib_whb2st_kernels
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHBEV: computes all the eigenvalues and, optionally, eigenvectors of
      !> a complex Hermitian band matrix A.
@@ -23619,9 +22425,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_whbev
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHBEVD: computes all the eigenvalues and, optionally, eigenvectors of
      !> a complex Hermitian band matrix A.  If eigenvectors are desired, it
@@ -23772,9 +22575,6 @@ module stdlib_linalg_lapack_w
            iwork( 1 ) = liwmin
            return
      end subroutine stdlib_whbevd
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHBEVX: computes selected eigenvalues and, optionally, eigenvectors
      !> of a complex Hermitian band matrix A.  Eigenvalues and eigenvectors
@@ -24006,9 +22806,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_whbevx
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHBGST: reduces a complex Hermitian-definite banded generalized
      !> eigenproblem  A*x = lambda*B*x  to standard form  C*y = lambda*y,
@@ -24941,9 +23738,6 @@ module stdlib_linalg_lapack_w
            end if
            go to 490
      end subroutine stdlib_whbgst
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHBGV: computes all the eigenvalues, and optionally, the eigenvectors
      !> of a complex generalized Hermitian-definite banded eigenproblem, of
@@ -25024,9 +23818,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_whbgv
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHBGVD: computes all the eigenvalues, and optionally, the eigenvectors
      !> of a complex generalized Hermitian-definite banded eigenproblem, of
@@ -25154,9 +23945,6 @@ module stdlib_linalg_lapack_w
            iwork( 1 ) = liwmin
            return
      end subroutine stdlib_whbgvd
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHBGVX: computes all the eigenvalues, and optionally, the eigenvectors
      !> of a complex generalized Hermitian-definite banded eigenproblem, of
@@ -25346,9 +24134,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_whbgvx
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHBTRD: reduces a complex Hermitian band matrix A to real symmetric
      !> tridiagonal form T by a unitary similarity transformation:
@@ -25713,9 +24498,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_whbtrd
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHECON: estimates the reciprocal of the condition number of a complex
      !> Hermitian matrix A using the factorization A = U*D*U**H or
@@ -25797,9 +24579,6 @@ module stdlib_linalg_lapack_w
            if( ainvnm/=zero )rcond = ( one / ainvnm ) / anorm
            return
      end subroutine stdlib_whecon
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHECON_ROOK: estimates the reciprocal of the condition number of a complex
      !> Hermitian matrix A using the factorization A = U*D*U**H or
@@ -25881,9 +24660,6 @@ module stdlib_linalg_lapack_w
            if( ainvnm/=zero )rcond = ( one / ainvnm ) / anorm
            return
      end subroutine stdlib_whecon_rook
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHEEQUB: computes row and column scalings intended to equilibrate a
      !> Hermitian matrix A (with respect to the Euclidean norm) and reduce
@@ -26066,9 +24842,6 @@ module stdlib_linalg_lapack_w
            end do
            scond = max( smin, smlnum ) / min( smax, bignum )
      end subroutine stdlib_wheequb
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHEEV: computes all eigenvalues and, optionally, eigenvectors of a
      !> complex Hermitian matrix A.
@@ -26180,9 +24953,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = lwkopt
            return
      end subroutine stdlib_wheev
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHEEVD: computes all eigenvalues and, optionally, eigenvectors of a
      !> complex Hermitian matrix A.  If eigenvectors are desired, it uses a
@@ -26336,9 +25106,6 @@ module stdlib_linalg_lapack_w
            iwork( 1 ) = liopt
            return
      end subroutine stdlib_wheevd
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHEEVR: computes selected eigenvalues and, optionally, eigenvectors
      !> of a complex Hermitian matrix A.  Eigenvalues and eigenvectors can
@@ -26678,9 +25445,6 @@ module stdlib_linalg_lapack_w
            iwork( 1 ) = liwmin
            return
      end subroutine stdlib_wheevr
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHEEVX: computes selected eigenvalues and, optionally, eigenvectors
      !> of a complex Hermitian matrix A.  Eigenvalues and eigenvectors can
@@ -26928,9 +25692,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = lwkopt
            return
      end subroutine stdlib_wheevx
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHEGS2: reduces a complex Hermitian-definite generalized
      !> eigenproblem to standard form.
@@ -27064,9 +25825,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_whegs2
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHEGST: reduces a complex Hermitian-definite generalized
      !> eigenproblem to standard form.
@@ -27206,9 +25964,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_whegst
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHEGV: computes all the eigenvalues, and optionally, the eigenvectors
      !> of a complex generalized Hermitian-definite eigenproblem, of the form
@@ -27310,9 +26065,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = lwkopt
            return
      end subroutine stdlib_whegv
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHEGVD: computes all the eigenvalues, and optionally, the eigenvectors
      !> of a complex generalized Hermitian-definite eigenproblem, of the form
@@ -27445,9 +26197,6 @@ module stdlib_linalg_lapack_w
            iwork( 1 ) = liopt
            return
      end subroutine stdlib_whegvd
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHEGVX: computes selected eigenvalues, and optionally, eigenvectors
      !> of a complex generalized Hermitian-definite eigenproblem, of the form
@@ -27576,9 +26325,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = lwkopt
            return
      end subroutine stdlib_whegvx
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHERFS: improves the computed solution to a system of linear
      !> equations when the coefficient matrix is Hermitian indefinite, and
@@ -27772,9 +26518,6 @@ module stdlib_linalg_lapack_w
            end do loop_140
            return
      end subroutine stdlib_wherfs
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHESV: computes the solution to a complex system of linear equations
      !> A * X = B,
@@ -27853,9 +26596,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = lwkopt
            return
      end subroutine stdlib_whesv
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHESV_AA: computes the solution to a complex system of linear equations
      !> A * X = B,
@@ -27928,9 +26668,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = lwkopt
            return
      end subroutine stdlib_whesv_aa
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHESV_RK: computes the solution to a complex system of linear
      !> equations A * X = B, where A is an N-by-N Hermitian matrix
@@ -28008,9 +26745,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = lwkopt
            return
      end subroutine stdlib_whesv_rk
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHESV_ROOK: computes the solution to a complex system of linear equations
      !> A * X = B,
@@ -28090,9 +26824,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = lwkopt
            return
      end subroutine stdlib_whesv_rook
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHESVX: uses the diagonal pivoting factorization to compute the
      !> solution to a complex system of linear equations A * X = B,
@@ -28190,9 +26921,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = lwkopt
            return
      end subroutine stdlib_whesvx
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHESWAPR: applies an elementary permutation on the rows and the columns of
      !> a hermitian matrix.
@@ -28265,9 +26993,6 @@ module stdlib_linalg_lapack_w
                end do
            endif
      end subroutine stdlib_wheswapr
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHETD2: reduces a complex Hermitian matrix A to real symmetric
      !> tridiagonal form T by a unitary similarity transformation:
@@ -28372,9 +27097,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_whetd2
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHETF2: computes the factorization of a complex Hermitian matrix A
      !> using the Bunch-Kaufman diagonal pivoting method:
@@ -28701,9 +27423,6 @@ module stdlib_linalg_lapack_w
            90 continue
            return
      end subroutine stdlib_whetf2
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHETF2_RK: computes the factorization of a complex Hermitian matrix A
      !> using the bounded Bunch-Kaufman (rook) diagonal pivoting method:
@@ -29235,9 +27954,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_whetf2_rk
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHETF2_ROOK: computes the factorization of a complex Hermitian matrix A
      !> using the bounded Bunch-Kaufman ("rook") diagonal pivoting method:
@@ -29727,9 +28443,6 @@ module stdlib_linalg_lapack_w
            70 continue
            return
      end subroutine stdlib_whetf2_rook
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHETRD: reduces a complex Hermitian matrix A to real symmetric
      !> tridiagonal form T by a unitary similarity transformation:
@@ -29858,9 +28571,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = lwkopt
            return
      end subroutine stdlib_whetrd
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHETRD_HB2ST: reduces a complex Hermitian band matrix A to real symmetric
      !> tridiagonal form T by a unitary similarity transformation:
@@ -30146,9 +28856,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = lwmin
            return
      end subroutine stdlib_whetrd_hb2st
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHETRD_HE2HB: reduces a complex Hermitian matrix A to complex Hermitian
      !> band-diagonal form AB by a unitary similarity transformation:
@@ -30325,9 +29032,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = lwmin
            return
      end subroutine stdlib_whetrd_he2hb
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHETRF: computes the factorization of a complex Hermitian matrix A
      !> using the Bunch-Kaufman diagonal pivoting method.  The form of the
@@ -30454,9 +29158,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = lwkopt
            return
      end subroutine stdlib_whetrf
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHETRF_AA: computes the factorization of a complex hermitian matrix A
      !> using the Aasen's algorithm.  The form of the factorization is
@@ -30686,9 +29387,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = lwkopt
            return
      end subroutine stdlib_whetrf_aa
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHETRF_RK: computes the factorization of a complex Hermitian matrix A
      !> using the bounded Bunch-Kaufman (rook) diagonal pivoting method:
@@ -30855,9 +29553,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = lwkopt
            return
      end subroutine stdlib_whetrf_rk
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHETRF_ROOK: computes the factorization of a complex Hermitian matrix A
      !> using the bounded Bunch-Kaufman ("rook") diagonal pivoting method.
@@ -30986,9 +29681,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = lwkopt
            return
      end subroutine stdlib_whetrf_rook
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHETRI: computes the inverse of a complex Hermitian indefinite matrix
      !> A using the factorization A = U*D*U**H or A = L*D*L**H computed by
@@ -31193,9 +29885,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_whetri
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHETRI_ROOK: computes the inverse of a complex Hermitian indefinite matrix
      !> A using the factorization A = U*D*U**H or A = L*D*L**H computed by
@@ -31464,9 +30153,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_whetri_rook
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHETRS: solves a system of linear equations A*X = B with a complex
      !> Hermitian matrix A using the factorization A = U*D*U**H or
@@ -31698,9 +30384,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_whetrs
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHETRS2: solves a system of linear equations A*X = B with a complex
      !> Hermitian matrix A using the factorization A = U*D*U**H or
@@ -31882,9 +30565,6 @@ module stdlib_linalg_lapack_w
            call stdlib_wsyconv( uplo, 'R', n, a, lda, ipiv, work, iinfo )
            return
      end subroutine stdlib_whetrs2
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHETRS_3: solves a system of linear equations A * X = B with a complex
      !> Hermitian matrix A using the factorization computed
@@ -32045,9 +30725,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_whetrs_3
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHETRS_AA: solves a system of linear equations A*X = B with a complex
      !> hermitian matrix A using the factorization A = U**H*T*U or
@@ -32169,9 +30846,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_whetrs_aa
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHETRS_ROOK: solves a system of linear equations A*X = B with a complex
      !> Hermitian matrix A using the factorization A = U*D*U**H or
@@ -32411,9 +31085,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_whetrs_rook
-#!endif 
-
-#!if WITH_QP 
 
      !> Level 3 BLAS like routine for C in RFP Format.
      !> ZHFRK: performs one of the Hermitian rank--k operations
@@ -32674,9 +31345,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_whfrk
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHGEQZ: computes the eigenvalues of a complex matrix pair (H,T),
      !> where H is an upper Hessenberg matrix and T is upper triangular,
@@ -33177,9 +31845,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = cmplx( n,KIND=qp)
            return
      end subroutine stdlib_whgeqz
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHPCON: estimates the reciprocal of the condition number of a complex
      !> Hermitian packed matrix A using the factorization A = U*D*U**H or
@@ -33261,9 +31926,6 @@ module stdlib_linalg_lapack_w
            if( ainvnm/=zero )rcond = ( one / ainvnm ) / anorm
            return
      end subroutine stdlib_whpcon
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHPEV: computes all the eigenvalues and, optionally, eigenvectors of a
      !> complex Hermitian matrix in packed storage.
@@ -33361,9 +32023,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_whpev
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHPEVD: computes all the eigenvalues and, optionally, eigenvectors of
      !> a complex Hermitian matrix A in packed storage.  If eigenvectors are
@@ -33506,9 +32165,6 @@ module stdlib_linalg_lapack_w
            iwork( 1 ) = liwmin
            return
      end subroutine stdlib_whpevd
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHPEVX: computes selected eigenvalues and, optionally, eigenvectors
      !> of a complex Hermitian matrix A in packed storage.
@@ -33726,9 +32382,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_whpevx
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHPGST: reduces a complex Hermitian-definite generalized
      !> eigenproblem to standard form, using packed storage.
@@ -33858,9 +32511,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_whpgst
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHPGV: computes all the eigenvalues and, optionally, the eigenvectors
      !> of a complex generalized Hermitian-definite eigenproblem, of the form
@@ -33946,9 +32596,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_whpgv
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHPGVD: computes all the eigenvalues and, optionally, the eigenvectors
      !> of a complex generalized Hermitian-definite eigenproblem, of the form
@@ -34082,9 +32729,6 @@ module stdlib_linalg_lapack_w
            iwork( 1 ) = liwmin
            return
      end subroutine stdlib_whpgvd
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHPGVX: computes selected eigenvalues and, optionally, eigenvectors
      !> of a complex generalized Hermitian-definite eigenproblem, of the form
@@ -34197,9 +32841,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_whpgvx
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHPRFS: improves the computed solution to a system of linear
      !> equations when the coefficient matrix is Hermitian indefinite
@@ -34397,9 +33038,6 @@ module stdlib_linalg_lapack_w
            end do loop_140
            return
      end subroutine stdlib_whprfs
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHPSV: computes the solution to a complex system of linear equations
      !> A * X = B,
@@ -34451,9 +33089,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_whpsv
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHPSVX: uses the diagonal pivoting factorization A = U*D*U**H or
      !> A = L*D*L**H to compute the solution to a complex system of linear
@@ -34532,9 +33167,6 @@ module stdlib_linalg_lapack_w
            if( rcond<stdlib_qlamch( 'EPSILON' ) )info = n + 1
            return
      end subroutine stdlib_whpsvx
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHPTRD: reduces a complex Hermitian matrix A stored in packed form to
      !> real symmetric tridiagonal form T by a unitary similarity
@@ -34639,9 +33271,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_whptrd
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHPTRF: computes the factorization of a complex Hermitian packed
      !> matrix A using the Bunch-Kaufman diagonal pivoting method:
@@ -34992,9 +33621,6 @@ module stdlib_linalg_lapack_w
            110 continue
            return
      end subroutine stdlib_whptrf
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHPTRI: computes the inverse of a complex Hermitian indefinite matrix
      !> A in packed storage using the factorization A = U*D*U**H or
@@ -35214,9 +33840,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_whptri
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHPTRS: solves a system of linear equations A*X = B with a complex
      !> Hermitian matrix A stored in packed format using the factorization
@@ -35458,9 +34081,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_whptrs
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHSEIN: uses inverse iteration to find specified right and/or left
      !> eigenvectors of a complex upper Hessenberg matrix H.
@@ -35635,9 +34255,6 @@ module stdlib_linalg_lapack_w
            end do loop_100
            return
      end subroutine stdlib_whsein
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHSEQR: computes the eigenvalues of a Hessenberg matrix H
      !> and, optionally, the matrices T and Z from the Schur decomposition
@@ -35783,9 +34400,6 @@ module stdlib_linalg_lapack_w
                         rzero,KIND=qp)
            end if
      end subroutine stdlib_whseqr
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLA_GBAMV:  performs one of the matrix-vector operations
      !> y := alpha*abs(A)*abs(x) + beta*abs(y),
@@ -35981,9 +34595,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wla_gbamv
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLA_GBRCOND_C: Computes the infinity norm condition number of
      !> op(A) * inv(diag(C)) where C is a DOUBLE PRECISION vector.
@@ -36132,9 +34743,6 @@ module stdlib_linalg_lapack_w
            if( ainvnm /= zero )stdlib_wla_gbrcond_c = one / ainvnm
            return
      end function stdlib_wla_gbrcond_c
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLA_GBRPVGRW: computes the reciprocal pivot growth factor
      !> norm(A)/norm(U). The "max absolute element" norm is used. If this is
@@ -36180,9 +34788,6 @@ module stdlib_linalg_lapack_w
            end do
            stdlib_wla_gbrpvgrw = rpvgrw
      end function stdlib_wla_gbrpvgrw
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLA_GEAMV:  performs one of the matrix-vector operations
      !> y := alpha*abs(A)*abs(x) + beta*abs(y),
@@ -36372,9 +34977,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wla_geamv
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLA_GERCOND_C: computes the infinity norm condition number of
      !> op(A) * inv(diag(C)) where C is a DOUBLE PRECISION vector.
@@ -36516,9 +35118,6 @@ module stdlib_linalg_lapack_w
            if( ainvnm /= zero )stdlib_wla_gercond_c = one / ainvnm
            return
      end function stdlib_wla_gercond_c
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLA_GERPVGRW: computes the reciprocal pivot growth factor
      !> norm(A)/norm(U). The "max absolute element" norm is used. If this is
@@ -36563,9 +35162,6 @@ module stdlib_linalg_lapack_w
            end do
            stdlib_wla_gerpvgrw = rpvgrw
      end function stdlib_wla_gerpvgrw
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLA_SYAMV  performs the matrix-vector operation
      !> y := alpha*abs(A)*abs(x) + beta*abs(y),
@@ -36760,9 +35356,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wla_heamv
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLA_HERCOND_C: computes the infinity norm condition number of
      !> op(A) * inv(diag(C)) where C is a DOUBLE PRECISION vector.
@@ -36913,9 +35506,6 @@ module stdlib_linalg_lapack_w
            if( ainvnm /= zero )stdlib_wla_hercond_c = one / ainvnm
            return
      end function stdlib_wla_hercond_c
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLA_HERPVGRW: computes the reciprocal pivot growth factor
      !> norm(A)/norm(U). The "max absolute element" norm is used. If this is
@@ -37105,9 +35695,6 @@ module stdlib_linalg_lapack_w
            end if
            stdlib_wla_herpvgrw = rpvgrw
      end function stdlib_wla_herpvgrw
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLA_LIN_BERR: computes componentwise relative backward error from
      !> the formula
@@ -37154,9 +35741,6 @@ module stdlib_linalg_lapack_w
               end do
            end do
      end subroutine stdlib_wla_lin_berr
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLA_PORCOND_C: Computes the infinity norm condition number of
      !> op(A) * inv(diag(C)) where C is a DOUBLE PRECISION vector
@@ -37307,9 +35891,6 @@ module stdlib_linalg_lapack_w
            if( ainvnm /= zero )stdlib_wla_porcond_c = one / ainvnm
            return
      end function stdlib_wla_porcond_c
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLA_PORPVGRW: computes the reciprocal pivot growth factor
      !> norm(A)/norm(U). The "max absolute element" norm is used. If this is
@@ -37403,9 +35984,6 @@ module stdlib_linalg_lapack_w
            end if
            stdlib_wla_porpvgrw = rpvgrw
      end function stdlib_wla_porpvgrw
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLA_SYAMV:  performs the matrix-vector operation
      !> y := alpha*abs(A)*abs(x) + beta*abs(y),
@@ -37601,9 +36179,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wla_syamv
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLA_SYRCOND_C: Computes the infinity norm condition number of
      !> op(A) * inv(diag(C)) where C is a DOUBLE PRECISION vector.
@@ -37755,9 +36330,6 @@ module stdlib_linalg_lapack_w
            if( ainvnm /= zero )stdlib_wla_syrcond_c = one / ainvnm
            return
      end function stdlib_wla_syrcond_c
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLA_SYRPVGRW: computes the reciprocal pivot growth factor
      !> norm(A)/norm(U). The "max absolute element" norm is used. If this is
@@ -37947,9 +36519,6 @@ module stdlib_linalg_lapack_w
            end if
            stdlib_wla_syrpvgrw = rpvgrw
      end function stdlib_wla_syrpvgrw
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLA_WWADDW: adds a vector W into a doubled-single vector (X, Y).
      !> This works for all extant IBM's hex and binary floating point
@@ -37977,9 +36546,6 @@ module stdlib_linalg_lapack_w
              10 continue
            return
      end subroutine stdlib_wla_wwaddw
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLABRD: reduces the first NB rows and columns of a complex general
      !> m by n matrix A to upper or lower real bidiagonal form by a unitary
@@ -38130,9 +36696,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wlabrd
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLACGV: conjugates a complex vector of length N.
 
@@ -38164,9 +36727,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wlacgv
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLACN2: estimates the 1-norm of a square, complex matrix A.
      !> Reverse communication is used for evaluating matrix-vector products.
@@ -38294,9 +36854,6 @@ module stdlib_linalg_lapack_w
            kase = 0
            return
      end subroutine stdlib_wlacn2
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLACON: estimates the 1-norm of a square, complex matrix A.
      !> Reverse communication is used for evaluating matrix-vector products.
@@ -38424,9 +36981,6 @@ module stdlib_linalg_lapack_w
            kase = 0
            return
      end subroutine stdlib_wlacon
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLACP2: copies all or part of a real two-dimensional matrix A to a
      !> complex matrix B.
@@ -38468,9 +37022,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wlacp2
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLACPY: copies all or part of a two-dimensional matrix A to another
      !> matrix B.
@@ -38512,9 +37063,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wlacpy
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLACRM: performs a very simple matrix-matrix multiplication:
      !> C := A * B,
@@ -38569,9 +37117,6 @@ module stdlib_linalg_lapack_w
            end do
            return
      end subroutine stdlib_wlacrm
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLACRT: performs the operation
      !> (  c  s )( x )  ==> ( x )
@@ -38616,9 +37161,6 @@ module stdlib_linalg_lapack_w
            end do
            return
      end subroutine stdlib_wlacrt
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLADIV: := X / Y, where X and Y are complex.  The computation of X / Y
      !> will not overflow on an intermediary step unless the results
@@ -38641,9 +37183,6 @@ module stdlib_linalg_lapack_w
            stdlib_wladiv = cmplx( zr, zi,KIND=qp)
            return
      end function stdlib_wladiv
-#!endif 
-
-#!if WITH_QP 
 
      !> Using the divide and conquer method, ZLAED0: computes all eigenvalues
      !> of a symmetric tridiagonal matrix which is one diagonal block of
@@ -38822,9 +37361,6 @@ module stdlib_linalg_lapack_w
            call stdlib_qcopy( n, rwork, 1, d, 1 )
            return
      end subroutine stdlib_wlaed0
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLAED7: computes the updated eigensystem of a diagonal
      !> matrix after modification by a rank-one symmetric matrix. This
@@ -38952,9 +37488,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wlaed7
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLAED8: merges the two sets of eigenvalues together into a single
      !> sorted set.  Then it tries to deflate the size of the problem.
@@ -39158,9 +37691,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wlaed8
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLAEIN: uses inverse iteration to find a right or left eigenvector
      !> corresponding to the eigenvalue W of a complex upper Hessenberg
@@ -39305,9 +37835,6 @@ module stdlib_linalg_lapack_w
            call stdlib_wdscal( n, one / cabs1( v( i ) ), v, 1 )
            return
      end subroutine stdlib_wlaein
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLAESY: computes the eigendecomposition of a 2-by-2 symmetric matrix
      !> ( ( A, B );( B, C ) )
@@ -39398,9 +37925,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wlaesy
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLAEV2: computes the eigendecomposition of a 2-by-2 Hermitian matrix
      !> [  A         B  ]
@@ -39438,9 +37962,6 @@ module stdlib_linalg_lapack_w
            sn1 = w*t
            return
      end subroutine stdlib_wlaev2
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLAG2C: converts a COMPLEX*16 matrix, SA, to a COMPLEX matrix, A.
      !> RMAX is the overflow for the SINGLE PRECISION arithmetic
@@ -39480,9 +38001,6 @@ module stdlib_linalg_lapack_w
            30 continue
            return
      end subroutine stdlib_wlag2c
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLAGS2: computes 2-by-2 unitary matrices U, V and Q, such
      !> that if ( UPPER ) then
@@ -39670,9 +38188,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wlags2
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLAGTM: performs a matrix-vector product of the form
      !> B := alpha * A * X + beta * B
@@ -39809,9 +38324,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wlagtm
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLAHEF: computes a partial factorization of a complex Hermitian
      !> matrix A using the Bunch-Kaufman diagonal pivoting method. The
@@ -40351,9 +38863,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wlahef
-#!endif 
-
-#!if WITH_QP 
 
      !> DLAHEF_AA factorizes a panel of a complex hermitian matrix A using
      !> the Aasen's algorithm. The panel consists of a set of NB rows of A
@@ -40598,9 +39107,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wlahef_aa
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLAHEF_RK: computes a partial factorization of a complex Hermitian
      !> matrix A using the bounded Bunch-Kaufman (rook) diagonal
@@ -41241,9 +39747,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wlahef_rk
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLAHEF_ROOK: computes a partial factorization of a complex Hermitian
      !> matrix A using the bounded Bunch-Kaufman ("rook") diagonal pivoting
@@ -41916,9 +40419,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wlahef_rook
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLAHQR: is an auxiliary routine called by CHSEQR to update the
      !> eigenvalues and Schur decomposition already computed by CHSEQR, by
@@ -42205,9 +40705,6 @@ module stdlib_linalg_lapack_w
            150 continue
            return
      end subroutine stdlib_wlahqr
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLAHR2: reduces the first NB columns of A complex general n-BY-(n-k+1)
      !> matrix A so that elements below the k-th subdiagonal are zero. The
@@ -42298,9 +40795,6 @@ module stdlib_linalg_lapack_w
                      ldy )
            return
      end subroutine stdlib_wlahr2
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLAIC1: applies one step of incremental condition estimation in
      !> its simplest version:
@@ -42517,9 +41011,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wlaic1
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLALS0: applies back the multiplying factors of either the left or the
      !> right singular vector matrix of a diagonal matrix appended by a row
@@ -42765,9 +41256,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wlals0
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLALSA: is an itermediate step in solving the least squares problem
      !> by computing the SVD of the coefficient matrix in compact form (The
@@ -43071,9 +41559,6 @@ module stdlib_linalg_lapack_w
            330 continue
            return
      end subroutine stdlib_wlalsa
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLALSD: uses the singular value decomposition of A to solve the least
      !> squares problem of finding X to minimize the Euclidean norm of each
@@ -43485,9 +41970,6 @@ module stdlib_linalg_lapack_w
            call stdlib_wlascl( 'G', 0, 0, orgnrm, one, n, nrhs, b, ldb, info )
            return
      end subroutine stdlib_wlalsd
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLAMSWLQ: overwrites the general complex M-by-N matrix C with
      !> SIDE = 'L'     SIDE = 'R'
@@ -43646,9 +42128,6 @@ module stdlib_linalg_lapack_w
            work(1) = lw
            return
      end subroutine stdlib_wlamswlq
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLAMTSQR: overwrites the general complex M-by-N matrix C with
      !> SIDE = 'L'     SIDE = 'R'
@@ -43811,9 +42290,6 @@ module stdlib_linalg_lapack_w
            work(1) = lw
            return
      end subroutine stdlib_wlamtsqr
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLANGB:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the element of  largest absolute value  of an
@@ -43889,9 +42365,6 @@ module stdlib_linalg_lapack_w
            stdlib_wlangb = value
            return
      end function stdlib_wlangb
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLANGE:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the  element of  largest absolute value  of a
@@ -43964,9 +42437,6 @@ module stdlib_linalg_lapack_w
            stdlib_wlange = value
            return
      end function stdlib_wlange
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLANGT:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the  element of  largest absolute value  of a
@@ -44043,9 +42513,6 @@ module stdlib_linalg_lapack_w
            stdlib_wlangt = anorm
            return
      end function stdlib_wlangt
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLANHB:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the element of  largest absolute value  of an
@@ -44165,9 +42632,6 @@ module stdlib_linalg_lapack_w
            stdlib_wlanhb = value
            return
      end function stdlib_wlanhb
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLANHE:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the  element of  largest absolute value  of a
@@ -44278,9 +42742,6 @@ module stdlib_linalg_lapack_w
            stdlib_wlanhe = value
            return
      end function stdlib_wlanhe
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLANHF:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the  element of  largest absolute value  of a
@@ -45501,9 +43962,6 @@ module stdlib_linalg_lapack_w
            stdlib_wlanhf = value
            return
      end function stdlib_wlanhf
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLANHP:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the  element of  largest absolute value  of a
@@ -45632,9 +44090,6 @@ module stdlib_linalg_lapack_w
            stdlib_wlanhp = value
            return
      end function stdlib_wlanhp
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLANHS:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the  element of  largest absolute value  of a
@@ -45707,9 +44162,6 @@ module stdlib_linalg_lapack_w
            stdlib_wlanhs = value
            return
      end function stdlib_wlanhs
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLANHT:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the  element of  largest absolute value  of a
@@ -45773,9 +44225,6 @@ module stdlib_linalg_lapack_w
            stdlib_wlanht = anorm
            return
      end function stdlib_wlanht
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLANSB:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the element of  largest absolute value  of an
@@ -45881,9 +44330,6 @@ module stdlib_linalg_lapack_w
            stdlib_wlansb = value
            return
      end function stdlib_wlansb
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLANSP:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the  element of  largest absolute value  of a
@@ -46017,9 +44463,6 @@ module stdlib_linalg_lapack_w
            stdlib_wlansp = value
            return
      end function stdlib_wlansp
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLANSY:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the  element of  largest absolute value  of a
@@ -46116,9 +44559,6 @@ module stdlib_linalg_lapack_w
            stdlib_wlansy = value
            return
      end function stdlib_wlansy
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLANTB:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the element of  largest absolute value  of an
@@ -46312,9 +44752,6 @@ module stdlib_linalg_lapack_w
            stdlib_wlantb = value
            return
      end function stdlib_wlantb
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLANTP:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the  element of  largest absolute value  of a
@@ -46521,9 +44958,6 @@ module stdlib_linalg_lapack_w
            stdlib_wlantp = value
            return
      end function stdlib_wlantp
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLANTR:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the  element of  largest absolute value  of a
@@ -46710,9 +45144,6 @@ module stdlib_linalg_lapack_w
            stdlib_wlantr = value
            return
      end function stdlib_wlantr
-#!endif 
-
-#!if WITH_QP 
 
      !> Given two column vectors X and Y, let
      !> A = ( X Y ).
@@ -46757,9 +45188,6 @@ module stdlib_linalg_lapack_w
            call stdlib_qlas2( abs( a11 ), abs( a12 ), abs( a22 ), ssmin, ssmax )
            return
      end subroutine stdlib_wlapll
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLAPMR: rearranges the rows of the M by N matrix X as specified
      !> by the permutation K(1),K(2),...,K(M) of the integers 1,...,M.
@@ -46828,9 +45256,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wlapmr
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLAPMT: rearranges the columns of the M by N matrix X as specified
      !> by the permutation K(1),K(2),...,K(N) of the integers 1,...,N.
@@ -46899,9 +45324,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wlapmt
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLAQGB: equilibrates a general M by N band matrix A with KL
      !> subdiagonals and KU superdiagonals using the row and scaling factors
@@ -46972,9 +45394,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wlaqgb
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLAQGE: equilibrates a general M by N matrix A using the row and
      !> column scaling factors in the vectors R and C.
@@ -47041,9 +45460,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wlaqge
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLAQHB: equilibrates a Hermitian band matrix A
      !> using the scaling factors in the vector S.
@@ -47106,9 +45522,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wlaqhb
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLAQHE: equilibrates a Hermitian matrix A using the scaling factors
      !> in the vector S.
@@ -47171,9 +45584,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wlaqhe
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLAQHP: equilibrates a Hermitian matrix A using the scaling factors
      !> in the vector S.
@@ -47240,9 +45650,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wlaqhp
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLAQP2: computes a QR factorization with column pivoting of
      !> the block A(OFFSET+1:M,1:N).
@@ -47323,9 +45730,6 @@ module stdlib_linalg_lapack_w
            end do loop_20
            return
      end subroutine stdlib_wlaqp2
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLAQPS: computes a step of QR factorization with column pivoting
      !> of a complex M-by-N matrix A by using Blas-3.  It tries to factorize
@@ -47469,9 +45873,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wlaqps
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLAQR0: computes the eigenvalues of a Hessenberg matrix H
      !> and, optionally, the matrices T and Z from the Schur decomposition
@@ -47819,9 +46220,6 @@ module stdlib_linalg_lapack_w
            ! ==== return the optimal value of lwork. ====
            work( 1 ) = cmplx( lwkopt, 0,KIND=qp)
      end subroutine stdlib_wlaqr0
-#!endif 
-
-#!if WITH_QP 
 
      !> Given a 2-by-2 or 3-by-3 matrix H, ZLAQR1: sets v to a
      !> scalar multiple of the first column of the product
@@ -47885,9 +46283,6 @@ module stdlib_linalg_lapack_w
               end if
            end if
      end subroutine stdlib_wlaqr1
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLAQR2: is identical to ZLAQR3 except that it avoids
      !> recursion by calling ZLAHQR instead of ZLAQR4.
@@ -48102,9 +46497,6 @@ module stdlib_linalg_lapack_w
             ! ==== return optimal workspace. ====
            work( 1 ) = cmplx( lwkopt, 0,KIND=qp)
      end subroutine stdlib_wlaqr2
-#!endif 
-
-#!if WITH_QP 
 
      !> Aggressive early deflation:
      !> ZLAQR3: accepts as input an upper Hessenberg matrix
@@ -48327,9 +46719,6 @@ module stdlib_linalg_lapack_w
             ! ==== return optimal workspace. ====
            work( 1 ) = cmplx( lwkopt, 0,KIND=qp)
      end subroutine stdlib_wlaqr3
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLAQR4: implements one level of recursion for ZLAQR0.
      !> It is a complete implementation of the small bulge multi-shift
@@ -48678,9 +47067,6 @@ module stdlib_linalg_lapack_w
            ! ==== return the optimal value of lwork. ====
            work( 1 ) = cmplx( lwkopt, 0,KIND=qp)
      end subroutine stdlib_wlaqr4
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLAQR5:, called by ZLAQR0, performs a
      !> single small-bulge multi-shift QR sweep.
@@ -49079,9 +47465,6 @@ module stdlib_linalg_lapack_w
               end if
            end do loop_180
      end subroutine stdlib_wlaqr5
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLAQSB: equilibrates a symmetric band matrix A using the scaling
      !> factors in the vector S.
@@ -49142,9 +47525,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wlaqsb
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLAQSP: equilibrates a symmetric matrix A using the scaling factors
      !> in the vector S.
@@ -49207,9 +47587,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wlaqsp
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLAQSY: equilibrates a symmetric matrix A using the scaling factors
      !> in the vector S.
@@ -49268,9 +47645,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wlaqsy
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLAQZ0: computes the eigenvalues of a real matrix pair (H,T),
      !> where H is an upper Hessenberg matrix and T is upper triangular,
@@ -49624,9 +47998,6 @@ module stdlib_linalg_lapack_w
                   ldq, z, ldz, work, lwork, rwork,norm_info )
            info = norm_info
      end subroutine stdlib_wlaqz0
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLAQZ1: chases a 1x1 shift bulge in a matrix pencil down a single position
 
@@ -49681,9 +48052,6 @@ module stdlib_linalg_lapack_w
               end if
            end if
      end subroutine stdlib_wlaqz1
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLAQZ2: performs AED
 
@@ -49873,9 +48241,6 @@ module stdlib_linalg_lapack_w
               call stdlib_wlacpy( 'ALL', n, jw, work, n, z( 1, kwtop ), ldz )
            end if
      end subroutine stdlib_wlaqz2
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLAQZ3: Executes a single multishift QZ sweep
 
@@ -50116,9 +48481,6 @@ module stdlib_linalg_lapack_w
               call stdlib_wlacpy( 'ALL', n, ns+1, work, n, z( 1, ihi-ns ), ldz )
            end if
      end subroutine stdlib_wlaqz3
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLAR1V: computes the (scaled) r-th column of the inverse of
      !> the sumbmatrix in rows B1 through BN of the tridiagonal matrix
@@ -50342,9 +48704,6 @@ module stdlib_linalg_lapack_w
            rqcorr = mingma*tmp
            return
      end subroutine stdlib_wlar1v
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLAR2V: applies a vector of complex plane rotations with real cosines
      !> from both sides to a sequence of 2-by-2 complex Hermitian matrices,
@@ -50399,9 +48758,6 @@ module stdlib_linalg_lapack_w
            end do
            return
      end subroutine stdlib_wlar2v
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLARCM: performs a very simple matrix-matrix multiplication:
      !> C := A * B,
@@ -50456,9 +48812,6 @@ module stdlib_linalg_lapack_w
            end do
            return
      end subroutine stdlib_wlarcm
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLARF: applies a complex elementary reflector H to a complex M-by-N
      !> matrix C, from either the left or the right. H is represented in the
@@ -50539,9 +48892,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wlarf
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLARFB: applies a complex block reflector H or its transpose H**H to a
      !> complex M-by-N matrix C, from either the left or the right.
@@ -50870,9 +49220,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wlarfb
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLARFB_GETT: applies a complex Householder block reflector H from the
      !> left to a complex (K+M)-by-N  "triangular-pentagonal" matrix
@@ -51012,9 +49359,6 @@ module stdlib_linalg_lapack_w
            end do
            return
      end subroutine stdlib_wlarfb_gett
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLARFG: generates a complex elementary reflector H of order n, such
      !> that
@@ -51089,9 +49433,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wlarfg
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLARFGP: generates a complex elementary reflector H of order n, such
      !> that
@@ -51228,9 +49569,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wlarfgp
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLARFT: forms the triangular factor T of a complex block reflector H
      !> of order n, which is defined as a product of k elementary reflectors.
@@ -51358,9 +49696,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wlarft
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLARFX: applies a complex elementary reflector H to a complex m by n
      !> matrix C, from either the left or the right. H is represented in the
@@ -51866,9 +50201,6 @@ module stdlib_linalg_lapack_w
            410 continue
            return
      end subroutine stdlib_wlarfx
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLARFY: applies an elementary reflector, or Householder matrix, H,
      !> to an n x n Hermitian matrix C, from both the left and the right.
@@ -51903,9 +50235,6 @@ module stdlib_linalg_lapack_w
            call stdlib_wher2( uplo, n, -tau, v, incv, work, 1, c, ldc )
            return
      end subroutine stdlib_wlarfy
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLARGV: generates a vector of complex plane rotations with real
      !> cosines, determined by elements of the complex vectors x and y.
@@ -52060,9 +50389,6 @@ module stdlib_linalg_lapack_w
            end do loop_60
            return
      end subroutine stdlib_wlargv
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLARNV: returns a vector of n random complex numbers from a uniform or
      !> normal distribution.
@@ -52128,9 +50454,6 @@ module stdlib_linalg_lapack_w
               60 continue
            return
      end subroutine stdlib_wlarnv
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLARRV: computes the eigenvectors of the tridiagonal matrix
      !> T = L D L**T given L, D and APPROXIMATIONS to the eigenvalues of L D L**T.
@@ -52781,9 +51104,6 @@ module stdlib_linalg_lapack_w
            end do loop_170
            return
      end subroutine stdlib_wlarrv
-#!endif 
-
-#!if WITH_QP 
 
      !> !
      !>
@@ -52904,9 +51224,6 @@ module stdlib_linalg_lapack_w
         end if
         return
      end subroutine stdlib_wlartg
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLARTV: applies a vector of complex plane rotations with real cosines
      !> to elements of the complex vectors x and y. For i = 1,2,...,n
@@ -52944,9 +51261,6 @@ module stdlib_linalg_lapack_w
            end do
            return
      end subroutine stdlib_wlartv
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLARZ: applies a complex elementary reflector H to a complex
      !> M-by-N matrix C, from either the left or the right. H is represented
@@ -53006,9 +51320,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wlarz
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLARZB: applies a complex block reflector H or its transpose H**H
      !> to a complex distributed M-by-N  C from the left or the right.
@@ -53111,9 +51422,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wlarzb
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLARZT: forms the triangular factor T of a complex block reflector
      !> H of order > n, which is defined as a product of k elementary
@@ -53178,9 +51486,6 @@ module stdlib_linalg_lapack_w
            end do
            return
      end subroutine stdlib_wlarzt
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLASCL: multiplies the M by N complex matrix A by the real scalar
      !> CTO/CFROM.  This is done without over/underflow as long as the final
@@ -53351,9 +51656,6 @@ module stdlib_linalg_lapack_w
            if( .not.done )go to 10
            return
      end subroutine stdlib_wlascl
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLASET: initializes a 2-D array A to BETA on the diagonal and
      !> ALPHA on the offdiagonals.
@@ -53410,9 +51712,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wlaset
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLASR: applies a sequence of real plane rotations to a complex matrix
      !> A, from either the left or the right.
@@ -53673,9 +51972,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wlasr
-#!endif 
-
-#!if WITH_QP 
 
      !> !
      !>
@@ -53802,9 +52098,6 @@ module stdlib_linalg_lapack_w
         end if
         return
      end subroutine stdlib_wlassq
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLASWLQ: computes a blocked Tall-Skinny LQ factorization of
      !> a complexx M-by-N matrix A for M <= N:
@@ -53889,9 +52182,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = m * mb
            return
      end subroutine stdlib_wlaswlq
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLASWP: performs a series of row interchanges on the matrix A.
      !> One row interchange is initiated for each of rows K1 through K2 of A.
@@ -53959,9 +52249,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wlaswp
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLASYF: computes a partial factorization of a complex symmetric matrix
      !> A using the Bunch-Kaufman diagonal pivoting method. The partial
@@ -54402,9 +52689,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wlasyf
-#!endif 
-
-#!if WITH_QP 
 
      !> DLATRF_AA factorizes a panel of a complex symmetric matrix A using
      !> the Aasen's algorithm. The panel consists of a set of NB rows of A
@@ -54641,9 +52925,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wlasyf_aa
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLASYF_RK: computes a partial factorization of a complex symmetric
      !> matrix A using the bounded Bunch-Kaufman (rook) diagonal
@@ -55090,9 +53371,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wlasyf_rk
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLASYF_ROOK: computes a partial factorization of a complex symmetric
      !> matrix A using the bounded Bunch-Kaufman ("rook") diagonal
@@ -55559,9 +53837,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wlasyf_rook
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLAT2C: converts a COMPLEX*16 triangular matrix, SA, to a COMPLEX
      !> triangular matrix, A.
@@ -55619,9 +53894,6 @@ module stdlib_linalg_lapack_w
            50 continue
            return
      end subroutine stdlib_wlat2c
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLATBS: solves one of the triangular systems
      !> A * x = s*b,  A**T * x = s*b,  or  A**H * x = s*b,
@@ -56178,9 +54450,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wlatbs
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLATDF: computes the contribution to the reciprocal Dif-estimate
      !> by solving for x in Z * x = b, where b is chosen such that the norm
@@ -56295,9 +54564,6 @@ module stdlib_linalg_lapack_w
            call stdlib_wlassq( n, rhs, 1, rdscal, rdsum )
            return
      end subroutine stdlib_wlatdf
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLATPS: solves one of the triangular systems
      !> A * x = s*b,  A**T * x = s*b,  or  A**H * x = s*b,
@@ -56849,9 +55115,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wlatps
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLATRD: reduces NB rows and columns of a complex Hermitian matrix A to
      !> Hermitian tridiagonal form by a unitary similarity
@@ -56968,9 +55231,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wlatrd
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLATRS: solves one of the triangular systems
      !> A * x = s*b,  A**T * x = s*b,  or  A**H * x = s*b,
@@ -57500,9 +55760,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wlatrs
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLATRZ: factors the M-by-(M+L) complex upper trapezoidal matrix
      !> [ A1 A2 ] = [ A(1:M,1:M) A(1:M,N-L+1:N) ] as ( R  0 ) * Z by means
@@ -57549,9 +55806,6 @@ module stdlib_linalg_lapack_w
            end do
            return
      end subroutine stdlib_wlatrz
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLATSQR: computes a blocked Tall-Skinny QR factorization of
      !> a complex M-by-N matrix A for M >= N:
@@ -57637,9 +55891,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = n*nb
            return
      end subroutine stdlib_wlatsqr
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLAUNHR_COL_GETRFNP: computes the modified LU factorization without
      !> pivoting of a complex general M-by-N matrix A. The factorization has
@@ -57734,9 +55985,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wlaunhr_col_getrfnp
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLAUNHR_COL_GETRFNP2: computes the modified LU factorization without
      !> pivoting of a complex general M-by-N matrix A. The factorization has
@@ -57873,9 +56121,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wlaunhr_col_getrfnp2
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLAUU2: computes the product U * U**H or L**H * L, where the triangular
      !> factor U or L is stored in the upper or lower triangular part of
@@ -57954,9 +56199,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wlauu2
-#!endif 
-
-#!if WITH_QP 
 
      !> ZLAUUM: computes the product U * U**H or L**H * L, where the triangular
      !> factor U or L is stored in the upper or lower triangular part of
@@ -58041,9 +56283,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wlauum
-#!endif 
-
-#!if WITH_QP 
 
      !> ZPBCON: estimates the reciprocal of the condition number (in the
      !> 1-norm) of a complex Hermitian positive definite band matrix using
@@ -58148,9 +56387,6 @@ module stdlib_linalg_lapack_w
            20 continue
            return
      end subroutine stdlib_wpbcon
-#!endif 
-
-#!if WITH_QP 
 
      !> ZPBEQU: computes row and column scalings intended to equilibrate a
      !> Hermitian positive definite band matrix A and reduce its condition
@@ -58238,9 +56474,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wpbequ
-#!endif 
-
-#!if WITH_QP 
 
      !> ZPBRFS: improves the computed solution to a system of linear
      !> equations when the coefficient matrix is Hermitian positive definite
@@ -58439,9 +56672,6 @@ module stdlib_linalg_lapack_w
            end do loop_140
            return
      end subroutine stdlib_wpbrfs
-#!endif 
-
-#!if WITH_QP 
 
      !> ZPBSTF: computes a split Cholesky factorization of a complex
      !> Hermitian positive definite band matrix A.
@@ -58576,9 +56806,6 @@ module stdlib_linalg_lapack_w
            info = j
            return
      end subroutine stdlib_wpbstf
-#!endif 
-
-#!if WITH_QP 
 
      !> ZPBSV: computes the solution to a complex system of linear equations
      !> A * X = B,
@@ -58633,9 +56860,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wpbsv
-#!endif 
-
-#!if WITH_QP 
 
      !> ZPBSVX: uses the Cholesky factorization A = U**H*U or A = L*L**H to
      !> compute the solution to a complex system of linear equations
@@ -58793,9 +57017,6 @@ module stdlib_linalg_lapack_w
            if( rcond<stdlib_qlamch( 'EPSILON' ) )info = n + 1
            return
      end subroutine stdlib_wpbsvx
-#!endif 
-
-#!if WITH_QP 
 
      !> ZPBTF2: computes the Cholesky factorization of a complex Hermitian
      !> positive definite band matrix A.
@@ -58891,9 +57112,6 @@ module stdlib_linalg_lapack_w
            info = j
            return
      end subroutine stdlib_wpbtf2
-#!endif 
-
-#!if WITH_QP 
 
      !> ZPBTRF: computes the Cholesky factorization of a complex Hermitian
      !> positive definite band matrix A.
@@ -59094,9 +57312,6 @@ module stdlib_linalg_lapack_w
            150 continue
            return
      end subroutine stdlib_wpbtrf
-#!endif 
-
-#!if WITH_QP 
 
      !> ZPBTRS: solves a system of linear equations A*X = B with a Hermitian
      !> positive definite band matrix A using the Cholesky factorization
@@ -59165,9 +57380,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wpbtrs
-#!endif 
-
-#!if WITH_QP 
 
      !> ZPFTRF: computes the Cholesky factorization of a complex Hermitian
      !> positive definite matrix A.
@@ -59344,9 +57556,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wpftrf
-#!endif 
-
-#!if WITH_QP 
 
      !> ZPFTRI: computes the inverse of a complex Hermitian positive definite
      !> matrix A using the Cholesky factorization A = U**H*U or A = L*L**H
@@ -59506,9 +57715,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wpftri
-#!endif 
-
-#!if WITH_QP 
 
      !> ZPFTRS: solves a system of linear equations A*X = B with a Hermitian
      !> positive definite matrix A using the Cholesky factorization
@@ -59563,9 +57769,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wpftrs
-#!endif 
-
-#!if WITH_QP 
 
      !> ZPOCON: estimates the reciprocal of the condition number (in the
      !> 1-norm) of a complex Hermitian positive definite matrix using the
@@ -59666,9 +57869,6 @@ module stdlib_linalg_lapack_w
            20 continue
            return
      end subroutine stdlib_wpocon
-#!endif 
-
-#!if WITH_QP 
 
      !> ZPOEQU: computes row and column scalings intended to equilibrate a
      !> Hermitian positive definite matrix A and reduce its condition number
@@ -59743,9 +57943,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wpoequ
-#!endif 
-
-#!if WITH_QP 
 
      !> ZPOEQUB: computes row and column scalings intended to equilibrate a
      !> Hermitian positive definite matrix A and reduce its condition number
@@ -59828,9 +58025,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wpoequb
-#!endif 
-
-#!if WITH_QP 
 
      !> ZPORFS: improves the computed solution to a system of linear
      !> equations when the coefficient matrix is Hermitian positive definite,
@@ -60024,9 +58218,6 @@ module stdlib_linalg_lapack_w
            end do loop_140
            return
      end subroutine stdlib_wporfs
-#!endif 
-
-#!if WITH_QP 
 
      !> ZPOSV: computes the solution to a complex system of linear equations
      !> A * X = B,
@@ -60078,9 +58269,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wposv
-#!endif 
-
-#!if WITH_QP 
 
      !> ZPOSVX: uses the Cholesky factorization A = U**H*U or A = L*L**H to
      !> compute the solution to a complex system of linear equations
@@ -60225,9 +58413,6 @@ module stdlib_linalg_lapack_w
            if( rcond<stdlib_qlamch( 'EPSILON' ) )info = n + 1
            return
      end subroutine stdlib_wposvx
-#!endif 
-
-#!if WITH_QP 
 
      !> ZPOTF2: computes the Cholesky factorization of a complex Hermitian
      !> positive definite matrix A.
@@ -60322,9 +58507,6 @@ module stdlib_linalg_lapack_w
            40 continue
            return
      end subroutine stdlib_wpotf2
-#!endif 
-
-#!if WITH_QP 
 
      !> ZPOTRF: computes the Cholesky factorization of a complex Hermitian
      !> positive definite matrix A.
@@ -60420,9 +58602,6 @@ module stdlib_linalg_lapack_w
            40 continue
            return
      end subroutine stdlib_wpotrf
-#!endif 
-
-#!if WITH_QP 
 
      !> ZPOTRF2: computes the Cholesky factorization of a Hermitian
      !> positive definite matrix A using the recursive algorithm.
@@ -60524,9 +58703,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wpotrf2
-#!endif 
-
-#!if WITH_QP 
 
      !> ZPOTRI: computes the inverse of a complex Hermitian positive definite
      !> matrix A using the Cholesky factorization A = U**H*U or A = L*L**H
@@ -60568,9 +58744,6 @@ module stdlib_linalg_lapack_w
            call stdlib_wlauum( uplo, n, a, lda, info )
            return
      end subroutine stdlib_wpotri
-#!endif 
-
-#!if WITH_QP 
 
      !> ZPOTRS: solves a system of linear equations A*X = B with a Hermitian
      !> positive definite matrix A using the Cholesky factorization
@@ -60633,9 +58806,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wpotrs
-#!endif 
-
-#!if WITH_QP 
 
      !> ZPPCON: estimates the reciprocal of the condition number (in the
      !> 1-norm) of a complex Hermitian positive definite packed matrix using
@@ -60735,9 +58905,6 @@ module stdlib_linalg_lapack_w
            20 continue
            return
      end subroutine stdlib_wppcon
-#!endif 
-
-#!if WITH_QP 
 
      !> ZPPEQU: computes row and column scalings intended to equilibrate a
      !> Hermitian positive definite matrix A in packed storage and reduce
@@ -60831,9 +58998,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wppequ
-#!endif 
-
-#!if WITH_QP 
 
      !> ZPPRFS: improves the computed solution to a system of linear
      !> equations when the coefficient matrix is Hermitian positive definite
@@ -61030,9 +59194,6 @@ module stdlib_linalg_lapack_w
            end do loop_140
            return
      end subroutine stdlib_wpprfs
-#!endif 
-
-#!if WITH_QP 
 
      !> ZPPSV: computes the solution to a complex system of linear equations
      !> A * X = B,
@@ -61082,9 +59243,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wppsv
-#!endif 
-
-#!if WITH_QP 
 
      !> ZPPSVX: uses the Cholesky factorization A = U**H * U or A = L * L**H to
      !> compute the solution to a complex system of linear equations
@@ -61225,9 +59383,6 @@ module stdlib_linalg_lapack_w
            if( rcond<stdlib_qlamch( 'EPSILON' ) )info = n + 1
            return
      end subroutine stdlib_wppsvx
-#!endif 
-
-#!if WITH_QP 
 
      !> ZPPTRF: computes the Cholesky factorization of a complex Hermitian
      !> positive definite matrix A stored in packed format.
@@ -61314,9 +59469,6 @@ module stdlib_linalg_lapack_w
            40 continue
            return
      end subroutine stdlib_wpptrf
-#!endif 
-
-#!if WITH_QP 
 
      !> ZPPTRI: computes the inverse of a complex Hermitian positive definite
      !> matrix A using the Cholesky factorization A = U**H*U or A = L*L**H
@@ -61381,9 +59533,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wpptri
-#!endif 
-
-#!if WITH_QP 
 
      !> ZPPTRS: solves a system of linear equations A*X = B with a Hermitian
      !> positive definite matrix A in packed storage using the Cholesky
@@ -61448,9 +59597,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wpptrs
-#!endif 
-
-#!if WITH_QP 
 
      !> ZPSTF2: computes the Cholesky factorization with complete
      !> pivoting of a complex Hermitian positive semidefinite matrix A.
@@ -61645,9 +59791,6 @@ module stdlib_linalg_lapack_w
            200 continue
            return
      end subroutine stdlib_wpstf2
-#!endif 
-
-#!if WITH_QP 
 
      !> ZPSTRF: computes the Cholesky factorization with complete
      !> pivoting of a complex Hermitian positive semidefinite matrix A.
@@ -61874,9 +60017,6 @@ module stdlib_linalg_lapack_w
            230 continue
            return
      end subroutine stdlib_wpstrf
-#!endif 
-
-#!if WITH_QP 
 
      !> ZPTCON: computes the reciprocal of the condition number (in the
      !> 1-norm) of a complex Hermitian positive definite tridiagonal matrix
@@ -61951,9 +60091,6 @@ module stdlib_linalg_lapack_w
            if( ainvnm/=zero )rcond = ( one / ainvnm ) / anorm
            return
      end subroutine stdlib_wptcon
-#!endif 
-
-#!if WITH_QP 
 
      !> ZPTEQR: computes all eigenvalues and, optionally, eigenvectors of a
      !> symmetric positive definite tridiagonal matrix by first factoring the
@@ -62049,9 +60186,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wpteqr
-#!endif 
-
-#!if WITH_QP 
 
      !> ZPTRFS: improves the computed solution to a system of linear
      !> equations when the coefficient matrix is Hermitian positive definite
@@ -62270,9 +60404,6 @@ module stdlib_linalg_lapack_w
            end do loop_100
            return
      end subroutine stdlib_wptrfs
-#!endif 
-
-#!if WITH_QP 
 
      !> ZPTSV: computes the solution to a complex system of linear equations
      !> A*X = B, where A is an N-by-N Hermitian positive definite tridiagonal
@@ -62315,9 +60446,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wptsv
-#!endif 
-
-#!if WITH_QP 
 
      !> ZPTSVX: uses the factorization A = L*D*L**H to compute the solution
      !> to a complex system of linear equations A*X = B, where A is an
@@ -62395,9 +60523,6 @@ module stdlib_linalg_lapack_w
            if( rcond<stdlib_qlamch( 'EPSILON' ) )info = n + 1
            return
      end subroutine stdlib_wptsvx
-#!endif 
-
-#!if WITH_QP 
 
      !> ZPTTRF: computes the L*D*L**H factorization of a complex Hermitian
      !> positive definite tridiagonal matrix A.  The factorization may also
@@ -62497,9 +60622,6 @@ module stdlib_linalg_lapack_w
            30 continue
            return
      end subroutine stdlib_wpttrf
-#!endif 
-
-#!if WITH_QP 
 
      !> ZPTTRS: solves a tridiagonal system of the form
      !> A * X = B
@@ -62567,9 +60689,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wpttrs
-#!endif 
-
-#!if WITH_QP 
 
      !> ZPTTS2: solves a tridiagonal system of the form
      !> A * X = B
@@ -62670,9 +60789,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wptts2
-#!endif 
-
-#!if WITH_QP 
 
      !> ZROT:   applies a plane rotation, where the cos (C) is real and the
      !> sin (S) is complex, and the vectors CX and CY are complex.
@@ -62718,9 +60834,6 @@ module stdlib_linalg_lapack_w
            end do
            return
      end subroutine stdlib_wrot
-#!endif 
-
-#!if WITH_QP 
 
      !> ZSPCON: estimates the reciprocal of the condition number (in the
      !> 1-norm) of a complex symmetric packed matrix A using the
@@ -62802,9 +60915,6 @@ module stdlib_linalg_lapack_w
            if( ainvnm/=zero )rcond = ( one / ainvnm ) / anorm
            return
      end subroutine stdlib_wspcon
-#!endif 
-
-#!if WITH_QP 
 
      !> ZSPMV:  performs the matrix-vector operation
      !> y := alpha*A*x + beta*y,
@@ -62963,9 +61073,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wspmv
-#!endif 
-
-#!if WITH_QP 
 
      !> ZSPR:    performs the symmetric rank 1 operation
      !> A := alpha*x*x**H + A,
@@ -63086,9 +61193,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wspr
-#!endif 
-
-#!if WITH_QP 
 
      !> ZSPRFS: improves the computed solution to a system of linear
      !> equations when the coefficient matrix is symmetric indefinite
@@ -63286,9 +61390,6 @@ module stdlib_linalg_lapack_w
            end do loop_140
            return
      end subroutine stdlib_wsprfs
-#!endif 
-
-#!if WITH_QP 
 
      !> ZSPSV: computes the solution to a complex system of linear equations
      !> A * X = B,
@@ -63340,9 +61441,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wspsv
-#!endif 
-
-#!if WITH_QP 
 
      !> ZSPSVX: uses the diagonal pivoting factorization A = U*D*U**T or
      !> A = L*D*L**T to compute the solution to a complex system of linear
@@ -63421,9 +61519,6 @@ module stdlib_linalg_lapack_w
            if( rcond<stdlib_qlamch( 'EPSILON' ) )info = n + 1
            return
      end subroutine stdlib_wspsvx
-#!endif 
-
-#!if WITH_QP 
 
      !> ZSPTRF: computes the factorization of a complex symmetric matrix A
      !> stored in packed format using the Bunch-Kaufman diagonal pivoting
@@ -63753,9 +61848,6 @@ module stdlib_linalg_lapack_w
            110 continue
            return
      end subroutine stdlib_wsptrf
-#!endif 
-
-#!if WITH_QP 
 
      !> ZSPTRI: computes the inverse of a complex symmetric indefinite matrix
      !> A in packed storage using the factorization A = U*D*U**T or
@@ -63967,9 +62059,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wsptri
-#!endif 
-
-#!if WITH_QP 
 
      !> ZSPTRS: solves a system of linear equations A*X = B with a complex
      !> symmetric matrix A stored in packed format using the factorization
@@ -64190,9 +62279,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wsptrs
-#!endif 
-
-#!if WITH_QP 
 
      !> ZSTEDC: computes all eigenvalues and, optionally, eigenvectors of a
      !> symmetric tridiagonal matrix using the divide and conquer method.
@@ -64407,9 +62493,6 @@ module stdlib_linalg_lapack_w
            iwork( 1 ) = liwmin
            return
      end subroutine stdlib_wstedc
-#!endif 
-
-#!if WITH_QP 
 
      !> ZSTEGR: computes selected eigenvalues and, optionally, eigenvectors
      !> of a real symmetric tridiagonal matrix T. Any such unreduced matrix has
@@ -64452,9 +62535,6 @@ module stdlib_linalg_lapack_w
            call stdlib_wstemr( jobz, range, n, d, e, vl, vu, il, iu,m, w, z, ldz, n, isuppz, &
                      tryrac, work, lwork,iwork, liwork, info )
      end subroutine stdlib_wstegr
-#!endif 
-
-#!if WITH_QP 
 
      !> ZSTEIN: computes the eigenvectors of a real symmetric tridiagonal
      !> matrix T corresponding to specified eigenvalues, using inverse
@@ -64665,9 +62745,6 @@ module stdlib_linalg_lapack_w
            end do loop_180
            return
      end subroutine stdlib_wstein
-#!endif 
-
-#!if WITH_QP 
 
      !> ZSTEMR: computes selected eigenvalues and, optionally, eigenvectors
      !> of a real symmetric tridiagonal matrix T. Any such unreduced matrix has
@@ -65102,9 +63179,6 @@ module stdlib_linalg_lapack_w
            iwork( 1 ) = liwmin
            return
      end subroutine stdlib_wstemr
-#!endif 
-
-#!if WITH_QP 
 
      !> ZSTEQR: computes all eigenvalues and, optionally, eigenvectors of a
      !> symmetric tridiagonal matrix using the implicit QL or QR method.
@@ -65425,9 +63499,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wsteqr
-#!endif 
-
-#!if WITH_QP 
 
      !> ZSYCON: estimates the reciprocal of the condition number (in the
      !> 1-norm) of a complex symmetric matrix A using the factorization
@@ -65509,9 +63580,6 @@ module stdlib_linalg_lapack_w
            if( ainvnm/=zero )rcond = ( one / ainvnm ) / anorm
            return
      end subroutine stdlib_wsycon
-#!endif 
-
-#!if WITH_QP 
 
      !> ZSYCON_ROOK: estimates the reciprocal of the condition number (in the
      !> 1-norm) of a complex symmetric matrix A using the factorization
@@ -65594,9 +63662,6 @@ module stdlib_linalg_lapack_w
            if( ainvnm/=zero )rcond = ( one / ainvnm ) / anorm
            return
      end subroutine stdlib_wsycon_rook
-#!endif 
-
-#!if WITH_QP 
 
      !> ZSYCONV: converts A given by ZHETRF into L and D or vice-versa.
      !> Get nondiagonal elements of D (returned in workspace) and
@@ -65802,9 +63867,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wsyconv
-#!endif 
-
-#!if WITH_QP 
 
      !> If parameter WAY = 'C':
      !> ZSYCONVF: converts the factorization output format used in
@@ -66062,9 +64124,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wsyconvf
-#!endif 
-
-#!if WITH_QP 
 
      !> If parameter WAY = 'C':
      !> ZSYCONVF_ROOK: converts the factorization output format used in
@@ -66320,9 +64379,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wsyconvf_rook
-#!endif 
-
-#!if WITH_QP 
 
      !> ZSYEQUB: computes row and column scalings intended to equilibrate a
      !> symmetric matrix A (with respect to the Euclidean norm) and reduce
@@ -66505,9 +64561,6 @@ module stdlib_linalg_lapack_w
            end do
            scond = max( smin, smlnum ) / min( smax, bignum )
      end subroutine stdlib_wsyequb
-#!endif 
-
-#!if WITH_QP 
 
      !> ZSYMV:  performs the matrix-vector  operation
      !> y := alpha*A*x + beta*y,
@@ -66662,9 +64715,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wsymv
-#!endif 
-
-#!if WITH_QP 
 
      !> ZSYR:   performs the symmetric rank 1 operation
      !> A := alpha*x*x**H + A,
@@ -66769,9 +64819,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wsyr
-#!endif 
-
-#!if WITH_QP 
 
      !> ZSYRFS: improves the computed solution to a system of linear
      !> equations when the coefficient matrix is symmetric indefinite, and
@@ -66965,9 +65012,6 @@ module stdlib_linalg_lapack_w
            end do loop_140
            return
      end subroutine stdlib_wsyrfs
-#!endif 
-
-#!if WITH_QP 
 
      !> ZSYSV: computes the solution to a complex system of linear equations
      !> A * X = B,
@@ -67046,9 +65090,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = lwkopt
            return
      end subroutine stdlib_wsysv
-#!endif 
-
-#!if WITH_QP 
 
      !> ZSYSV computes the solution to a complex system of linear equations
      !> A * X = B,
@@ -67121,9 +65162,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = lwkopt
            return
      end subroutine stdlib_wsysv_aa
-#!endif 
-
-#!if WITH_QP 
 
      !> ZSYSV_RK: computes the solution to a complex system of linear
      !> equations A * X = B, where A is an N-by-N symmetric matrix
@@ -67201,9 +65239,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = lwkopt
            return
      end subroutine stdlib_wsysv_rk
-#!endif 
-
-#!if WITH_QP 
 
      !> ZSYSV_ROOK: computes the solution to a complex system of linear
      !> equations
@@ -67283,9 +65318,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = lwkopt
            return
      end subroutine stdlib_wsysv_rook
-#!endif 
-
-#!if WITH_QP 
 
      !> ZSYSVX: uses the diagonal pivoting factorization to compute the
      !> solution to a complex system of linear equations A * X = B,
@@ -67383,9 +65415,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = lwkopt
            return
      end subroutine stdlib_wsysvx
-#!endif 
-
-#!if WITH_QP 
 
      !> ZSYSWAPR: applies an elementary permutation on the rows and the columns of
      !> a symmetric matrix.
@@ -67454,9 +65483,6 @@ module stdlib_linalg_lapack_w
                end do
            endif
      end subroutine stdlib_wsyswapr
-#!endif 
-
-#!if WITH_QP 
 
      !> ZSYTF2: computes the factorization of a complex symmetric matrix A
      !> using the Bunch-Kaufman diagonal pivoting method:
@@ -67748,9 +65774,6 @@ module stdlib_linalg_lapack_w
            70 continue
            return
      end subroutine stdlib_wsytf2
-#!endif 
-
-#!if WITH_QP 
 
      !> ZSYTF2_RK: computes the factorization of a complex symmetric matrix A
      !> using the bounded Bunch-Kaufman (rook) diagonal pivoting method:
@@ -68208,9 +66231,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wsytf2_rk
-#!endif 
-
-#!if WITH_QP 
 
      !> ZSYTF2_ROOK: computes the factorization of a complex symmetric matrix A
      !> using the bounded Bunch-Kaufman ("rook") diagonal pivoting method:
@@ -68627,9 +66647,6 @@ module stdlib_linalg_lapack_w
            70 continue
            return
      end subroutine stdlib_wsytf2_rook
-#!endif 
-
-#!if WITH_QP 
 
      !> ZSYTRF: computes the factorization of a complex symmetric matrix A
      !> using the Bunch-Kaufman diagonal pivoting method.  The form of the
@@ -68756,9 +66773,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = lwkopt
            return
      end subroutine stdlib_wsytrf
-#!endif 
-
-#!if WITH_QP 
 
      !> ZSYTRF_AA: computes the factorization of a complex symmetric matrix A
      !> using the Aasen's algorithm.  The form of the factorization is
@@ -68984,9 +66998,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = lwkopt
            return
      end subroutine stdlib_wsytrf_aa
-#!endif 
-
-#!if WITH_QP 
 
      !> ZSYTRF_RK: computes the factorization of a complex symmetric matrix A
      !> using the bounded Bunch-Kaufman (rook) diagonal pivoting method:
@@ -69153,9 +67164,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = lwkopt
            return
      end subroutine stdlib_wsytrf_rk
-#!endif 
-
-#!if WITH_QP 
 
      !> ZSYTRF_ROOK: computes the factorization of a complex symmetric matrix A
      !> using the bounded Bunch-Kaufman ("rook") diagonal pivoting method.
@@ -69284,9 +67292,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = lwkopt
            return
      end subroutine stdlib_wsytrf_rook
-#!endif 
-
-#!if WITH_QP 
 
      !> ZSYTRI: computes the inverse of a complex symmetric indefinite matrix
      !> A using the factorization A = U*D*U**T or A = L*D*L**T computed by
@@ -69475,9 +67480,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wsytri
-#!endif 
-
-#!if WITH_QP 
 
      !> ZSYTRI_ROOK: computes the inverse of a complex symmetric
      !> matrix A using the factorization A = U*D*U**T or A = L*D*L**T
@@ -69706,9 +67708,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wsytri_rook
-#!endif 
-
-#!if WITH_QP 
 
      !> ZSYTRS: solves a system of linear equations A*X = B with a complex
      !> symmetric matrix A using the factorization A = U*D*U**T or
@@ -69919,9 +67918,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wsytrs
-#!endif 
-
-#!if WITH_QP 
 
      !> ZSYTRS2: solves a system of linear equations A*X = B with a complex
      !> symmetric matrix A using the factorization A = U*D*U**T or
@@ -70100,9 +68096,6 @@ module stdlib_linalg_lapack_w
            call stdlib_wsyconv( uplo, 'R', n, a, lda, ipiv, work, iinfo )
            return
      end subroutine stdlib_wsytrs2
-#!endif 
-
-#!if WITH_QP 
 
      !> ZSYTRS_3: solves a system of linear equations A * X = B with a complex
      !> symmetric matrix A using the factorization computed
@@ -70260,9 +68253,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wsytrs_3
-#!endif 
-
-#!if WITH_QP 
 
      !> ZSYTRS_AA: solves a system of linear equations A*X = B with a complex
      !> symmetric matrix A using the factorization A = U**T*T*U or
@@ -70382,9 +68372,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wsytrs_aa
-#!endif 
-
-#!if WITH_QP 
 
      !> ZSYTRS_ROOK: solves a system of linear equations A*X = B with
      !> a complex symmetric matrix A using the factorization A = U*D*U**T or
@@ -70607,9 +68594,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wsytrs_rook
-#!endif 
-
-#!if WITH_QP 
 
      !> ZTBCON: estimates the reciprocal of the condition number of a
      !> triangular band matrix A, in either the 1-norm or the infinity-norm.
@@ -70719,9 +68703,6 @@ module stdlib_linalg_lapack_w
            20 continue
            return
      end subroutine stdlib_wtbcon
-#!endif 
-
-#!if WITH_QP 
 
      !> ZTBRFS: provides error bounds and backward error estimates for the
      !> solution to a system of linear equations with a triangular band
@@ -70965,9 +68946,6 @@ module stdlib_linalg_lapack_w
            end do loop_250
            return
      end subroutine stdlib_wtbrfs
-#!endif 
-
-#!if WITH_QP 
 
      !> ZTBTRS: solves a triangular system of the form
      !> A * X = B,  A**T * X = B,  or  A**H * X = B,
@@ -71041,9 +69019,6 @@ module stdlib_linalg_lapack_w
            end do
            return
      end subroutine stdlib_wtbtrs
-#!endif 
-
-#!if WITH_QP 
 
      !> Level 3 BLAS like routine for A in RFP Format.
      !> ZTFSM:  solves the matrix equation
@@ -71546,9 +69521,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wtfsm
-#!endif 
-
-#!if WITH_QP 
 
      !> ZTFTRI: computes the inverse of a triangular matrix A stored in RFP
      !> format.
@@ -71732,9 +69704,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wtftri
-#!endif 
-
-#!if WITH_QP 
 
      !> ZTFTTP: copies a triangular matrix A from rectangular full packed
      !> format (TF) to standard packed format (TP).
@@ -71994,9 +69963,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wtfttp
-#!endif 
-
-#!if WITH_QP 
 
      !> ZTFTTR: copies a triangular matrix A from rectangular full packed
      !> format (TF) to standard full format (TR).
@@ -72247,9 +70213,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wtfttr
-#!endif 
-
-#!if WITH_QP 
 
      !> ZTGEVC: computes some or all of the right and/or left eigenvectors of
      !> a pair of complex matrices (S,P), where S and P are upper triangular.
@@ -72663,9 +70626,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wtgevc
-#!endif 
-
-#!if WITH_QP 
 
      !> ZTGEX2: swaps adjacent diagonal 1 by 1 blocks (A11,B11) and (A22,B22)
      !> in an upper triangular matrix pair (A, B) by an unitary equivalence
@@ -72808,9 +70768,6 @@ module stdlib_linalg_lapack_w
            info = 1
            return
      end subroutine stdlib_wtgex2
-#!endif 
-
-#!if WITH_QP 
 
      !> ZTGEXC: reorders the generalized Schur decomposition of a complex
      !> matrix pair (A,B), using an unitary equivalence transformation
@@ -72895,9 +70852,6 @@ module stdlib_linalg_lapack_w
            ilst = here
            return
      end subroutine stdlib_wtgexc
-#!endif 
-
-#!if WITH_QP 
 
      !> ZTGSEN: reorders the generalized Schur decomposition of a complex
      !> matrix pair (A, B) (in terms of an unitary equivalence trans-
@@ -73177,9 +71131,6 @@ module stdlib_linalg_lapack_w
            iwork( 1 ) = liwmin
            return
      end subroutine stdlib_wtgsen
-#!endif 
-
-#!if WITH_QP 
 
      !> ZTGSJA: computes the generalized singular value decomposition (GSVD)
      !> of two complex upper triangular (or trapezoidal) matrices A and B.
@@ -73429,9 +71380,6 @@ module stdlib_linalg_lapack_w
            ncycle = kcycle
            return
      end subroutine stdlib_wtgsja
-#!endif 
-
-#!if WITH_QP 
 
      !> ZTGSNA: estimates reciprocal condition numbers for specified
      !> eigenvalues and/or eigenvectors of a matrix pair (A, B).
@@ -73589,9 +71537,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = lwmin
            return
      end subroutine stdlib_wtgsna
-#!endif 
-
-#!if WITH_QP 
 
      !> ZTGSY2: solves the generalized Sylvester equation
      !> A * R - L * B = scale * C               (1)
@@ -73782,9 +71727,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wtgsy2
-#!endif 
-
-#!if WITH_QP 
 
      !> ZTGSYL: solves the generalized Sylvester equation:
      !> A * R - L * B = scale * C            (1)
@@ -74135,9 +72077,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = lwmin
            return
      end subroutine stdlib_wtgsyl
-#!endif 
-
-#!if WITH_QP 
 
      !> ZTPCON: estimates the reciprocal of the condition number of a packed
      !> triangular matrix A, in either the 1-norm or the infinity-norm.
@@ -74242,9 +72181,6 @@ module stdlib_linalg_lapack_w
            20 continue
            return
      end subroutine stdlib_wtpcon
-#!endif 
-
-#!if WITH_QP 
 
      !> ZTPLQT: computes a blocked LQ factorization of a complex
      !> "triangular-pentagonal" matrix C, which is composed of a
@@ -74307,9 +72243,6 @@ module stdlib_linalg_lapack_w
            end do
            return
      end subroutine stdlib_wtplqt
-#!endif 
-
-#!if WITH_QP 
 
      !> ZTPLQT2: computes a LQ a factorization of a complex "triangular-pentagonal"
      !> matrix C, which is composed of a triangular block A and pentagonal block B,
@@ -74426,9 +72359,6 @@ module stdlib_linalg_lapack_w
               end do
            end do
      end subroutine stdlib_wtplqt2
-#!endif 
-
-#!if WITH_QP 
 
      !> ZTPMLQT: applies a complex unitary matrix Q obtained from a
      !> "triangular-pentagonal" complex block reflector H to a general
@@ -74547,9 +72477,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wtpmlqt
-#!endif 
-
-#!if WITH_QP 
 
      !> ZTPMQRT: applies a complex orthogonal matrix Q obtained from a
      !> "triangular-pentagonal" complex block reflector H to a general
@@ -74670,9 +72597,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wtpmqrt
-#!endif 
-
-#!if WITH_QP 
 
      !> ZTPQRT: computes a blocked QR factorization of a complex
      !> "triangular-pentagonal" matrix C, which is composed of a
@@ -74735,9 +72659,6 @@ module stdlib_linalg_lapack_w
            end do
            return
      end subroutine stdlib_wtpqrt
-#!endif 
-
-#!if WITH_QP 
 
      !> ZTPQRT2: computes a QR factorization of a complex "triangular-pentagonal"
      !> matrix C, which is composed of a triangular block A and pentagonal block B,
@@ -74829,9 +72750,6 @@ module stdlib_linalg_lapack_w
               t( i, 1 ) = czero
            end do
      end subroutine stdlib_wtpqrt2
-#!endif 
-
-#!if WITH_QP 
 
      !> ZTPRFB: applies a complex "triangular-pentagonal" block reflector H or its
      !> conjugate transpose H**H to a complex matrix C, which is composed of two
@@ -75252,9 +73170,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wtprfb
-#!endif 
-
-#!if WITH_QP 
 
      !> ZTPRFS: provides error bounds and backward error estimates for the
      !> solution to a system of linear equations with a triangular packed
@@ -75506,9 +73421,6 @@ module stdlib_linalg_lapack_w
            end do loop_250
            return
      end subroutine stdlib_wtprfs
-#!endif 
-
-#!if WITH_QP 
 
      !> ZTPTRI: computes the inverse of a complex upper or lower triangular
      !> matrix A stored in packed format.
@@ -75599,9 +73511,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wtptri
-#!endif 
-
-#!if WITH_QP 
 
      !> ZTPTRS: solves a triangular system of the form
      !> A * X = B,  A**T * X = B,  or  A**H * X = B,
@@ -75675,9 +73584,6 @@ module stdlib_linalg_lapack_w
            end do
            return
      end subroutine stdlib_wtptrs
-#!endif 
-
-#!if WITH_QP 
 
      !> ZTPTTF: copies a triangular matrix A from standard packed format (TP)
      !> to rectangular full packed format (TF).
@@ -75936,9 +73842,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wtpttf
-#!endif 
-
-#!if WITH_QP 
 
      !> ZTPTTR: copies a triangular matrix A from standard packed format (TP)
      !> to standard full format (TR).
@@ -75993,9 +73896,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wtpttr
-#!endif 
-
-#!if WITH_QP 
 
      !> ZTRCON: estimates the reciprocal of the condition number of a
      !> triangular matrix A, in either the 1-norm or the infinity-norm.
@@ -76102,9 +74002,6 @@ module stdlib_linalg_lapack_w
            20 continue
            return
      end subroutine stdlib_wtrcon
-#!endif 
-
-#!if WITH_QP 
 
      !> ZTREVC: computes some or all of the right and/or left eigenvectors of
      !> a complex upper triangular matrix T.
@@ -76305,9 +74202,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wtrevc
-#!endif 
-
-#!if WITH_QP 
 
      !> ZTREVC3: computes some or all of the right and/or left eigenvectors of
      !> a complex upper triangular matrix T.
@@ -76605,9 +74499,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wtrevc3
-#!endif 
-
-#!if WITH_QP 
 
      !> ZTREXC: reorders the Schur factorization of a complex matrix
      !> A = Q*T*Q**H, so that the diagonal element of T with row index IFST
@@ -76687,9 +74578,6 @@ module stdlib_linalg_lapack_w
            end do
            return
      end subroutine stdlib_wtrexc
-#!endif 
-
-#!if WITH_QP 
 
      !> ZTRRFS: provides error bounds and backward error estimates for the
      !> solution to a system of linear equations with a triangular
@@ -76931,9 +74819,6 @@ module stdlib_linalg_lapack_w
            end do loop_250
            return
      end subroutine stdlib_wtrrfs
-#!endif 
-
-#!if WITH_QP 
 
      !> ZTRSEN: reorders the Schur factorization of a complex matrix
      !> A = Q*T*Q**H, so that a selected cluster of eigenvalues appears in
@@ -77071,9 +74956,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = lwmin
            return
      end subroutine stdlib_wtrsen
-#!endif 
-
-#!if WITH_QP 
 
      !> ZTRSNA: estimates reciprocal condition numbers for specified
      !> eigenvalues and/or right eigenvectors of a complex upper triangular
@@ -77223,9 +75105,6 @@ module stdlib_linalg_lapack_w
            end do loop_50
            return
      end subroutine stdlib_wtrsna
-#!endif 
-
-#!if WITH_QP 
 
      !> ZTRSYL: solves the complex Sylvester matrix equation:
      !> op(A)*X + X*op(B) = scale*C or
@@ -77452,9 +75331,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wtrsyl
-#!endif 
-
-#!if WITH_QP 
 
      !> ZTRTI2: computes the inverse of a complex upper or lower triangular
      !> matrix.
@@ -77529,9 +75405,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wtrti2
-#!endif 
-
-#!if WITH_QP 
 
      !> ZTRTRI: computes the inverse of a complex upper or lower triangular
      !> matrix A.
@@ -77619,9 +75492,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wtrtri
-#!endif 
-
-#!if WITH_QP 
 
      !> ZTRTRS: solves a triangular system of the form
      !> A * X = B,  A**T * X = B,  or  A**H * X = B,
@@ -77682,9 +75552,6 @@ module stdlib_linalg_lapack_w
            call stdlib_wtrsm( 'LEFT', uplo, trans, diag, n, nrhs, cone, a, lda, b,ldb )
            return
      end subroutine stdlib_wtrtrs
-#!endif 
-
-#!if WITH_QP 
 
      !> ZTRTTF: copies a triangular matrix A from standard full format (TR)
      !> to rectangular full packed format (TF) .
@@ -77934,9 +75801,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wtrttf
-#!endif 
-
-#!if WITH_QP 
 
      !> ZTRTTP: copies a triangular matrix A from full format (TR) to standard
      !> packed format (TP).
@@ -77991,9 +75855,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wtrttp
-#!endif 
-
-#!if WITH_QP 
 
      !> ZTZRZF: reduces the M-by-N ( M<=N ) complex upper trapezoidal matrix A
      !> to upper triangular form by means of unitary transformations.
@@ -78110,9 +75971,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = lwkopt
            return
      end subroutine stdlib_wtzrzf
-#!endif 
-
-#!if WITH_QP 
 
      !> ZUNBDB: simultaneously bidiagonalizes the blocks of an M-by-M
      !> partitioned unitary matrix X:
@@ -78436,9 +76294,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wunbdb
-#!endif 
-
-#!if WITH_QP 
 
      !> ZUNBDB1: simultaneously bidiagonalizes the blocks of a tall and skinny
      !> matrix X with orthonomal columns:
@@ -78544,9 +76399,6 @@ module stdlib_linalg_lapack_w
            end do
            return
      end subroutine stdlib_wunbdb1
-#!endif 
-
-#!if WITH_QP 
 
      !> ZUNBDB2: simultaneously bidiagonalizes the blocks of a tall and skinny
      !> matrix X with orthonomal columns:
@@ -78662,9 +76514,6 @@ module stdlib_linalg_lapack_w
            end do
            return
      end subroutine stdlib_wunbdb2
-#!endif 
-
-#!if WITH_QP 
 
      !> ZUNBDB3: simultaneously bidiagonalizes the blocks of a tall and skinny
      !> matrix X with orthonomal columns:
@@ -78779,9 +76628,6 @@ module stdlib_linalg_lapack_w
            end do
            return
      end subroutine stdlib_wunbdb3
-#!endif 
-
-#!if WITH_QP 
 
      !> ZUNBDB4: simultaneously bidiagonalizes the blocks of a tall and skinny
      !> matrix X with orthonomal columns:
@@ -78931,9 +76777,6 @@ module stdlib_linalg_lapack_w
            end do
            return
      end subroutine stdlib_wunbdb4
-#!endif 
-
-#!if WITH_QP 
 
      !> ZUNBDB5: orthogonalizes the column vector
      !> X = [ X1 ]
@@ -79033,9 +76876,6 @@ module stdlib_linalg_lapack_w
            end do
            return
      end subroutine stdlib_wunbdb5
-#!endif 
-
-#!if WITH_QP 
 
      !> ZUNBDB6: orthogonalizes the column vector
      !> X = [ X1 ]
@@ -79164,9 +77004,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wunbdb6
-#!endif 
-
-#!if WITH_QP 
 
      !> ZUNCSD: computes the CS decomposition of an M-by-M partitioned
      !> unitary matrix X:
@@ -79457,9 +77294,6 @@ module stdlib_linalg_lapack_w
            return
            ! end stdlib_wuncsd
      end subroutine stdlib_wuncsd
-#!endif 
-
-#!if WITH_QP 
 
      !> ZUNCSD2BY1: computes the CS decomposition of an M-by-Q matrix X with
      !> orthonormal columns that has been partitioned into a 2-by-1 block
@@ -79897,9 +77731,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wuncsd2by1
-#!endif 
-
-#!if WITH_QP 
 
      !> ZUNG2L: generates an m by n complex matrix Q with orthonormal columns,
      !> which is defined as the last n columns of a product of k elementary
@@ -79964,9 +77795,6 @@ module stdlib_linalg_lapack_w
            end do
            return
      end subroutine stdlib_wung2l
-#!endif 
-
-#!if WITH_QP 
 
      !> ZUNG2R: generates an m by n complex matrix Q with orthonormal columns,
      !> which is defined as the first n columns of a product of k elementary
@@ -80032,9 +77860,6 @@ module stdlib_linalg_lapack_w
            end do
            return
      end subroutine stdlib_wung2r
-#!endif 
-
-#!if WITH_QP 
 
      !> ZUNGBR: generates one of the complex unitary matrices Q or P**H
      !> determined by ZGEBRD when reducing a complex matrix A to bidiagonal
@@ -80184,9 +78009,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = lwkopt
            return
      end subroutine stdlib_wungbr
-#!endif 
-
-#!if WITH_QP 
 
      !> ZUNGHR: generates a complex unitary matrix Q which is defined as the
      !> product of IHI-ILO elementary reflectors of order N, as returned by
@@ -80277,9 +78099,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = lwkopt
            return
      end subroutine stdlib_wunghr
-#!endif 
-
-#!if WITH_QP 
 
      !> ZUNGL2: generates an m-by-n complex matrix Q with orthonormal rows,
      !> which is defined as the first m rows of a product of k elementary
@@ -80351,9 +78170,6 @@ module stdlib_linalg_lapack_w
            end do
            return
      end subroutine stdlib_wungl2
-#!endif 
-
-#!if WITH_QP 
 
      !> ZUNGLQ: generates an M-by-N complex matrix Q with orthonormal rows,
      !> which is defined as the first M rows of a product of K elementary
@@ -80470,9 +78286,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = iws
            return
      end subroutine stdlib_wunglq
-#!endif 
-
-#!if WITH_QP 
 
      !> ZUNGQL: generates an M-by-N complex matrix Q with orthonormal columns,
      !> which is defined as the last N columns of a product of K elementary
@@ -80594,9 +78407,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = iws
            return
      end subroutine stdlib_wungql
-#!endif 
-
-#!if WITH_QP 
 
      !> ZUNGQR: generates an M-by-N complex matrix Q with orthonormal columns,
      !> which is defined as the first N columns of a product of K elementary
@@ -80713,9 +78523,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = iws
            return
      end subroutine stdlib_wungqr
-#!endif 
-
-#!if WITH_QP 
 
      !> ZUNGR2: generates an m by n complex matrix Q with orthonormal rows,
      !> which is defined as the last m rows of a product of k elementary
@@ -80784,9 +78591,6 @@ module stdlib_linalg_lapack_w
            end do
            return
      end subroutine stdlib_wungr2
-#!endif 
-
-#!if WITH_QP 
 
      !> ZUNGRQ: generates an M-by-N complex matrix Q with orthonormal rows,
      !> which is defined as the last M rows of a product of K elementary
@@ -80909,9 +78713,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = iws
            return
      end subroutine stdlib_wungrq
-#!endif 
-
-#!if WITH_QP 
 
      !> ZUNGTR: generates a complex unitary matrix Q which is defined as the
      !> product of n-1 elementary reflectors of order N, as returned by
@@ -81013,9 +78814,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = lwkopt
            return
      end subroutine stdlib_wungtr
-#!endif 
-
-#!if WITH_QP 
 
      !> ZUNGTSQR: generates an M-by-N complex matrix Q_out with orthonormal
      !> columns, which are the first N columns of a product of comlpex unitary
@@ -81114,9 +78912,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = cmplx( lworkopt,KIND=qp)
            return
      end subroutine stdlib_wungtsqr
-#!endif 
-
-#!if WITH_QP 
 
      !> ZUNGTSQR_ROW: generates an M-by-N complex matrix Q_out with
      !> orthonormal columns from the output of ZLATSQR. These N orthonormal
@@ -81260,9 +79055,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = cmplx( lworkopt,KIND=qp)
            return
      end subroutine stdlib_wungtsqr_row
-#!endif 
-
-#!if WITH_QP 
 
      !> ZUNHR_COL: takes an M-by-N complex matrix Q_in with orthonormal columns
      !> as input, stored in A, and performs Householder Reconstruction (HR),
@@ -81400,9 +79192,6 @@ module stdlib_linalg_lapack_w
            end do
            return
      end subroutine stdlib_wunhr_col
-#!endif 
-
-#!if WITH_QP 
 
 
      pure subroutine stdlib_wunm22( side, trans, m, n, n1, n2, q, ldq, c, ldc,work, lwork, info )
@@ -81585,9 +79374,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = cmplx( lwkopt,KIND=qp)
            return
      end subroutine stdlib_wunm22
-#!endif 
-
-#!if WITH_QP 
 
      !> ZUNM2L: overwrites the general complex m-by-n matrix C with
      !> Q * C  if SIDE = 'L' and TRANS = 'N', or
@@ -81687,9 +79473,6 @@ module stdlib_linalg_lapack_w
            end do
            return
      end subroutine stdlib_wunm2l
-#!endif 
-
-#!if WITH_QP 
 
      !> ZUNM2R: overwrites the general complex m-by-n matrix C with
      !> Q * C  if SIDE = 'L' and TRANS = 'N', or
@@ -81793,9 +79576,6 @@ module stdlib_linalg_lapack_w
            end do
            return
      end subroutine stdlib_wunm2r
-#!endif 
-
-#!if WITH_QP 
 
      !> If VECT = 'Q', ZUNMBR: overwrites the general complex M-by-N matrix C
      !> with
@@ -81957,9 +79737,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = lwkopt
            return
      end subroutine stdlib_wunmbr
-#!endif 
-
-#!if WITH_QP 
 
      !> ZUNMHR: overwrites the general complex M-by-N matrix C with
      !> SIDE = 'L'     SIDE = 'R'
@@ -82059,9 +79836,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = lwkopt
            return
      end subroutine stdlib_wunmhr
-#!endif 
-
-#!if WITH_QP 
 
      !> ZUNML2: overwrites the general complex m-by-n matrix C with
      !> Q * C  if SIDE = 'L' and TRANS = 'N', or
@@ -82168,9 +79942,6 @@ module stdlib_linalg_lapack_w
            end do
            return
      end subroutine stdlib_wunml2
-#!endif 
-
-#!if WITH_QP 
 
      !> ZUNMLQ: overwrites the general complex M-by-N matrix C with
      !> SIDE = 'L'     SIDE = 'R'
@@ -82314,9 +80085,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = lwkopt
            return
      end subroutine stdlib_wunmlq
-#!endif 
-
-#!if WITH_QP 
 
      !> ZUNMQL: overwrites the general complex M-by-N matrix C with
      !> SIDE = 'L'     SIDE = 'R'
@@ -82454,9 +80222,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = lwkopt
            return
      end subroutine stdlib_wunmql
-#!endif 
-
-#!if WITH_QP 
 
      !> ZUNMQR: overwrites the general complex M-by-N matrix C with
      !> SIDE = 'L'     SIDE = 'R'
@@ -82594,9 +80359,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = lwkopt
            return
      end subroutine stdlib_wunmqr
-#!endif 
-
-#!if WITH_QP 
 
      !> ZUNMR2: overwrites the general complex m-by-n matrix C with
      !> Q * C  if SIDE = 'L' and TRANS = 'N', or
@@ -82698,9 +80460,6 @@ module stdlib_linalg_lapack_w
            end do
            return
      end subroutine stdlib_wunmr2
-#!endif 
-
-#!if WITH_QP 
 
      !> ZUNMR3: overwrites the general complex m by n matrix C with
      !> Q * C  if SIDE = 'L' and TRANS = 'N', or
@@ -82806,9 +80565,6 @@ module stdlib_linalg_lapack_w
            end do
            return
      end subroutine stdlib_wunmr3
-#!endif 
-
-#!if WITH_QP 
 
      !> ZUNMRQ: overwrites the general complex M-by-N matrix C with
      !> SIDE = 'L'     SIDE = 'R'
@@ -82952,9 +80708,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = lwkopt
            return
      end subroutine stdlib_wunmrq
-#!endif 
-
-#!if WITH_QP 
 
      !> ZUNMRZ: overwrites the general complex M-by-N matrix C with
      !> SIDE = 'L'     SIDE = 'R'
@@ -83110,9 +80863,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = lwkopt
            return
      end subroutine stdlib_wunmrz
-#!endif 
-
-#!if WITH_QP 
 
      !> ZUNMTR: overwrites the general complex M-by-N matrix C with
      !> SIDE = 'L'     SIDE = 'R'
@@ -83229,9 +80979,6 @@ module stdlib_linalg_lapack_w
            work( 1 ) = lwkopt
            return
      end subroutine stdlib_wunmtr
-#!endif 
-
-#!if WITH_QP 
 
      !> ZUPGTR: generates a complex unitary matrix Q which is defined as the
      !> product of n-1 elementary reflectors H(i) of order n, as returned by
@@ -83319,9 +81066,6 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wupgtr
-#!endif 
-
-#!if WITH_QP 
 
      !> ZUPMTR: overwrites the general complex M-by-N matrix C with
      !> SIDE = 'L'     SIDE = 'R'
@@ -83479,9 +81223,8 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wupmtr
-#!endif 
 
 
 
 end module stdlib_linalg_lapack_w
-#!endif
+#:endif

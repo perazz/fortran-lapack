@@ -15,15 +15,15 @@ module stdlib_linalg_blas_aux
      public :: stdlib_scabs1
      public :: stdlib_xerbla
      public :: stdlib_xerbla_array
-#!if WITH_QP 
+#:if WITH_QP 
      public :: stdlib_qcabs1
-#!endif 
-#!if WITH_QP 
+#:endif 
+#:if WITH_QP 
      public :: stdlib_iqamax
-#!endif 
-#!if WITH_QP 
+#:endif 
+#:if WITH_QP 
      public :: stdlib_iwamax
-#!endif 
+#:endif 
 
 
      contains
@@ -255,7 +255,7 @@ module stdlib_linalg_blas_aux
            return
      end subroutine stdlib_xerbla_array
 
-#!if WITH_QP 
+#:if WITH_QP 
 
      !> DCABS1: computes |Re(.)| + |Im(.)| of a double complex number
 
@@ -271,9 +271,9 @@ module stdlib_linalg_blas_aux
            stdlib_qcabs1 = abs(real(z,KIND=qp)) + abs(aimag(z))
            return
      end function stdlib_qcabs1
-#!endif 
+#:endif 
 
-#!if WITH_QP 
+#:if WITH_QP 
 
      !> IDAMAX: finds the index of the first element having maximum absolute value.
 
@@ -319,9 +319,9 @@ module stdlib_linalg_blas_aux
            end if
            return
      end function stdlib_iqamax
-#!endif 
+#:endif 
 
-#!if WITH_QP 
+#:if WITH_QP 
 
      !> IZAMAX: finds the index of the first element having maximum |Re(.)| + |Im(.)|
 
@@ -365,7 +365,7 @@ module stdlib_linalg_blas_aux
            end if
            return
      end function stdlib_iwamax
-#!endif 
+#:endif 
 
      !> ICAMAX: finds the index of the first element having maximum |Re(.)| + |Im(.)|
 

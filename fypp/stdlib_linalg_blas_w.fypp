@@ -1,5 +1,5 @@
 #:include "common.fypp" 
-#!if WITH_QP 
+#:if WITH_QP 
 module stdlib_linalg_blas_w
      use stdlib_linalg_constants
      use stdlib_linalg_blas_aux
@@ -7,119 +7,47 @@ module stdlib_linalg_blas_w
      use stdlib_linalg_blas_c
      use stdlib_linalg_blas_d
      use stdlib_linalg_blas_z
-#!if WITH_QP 
      use stdlib_linalg_blas_q
-#!endif 
      implicit none(type,external)
      private
 
 
      public :: sp,dp,qp,lk,ilp
-#!if WITH_QP 
      public :: stdlib_waxpy
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wcopy
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wdotc
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wdotu
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wdrot
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wdscal
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgbmv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgemm
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgemv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgerc
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wgeru
-#!endif 
-#!if WITH_QP 
      public :: stdlib_whbmv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_whemm
-#!endif 
-#!if WITH_QP 
      public :: stdlib_whemv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wher
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wher2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wher2k
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wherk
-#!endif 
-#!if WITH_QP 
      public :: stdlib_whpmv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_whpr
-#!endif 
-#!if WITH_QP 
      public :: stdlib_whpr2
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wrotg
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wscal
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wswap
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wsymm
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wsyr2k
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wsyrk
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wtbmv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wtbsv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wtpmv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wtpsv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wtrmm
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wtrmv
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wtrsm
-#!endif 
-#!if WITH_QP 
      public :: stdlib_wtrsv
-#!endif 
 
      ! 128-bit real constants 
      real(qp),    parameter, private ::     negone = -1.00_qp
@@ -161,8 +89,6 @@ module stdlib_linalg_blas_w
 
      contains
 
-#!if WITH_QP 
-
      !> ZAXPY: constant times a vector plus a vector.
 
      pure subroutine stdlib_waxpy(n,za,zx,incx,zy,incy)
@@ -200,9 +126,6 @@ module stdlib_linalg_blas_w
            end if
            return
      end subroutine stdlib_waxpy
-#!endif 
-
-#!if WITH_QP 
 
      !> ZCOPY: copies a vector, x, to a vector, y.
 
@@ -239,9 +162,6 @@ module stdlib_linalg_blas_w
            end if
            return
      end subroutine stdlib_wcopy
-#!endif 
-
-#!if WITH_QP 
 
      !> ZDOTC: forms the dot product of two complex vectors
      !> ZDOTC = X^H * Y
@@ -284,9 +204,6 @@ module stdlib_linalg_blas_w
            stdlib_wdotc = ztemp
            return
      end function stdlib_wdotc
-#!endif 
-
-#!if WITH_QP 
 
      !> ZDOTU: forms the dot product of two complex vectors
      !> ZDOTU = X^T * Y
@@ -327,9 +244,6 @@ module stdlib_linalg_blas_w
            stdlib_wdotu = ztemp
            return
      end function stdlib_wdotu
-#!endif 
-
-#!if WITH_QP 
 
      !> Applies a plane rotation, where the cos and sin (c and s) are real
      !> and the vectors cx and cy are complex.
@@ -374,9 +288,6 @@ module stdlib_linalg_blas_w
            end if
            return
      end subroutine stdlib_wdrot
-#!endif 
-
-#!if WITH_QP 
 
      !> ZDSCAL: scales a vector by a constant.
 
@@ -409,9 +320,6 @@ module stdlib_linalg_blas_w
            end if
            return
      end subroutine stdlib_wdscal
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGBMV:  performs one of the matrix-vector operations
      !> y := alpha*A*x + beta*y,   or   y := alpha*A**T*x + beta*y,   or
@@ -584,9 +492,6 @@ module stdlib_linalg_blas_w
            end if
            return
      end subroutine stdlib_wgbmv
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGEMM:  performs one of the matrix-matrix operations
      !> C := alpha*op( A )*op( B ) + beta*C,
@@ -836,9 +741,6 @@ module stdlib_linalg_blas_w
            end if
            return
      end subroutine stdlib_wgemm
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGEMV:  performs one of the matrix-vector operations
      !> y := alpha*A*x + beta*y,   or   y := alpha*A**T*x + beta*y,   or
@@ -1000,9 +902,6 @@ module stdlib_linalg_blas_w
            end if
            return
      end subroutine stdlib_wgemv
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGERC:  performs the rank 1 operation
      !> A := alpha*x*y**H + A,
@@ -1082,9 +981,6 @@ module stdlib_linalg_blas_w
            end if
            return
      end subroutine stdlib_wgerc
-#!endif 
-
-#!if WITH_QP 
 
      !> ZGERU:  performs the rank 1 operation
      !> A := alpha*x*y**T + A,
@@ -1164,9 +1060,6 @@ module stdlib_linalg_blas_w
            end if
            return
      end subroutine stdlib_wgeru
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHBMV:  performs the matrix-vector  operation
      !> y := alpha*A*x + beta*y,
@@ -1330,9 +1223,6 @@ module stdlib_linalg_blas_w
            end if
            return
      end subroutine stdlib_whbmv
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHEMM:  performs one of the matrix-matrix operations
      !> C := alpha*A*B + beta*C,
@@ -1483,9 +1373,6 @@ module stdlib_linalg_blas_w
            end if
            return
      end subroutine stdlib_whemm
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHEMV:  performs the matrix-vector  operation
      !> y := alpha*A*x + beta*y,
@@ -1639,9 +1526,6 @@ module stdlib_linalg_blas_w
            end if
            return
      end subroutine stdlib_whemv
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHER:   performs the hermitian rank 1 operation
      !> A := alpha*x*x**H + A,
@@ -1757,9 +1641,6 @@ module stdlib_linalg_blas_w
            end if
            return
      end subroutine stdlib_wher
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHER2:  performs the hermitian rank 2 operation
      !> A := alpha*x*y**H + conjg( alpha )*y*x**H + A,
@@ -1899,9 +1780,6 @@ module stdlib_linalg_blas_w
            end if
            return
      end subroutine stdlib_wher2
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHER2K:  performs one of the hermitian rank 2k operations
      !> C := alpha*A*B**H + conjg( alpha )*B*A**H + beta*C,
@@ -2111,9 +1989,6 @@ module stdlib_linalg_blas_w
            end if
            return
      end subroutine stdlib_wher2k
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHERK:  performs one of the hermitian rank k operations
      !> C := alpha*A*A**H + beta*C,
@@ -2310,9 +2185,6 @@ module stdlib_linalg_blas_w
            end if
            return
      end subroutine stdlib_wherk
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHPMV:  performs the matrix-vector operation
      !> y := alpha*A*x + beta*y,
@@ -2472,9 +2344,6 @@ module stdlib_linalg_blas_w
            end if
            return
      end subroutine stdlib_whpmv
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHPR:    performs the hermitian rank 1 operation
      !> A := alpha*x*x**H + A,
@@ -2597,9 +2466,6 @@ module stdlib_linalg_blas_w
            end if
            return
      end subroutine stdlib_whpr
-#!endif 
-
-#!if WITH_QP 
 
      !> ZHPR2:  performs the hermitian rank 2 operation
      !> A := alpha*x*y**H + conjg( alpha )*y*x**H + A,
@@ -2745,9 +2611,6 @@ module stdlib_linalg_blas_w
            end if
            return
      end subroutine stdlib_whpr2
-#!endif 
-
-#!if WITH_QP 
 
      !> !
      !>
@@ -2865,9 +2728,6 @@ module stdlib_linalg_blas_w
         a = r
         return
      end subroutine stdlib_wrotg
-#!endif 
-
-#!if WITH_QP 
 
      !> ZSCAL: scales a vector by a constant.
 
@@ -2898,9 +2758,6 @@ module stdlib_linalg_blas_w
            end if
            return
      end subroutine stdlib_wscal
-#!endif 
-
-#!if WITH_QP 
 
      !> ZSWAP: interchanges two vectors.
 
@@ -2941,9 +2798,6 @@ module stdlib_linalg_blas_w
            end if
            return
      end subroutine stdlib_wswap
-#!endif 
-
-#!if WITH_QP 
 
      !> ZSYMM:  performs one of the matrix-matrix operations
      !> C := alpha*A*B + beta*C,
@@ -3092,9 +2946,6 @@ module stdlib_linalg_blas_w
            end if
            return
      end subroutine stdlib_wsymm
-#!endif 
-
-#!if WITH_QP 
 
      !> ZSYR2K:  performs one of the symmetric rank 2k operations
      !> C := alpha*A*B**T + alpha*B*A**T + beta*C,
@@ -3271,9 +3122,6 @@ module stdlib_linalg_blas_w
            end if
            return
      end subroutine stdlib_wsyr2k
-#!endif 
-
-#!if WITH_QP 
 
      !> ZSYRK:  performs one of the symmetric rank k operations
      !> C := alpha*A*A**T + beta*C,
@@ -3442,9 +3290,6 @@ module stdlib_linalg_blas_w
            end if
            return
      end subroutine stdlib_wsyrk
-#!endif 
-
-#!if WITH_QP 
 
      !> ZTBMV:  performs one of the matrix-vector operations
      !> x := A*x,   or   x := A**T*x,   or   x := A**H*x,
@@ -3659,9 +3504,6 @@ module stdlib_linalg_blas_w
            end if
            return
      end subroutine stdlib_wtbmv
-#!endif 
-
-#!if WITH_QP 
 
      !> ZTBSV:  solves one of the systems of equations
      !> A*x = b,   or   A**T*x = b,   or   A**H*x = b,
@@ -3879,9 +3721,6 @@ module stdlib_linalg_blas_w
            end if
            return
      end subroutine stdlib_wtbsv
-#!endif 
-
-#!if WITH_QP 
 
      !> ZTPMV:  performs one of the matrix-vector operations
      !> x := A*x,   or   x := A**T*x,   or   x := A**H*x,
@@ -4099,9 +3938,6 @@ module stdlib_linalg_blas_w
            end if
            return
      end subroutine stdlib_wtpmv
-#!endif 
-
-#!if WITH_QP 
 
      !> ZTPSV:  solves one of the systems of equations
      !> A*x = b,   or   A**T*x = b,   or   A**H*x = b,
@@ -4321,9 +4157,6 @@ module stdlib_linalg_blas_w
            end if
            return
      end subroutine stdlib_wtpsv
-#!endif 
-
-#!if WITH_QP 
 
      !> ZTRMM:  performs one of the matrix-matrix operations
      !> B := alpha*op( A )*B,   or   B := alpha*B*op( A )
@@ -4566,9 +4399,6 @@ module stdlib_linalg_blas_w
            end if
            return
      end subroutine stdlib_wtrmm
-#!endif 
-
-#!if WITH_QP 
 
      !> ZTRMV:  performs one of the matrix-vector operations
      !> x := A*x,   or   x := A**T*x,   or   x := A**H*x,
@@ -4766,9 +4596,6 @@ module stdlib_linalg_blas_w
            end if
            return
      end subroutine stdlib_wtrmv
-#!endif 
-
-#!if WITH_QP 
 
      !> ZTRSM:  solves one of the matrix equations
      !> op( A )*X = alpha*B,   or   X*op( A ) = alpha*B,
@@ -5034,9 +4861,6 @@ module stdlib_linalg_blas_w
            end if
            return
      end subroutine stdlib_wtrsm
-#!endif 
-
-#!if WITH_QP 
 
      !> ZTRSV:  solves one of the systems of equations
      !> A*x = b,   or   A**T*x = b,   or   A**H*x = b,
@@ -5236,9 +5060,8 @@ module stdlib_linalg_blas_w
            end if
            return
      end subroutine stdlib_wtrsv
-#!endif 
 
 
 
 end module stdlib_linalg_blas_w
-#!endif
+#:endif

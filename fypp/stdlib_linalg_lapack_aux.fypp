@@ -32,27 +32,27 @@ module stdlib_linalg_lapack_aux
      public :: stdlib_sroundup_lwork
      public :: stdlib_xerbla
      public :: stdlib_xerbla_array
-#!if WITH_QP 
+#:if WITH_QP 
      public :: stdlib_qroundup_lwork
-#!endif 
-#!if WITH_QP 
+#:endif 
+#:if WITH_QP 
      public :: stdlib_ilaqiag
-#!endif 
-#!if WITH_QP 
+#:endif 
+#:if WITH_QP 
      public :: stdlib_ilaqlc
-#!endif 
-#!if WITH_QP 
+#:endif 
+#:if WITH_QP 
      public :: stdlib_ilaqlr
-#!endif 
-#!if WITH_QP 
+#:endif 
+#:if WITH_QP 
      public :: stdlib_ilawlc
-#!endif 
-#!if WITH_QP 
+#:endif 
+#:if WITH_QP 
      public :: stdlib_ilawlr
-#!endif 
-#!if WITH_QP 
+#:endif 
+#:if WITH_QP 
      public :: stdlib_iwmax1
-#!endif 
+#:endif 
      public :: stdlib_selctg_s
      public :: stdlib_select_s
      public :: stdlib_selctg_d
@@ -978,7 +978,7 @@ module stdlib_linalg_lapack_aux
            return
      end function stdlib_sroundup_lwork
 
-#!if WITH_QP 
+#:if WITH_QP 
 
      !> DROUNDUP_LWORK: deals with a subtle bug with returning LWORK as a Float.
      !> This routine guarantees it is rounded up instead of down by
@@ -1009,9 +1009,9 @@ module stdlib_linalg_lapack_aux
            endif
            return
      end function stdlib_qroundup_lwork
-#!endif 
+#:endif 
 
-#!if WITH_QP 
+#:if WITH_QP 
 
      !> This subroutine translated from a character string specifying if a
      !> matrix has unit diagonal or not to the relevant BLAST-specified
@@ -1041,9 +1041,9 @@ module stdlib_linalg_lapack_aux
            end if
            return
      end function stdlib_ilaqiag
-#!endif 
+#:endif 
 
-#!if WITH_QP 
+#:if WITH_QP 
 
      !> ILADLC: scans A for its last non-zero column.
 
@@ -1077,9 +1077,9 @@ module stdlib_linalg_lapack_aux
            end if
            return
      end function stdlib_ilaqlc
-#!endif 
+#:endif 
 
-#!if WITH_QP 
+#:if WITH_QP 
 
      !> ILADLR: scans A for its last non-zero row.
 
@@ -1116,9 +1116,9 @@ module stdlib_linalg_lapack_aux
            end if
            return
      end function stdlib_ilaqlr
-#!endif 
+#:endif 
 
-#!if WITH_QP 
+#:if WITH_QP 
 
      !> ILAZLC: scans A for its last non-zero column.
 
@@ -1152,9 +1152,9 @@ module stdlib_linalg_lapack_aux
            end if
            return
      end function stdlib_ilawlc
-#!endif 
+#:endif 
 
-#!if WITH_QP 
+#:if WITH_QP 
 
      !> ILAZLR: scans A for its last non-zero row.
 
@@ -1191,9 +1191,9 @@ module stdlib_linalg_lapack_aux
            end if
            return
      end function stdlib_ilawlr
-#!endif 
+#:endif 
 
-#!if WITH_QP 
+#:if WITH_QP 
 
      !> IZMAX1: finds the index of the first vector element of maximum absolute value.
      !> Based on IZAMAX from Level 1 BLAS.
@@ -1242,7 +1242,7 @@ module stdlib_linalg_lapack_aux
            end if
            return
      end function stdlib_iwmax1
-#!endif 
+#:endif 
 
      !> ILAENV: is called from the LAPACK routines to choose problem-dependent
      !> parameters for the local environment.  See ISPEC for a description of
