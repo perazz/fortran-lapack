@@ -33,9 +33,18 @@ def create_constants_module(module_name,out_folder,stdlib_integration=None):
         fid.write(INDENT + "use iso_fortran_env, only: real32,real64,real128,int32,int64\n")
 
     fid.write(INDENT + "use, intrinsic :: ieee_arithmetic, only: ieee_is_nan \n")
+
+    if stdlib_integration:
+        fid.write("#! C preprocessor flags are only exported to the fpm deployment \n")
+        fid.write("#:if FPM_DEPLOYMENT\n")
+
     fid.write("#if defined(_OPENMP)\n")
     fid.write(INDENT + "use omp_lib\n")
     fid.write("#endif\n")
+
+    if stdlib_integration:
+        fid.write("#:endif\n")
+
     fid.write(INDENT + "implicit none(type,external)\n")
     fid.write(INDENT + "public\n\n\n\n")
 
@@ -161,10 +170,12 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix,ext_functi
         module_path = os.path.join(out_folder,module_file)
         fid = open(module_path,"w")
 
+        is_quad_module = initials[m]=='q' or initials[m]=='w'
+
         # Quad-precision directives
         if stdlib_export:
             fid.write('#:include "common.fypp" \n')
-            if (initials[m]=='q' or initials[m]=='w'): fid.write("#!if WITH_QP \n")
+            if is_quad_module: fid.write("#:if WITH_QP \n")
 
         # Header
         fid.write("module {}\n".format(this_module))
@@ -173,11 +184,11 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix,ext_functi
 
         # Add top modules in the hierarchy
         for n in range(m):
-            if stdlib_export and (initials[n]=='q' or initials[n]=='w'):
-                fid.write("#!if WITH_QP \n")
+            if stdlib_export and (initials[n]=='q' or initials[n]=='w') and not is_quad_module:
+                fid.write("#:if WITH_QP \n")
             fid.write(INDENT + "use " + module_name + "_" + initials[n] + "\n")
-            if stdlib_export and (initials[n]=='q' or initials[n]=='w'):
-                fid.write("#!endif \n")
+            if stdlib_export and (initials[n]=='q' or initials[n]=='w') and not is_quad_module:
+                fid.write("#:endif \n")
 
         fid.write(INDENT + "implicit none(type,external)\n")
         fid.write(INDENT + "private\n")
@@ -186,11 +197,11 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix,ext_functi
         fid.write("\n\n"+INDENT + "public :: sp,dp,qp,lk,ilp\n")
         for function in fortran_functions:
             if function_in_module(initials[m],function.old_name):
-                if stdlib_export and function.is_quad_precision():
-                    fid.write("#!if WITH_QP \n")
+                if stdlib_export and function.is_quad_precision() and not is_quad_module:
+                    fid.write("#:if WITH_QP \n")
                 fid.write(INDENT + "public :: " + function.new_name + "\n")
-                if stdlib_export and function.is_quad_precision():
-                    fid.write("#!endif \n")
+                if stdlib_export and function.is_quad_precision() and not is_quad_module:
+                    fid.write("#:endif \n")
 
             if function.new_name=="NONAME":
                 print("\n".join(function.body))
@@ -222,8 +233,8 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix,ext_functi
         # Close module
         fid.write("\n\n\nend module {}\n".format(this_module))
 
-        if stdlib_export and (initials[m]=='q' or initials[m]=='w'):
-            fid.write("#!endif\n")
+        if stdlib_export and is_quad_module:
+            fid.write("#:endif\n")
 
         fid.close()
 
@@ -270,10 +281,10 @@ def write_interface_module(INDENT,out_folder,module_name,used_modules,fortran_fu
 
     for i in initials:
         if stdlib_export and i in ['q','w']:
-            fid.write("#!if WITH_QP \n")
+            fid.write("#:if WITH_QP \n")
         fid.write(INDENT + "use {mname}_{minit}\n".format(mname=module_name,minit=i))
         if stdlib_export and i in ['q','w']:
-            fid.write("#!endif \n")
+            fid.write("#:endif \n")
     fid.write(INDENT + "implicit none(type,external)\n")
     fid.write(INDENT + "public\n")
 
@@ -334,7 +345,17 @@ def write_interface(fid,name,functions,INDENT,prefix,module_name,stdlib_export):
 
         # External blas interface
         if has_external:
+
+           if stdlib_export:
+               # fpm branch: use C preprocessor
+               fid.write("#:if FPM_DEPLOYMENT\n")
            fid.write("#ifdef STDLIB_EXTERNAL_{}\n".format(blas_or_lapack))
+           if stdlib_export:
+               fid.write("#:endif\n")
+
+           if stdlib_export:
+               # Use external library if available
+               fid.write("#:if FPM_DEPLOYMENT or STDLIB_EXTERNAL_{}\n".format(blas_or_lapack))
 
            declaration = INDENT*3+declaration
            write_with_continuation(declaration,fid,INDENT,MAX_LINE_LENGTH)
@@ -345,19 +366,36 @@ def write_interface(fid,name,functions,INDENT,prefix,module_name,stdlib_export):
                write_with_continuation(this_arg,fid,INDENT,MAX_LINE_LENGTH)
            fid.write(INDENT*3+"end {ptype} {pname}\n".format(ptype=f.procedure_type(),pname=f.old_name))
 
-           fid.write("#else\n")
+           if stdlib_export:
+               fid.write("#:endif \n")
+
+           # Fall-back to internal implementation
+           if stdlib_export:
+               fid.write("#:if FPM_DEPLOYMENT\n")
+           fid.write("#else \n")
+           if stdlib_export:
+               fid.write("#:endif\n")
+
+           if stdlib_export:
+               fid.write("#:if FPM_DEPLOYMENT or not STDLIB_EXTERNAL_{}\n".format(blas_or_lapack))
+
 
         elif stdlib_export:
            # Quad precision export
-           fid.write("#!if WITH_QP\n")
+           fid.write("#:if WITH_QP\n")
 
         # Local implementation
         fid.write(INDENT*3+"module procedure {}\n".format(f.new_name))
 
         if has_external:
+           fid.write("#:endif\n")
+           if stdlib_export:
+               fid.write("#:if FPM_DEPLOYMENT \n")
            fid.write("#endif\n")
+           if stdlib_export:
+               fid.write("#:endif\n")
         elif stdlib_export:
-           fid.write("#!endif\n")
+           fid.write("#:endif\n")
 
     # Close interface
     fid.write(INDENT*2+"end interface {}\n\n\n".format(name))
@@ -826,14 +864,14 @@ def print_function_tree(functions,fun_names,ext_funs,fid,INDENT,MAX_LINE_LENGTH,
                 if nprinted==len(functions[i].deps) or attempt>=MAXIT:
 
                    if functions[i].is_quad_precision() and stdlib_export:
-                       fid.write("\n#!if WITH_QP \n")
+                       fid.write("\n#:if WITH_QP \n")
 
                    write_function_body(fid,functions[i].header," " * header_indentation(functions[i].body),MAX_LINE_LENGTH,False)
                    write_function_body(fid,functions[i].body,INDENT,MAX_LINE_LENGTH,True)
                    functions[i].printed = True
 
                    if functions[i].is_quad_precision() and stdlib_export:
-                       fid.write("#!endif \n")
+                       fid.write("#:endif \n")
 
 
     # Final check
@@ -3250,19 +3288,19 @@ shutil.copyfile('../assets/reference_lapack/INSTALL/droundup_lwork.f', '../asset
 
 
 # Create Fortran version
-funs = []
-create_constants_module("stdlib_linalg_constants","../src",False)
-funs = create_fortran_module("stdlib_linalg_blas",\
-                             "../assets/reference_lapack/BLAS/SRC","../src",\
-                             "stdlib_",\
-                             funs,\
-                             ["stdlib_linalg_constants"],True,False)
-funs = create_fortran_module("stdlib_linalg_lapack",\
-                             "../assets/lapack_sources",\
-                             "../src",\
-                             "stdlib_",\
-                             funs,\
-                             ["stdlib_linalg_constants","stdlib_linalg_blas"],True)
+#funs = []
+#create_constants_module("stdlib_linalg_constants","../src",False)
+#funs = create_fortran_module("stdlib_linalg_blas",\
+#                             "../assets/reference_lapack/BLAS/SRC","../src",\
+#                             "stdlib_",\
+#                             funs,\
+#                             ["stdlib_linalg_constants"],True,False)
+#funs = create_fortran_module("stdlib_linalg_lapack",\
+#                             "../assets/lapack_sources",\
+#                             "../src",\
+#                             "stdlib_",\
+#                             funs,\
+#                             ["stdlib_linalg_constants","stdlib_linalg_blas"],True)
 
 # Create fypp version
 funs = []
