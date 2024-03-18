@@ -34,16 +34,16 @@ def create_constants_module(module_name,out_folder,stdlib_integration=None):
 
     fid.write(INDENT + "use, intrinsic :: ieee_arithmetic, only: ieee_is_nan \n")
 
-    if stdlib_integration:
-        fid.write("#! C preprocessor flags are only exported to the fpm deployment \n")
-        fid.write("#:if FPM_DEPLOYMENT\n")
+#    if stdlib_integration:
+#        fid.write("#! C preprocessor flags are only exported to the fpm deployment \n")
+#        fid.write("#:if FPM_DEPLOYMENT\n")
 
     fid.write("#if defined(_OPENMP)\n")
     fid.write(INDENT + "use omp_lib\n")
     fid.write("#endif\n")
 
-    if stdlib_integration:
-        fid.write("#:endif\n")
+#    if stdlib_integration:
+#        fid.write("#:endif\n")
 
     fid.write(INDENT + "implicit none(type,external)\n")
     fid.write(INDENT + "public\n\n\n\n")
@@ -65,7 +65,7 @@ def create_constants_module(module_name,out_folder,stdlib_integration=None):
     fid.close()
 
 # Patch lapack aux module interface
-def patch_lapack_aux(fid,prefix,indent):
+def patch_lapack_aux(fid,prefix,indent,export_lapack):
 
     INDENT          = "     "
 
@@ -73,8 +73,12 @@ def patch_lapack_aux(fid,prefix,indent):
     datatypes = ['real(sp)','real(dp)','real(qp)','complex(sp)','complex(dp)','complex(qp)']
 
     for i in range(len(initials)):
+        if i in ['q','w'] and export_lapack:
+            fid.write("#!if WITH_QP\n")
         fid.write(INDENT + "public :: {prf}selctg_{int}\n".format(prf=prefix,int=initials[i]))
         fid.write(INDENT + "public :: {prf}select_{int}\n".format(prf=prefix,int=initials[i]))
+        if i in ['q','w'] and export_lapack:
+            fid.write("#!endif \n")
 
     fid.write("\n")
 
@@ -84,6 +88,8 @@ def patch_lapack_aux(fid,prefix,indent):
     fid.write(INDENT + "! An eigenvalue (ALPHAR(j)+ALPHAI(j))/BETA(j) is selected if SELCTG is true, i.e., \n")
     fid.write(INDENT + "abstract interface \n")
     for i in range(len(initials)):
+        if i in ['q','w'] and export_lapack:
+            fid.write("#!if WITH_QP\n")
         if (i<=2):
             fid.write(INDENT + "   pure logical(lk) function {prf}selctg_{int}(alphar,alphai,beta) \n".format(prf=prefix,int=initials[i]))
             fid.write(INDENT + "       import sp,dp,qp,lk \n")
@@ -106,7 +112,8 @@ def patch_lapack_aux(fid,prefix,indent):
             fid.write(INDENT + "       implicit none \n")
             fid.write(INDENT + "       {}, intent(in) :: alpha \n".format(datatypes[i]))
             fid.write(INDENT + "   end function {prf}select_{int} \n".format(prf=prefix,int=initials[i]))
-
+        if i in ['q','w'] and export_lapack:
+            fid.write("#!endif \n")
 
     fid.write(INDENT + "end interface \n\n")
 
@@ -210,7 +217,7 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix,ext_functi
         numeric_const = []
         if module_name+"_"+initials[m]=='stdlib_linalg_lapack_aux':
             # AUX: add procedure interfaces
-            patch_lapack_aux(fid,prefix,INDENT)
+            patch_lapack_aux(fid,prefix,INDENT,stdlib_export)
         if module_name+"_"+initials[m]=='stdlib_linalg_blas_aux':
             # AUX: add quadruple-precision procedure interfaces
             fortran_functions = patch_blas_aux(fid,fortran_functions,prefix,INDENT,True)
@@ -346,16 +353,16 @@ def write_interface(fid,name,functions,INDENT,prefix,module_name,stdlib_export):
         # External blas interface
         if has_external:
 
-           if stdlib_export:
-               # fpm branch: use C preprocessor
-               fid.write("#:if FPM_DEPLOYMENT\n")
+#           if stdlib_export:
+#               # fpm branch: use C preprocessor
+#               fid.write("#:if FPM_DEPLOYMENT\n")
            fid.write("#ifdef STDLIB_EXTERNAL_{}\n".format(blas_or_lapack))
-           if stdlib_export:
-               fid.write("#:endif\n")
-
-           if stdlib_export:
-               # Use external library if available
-               fid.write("#:if FPM_DEPLOYMENT or STDLIB_EXTERNAL_{}\n".format(blas_or_lapack))
+#           if stdlib_export:
+#               fid.write("#:endif\n")
+#
+#           if stdlib_export:
+#               # Use external library if available
+#               fid.write("#:if FPM_DEPLOYMENT or STDLIB_EXTERNAL_{}\n".format(blas_or_lapack))
 
            declaration = INDENT*3+declaration
            write_with_continuation(declaration,fid,INDENT,MAX_LINE_LENGTH)
@@ -366,18 +373,18 @@ def write_interface(fid,name,functions,INDENT,prefix,module_name,stdlib_export):
                write_with_continuation(this_arg,fid,INDENT,MAX_LINE_LENGTH)
            fid.write(INDENT*3+"end {ptype} {pname}\n".format(ptype=f.procedure_type(),pname=f.old_name))
 
-           if stdlib_export:
-               fid.write("#:endif \n")
+#           if stdlib_export:
+#               fid.write("#:endif \n")
 
            # Fall-back to internal implementation
-           if stdlib_export:
-               fid.write("#:if FPM_DEPLOYMENT\n")
+#           if stdlib_export:
+#               fid.write("#:if FPM_DEPLOYMENT\n")
            fid.write("#else \n")
-           if stdlib_export:
-               fid.write("#:endif\n")
+#           if stdlib_export:
+#               fid.write("#:endif\n")
 
-           if stdlib_export:
-               fid.write("#:if FPM_DEPLOYMENT or not STDLIB_EXTERNAL_{}\n".format(blas_or_lapack))
+#           if stdlib_export:
+#               fid.write("#:if FPM_DEPLOYMENT or not STDLIB_EXTERNAL_{}\n".format(blas_or_lapack))
 
 
         elif stdlib_export:
@@ -388,12 +395,12 @@ def write_interface(fid,name,functions,INDENT,prefix,module_name,stdlib_export):
         fid.write(INDENT*3+"module procedure {}\n".format(f.new_name))
 
         if has_external:
-           fid.write("#:endif\n")
-           if stdlib_export:
-               fid.write("#:if FPM_DEPLOYMENT \n")
+#           fid.write("#:endif\n")
+#           if stdlib_export:
+#               fid.write("#:if FPM_DEPLOYMENT \n")
            fid.write("#endif\n")
-           if stdlib_export:
-               fid.write("#:endif\n")
+#           if stdlib_export:
+#               fid.write("#:endif\n")
         elif stdlib_export:
            fid.write("#:endif\n")
 
