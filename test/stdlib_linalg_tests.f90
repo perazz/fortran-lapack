@@ -8,27 +8,27 @@ program stdlib_linalg_tests
     implicit none(type, external)
 
     logical :: error
-!
-!    call test_formats(error)
-!    if (error) error stop 'test_formats'
-!
-!    call test_solve(error)
-!    if (error) error stop 'test_solve'
-!
-!    call test_inverse_matrix(error)
-!    if (error) error stop 'test_inverse_matrix'
-!
-!    call test_least_squares(error)
-!    if (error) error stop 'test_least_squares'
-!
-!    call test_matrix_determinant(error)
-!    if (error) error stop 'test_determinant'
-!
-!    call test_eye(error)
-!    if (error) error stop 'test_eye'
 
-    call test_svd
-    stop 'after test_svd'
+    call test_formats(error)
+    if (error) error stop 'test_formats'
+
+    call test_solve(error)
+    if (error) error stop 'test_solve'
+
+    call test_inverse_matrix(error)
+    if (error) error stop 'test_inverse_matrix'
+
+    call test_least_squares(error)
+    if (error) error stop 'test_least_squares'
+
+    call test_matrix_determinant(error)
+    if (error) error stop 'test_determinant'
+
+    call test_eye(error)
+    if (error) error stop 'test_eye'
+
+    call test_svd(error)
+    if (error) error stop 'test_svd'
 
     !> All tests passed
     stop 0
@@ -36,41 +36,99 @@ program stdlib_linalg_tests
     contains
 
 
-        subroutine test_svd()
+        !> Test real SVD
+        subroutine test_svd(error)
+            logical,intent(out) :: error
 
+            !> Reference solution
+            real(dp), parameter :: tol     = sqrt(epsilon(0.0_dp))
             real(dp), parameter :: third   = 1.0_dp/3.0_dp
             real(dp), parameter :: twothd  = 2*third
             real(dp), parameter :: rsqrt2  = 1.0_dp/sqrt(2.0_dp)
             real(dp), parameter :: rsqrt18 = 1.0_dp/sqrt(18.0_dp)
 
+            real(dp), parameter ::  A_mat(2,3) = reshape([real(dp) :: 3,2, 2,3, 2,-2],[2,3])
+            real(dp), parameter ::  s_sol(2)   = [real(dp) :: 5, 3]
+            real(dp), parameter ::  u_sol(2,2) = reshape(rsqrt2*[1,1,1,-1],[2,2])
+            real(dp), parameter :: vt_sol(3,3) = reshape([rsqrt2,rsqrt18,twothd, &
+                                                          rsqrt2,-rsqrt18,-twothd,&
+                                                          0.0_dp,4*rsqrt18,-third],[3,3])
+
+            !> Local variables
+            type(linalg_state) :: state
             real(dp) :: A(2,3),s(2),u(2,2),vt(3,3)
-            real(dp), parameter :: s_values(2) = [real(dp) :: 5, 3]
 
-            real(dp), parameter ::  u_matrix(2,2) = reshape(rsqrt2*[1,1,1,-1],[2,2])
-            real(dp), parameter :: vt_matrix(3,3) = reshape([rsqrt2,rsqrt18,twothd, &
-                                                             rsqrt2,-rsqrt18,-twothd,&
-                                                             0.0_dp,4*rsqrt18,-third],[3,3])
+            !> Initialize matrix
+            A = A_mat
 
+            !> Simple subroutine version
+            call svd(A,s,err=state)
+            error = state%error() .or. .not. all(abs(s-s_sol)<=tol)
+            if (error) return
 
-            A = reshape([real(dp) :: 3,2, 2,3, 2,-2],[2,3])
+            !> Function interface
+            s = svdvals(A,err=state)
+            error = state%error() .or. .not. all(abs(s-s_sol)<=tol)
+            if (error) return
 
-            call svd(A,s)
-            print *, '   s only   '
-            print *, 'A=',A
-            print *, 's=',s
+            !> [S, U]. Singular vectors could be all flipped
+            call svd(A,s,u,err=state)
+            error = state%error() .or. &
+                    .not. all(abs(s-s_sol)<=tol) .or. &
+                    .not.(all(abs(u-u_sol)<=tol) .or. all(abs(u+u_sol)<=tol))
+            if (error) return
 
-            call svd(A,s,u)
-            print *, '   s,u only   '
-            print *, 'A=',A
-            print *, 's=',s
-            print *, 'u=',u
+            !> [S, U]. Overwrite A matrix
+            call svd(A,s,u,overwrite_a=.true.,err=state)
+            error = state%error() .or. &
+                    .not. all(abs(s-s_sol)<=tol) .or. &
+                    .not.(all(abs(u-u_sol)<=tol) .or. all(abs(u+u_sol)<=tol))
+            if (error) return
 
-            call svd(A,s,u,vt=vt)
-            print *, '   s,u,vt   '
-            print *, 'A=',A
-            print *, 's=',s
-            print *, 'u=',u
-            print *, 'vt=',vt
+            !> [S, U, V^T]
+            A = A_mat
+            call svd(A,s,u,vt,overwrite_a=.true.,err=state)
+            error = state%error() .or. &
+                    .not. all(abs(s-s_sol)<=tol) .or. &
+                    .not.(all(abs(u-u_sol)<=tol) .or. all(abs(u+u_sol)<=tol)) .or. &
+                    .not.(all(abs(vt-vt_sol)<=tol) .or. all(abs(vt+vt_sol)<=tol))
+            if (error) return
+
+            !> [S, V^T]. Do not overwrite A matrix
+            A = A_mat
+            call svd(A,s,vt=vt,err=state)
+            error = state%error() .or. &
+                    .not. all(abs(s-s_sol)<=tol) .or. &
+                    .not.(all(abs(vt+vt_sol)<=tol) .or. all(abs(vt+vt_sol)<=tol))
+            if (error) return
+
+            !> [S, V^T]. Overwrite A matrix
+            call svd(A,s,vt=vt,overwrite_a=.true.,err=state)
+            error = state%error() .or. &
+                    .not. all(abs(s-s_sol)<=tol) .or. &
+                    .not.(all(abs(vt-vt_sol)<=tol) .or. all(abs(vt+vt_sol)<=tol))
+            if (error) return
+
+            !> [U, S, V^T].
+            A = A_mat
+            call svd(A,s,u,vt,err=state)
+            error = state%error() .or. &
+                    .not. all(abs(s-s_sol)<=tol) .or. &
+                    .not.(all(abs(u-u_sol)<=tol) .or. all(abs(u+u_sol)<=tol)) .or. &
+                    .not.(all(abs(vt-vt_sol)<=tol) .or. all(abs(vt+vt_sol)<=tol))
+            if (error) return
+
+            !> [U, S, V^T]. Partial storage -> compare until k=2 columns of U rows of V^T
+            A  = A_mat
+            u  = 0
+            vt = 0
+            call svd(A,s,u,vt,full_matrices=.false.,err=state)
+            error = state%error() &
+               .or. .not. all(abs(s-s_sol)<=tol) &
+               .or. .not.(all(abs( u(:,:2)- u_sol(:,:2))<=tol) .or. all(abs( u(:,:2)+ u_sol(:,:2))<=tol)) &
+               .or. .not.(all(abs(vt(:2,:)-vt_sol(:2,:))<=tol) .or. all(abs(vt(:2,:)+vt_sol(:2,:))<=tol))
+
+            if (error) return
 
         end subroutine test_svd
 

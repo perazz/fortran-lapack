@@ -8,8 +8,10 @@ module stdlib_linalg_svd
      implicit none(type,external)
      private
 
-     !> Singular values
+     !> Singular value decomposition
      public :: svd
+     !> Singular values
+     public :: svdvals
 
      !> LAPACK tasks
 
@@ -35,6 +37,10 @@ module stdlib_linalg_svd
         module procedure stdlib_linalg_svd_dp
         !!!#:endfor
      end interface svd
+
+     interface svdvals
+        module procedure stdlib_linalg_svdvals_dp
+     end interface svdvals
 
 
      contains
@@ -72,7 +78,36 @@ module stdlib_linalg_svd
 
 
      !!!#:for rk,rt,ri in ALL_KINDS_TYPES
-     ! Return SVD of matrix A = U S V^T
+
+     !> Singular values of matrix A
+     function stdlib_linalg_svdvals_dp(a,err) result(s)
+         !> Input matrix A[m,n]
+         real(dp), intent(in), target :: a(:,:)
+         !> [optional] state return flag. On error if not requested, the code will stop
+         type(linalg_state), optional, intent(out) :: err
+         !> Array of singular values
+         real(dp), allocatable :: s(:)
+
+         !> Create
+         real(dp), pointer :: amat(:,:)
+         integer(ilp) :: m,n,k
+
+         !> Create an internal pointer so the intent of A won't affect the next call
+         amat => a
+
+         m   = size(a,1,kind=ilp)
+         n   = size(a,2,kind=ilp)
+         k   = min(m,n)
+
+         !> Allocate return storage
+         allocate(s(k))
+
+         !> Compute singular values
+         call stdlib_linalg_svd_dp(amat,s,overwrite_a=.false.,err=err)
+
+     end function stdlib_linalg_svdvals_dp
+
+     !> SVD of matrix A = U S V^T, returning S and optionally U and V^T
      subroutine stdlib_linalg_svd_dp(a,s,u,vt,overwrite_a,full_matrices,err)
          !> Input matrix A[m,n]
          real(dp), intent(inout), target :: a(:,:)
@@ -80,7 +115,7 @@ module stdlib_linalg_svd
          real(dp), intent(out) :: s(:)
          !> The columns of U contain the eigenvectors of A A^T
          real(dp), optional, intent(out), target :: u(:,:)
-         !> The rows of V^T contain the eigenvectors fo A^T A
+         !> The rows of V^T contain the eigenvectors of A^T A
          real(dp), optional, intent(out), target :: vt(:,:)
          !> [optional] Can A data be overwritten and destroyed?
          logical(lk), optional, intent(in) :: overwrite_a
