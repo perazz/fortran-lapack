@@ -20,12 +20,16 @@ module test_linalg_svd
         if (error) return
         #: endfor
 
+        #:for ck,ct,ci in CMPL_KINDS_TYPES
+        call test_complex_svd_${ci}$(error)
+        if (error) return
+        #: endfor
 
         call cpu_time(t1)
 
         print 1, 1000*(t1-t0), merge('SUCCESS','ERROR  ',.not.error)
 
-        1 format('Inverse matrix tests completed in ',f9.4,' milliseconds, result=',a)
+        1 format('SVD tests completed in ',f9.4,' milliseconds, result=',a)
 
     end subroutine test_svd
 
@@ -126,6 +130,55 @@ module test_linalg_svd
 
     end subroutine test_svd_${ri}$
 
+    #:endfor
+
+    !> Test complex svd
+    #:for ck,ct,ci in CMPL_KINDS_TYPES
+    subroutine test_complex_svd_${ci}$(error)
+        logical,intent(out) :: error
+
+        !> Reference solution
+        real(${ck}$), parameter :: tol     = sqrt(epsilon(0.0_${ck}$))
+        real(${ck}$), parameter :: one     = 1.0_${ck}$
+        real(${ck}$), parameter :: zero    = 0.0_${ck}$
+        real(${ck}$), parameter ::  sqrt2  = sqrt(2.0_${ck}$)
+        real(${ck}$), parameter :: rsqrt2  = one/sqrt2
+        ${ct}$, parameter :: cone  = (1.0_${ck}$,0.0_${ck}$)
+        ${ct}$, parameter :: cimg  = (0.0_${ck}$,1.0_${ck}$)
+        ${ct}$, parameter :: czero = (0.0_${ck}$,0.0_${ck}$)
+
+        real(${ck}$), parameter ::  s_sol(2)   = [sqrt2,sqrt2]
+        ${ct}$, parameter ::  A_mat(2,2) = reshape([cone,cimg,cimg,cone],[2,2])
+        ${ct}$, parameter ::  u_sol(2,2) = reshape(rsqrt2*[cone,cimg,cimg,cone],[2,2])
+        ${ct}$, parameter :: vt_sol(2,2) = reshape([cone,czero,czero,cone],[2,2])
+
+        !> Local variables
+        type(linalg_state) :: state
+        ${ct}$ :: A(2,2),u(2,2),vt(2,2)
+        real(${ck}$) :: s(2)
+
+        !> Initialize matrix
+        A = A_mat
+
+        !> Simple subroutine version
+        call svd(A,s,err=state)
+        error = state%error() .or. .not. all(abs(s-s_sol)<=tol)
+        if (error) return
+
+        !> Function interface
+        s = svdvals(A,err=state)
+        error = state%error() .or. .not. all(abs(s-s_sol)<=tol)
+        if (error) return
+
+        !> [S, U, V^T]
+        A = A_mat
+        call svd(A,s,u,vt,overwrite_a=.true.,err=state)
+        error = state%error() .or. &
+                .not. all(abs(s-s_sol)<=tol) .or. &
+                .not. all(abs(matmul(u,matmul(diag(s),vt)) - A_mat)<=tol)
+        if (error) return
+
+    end subroutine test_complex_svd_${ci}$
 
     #:endfor
 
