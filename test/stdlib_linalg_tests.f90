@@ -5,6 +5,7 @@ program stdlib_linalg_tests
     use test_linalg_inverse
     use test_linalg_least_squares
     use test_linalg_determinant
+    use test_linalg_svd
     implicit none(type, external)
 
     logical :: error
@@ -27,8 +28,10 @@ program stdlib_linalg_tests
     call test_eye(error)
     if (error) error stop 'test_eye'
 
+    call test_svd(error)
+    if (error) error stop 'test_svd'
+
     !> All tests passed
     stop 0
-
 
 end program stdlib_linalg_tests
