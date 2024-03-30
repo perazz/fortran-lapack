@@ -125,8 +125,7 @@ module stdlib_linalg_eig
          integer(ilp) :: m,n,lda,ldu,ldv,info,k,lwork,lrwork,neig
          logical(lk) :: copy_a
          character :: task_u,task_v
-         ${rt}$, target :: work_dummy(1)
-         complex(${rk}$), target :: u_dummy(1,1),v_dummy(1,1)
+         ${rt}$, target :: work_dummy(1),u_dummy(1,1),v_dummy(1,1)
          ${rt}$, allocatable :: work(:)
          real(${rk}$), allocatable :: rwork(:)
          ${rt}$, pointer :: amat(:,:),lreal(:),limag(:),umat(:,:),vmat(:,:)

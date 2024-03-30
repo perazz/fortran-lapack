@@ -125,8 +125,7 @@ module stdlib_linalg_eig
          integer(ilp) :: m,n,lda,ldu,ldv,info,k,lwork,lrwork,neig
          logical(lk) :: copy_a
          character :: task_u,task_v
-         real(sp),target :: work_dummy(1)
-         complex(sp),target :: u_dummy(1,1),v_dummy(1,1)
+         real(sp),target :: work_dummy(1),u_dummy(1,1),v_dummy(1,1)
          real(sp),allocatable :: work(:)
          real(sp),allocatable :: rwork(:)
          real(sp),pointer :: amat(:,:),lreal(:),limag(:),umat(:,:),vmat(:,:)
@@ -298,8 +297,7 @@ module stdlib_linalg_eig
          integer(ilp) :: m,n,lda,ldu,ldv,info,k,lwork,lrwork,neig
          logical(lk) :: copy_a
          character :: task_u,task_v
-         real(dp),target :: work_dummy(1)
-         complex(dp),target :: u_dummy(1,1),v_dummy(1,1)
+         real(dp),target :: work_dummy(1),u_dummy(1,1),v_dummy(1,1)
          real(dp),allocatable :: work(:)
          real(dp),allocatable :: rwork(:)
          real(dp),pointer :: amat(:,:),lreal(:),limag(:),umat(:,:),vmat(:,:)
@@ -471,8 +469,7 @@ module stdlib_linalg_eig
          integer(ilp) :: m,n,lda,ldu,ldv,info,k,lwork,lrwork,neig
          logical(lk) :: copy_a
          character :: task_u,task_v
-         real(qp),target :: work_dummy(1)
-         complex(qp),target :: u_dummy(1,1),v_dummy(1,1)
+         real(qp),target :: work_dummy(1),u_dummy(1,1),v_dummy(1,1)
          real(qp),allocatable :: work(:)
          real(qp),allocatable :: rwork(:)
          real(qp),pointer :: amat(:,:),lreal(:),limag(:),umat(:,:),vmat(:,:)
@@ -644,8 +641,7 @@ module stdlib_linalg_eig
          integer(ilp) :: m,n,lda,ldu,ldv,info,k,lwork,lrwork,neig
          logical(lk) :: copy_a
          character :: task_u,task_v
-         complex(sp),target :: work_dummy(1)
-         complex(sp),target :: u_dummy(1,1),v_dummy(1,1)
+         complex(sp),target :: work_dummy(1),u_dummy(1,1),v_dummy(1,1)
          complex(sp),allocatable :: work(:)
          real(sp),allocatable :: rwork(:)
          complex(sp),pointer :: amat(:,:),lreal(:),limag(:),umat(:,:),vmat(:,:)
@@ -802,8 +798,7 @@ module stdlib_linalg_eig
          integer(ilp) :: m,n,lda,ldu,ldv,info,k,lwork,lrwork,neig
          logical(lk) :: copy_a
          character :: task_u,task_v
-         complex(dp),target :: work_dummy(1)
-         complex(dp),target :: u_dummy(1,1),v_dummy(1,1)
+         complex(dp),target :: work_dummy(1),u_dummy(1,1),v_dummy(1,1)
          complex(dp),allocatable :: work(:)
          real(dp),allocatable :: rwork(:)
          complex(dp),pointer :: amat(:,:),lreal(:),limag(:),umat(:,:),vmat(:,:)
@@ -960,8 +955,7 @@ module stdlib_linalg_eig
          integer(ilp) :: m,n,lda,ldu,ldv,info,k,lwork,lrwork,neig
          logical(lk) :: copy_a
          character :: task_u,task_v
-         complex(qp),target :: work_dummy(1)
-         complex(qp),target :: u_dummy(1,1),v_dummy(1,1)
+         complex(qp),target :: work_dummy(1),u_dummy(1,1),v_dummy(1,1)
          complex(qp),allocatable :: work(:)
          real(qp),allocatable :: rwork(:)
          complex(qp),pointer :: amat(:,:),lreal(:),limag(:),umat(:,:),vmat(:,:)
