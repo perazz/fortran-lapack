@@ -1074,13 +1074,11 @@ module stdlib_linalg_eig
         ! u(j)   = VL(:,j) + i*VL(:,j+1) and
         ! u(j+1) = VL(:,j) - i*VL(:,j+1).
         ! Convert these to complex numbers here.
-        do j = 1,n
-            do i = 1,n - 1
-               if (lambda(i) == conjg(lambda(i + 1))) then
-                  out_mat(i,j) = cmplx(lmat(i,j),lmat(i + 1,j),kind=sp)
-                  out_mat(i + 1,j) = cmplx(lmat(i,j),-lmat(i + 1,j),kind=sp)
-               end if
-            end do
+        do j = 1,n - 1
+           if (lambda(j) == conjg(lambda(j + 1))) then
+              out_mat(:,j) = cmplx(lmat(:,j),lmat(:,j + 1),kind=sp)
+              out_mat(:,j + 1) = cmplx(lmat(:,j),-lmat(:,j + 1),kind=sp)
+           end if
         end do
         
      end subroutine assign_real_eigenvectors_sp
@@ -1106,13 +1104,11 @@ module stdlib_linalg_eig
         ! u(j)   = VL(:,j) + i*VL(:,j+1) and
         ! u(j+1) = VL(:,j) - i*VL(:,j+1).
         ! Convert these to complex numbers here.
-        do j = 1,n
-            do i = 1,n - 1
-               if (lambda(i) == conjg(lambda(i + 1))) then
-                  out_mat(i,j) = cmplx(lmat(i,j),lmat(i + 1,j),kind=dp)
-                  out_mat(i + 1,j) = cmplx(lmat(i,j),-lmat(i + 1,j),kind=dp)
-               end if
-            end do
+        do j = 1,n - 1
+           if (lambda(j) == conjg(lambda(j + 1))) then
+              out_mat(:,j) = cmplx(lmat(:,j),lmat(:,j + 1),kind=dp)
+              out_mat(:,j + 1) = cmplx(lmat(:,j),-lmat(:,j + 1),kind=dp)
+           end if
         end do
         
      end subroutine assign_real_eigenvectors_dp
@@ -1138,13 +1134,11 @@ module stdlib_linalg_eig
         ! u(j)   = VL(:,j) + i*VL(:,j+1) and
         ! u(j+1) = VL(:,j) - i*VL(:,j+1).
         ! Convert these to complex numbers here.
-        do j = 1,n
-            do i = 1,n - 1
-               if (lambda(i) == conjg(lambda(i + 1))) then
-                  out_mat(i,j) = cmplx(lmat(i,j),lmat(i + 1,j),kind=qp)
-                  out_mat(i + 1,j) = cmplx(lmat(i,j),-lmat(i + 1,j),kind=qp)
-               end if
-            end do
+        do j = 1,n - 1
+           if (lambda(j) == conjg(lambda(j + 1))) then
+              out_mat(:,j) = cmplx(lmat(:,j),lmat(:,j + 1),kind=qp)
+              out_mat(:,j + 1) = cmplx(lmat(:,j),-lmat(:,j + 1),kind=qp)
+           end if
         end do
         
      end subroutine assign_real_eigenvectors_qp

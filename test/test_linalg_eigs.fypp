@@ -16,10 +16,14 @@ module test_linalg_eig
         call cpu_time(t0)
 
         #:for rk,rt,ri in REAL_KINDS_TYPES
-        call test_eig_diagonal_${ri}$(error)
+        call test_eig_real_${ri}$(error)
         if (error) return
         #: endfor
         
+        #:for ck,ct,ci in CMPL_KINDS_TYPES
+        call test_eig_complex_${ci}$(error)
+        if (error) return    
+        #: endfor 
 
         call cpu_time(t1)
 
@@ -29,19 +33,21 @@ module test_linalg_eig
 
     end subroutine test_eig
 
-    !> Simple diagonal matrix eigenvalues
+    !> Simple real matrix eigenvalues
     #:for rk,rt,ri in REAL_KINDS_TYPES
-    subroutine test_eig_diagonal_${ri}$(error)
+    subroutine test_eig_real_${ri}$(error)
         logical,intent(out) :: error
 
         !> Reference solution
-        real(${rk}$), parameter :: zero = 0.0_${rk}$
-        real(${rk}$), parameter :: tol  = sqrt(epsilon(zero))
+        real(${rk}$), parameter :: zero    = 0.0_${rk}$
+        real(${rk}$), parameter :: two     = 2.0_${rk}$
+        real(${rk}$), parameter :: sqrt2o2 = sqrt(two)*0.5_${rk}$
+        real(${rk}$), parameter :: tol     = sqrt(epsilon(zero))
 
         !> Local variables
         type(linalg_state) :: state
         ${rt}$ :: A(3,3),B(2,2)
-        complex(${rk}$) :: lambda(3),lambdab(2),Bvec(2,2)
+        complex(${rk}$) :: lambda(3),Bvec(2,2),Bres(2,2)
 
         !> Matrix with real eigenvalues
         A = reshape([1,0,0, &
@@ -56,25 +62,65 @@ module test_linalg_eig
         !> Matrix with complex eigenvalues
         B = transpose(reshape([1, -1, &
                                1,  1],[2,2]))
+                               
+        !> Expected right eigenvectors
+        Bres(1,1:2) = sqrt2o2
+        Bres(2,1)   = cmplx(zero,-sqrt2o2,kind=${rk}$)
+        Bres(2,2)   = cmplx(zero,+sqrt2o2,kind=${rk}$)
         
-        call eig(B,lambda,left=Bvec,err=state)
-        error = state%error()
-        if (error) return        
+        call eig(B,lambda,right=Bvec,err=state)
+        error = state%error() .or. any(abs(Bres-Bvec)>tol)
         
-!eigenvalues, eigenvectors = LA.eig(np.array([[1, -1], [1, 1]]))
-!eigenvalues
-!array([1.+1.j, 1.-1.j])
-!eigenvectors
-!array([[0.70710678+0.j        , 0.70710678-0.j        ],
-!       [0.        -0.70710678j, 0.        +0.70710678j]])        
-!        
-
-    end subroutine test_eig_diagonal_${ri}$
+        print *, bvec(1,:)
+        print *, bvec(2,:) 
+        print *, bres 
+        
+        if (error) return       
+        
+    end subroutine test_eig_real_${ri}$
 
     #:endfor
 
+    !> Simple complex matrix eigenvalues
+    #:for ck,ct,ci in CMPL_KINDS_TYPES
+    subroutine test_eig_complex_${ci}$(error)
+        logical,intent(out) :: error
 
+        !> Reference solution
+        real(${ck}$), parameter :: zero    = 0.0_${ck}$
+        real(${ck}$), parameter :: two     = 2.0_${ck}$
+        real(${ck}$), parameter :: sqrt2o2 = sqrt(two)*0.5_${ck}$
+        real(${ck}$), parameter :: tol     = sqrt(epsilon(zero))
+        ${ct}$, parameter :: cone  = (1.0_${ck}$,0.0_${ck}$)
+        ${ct}$, parameter :: cimg  = (0.0_${ck}$,1.0_${ck}$)
+        ${ct}$, parameter :: czero = (0.0_${ck}$,0.0_${ck}$)
 
+        !> Local vaciables
+        type(linalg_state) :: state
+        ${ct}$ :: A(2,2),lambda(2),Avec(2,2),Ares(2,2),lres(2)
+
+        !> Matcix with real eigenvalues
+        A = transpose(reshape([ cone, cimg, &
+                               -cimg, cone], [2,2]))
+                
+        call eig(A,lambda,right=Avec,err=state)
+        
+        !> Expected eigenvalues and eigenvectors
+        lres(1)   = two
+        lres(2)   = zero
+        
+        !> Eigenvectors may vary: do not use for error
+        Ares(1,1) = cmplx(zero,sqrt2o2,kind=${ck}$)
+        Ares(1,2) = cmplx(sqrt2o2,zero,kind=${ck}$)
+        Ares(2,1) = cmplx(sqrt2o2,zero,kind=${ck}$)
+        Ares(2,2) = cmplx(zero,sqrt2o2,kind=${ck}$)        
+        
+        error = state%error() .or. any(abs(lambda-lres)>tol)
+        if (error) return       
+        
+    end subroutine test_eig_complex_${ci}$
+
+    #:endfor
 
 
 end module test_linalg_eig

@@ -284,13 +284,11 @@ module stdlib_linalg_eig
         ! u(j)   = VL(:,j) + i*VL(:,j+1) and
         ! u(j+1) = VL(:,j) - i*VL(:,j+1). 
         ! Convert these to complex numbers here.   
-        do j=1,n
-            do i=1,n-1
-               if (lambda(i)==conjg(lambda(i+1))) then  
-                  out_mat(  i,j) = cmplx(lmat(i,j), lmat(i+1,j),kind=${rk}$)
-                  out_mat(i+1,j) = cmplx(lmat(i,j),-lmat(i+1,j),kind=${rk}$)
-               endif
-            end do  
+        do j=1,n-1
+           if (lambda(j)==conjg(lambda(j+1))) then  
+              out_mat(:,  j) = cmplx(lmat(:,j), lmat(:,j+1),kind=${rk}$)
+              out_mat(:,j+1) = cmplx(lmat(:,j),-lmat(:,j+1),kind=${rk}$)
+           endif
         end do           
         
      end subroutine assign_real_eigenvectors_${rk}$

@@ -14,13 +14,20 @@ module test_linalg_eig
 
         call cpu_time(t0)
 
-        call test_eig_diagonal_s(error)
+        call test_eig_real_s(error)
         if (error) return
-        call test_eig_diagonal_d(error)
+        call test_eig_real_d(error)
         if (error) return
-        call test_eig_diagonal_q(error)
+        call test_eig_real_q(error)
         if (error) return
         
+        call test_eig_complex_c(error)
+        if (error) return
+        call test_eig_complex_z(error)
+        if (error) return
+        call test_eig_complex_w(error)
+        if (error) return
+
         call cpu_time(t1)
 
         print 1,1000*(t1 - t0),merge('SUCCESS','ERROR  ',.not. error)
@@ -29,18 +36,20 @@ module test_linalg_eig
 
     end subroutine test_eig
 
-    !> Simple diagonal matrix eigenvalues
-    subroutine test_eig_diagonal_s(error)
+    !> Simple real matrix eigenvalues
+    subroutine test_eig_real_s(error)
         logical,intent(out) :: error
 
         !> Reference solution
         real(sp),parameter :: zero = 0.0_sp
+        real(sp),parameter :: two = 2.0_sp
+        real(sp),parameter :: sqrt2o2 = sqrt(two)*0.5_sp
         real(sp),parameter :: tol = sqrt(epsilon(zero))
 
         !> Local variables
         type(linalg_state) :: state
         real(sp) :: A(3,3),B(2,2)
-        complex(sp) :: lambda(3),lambdab(2),Bvec(2,2)
+        complex(sp) :: lambda(3),Bvec(2,2),Bres(2,2)
 
         !> Matrix with real eigenvalues
         A = reshape([1,0,0, &
@@ -55,32 +64,36 @@ module test_linalg_eig
         !> Matrix with complex eigenvalues
         B = transpose(reshape([1,-1, &
                                1,1], [2,2]))
+                               
+        !> Expected right eigenvectors
+        Bres(1,1:2) = sqrt2o2
+        Bres(2,1) = cmplx(zero,-sqrt2o2,kind=sp)
+        Bres(2,2) = cmplx(zero,+sqrt2o2,kind=sp)
         
-        call eig(B,lambda,left=Bvec,err=state)
-        error = state%error()
+        call eig(B,lambda,right=Bvec,err=state)
+        error = state%error() .or. any(abs(Bres - Bvec) > tol)
+        
+        print *, bvec(1,:)
+        print *, bvec(2,:)
+        print *, bres
+        
         if (error) return
         
-!eigenvalues, eigenvectors = LA.eig(np.array([[1, -1], [1, 1]]))
-!eigenvalues
-!array([1.+1.j, 1.-1.j])
-!eigenvectors
-!array([[0.70710678+0.j        , 0.70710678-0.j        ],
-!       [0.        -0.70710678j, 0.        +0.70710678j]])
-!
+    end subroutine test_eig_real_s
 
-    end subroutine test_eig_diagonal_s
-
-    subroutine test_eig_diagonal_d(error)
+    subroutine test_eig_real_d(error)
         logical,intent(out) :: error
 
         !> Reference solution
         real(dp),parameter :: zero = 0.0_dp
+        real(dp),parameter :: two = 2.0_dp
+        real(dp),parameter :: sqrt2o2 = sqrt(two)*0.5_dp
         real(dp),parameter :: tol = sqrt(epsilon(zero))
 
         !> Local variables
         type(linalg_state) :: state
         real(dp) :: A(3,3),B(2,2)
-        complex(dp) :: lambda(3),lambdab(2),Bvec(2,2)
+        complex(dp) :: lambda(3),Bvec(2,2),Bres(2,2)
 
         !> Matrix with real eigenvalues
         A = reshape([1,0,0, &
@@ -95,32 +108,36 @@ module test_linalg_eig
         !> Matrix with complex eigenvalues
         B = transpose(reshape([1,-1, &
                                1,1], [2,2]))
+                               
+        !> Expected right eigenvectors
+        Bres(1,1:2) = sqrt2o2
+        Bres(2,1) = cmplx(zero,-sqrt2o2,kind=dp)
+        Bres(2,2) = cmplx(zero,+sqrt2o2,kind=dp)
         
-        call eig(B,lambda,left=Bvec,err=state)
-        error = state%error()
+        call eig(B,lambda,right=Bvec,err=state)
+        error = state%error() .or. any(abs(Bres - Bvec) > tol)
+        
+        print *, bvec(1,:)
+        print *, bvec(2,:)
+        print *, bres
+        
         if (error) return
         
-!eigenvalues, eigenvectors = LA.eig(np.array([[1, -1], [1, 1]]))
-!eigenvalues
-!array([1.+1.j, 1.-1.j])
-!eigenvectors
-!array([[0.70710678+0.j        , 0.70710678-0.j        ],
-!       [0.        -0.70710678j, 0.        +0.70710678j]])
-!
+    end subroutine test_eig_real_d
 
-    end subroutine test_eig_diagonal_d
-
-    subroutine test_eig_diagonal_q(error)
+    subroutine test_eig_real_q(error)
         logical,intent(out) :: error
 
         !> Reference solution
         real(qp),parameter :: zero = 0.0_qp
+        real(qp),parameter :: two = 2.0_qp
+        real(qp),parameter :: sqrt2o2 = sqrt(two)*0.5_qp
         real(qp),parameter :: tol = sqrt(epsilon(zero))
 
         !> Local variables
         type(linalg_state) :: state
         real(qp) :: A(3,3),B(2,2)
-        complex(qp) :: lambda(3),lambdab(2),Bvec(2,2)
+        complex(qp) :: lambda(3),Bvec(2,2),Bres(2,2)
 
         !> Matrix with real eigenvalues
         A = reshape([1,0,0, &
@@ -135,20 +152,134 @@ module test_linalg_eig
         !> Matrix with complex eigenvalues
         B = transpose(reshape([1,-1, &
                                1,1], [2,2]))
+                               
+        !> Expected right eigenvectors
+        Bres(1,1:2) = sqrt2o2
+        Bres(2,1) = cmplx(zero,-sqrt2o2,kind=qp)
+        Bres(2,2) = cmplx(zero,+sqrt2o2,kind=qp)
         
-        call eig(B,lambda,left=Bvec,err=state)
-        error = state%error()
+        call eig(B,lambda,right=Bvec,err=state)
+        error = state%error() .or. any(abs(Bres - Bvec) > tol)
+        
+        print *, bvec(1,:)
+        print *, bvec(2,:)
+        print *, bres
+        
         if (error) return
         
-!eigenvalues, eigenvectors = LA.eig(np.array([[1, -1], [1, 1]]))
-!eigenvalues
-!array([1.+1.j, 1.-1.j])
-!eigenvectors
-!array([[0.70710678+0.j        , 0.70710678-0.j        ],
-!       [0.        -0.70710678j, 0.        +0.70710678j]])
-!
+    end subroutine test_eig_real_q
 
-    end subroutine test_eig_diagonal_q
+    !> Simple complex matrix eigenvalues
+    subroutine test_eig_complex_c(error)
+        logical,intent(out) :: error
+
+        !> Reference solution
+        real(sp),parameter :: zero = 0.0_sp
+        real(sp),parameter :: two = 2.0_sp
+        real(sp),parameter :: sqrt2o2 = sqrt(two)*0.5_sp
+        real(sp),parameter :: tol = sqrt(epsilon(zero))
+        complex(sp),parameter :: cone = (1.0_sp,0.0_sp)
+        complex(sp),parameter :: cimg = (0.0_sp,1.0_sp)
+        complex(sp),parameter :: czero = (0.0_sp,0.0_sp)
+
+        !> Local vaciables
+        type(linalg_state) :: state
+        complex(sp) :: A(2,2),lambda(2),Avec(2,2),Ares(2,2),lres(2)
+
+        !> Matcix with real eigenvalues
+        A = transpose(reshape([cone,cimg, &
+                               -cimg,cone], [2,2]))
+                
+        call eig(A,lambda,right=Avec,err=state)
+        
+        !> Expected eigenvalues and eigenvectors
+        lres(1) = two
+        lres(2) = zero
+        
+        !> Eigenvectors may vary: do not use for error
+        Ares(1,1) = cmplx(zero,sqrt2o2,kind=sp)
+        Ares(1,2) = cmplx(sqrt2o2,zero,kind=sp)
+        Ares(2,1) = cmplx(sqrt2o2,zero,kind=sp)
+        Ares(2,2) = cmplx(zero,sqrt2o2,kind=sp)
+        
+        error = state%error() .or. any(abs(lambda - lres) > tol)
+        if (error) return
+        
+    end subroutine test_eig_complex_c
+
+    subroutine test_eig_complex_z(error)
+        logical,intent(out) :: error
+
+        !> Reference solution
+        real(dp),parameter :: zero = 0.0_dp
+        real(dp),parameter :: two = 2.0_dp
+        real(dp),parameter :: sqrt2o2 = sqrt(two)*0.5_dp
+        real(dp),parameter :: tol = sqrt(epsilon(zero))
+        complex(dp),parameter :: cone = (1.0_dp,0.0_dp)
+        complex(dp),parameter :: cimg = (0.0_dp,1.0_dp)
+        complex(dp),parameter :: czero = (0.0_dp,0.0_dp)
+
+        !> Local vaciables
+        type(linalg_state) :: state
+        complex(dp) :: A(2,2),lambda(2),Avec(2,2),Ares(2,2),lres(2)
+
+        !> Matcix with real eigenvalues
+        A = transpose(reshape([cone,cimg, &
+                               -cimg,cone], [2,2]))
+                
+        call eig(A,lambda,right=Avec,err=state)
+        
+        !> Expected eigenvalues and eigenvectors
+        lres(1) = two
+        lres(2) = zero
+        
+        !> Eigenvectors may vary: do not use for error
+        Ares(1,1) = cmplx(zero,sqrt2o2,kind=dp)
+        Ares(1,2) = cmplx(sqrt2o2,zero,kind=dp)
+        Ares(2,1) = cmplx(sqrt2o2,zero,kind=dp)
+        Ares(2,2) = cmplx(zero,sqrt2o2,kind=dp)
+        
+        error = state%error() .or. any(abs(lambda - lres) > tol)
+        if (error) return
+        
+    end subroutine test_eig_complex_z
+
+    subroutine test_eig_complex_w(error)
+        logical,intent(out) :: error
+
+        !> Reference solution
+        real(qp),parameter :: zero = 0.0_qp
+        real(qp),parameter :: two = 2.0_qp
+        real(qp),parameter :: sqrt2o2 = sqrt(two)*0.5_qp
+        real(qp),parameter :: tol = sqrt(epsilon(zero))
+        complex(qp),parameter :: cone = (1.0_qp,0.0_qp)
+        complex(qp),parameter :: cimg = (0.0_qp,1.0_qp)
+        complex(qp),parameter :: czero = (0.0_qp,0.0_qp)
+
+        !> Local vaciables
+        type(linalg_state) :: state
+        complex(qp) :: A(2,2),lambda(2),Avec(2,2),Ares(2,2),lres(2)
+
+        !> Matcix with real eigenvalues
+        A = transpose(reshape([cone,cimg, &
+                               -cimg,cone], [2,2]))
+                
+        call eig(A,lambda,right=Avec,err=state)
+        
+        !> Expected eigenvalues and eigenvectors
+        lres(1) = two
+        lres(2) = zero
+        
+        !> Eigenvectors may vary: do not use for error
+        Ares(1,1) = cmplx(zero,sqrt2o2,kind=qp)
+        Ares(1,2) = cmplx(sqrt2o2,zero,kind=qp)
+        Ares(2,1) = cmplx(sqrt2o2,zero,kind=qp)
+        Ares(2,2) = cmplx(zero,sqrt2o2,kind=qp)
+        
+        error = state%error() .or. any(abs(lambda - lres) > tol)
+        if (error) return
+        
+    end subroutine test_eig_complex_w
 
 end module test_linalg_eig
 
