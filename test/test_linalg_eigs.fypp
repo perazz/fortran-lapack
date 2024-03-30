@@ -1,6 +1,6 @@
 #:include "common.fypp"
 ! Test eigendecomposition
-module test_linalg_eigs
+module test_linalg_eig
     use stdlib_linalg_interface
 
     implicit none (type,external)
@@ -20,11 +20,6 @@ module test_linalg_eigs
         if (error) return
         #: endfor
 
-        #:for ck,ct,ci in CMPL_KINDS_TYPES
-        call test_complex_svd_${ci}$(error)
-        if (error) return
-        #: endfor
-
         call cpu_time(t1)
 
         print 1, 1000*(t1-t0), merge('SUCCESS','ERROR  ',.not.error)
@@ -39,18 +34,22 @@ module test_linalg_eigs
         logical,intent(out) :: error
 
         !> Reference solution
-        ${rt}$, parameter :: tol     = sqrt(epsilon(0.0_${rk}$))
+        real(${rk}$), parameter :: zero = 0.0_${rk}$
+        real(${rk}$), parameter :: tol  = sqrt(epsilon(zero))
 
         !> Local variables
         type(linalg_state) :: state
         ${rt}$ :: A(3,3)
-        complex(${rk}$) :: lambda
+        complex(${rk}$) :: lambda(3)
 
         !> Initialize matrix
-        A = diag([1,2,3])
+        A = reshape([1,0,0, &
+                     0,2,0, &
+                     0,0,3],[3,3])
         
         call eig(A,lambda,err=state)
-        error = state%error() 
+        error = state%error() .or. &
+                .not. all(aimag(lambda)==zero .and. real(lambda,kind=${rk}$)==[1,2,3])
 
         if (error) return
 
@@ -58,57 +57,7 @@ module test_linalg_eigs
 
     #:endfor
 
-    !> Test complex svd
-    #:for ck,ct,ci in CMPL_KINDS_TYPES
-    subroutine test_complex_svd_${ci}$(error)
-        logical,intent(out) :: error
 
-        !> Reference solution
-        real(${ck}$), parameter :: tol     = sqrt(epsilon(0.0_${ck}$))
-        real(${ck}$), parameter :: one     = 1.0_${ck}$
-        real(${ck}$), parameter :: zero    = 0.0_${ck}$
-        real(${ck}$), parameter ::  sqrt2  = sqrt(2.0_${ck}$)
-        real(${ck}$), parameter :: rsqrt2  = one/sqrt2
-        ${ct}$, parameter :: cone  = (1.0_${ck}$,0.0_${ck}$)
-        ${ct}$, parameter :: cimg  = (0.0_${ck}$,1.0_${ck}$)
-        ${ct}$, parameter :: czero = (0.0_${ck}$,0.0_${ck}$)
-
-        real(${ck}$), parameter ::  s_sol(2)   = [sqrt2,sqrt2]
-        ${ct}$, parameter ::  A_mat(2,2) = reshape([cone,cimg,cimg,cone],[2,2])
-        ${ct}$, parameter ::  u_sol(2,2) = reshape(rsqrt2*[cone,cimg,cimg,cone],[2,2])
-        ${ct}$, parameter :: vt_sol(2,2) = reshape([cone,czero,czero,cone],[2,2])
-
-        !> Local variables
-        type(linalg_state) :: state
-        ${ct}$ :: A(2,2),u(2,2),vt(2,2)
-        real(${ck}$) :: s(2)
-
-        !> Initialize matrix
-        A = A_mat
-
-        !> Simple subroutine version
-        call svd(A,s,err=state)
-        error = state%error() .or. .not. all(abs(s-s_sol)<=tol)
-        if (error) return
-
-        !> Function interface
-        s = svdvals(A,err=state)
-        error = state%error() .or. .not. all(abs(s-s_sol)<=tol)
-        if (error) return
-
-        !> [S, U, V^T]
-        A = A_mat
-        call svd(A,s,u,vt,overwrite_a=.true.,err=state)
-        error = state%error() .or. &
-                .not. all(abs(s-s_sol)<=tol) .or. &
-                .not. all(abs(matmul(u,matmul(diag(s),vt)) - A_mat)<=tol)
-        if (error) return
-
-    end subroutine test_complex_svd_${ci}$
-
-    #:endfor
-
-
-end module test_linalg_eigs
+end module test_linalg_eig
 
 

@@ -78,13 +78,13 @@ module stdlib_linalg_eig
      #:for rk,rt,ri in ALL_KINDS_TYPES
 
      !> Singular values of matrix A
-     function stdlib_linalg_eigvals_${ri}$(a,err) result(s)
+     function stdlib_linalg_eigvals_${ri}$(a,err) result(lambda)
          !> Input matrix A[m,n]
          ${rt}$, intent(in), target :: a(:,:)
          !> [optional] state return flag. On error if not requested, the code will stop
          type(linalg_state), optional, intent(out) :: err
          !> Array of singular values
-         complex(${rk}$), allocatable :: s(:)
+         complex(${rk}$), allocatable :: lambda(:)
 
          !> Create
          ${rt}$, pointer :: amat(:,:)
@@ -98,10 +98,10 @@ module stdlib_linalg_eig
          k   = min(m,n)
 
          !> Allocate return storage
-         allocate(s(k))
+         allocate(lambda(k))
 
-         !> Compute singular values
-         call stdlib_linalg_eig_${ri}$(amat,s,overwrite_a=.false.,err=err)
+         !> Compute eigenvalues only
+         call stdlib_linalg_eig_${ri}$(amat,lambda,overwrite_a=.false.,err=err)
 
      end function stdlib_linalg_eigvals_${ri}$
 

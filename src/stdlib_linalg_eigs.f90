@@ -78,13 +78,13 @@ module stdlib_linalg_eig
      end subroutine geev_info
 
      !> Singular values of matrix A
-     function stdlib_linalg_eigvals_s(a,err) result(s)
+     function stdlib_linalg_eigvals_s(a,err) result(lambda)
          !> Input matrix A[m,n]
          real(sp),intent(in),target :: a(:,:)
          !> [optional] state return flag. On error if not requested, the code will stop
          type(linalg_state),optional,intent(out) :: err
          !> Array of singular values
-         complex(sp),allocatable :: s(:)
+         complex(sp),allocatable :: lambda(:)
 
          !> Create
          real(sp),pointer :: amat(:,:)
@@ -98,10 +98,10 @@ module stdlib_linalg_eig
          k = min(m,n)
 
          !> Allocate return storage
-         allocate (s(k))
+         allocate (lambda(k))
 
-         !> Compute singular values
-         call stdlib_linalg_eig_s(amat,s,overwrite_a=.false.,err=err)
+         !> Compute eigenvalues only
+         call stdlib_linalg_eig_s(amat,lambda,overwrite_a=.false.,err=err)
 
      end function stdlib_linalg_eigvals_s
 
@@ -233,13 +233,13 @@ module stdlib_linalg_eig
      end subroutine stdlib_linalg_eig_s
 
      !> Singular values of matrix A
-     function stdlib_linalg_eigvals_d(a,err) result(s)
+     function stdlib_linalg_eigvals_d(a,err) result(lambda)
          !> Input matrix A[m,n]
          real(dp),intent(in),target :: a(:,:)
          !> [optional] state return flag. On error if not requested, the code will stop
          type(linalg_state),optional,intent(out) :: err
          !> Array of singular values
-         complex(dp),allocatable :: s(:)
+         complex(dp),allocatable :: lambda(:)
 
          !> Create
          real(dp),pointer :: amat(:,:)
@@ -253,10 +253,10 @@ module stdlib_linalg_eig
          k = min(m,n)
 
          !> Allocate return storage
-         allocate (s(k))
+         allocate (lambda(k))
 
-         !> Compute singular values
-         call stdlib_linalg_eig_d(amat,s,overwrite_a=.false.,err=err)
+         !> Compute eigenvalues only
+         call stdlib_linalg_eig_d(amat,lambda,overwrite_a=.false.,err=err)
 
      end function stdlib_linalg_eigvals_d
 
@@ -388,13 +388,13 @@ module stdlib_linalg_eig
      end subroutine stdlib_linalg_eig_d
 
      !> Singular values of matrix A
-     function stdlib_linalg_eigvals_q(a,err) result(s)
+     function stdlib_linalg_eigvals_q(a,err) result(lambda)
          !> Input matrix A[m,n]
          real(qp),intent(in),target :: a(:,:)
          !> [optional] state return flag. On error if not requested, the code will stop
          type(linalg_state),optional,intent(out) :: err
          !> Array of singular values
-         complex(qp),allocatable :: s(:)
+         complex(qp),allocatable :: lambda(:)
 
          !> Create
          real(qp),pointer :: amat(:,:)
@@ -408,10 +408,10 @@ module stdlib_linalg_eig
          k = min(m,n)
 
          !> Allocate return storage
-         allocate (s(k))
+         allocate (lambda(k))
 
-         !> Compute singular values
-         call stdlib_linalg_eig_q(amat,s,overwrite_a=.false.,err=err)
+         !> Compute eigenvalues only
+         call stdlib_linalg_eig_q(amat,lambda,overwrite_a=.false.,err=err)
 
      end function stdlib_linalg_eigvals_q
 
@@ -543,13 +543,13 @@ module stdlib_linalg_eig
      end subroutine stdlib_linalg_eig_q
 
      !> Singular values of matrix A
-     function stdlib_linalg_eigvals_c(a,err) result(s)
+     function stdlib_linalg_eigvals_c(a,err) result(lambda)
          !> Input matrix A[m,n]
          complex(sp),intent(in),target :: a(:,:)
          !> [optional] state return flag. On error if not requested, the code will stop
          type(linalg_state),optional,intent(out) :: err
          !> Array of singular values
-         complex(sp),allocatable :: s(:)
+         complex(sp),allocatable :: lambda(:)
 
          !> Create
          complex(sp),pointer :: amat(:,:)
@@ -563,10 +563,10 @@ module stdlib_linalg_eig
          k = min(m,n)
 
          !> Allocate return storage
-         allocate (s(k))
+         allocate (lambda(k))
 
-         !> Compute singular values
-         call stdlib_linalg_eig_c(amat,s,overwrite_a=.false.,err=err)
+         !> Compute eigenvalues only
+         call stdlib_linalg_eig_c(amat,lambda,overwrite_a=.false.,err=err)
 
      end function stdlib_linalg_eigvals_c
 
@@ -702,13 +702,13 @@ module stdlib_linalg_eig
      end subroutine stdlib_linalg_eig_c
 
      !> Singular values of matrix A
-     function stdlib_linalg_eigvals_z(a,err) result(s)
+     function stdlib_linalg_eigvals_z(a,err) result(lambda)
          !> Input matrix A[m,n]
          complex(dp),intent(in),target :: a(:,:)
          !> [optional] state return flag. On error if not requested, the code will stop
          type(linalg_state),optional,intent(out) :: err
          !> Array of singular values
-         complex(dp),allocatable :: s(:)
+         complex(dp),allocatable :: lambda(:)
 
          !> Create
          complex(dp),pointer :: amat(:,:)
@@ -722,10 +722,10 @@ module stdlib_linalg_eig
          k = min(m,n)
 
          !> Allocate return storage
-         allocate (s(k))
+         allocate (lambda(k))
 
-         !> Compute singular values
-         call stdlib_linalg_eig_z(amat,s,overwrite_a=.false.,err=err)
+         !> Compute eigenvalues only
+         call stdlib_linalg_eig_z(amat,lambda,overwrite_a=.false.,err=err)
 
      end function stdlib_linalg_eigvals_z
 
@@ -861,13 +861,13 @@ module stdlib_linalg_eig
      end subroutine stdlib_linalg_eig_z
 
      !> Singular values of matrix A
-     function stdlib_linalg_eigvals_w(a,err) result(s)
+     function stdlib_linalg_eigvals_w(a,err) result(lambda)
          !> Input matrix A[m,n]
          complex(qp),intent(in),target :: a(:,:)
          !> [optional] state return flag. On error if not requested, the code will stop
          type(linalg_state),optional,intent(out) :: err
          !> Array of singular values
-         complex(qp),allocatable :: s(:)
+         complex(qp),allocatable :: lambda(:)
 
          !> Create
          complex(qp),pointer :: amat(:,:)
@@ -881,10 +881,10 @@ module stdlib_linalg_eig
          k = min(m,n)
 
          !> Allocate return storage
-         allocate (s(k))
+         allocate (lambda(k))
 
-         !> Compute singular values
-         call stdlib_linalg_eig_w(amat,s,overwrite_a=.false.,err=err)
+         !> Compute eigenvalues only
+         call stdlib_linalg_eig_w(amat,lambda,overwrite_a=.false.,err=err)
 
      end function stdlib_linalg_eigvals_w
 
