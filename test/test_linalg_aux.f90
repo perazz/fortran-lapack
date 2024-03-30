@@ -33,7 +33,7 @@ module test_linalg_aux
         '128-bit complex: (1.00000000000000000000000000000000000E+0000,1.00000000000000000000000000000000000E+0000)') &
         error = .true.
 
-        state = linalg_state(LINALG_SUCCESS,' 32-bit array: ',v1=[(1.0_sp,0.0_sp),(0.0_sp,1.0_sp)])
+        state = linalg_state(LINALG_SUCCESS,' 32-bit array: ',[(1.0_sp,0.0_sp),(0.0_sp,1.0_sp)])
         if (state%message/=' 32-bit array: [(1.00000000E+00,0.00000000E+00) (0.00000000E+00,1.00000000E+00)]') &
         error = .true.
 
