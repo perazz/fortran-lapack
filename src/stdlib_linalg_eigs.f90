@@ -230,17 +230,13 @@ module stdlib_linalg_eig
          ! Finalize storage and process output flag
          lambda(:n) = cmplx(lreal(:n),limag(:n),kind=sp)
          
-         ! If the j-th and (j+1)-st eigenvalues form a complex conjugate pair, then
+         ! If the j-th and (j+1)-st eigenvalues form a complex conjugate pair,
+         ! geev returns reals as:
          ! u(j)   = VL(:,j) + i*VL(:,j+1) and
          ! u(j+1) = VL(:,j) - i*VL(:,j+1).
          ! Convert these to complex numbers here.
-         if (present(right)) right = real(vmat)
-         if (present(left)) left = real(umat)
-!         do i=2,n
-!            if (lreal(i)==lreal(i-1) .and. limag(i)==-limag(i-1)) then
-!
-!            endif
-!         end do
+         if (present(right)) call assign_real_eigenvectors_sp(n,lambda,vmat,right)
+         if (present(left)) call assign_real_eigenvectors_sp(n,lambda,umat,left)
          
 2        if (copy_a) deallocate (amat)
          if (present(right)) deallocate (vmat)
@@ -402,17 +398,13 @@ module stdlib_linalg_eig
          ! Finalize storage and process output flag
          lambda(:n) = cmplx(lreal(:n),limag(:n),kind=dp)
          
-         ! If the j-th and (j+1)-st eigenvalues form a complex conjugate pair, then
+         ! If the j-th and (j+1)-st eigenvalues form a complex conjugate pair,
+         ! geev returns reals as:
          ! u(j)   = VL(:,j) + i*VL(:,j+1) and
          ! u(j+1) = VL(:,j) - i*VL(:,j+1).
          ! Convert these to complex numbers here.
-         if (present(right)) right = real(vmat)
-         if (present(left)) left = real(umat)
-!         do i=2,n
-!            if (lreal(i)==lreal(i-1) .and. limag(i)==-limag(i-1)) then
-!
-!            endif
-!         end do
+         if (present(right)) call assign_real_eigenvectors_dp(n,lambda,vmat,right)
+         if (present(left)) call assign_real_eigenvectors_dp(n,lambda,umat,left)
          
 2        if (copy_a) deallocate (amat)
          if (present(right)) deallocate (vmat)
@@ -574,17 +566,13 @@ module stdlib_linalg_eig
          ! Finalize storage and process output flag
          lambda(:n) = cmplx(lreal(:n),limag(:n),kind=qp)
          
-         ! If the j-th and (j+1)-st eigenvalues form a complex conjugate pair, then
+         ! If the j-th and (j+1)-st eigenvalues form a complex conjugate pair,
+         ! geev returns reals as:
          ! u(j)   = VL(:,j) + i*VL(:,j+1) and
          ! u(j+1) = VL(:,j) - i*VL(:,j+1).
          ! Convert these to complex numbers here.
-         if (present(right)) right = real(vmat)
-         if (present(left)) left = real(umat)
-!         do i=2,n
-!            if (lreal(i)==lreal(i-1) .and. limag(i)==-limag(i-1)) then
-!
-!            endif
-!         end do
+         if (present(right)) call assign_real_eigenvectors_qp(n,lambda,vmat,right)
+         if (present(left)) call assign_real_eigenvectors_qp(n,lambda,umat,left)
          
 2        if (copy_a) deallocate (amat)
          if (present(right)) deallocate (vmat)
@@ -1063,5 +1051,102 @@ module stdlib_linalg_eig
 1        call linalg_error_handling(err0,err)
 
      end subroutine stdlib_linalg_eig_w
+
+     pure subroutine assign_real_eigenvectors_sp(n,lambda,lmat,out_mat)
+        !> Problem size
+        integer(ilp),intent(in) :: n
+        !> Array of eigenvalues
+        complex(sp),intent(in) :: lambda(:)
+        !> Real matrix as returned by geev
+        real(sp),intent(in) :: lmat(:,:)
+        !> Complex matrix as returned by eig
+        complex(sp),intent(out) :: out_mat(:,:)
+        
+        integer(ilp) :: i,j
+        
+        ! Copy matrix
+        do concurrent(i=1:n,j=1:n)
+           out_mat(i,j) = lmat(i,j)
+        end do
+        
+        ! If the j-th and (j+1)-st eigenvalues form a complex conjugate pair,
+        ! geev returns them as reals as:
+        ! u(j)   = VL(:,j) + i*VL(:,j+1) and
+        ! u(j+1) = VL(:,j) - i*VL(:,j+1).
+        ! Convert these to complex numbers here.
+        do j = 1,n
+            do i = 1,n - 1
+               if (lambda(i) == conjg(lambda(i + 1))) then
+                  out_mat(i,j) = cmplx(lmat(i,j),lmat(i + 1,j),kind=sp)
+                  out_mat(i + 1,j) = cmplx(lmat(i,j),-lmat(i + 1,j),kind=sp)
+               end if
+            end do
+        end do
+        
+     end subroutine assign_real_eigenvectors_sp
+     pure subroutine assign_real_eigenvectors_dp(n,lambda,lmat,out_mat)
+        !> Problem size
+        integer(ilp),intent(in) :: n
+        !> Array of eigenvalues
+        complex(dp),intent(in) :: lambda(:)
+        !> Real matrix as returned by geev
+        real(dp),intent(in) :: lmat(:,:)
+        !> Complex matrix as returned by eig
+        complex(dp),intent(out) :: out_mat(:,:)
+        
+        integer(ilp) :: i,j
+        
+        ! Copy matrix
+        do concurrent(i=1:n,j=1:n)
+           out_mat(i,j) = lmat(i,j)
+        end do
+        
+        ! If the j-th and (j+1)-st eigenvalues form a complex conjugate pair,
+        ! geev returns them as reals as:
+        ! u(j)   = VL(:,j) + i*VL(:,j+1) and
+        ! u(j+1) = VL(:,j) - i*VL(:,j+1).
+        ! Convert these to complex numbers here.
+        do j = 1,n
+            do i = 1,n - 1
+               if (lambda(i) == conjg(lambda(i + 1))) then
+                  out_mat(i,j) = cmplx(lmat(i,j),lmat(i + 1,j),kind=dp)
+                  out_mat(i + 1,j) = cmplx(lmat(i,j),-lmat(i + 1,j),kind=dp)
+               end if
+            end do
+        end do
+        
+     end subroutine assign_real_eigenvectors_dp
+     pure subroutine assign_real_eigenvectors_qp(n,lambda,lmat,out_mat)
+        !> Problem size
+        integer(ilp),intent(in) :: n
+        !> Array of eigenvalues
+        complex(qp),intent(in) :: lambda(:)
+        !> Real matrix as returned by geev
+        real(qp),intent(in) :: lmat(:,:)
+        !> Complex matrix as returned by eig
+        complex(qp),intent(out) :: out_mat(:,:)
+        
+        integer(ilp) :: i,j
+        
+        ! Copy matrix
+        do concurrent(i=1:n,j=1:n)
+           out_mat(i,j) = lmat(i,j)
+        end do
+        
+        ! If the j-th and (j+1)-st eigenvalues form a complex conjugate pair,
+        ! geev returns them as reals as:
+        ! u(j)   = VL(:,j) + i*VL(:,j+1) and
+        ! u(j+1) = VL(:,j) - i*VL(:,j+1).
+        ! Convert these to complex numbers here.
+        do j = 1,n
+            do i = 1,n - 1
+               if (lambda(i) == conjg(lambda(i + 1))) then
+                  out_mat(i,j) = cmplx(lmat(i,j),lmat(i + 1,j),kind=qp)
+                  out_mat(i + 1,j) = cmplx(lmat(i,j),-lmat(i + 1,j),kind=qp)
+               end if
+            end do
+        end do
+        
+     end subroutine assign_real_eigenvectors_qp
 
 end module stdlib_linalg_eig
