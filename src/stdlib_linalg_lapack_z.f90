@@ -6909,7 +6909,7 @@ module stdlib_linalg_lapack_z
            return
      end subroutine stdlib_zlacrt
 
-     !> ZLADIV: := X / Y, where X and Y are complex.  The computation of X / Y
+     !> ZLADIV = X / Y, where X and Y are complex.  The computation of X / Y
      !> will not overflow on an intermediary step unless the results
      !> overflows.
 
@@ -6931,7 +6931,7 @@ module stdlib_linalg_lapack_z
            return
      end function stdlib_zladiv
 
-     !> ZLAED8: merges the two sets of eigenvalues together into a single
+     !> ZLAED8 merges the two sets of eigenvalues together into a single
      !> sorted set.  Then it tries to deflate the size of the problem.
      !> There are two ways in which deflation can occur:  when two or more
      !> eigenvalues are close together or if there is a tiny element in the
