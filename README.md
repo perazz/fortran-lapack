@@ -12,6 +12,10 @@ Procedure   | Type | Description | Optional arguments
 `svd(A)` | subroutine | Singular value decomposition of $A = U S V^t$ | `call svd(A,s,u,vt,full_matrices=.false.,err=state)`, all optional arguments but `A,s`
 `svdvals(A)` | function | Singular values $S$ from $A = U S V^t$ | `s = svdvals(A)`, real array with same precision as `A`
 `eye(m)` | function | Identity matrix of size `m` | `eye(m,n,mold,err)`: Optional column size `n`, datatype `dtype` (default: real64), error handler
+`eigvals(A)` | function | Eigenvalues of matrix $A$ | `eigvals(A,err)`: Optional state handler `err`
+`eig(A,lambda)` | subroutine | Eigenproblem of matrix $A$ | `eig(A,lambda,left,right,overwrite_a,err)`: optional output eigenvector matrices (left and/or right)
+`eigvalsh(A)` | function | Eigenvalues of symmetric or hermitian matrix $A$ | `eigvalsh(A,upper_a,err)`: Choose to use upper or lower triangle; optional state handler `err`
+`eigh(A,lambda)` | subroutine | Eigenproblem of symmetric or hermitianmatrix $A$ | `eigh(A,lambda,vector,upper_a,overwrite_a,err)`: optional output eigenvectors 
 `diag(n,source)` | function | Diagonal matrix from scalar input value | `diag(n,source,err)`: Optional error handler
 `diag(source)` | function | Diagonal matrix from array input values | `diag(source,err)`: Optional error handler
 

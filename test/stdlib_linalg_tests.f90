@@ -6,6 +6,7 @@ program stdlib_linalg_tests
     use test_linalg_least_squares
     use test_linalg_determinant
     use test_linalg_svd
+    use test_linalg_eig
     implicit none(type, external)
 
     logical :: error
@@ -30,6 +31,9 @@ program stdlib_linalg_tests
 
     call test_svd(error)
     if (error) error stop 'test_svd'
+    
+    call test_eig(error)
+    if (error) error stop 'test_eig'
 
     !> All tests passed
     stop 0
