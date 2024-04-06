@@ -13,6 +13,8 @@ module stdlib_linalg_eig
      public :: eigvals
      !> Eigendecomposition of a real symmetric or complex hermitian matrix
      public :: eigh
+     !> Eigenvalues of a real symmetric or complex hermitian matrix
+     public :: eigvalsh
 
      ! Numpy: eigenvalues, eigenvectors = eig(a)
      !        eigenvalues = eigvals(a)
@@ -20,6 +22,7 @@ module stdlib_linalg_eig
 
      ! Numpy: eigenvalues, eigenvectors = eigh(a, uplo='L')
      !        eigenvalues = eigvalsh(a)
+     ! Scipy: eigh(a, b=None, *, lower=True, eigvals_only=False, overwrite_a=False, overwrite_b=False, turbo=<object object>, eigvals=<object object>, type=1, check_finite=True, subset_by_index=None, subset_by_value=None, driver=None)
 
      interface eig
         module procedure stdlib_linalg_eig_s

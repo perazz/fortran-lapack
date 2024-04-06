@@ -20,6 +20,13 @@ module test_linalg_eig
         if (error) return
         #: endfor
         
+
+        #:for rk,rt,ri in REAL_KINDS_TYPES
+        call test_eigh_real_${ri}$(error)
+        if (error) return
+        #: endfor
+                
+        
         #:for ck,ct,ci in CMPL_KINDS_TYPES
         call test_eig_complex_${ci}$(error)
         if (error) return    
@@ -78,6 +85,47 @@ module test_linalg_eig
         if (error) return       
         
     end subroutine test_eig_real_${ri}$
+
+    ! Symmetric matrix eigenvalues
+    subroutine test_eigh_real_${ri}$(error)
+        logical,intent(out) :: error
+
+        !> Reference solution
+        real(${rk}$), parameter :: zero   = 0.0_${rk}$
+        real(${rk}$), parameter :: tol    = sqrt(epsilon(zero))
+        real(${rk}$), parameter :: A(4,4) = reshape([6,3,1,5, &
+                                               3,0,5,1, &
+                                               1,5,6,2, &
+                                               5,1,2,2],[4,4])
+        
+        !> Local variables
+        real(${rk}$) :: Amat(4,4),lambda(4),vect(4,4),Av(4,4),lv(4,4)
+        type(linalg_state) :: state
+        
+        Amat = A
+        
+        call eigh(Amat,lambda,vect,err=state)
+        
+        Av = matmul(A,vect)
+        lv = matmul(vect,diag(lambda))
+        
+        error = state%error() .or. .not. all(abs(Av-lv)<tol*abs(Av))
+        if (error) return
+        
+        !> Test functional versions
+        lambda = eigvalsh(Amat)
+   
+        lambda = eigvalsh(Amat,err=state)
+        error = state%error()
+        if (error) return
+        
+        !> Test functional versions
+        Amat = A
+        lambda = eigvalsh(Amat,upper_a=.false.,err=state)
+        error = state%error()
+        if (error) return        
+        
+    end subroutine test_eigh_real_${ri}$
 
     #:endfor
 

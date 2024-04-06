@@ -21,6 +21,13 @@ module test_linalg_eig
         call test_eig_real_q(error)
         if (error) return
         
+        call test_eigh_real_s(error)
+        if (error) return
+        call test_eigh_real_d(error)
+        if (error) return
+        call test_eigh_real_q(error)
+        if (error) return
+                
         call test_eig_complex_c(error)
         if (error) return
         call test_eig_complex_z(error)
@@ -81,6 +88,47 @@ module test_linalg_eig
         
     end subroutine test_eig_real_s
 
+    ! Symmetric matrix eigenvalues
+    subroutine test_eigh_real_s(error)
+        logical,intent(out) :: error
+
+        !> Reference solution
+        real(sp),parameter :: zero = 0.0_sp
+        real(sp),parameter :: tol = sqrt(epsilon(zero))
+        real(sp),parameter :: A(4,4) = reshape([6,3,1,5, &
+                                               3,0,5,1, &
+                                               1,5,6,2, &
+                                               5,1,2,2], [4,4])
+        
+        !> Local variables
+        real(sp) :: Amat(4,4),lambda(4),vect(4,4),Av(4,4),lv(4,4)
+        type(linalg_state) :: state
+        
+        Amat = A
+        
+        call eigh(Amat,lambda,vect,err=state)
+        
+        Av = matmul(A,vect)
+        lv = matmul(vect,diag(lambda))
+        
+        error = state%error() .or. .not. all(abs(Av - lv) < tol*abs(Av))
+        if (error) return
+        
+        !> Test functional versions
+        lambda = eigvalsh(Amat)
+   
+        lambda = eigvalsh(Amat,err=state)
+        error = state%error()
+        if (error) return
+        
+        !> Test functional versions
+        Amat = A
+        lambda = eigvalsh(Amat,upper_a=.false.,err=state)
+        error = state%error()
+        if (error) return
+        
+    end subroutine test_eigh_real_s
+
     subroutine test_eig_real_d(error)
         logical,intent(out) :: error
 
@@ -125,6 +173,47 @@ module test_linalg_eig
         
     end subroutine test_eig_real_d
 
+    ! Symmetric matrix eigenvalues
+    subroutine test_eigh_real_d(error)
+        logical,intent(out) :: error
+
+        !> Reference solution
+        real(dp),parameter :: zero = 0.0_dp
+        real(dp),parameter :: tol = sqrt(epsilon(zero))
+        real(dp),parameter :: A(4,4) = reshape([6,3,1,5, &
+                                               3,0,5,1, &
+                                               1,5,6,2, &
+                                               5,1,2,2], [4,4])
+        
+        !> Local variables
+        real(dp) :: Amat(4,4),lambda(4),vect(4,4),Av(4,4),lv(4,4)
+        type(linalg_state) :: state
+        
+        Amat = A
+        
+        call eigh(Amat,lambda,vect,err=state)
+        
+        Av = matmul(A,vect)
+        lv = matmul(vect,diag(lambda))
+        
+        error = state%error() .or. .not. all(abs(Av - lv) < tol*abs(Av))
+        if (error) return
+        
+        !> Test functional versions
+        lambda = eigvalsh(Amat)
+   
+        lambda = eigvalsh(Amat,err=state)
+        error = state%error()
+        if (error) return
+        
+        !> Test functional versions
+        Amat = A
+        lambda = eigvalsh(Amat,upper_a=.false.,err=state)
+        error = state%error()
+        if (error) return
+        
+    end subroutine test_eigh_real_d
+
     subroutine test_eig_real_q(error)
         logical,intent(out) :: error
 
@@ -168,6 +257,47 @@ module test_linalg_eig
         if (error) return
         
     end subroutine test_eig_real_q
+
+    ! Symmetric matrix eigenvalues
+    subroutine test_eigh_real_q(error)
+        logical,intent(out) :: error
+
+        !> Reference solution
+        real(qp),parameter :: zero = 0.0_qp
+        real(qp),parameter :: tol = sqrt(epsilon(zero))
+        real(qp),parameter :: A(4,4) = reshape([6,3,1,5, &
+                                               3,0,5,1, &
+                                               1,5,6,2, &
+                                               5,1,2,2], [4,4])
+        
+        !> Local variables
+        real(qp) :: Amat(4,4),lambda(4),vect(4,4),Av(4,4),lv(4,4)
+        type(linalg_state) :: state
+        
+        Amat = A
+        
+        call eigh(Amat,lambda,vect,err=state)
+        
+        Av = matmul(A,vect)
+        lv = matmul(vect,diag(lambda))
+        
+        error = state%error() .or. .not. all(abs(Av - lv) < tol*abs(Av))
+        if (error) return
+        
+        !> Test functional versions
+        lambda = eigvalsh(Amat)
+   
+        lambda = eigvalsh(Amat,err=state)
+        error = state%error()
+        if (error) return
+        
+        !> Test functional versions
+        Amat = A
+        lambda = eigvalsh(Amat,upper_a=.false.,err=state)
+        error = state%error()
+        if (error) return
+        
+    end subroutine test_eigh_real_q
 
     !> Simple complex matrix eigenvalues
     subroutine test_eig_complex_c(error)
