@@ -20,7 +20,7 @@ module stdlib_linalg_eig
      ! Scipy: eig(a, b=None, left=False, right=True, overwrite_a=False, overwrite_b=False, check_finite=True, homogeneous_eigvals=False)
 
      ! Numpy: eigenvalues, eigenvectors = eigh(a, uplo='L')
-     !        eigenvalues = eighvals(a)
+     !        eigenvalues = eigvalsh(a)
 
      interface eig
         #:for rk,rt,ri in ALL_KINDS_TYPES
@@ -35,10 +35,17 @@ module stdlib_linalg_eig
      end interface eigvals
      
      interface eigh
-        #:for rk,rt,ri in REAL_KINDS_TYPES
+        #:for rk,rt,ri in ALL_KINDS_TYPES
         module procedure stdlib_linalg_eigh_${ri}$
         #:endfor        
      end interface eigh
+     
+     interface eigvalsh
+        #:for rk,rt,ri in ALL_KINDS_TYPES
+        module procedure stdlib_linalg_eigvalsh_${ri}$
+        module procedure stdlib_linalg_eigvalsh_noerr_${ri}$
+        #:endfor                
+     end interface eigvalsh
 
 
      character(*), parameter :: this = 'eigenvalues'
@@ -313,42 +320,62 @@ module stdlib_linalg_eig
          1 call linalg_error_handling(err0,err)
 
      end subroutine stdlib_linalg_eig_${ri}$
-     #:endfor
+     
+     !> Return an array of eigenvalues of real symmetric / complex hermitian A
+     function stdlib_linalg_eigvalsh_${ri}$(a,upper_a,err) result(lambda)
+         !> Input matrix A[m,n]
+         ${rt}$, intent(in), target :: a(:,:)
+         !> [optional] Should the upper/lower half of A be used? Default: lower
+         logical(lk), optional, intent(in) :: upper_a         
+         !> [optional] state return flag. On error if not requested, the code will stop
+         type(linalg_state), intent(out) :: err
+         !> Array of singular values
+         real(${rk}$), allocatable :: lambda(:)
+         
+         ${rt}$, pointer :: amat(:,:)
+         integer(ilp) :: m,n,k
 
-     #:for rk,rt,ri in REAL_KINDS_TYPES
-     !> GEEV for real matrices returns complex eigenvalues in real arrays. 
-     !> Convert them to complex here, following the GEEV logic.
-     pure subroutine assign_real_eigenvectors_${rk}$(n,lambda,lmat,out_mat)
-        !> Problem size
-        integer(ilp), intent(in) :: n
-        !> Array of eigenvalues
-        complex(${rk}$), intent(in) :: lambda(:)
-        !> Real matrix as returned by geev 
-        ${rt}$, intent(in) :: lmat(:,:)
-        !> Complex matrix as returned by eig
-        complex(${rk}$), intent(out) :: out_mat(:,:)
-        
-        integer(ilp) :: i,j
-        
-        ! Copy matrix
-        do concurrent(i=1:n,j=1:n)
-           out_mat(i,j) = lmat(i,j)
-        end do
-        
-        ! If the j-th and (j+1)-st eigenvalues form a complex conjugate pair, 
-        ! geev returns them as reals as: 
-        ! u(j)   = VL(:,j) + i*VL(:,j+1) and
-        ! u(j+1) = VL(:,j) - i*VL(:,j+1). 
-        ! Convert these to complex numbers here.   
-        do j=1,n-1
-           if (lambda(j)==conjg(lambda(j+1))) then  
-              out_mat(:,  j) = cmplx(lmat(:,j), lmat(:,j+1),kind=${rk}$)
-              out_mat(:,j+1) = cmplx(lmat(:,j),-lmat(:,j+1),kind=${rk}$)
-           endif
-        end do           
-        
-     end subroutine assign_real_eigenvectors_${rk}$
+         !> Create an internal pointer so the intent of A won't affect the next call
+         amat => a
 
+         m   = size(a,1,kind=ilp)
+         n   = size(a,2,kind=ilp)
+         k   = min(m,n)
+
+         !> Allocate return storage
+         allocate(lambda(k))
+
+         !> Compute eigenvalues only
+         call stdlib_linalg_eigh_${ri}$(amat,lambda,upper_a=upper_a,overwrite_a=.false.,err=err)
+         
+     end function stdlib_linalg_eigvalsh_${ri}$
+     
+     !> Return an array of eigenvalues of real symmetric / complex hermitian A
+     function stdlib_linalg_eigvalsh_noerr_${ri}$(a,upper_a) result(lambda)
+         !> Input matrix A[m,n]
+         ${rt}$, intent(in), target :: a(:,:)
+         !> [optional] Should the upper/lower half of A be used? Default: lower
+         logical(lk), optional, intent(in) :: upper_a         
+         !> Array of singular values
+         real(${rk}$), allocatable :: lambda(:)
+
+         ${rt}$, pointer :: amat(:,:)
+         integer(ilp) :: m,n,k
+
+         !> Create an internal pointer so the intent of A won't affect the next call
+         amat => a
+
+         m   = size(a,1,kind=ilp)
+         n   = size(a,2,kind=ilp)
+         k   = min(m,n)
+
+         !> Allocate return storage
+         allocate(lambda(k))
+
+         !> Compute eigenvalues only
+         call stdlib_linalg_eigh_${ri}$(amat,lambda,upper_a=upper_a,overwrite_a=.false.)
+
+     end function stdlib_linalg_eigvalsh_noerr_${ri}$     
 
      !> Eigendecomposition of a real symmetric or complex Hermitian matrix A returning an array `lambda` 
      !> of eigenvalues, and optionally right or left eigenvectors.
@@ -356,7 +383,7 @@ module stdlib_linalg_eig
          !> Input matrix A[m,n]
          ${rt}$, intent(inout), target :: a(:,:)
          !> Array of eigenvalues
-         ${rt}$, intent(out) :: lambda(:)
+         real(${rk}$), intent(out) :: lambda(:)
          !> The columns of vectors contain the orthonormal eigenvectors of A
          ${rt}$, optional, intent(out), target :: vectors(:,:)
          !> [optional] Can A data be overwritten and destroyed?
@@ -441,7 +468,7 @@ module stdlib_linalg_eig
          ! Request workspace size
          lwork = -1_ilp
          #:if rt.startswith('complex')
-         allocate(rwork(max(1,3*n-2))
+         allocate(rwork(max(1,3*n-2)))
          call heev(task,triangle,n,amat,lda,lambda,work_dummy,lwork,rwork,info)
          #:else
          call syev(task,triangle,n,amat,lda,lambda,work_dummy,lwork,info)
@@ -470,6 +497,42 @@ module stdlib_linalg_eig
          1 call linalg_error_handling(err0,err)
 
      end subroutine stdlib_linalg_eigh_${ri}$
+     
+     #:endfor
+     
+     #:for rk,rt,ri in REAL_KINDS_TYPES
+     !> GEEV for real matrices returns complex eigenvalues in real arrays. 
+     !> Convert them to complex here, following the GEEV logic.
+     pure subroutine assign_real_eigenvectors_${rk}$(n,lambda,lmat,out_mat)
+        !> Problem size
+        integer(ilp), intent(in) :: n
+        !> Array of eigenvalues
+        complex(${rk}$), intent(in) :: lambda(:)
+        !> Real matrix as returned by geev 
+        ${rt}$, intent(in) :: lmat(:,:)
+        !> Complex matrix as returned by eig
+        complex(${rk}$), intent(out) :: out_mat(:,:)
+        
+        integer(ilp) :: i,j
+        
+        ! Copy matrix
+        do concurrent(i=1:n,j=1:n)
+           out_mat(i,j) = lmat(i,j)
+        end do
+        
+        ! If the j-th and (j+1)-st eigenvalues form a complex conjugate pair, 
+        ! geev returns them as reals as: 
+        ! u(j)   = VL(:,j) + i*VL(:,j+1) and
+        ! u(j+1) = VL(:,j) - i*VL(:,j+1). 
+        ! Convert these to complex numbers here.   
+        do j=1,n-1
+           if (lambda(j)==conjg(lambda(j+1))) then  
+              out_mat(:,  j) = cmplx(lmat(:,j), lmat(:,j+1),kind=${rk}$)
+              out_mat(:,j+1) = cmplx(lmat(:,j),-lmat(:,j+1),kind=${rk}$)
+           endif
+        end do           
+        
+     end subroutine assign_real_eigenvectors_${rk}$
      #:endfor
 
 
