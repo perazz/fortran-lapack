@@ -31,6 +31,7 @@ module stdlib_linalg_eig
      interface eigvals
         #:for rk,rt,ri in ALL_KINDS_TYPES
         module procedure stdlib_linalg_eigvals_${ri}$
+        module procedure stdlib_linalg_eigvals_noerr_${ri}$
         #:endfor
      end interface eigvals
      
@@ -139,7 +140,7 @@ module stdlib_linalg_eig
          !> Input matrix A[m,n]
          ${rt}$, intent(in), target :: a(:,:)
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state), optional, intent(out) :: err
+         type(linalg_state), intent(out) :: err
          !> Array of singular values
          complex(${rk}$), allocatable :: lambda(:)
 
@@ -161,6 +162,32 @@ module stdlib_linalg_eig
          call stdlib_linalg_eig_${ri}$(amat,lambda,overwrite_a=.false.,err=err)
 
      end function stdlib_linalg_eigvals_${ri}$
+
+     !> Return an array of eigenvalues of matrix A.
+     function stdlib_linalg_eigvals_noerr_${ri}$(a) result(lambda)
+         !> Input matrix A[m,n]
+         ${rt}$, intent(in), target :: a(:,:)
+         !> Array of singular values
+         complex(${rk}$), allocatable :: lambda(:)
+
+         !> Create
+         ${rt}$, pointer :: amat(:,:)
+         integer(ilp) :: m,n,k
+
+         !> Create an internal pointer so the intent of A won't affect the next call
+         amat => a
+
+         m   = size(a,1,kind=ilp)
+         n   = size(a,2,kind=ilp)
+         k   = min(m,n)
+
+         !> Allocate return storage
+         allocate(lambda(k))
+
+         !> Compute eigenvalues only
+         call stdlib_linalg_eig_${ri}$(amat,lambda,overwrite_a=.false.)
+
+     end function stdlib_linalg_eigvals_noerr_${ri}$
 
      !> Eigendecomposition of matrix A returning an array `lambda` of eigenvalues, 
      !> and optionally right or left eigenvectors.
