@@ -9,6 +9,7 @@ module stdlib_linalg_interface
      use stdlib_linalg_solve
      use stdlib_linalg_state
      use stdlib_linalg_svd
+     use stdlib_linalg_eig
      implicit none(type,external)
      public
 
