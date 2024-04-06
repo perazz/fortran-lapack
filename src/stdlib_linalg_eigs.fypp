@@ -17,6 +17,9 @@ module stdlib_linalg_eig
      !        eigenvalues = eigvals(a)
      ! Scipy: eig(a, b=None, left=False, right=True, overwrite_a=False, overwrite_b=False, check_finite=True, homogeneous_eigvals=False)
 
+     ! Numpy: eigenvalues, eigenvectors = eigh(a, uplo='L')
+     !        eigenvalues = eighvals(a)
+
      interface eig
         #:for rk,rt,ri in ALL_KINDS_TYPES
         module procedure stdlib_linalg_eig_${ri}$
@@ -28,6 +31,12 @@ module stdlib_linalg_eig
         module procedure stdlib_linalg_eigvals_${ri}$
         #:endfor
      end interface eigvals
+     
+     interface eigh
+        #:for rk,rt,ri in ALL_KINDS_TYPES
+        module procedure stdlib_linalg_eig_${ri}$
+        #:endfor        
+     end interface eigh
 
 
      character(*), parameter :: this = 'eigenvalues'
@@ -37,9 +46,19 @@ module stdlib_linalg_eig
      
      !> Request for eigenvector calculation
      elemental character function eigenvectors_flag(required)
-        logical, intent(in) :: required
+        logical(lk), intent(in) :: required
         eigenvectors_flag = merge('V','N',required)
      end function eigenvectors_flag
+     
+     !> Request for symmetry side (default: lower)
+     elemental character function symmetric_triangle(upper)
+        logical(lk), optional, intent(in) :: upper
+        if (present(upper)) then 
+           symmetric_triangle = merge('U','L',upper)
+        else 
+           symmetric_triangle = 'L'
+        endif
+     end function symmetric_triangle
 
      !> Process GEEV output flags
      elemental subroutine geev_info(err,info,m,n)
@@ -59,7 +78,7 @@ module stdlib_linalg_eig
            case (-2)
                err = linalg_state(this,LINALG_INTERNAL_ERROR,'Invalid task ID: right eigenvectors.')
            case (-5,-3)
-               err = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix size: a=[',m,',',n,']')
+               err = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix size: a=',[m,n])
            case (-9)
                err = linalg_state(this,LINALG_VALUE_ERROR,'insufficient left vector matrix size.')
            case (-11)
@@ -74,9 +93,39 @@ module stdlib_linalg_eig
 
      end subroutine geev_info
 
+
+     !> Process SYEV/HEEV output flags
+     elemental subroutine heev_info(err,info,m,n)
+        !> Error handler
+        type(linalg_state), intent(inout) :: err
+        !> geev return flag
+        integer(ilp), intent(in) :: info
+        !> Input matrix size
+        integer(ilp), intent(in) :: m,n
+
+        select case (info)
+           case (0)
+               ! Success!
+               err%state = LINALG_SUCCESS
+           case (-1)
+               err = linalg_state(this,LINALG_INTERNAL_ERROR,'Invalid eigenvector request.')
+           case (-2)
+               err = linalg_state(this,LINALG_INTERNAL_ERROR,'Invalid triangular section request.')
+           case (-5,-3)
+               err = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix size: a=',[m,n])
+           case (-8)
+               err = linalg_state(this,LINALG_INTERNAL_ERROR,'insufficient workspace size.')
+           case (1:)
+               err = linalg_state(this,LINALG_ERROR,'Eigenvalue computation did not converge.')
+           case default
+               err = linalg_state(this,LINALG_INTERNAL_ERROR,'Unknown error returned by syev/heev.')
+        end select
+
+     end subroutine heev_info
+
      #:for rk,rt,ri in ALL_KINDS_TYPES
 
-     !> Singular values of matrix A
+     !> Return an array of eigenvalues of matrix A.
      function stdlib_linalg_eigvals_${ri}$(a,err) result(lambda)
          !> Input matrix A[m,n]
          ${rt}$, intent(in), target :: a(:,:)
@@ -104,7 +153,8 @@ module stdlib_linalg_eig
 
      end function stdlib_linalg_eigvals_${ri}$
 
-     !> SVD of matrix A = U S V^T, returning S and optionally U and V
+     !> Eigendecomposition of matrix A returning an array `lambda` of eigenvalues, 
+     !> and optionally right or left eigenvectors.
      subroutine stdlib_linalg_eig_${ri}$(a,lambda,right,left,overwrite_a,err)
          !> Input matrix A[m,n]
          ${rt}$, intent(inout), target :: a(:,:)
@@ -129,7 +179,7 @@ module stdlib_linalg_eig
          real(${rk}$), allocatable :: rwork(:)
          ${rt}$, pointer :: amat(:,:),lreal(:),limag(:),umat(:,:),vmat(:,:)
 
-         !> Matrix determinant size
+         !> Matrix size
          m    = size(a,1,kind=ilp)
          n    = size(a,2,kind=ilp)
          k    = min(m,n)
@@ -148,6 +198,8 @@ module stdlib_linalg_eig
             goto 1
          endif
 
+
+
          ! Can A be overwritten? By default, do not overwrite
          if (present(overwrite_a)) then
             copy_a = .not.overwrite_a
@@ -161,10 +213,26 @@ module stdlib_linalg_eig
          else
             amat => a
          endif
+         
+         ! Request for eigenvectors
+         task = eigenvectors_flag(present(vectors))
+         if (present(vectors)) then 
+            
+            ! Check size
+            if (any(shape(vectors,kind=ilp)<n)) then 
+               err0 = linalg_state(this,LINALG_VALUE_ERROR,&
+                                        'eigenvector matrix has insufficient size: ',&
+                                        shape(vectors),', with n=',n)
+               goto 2
+            endif            
+            
+            ! The input matrix will be overwritten by the vectors. 
+            ! So, use this one as storage for syev/heev
+            amat => 
+            
 
-         ! Decide if U, V eigenvectors 
-         task_u = eigenvectors_flag(present(left))
-         task_v = eigenvectors_flag(present(right))
+
+         
          
          if (present(right)) then 
             
@@ -174,12 +242,7 @@ module stdlib_linalg_eig
             allocate(vmat(n,n))
             #:endif            
             
-            if (size(vmat,2,kind=ilp)<n) then 
-               err0 = linalg_state(this,LINALG_VALUE_ERROR,&
-                                        'right eigenvector matrix has insufficient size: ',&
-                                        shape(vmat),', with n=',n)
-               goto 2
-            endif
+
             
          else
             vmat => v_dummy
@@ -207,7 +270,7 @@ module stdlib_linalg_eig
          ldu = size(umat,1,kind=ilp)
          ldv = size(vmat,1,kind=ilp)
 
-         ! Compute workspace
+         ! Compute workspace size
          #:if rt.startswith('complex')
          allocate(rwork(2*n))
          #:else
@@ -222,7 +285,7 @@ module stdlib_linalg_eig
                    work_dummy,lwork,#{if rt.startswith('complex')}#rwork,#{endif}#info)
          call geev_info(err0,info,m,n)
 
-         ! Compute SVD
+         ! Compute eigenvalues
          if (info==0) then
 
             !> Prepare working storage
@@ -262,6 +325,8 @@ module stdlib_linalg_eig
      #:endfor
 
      #:for rk,rt,ri in REAL_KINDS_TYPES
+     !> GEEV for real matrices returns complex eigenvalues in real arrays. 
+     !> Convert them to complex here, following the GEEV logic.
      pure subroutine assign_real_eigenvectors_${rk}$(n,lambda,lmat,out_mat)
         !> Problem size
         integer(ilp), intent(in) :: n
@@ -293,5 +358,128 @@ module stdlib_linalg_eig
         
      end subroutine assign_real_eigenvectors_${rk}$
      #:endfor
+
+     !> Eigendecomposition of a real symmetric or complex Hermitian matrix A returning an array `lambda` 
+     !> of eigenvalues, and optionally right or left eigenvectors.
+     subroutine stdlib_linalg_eigh_${ri}$(a,lambda,vectors,upper_a,overwrite_a,err)
+         !> Input matrix A[m,n]
+         ${rt}$, intent(inout), target :: a(:,:)
+         !> Array of eigenvalues
+         complex(${rk}$), intent(out) :: lambda(:)
+         !> The columns of vectors contain the orthonormal eigenvectors of A
+         complex(${rk}$), optional, intent(out), target :: vectors(:,:)
+         !> [optional] Can A data be overwritten and destroyed?
+         logical(lk), optional, intent(in) :: overwrite_a
+         !> [optional] Should the upper/lower half of A be used? Default: lower
+         logical(lk), optional, intent(in) :: upper_a
+         !> [optional] state return flag. On error if not requested, the code will stop
+         type(linalg_state), optional, intent(out) :: err
+
+         !> Local variables
+         type(linalg_state) :: err0
+         integer(ilp) :: m,n,lda,ldu,ldv,info,k,lwork,liwork,neig
+         logical(lk) :: copy_a
+         character :: triangle,task
+         ${rt}$, target :: work_dummy(1),u_dummy(1,1),v_dummy(1,1)
+         ${rt}$, allocatable :: work(:)
+         real(${rk}$), allocatable :: rwork(:)
+         ${rt}$, pointer :: amat(:,:)
+
+         !> Matrix size
+         m    = size(a,1,kind=ilp)
+         n    = size(a,2,kind=ilp)
+         k    = min(m,n)
+         neig = size(lambda,kind=ilp) 
+
+         if (.not.(k>0 .and. m==n)) then
+            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid or matrix size a=',[m,n], &
+                                                        ', must be square.')
+            goto 1
+         end if
+
+         if (.not.neig>=k) then
+            err0 = linalg_state(this,LINALG_VALUE_ERROR,'eigenvalue array has insufficient size:',&
+                                                        ' lambda=',neig,' must be >= n=',n)
+            goto 1
+         endif
+        
+         ! Check if input A can be overwritten
+         if (present(vectors)) then 
+            ! No need to copy A anyways
+            copy_a = .false.
+         elseif (present(overwrite_a)) then
+            copy_a = .not.overwrite_a
+         else
+            copy_a = .true._lk
+         endif        
+         
+         ! Should we use the upper or lower half of the matrix?
+         triangle = symmetric_triangle(upper_a)
+         
+         ! Request for eigenvectors
+         task = eigenvectors_flag(present(vectors))
+         
+         if (present(vectors)) then 
+            
+            ! Check size
+            if (any(shape(vectors,kind=ilp)<n)) then 
+               err0 = linalg_state(this,LINALG_VALUE_ERROR,&
+                                        'eigenvector matrix has insufficient size: ',&
+                                        shape(vectors),', with n=',n)
+               goto 2
+            endif            
+            
+            ! The input matrix will be overwritten by the vectors. 
+            ! So, use this one as storage for syev/heev
+            amat => vectors
+            
+            ! Copy data in
+            amat(:n,:n) = a(:n,:n)
+                        
+         elseif (copy_a) then
+            ! Initialize a matrix temporary
+            allocate(amat(m,n),source=a)
+         else
+            ! Overwrite A
+            amat => a
+         endif
+
+
+         lda = size(amat,1,kind=ilp)
+
+         ! Request workspace size
+         lwork = -1_ilp
+         #:if rf.startswith('complex')
+             allocate(rwork(max(1,3*n-2))
+             call heev(task,triangle,n,amat,lda,lambda,work_dummy,lwork,rwork,info)
+         #:else
+             call syev(task,triangle,n,amat,lda,lambda,work_dummy,lwork,info)
+         #:endif
+         call heev_info(err0,info,m,n)
+
+         ! Compute eigenvalues
+         if (info==0) then
+
+            !> Prepare working storage
+            lwork = nint(real(work_dummy(1),kind=${rk}$), kind=ilp)
+            allocate(work(lwork))
+
+            !> Compute eigensystem
+            #:if rf.startswith('complex')
+                call heev(task,triangle,n,amat,lda,lambda,work,lwork,rwork,info)
+            #:else
+                call syev(task,triangle,n,amat,lda,lambda,work,lwork,info)
+            #:endif
+            call heev_info(err0,info,m,n)
+
+         endif
+         
+         ! Finalize storage and process output flag         
+         2 if (copy_a) deallocate(amat)
+         1 call linalg_error_handling(err0,err)
+
+     end subroutine stdlib_linalg_eigh_${ri}$
+     #:endfor
+
 
 end module stdlib_linalg_eig
