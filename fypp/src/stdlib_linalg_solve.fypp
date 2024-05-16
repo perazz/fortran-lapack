@@ -15,7 +15,6 @@ module stdlib_linalg_solve
      ! Scipy: solve(a, b, lower=False, overwrite_a=False, overwrite_b=False, check_finite=True, assume_a='gen', transposed=False)[source]#
      ! IMSL: lu_solve(a, b, transpose=False)
 
-
      interface solve
         #:for nd,ndsuf,nde in ALL_RANKS
         #:for rk,rt,ri in ALL_KINDS_TYPES
@@ -29,7 +28,7 @@ module stdlib_linalg_solve
      
      elemental subroutine handle_gesv_info(info,lda,n,nrhs,err)
          integer(ilp), intent(in) :: info,lda,n,nrhs
-         type(linalg_state_type), intent(out) :: err
+         type(linalg_state), intent(out) :: err
 
          ! Process output
          select case (info)
@@ -182,7 +181,7 @@ module stdlib_linalg_solve
          ! Process output
          call handle_gesv_info(info,lda,n,nrhs,err0)
 
-         if (.not.copy_a) deallocate(amat)
+         if (copy_a) deallocate(amat)
 
          ! Process output and return
          1 call linalg_error_handling(err0,err)
