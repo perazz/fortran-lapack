@@ -110,7 +110,7 @@ module stdlib_linalg_determinant
                        err0 = linalg_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
                 end select
 
-                if (.not. copy_a) deallocate (amat)
+                if (copy_a) deallocate (amat)
 
          end select
 
@@ -202,7 +202,7 @@ module stdlib_linalg_determinant
                        err0 = linalg_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
                 end select
 
-                if (.not. copy_a) deallocate (amat)
+                if (copy_a) deallocate (amat)
 
          end select
 
@@ -294,7 +294,7 @@ module stdlib_linalg_determinant
                        err0 = linalg_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
                 end select
 
-                if (.not. copy_a) deallocate (amat)
+                if (copy_a) deallocate (amat)
 
          end select
 
@@ -386,7 +386,7 @@ module stdlib_linalg_determinant
                        err0 = linalg_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
                 end select
 
-                if (.not. copy_a) deallocate (amat)
+                if (copy_a) deallocate (amat)
 
          end select
 
@@ -478,7 +478,7 @@ module stdlib_linalg_determinant
                        err0 = linalg_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
                 end select
 
-                if (.not. copy_a) deallocate (amat)
+                if (copy_a) deallocate (amat)
 
          end select
 
@@ -570,7 +570,7 @@ module stdlib_linalg_determinant
                        err0 = linalg_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
                 end select
 
-                if (.not. copy_a) deallocate (amat)
+                if (copy_a) deallocate (amat)
 
          end select
 
