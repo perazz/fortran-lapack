@@ -2725,7 +2725,7 @@ module stdlib_linalg_lapack
 
           !> GEQRF: computes a QR factorization of a complex M-by-N matrix A:
           !> A = Q * ( R ),
-          !> ( 0 )
+          !>         ( 0 )
           !> where:
           !> Q is a M-by-M orthogonal matrix;
           !> R is an upper-triangular N-by-N matrix;
