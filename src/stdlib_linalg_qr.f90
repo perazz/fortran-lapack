@@ -55,7 +55,7 @@ module stdlib_linalg_qr
          !> Input matrix a[m,n]
          real(sp),intent(inout),target :: a(:,:)
          !> Orthogonal matrix Q ([m,m], or [m,k] if reduced)
-         real(sp),intent(out),target :: q(:,:)
+         real(sp),intent(out),contiguous,target :: q(:,:)
          !> Upper triangular matrix R ([m,n], or [k,n] if reduced)
          real(sp),intent(out),target :: r(:,:)
          !> [optional] Mode: 'reduced' (default), 'complete', 'r', 'raw'
@@ -70,7 +70,7 @@ module stdlib_linalg_qr
          type(linalg_state) :: err0
          integer(ilp) :: m,n,k,q1,q2,r1,r2,lwork,info
          logical(lk) :: overwrite_a_
-         real(sp) :: work_dummy(1)
+         real(sp) :: work_dummy(1),tau_dummy(1)
          real(sp),pointer :: amat(:,:),tau(:),work(:)
 
          !> Problem sizes
@@ -83,7 +83,7 @@ module stdlib_linalg_qr
          r2 = size(r,2,kind=ilp)
 
          ! Check sizes
-         if (m < 1 .or. n < 1 .or. q1 < m .or. q2 < m .or. r1 < m .or. r2 < n) then
+         if (m < 1 .or. n < 1 .or. q1 < m .or. q2 < k .or. r1 < k .or. r2 < n) then
             err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a(m,n)=', [m,n], &
                                                                       ' q(m,m)=', [q1,q2], &
                                                                       ' r(m,n)=', [r1,r2])
@@ -111,50 +111,29 @@ module stdlib_linalg_qr
          else
             allocate (amat(m,n),source=a)
          end if
+         
+         tau(1:q1*q2) => q
 
          ! Compute workspace
          lwork = -1_ilp
-         call geqrf(m,n,amat,m,tau,work_dummy,lwork,info)
+         call geqrf(m,n,amat,m,tau_dummy,work_dummy,lwork,info)
          
          print *, 'INFO = ',info,' work=',nint(real(work_dummy(1),kind=sp),kind=ilp)
          
-         ! Ensure workspace size
-         allocate (work(lwork))
+         if (info == 0) then
+              
+             lwork = ceiling(real(work_dummy(1),kind=sp),kind=ilp)
+         
+             allocate (work(lwork))
+             
+             ! Compute factorization
+             call geqrf(m,n,amat,m,tau,work,lwork,info)
+             
+             if (info /= 0) err0 = linalg_state(this,LINALG_VALUE_ERROR,'info=',info)
+             
+         end if
 
-!         ! Compute QR factorization
-!         call geqrf(m, n, amat, m, tau, work, lwork, info)
-!         call handle_geqrf_info(info,m,n,err0)
-!
-!
-! If LWORK = -1, then a workspace query is assumed; the routine
-!*          only calculates the optimal size of the WORK array, returns
-!*          this value as the first entry of the WORK array, and no error
-!*          message related to LWORK is issued by XERBLA.
-!
-!
-!          !> GEQRF: computes a QR factorization of a complex M-by-N matrix A:
-!          !> A = Q * ( R ),
-!          !> ( 0 )
-!          !> where:
-!          !> Q is a M-by-M orthogonal matrix;
-!          !> R is an upper-triangular N-by-N matrix;
-!          !> 0 is a (M-N)-by-N zero matrix, if M > N.
-!          interface geqrf
-!#ifdef STDLIB_EXTERNAL_LAPACK
-!               pure subroutine cgeqrf( m, n, a, lda, tau, work, lwork, info )
-!                    import sp,dp,qp,ilp,lk
-!                    implicit none(type,external)
-!                    integer(ilp), intent(out) :: info
-!                    integer(ilp), intent(in) :: lda,lwork,m,n
-!                    complex(sp), intent(inout) :: a(lda,*)
-!                    complex(sp), intent(out) :: tau(*),work(*)
-!               end subroutine cgeqrf
-!#else
-!
-!         ! Process output
-!         call handle_geqrf_info(info,lda,n,nrhs,err0)
-
-         if (.not. overwrite_a) deallocate (amat)
+         if (.not. overwrite_a_) deallocate (amat)
 
          ! Process output and return
 1        call linalg_error_handling(err0,err)
@@ -166,7 +145,7 @@ module stdlib_linalg_qr
          !> Input matrix a[m,n]
          real(dp),intent(inout),target :: a(:,:)
          !> Orthogonal matrix Q ([m,m], or [m,k] if reduced)
-         real(dp),intent(out),target :: q(:,:)
+         real(dp),intent(out),contiguous,target :: q(:,:)
          !> Upper triangular matrix R ([m,n], or [k,n] if reduced)
          real(dp),intent(out),target :: r(:,:)
          !> [optional] Mode: 'reduced' (default), 'complete', 'r', 'raw'
@@ -181,7 +160,7 @@ module stdlib_linalg_qr
          type(linalg_state) :: err0
          integer(ilp) :: m,n,k,q1,q2,r1,r2,lwork,info
          logical(lk) :: overwrite_a_
-         real(dp) :: work_dummy(1)
+         real(dp) :: work_dummy(1),tau_dummy(1)
          real(dp),pointer :: amat(:,:),tau(:),work(:)
 
          !> Problem sizes
@@ -194,7 +173,7 @@ module stdlib_linalg_qr
          r2 = size(r,2,kind=ilp)
 
          ! Check sizes
-         if (m < 1 .or. n < 1 .or. q1 < m .or. q2 < m .or. r1 < m .or. r2 < n) then
+         if (m < 1 .or. n < 1 .or. q1 < m .or. q2 < k .or. r1 < k .or. r2 < n) then
             err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a(m,n)=', [m,n], &
                                                                       ' q(m,m)=', [q1,q2], &
                                                                       ' r(m,n)=', [r1,r2])
@@ -222,50 +201,29 @@ module stdlib_linalg_qr
          else
             allocate (amat(m,n),source=a)
          end if
+         
+         tau(1:q1*q2) => q
 
          ! Compute workspace
          lwork = -1_ilp
-         call geqrf(m,n,amat,m,tau,work_dummy,lwork,info)
+         call geqrf(m,n,amat,m,tau_dummy,work_dummy,lwork,info)
          
          print *, 'INFO = ',info,' work=',nint(real(work_dummy(1),kind=dp),kind=ilp)
          
-         ! Ensure workspace size
-         allocate (work(lwork))
+         if (info == 0) then
+              
+             lwork = ceiling(real(work_dummy(1),kind=dp),kind=ilp)
+         
+             allocate (work(lwork))
+             
+             ! Compute factorization
+             call geqrf(m,n,amat,m,tau,work,lwork,info)
+             
+             if (info /= 0) err0 = linalg_state(this,LINALG_VALUE_ERROR,'info=',info)
+             
+         end if
 
-!         ! Compute QR factorization
-!         call geqrf(m, n, amat, m, tau, work, lwork, info)
-!         call handle_geqrf_info(info,m,n,err0)
-!
-!
-! If LWORK = -1, then a workspace query is assumed; the routine
-!*          only calculates the optimal size of the WORK array, returns
-!*          this value as the first entry of the WORK array, and no error
-!*          message related to LWORK is issued by XERBLA.
-!
-!
-!          !> GEQRF: computes a QR factorization of a complex M-by-N matrix A:
-!          !> A = Q * ( R ),
-!          !> ( 0 )
-!          !> where:
-!          !> Q is a M-by-M orthogonal matrix;
-!          !> R is an upper-triangular N-by-N matrix;
-!          !> 0 is a (M-N)-by-N zero matrix, if M > N.
-!          interface geqrf
-!#ifdef STDLIB_EXTERNAL_LAPACK
-!               pure subroutine cgeqrf( m, n, a, lda, tau, work, lwork, info )
-!                    import sp,dp,qp,ilp,lk
-!                    implicit none(type,external)
-!                    integer(ilp), intent(out) :: info
-!                    integer(ilp), intent(in) :: lda,lwork,m,n
-!                    complex(sp), intent(inout) :: a(lda,*)
-!                    complex(sp), intent(out) :: tau(*),work(*)
-!               end subroutine cgeqrf
-!#else
-!
-!         ! Process output
-!         call handle_geqrf_info(info,lda,n,nrhs,err0)
-
-         if (.not. overwrite_a) deallocate (amat)
+         if (.not. overwrite_a_) deallocate (amat)
 
          ! Process output and return
 1        call linalg_error_handling(err0,err)
@@ -277,7 +235,7 @@ module stdlib_linalg_qr
          !> Input matrix a[m,n]
          real(qp),intent(inout),target :: a(:,:)
          !> Orthogonal matrix Q ([m,m], or [m,k] if reduced)
-         real(qp),intent(out),target :: q(:,:)
+         real(qp),intent(out),contiguous,target :: q(:,:)
          !> Upper triangular matrix R ([m,n], or [k,n] if reduced)
          real(qp),intent(out),target :: r(:,:)
          !> [optional] Mode: 'reduced' (default), 'complete', 'r', 'raw'
@@ -292,7 +250,7 @@ module stdlib_linalg_qr
          type(linalg_state) :: err0
          integer(ilp) :: m,n,k,q1,q2,r1,r2,lwork,info
          logical(lk) :: overwrite_a_
-         real(qp) :: work_dummy(1)
+         real(qp) :: work_dummy(1),tau_dummy(1)
          real(qp),pointer :: amat(:,:),tau(:),work(:)
 
          !> Problem sizes
@@ -305,7 +263,7 @@ module stdlib_linalg_qr
          r2 = size(r,2,kind=ilp)
 
          ! Check sizes
-         if (m < 1 .or. n < 1 .or. q1 < m .or. q2 < m .or. r1 < m .or. r2 < n) then
+         if (m < 1 .or. n < 1 .or. q1 < m .or. q2 < k .or. r1 < k .or. r2 < n) then
             err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a(m,n)=', [m,n], &
                                                                       ' q(m,m)=', [q1,q2], &
                                                                       ' r(m,n)=', [r1,r2])
@@ -333,50 +291,29 @@ module stdlib_linalg_qr
          else
             allocate (amat(m,n),source=a)
          end if
+         
+         tau(1:q1*q2) => q
 
          ! Compute workspace
          lwork = -1_ilp
-         call geqrf(m,n,amat,m,tau,work_dummy,lwork,info)
+         call geqrf(m,n,amat,m,tau_dummy,work_dummy,lwork,info)
          
          print *, 'INFO = ',info,' work=',nint(real(work_dummy(1),kind=qp),kind=ilp)
          
-         ! Ensure workspace size
-         allocate (work(lwork))
+         if (info == 0) then
+              
+             lwork = ceiling(real(work_dummy(1),kind=qp),kind=ilp)
+         
+             allocate (work(lwork))
+             
+             ! Compute factorization
+             call geqrf(m,n,amat,m,tau,work,lwork,info)
+             
+             if (info /= 0) err0 = linalg_state(this,LINALG_VALUE_ERROR,'info=',info)
+             
+         end if
 
-!         ! Compute QR factorization
-!         call geqrf(m, n, amat, m, tau, work, lwork, info)
-!         call handle_geqrf_info(info,m,n,err0)
-!
-!
-! If LWORK = -1, then a workspace query is assumed; the routine
-!*          only calculates the optimal size of the WORK array, returns
-!*          this value as the first entry of the WORK array, and no error
-!*          message related to LWORK is issued by XERBLA.
-!
-!
-!          !> GEQRF: computes a QR factorization of a complex M-by-N matrix A:
-!          !> A = Q * ( R ),
-!          !> ( 0 )
-!          !> where:
-!          !> Q is a M-by-M orthogonal matrix;
-!          !> R is an upper-triangular N-by-N matrix;
-!          !> 0 is a (M-N)-by-N zero matrix, if M > N.
-!          interface geqrf
-!#ifdef STDLIB_EXTERNAL_LAPACK
-!               pure subroutine cgeqrf( m, n, a, lda, tau, work, lwork, info )
-!                    import sp,dp,qp,ilp,lk
-!                    implicit none(type,external)
-!                    integer(ilp), intent(out) :: info
-!                    integer(ilp), intent(in) :: lda,lwork,m,n
-!                    complex(sp), intent(inout) :: a(lda,*)
-!                    complex(sp), intent(out) :: tau(*),work(*)
-!               end subroutine cgeqrf
-!#else
-!
-!         ! Process output
-!         call handle_geqrf_info(info,lda,n,nrhs,err0)
-
-         if (.not. overwrite_a) deallocate (amat)
+         if (.not. overwrite_a_) deallocate (amat)
 
          ! Process output and return
 1        call linalg_error_handling(err0,err)
@@ -388,7 +325,7 @@ module stdlib_linalg_qr
          !> Input matrix a[m,n]
          complex(sp),intent(inout),target :: a(:,:)
          !> Orthogonal matrix Q ([m,m], or [m,k] if reduced)
-         complex(sp),intent(out),target :: q(:,:)
+         complex(sp),intent(out),contiguous,target :: q(:,:)
          !> Upper triangular matrix R ([m,n], or [k,n] if reduced)
          complex(sp),intent(out),target :: r(:,:)
          !> [optional] Mode: 'reduced' (default), 'complete', 'r', 'raw'
@@ -403,7 +340,7 @@ module stdlib_linalg_qr
          type(linalg_state) :: err0
          integer(ilp) :: m,n,k,q1,q2,r1,r2,lwork,info
          logical(lk) :: overwrite_a_
-         complex(sp) :: work_dummy(1)
+         complex(sp) :: work_dummy(1),tau_dummy(1)
          complex(sp),pointer :: amat(:,:),tau(:),work(:)
 
          !> Problem sizes
@@ -416,7 +353,7 @@ module stdlib_linalg_qr
          r2 = size(r,2,kind=ilp)
 
          ! Check sizes
-         if (m < 1 .or. n < 1 .or. q1 < m .or. q2 < m .or. r1 < m .or. r2 < n) then
+         if (m < 1 .or. n < 1 .or. q1 < m .or. q2 < k .or. r1 < k .or. r2 < n) then
             err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a(m,n)=', [m,n], &
                                                                       ' q(m,m)=', [q1,q2], &
                                                                       ' r(m,n)=', [r1,r2])
@@ -444,50 +381,29 @@ module stdlib_linalg_qr
          else
             allocate (amat(m,n),source=a)
          end if
+         
+         tau(1:q1*q2) => q
 
          ! Compute workspace
          lwork = -1_ilp
-         call geqrf(m,n,amat,m,tau,work_dummy,lwork,info)
+         call geqrf(m,n,amat,m,tau_dummy,work_dummy,lwork,info)
          
          print *, 'INFO = ',info,' work=',nint(real(work_dummy(1),kind=sp),kind=ilp)
          
-         ! Ensure workspace size
-         allocate (work(lwork))
+         if (info == 0) then
+              
+             lwork = ceiling(real(work_dummy(1),kind=sp),kind=ilp)
+         
+             allocate (work(lwork))
+             
+             ! Compute factorization
+             call geqrf(m,n,amat,m,tau,work,lwork,info)
+             
+             if (info /= 0) err0 = linalg_state(this,LINALG_VALUE_ERROR,'info=',info)
+             
+         end if
 
-!         ! Compute QR factorization
-!         call geqrf(m, n, amat, m, tau, work, lwork, info)
-!         call handle_geqrf_info(info,m,n,err0)
-!
-!
-! If LWORK = -1, then a workspace query is assumed; the routine
-!*          only calculates the optimal size of the WORK array, returns
-!*          this value as the first entry of the WORK array, and no error
-!*          message related to LWORK is issued by XERBLA.
-!
-!
-!          !> GEQRF: computes a QR factorization of a complex M-by-N matrix A:
-!          !> A = Q * ( R ),
-!          !> ( 0 )
-!          !> where:
-!          !> Q is a M-by-M orthogonal matrix;
-!          !> R is an upper-triangular N-by-N matrix;
-!          !> 0 is a (M-N)-by-N zero matrix, if M > N.
-!          interface geqrf
-!#ifdef STDLIB_EXTERNAL_LAPACK
-!               pure subroutine cgeqrf( m, n, a, lda, tau, work, lwork, info )
-!                    import sp,dp,qp,ilp,lk
-!                    implicit none(type,external)
-!                    integer(ilp), intent(out) :: info
-!                    integer(ilp), intent(in) :: lda,lwork,m,n
-!                    complex(sp), intent(inout) :: a(lda,*)
-!                    complex(sp), intent(out) :: tau(*),work(*)
-!               end subroutine cgeqrf
-!#else
-!
-!         ! Process output
-!         call handle_geqrf_info(info,lda,n,nrhs,err0)
-
-         if (.not. overwrite_a) deallocate (amat)
+         if (.not. overwrite_a_) deallocate (amat)
 
          ! Process output and return
 1        call linalg_error_handling(err0,err)
@@ -499,7 +415,7 @@ module stdlib_linalg_qr
          !> Input matrix a[m,n]
          complex(dp),intent(inout),target :: a(:,:)
          !> Orthogonal matrix Q ([m,m], or [m,k] if reduced)
-         complex(dp),intent(out),target :: q(:,:)
+         complex(dp),intent(out),contiguous,target :: q(:,:)
          !> Upper triangular matrix R ([m,n], or [k,n] if reduced)
          complex(dp),intent(out),target :: r(:,:)
          !> [optional] Mode: 'reduced' (default), 'complete', 'r', 'raw'
@@ -514,7 +430,7 @@ module stdlib_linalg_qr
          type(linalg_state) :: err0
          integer(ilp) :: m,n,k,q1,q2,r1,r2,lwork,info
          logical(lk) :: overwrite_a_
-         complex(dp) :: work_dummy(1)
+         complex(dp) :: work_dummy(1),tau_dummy(1)
          complex(dp),pointer :: amat(:,:),tau(:),work(:)
 
          !> Problem sizes
@@ -527,7 +443,7 @@ module stdlib_linalg_qr
          r2 = size(r,2,kind=ilp)
 
          ! Check sizes
-         if (m < 1 .or. n < 1 .or. q1 < m .or. q2 < m .or. r1 < m .or. r2 < n) then
+         if (m < 1 .or. n < 1 .or. q1 < m .or. q2 < k .or. r1 < k .or. r2 < n) then
             err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a(m,n)=', [m,n], &
                                                                       ' q(m,m)=', [q1,q2], &
                                                                       ' r(m,n)=', [r1,r2])
@@ -555,50 +471,29 @@ module stdlib_linalg_qr
          else
             allocate (amat(m,n),source=a)
          end if
+         
+         tau(1:q1*q2) => q
 
          ! Compute workspace
          lwork = -1_ilp
-         call geqrf(m,n,amat,m,tau,work_dummy,lwork,info)
+         call geqrf(m,n,amat,m,tau_dummy,work_dummy,lwork,info)
          
          print *, 'INFO = ',info,' work=',nint(real(work_dummy(1),kind=dp),kind=ilp)
          
-         ! Ensure workspace size
-         allocate (work(lwork))
+         if (info == 0) then
+              
+             lwork = ceiling(real(work_dummy(1),kind=dp),kind=ilp)
+         
+             allocate (work(lwork))
+             
+             ! Compute factorization
+             call geqrf(m,n,amat,m,tau,work,lwork,info)
+             
+             if (info /= 0) err0 = linalg_state(this,LINALG_VALUE_ERROR,'info=',info)
+             
+         end if
 
-!         ! Compute QR factorization
-!         call geqrf(m, n, amat, m, tau, work, lwork, info)
-!         call handle_geqrf_info(info,m,n,err0)
-!
-!
-! If LWORK = -1, then a workspace query is assumed; the routine
-!*          only calculates the optimal size of the WORK array, returns
-!*          this value as the first entry of the WORK array, and no error
-!*          message related to LWORK is issued by XERBLA.
-!
-!
-!          !> GEQRF: computes a QR factorization of a complex M-by-N matrix A:
-!          !> A = Q * ( R ),
-!          !> ( 0 )
-!          !> where:
-!          !> Q is a M-by-M orthogonal matrix;
-!          !> R is an upper-triangular N-by-N matrix;
-!          !> 0 is a (M-N)-by-N zero matrix, if M > N.
-!          interface geqrf
-!#ifdef STDLIB_EXTERNAL_LAPACK
-!               pure subroutine cgeqrf( m, n, a, lda, tau, work, lwork, info )
-!                    import sp,dp,qp,ilp,lk
-!                    implicit none(type,external)
-!                    integer(ilp), intent(out) :: info
-!                    integer(ilp), intent(in) :: lda,lwork,m,n
-!                    complex(sp), intent(inout) :: a(lda,*)
-!                    complex(sp), intent(out) :: tau(*),work(*)
-!               end subroutine cgeqrf
-!#else
-!
-!         ! Process output
-!         call handle_geqrf_info(info,lda,n,nrhs,err0)
-
-         if (.not. overwrite_a) deallocate (amat)
+         if (.not. overwrite_a_) deallocate (amat)
 
          ! Process output and return
 1        call linalg_error_handling(err0,err)
@@ -610,7 +505,7 @@ module stdlib_linalg_qr
          !> Input matrix a[m,n]
          complex(qp),intent(inout),target :: a(:,:)
          !> Orthogonal matrix Q ([m,m], or [m,k] if reduced)
-         complex(qp),intent(out),target :: q(:,:)
+         complex(qp),intent(out),contiguous,target :: q(:,:)
          !> Upper triangular matrix R ([m,n], or [k,n] if reduced)
          complex(qp),intent(out),target :: r(:,:)
          !> [optional] Mode: 'reduced' (default), 'complete', 'r', 'raw'
@@ -625,7 +520,7 @@ module stdlib_linalg_qr
          type(linalg_state) :: err0
          integer(ilp) :: m,n,k,q1,q2,r1,r2,lwork,info
          logical(lk) :: overwrite_a_
-         complex(qp) :: work_dummy(1)
+         complex(qp) :: work_dummy(1),tau_dummy(1)
          complex(qp),pointer :: amat(:,:),tau(:),work(:)
 
          !> Problem sizes
@@ -638,7 +533,7 @@ module stdlib_linalg_qr
          r2 = size(r,2,kind=ilp)
 
          ! Check sizes
-         if (m < 1 .or. n < 1 .or. q1 < m .or. q2 < m .or. r1 < m .or. r2 < n) then
+         if (m < 1 .or. n < 1 .or. q1 < m .or. q2 < k .or. r1 < k .or. r2 < n) then
             err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a(m,n)=', [m,n], &
                                                                       ' q(m,m)=', [q1,q2], &
                                                                       ' r(m,n)=', [r1,r2])
@@ -666,50 +561,29 @@ module stdlib_linalg_qr
          else
             allocate (amat(m,n),source=a)
          end if
+         
+         tau(1:q1*q2) => q
 
          ! Compute workspace
          lwork = -1_ilp
-         call geqrf(m,n,amat,m,tau,work_dummy,lwork,info)
+         call geqrf(m,n,amat,m,tau_dummy,work_dummy,lwork,info)
          
          print *, 'INFO = ',info,' work=',nint(real(work_dummy(1),kind=qp),kind=ilp)
          
-         ! Ensure workspace size
-         allocate (work(lwork))
+         if (info == 0) then
+              
+             lwork = ceiling(real(work_dummy(1),kind=qp),kind=ilp)
+         
+             allocate (work(lwork))
+             
+             ! Compute factorization
+             call geqrf(m,n,amat,m,tau,work,lwork,info)
+             
+             if (info /= 0) err0 = linalg_state(this,LINALG_VALUE_ERROR,'info=',info)
+             
+         end if
 
-!         ! Compute QR factorization
-!         call geqrf(m, n, amat, m, tau, work, lwork, info)
-!         call handle_geqrf_info(info,m,n,err0)
-!
-!
-! If LWORK = -1, then a workspace query is assumed; the routine
-!*          only calculates the optimal size of the WORK array, returns
-!*          this value as the first entry of the WORK array, and no error
-!*          message related to LWORK is issued by XERBLA.
-!
-!
-!          !> GEQRF: computes a QR factorization of a complex M-by-N matrix A:
-!          !> A = Q * ( R ),
-!          !> ( 0 )
-!          !> where:
-!          !> Q is a M-by-M orthogonal matrix;
-!          !> R is an upper-triangular N-by-N matrix;
-!          !> 0 is a (M-N)-by-N zero matrix, if M > N.
-!          interface geqrf
-!#ifdef STDLIB_EXTERNAL_LAPACK
-!               pure subroutine cgeqrf( m, n, a, lda, tau, work, lwork, info )
-!                    import sp,dp,qp,ilp,lk
-!                    implicit none(type,external)
-!                    integer(ilp), intent(out) :: info
-!                    integer(ilp), intent(in) :: lda,lwork,m,n
-!                    complex(sp), intent(inout) :: a(lda,*)
-!                    complex(sp), intent(out) :: tau(*),work(*)
-!               end subroutine cgeqrf
-!#else
-!
-!         ! Process output
-!         call handle_geqrf_info(info,lda,n,nrhs,err0)
-
-         if (.not. overwrite_a) deallocate (amat)
+         if (.not. overwrite_a_) deallocate (amat)
 
          ! Process output and return
 1        call linalg_error_handling(err0,err)
