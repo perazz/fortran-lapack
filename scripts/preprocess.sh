@@ -5,6 +5,7 @@
 #
 declare -a linalg_sources=("solve" "inverse" "least_squares" "determinant" "eye" "svd" "eigs")
 
+fypp_path="../fypp"
 declare -a operations=("src" "test")
 declare -a oper_prefix=("stdlib" "test")
 
@@ -13,7 +14,7 @@ for str in "${linalg_sources[@]}"; do
    for i in "${!operations[@]}"; do 
       operation=${operations[i]}
       pref=${oper_prefix[i]}
-      source="../$operation/${pref}_linalg_$str.fypp"
+      source="$fypp_path/$operation/${pref}_linalg_$str.fypp"
       dest="../$operation/${pref}_linalg_$str.f90"
       fypp -I ../include "$source" > "$dest"
 

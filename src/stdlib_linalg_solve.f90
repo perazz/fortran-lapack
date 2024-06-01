@@ -27,8 +27,34 @@ module stdlib_linalg_solve
         module procedure stdlib_linalg_zsolve_multiple
         module procedure stdlib_linalg_wsolve_multiple
      end interface solve
+     
+     character(*),parameter :: this = 'solve'
 
      contains
+     
+     elemental subroutine handle_gesv_info(info,lda,n,nrhs,err)
+         integer(ilp),intent(in) :: info,lda,n,nrhs
+         type(linalg_state),intent(out) :: err
+
+         ! Process output
+         select case (info)
+            case (0)
+                ! Success
+            case (-1)
+                err = linalg_state(this,LINALG_VALUE_ERROR,'invalid problem size n=',n)
+            case (-2)
+                err = linalg_state(this,LINALG_VALUE_ERROR,'invalid rhs size n=',nrhs)
+            case (-4)
+                err = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix size a=', [lda,n])
+            case (-7)
+                err = linalg_state(this,LINALG_ERROR,'invalid matrix size a=', [lda,n])
+            case (1:)
+                err = linalg_state(this,LINALG_ERROR,'singular matrix')
+            case default
+                err = linalg_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
+         end select
+
+     end subroutine handle_gesv_info
 
      ! Compute the solution to a real system of linear equations A * X = B
      function stdlib_linalg_ssolve_one(a,b,overwrite_a,err) result(x)
@@ -49,7 +75,6 @@ module stdlib_linalg_solve
          integer(ilp),allocatable :: ipiv(:)
          logical(lk) :: copy_a
          real(sp),pointer :: xmat(:,:),amat(:,:)
-         character(*),parameter :: this = 'solve'
 
          !> Problem sizes
          lda = size(a,1,kind=ilp)
@@ -89,22 +114,7 @@ module stdlib_linalg_solve
          call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
 
          ! Process output
-         select case (info)
-            case (0)
-                ! Success
-            case (-1)
-                err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid problem size n=',n)
-            case (-2)
-                err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid rhs size n=',nrhs)
-            case (-4)
-                err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix size a=[',lda,',',n,']')
-            case (-7)
-                err0 = linalg_state(this,LINALG_ERROR,'invalid matrix size a=[',lda,',',n,']')
-            case (1:)
-                err0 = linalg_state(this,LINALG_ERROR,'singular matrix')
-            case default
-                err0 = linalg_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
-         end select
+         call handle_gesv_info(info,lda,n,nrhs,err0)
 
          if (.not. copy_a) deallocate (amat)
 
@@ -132,7 +142,6 @@ module stdlib_linalg_solve
          integer(ilp),allocatable :: ipiv(:)
          logical(lk) :: copy_a
          real(dp),pointer :: xmat(:,:),amat(:,:)
-         character(*),parameter :: this = 'solve'
 
          !> Problem sizes
          lda = size(a,1,kind=ilp)
@@ -172,22 +181,7 @@ module stdlib_linalg_solve
          call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
 
          ! Process output
-         select case (info)
-            case (0)
-                ! Success
-            case (-1)
-                err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid problem size n=',n)
-            case (-2)
-                err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid rhs size n=',nrhs)
-            case (-4)
-                err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix size a=[',lda,',',n,']')
-            case (-7)
-                err0 = linalg_state(this,LINALG_ERROR,'invalid matrix size a=[',lda,',',n,']')
-            case (1:)
-                err0 = linalg_state(this,LINALG_ERROR,'singular matrix')
-            case default
-                err0 = linalg_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
-         end select
+         call handle_gesv_info(info,lda,n,nrhs,err0)
 
          if (.not. copy_a) deallocate (amat)
 
@@ -215,7 +209,6 @@ module stdlib_linalg_solve
          integer(ilp),allocatable :: ipiv(:)
          logical(lk) :: copy_a
          real(qp),pointer :: xmat(:,:),amat(:,:)
-         character(*),parameter :: this = 'solve'
 
          !> Problem sizes
          lda = size(a,1,kind=ilp)
@@ -255,22 +248,7 @@ module stdlib_linalg_solve
          call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
 
          ! Process output
-         select case (info)
-            case (0)
-                ! Success
-            case (-1)
-                err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid problem size n=',n)
-            case (-2)
-                err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid rhs size n=',nrhs)
-            case (-4)
-                err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix size a=[',lda,',',n,']')
-            case (-7)
-                err0 = linalg_state(this,LINALG_ERROR,'invalid matrix size a=[',lda,',',n,']')
-            case (1:)
-                err0 = linalg_state(this,LINALG_ERROR,'singular matrix')
-            case default
-                err0 = linalg_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
-         end select
+         call handle_gesv_info(info,lda,n,nrhs,err0)
 
          if (.not. copy_a) deallocate (amat)
 
@@ -298,7 +276,6 @@ module stdlib_linalg_solve
          integer(ilp),allocatable :: ipiv(:)
          logical(lk) :: copy_a
          complex(sp),pointer :: xmat(:,:),amat(:,:)
-         character(*),parameter :: this = 'solve'
 
          !> Problem sizes
          lda = size(a,1,kind=ilp)
@@ -338,22 +315,7 @@ module stdlib_linalg_solve
          call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
 
          ! Process output
-         select case (info)
-            case (0)
-                ! Success
-            case (-1)
-                err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid problem size n=',n)
-            case (-2)
-                err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid rhs size n=',nrhs)
-            case (-4)
-                err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix size a=[',lda,',',n,']')
-            case (-7)
-                err0 = linalg_state(this,LINALG_ERROR,'invalid matrix size a=[',lda,',',n,']')
-            case (1:)
-                err0 = linalg_state(this,LINALG_ERROR,'singular matrix')
-            case default
-                err0 = linalg_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
-         end select
+         call handle_gesv_info(info,lda,n,nrhs,err0)
 
          if (.not. copy_a) deallocate (amat)
 
@@ -381,7 +343,6 @@ module stdlib_linalg_solve
          integer(ilp),allocatable :: ipiv(:)
          logical(lk) :: copy_a
          complex(dp),pointer :: xmat(:,:),amat(:,:)
-         character(*),parameter :: this = 'solve'
 
          !> Problem sizes
          lda = size(a,1,kind=ilp)
@@ -421,22 +382,7 @@ module stdlib_linalg_solve
          call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
 
          ! Process output
-         select case (info)
-            case (0)
-                ! Success
-            case (-1)
-                err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid problem size n=',n)
-            case (-2)
-                err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid rhs size n=',nrhs)
-            case (-4)
-                err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix size a=[',lda,',',n,']')
-            case (-7)
-                err0 = linalg_state(this,LINALG_ERROR,'invalid matrix size a=[',lda,',',n,']')
-            case (1:)
-                err0 = linalg_state(this,LINALG_ERROR,'singular matrix')
-            case default
-                err0 = linalg_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
-         end select
+         call handle_gesv_info(info,lda,n,nrhs,err0)
 
          if (.not. copy_a) deallocate (amat)
 
@@ -464,7 +410,6 @@ module stdlib_linalg_solve
          integer(ilp),allocatable :: ipiv(:)
          logical(lk) :: copy_a
          complex(qp),pointer :: xmat(:,:),amat(:,:)
-         character(*),parameter :: this = 'solve'
 
          !> Problem sizes
          lda = size(a,1,kind=ilp)
@@ -504,22 +449,7 @@ module stdlib_linalg_solve
          call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
 
          ! Process output
-         select case (info)
-            case (0)
-                ! Success
-            case (-1)
-                err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid problem size n=',n)
-            case (-2)
-                err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid rhs size n=',nrhs)
-            case (-4)
-                err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix size a=[',lda,',',n,']')
-            case (-7)
-                err0 = linalg_state(this,LINALG_ERROR,'invalid matrix size a=[',lda,',',n,']')
-            case (1:)
-                err0 = linalg_state(this,LINALG_ERROR,'singular matrix')
-            case default
-                err0 = linalg_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
-         end select
+         call handle_gesv_info(info,lda,n,nrhs,err0)
 
          if (.not. copy_a) deallocate (amat)
 
@@ -547,7 +477,6 @@ module stdlib_linalg_solve
          integer(ilp),allocatable :: ipiv(:)
          logical(lk) :: copy_a
          real(sp),pointer :: xmat(:,:),amat(:,:)
-         character(*),parameter :: this = 'solve'
 
          !> Problem sizes
          lda = size(a,1,kind=ilp)
@@ -587,22 +516,7 @@ module stdlib_linalg_solve
          call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
 
          ! Process output
-         select case (info)
-            case (0)
-                ! Success
-            case (-1)
-                err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid problem size n=',n)
-            case (-2)
-                err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid rhs size n=',nrhs)
-            case (-4)
-                err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix size a=[',lda,',',n,']')
-            case (-7)
-                err0 = linalg_state(this,LINALG_ERROR,'invalid matrix size a=[',lda,',',n,']')
-            case (1:)
-                err0 = linalg_state(this,LINALG_ERROR,'singular matrix')
-            case default
-                err0 = linalg_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
-         end select
+         call handle_gesv_info(info,lda,n,nrhs,err0)
 
          if (.not. copy_a) deallocate (amat)
 
@@ -630,7 +544,6 @@ module stdlib_linalg_solve
          integer(ilp),allocatable :: ipiv(:)
          logical(lk) :: copy_a
          real(dp),pointer :: xmat(:,:),amat(:,:)
-         character(*),parameter :: this = 'solve'
 
          !> Problem sizes
          lda = size(a,1,kind=ilp)
@@ -670,22 +583,7 @@ module stdlib_linalg_solve
          call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
 
          ! Process output
-         select case (info)
-            case (0)
-                ! Success
-            case (-1)
-                err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid problem size n=',n)
-            case (-2)
-                err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid rhs size n=',nrhs)
-            case (-4)
-                err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix size a=[',lda,',',n,']')
-            case (-7)
-                err0 = linalg_state(this,LINALG_ERROR,'invalid matrix size a=[',lda,',',n,']')
-            case (1:)
-                err0 = linalg_state(this,LINALG_ERROR,'singular matrix')
-            case default
-                err0 = linalg_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
-         end select
+         call handle_gesv_info(info,lda,n,nrhs,err0)
 
          if (.not. copy_a) deallocate (amat)
 
@@ -713,7 +611,6 @@ module stdlib_linalg_solve
          integer(ilp),allocatable :: ipiv(:)
          logical(lk) :: copy_a
          real(qp),pointer :: xmat(:,:),amat(:,:)
-         character(*),parameter :: this = 'solve'
 
          !> Problem sizes
          lda = size(a,1,kind=ilp)
@@ -753,22 +650,7 @@ module stdlib_linalg_solve
          call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
 
          ! Process output
-         select case (info)
-            case (0)
-                ! Success
-            case (-1)
-                err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid problem size n=',n)
-            case (-2)
-                err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid rhs size n=',nrhs)
-            case (-4)
-                err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix size a=[',lda,',',n,']')
-            case (-7)
-                err0 = linalg_state(this,LINALG_ERROR,'invalid matrix size a=[',lda,',',n,']')
-            case (1:)
-                err0 = linalg_state(this,LINALG_ERROR,'singular matrix')
-            case default
-                err0 = linalg_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
-         end select
+         call handle_gesv_info(info,lda,n,nrhs,err0)
 
          if (.not. copy_a) deallocate (amat)
 
@@ -796,7 +678,6 @@ module stdlib_linalg_solve
          integer(ilp),allocatable :: ipiv(:)
          logical(lk) :: copy_a
          complex(sp),pointer :: xmat(:,:),amat(:,:)
-         character(*),parameter :: this = 'solve'
 
          !> Problem sizes
          lda = size(a,1,kind=ilp)
@@ -836,22 +717,7 @@ module stdlib_linalg_solve
          call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
 
          ! Process output
-         select case (info)
-            case (0)
-                ! Success
-            case (-1)
-                err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid problem size n=',n)
-            case (-2)
-                err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid rhs size n=',nrhs)
-            case (-4)
-                err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix size a=[',lda,',',n,']')
-            case (-7)
-                err0 = linalg_state(this,LINALG_ERROR,'invalid matrix size a=[',lda,',',n,']')
-            case (1:)
-                err0 = linalg_state(this,LINALG_ERROR,'singular matrix')
-            case default
-                err0 = linalg_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
-         end select
+         call handle_gesv_info(info,lda,n,nrhs,err0)
 
          if (.not. copy_a) deallocate (amat)
 
@@ -879,7 +745,6 @@ module stdlib_linalg_solve
          integer(ilp),allocatable :: ipiv(:)
          logical(lk) :: copy_a
          complex(dp),pointer :: xmat(:,:),amat(:,:)
-         character(*),parameter :: this = 'solve'
 
          !> Problem sizes
          lda = size(a,1,kind=ilp)
@@ -919,22 +784,7 @@ module stdlib_linalg_solve
          call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
 
          ! Process output
-         select case (info)
-            case (0)
-                ! Success
-            case (-1)
-                err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid problem size n=',n)
-            case (-2)
-                err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid rhs size n=',nrhs)
-            case (-4)
-                err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix size a=[',lda,',',n,']')
-            case (-7)
-                err0 = linalg_state(this,LINALG_ERROR,'invalid matrix size a=[',lda,',',n,']')
-            case (1:)
-                err0 = linalg_state(this,LINALG_ERROR,'singular matrix')
-            case default
-                err0 = linalg_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
-         end select
+         call handle_gesv_info(info,lda,n,nrhs,err0)
 
          if (.not. copy_a) deallocate (amat)
 
@@ -962,7 +812,6 @@ module stdlib_linalg_solve
          integer(ilp),allocatable :: ipiv(:)
          logical(lk) :: copy_a
          complex(qp),pointer :: xmat(:,:),amat(:,:)
-         character(*),parameter :: this = 'solve'
 
          !> Problem sizes
          lda = size(a,1,kind=ilp)
@@ -1002,22 +851,7 @@ module stdlib_linalg_solve
          call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
 
          ! Process output
-         select case (info)
-            case (0)
-                ! Success
-            case (-1)
-                err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid problem size n=',n)
-            case (-2)
-                err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid rhs size n=',nrhs)
-            case (-4)
-                err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix size a=[',lda,',',n,']')
-            case (-7)
-                err0 = linalg_state(this,LINALG_ERROR,'invalid matrix size a=[',lda,',',n,']')
-            case (1:)
-                err0 = linalg_state(this,LINALG_ERROR,'singular matrix')
-            case default
-                err0 = linalg_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
-         end select
+         call handle_gesv_info(info,lda,n,nrhs,err0)
 
          if (.not. copy_a) deallocate (amat)
 
