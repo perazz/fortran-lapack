@@ -50,6 +50,51 @@ module stdlib_linalg_qr
 
      end subroutine handle_gesv_info
 
+     ! Get workspace size for QR operations
+     pure subroutine get_qr_s_workspace(a,lwork,err)
+         !> Input matrix a[m,n]
+         real(sp),intent(inout),target :: a(:,:)
+         !> Minimum workspace size for both operations
+         integer(ilp),intent(out) :: lwork
+         !> State return flag. Returns an error if the query failed
+         type(linalg_state),intent(out) :: err
+         
+         integer(ilp) :: m,n,k,info,lwork_qr,lwork_ord
+         real(sp) :: work_dummy(1),tau_dummy(1)
+         
+         lwork = -1_ilp
+         
+         !> Problem sizes
+         m = size(a,1,kind=ilp)
+         n = size(a,2,kind=ilp)
+         k = min(m,n)
+         
+         ! QR space
+         lwork_qr = -1_ilp
+         call geqrf(m,n,a,m,tau_dummy,work_dummy,lwork_qr,info)
+         if (info /= 0) then
+             err = linalg_state(this,LINALG_INTERNAL_ERROR,'QR factorization workspace returned info=',info)
+             return
+         else
+             lwork_qr = ceiling(real(work_dummy(1),kind=sp),kind=ilp)
+         end if
+         
+         ! Ordering space
+         lwork_ord = -1_ilp
+         call orgqr &
+              (m,n,k,a,m,tau_dummy,work_dummy,lwork_ord,info)
+         if (info /= 0) then
+             err = linalg_state(this,LINALG_INTERNAL_ERROR,'QR ordering workspace returned info=',info)
+             return
+         else
+             lwork_ord = ceiling(real(work_dummy(1),kind=sp),kind=ilp)
+         end if
+         
+         ! Pick the largest size, so two operations can be performed with the same allocation
+         lwork = max(lwork_qr,lwork_ord)
+                  
+     end subroutine get_qr_s_workspace
+     
      ! Compute the solution to a real system of linear equations A * X = B
      subroutine stdlib_linalg_s_qr(a,q,r,mode,overwrite_a,err)
          !> Input matrix a[m,n]
@@ -68,9 +113,9 @@ module stdlib_linalg_qr
          !> Local variables
          character(len=8) :: mode_
          type(linalg_state) :: err0
-         integer(ilp) :: m,n,k,q1,q2,r1,r2,lwork,info
+         integer(ilp) :: m,n,k,q1,q2,r1,r2,lwork,lwork_qr,lwork_ord,info
          logical(lk) :: overwrite_a_
-         real(sp) :: work_dummy(1),tau_dummy(1)
+         
          real(sp),pointer :: amat(:,:),tau(:),work(:)
 
          !> Problem sizes
@@ -114,20 +159,21 @@ module stdlib_linalg_qr
          
          tau(1:q1*q2) => q
 
-         ! Compute workspace
-         lwork = -1_ilp
-         call geqrf(m,n,amat,m,tau_dummy,work_dummy,lwork,info)
+         ! Retrieve workspace size
+         call get_qr_s_workspace(a,lwork,err0)
+
+         print *, 'lwork=',lwork
          
-         print *, 'INFO = ',info,' work=',nint(real(work_dummy(1),kind=sp),kind=ilp)
-         
-         if (info == 0) then
-              
-             lwork = ceiling(real(work_dummy(1),kind=sp),kind=ilp)
-         
+         if (err0%ok()) then
+                     
              allocate (work(lwork))
              
              ! Compute factorization
              call geqrf(m,n,amat,m,tau,work,lwork,info)
+             
+             ! Convert K elementary reflectors tau(1:k) -> orthogonal matrix Q
+             call orgqr &
+                  (m,n,k,amat,m,tau,work,lwork,info)
              
              if (info /= 0) err0 = linalg_state(this,LINALG_VALUE_ERROR,'info=',info)
              
@@ -140,6 +186,51 @@ module stdlib_linalg_qr
 
      end subroutine stdlib_linalg_s_qr
 
+     ! Get workspace size for QR operations
+     pure subroutine get_qr_d_workspace(a,lwork,err)
+         !> Input matrix a[m,n]
+         real(dp),intent(inout),target :: a(:,:)
+         !> Minimum workspace size for both operations
+         integer(ilp),intent(out) :: lwork
+         !> State return flag. Returns an error if the query failed
+         type(linalg_state),intent(out) :: err
+         
+         integer(ilp) :: m,n,k,info,lwork_qr,lwork_ord
+         real(dp) :: work_dummy(1),tau_dummy(1)
+         
+         lwork = -1_ilp
+         
+         !> Problem sizes
+         m = size(a,1,kind=ilp)
+         n = size(a,2,kind=ilp)
+         k = min(m,n)
+         
+         ! QR space
+         lwork_qr = -1_ilp
+         call geqrf(m,n,a,m,tau_dummy,work_dummy,lwork_qr,info)
+         if (info /= 0) then
+             err = linalg_state(this,LINALG_INTERNAL_ERROR,'QR factorization workspace returned info=',info)
+             return
+         else
+             lwork_qr = ceiling(real(work_dummy(1),kind=dp),kind=ilp)
+         end if
+         
+         ! Ordering space
+         lwork_ord = -1_ilp
+         call orgqr &
+              (m,n,k,a,m,tau_dummy,work_dummy,lwork_ord,info)
+         if (info /= 0) then
+             err = linalg_state(this,LINALG_INTERNAL_ERROR,'QR ordering workspace returned info=',info)
+             return
+         else
+             lwork_ord = ceiling(real(work_dummy(1),kind=dp),kind=ilp)
+         end if
+         
+         ! Pick the largest size, so two operations can be performed with the same allocation
+         lwork = max(lwork_qr,lwork_ord)
+                  
+     end subroutine get_qr_d_workspace
+     
      ! Compute the solution to a real system of linear equations A * X = B
      subroutine stdlib_linalg_d_qr(a,q,r,mode,overwrite_a,err)
          !> Input matrix a[m,n]
@@ -158,9 +249,9 @@ module stdlib_linalg_qr
          !> Local variables
          character(len=8) :: mode_
          type(linalg_state) :: err0
-         integer(ilp) :: m,n,k,q1,q2,r1,r2,lwork,info
+         integer(ilp) :: m,n,k,q1,q2,r1,r2,lwork,lwork_qr,lwork_ord,info
          logical(lk) :: overwrite_a_
-         real(dp) :: work_dummy(1),tau_dummy(1)
+         
          real(dp),pointer :: amat(:,:),tau(:),work(:)
 
          !> Problem sizes
@@ -204,20 +295,21 @@ module stdlib_linalg_qr
          
          tau(1:q1*q2) => q
 
-         ! Compute workspace
-         lwork = -1_ilp
-         call geqrf(m,n,amat,m,tau_dummy,work_dummy,lwork,info)
+         ! Retrieve workspace size
+         call get_qr_d_workspace(a,lwork,err0)
+
+         print *, 'lwork=',lwork
          
-         print *, 'INFO = ',info,' work=',nint(real(work_dummy(1),kind=dp),kind=ilp)
-         
-         if (info == 0) then
-              
-             lwork = ceiling(real(work_dummy(1),kind=dp),kind=ilp)
-         
+         if (err0%ok()) then
+                     
              allocate (work(lwork))
              
              ! Compute factorization
              call geqrf(m,n,amat,m,tau,work,lwork,info)
+             
+             ! Convert K elementary reflectors tau(1:k) -> orthogonal matrix Q
+             call orgqr &
+                  (m,n,k,amat,m,tau,work,lwork,info)
              
              if (info /= 0) err0 = linalg_state(this,LINALG_VALUE_ERROR,'info=',info)
              
@@ -230,6 +322,51 @@ module stdlib_linalg_qr
 
      end subroutine stdlib_linalg_d_qr
 
+     ! Get workspace size for QR operations
+     pure subroutine get_qr_q_workspace(a,lwork,err)
+         !> Input matrix a[m,n]
+         real(qp),intent(inout),target :: a(:,:)
+         !> Minimum workspace size for both operations
+         integer(ilp),intent(out) :: lwork
+         !> State return flag. Returns an error if the query failed
+         type(linalg_state),intent(out) :: err
+         
+         integer(ilp) :: m,n,k,info,lwork_qr,lwork_ord
+         real(qp) :: work_dummy(1),tau_dummy(1)
+         
+         lwork = -1_ilp
+         
+         !> Problem sizes
+         m = size(a,1,kind=ilp)
+         n = size(a,2,kind=ilp)
+         k = min(m,n)
+         
+         ! QR space
+         lwork_qr = -1_ilp
+         call geqrf(m,n,a,m,tau_dummy,work_dummy,lwork_qr,info)
+         if (info /= 0) then
+             err = linalg_state(this,LINALG_INTERNAL_ERROR,'QR factorization workspace returned info=',info)
+             return
+         else
+             lwork_qr = ceiling(real(work_dummy(1),kind=qp),kind=ilp)
+         end if
+         
+         ! Ordering space
+         lwork_ord = -1_ilp
+         call orgqr &
+              (m,n,k,a,m,tau_dummy,work_dummy,lwork_ord,info)
+         if (info /= 0) then
+             err = linalg_state(this,LINALG_INTERNAL_ERROR,'QR ordering workspace returned info=',info)
+             return
+         else
+             lwork_ord = ceiling(real(work_dummy(1),kind=qp),kind=ilp)
+         end if
+         
+         ! Pick the largest size, so two operations can be performed with the same allocation
+         lwork = max(lwork_qr,lwork_ord)
+                  
+     end subroutine get_qr_q_workspace
+     
      ! Compute the solution to a real system of linear equations A * X = B
      subroutine stdlib_linalg_q_qr(a,q,r,mode,overwrite_a,err)
          !> Input matrix a[m,n]
@@ -248,9 +385,9 @@ module stdlib_linalg_qr
          !> Local variables
          character(len=8) :: mode_
          type(linalg_state) :: err0
-         integer(ilp) :: m,n,k,q1,q2,r1,r2,lwork,info
+         integer(ilp) :: m,n,k,q1,q2,r1,r2,lwork,lwork_qr,lwork_ord,info
          logical(lk) :: overwrite_a_
-         real(qp) :: work_dummy(1),tau_dummy(1)
+         
          real(qp),pointer :: amat(:,:),tau(:),work(:)
 
          !> Problem sizes
@@ -294,20 +431,21 @@ module stdlib_linalg_qr
          
          tau(1:q1*q2) => q
 
-         ! Compute workspace
-         lwork = -1_ilp
-         call geqrf(m,n,amat,m,tau_dummy,work_dummy,lwork,info)
+         ! Retrieve workspace size
+         call get_qr_q_workspace(a,lwork,err0)
+
+         print *, 'lwork=',lwork
          
-         print *, 'INFO = ',info,' work=',nint(real(work_dummy(1),kind=qp),kind=ilp)
-         
-         if (info == 0) then
-              
-             lwork = ceiling(real(work_dummy(1),kind=qp),kind=ilp)
-         
+         if (err0%ok()) then
+                     
              allocate (work(lwork))
              
              ! Compute factorization
              call geqrf(m,n,amat,m,tau,work,lwork,info)
+             
+             ! Convert K elementary reflectors tau(1:k) -> orthogonal matrix Q
+             call orgqr &
+                  (m,n,k,amat,m,tau,work,lwork,info)
              
              if (info /= 0) err0 = linalg_state(this,LINALG_VALUE_ERROR,'info=',info)
              
@@ -320,6 +458,51 @@ module stdlib_linalg_qr
 
      end subroutine stdlib_linalg_q_qr
 
+     ! Get workspace size for QR operations
+     pure subroutine get_qr_c_workspace(a,lwork,err)
+         !> Input matrix a[m,n]
+         complex(sp),intent(inout),target :: a(:,:)
+         !> Minimum workspace size for both operations
+         integer(ilp),intent(out) :: lwork
+         !> State return flag. Returns an error if the query failed
+         type(linalg_state),intent(out) :: err
+         
+         integer(ilp) :: m,n,k,info,lwork_qr,lwork_ord
+         complex(sp) :: work_dummy(1),tau_dummy(1)
+         
+         lwork = -1_ilp
+         
+         !> Problem sizes
+         m = size(a,1,kind=ilp)
+         n = size(a,2,kind=ilp)
+         k = min(m,n)
+         
+         ! QR space
+         lwork_qr = -1_ilp
+         call geqrf(m,n,a,m,tau_dummy,work_dummy,lwork_qr,info)
+         if (info /= 0) then
+             err = linalg_state(this,LINALG_INTERNAL_ERROR,'QR factorization workspace returned info=',info)
+             return
+         else
+             lwork_qr = ceiling(real(work_dummy(1),kind=sp),kind=ilp)
+         end if
+         
+         ! Ordering space
+         lwork_ord = -1_ilp
+         call ungqr &
+              (m,n,k,a,m,tau_dummy,work_dummy,lwork_ord,info)
+         if (info /= 0) then
+             err = linalg_state(this,LINALG_INTERNAL_ERROR,'QR ordering workspace returned info=',info)
+             return
+         else
+             lwork_ord = ceiling(real(work_dummy(1),kind=sp),kind=ilp)
+         end if
+         
+         ! Pick the largest size, so two operations can be performed with the same allocation
+         lwork = max(lwork_qr,lwork_ord)
+                  
+     end subroutine get_qr_c_workspace
+     
      ! Compute the solution to a real system of linear equations A * X = B
      subroutine stdlib_linalg_c_qr(a,q,r,mode,overwrite_a,err)
          !> Input matrix a[m,n]
@@ -338,9 +521,9 @@ module stdlib_linalg_qr
          !> Local variables
          character(len=8) :: mode_
          type(linalg_state) :: err0
-         integer(ilp) :: m,n,k,q1,q2,r1,r2,lwork,info
+         integer(ilp) :: m,n,k,q1,q2,r1,r2,lwork,lwork_qr,lwork_ord,info
          logical(lk) :: overwrite_a_
-         complex(sp) :: work_dummy(1),tau_dummy(1)
+         
          complex(sp),pointer :: amat(:,:),tau(:),work(:)
 
          !> Problem sizes
@@ -384,20 +567,21 @@ module stdlib_linalg_qr
          
          tau(1:q1*q2) => q
 
-         ! Compute workspace
-         lwork = -1_ilp
-         call geqrf(m,n,amat,m,tau_dummy,work_dummy,lwork,info)
+         ! Retrieve workspace size
+         call get_qr_c_workspace(a,lwork,err0)
+
+         print *, 'lwork=',lwork
          
-         print *, 'INFO = ',info,' work=',nint(real(work_dummy(1),kind=sp),kind=ilp)
-         
-         if (info == 0) then
-              
-             lwork = ceiling(real(work_dummy(1),kind=sp),kind=ilp)
-         
+         if (err0%ok()) then
+                     
              allocate (work(lwork))
              
              ! Compute factorization
              call geqrf(m,n,amat,m,tau,work,lwork,info)
+             
+             ! Convert K elementary reflectors tau(1:k) -> orthogonal matrix Q
+             call ungqr &
+                  (m,n,k,amat,m,tau,work,lwork,info)
              
              if (info /= 0) err0 = linalg_state(this,LINALG_VALUE_ERROR,'info=',info)
              
@@ -410,6 +594,51 @@ module stdlib_linalg_qr
 
      end subroutine stdlib_linalg_c_qr
 
+     ! Get workspace size for QR operations
+     pure subroutine get_qr_z_workspace(a,lwork,err)
+         !> Input matrix a[m,n]
+         complex(dp),intent(inout),target :: a(:,:)
+         !> Minimum workspace size for both operations
+         integer(ilp),intent(out) :: lwork
+         !> State return flag. Returns an error if the query failed
+         type(linalg_state),intent(out) :: err
+         
+         integer(ilp) :: m,n,k,info,lwork_qr,lwork_ord
+         complex(dp) :: work_dummy(1),tau_dummy(1)
+         
+         lwork = -1_ilp
+         
+         !> Problem sizes
+         m = size(a,1,kind=ilp)
+         n = size(a,2,kind=ilp)
+         k = min(m,n)
+         
+         ! QR space
+         lwork_qr = -1_ilp
+         call geqrf(m,n,a,m,tau_dummy,work_dummy,lwork_qr,info)
+         if (info /= 0) then
+             err = linalg_state(this,LINALG_INTERNAL_ERROR,'QR factorization workspace returned info=',info)
+             return
+         else
+             lwork_qr = ceiling(real(work_dummy(1),kind=dp),kind=ilp)
+         end if
+         
+         ! Ordering space
+         lwork_ord = -1_ilp
+         call ungqr &
+              (m,n,k,a,m,tau_dummy,work_dummy,lwork_ord,info)
+         if (info /= 0) then
+             err = linalg_state(this,LINALG_INTERNAL_ERROR,'QR ordering workspace returned info=',info)
+             return
+         else
+             lwork_ord = ceiling(real(work_dummy(1),kind=dp),kind=ilp)
+         end if
+         
+         ! Pick the largest size, so two operations can be performed with the same allocation
+         lwork = max(lwork_qr,lwork_ord)
+                  
+     end subroutine get_qr_z_workspace
+     
      ! Compute the solution to a real system of linear equations A * X = B
      subroutine stdlib_linalg_z_qr(a,q,r,mode,overwrite_a,err)
          !> Input matrix a[m,n]
@@ -428,9 +657,9 @@ module stdlib_linalg_qr
          !> Local variables
          character(len=8) :: mode_
          type(linalg_state) :: err0
-         integer(ilp) :: m,n,k,q1,q2,r1,r2,lwork,info
+         integer(ilp) :: m,n,k,q1,q2,r1,r2,lwork,lwork_qr,lwork_ord,info
          logical(lk) :: overwrite_a_
-         complex(dp) :: work_dummy(1),tau_dummy(1)
+         
          complex(dp),pointer :: amat(:,:),tau(:),work(:)
 
          !> Problem sizes
@@ -474,20 +703,21 @@ module stdlib_linalg_qr
          
          tau(1:q1*q2) => q
 
-         ! Compute workspace
-         lwork = -1_ilp
-         call geqrf(m,n,amat,m,tau_dummy,work_dummy,lwork,info)
+         ! Retrieve workspace size
+         call get_qr_z_workspace(a,lwork,err0)
+
+         print *, 'lwork=',lwork
          
-         print *, 'INFO = ',info,' work=',nint(real(work_dummy(1),kind=dp),kind=ilp)
-         
-         if (info == 0) then
-              
-             lwork = ceiling(real(work_dummy(1),kind=dp),kind=ilp)
-         
+         if (err0%ok()) then
+                     
              allocate (work(lwork))
              
              ! Compute factorization
              call geqrf(m,n,amat,m,tau,work,lwork,info)
+             
+             ! Convert K elementary reflectors tau(1:k) -> orthogonal matrix Q
+             call ungqr &
+                  (m,n,k,amat,m,tau,work,lwork,info)
              
              if (info /= 0) err0 = linalg_state(this,LINALG_VALUE_ERROR,'info=',info)
              
@@ -500,6 +730,51 @@ module stdlib_linalg_qr
 
      end subroutine stdlib_linalg_z_qr
 
+     ! Get workspace size for QR operations
+     pure subroutine get_qr_w_workspace(a,lwork,err)
+         !> Input matrix a[m,n]
+         complex(qp),intent(inout),target :: a(:,:)
+         !> Minimum workspace size for both operations
+         integer(ilp),intent(out) :: lwork
+         !> State return flag. Returns an error if the query failed
+         type(linalg_state),intent(out) :: err
+         
+         integer(ilp) :: m,n,k,info,lwork_qr,lwork_ord
+         complex(qp) :: work_dummy(1),tau_dummy(1)
+         
+         lwork = -1_ilp
+         
+         !> Problem sizes
+         m = size(a,1,kind=ilp)
+         n = size(a,2,kind=ilp)
+         k = min(m,n)
+         
+         ! QR space
+         lwork_qr = -1_ilp
+         call geqrf(m,n,a,m,tau_dummy,work_dummy,lwork_qr,info)
+         if (info /= 0) then
+             err = linalg_state(this,LINALG_INTERNAL_ERROR,'QR factorization workspace returned info=',info)
+             return
+         else
+             lwork_qr = ceiling(real(work_dummy(1),kind=qp),kind=ilp)
+         end if
+         
+         ! Ordering space
+         lwork_ord = -1_ilp
+         call ungqr &
+              (m,n,k,a,m,tau_dummy,work_dummy,lwork_ord,info)
+         if (info /= 0) then
+             err = linalg_state(this,LINALG_INTERNAL_ERROR,'QR ordering workspace returned info=',info)
+             return
+         else
+             lwork_ord = ceiling(real(work_dummy(1),kind=qp),kind=ilp)
+         end if
+         
+         ! Pick the largest size, so two operations can be performed with the same allocation
+         lwork = max(lwork_qr,lwork_ord)
+                  
+     end subroutine get_qr_w_workspace
+     
      ! Compute the solution to a real system of linear equations A * X = B
      subroutine stdlib_linalg_w_qr(a,q,r,mode,overwrite_a,err)
          !> Input matrix a[m,n]
@@ -518,9 +793,9 @@ module stdlib_linalg_qr
          !> Local variables
          character(len=8) :: mode_
          type(linalg_state) :: err0
-         integer(ilp) :: m,n,k,q1,q2,r1,r2,lwork,info
+         integer(ilp) :: m,n,k,q1,q2,r1,r2,lwork,lwork_qr,lwork_ord,info
          logical(lk) :: overwrite_a_
-         complex(qp) :: work_dummy(1),tau_dummy(1)
+         
          complex(qp),pointer :: amat(:,:),tau(:),work(:)
 
          !> Problem sizes
@@ -564,20 +839,21 @@ module stdlib_linalg_qr
          
          tau(1:q1*q2) => q
 
-         ! Compute workspace
-         lwork = -1_ilp
-         call geqrf(m,n,amat,m,tau_dummy,work_dummy,lwork,info)
+         ! Retrieve workspace size
+         call get_qr_w_workspace(a,lwork,err0)
+
+         print *, 'lwork=',lwork
          
-         print *, 'INFO = ',info,' work=',nint(real(work_dummy(1),kind=qp),kind=ilp)
-         
-         if (info == 0) then
-              
-             lwork = ceiling(real(work_dummy(1),kind=qp),kind=ilp)
-         
+         if (err0%ok()) then
+                     
              allocate (work(lwork))
              
              ! Compute factorization
              call geqrf(m,n,amat,m,tau,work,lwork,info)
+             
+             ! Convert K elementary reflectors tau(1:k) -> orthogonal matrix Q
+             call ungqr &
+                  (m,n,k,amat,m,tau,work,lwork,info)
              
              if (info /= 0) err0 = linalg_state(this,LINALG_VALUE_ERROR,'info=',info)
              
