@@ -112,15 +112,13 @@ module stdlib_linalg_qr
      end subroutine get_qr_s_workspace
      
      ! Compute the solution to a real system of linear equations A * X = B
-     pure subroutine stdlib_linalg_s_qr(a,q,r,mode,overwrite_a,err)
+     pure subroutine stdlib_linalg_s_qr(a,q,r,overwrite_a,err)
          !> Input matrix a[m,n]
          real(sp),intent(inout),target :: a(:,:)
          !> Orthogonal matrix Q ([m,m], or [m,k] if reduced)
          real(sp),intent(out),contiguous,target :: q(:,:)
          !> Upper triangular matrix R ([m,n], or [k,n] if reduced)
          real(sp),intent(out),contiguous,target :: r(:,:)
-         !> [optional] Mode: 'reduced' (default), 'complete', 'r', 'raw'
-         character(*),optional,intent(in) :: mode
          !> [optional] Can A data be overwritten and destroyed?
          logical(lk),optional,intent(in) :: overwrite_a
          !> [optional] state return flag. On error if not requested, the code will stop
@@ -130,7 +128,7 @@ module stdlib_linalg_qr
          character(len=8) :: mode_
          type(linalg_state) :: err0
          integer(ilp) :: i,j,m,n,k,q1,q2,r1,r2,lda,lwork,info
-         logical(lk) :: overwrite_a_,use_q_matrix
+         logical(lk) :: overwrite_a_,use_q_matrix,reduced
          real(sp) :: r11
          real(sp),parameter :: zero = 0.0_sp
          
@@ -154,7 +152,13 @@ module stdlib_linalg_qr
             return
          end if
          
-         ! Check if Q can be used as storage for A
+         ! Check if we should operate on reduced full QR
+         ! - Reduced: shape(Q)==[m,k], shape(R)==[k,n]
+         ! - Full   : shape(Q)==[m,m], shape(R)==[m,n]
+         reduced = q2 < m .or. r1 < m
+         
+         ! Check if Q can be used as temporary storage for A,
+         ! to be destroyed by *GEQRF
          use_q_matrix = q1 >= m .and. q2 >= n
 
          ! Can A be overwritten? By default, do not overwrite
@@ -166,13 +170,6 @@ module stdlib_linalg_qr
             overwrite_a_ = .false._lk
          end if
          
-         ! Get mode
-         if (present(mode)) then
-            mode_ = mode
-         else
-            mode_ = 'reduced'
-         end if
-
          ! Initialize a matrix temporary, or reuse available
          ! storage if possible
          if (use_q_matrix) then
@@ -220,11 +217,18 @@ module stdlib_linalg_qr
                       
                  ! Copy result back to Q
                  if (.not. use_q_matrix) q = amat(:q1,:q2)
-              
+                 
                  ! Copy first column of R
                  r(1,1) = r11
                  r(2:,1) = zero
-             
+                 
+                 ! Ensure last m-n columns of Q and rows of R are zeros,
+                 ! if full matrices were provided
+                 if (.not. reduced) then
+                    q(1:m,k + 1:m) = zero
+                    r(k + 1:m,1:n) = zero
+                 end if
+                    
              end if
              
              deallocate (work)
@@ -278,15 +282,13 @@ module stdlib_linalg_qr
      end subroutine get_qr_d_workspace
      
      ! Compute the solution to a real system of linear equations A * X = B
-     pure subroutine stdlib_linalg_d_qr(a,q,r,mode,overwrite_a,err)
+     pure subroutine stdlib_linalg_d_qr(a,q,r,overwrite_a,err)
          !> Input matrix a[m,n]
          real(dp),intent(inout),target :: a(:,:)
          !> Orthogonal matrix Q ([m,m], or [m,k] if reduced)
          real(dp),intent(out),contiguous,target :: q(:,:)
          !> Upper triangular matrix R ([m,n], or [k,n] if reduced)
          real(dp),intent(out),contiguous,target :: r(:,:)
-         !> [optional] Mode: 'reduced' (default), 'complete', 'r', 'raw'
-         character(*),optional,intent(in) :: mode
          !> [optional] Can A data be overwritten and destroyed?
          logical(lk),optional,intent(in) :: overwrite_a
          !> [optional] state return flag. On error if not requested, the code will stop
@@ -296,7 +298,7 @@ module stdlib_linalg_qr
          character(len=8) :: mode_
          type(linalg_state) :: err0
          integer(ilp) :: i,j,m,n,k,q1,q2,r1,r2,lda,lwork,info
-         logical(lk) :: overwrite_a_,use_q_matrix
+         logical(lk) :: overwrite_a_,use_q_matrix,reduced
          real(dp) :: r11
          real(dp),parameter :: zero = 0.0_dp
          
@@ -320,7 +322,13 @@ module stdlib_linalg_qr
             return
          end if
          
-         ! Check if Q can be used as storage for A
+         ! Check if we should operate on reduced full QR
+         ! - Reduced: shape(Q)==[m,k], shape(R)==[k,n]
+         ! - Full   : shape(Q)==[m,m], shape(R)==[m,n]
+         reduced = q2 < m .or. r1 < m
+         
+         ! Check if Q can be used as temporary storage for A,
+         ! to be destroyed by *GEQRF
          use_q_matrix = q1 >= m .and. q2 >= n
 
          ! Can A be overwritten? By default, do not overwrite
@@ -332,13 +340,6 @@ module stdlib_linalg_qr
             overwrite_a_ = .false._lk
          end if
          
-         ! Get mode
-         if (present(mode)) then
-            mode_ = mode
-         else
-            mode_ = 'reduced'
-         end if
-
          ! Initialize a matrix temporary, or reuse available
          ! storage if possible
          if (use_q_matrix) then
@@ -386,11 +387,18 @@ module stdlib_linalg_qr
                       
                  ! Copy result back to Q
                  if (.not. use_q_matrix) q = amat(:q1,:q2)
-              
+                 
                  ! Copy first column of R
                  r(1,1) = r11
                  r(2:,1) = zero
-             
+                 
+                 ! Ensure last m-n columns of Q and rows of R are zeros,
+                 ! if full matrices were provided
+                 if (.not. reduced) then
+                    q(1:m,k + 1:m) = zero
+                    r(k + 1:m,1:n) = zero
+                 end if
+                    
              end if
              
              deallocate (work)
@@ -444,15 +452,13 @@ module stdlib_linalg_qr
      end subroutine get_qr_q_workspace
      
      ! Compute the solution to a real system of linear equations A * X = B
-     pure subroutine stdlib_linalg_q_qr(a,q,r,mode,overwrite_a,err)
+     pure subroutine stdlib_linalg_q_qr(a,q,r,overwrite_a,err)
          !> Input matrix a[m,n]
          real(qp),intent(inout),target :: a(:,:)
          !> Orthogonal matrix Q ([m,m], or [m,k] if reduced)
          real(qp),intent(out),contiguous,target :: q(:,:)
          !> Upper triangular matrix R ([m,n], or [k,n] if reduced)
          real(qp),intent(out),contiguous,target :: r(:,:)
-         !> [optional] Mode: 'reduced' (default), 'complete', 'r', 'raw'
-         character(*),optional,intent(in) :: mode
          !> [optional] Can A data be overwritten and destroyed?
          logical(lk),optional,intent(in) :: overwrite_a
          !> [optional] state return flag. On error if not requested, the code will stop
@@ -462,7 +468,7 @@ module stdlib_linalg_qr
          character(len=8) :: mode_
          type(linalg_state) :: err0
          integer(ilp) :: i,j,m,n,k,q1,q2,r1,r2,lda,lwork,info
-         logical(lk) :: overwrite_a_,use_q_matrix
+         logical(lk) :: overwrite_a_,use_q_matrix,reduced
          real(qp) :: r11
          real(qp),parameter :: zero = 0.0_qp
          
@@ -486,7 +492,13 @@ module stdlib_linalg_qr
             return
          end if
          
-         ! Check if Q can be used as storage for A
+         ! Check if we should operate on reduced full QR
+         ! - Reduced: shape(Q)==[m,k], shape(R)==[k,n]
+         ! - Full   : shape(Q)==[m,m], shape(R)==[m,n]
+         reduced = q2 < m .or. r1 < m
+         
+         ! Check if Q can be used as temporary storage for A,
+         ! to be destroyed by *GEQRF
          use_q_matrix = q1 >= m .and. q2 >= n
 
          ! Can A be overwritten? By default, do not overwrite
@@ -498,13 +510,6 @@ module stdlib_linalg_qr
             overwrite_a_ = .false._lk
          end if
          
-         ! Get mode
-         if (present(mode)) then
-            mode_ = mode
-         else
-            mode_ = 'reduced'
-         end if
-
          ! Initialize a matrix temporary, or reuse available
          ! storage if possible
          if (use_q_matrix) then
@@ -552,11 +557,18 @@ module stdlib_linalg_qr
                       
                  ! Copy result back to Q
                  if (.not. use_q_matrix) q = amat(:q1,:q2)
-              
+                 
                  ! Copy first column of R
                  r(1,1) = r11
                  r(2:,1) = zero
-             
+                 
+                 ! Ensure last m-n columns of Q and rows of R are zeros,
+                 ! if full matrices were provided
+                 if (.not. reduced) then
+                    q(1:m,k + 1:m) = zero
+                    r(k + 1:m,1:n) = zero
+                 end if
+                    
              end if
              
              deallocate (work)
@@ -610,15 +622,13 @@ module stdlib_linalg_qr
      end subroutine get_qr_c_workspace
      
      ! Compute the solution to a real system of linear equations A * X = B
-     pure subroutine stdlib_linalg_c_qr(a,q,r,mode,overwrite_a,err)
+     pure subroutine stdlib_linalg_c_qr(a,q,r,overwrite_a,err)
          !> Input matrix a[m,n]
          complex(sp),intent(inout),target :: a(:,:)
          !> Orthogonal matrix Q ([m,m], or [m,k] if reduced)
          complex(sp),intent(out),contiguous,target :: q(:,:)
          !> Upper triangular matrix R ([m,n], or [k,n] if reduced)
          complex(sp),intent(out),contiguous,target :: r(:,:)
-         !> [optional] Mode: 'reduced' (default), 'complete', 'r', 'raw'
-         character(*),optional,intent(in) :: mode
          !> [optional] Can A data be overwritten and destroyed?
          logical(lk),optional,intent(in) :: overwrite_a
          !> [optional] state return flag. On error if not requested, the code will stop
@@ -628,7 +638,7 @@ module stdlib_linalg_qr
          character(len=8) :: mode_
          type(linalg_state) :: err0
          integer(ilp) :: i,j,m,n,k,q1,q2,r1,r2,lda,lwork,info
-         logical(lk) :: overwrite_a_,use_q_matrix
+         logical(lk) :: overwrite_a_,use_q_matrix,reduced
          complex(sp) :: r11
          complex(sp),parameter :: zero = 0.0_sp
          
@@ -652,7 +662,13 @@ module stdlib_linalg_qr
             return
          end if
          
-         ! Check if Q can be used as storage for A
+         ! Check if we should operate on reduced full QR
+         ! - Reduced: shape(Q)==[m,k], shape(R)==[k,n]
+         ! - Full   : shape(Q)==[m,m], shape(R)==[m,n]
+         reduced = q2 < m .or. r1 < m
+         
+         ! Check if Q can be used as temporary storage for A,
+         ! to be destroyed by *GEQRF
          use_q_matrix = q1 >= m .and. q2 >= n
 
          ! Can A be overwritten? By default, do not overwrite
@@ -664,13 +680,6 @@ module stdlib_linalg_qr
             overwrite_a_ = .false._lk
          end if
          
-         ! Get mode
-         if (present(mode)) then
-            mode_ = mode
-         else
-            mode_ = 'reduced'
-         end if
-
          ! Initialize a matrix temporary, or reuse available
          ! storage if possible
          if (use_q_matrix) then
@@ -718,11 +727,18 @@ module stdlib_linalg_qr
                       
                  ! Copy result back to Q
                  if (.not. use_q_matrix) q = amat(:q1,:q2)
-              
+                 
                  ! Copy first column of R
                  r(1,1) = r11
                  r(2:,1) = zero
-             
+                 
+                 ! Ensure last m-n columns of Q and rows of R are zeros,
+                 ! if full matrices were provided
+                 if (.not. reduced) then
+                    q(1:m,k + 1:m) = zero
+                    r(k + 1:m,1:n) = zero
+                 end if
+                    
              end if
              
              deallocate (work)
@@ -776,15 +792,13 @@ module stdlib_linalg_qr
      end subroutine get_qr_z_workspace
      
      ! Compute the solution to a real system of linear equations A * X = B
-     pure subroutine stdlib_linalg_z_qr(a,q,r,mode,overwrite_a,err)
+     pure subroutine stdlib_linalg_z_qr(a,q,r,overwrite_a,err)
          !> Input matrix a[m,n]
          complex(dp),intent(inout),target :: a(:,:)
          !> Orthogonal matrix Q ([m,m], or [m,k] if reduced)
          complex(dp),intent(out),contiguous,target :: q(:,:)
          !> Upper triangular matrix R ([m,n], or [k,n] if reduced)
          complex(dp),intent(out),contiguous,target :: r(:,:)
-         !> [optional] Mode: 'reduced' (default), 'complete', 'r', 'raw'
-         character(*),optional,intent(in) :: mode
          !> [optional] Can A data be overwritten and destroyed?
          logical(lk),optional,intent(in) :: overwrite_a
          !> [optional] state return flag. On error if not requested, the code will stop
@@ -794,7 +808,7 @@ module stdlib_linalg_qr
          character(len=8) :: mode_
          type(linalg_state) :: err0
          integer(ilp) :: i,j,m,n,k,q1,q2,r1,r2,lda,lwork,info
-         logical(lk) :: overwrite_a_,use_q_matrix
+         logical(lk) :: overwrite_a_,use_q_matrix,reduced
          complex(dp) :: r11
          complex(dp),parameter :: zero = 0.0_dp
          
@@ -818,7 +832,13 @@ module stdlib_linalg_qr
             return
          end if
          
-         ! Check if Q can be used as storage for A
+         ! Check if we should operate on reduced full QR
+         ! - Reduced: shape(Q)==[m,k], shape(R)==[k,n]
+         ! - Full   : shape(Q)==[m,m], shape(R)==[m,n]
+         reduced = q2 < m .or. r1 < m
+         
+         ! Check if Q can be used as temporary storage for A,
+         ! to be destroyed by *GEQRF
          use_q_matrix = q1 >= m .and. q2 >= n
 
          ! Can A be overwritten? By default, do not overwrite
@@ -830,13 +850,6 @@ module stdlib_linalg_qr
             overwrite_a_ = .false._lk
          end if
          
-         ! Get mode
-         if (present(mode)) then
-            mode_ = mode
-         else
-            mode_ = 'reduced'
-         end if
-
          ! Initialize a matrix temporary, or reuse available
          ! storage if possible
          if (use_q_matrix) then
@@ -884,11 +897,18 @@ module stdlib_linalg_qr
                       
                  ! Copy result back to Q
                  if (.not. use_q_matrix) q = amat(:q1,:q2)
-              
+                 
                  ! Copy first column of R
                  r(1,1) = r11
                  r(2:,1) = zero
-             
+                 
+                 ! Ensure last m-n columns of Q and rows of R are zeros,
+                 ! if full matrices were provided
+                 if (.not. reduced) then
+                    q(1:m,k + 1:m) = zero
+                    r(k + 1:m,1:n) = zero
+                 end if
+                    
              end if
              
              deallocate (work)
@@ -942,15 +962,13 @@ module stdlib_linalg_qr
      end subroutine get_qr_w_workspace
      
      ! Compute the solution to a real system of linear equations A * X = B
-     pure subroutine stdlib_linalg_w_qr(a,q,r,mode,overwrite_a,err)
+     pure subroutine stdlib_linalg_w_qr(a,q,r,overwrite_a,err)
          !> Input matrix a[m,n]
          complex(qp),intent(inout),target :: a(:,:)
          !> Orthogonal matrix Q ([m,m], or [m,k] if reduced)
          complex(qp),intent(out),contiguous,target :: q(:,:)
          !> Upper triangular matrix R ([m,n], or [k,n] if reduced)
          complex(qp),intent(out),contiguous,target :: r(:,:)
-         !> [optional] Mode: 'reduced' (default), 'complete', 'r', 'raw'
-         character(*),optional,intent(in) :: mode
          !> [optional] Can A data be overwritten and destroyed?
          logical(lk),optional,intent(in) :: overwrite_a
          !> [optional] state return flag. On error if not requested, the code will stop
@@ -960,7 +978,7 @@ module stdlib_linalg_qr
          character(len=8) :: mode_
          type(linalg_state) :: err0
          integer(ilp) :: i,j,m,n,k,q1,q2,r1,r2,lda,lwork,info
-         logical(lk) :: overwrite_a_,use_q_matrix
+         logical(lk) :: overwrite_a_,use_q_matrix,reduced
          complex(qp) :: r11
          complex(qp),parameter :: zero = 0.0_qp
          
@@ -984,7 +1002,13 @@ module stdlib_linalg_qr
             return
          end if
          
-         ! Check if Q can be used as storage for A
+         ! Check if we should operate on reduced full QR
+         ! - Reduced: shape(Q)==[m,k], shape(R)==[k,n]
+         ! - Full   : shape(Q)==[m,m], shape(R)==[m,n]
+         reduced = q2 < m .or. r1 < m
+         
+         ! Check if Q can be used as temporary storage for A,
+         ! to be destroyed by *GEQRF
          use_q_matrix = q1 >= m .and. q2 >= n
 
          ! Can A be overwritten? By default, do not overwrite
@@ -996,13 +1020,6 @@ module stdlib_linalg_qr
             overwrite_a_ = .false._lk
          end if
          
-         ! Get mode
-         if (present(mode)) then
-            mode_ = mode
-         else
-            mode_ = 'reduced'
-         end if
-
          ! Initialize a matrix temporary, or reuse available
          ! storage if possible
          if (use_q_matrix) then
@@ -1050,11 +1067,18 @@ module stdlib_linalg_qr
                       
                  ! Copy result back to Q
                  if (.not. use_q_matrix) q = amat(:q1,:q2)
-              
+                 
                  ! Copy first column of R
                  r(1,1) = r11
                  r(2:,1) = zero
-             
+                 
+                 ! Ensure last m-n columns of Q and rows of R are zeros,
+                 ! if full matrices were provided
+                 if (.not. reduced) then
+                    q(1:m,k + 1:m) = zero
+                    r(k + 1:m,1:n) = zero
+                 end if
+                    
              end if
              
              deallocate (work)
