@@ -14,17 +14,17 @@ module test_linalg_qr
 
         call cpu_time(t0)
 
-        call test_qr_s(error)
+        call test_qr_random_s(error)
         if (error) return
-        call test_qr_d(error)
+        call test_qr_random_d(error)
         if (error) return
-        call test_qr_q(error)
+        call test_qr_random_q(error)
         if (error) return
-        call test_qr_c(error)
+        call test_qr_random_c(error)
         if (error) return
-        call test_qr_z(error)
+        call test_qr_random_z(error)
         if (error) return
-        call test_qr_w(error)
+        call test_qr_random_w(error)
         if (error) return
 
         call cpu_time(t1)
@@ -36,7 +36,7 @@ module test_linalg_qr
     end subroutine test_qr
 
     !> QR factorization of a random matrix
-    subroutine test_qr_s(error)
+    subroutine test_qr_random_s(error)
         logical,intent(out) :: error
 
         integer(ilp),parameter :: m = 15_ilp
@@ -59,9 +59,9 @@ module test_linalg_qr
         error = .not. all(abs(a - matmul(q,r)) < sqrt(epsilon(0.0_sp)))
         if (error) return
         
-    end subroutine test_qr_s
+    end subroutine test_qr_random_s
 
-    subroutine test_qr_d(error)
+    subroutine test_qr_random_d(error)
         logical,intent(out) :: error
 
         integer(ilp),parameter :: m = 15_ilp
@@ -84,9 +84,9 @@ module test_linalg_qr
         error = .not. all(abs(a - matmul(q,r)) < sqrt(epsilon(0.0_dp)))
         if (error) return
         
-    end subroutine test_qr_d
+    end subroutine test_qr_random_d
 
-    subroutine test_qr_q(error)
+    subroutine test_qr_random_q(error)
         logical,intent(out) :: error
 
         integer(ilp),parameter :: m = 15_ilp
@@ -109,9 +109,9 @@ module test_linalg_qr
         error = .not. all(abs(a - matmul(q,r)) < sqrt(epsilon(0.0_qp)))
         if (error) return
         
-    end subroutine test_qr_q
+    end subroutine test_qr_random_q
 
-    subroutine test_qr_c(error)
+    subroutine test_qr_random_c(error)
         logical,intent(out) :: error
 
         integer(ilp),parameter :: m = 15_ilp
@@ -135,9 +135,9 @@ module test_linalg_qr
         error = .not. all(abs(a - matmul(q,r)) < sqrt(epsilon(0.0_sp)))
         if (error) return
         
-    end subroutine test_qr_c
+    end subroutine test_qr_random_c
 
-    subroutine test_qr_z(error)
+    subroutine test_qr_random_z(error)
         logical,intent(out) :: error
 
         integer(ilp),parameter :: m = 15_ilp
@@ -161,9 +161,9 @@ module test_linalg_qr
         error = .not. all(abs(a - matmul(q,r)) < sqrt(epsilon(0.0_dp)))
         if (error) return
         
-    end subroutine test_qr_z
+    end subroutine test_qr_random_z
 
-    subroutine test_qr_w(error)
+    subroutine test_qr_random_w(error)
         logical,intent(out) :: error
 
         integer(ilp),parameter :: m = 15_ilp
@@ -187,7 +187,7 @@ module test_linalg_qr
         error = .not. all(abs(a - matmul(q,r)) < sqrt(epsilon(0.0_qp)))
         if (error) return
         
-    end subroutine test_qr_w
+    end subroutine test_qr_random_w
 
 end module test_linalg_qr
 

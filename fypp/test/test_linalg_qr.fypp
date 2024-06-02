@@ -16,7 +16,7 @@ module test_linalg_qr
         call cpu_time(t0)
 
         #:for rk,rt,ri in ALL_KINDS_TYPES
-        call test_qr_${ri}$(error)
+        call test_qr_random_${ri}$(error)
         if (error) return
         #: endfor
 
@@ -30,7 +30,7 @@ module test_linalg_qr
 
     !> QR factorization of a random matrix
     #:for rk,rt,ri in ALL_KINDS_TYPES
-    subroutine test_qr_${ri}$(error)
+    subroutine test_qr_random_${ri}$(error)
         logical,intent(out) :: error
 
         integer(ilp), parameter :: m = 15_ilp
@@ -58,7 +58,7 @@ module test_linalg_qr
         error = .not. all(abs(a-matmul(q,r))<sqrt(epsilon(0.0_${rk}$)))
         if (error) return
         
-    end subroutine test_qr_${ri}$
+    end subroutine test_qr_random_${ri}$
 
     #:endfor
 

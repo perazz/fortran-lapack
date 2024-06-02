@@ -26,8 +26,8 @@ module stdlib_linalg_qr
 
      contains
      
-     elemental subroutine handle_gesv_info(info,m,n,nrhs,err)
-         integer(ilp),intent(in) :: info,m,n,nrhs
+     elemental subroutine handle_orgqr_info(info,m,n,k,lwork,err)
+         integer(ilp),intent(in) :: info,m,n,k,lwork
          type(linalg_state),intent(out) :: err
 
          ! Process output
@@ -35,20 +35,42 @@ module stdlib_linalg_qr
             case (0)
                 ! Success
             case (-1)
-                err = linalg_state(this,LINALG_VALUE_ERROR,'invalid problem size n=',n)
+                err = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix size m=',m)
             case (-2)
-                err = linalg_state(this,LINALG_VALUE_ERROR,'invalid rhs size n=',nrhs)
+                err = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix size n=',n)
             case (-4)
+                err = linalg_state(this,LINALG_VALUE_ERROR,'invalid k=min(m,n)=',k)
+            case (-5)
                 err = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix size a=', [m,n])
-            case (-7)
-                err = linalg_state(this,LINALG_ERROR,'invalid matrix size a=', [m,n])
-            case (1:)
-                err = linalg_state(this,LINALG_ERROR,'singular matrix')
+            case (-8)
+                err = linalg_state(this,LINALG_ERROR,'invalid input for lwork=',lwork)
             case default
                 err = linalg_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
          end select
 
-     end subroutine handle_gesv_info
+     end subroutine handle_orgqr_info
+     
+     elemental subroutine handle_geqrf_info(info,m,n,lwork,err)
+         integer(ilp),intent(in) :: info,m,n,lwork
+         type(linalg_state),intent(out) :: err
+
+         ! Process output
+         select case (info)
+            case (0)
+                ! Success
+            case (-1)
+                err = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix size m=',m)
+            case (-2)
+                err = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix size n=',n)
+            case (-4)
+                err = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix size a=', [m,n])
+            case (-7)
+                err = linalg_state(this,LINALG_ERROR,'invalid input for lwork=',lwork)
+            case default
+                err = linalg_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
+         end select
+
+     end subroutine handle_geqrf_info
 
      ! Get workspace size for QR operations
      pure subroutine get_qr_s_workspace(a,lwork,err)
@@ -72,23 +94,17 @@ module stdlib_linalg_qr
          ! QR space
          lwork_qr = -1_ilp
          call geqrf(m,n,a,m,tau_dummy,work_dummy,lwork_qr,info)
-         if (info /= 0) then
-             err = linalg_state(this,LINALG_INTERNAL_ERROR,'QR factorization workspace returned info=',info)
-             return
-         else
-             lwork_qr = ceiling(real(work_dummy(1),kind=sp),kind=ilp)
-         end if
+         call handle_geqrf_info(info,m,n,lwork_qr,err)
+         if (err%error()) return
+         lwork_qr = ceiling(real(work_dummy(1),kind=sp),kind=ilp)
          
          ! Ordering space
          lwork_ord = -1_ilp
          call orgqr &
               (m,n,k,a,m,tau_dummy,work_dummy,lwork_ord,info)
-         if (info /= 0) then
-             err = linalg_state(this,LINALG_INTERNAL_ERROR,'QR ordering workspace returned info=',info)
-             return
-         else
-             lwork_ord = ceiling(real(work_dummy(1),kind=sp),kind=ilp)
-         end if
+         call handle_orgqr_info(info,m,n,k,lwork_ord,err)
+         if (err%error()) return
+         lwork_ord = ceiling(real(work_dummy(1),kind=sp),kind=ilp)
          
          ! Pick the largest size, so two operations can be performed with the same allocation
          lwork = max(lwork_qr,lwork_ord)
@@ -188,8 +204,9 @@ module stdlib_linalg_qr
              
              ! Compute factorization.
              call geqrf(m,n,amat,m,tau,work,lwork,info)
+             call handle_geqrf_info(info,m,n,lwork,err0)
              
-             if (info == 0) then
+             if (err0%ok()) then
                 
                  ! Get R matrix out before overwritten.
                  ! Do not copy the first column at this stage: it may be being used by `tau`
@@ -199,19 +216,14 @@ module stdlib_linalg_qr
                  ! Convert K elementary reflectors tau(1:k) -> orthogonal matrix Q
                  call orgqr &
                       (m,n,k,amat,lda,tau,work,lwork,info)
+                 call handle_orgqr_info(info,m,n,k,lwork,err0)
                       
                  ! Copy result back to Q
                  if (.not. use_q_matrix) q = amat(:q1,:q2)
               
-                 if (info /= 0) err0 = linalg_state(this,LINALG_VALUE_ERROR,'info=',info)
-                 
                  ! Copy first column of R
                  r(1,1) = r11
                  r(2:,1) = zero
-             
-             else
-                
-                 err0 = linalg_state(this,LINALG_VALUE_ERROR,'cannot factorize A: info=',info)
              
              end if
              
@@ -248,23 +260,17 @@ module stdlib_linalg_qr
          ! QR space
          lwork_qr = -1_ilp
          call geqrf(m,n,a,m,tau_dummy,work_dummy,lwork_qr,info)
-         if (info /= 0) then
-             err = linalg_state(this,LINALG_INTERNAL_ERROR,'QR factorization workspace returned info=',info)
-             return
-         else
-             lwork_qr = ceiling(real(work_dummy(1),kind=dp),kind=ilp)
-         end if
+         call handle_geqrf_info(info,m,n,lwork_qr,err)
+         if (err%error()) return
+         lwork_qr = ceiling(real(work_dummy(1),kind=dp),kind=ilp)
          
          ! Ordering space
          lwork_ord = -1_ilp
          call orgqr &
               (m,n,k,a,m,tau_dummy,work_dummy,lwork_ord,info)
-         if (info /= 0) then
-             err = linalg_state(this,LINALG_INTERNAL_ERROR,'QR ordering workspace returned info=',info)
-             return
-         else
-             lwork_ord = ceiling(real(work_dummy(1),kind=dp),kind=ilp)
-         end if
+         call handle_orgqr_info(info,m,n,k,lwork_ord,err)
+         if (err%error()) return
+         lwork_ord = ceiling(real(work_dummy(1),kind=dp),kind=ilp)
          
          ! Pick the largest size, so two operations can be performed with the same allocation
          lwork = max(lwork_qr,lwork_ord)
@@ -364,8 +370,9 @@ module stdlib_linalg_qr
              
              ! Compute factorization.
              call geqrf(m,n,amat,m,tau,work,lwork,info)
+             call handle_geqrf_info(info,m,n,lwork,err0)
              
-             if (info == 0) then
+             if (err0%ok()) then
                 
                  ! Get R matrix out before overwritten.
                  ! Do not copy the first column at this stage: it may be being used by `tau`
@@ -375,19 +382,14 @@ module stdlib_linalg_qr
                  ! Convert K elementary reflectors tau(1:k) -> orthogonal matrix Q
                  call orgqr &
                       (m,n,k,amat,lda,tau,work,lwork,info)
+                 call handle_orgqr_info(info,m,n,k,lwork,err0)
                       
                  ! Copy result back to Q
                  if (.not. use_q_matrix) q = amat(:q1,:q2)
               
-                 if (info /= 0) err0 = linalg_state(this,LINALG_VALUE_ERROR,'info=',info)
-                 
                  ! Copy first column of R
                  r(1,1) = r11
                  r(2:,1) = zero
-             
-             else
-                
-                 err0 = linalg_state(this,LINALG_VALUE_ERROR,'cannot factorize A: info=',info)
              
              end if
              
@@ -424,23 +426,17 @@ module stdlib_linalg_qr
          ! QR space
          lwork_qr = -1_ilp
          call geqrf(m,n,a,m,tau_dummy,work_dummy,lwork_qr,info)
-         if (info /= 0) then
-             err = linalg_state(this,LINALG_INTERNAL_ERROR,'QR factorization workspace returned info=',info)
-             return
-         else
-             lwork_qr = ceiling(real(work_dummy(1),kind=qp),kind=ilp)
-         end if
+         call handle_geqrf_info(info,m,n,lwork_qr,err)
+         if (err%error()) return
+         lwork_qr = ceiling(real(work_dummy(1),kind=qp),kind=ilp)
          
          ! Ordering space
          lwork_ord = -1_ilp
          call orgqr &
               (m,n,k,a,m,tau_dummy,work_dummy,lwork_ord,info)
-         if (info /= 0) then
-             err = linalg_state(this,LINALG_INTERNAL_ERROR,'QR ordering workspace returned info=',info)
-             return
-         else
-             lwork_ord = ceiling(real(work_dummy(1),kind=qp),kind=ilp)
-         end if
+         call handle_orgqr_info(info,m,n,k,lwork_ord,err)
+         if (err%error()) return
+         lwork_ord = ceiling(real(work_dummy(1),kind=qp),kind=ilp)
          
          ! Pick the largest size, so two operations can be performed with the same allocation
          lwork = max(lwork_qr,lwork_ord)
@@ -540,8 +536,9 @@ module stdlib_linalg_qr
              
              ! Compute factorization.
              call geqrf(m,n,amat,m,tau,work,lwork,info)
+             call handle_geqrf_info(info,m,n,lwork,err0)
              
-             if (info == 0) then
+             if (err0%ok()) then
                 
                  ! Get R matrix out before overwritten.
                  ! Do not copy the first column at this stage: it may be being used by `tau`
@@ -551,19 +548,14 @@ module stdlib_linalg_qr
                  ! Convert K elementary reflectors tau(1:k) -> orthogonal matrix Q
                  call orgqr &
                       (m,n,k,amat,lda,tau,work,lwork,info)
+                 call handle_orgqr_info(info,m,n,k,lwork,err0)
                       
                  ! Copy result back to Q
                  if (.not. use_q_matrix) q = amat(:q1,:q2)
               
-                 if (info /= 0) err0 = linalg_state(this,LINALG_VALUE_ERROR,'info=',info)
-                 
                  ! Copy first column of R
                  r(1,1) = r11
                  r(2:,1) = zero
-             
-             else
-                
-                 err0 = linalg_state(this,LINALG_VALUE_ERROR,'cannot factorize A: info=',info)
              
              end if
              
@@ -600,23 +592,17 @@ module stdlib_linalg_qr
          ! QR space
          lwork_qr = -1_ilp
          call geqrf(m,n,a,m,tau_dummy,work_dummy,lwork_qr,info)
-         if (info /= 0) then
-             err = linalg_state(this,LINALG_INTERNAL_ERROR,'QR factorization workspace returned info=',info)
-             return
-         else
-             lwork_qr = ceiling(real(work_dummy(1),kind=sp),kind=ilp)
-         end if
+         call handle_geqrf_info(info,m,n,lwork_qr,err)
+         if (err%error()) return
+         lwork_qr = ceiling(real(work_dummy(1),kind=sp),kind=ilp)
          
          ! Ordering space
          lwork_ord = -1_ilp
          call ungqr &
               (m,n,k,a,m,tau_dummy,work_dummy,lwork_ord,info)
-         if (info /= 0) then
-             err = linalg_state(this,LINALG_INTERNAL_ERROR,'QR ordering workspace returned info=',info)
-             return
-         else
-             lwork_ord = ceiling(real(work_dummy(1),kind=sp),kind=ilp)
-         end if
+         call handle_orgqr_info(info,m,n,k,lwork_ord,err)
+         if (err%error()) return
+         lwork_ord = ceiling(real(work_dummy(1),kind=sp),kind=ilp)
          
          ! Pick the largest size, so two operations can be performed with the same allocation
          lwork = max(lwork_qr,lwork_ord)
@@ -716,8 +702,9 @@ module stdlib_linalg_qr
              
              ! Compute factorization.
              call geqrf(m,n,amat,m,tau,work,lwork,info)
+             call handle_geqrf_info(info,m,n,lwork,err0)
              
-             if (info == 0) then
+             if (err0%ok()) then
                 
                  ! Get R matrix out before overwritten.
                  ! Do not copy the first column at this stage: it may be being used by `tau`
@@ -727,19 +714,14 @@ module stdlib_linalg_qr
                  ! Convert K elementary reflectors tau(1:k) -> orthogonal matrix Q
                  call ungqr &
                       (m,n,k,amat,lda,tau,work,lwork,info)
+                 call handle_orgqr_info(info,m,n,k,lwork,err0)
                       
                  ! Copy result back to Q
                  if (.not. use_q_matrix) q = amat(:q1,:q2)
               
-                 if (info /= 0) err0 = linalg_state(this,LINALG_VALUE_ERROR,'info=',info)
-                 
                  ! Copy first column of R
                  r(1,1) = r11
                  r(2:,1) = zero
-             
-             else
-                
-                 err0 = linalg_state(this,LINALG_VALUE_ERROR,'cannot factorize A: info=',info)
              
              end if
              
@@ -776,23 +758,17 @@ module stdlib_linalg_qr
          ! QR space
          lwork_qr = -1_ilp
          call geqrf(m,n,a,m,tau_dummy,work_dummy,lwork_qr,info)
-         if (info /= 0) then
-             err = linalg_state(this,LINALG_INTERNAL_ERROR,'QR factorization workspace returned info=',info)
-             return
-         else
-             lwork_qr = ceiling(real(work_dummy(1),kind=dp),kind=ilp)
-         end if
+         call handle_geqrf_info(info,m,n,lwork_qr,err)
+         if (err%error()) return
+         lwork_qr = ceiling(real(work_dummy(1),kind=dp),kind=ilp)
          
          ! Ordering space
          lwork_ord = -1_ilp
          call ungqr &
               (m,n,k,a,m,tau_dummy,work_dummy,lwork_ord,info)
-         if (info /= 0) then
-             err = linalg_state(this,LINALG_INTERNAL_ERROR,'QR ordering workspace returned info=',info)
-             return
-         else
-             lwork_ord = ceiling(real(work_dummy(1),kind=dp),kind=ilp)
-         end if
+         call handle_orgqr_info(info,m,n,k,lwork_ord,err)
+         if (err%error()) return
+         lwork_ord = ceiling(real(work_dummy(1),kind=dp),kind=ilp)
          
          ! Pick the largest size, so two operations can be performed with the same allocation
          lwork = max(lwork_qr,lwork_ord)
@@ -892,8 +868,9 @@ module stdlib_linalg_qr
              
              ! Compute factorization.
              call geqrf(m,n,amat,m,tau,work,lwork,info)
+             call handle_geqrf_info(info,m,n,lwork,err0)
              
-             if (info == 0) then
+             if (err0%ok()) then
                 
                  ! Get R matrix out before overwritten.
                  ! Do not copy the first column at this stage: it may be being used by `tau`
@@ -903,19 +880,14 @@ module stdlib_linalg_qr
                  ! Convert K elementary reflectors tau(1:k) -> orthogonal matrix Q
                  call ungqr &
                       (m,n,k,amat,lda,tau,work,lwork,info)
+                 call handle_orgqr_info(info,m,n,k,lwork,err0)
                       
                  ! Copy result back to Q
                  if (.not. use_q_matrix) q = amat(:q1,:q2)
               
-                 if (info /= 0) err0 = linalg_state(this,LINALG_VALUE_ERROR,'info=',info)
-                 
                  ! Copy first column of R
                  r(1,1) = r11
                  r(2:,1) = zero
-             
-             else
-                
-                 err0 = linalg_state(this,LINALG_VALUE_ERROR,'cannot factorize A: info=',info)
              
              end if
              
@@ -952,23 +924,17 @@ module stdlib_linalg_qr
          ! QR space
          lwork_qr = -1_ilp
          call geqrf(m,n,a,m,tau_dummy,work_dummy,lwork_qr,info)
-         if (info /= 0) then
-             err = linalg_state(this,LINALG_INTERNAL_ERROR,'QR factorization workspace returned info=',info)
-             return
-         else
-             lwork_qr = ceiling(real(work_dummy(1),kind=qp),kind=ilp)
-         end if
+         call handle_geqrf_info(info,m,n,lwork_qr,err)
+         if (err%error()) return
+         lwork_qr = ceiling(real(work_dummy(1),kind=qp),kind=ilp)
          
          ! Ordering space
          lwork_ord = -1_ilp
          call ungqr &
               (m,n,k,a,m,tau_dummy,work_dummy,lwork_ord,info)
-         if (info /= 0) then
-             err = linalg_state(this,LINALG_INTERNAL_ERROR,'QR ordering workspace returned info=',info)
-             return
-         else
-             lwork_ord = ceiling(real(work_dummy(1),kind=qp),kind=ilp)
-         end if
+         call handle_orgqr_info(info,m,n,k,lwork_ord,err)
+         if (err%error()) return
+         lwork_ord = ceiling(real(work_dummy(1),kind=qp),kind=ilp)
          
          ! Pick the largest size, so two operations can be performed with the same allocation
          lwork = max(lwork_qr,lwork_ord)
@@ -1068,8 +1034,9 @@ module stdlib_linalg_qr
              
              ! Compute factorization.
              call geqrf(m,n,amat,m,tau,work,lwork,info)
+             call handle_geqrf_info(info,m,n,lwork,err0)
              
-             if (info == 0) then
+             if (err0%ok()) then
                 
                  ! Get R matrix out before overwritten.
                  ! Do not copy the first column at this stage: it may be being used by `tau`
@@ -1079,19 +1046,14 @@ module stdlib_linalg_qr
                  ! Convert K elementary reflectors tau(1:k) -> orthogonal matrix Q
                  call ungqr &
                       (m,n,k,amat,lda,tau,work,lwork,info)
+                 call handle_orgqr_info(info,m,n,k,lwork,err0)
                       
                  ! Copy result back to Q
                  if (.not. use_q_matrix) q = amat(:q1,:q2)
               
-                 if (info /= 0) err0 = linalg_state(this,LINALG_VALUE_ERROR,'info=',info)
-                 
                  ! Copy first column of R
                  r(1,1) = r11
                  r(2:,1) = zero
-             
-             else
-                
-                 err0 = linalg_state(this,LINALG_VALUE_ERROR,'cannot factorize A: info=',info)
              
              end if
              
