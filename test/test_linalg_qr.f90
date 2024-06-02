@@ -56,7 +56,7 @@ module test_linalg_qr
         if (error) return
         
         ! Check solution
-        error = .not. all(abs(a - matmul(q,r)) < sqrt(epsilon(0.0_sp))
+        error = .not. all(abs(a - matmul(q,r)) < sqrt(epsilon(0.0_sp)))
         if (error) return
         
     end subroutine test_qr_s
@@ -81,7 +81,7 @@ module test_linalg_qr
         if (error) return
         
         ! Check solution
-        error = .not. all(abs(a - matmul(q,r)) < sqrt(epsilon(0.0_dp))
+        error = .not. all(abs(a - matmul(q,r)) < sqrt(epsilon(0.0_dp)))
         if (error) return
         
     end subroutine test_qr_d
@@ -106,7 +106,7 @@ module test_linalg_qr
         if (error) return
         
         ! Check solution
-        error = .not. all(abs(a - matmul(q,r)) < sqrt(epsilon(0.0_qp))
+        error = .not. all(abs(a - matmul(q,r)) < sqrt(epsilon(0.0_qp)))
         if (error) return
         
     end subroutine test_qr_q
@@ -132,7 +132,7 @@ module test_linalg_qr
         if (error) return
         
         ! Check solution
-        error = .not. all(abs(a - matmul(q,r)) < sqrt(epsilon(0.0_sp))
+        error = .not. all(abs(a - matmul(q,r)) < sqrt(epsilon(0.0_sp)))
         if (error) return
         
     end subroutine test_qr_c
@@ -158,7 +158,7 @@ module test_linalg_qr
         if (error) return
         
         ! Check solution
-        error = .not. all(abs(a - matmul(q,r)) < sqrt(epsilon(0.0_dp))
+        error = .not. all(abs(a - matmul(q,r)) < sqrt(epsilon(0.0_dp)))
         if (error) return
         
     end subroutine test_qr_z
@@ -184,7 +184,7 @@ module test_linalg_qr
         if (error) return
         
         ! Check solution
-        error = .not. all(abs(a - matmul(q,r)) < sqrt(epsilon(0.0_qp))
+        error = .not. all(abs(a - matmul(q,r)) < sqrt(epsilon(0.0_qp)))
         if (error) return
         
     end subroutine test_qr_w

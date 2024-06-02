@@ -55,7 +55,7 @@ module test_linalg_qr
         if (error) return
         
         ! Check solution
-        error = .not. all(abs(a-matmul(q,r))<sqrt(epsilon(0.0_${rk}$))
+        error = .not. all(abs(a-matmul(q,r))<sqrt(epsilon(0.0_${rk}$)))
         if (error) return
         
     end subroutine test_qr_${ri}$
