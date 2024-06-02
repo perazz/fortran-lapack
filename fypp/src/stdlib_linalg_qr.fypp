@@ -21,7 +21,6 @@ module stdlib_linalg_qr
         #:endfor
      end interface qr
      
-     
      character(*), parameter :: this = 'qr'
 
 
@@ -99,7 +98,7 @@ module stdlib_linalg_qr
      end subroutine get_qr_${ri}$_workspace     
      
      ! Compute the solution to a real system of linear equations A * X = B
-     subroutine stdlib_linalg_${ri}$_qr(a,q,r,mode,overwrite_a,err) 
+     pure subroutine stdlib_linalg_${ri}$_qr(a,q,r,mode,overwrite_a,err) 
          !> Input matrix a[m,n]
          ${rt}$, intent(inout), target :: a(:,:)
          !> Orthogonal matrix Q ([m,m], or [m,k] if reduced)

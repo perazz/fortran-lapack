@@ -96,7 +96,7 @@ module stdlib_linalg_qr
      end subroutine get_qr_s_workspace
      
      ! Compute the solution to a real system of linear equations A * X = B
-     subroutine stdlib_linalg_s_qr(a,q,r,mode,overwrite_a,err)
+     pure subroutine stdlib_linalg_s_qr(a,q,r,mode,overwrite_a,err)
          !> Input matrix a[m,n]
          real(sp),intent(inout),target :: a(:,:)
          !> Orthogonal matrix Q ([m,m], or [m,k] if reduced)
@@ -272,7 +272,7 @@ module stdlib_linalg_qr
      end subroutine get_qr_d_workspace
      
      ! Compute the solution to a real system of linear equations A * X = B
-     subroutine stdlib_linalg_d_qr(a,q,r,mode,overwrite_a,err)
+     pure subroutine stdlib_linalg_d_qr(a,q,r,mode,overwrite_a,err)
          !> Input matrix a[m,n]
          real(dp),intent(inout),target :: a(:,:)
          !> Orthogonal matrix Q ([m,m], or [m,k] if reduced)
@@ -448,7 +448,7 @@ module stdlib_linalg_qr
      end subroutine get_qr_q_workspace
      
      ! Compute the solution to a real system of linear equations A * X = B
-     subroutine stdlib_linalg_q_qr(a,q,r,mode,overwrite_a,err)
+     pure subroutine stdlib_linalg_q_qr(a,q,r,mode,overwrite_a,err)
          !> Input matrix a[m,n]
          real(qp),intent(inout),target :: a(:,:)
          !> Orthogonal matrix Q ([m,m], or [m,k] if reduced)
@@ -624,7 +624,7 @@ module stdlib_linalg_qr
      end subroutine get_qr_c_workspace
      
      ! Compute the solution to a real system of linear equations A * X = B
-     subroutine stdlib_linalg_c_qr(a,q,r,mode,overwrite_a,err)
+     pure subroutine stdlib_linalg_c_qr(a,q,r,mode,overwrite_a,err)
          !> Input matrix a[m,n]
          complex(sp),intent(inout),target :: a(:,:)
          !> Orthogonal matrix Q ([m,m], or [m,k] if reduced)
@@ -800,7 +800,7 @@ module stdlib_linalg_qr
      end subroutine get_qr_z_workspace
      
      ! Compute the solution to a real system of linear equations A * X = B
-     subroutine stdlib_linalg_z_qr(a,q,r,mode,overwrite_a,err)
+     pure subroutine stdlib_linalg_z_qr(a,q,r,mode,overwrite_a,err)
          !> Input matrix a[m,n]
          complex(dp),intent(inout),target :: a(:,:)
          !> Orthogonal matrix Q ([m,m], or [m,k] if reduced)
@@ -976,7 +976,7 @@ module stdlib_linalg_qr
      end subroutine get_qr_w_workspace
      
      ! Compute the solution to a real system of linear equations A * X = B
-     subroutine stdlib_linalg_w_qr(a,q,r,mode,overwrite_a,err)
+     pure subroutine stdlib_linalg_w_qr(a,q,r,mode,overwrite_a,err)
          !> Input matrix a[m,n]
          complex(qp),intent(inout),target :: a(:,:)
          !> Orthogonal matrix Q ([m,m], or [m,k] if reduced)
