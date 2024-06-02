@@ -102,7 +102,7 @@ module stdlib_linalg_qr
          !> Orthogonal matrix Q ([m,m], or [m,k] if reduced)
          real(sp),intent(out),contiguous,target :: q(:,:)
          !> Upper triangular matrix R ([m,n], or [k,n] if reduced)
-         real(sp),intent(out),target :: r(:,:)
+         real(sp),intent(out),contiguous,target :: r(:,:)
          !> [optional] Mode: 'reduced' (default), 'complete', 'r', 'raw'
          character(*),optional,intent(in) :: mode
          !> [optional] Can A data be overwritten and destroyed?
@@ -113,8 +113,10 @@ module stdlib_linalg_qr
          !> Local variables
          character(len=8) :: mode_
          type(linalg_state) :: err0
-         integer(ilp) :: m,n,k,q1,q2,r1,r2,lwork,lwork_qr,lwork_ord,info
-         logical(lk) :: overwrite_a_
+         integer(ilp) :: i,j,m,n,k,q1,q2,r1,r2,lda,lwork,info
+         logical(lk) :: overwrite_a_,use_q_matrix
+         real(sp) :: r11
+         real(sp),parameter :: zero = 0.0_sp
          
          real(sp),pointer :: amat(:,:),tau(:),work(:)
 
@@ -135,9 +137,14 @@ module stdlib_linalg_qr
             call linalg_error_handling(err0,err)
             return
          end if
+         
+         ! Check if Q can be used as storage for A
+         use_q_matrix = q1 >= m .and. q2 >= n
 
          ! Can A be overwritten? By default, do not overwrite
-         if (present(overwrite_a)) then
+         if (use_q_matrix) then
+            overwrite_a_ = .false._lk
+         elseif (present(overwrite_a)) then
             overwrite_a_ = overwrite_a
          else
             overwrite_a_ = .false._lk
@@ -150,39 +157,72 @@ module stdlib_linalg_qr
             mode_ = 'reduced'
          end if
 
-         ! Initialize a matrix temporary
-         if (overwrite_a_) then
+         ! Initialize a matrix temporary, or reuse available
+         ! storage if possible
+         if (use_q_matrix) then
+            amat => q
+            q(:m,:n) = a
+         elseif (overwrite_a_) then
             amat => a
          else
             allocate (amat(m,n),source=a)
          end if
+         lda = size(amat,1,kind=ilp)
          
-         tau(1:q1*q2) => q
+         ! To store the elementary reflectors, we need a [1:k] column.
+         if (.not. use_q_matrix) then
+            ! Q is not being used as the storage matrix
+            tau(1:k) => q(1:k,1)
+         else
+            ! R has unused contiguous storage in the 1st column, except for the
+            ! diagonal element. So, use the full column and store it in a dummy variable
+            tau(1:k) => r(1:k,1)
+         end if
 
          ! Retrieve workspace size
          call get_qr_s_workspace(a,lwork,err0)
 
-         print *, 'lwork=',lwork
-         
          if (err0%ok()) then
                      
              allocate (work(lwork))
              
-             ! Compute factorization
+             ! Compute factorization.
              call geqrf(m,n,amat,m,tau,work,lwork,info)
              
-             ! Convert K elementary reflectors tau(1:k) -> orthogonal matrix Q
-             call orgqr &
-                  (m,n,k,amat,m,tau,work,lwork,info)
+             if (info == 0) then
+                
+                 ! Get R matrix out before overwritten.
+                 ! Do not copy the first column at this stage: it may be being used by `tau`
+                 r11 = amat(1,1)
+                 forall (i=1:min(r1,m),j=2:n) r(i,j) = merge(amat(i,j),zero,i <= j)
              
-             if (info /= 0) err0 = linalg_state(this,LINALG_VALUE_ERROR,'info=',info)
+                 ! Convert K elementary reflectors tau(1:k) -> orthogonal matrix Q
+                 call orgqr &
+                      (m,n,k,amat,lda,tau,work,lwork,info)
+                      
+                 ! Copy result back to Q
+                 if (.not. use_q_matrix) q = amat(:q1,:q2)
+              
+                 if (info /= 0) err0 = linalg_state(this,LINALG_VALUE_ERROR,'info=',info)
+                 
+                 ! Copy first column of R
+                 r(1,1) = r11
+                 r(2:,1) = zero
              
+             else
+                
+                 err0 = linalg_state(this,LINALG_VALUE_ERROR,'cannot factorize A: info=',info)
+             
+             end if
+             
+             deallocate (work)
+          
          end if
 
-         if (.not. overwrite_a_) deallocate (amat)
+         if (.not. (use_q_matrix .or. overwrite_a_)) deallocate (amat)
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+         call linalg_error_handling(err0,err)
 
      end subroutine stdlib_linalg_s_qr
 
@@ -238,7 +278,7 @@ module stdlib_linalg_qr
          !> Orthogonal matrix Q ([m,m], or [m,k] if reduced)
          real(dp),intent(out),contiguous,target :: q(:,:)
          !> Upper triangular matrix R ([m,n], or [k,n] if reduced)
-         real(dp),intent(out),target :: r(:,:)
+         real(dp),intent(out),contiguous,target :: r(:,:)
          !> [optional] Mode: 'reduced' (default), 'complete', 'r', 'raw'
          character(*),optional,intent(in) :: mode
          !> [optional] Can A data be overwritten and destroyed?
@@ -249,8 +289,10 @@ module stdlib_linalg_qr
          !> Local variables
          character(len=8) :: mode_
          type(linalg_state) :: err0
-         integer(ilp) :: m,n,k,q1,q2,r1,r2,lwork,lwork_qr,lwork_ord,info
-         logical(lk) :: overwrite_a_
+         integer(ilp) :: i,j,m,n,k,q1,q2,r1,r2,lda,lwork,info
+         logical(lk) :: overwrite_a_,use_q_matrix
+         real(dp) :: r11
+         real(dp),parameter :: zero = 0.0_dp
          
          real(dp),pointer :: amat(:,:),tau(:),work(:)
 
@@ -271,9 +313,14 @@ module stdlib_linalg_qr
             call linalg_error_handling(err0,err)
             return
          end if
+         
+         ! Check if Q can be used as storage for A
+         use_q_matrix = q1 >= m .and. q2 >= n
 
          ! Can A be overwritten? By default, do not overwrite
-         if (present(overwrite_a)) then
+         if (use_q_matrix) then
+            overwrite_a_ = .false._lk
+         elseif (present(overwrite_a)) then
             overwrite_a_ = overwrite_a
          else
             overwrite_a_ = .false._lk
@@ -286,39 +333,72 @@ module stdlib_linalg_qr
             mode_ = 'reduced'
          end if
 
-         ! Initialize a matrix temporary
-         if (overwrite_a_) then
+         ! Initialize a matrix temporary, or reuse available
+         ! storage if possible
+         if (use_q_matrix) then
+            amat => q
+            q(:m,:n) = a
+         elseif (overwrite_a_) then
             amat => a
          else
             allocate (amat(m,n),source=a)
          end if
+         lda = size(amat,1,kind=ilp)
          
-         tau(1:q1*q2) => q
+         ! To store the elementary reflectors, we need a [1:k] column.
+         if (.not. use_q_matrix) then
+            ! Q is not being used as the storage matrix
+            tau(1:k) => q(1:k,1)
+         else
+            ! R has unused contiguous storage in the 1st column, except for the
+            ! diagonal element. So, use the full column and store it in a dummy variable
+            tau(1:k) => r(1:k,1)
+         end if
 
          ! Retrieve workspace size
          call get_qr_d_workspace(a,lwork,err0)
 
-         print *, 'lwork=',lwork
-         
          if (err0%ok()) then
                      
              allocate (work(lwork))
              
-             ! Compute factorization
+             ! Compute factorization.
              call geqrf(m,n,amat,m,tau,work,lwork,info)
              
-             ! Convert K elementary reflectors tau(1:k) -> orthogonal matrix Q
-             call orgqr &
-                  (m,n,k,amat,m,tau,work,lwork,info)
+             if (info == 0) then
+                
+                 ! Get R matrix out before overwritten.
+                 ! Do not copy the first column at this stage: it may be being used by `tau`
+                 r11 = amat(1,1)
+                 forall (i=1:min(r1,m),j=2:n) r(i,j) = merge(amat(i,j),zero,i <= j)
              
-             if (info /= 0) err0 = linalg_state(this,LINALG_VALUE_ERROR,'info=',info)
+                 ! Convert K elementary reflectors tau(1:k) -> orthogonal matrix Q
+                 call orgqr &
+                      (m,n,k,amat,lda,tau,work,lwork,info)
+                      
+                 ! Copy result back to Q
+                 if (.not. use_q_matrix) q = amat(:q1,:q2)
+              
+                 if (info /= 0) err0 = linalg_state(this,LINALG_VALUE_ERROR,'info=',info)
+                 
+                 ! Copy first column of R
+                 r(1,1) = r11
+                 r(2:,1) = zero
              
+             else
+                
+                 err0 = linalg_state(this,LINALG_VALUE_ERROR,'cannot factorize A: info=',info)
+             
+             end if
+             
+             deallocate (work)
+          
          end if
 
-         if (.not. overwrite_a_) deallocate (amat)
+         if (.not. (use_q_matrix .or. overwrite_a_)) deallocate (amat)
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+         call linalg_error_handling(err0,err)
 
      end subroutine stdlib_linalg_d_qr
 
@@ -374,7 +454,7 @@ module stdlib_linalg_qr
          !> Orthogonal matrix Q ([m,m], or [m,k] if reduced)
          real(qp),intent(out),contiguous,target :: q(:,:)
          !> Upper triangular matrix R ([m,n], or [k,n] if reduced)
-         real(qp),intent(out),target :: r(:,:)
+         real(qp),intent(out),contiguous,target :: r(:,:)
          !> [optional] Mode: 'reduced' (default), 'complete', 'r', 'raw'
          character(*),optional,intent(in) :: mode
          !> [optional] Can A data be overwritten and destroyed?
@@ -385,8 +465,10 @@ module stdlib_linalg_qr
          !> Local variables
          character(len=8) :: mode_
          type(linalg_state) :: err0
-         integer(ilp) :: m,n,k,q1,q2,r1,r2,lwork,lwork_qr,lwork_ord,info
-         logical(lk) :: overwrite_a_
+         integer(ilp) :: i,j,m,n,k,q1,q2,r1,r2,lda,lwork,info
+         logical(lk) :: overwrite_a_,use_q_matrix
+         real(qp) :: r11
+         real(qp),parameter :: zero = 0.0_qp
          
          real(qp),pointer :: amat(:,:),tau(:),work(:)
 
@@ -407,9 +489,14 @@ module stdlib_linalg_qr
             call linalg_error_handling(err0,err)
             return
          end if
+         
+         ! Check if Q can be used as storage for A
+         use_q_matrix = q1 >= m .and. q2 >= n
 
          ! Can A be overwritten? By default, do not overwrite
-         if (present(overwrite_a)) then
+         if (use_q_matrix) then
+            overwrite_a_ = .false._lk
+         elseif (present(overwrite_a)) then
             overwrite_a_ = overwrite_a
          else
             overwrite_a_ = .false._lk
@@ -422,39 +509,72 @@ module stdlib_linalg_qr
             mode_ = 'reduced'
          end if
 
-         ! Initialize a matrix temporary
-         if (overwrite_a_) then
+         ! Initialize a matrix temporary, or reuse available
+         ! storage if possible
+         if (use_q_matrix) then
+            amat => q
+            q(:m,:n) = a
+         elseif (overwrite_a_) then
             amat => a
          else
             allocate (amat(m,n),source=a)
          end if
+         lda = size(amat,1,kind=ilp)
          
-         tau(1:q1*q2) => q
+         ! To store the elementary reflectors, we need a [1:k] column.
+         if (.not. use_q_matrix) then
+            ! Q is not being used as the storage matrix
+            tau(1:k) => q(1:k,1)
+         else
+            ! R has unused contiguous storage in the 1st column, except for the
+            ! diagonal element. So, use the full column and store it in a dummy variable
+            tau(1:k) => r(1:k,1)
+         end if
 
          ! Retrieve workspace size
          call get_qr_q_workspace(a,lwork,err0)
 
-         print *, 'lwork=',lwork
-         
          if (err0%ok()) then
                      
              allocate (work(lwork))
              
-             ! Compute factorization
+             ! Compute factorization.
              call geqrf(m,n,amat,m,tau,work,lwork,info)
              
-             ! Convert K elementary reflectors tau(1:k) -> orthogonal matrix Q
-             call orgqr &
-                  (m,n,k,amat,m,tau,work,lwork,info)
+             if (info == 0) then
+                
+                 ! Get R matrix out before overwritten.
+                 ! Do not copy the first column at this stage: it may be being used by `tau`
+                 r11 = amat(1,1)
+                 forall (i=1:min(r1,m),j=2:n) r(i,j) = merge(amat(i,j),zero,i <= j)
              
-             if (info /= 0) err0 = linalg_state(this,LINALG_VALUE_ERROR,'info=',info)
+                 ! Convert K elementary reflectors tau(1:k) -> orthogonal matrix Q
+                 call orgqr &
+                      (m,n,k,amat,lda,tau,work,lwork,info)
+                      
+                 ! Copy result back to Q
+                 if (.not. use_q_matrix) q = amat(:q1,:q2)
+              
+                 if (info /= 0) err0 = linalg_state(this,LINALG_VALUE_ERROR,'info=',info)
+                 
+                 ! Copy first column of R
+                 r(1,1) = r11
+                 r(2:,1) = zero
              
+             else
+                
+                 err0 = linalg_state(this,LINALG_VALUE_ERROR,'cannot factorize A: info=',info)
+             
+             end if
+             
+             deallocate (work)
+          
          end if
 
-         if (.not. overwrite_a_) deallocate (amat)
+         if (.not. (use_q_matrix .or. overwrite_a_)) deallocate (amat)
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+         call linalg_error_handling(err0,err)
 
      end subroutine stdlib_linalg_q_qr
 
@@ -510,7 +630,7 @@ module stdlib_linalg_qr
          !> Orthogonal matrix Q ([m,m], or [m,k] if reduced)
          complex(sp),intent(out),contiguous,target :: q(:,:)
          !> Upper triangular matrix R ([m,n], or [k,n] if reduced)
-         complex(sp),intent(out),target :: r(:,:)
+         complex(sp),intent(out),contiguous,target :: r(:,:)
          !> [optional] Mode: 'reduced' (default), 'complete', 'r', 'raw'
          character(*),optional,intent(in) :: mode
          !> [optional] Can A data be overwritten and destroyed?
@@ -521,8 +641,10 @@ module stdlib_linalg_qr
          !> Local variables
          character(len=8) :: mode_
          type(linalg_state) :: err0
-         integer(ilp) :: m,n,k,q1,q2,r1,r2,lwork,lwork_qr,lwork_ord,info
-         logical(lk) :: overwrite_a_
+         integer(ilp) :: i,j,m,n,k,q1,q2,r1,r2,lda,lwork,info
+         logical(lk) :: overwrite_a_,use_q_matrix
+         complex(sp) :: r11
+         complex(sp),parameter :: zero = 0.0_sp
          
          complex(sp),pointer :: amat(:,:),tau(:),work(:)
 
@@ -543,9 +665,14 @@ module stdlib_linalg_qr
             call linalg_error_handling(err0,err)
             return
          end if
+         
+         ! Check if Q can be used as storage for A
+         use_q_matrix = q1 >= m .and. q2 >= n
 
          ! Can A be overwritten? By default, do not overwrite
-         if (present(overwrite_a)) then
+         if (use_q_matrix) then
+            overwrite_a_ = .false._lk
+         elseif (present(overwrite_a)) then
             overwrite_a_ = overwrite_a
          else
             overwrite_a_ = .false._lk
@@ -558,39 +685,72 @@ module stdlib_linalg_qr
             mode_ = 'reduced'
          end if
 
-         ! Initialize a matrix temporary
-         if (overwrite_a_) then
+         ! Initialize a matrix temporary, or reuse available
+         ! storage if possible
+         if (use_q_matrix) then
+            amat => q
+            q(:m,:n) = a
+         elseif (overwrite_a_) then
             amat => a
          else
             allocate (amat(m,n),source=a)
          end if
+         lda = size(amat,1,kind=ilp)
          
-         tau(1:q1*q2) => q
+         ! To store the elementary reflectors, we need a [1:k] column.
+         if (.not. use_q_matrix) then
+            ! Q is not being used as the storage matrix
+            tau(1:k) => q(1:k,1)
+         else
+            ! R has unused contiguous storage in the 1st column, except for the
+            ! diagonal element. So, use the full column and store it in a dummy variable
+            tau(1:k) => r(1:k,1)
+         end if
 
          ! Retrieve workspace size
          call get_qr_c_workspace(a,lwork,err0)
 
-         print *, 'lwork=',lwork
-         
          if (err0%ok()) then
                      
              allocate (work(lwork))
              
-             ! Compute factorization
+             ! Compute factorization.
              call geqrf(m,n,amat,m,tau,work,lwork,info)
              
-             ! Convert K elementary reflectors tau(1:k) -> orthogonal matrix Q
-             call ungqr &
-                  (m,n,k,amat,m,tau,work,lwork,info)
+             if (info == 0) then
+                
+                 ! Get R matrix out before overwritten.
+                 ! Do not copy the first column at this stage: it may be being used by `tau`
+                 r11 = amat(1,1)
+                 forall (i=1:min(r1,m),j=2:n) r(i,j) = merge(amat(i,j),zero,i <= j)
              
-             if (info /= 0) err0 = linalg_state(this,LINALG_VALUE_ERROR,'info=',info)
+                 ! Convert K elementary reflectors tau(1:k) -> orthogonal matrix Q
+                 call ungqr &
+                      (m,n,k,amat,lda,tau,work,lwork,info)
+                      
+                 ! Copy result back to Q
+                 if (.not. use_q_matrix) q = amat(:q1,:q2)
+              
+                 if (info /= 0) err0 = linalg_state(this,LINALG_VALUE_ERROR,'info=',info)
+                 
+                 ! Copy first column of R
+                 r(1,1) = r11
+                 r(2:,1) = zero
              
+             else
+                
+                 err0 = linalg_state(this,LINALG_VALUE_ERROR,'cannot factorize A: info=',info)
+             
+             end if
+             
+             deallocate (work)
+          
          end if
 
-         if (.not. overwrite_a_) deallocate (amat)
+         if (.not. (use_q_matrix .or. overwrite_a_)) deallocate (amat)
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+         call linalg_error_handling(err0,err)
 
      end subroutine stdlib_linalg_c_qr
 
@@ -646,7 +806,7 @@ module stdlib_linalg_qr
          !> Orthogonal matrix Q ([m,m], or [m,k] if reduced)
          complex(dp),intent(out),contiguous,target :: q(:,:)
          !> Upper triangular matrix R ([m,n], or [k,n] if reduced)
-         complex(dp),intent(out),target :: r(:,:)
+         complex(dp),intent(out),contiguous,target :: r(:,:)
          !> [optional] Mode: 'reduced' (default), 'complete', 'r', 'raw'
          character(*),optional,intent(in) :: mode
          !> [optional] Can A data be overwritten and destroyed?
@@ -657,8 +817,10 @@ module stdlib_linalg_qr
          !> Local variables
          character(len=8) :: mode_
          type(linalg_state) :: err0
-         integer(ilp) :: m,n,k,q1,q2,r1,r2,lwork,lwork_qr,lwork_ord,info
-         logical(lk) :: overwrite_a_
+         integer(ilp) :: i,j,m,n,k,q1,q2,r1,r2,lda,lwork,info
+         logical(lk) :: overwrite_a_,use_q_matrix
+         complex(dp) :: r11
+         complex(dp),parameter :: zero = 0.0_dp
          
          complex(dp),pointer :: amat(:,:),tau(:),work(:)
 
@@ -679,9 +841,14 @@ module stdlib_linalg_qr
             call linalg_error_handling(err0,err)
             return
          end if
+         
+         ! Check if Q can be used as storage for A
+         use_q_matrix = q1 >= m .and. q2 >= n
 
          ! Can A be overwritten? By default, do not overwrite
-         if (present(overwrite_a)) then
+         if (use_q_matrix) then
+            overwrite_a_ = .false._lk
+         elseif (present(overwrite_a)) then
             overwrite_a_ = overwrite_a
          else
             overwrite_a_ = .false._lk
@@ -694,39 +861,72 @@ module stdlib_linalg_qr
             mode_ = 'reduced'
          end if
 
-         ! Initialize a matrix temporary
-         if (overwrite_a_) then
+         ! Initialize a matrix temporary, or reuse available
+         ! storage if possible
+         if (use_q_matrix) then
+            amat => q
+            q(:m,:n) = a
+         elseif (overwrite_a_) then
             amat => a
          else
             allocate (amat(m,n),source=a)
          end if
+         lda = size(amat,1,kind=ilp)
          
-         tau(1:q1*q2) => q
+         ! To store the elementary reflectors, we need a [1:k] column.
+         if (.not. use_q_matrix) then
+            ! Q is not being used as the storage matrix
+            tau(1:k) => q(1:k,1)
+         else
+            ! R has unused contiguous storage in the 1st column, except for the
+            ! diagonal element. So, use the full column and store it in a dummy variable
+            tau(1:k) => r(1:k,1)
+         end if
 
          ! Retrieve workspace size
          call get_qr_z_workspace(a,lwork,err0)
 
-         print *, 'lwork=',lwork
-         
          if (err0%ok()) then
                      
              allocate (work(lwork))
              
-             ! Compute factorization
+             ! Compute factorization.
              call geqrf(m,n,amat,m,tau,work,lwork,info)
              
-             ! Convert K elementary reflectors tau(1:k) -> orthogonal matrix Q
-             call ungqr &
-                  (m,n,k,amat,m,tau,work,lwork,info)
+             if (info == 0) then
+                
+                 ! Get R matrix out before overwritten.
+                 ! Do not copy the first column at this stage: it may be being used by `tau`
+                 r11 = amat(1,1)
+                 forall (i=1:min(r1,m),j=2:n) r(i,j) = merge(amat(i,j),zero,i <= j)
              
-             if (info /= 0) err0 = linalg_state(this,LINALG_VALUE_ERROR,'info=',info)
+                 ! Convert K elementary reflectors tau(1:k) -> orthogonal matrix Q
+                 call ungqr &
+                      (m,n,k,amat,lda,tau,work,lwork,info)
+                      
+                 ! Copy result back to Q
+                 if (.not. use_q_matrix) q = amat(:q1,:q2)
+              
+                 if (info /= 0) err0 = linalg_state(this,LINALG_VALUE_ERROR,'info=',info)
+                 
+                 ! Copy first column of R
+                 r(1,1) = r11
+                 r(2:,1) = zero
              
+             else
+                
+                 err0 = linalg_state(this,LINALG_VALUE_ERROR,'cannot factorize A: info=',info)
+             
+             end if
+             
+             deallocate (work)
+          
          end if
 
-         if (.not. overwrite_a_) deallocate (amat)
+         if (.not. (use_q_matrix .or. overwrite_a_)) deallocate (amat)
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+         call linalg_error_handling(err0,err)
 
      end subroutine stdlib_linalg_z_qr
 
@@ -782,7 +982,7 @@ module stdlib_linalg_qr
          !> Orthogonal matrix Q ([m,m], or [m,k] if reduced)
          complex(qp),intent(out),contiguous,target :: q(:,:)
          !> Upper triangular matrix R ([m,n], or [k,n] if reduced)
-         complex(qp),intent(out),target :: r(:,:)
+         complex(qp),intent(out),contiguous,target :: r(:,:)
          !> [optional] Mode: 'reduced' (default), 'complete', 'r', 'raw'
          character(*),optional,intent(in) :: mode
          !> [optional] Can A data be overwritten and destroyed?
@@ -793,8 +993,10 @@ module stdlib_linalg_qr
          !> Local variables
          character(len=8) :: mode_
          type(linalg_state) :: err0
-         integer(ilp) :: m,n,k,q1,q2,r1,r2,lwork,lwork_qr,lwork_ord,info
-         logical(lk) :: overwrite_a_
+         integer(ilp) :: i,j,m,n,k,q1,q2,r1,r2,lda,lwork,info
+         logical(lk) :: overwrite_a_,use_q_matrix
+         complex(qp) :: r11
+         complex(qp),parameter :: zero = 0.0_qp
          
          complex(qp),pointer :: amat(:,:),tau(:),work(:)
 
@@ -815,9 +1017,14 @@ module stdlib_linalg_qr
             call linalg_error_handling(err0,err)
             return
          end if
+         
+         ! Check if Q can be used as storage for A
+         use_q_matrix = q1 >= m .and. q2 >= n
 
          ! Can A be overwritten? By default, do not overwrite
-         if (present(overwrite_a)) then
+         if (use_q_matrix) then
+            overwrite_a_ = .false._lk
+         elseif (present(overwrite_a)) then
             overwrite_a_ = overwrite_a
          else
             overwrite_a_ = .false._lk
@@ -830,39 +1037,72 @@ module stdlib_linalg_qr
             mode_ = 'reduced'
          end if
 
-         ! Initialize a matrix temporary
-         if (overwrite_a_) then
+         ! Initialize a matrix temporary, or reuse available
+         ! storage if possible
+         if (use_q_matrix) then
+            amat => q
+            q(:m,:n) = a
+         elseif (overwrite_a_) then
             amat => a
          else
             allocate (amat(m,n),source=a)
          end if
+         lda = size(amat,1,kind=ilp)
          
-         tau(1:q1*q2) => q
+         ! To store the elementary reflectors, we need a [1:k] column.
+         if (.not. use_q_matrix) then
+            ! Q is not being used as the storage matrix
+            tau(1:k) => q(1:k,1)
+         else
+            ! R has unused contiguous storage in the 1st column, except for the
+            ! diagonal element. So, use the full column and store it in a dummy variable
+            tau(1:k) => r(1:k,1)
+         end if
 
          ! Retrieve workspace size
          call get_qr_w_workspace(a,lwork,err0)
 
-         print *, 'lwork=',lwork
-         
          if (err0%ok()) then
                      
              allocate (work(lwork))
              
-             ! Compute factorization
+             ! Compute factorization.
              call geqrf(m,n,amat,m,tau,work,lwork,info)
              
-             ! Convert K elementary reflectors tau(1:k) -> orthogonal matrix Q
-             call ungqr &
-                  (m,n,k,amat,m,tau,work,lwork,info)
+             if (info == 0) then
+                
+                 ! Get R matrix out before overwritten.
+                 ! Do not copy the first column at this stage: it may be being used by `tau`
+                 r11 = amat(1,1)
+                 forall (i=1:min(r1,m),j=2:n) r(i,j) = merge(amat(i,j),zero,i <= j)
              
-             if (info /= 0) err0 = linalg_state(this,LINALG_VALUE_ERROR,'info=',info)
+                 ! Convert K elementary reflectors tau(1:k) -> orthogonal matrix Q
+                 call ungqr &
+                      (m,n,k,amat,lda,tau,work,lwork,info)
+                      
+                 ! Copy result back to Q
+                 if (.not. use_q_matrix) q = amat(:q1,:q2)
+              
+                 if (info /= 0) err0 = linalg_state(this,LINALG_VALUE_ERROR,'info=',info)
+                 
+                 ! Copy first column of R
+                 r(1,1) = r11
+                 r(2:,1) = zero
              
+             else
+                
+                 err0 = linalg_state(this,LINALG_VALUE_ERROR,'cannot factorize A: info=',info)
+             
+             end if
+             
+             deallocate (work)
+          
          end if
 
-         if (.not. overwrite_a_) deallocate (amat)
+         if (.not. (use_q_matrix .or. overwrite_a_)) deallocate (amat)
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+         call linalg_error_handling(err0,err)
 
      end subroutine stdlib_linalg_w_qr
 

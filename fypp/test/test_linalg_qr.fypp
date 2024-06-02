@@ -50,14 +50,14 @@ module test_linalg_qr
         
         call qr(a,q,r,err=err)
         
+        ! Check return code
         error = err%error()
         if (error) return
         
+        ! Check solution
+        error = .not. all(abs(a-matmul(q,r))<sqrt(epsilon(0.0_${rk}$))
+        if (error) return
         
-        
-        
-
-
     end subroutine test_qr_${ri}$
 
     #:endfor

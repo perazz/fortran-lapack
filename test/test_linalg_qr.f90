@@ -51,7 +51,12 @@ module test_linalg_qr
         
         call qr(a,q,r,err=err)
         
+        ! Check return code
         error = err%error()
+        if (error) return
+        
+        ! Check solution
+        error = .not. all(abs(a - matmul(q,r)) < sqrt(epsilon(0.0_sp))
         if (error) return
         
     end subroutine test_qr_s
@@ -71,7 +76,12 @@ module test_linalg_qr
         
         call qr(a,q,r,err=err)
         
+        ! Check return code
         error = err%error()
+        if (error) return
+        
+        ! Check solution
+        error = .not. all(abs(a - matmul(q,r)) < sqrt(epsilon(0.0_dp))
         if (error) return
         
     end subroutine test_qr_d
@@ -91,7 +101,12 @@ module test_linalg_qr
         
         call qr(a,q,r,err=err)
         
+        ! Check return code
         error = err%error()
+        if (error) return
+        
+        ! Check solution
+        error = .not. all(abs(a - matmul(q,r)) < sqrt(epsilon(0.0_qp))
         if (error) return
         
     end subroutine test_qr_q
@@ -112,7 +127,12 @@ module test_linalg_qr
         
         call qr(a,q,r,err=err)
         
+        ! Check return code
         error = err%error()
+        if (error) return
+        
+        ! Check solution
+        error = .not. all(abs(a - matmul(q,r)) < sqrt(epsilon(0.0_sp))
         if (error) return
         
     end subroutine test_qr_c
@@ -133,7 +153,12 @@ module test_linalg_qr
         
         call qr(a,q,r,err=err)
         
+        ! Check return code
         error = err%error()
+        if (error) return
+        
+        ! Check solution
+        error = .not. all(abs(a - matmul(q,r)) < sqrt(epsilon(0.0_dp))
         if (error) return
         
     end subroutine test_qr_z
@@ -154,7 +179,12 @@ module test_linalg_qr
         
         call qr(a,q,r,err=err)
         
+        ! Check return code
         error = err%error()
+        if (error) return
+        
+        ! Check solution
+        error = .not. all(abs(a - matmul(q,r)) < sqrt(epsilon(0.0_qp))
         if (error) return
         
     end subroutine test_qr_w
