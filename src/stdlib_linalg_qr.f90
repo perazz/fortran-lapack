@@ -9,6 +9,7 @@ module stdlib_linalg_qr
 
      !> QR factorization of a matrix
      public :: qr
+     public :: qr_space
 
      ! Scipy: solve(a, b, lower=False, overwrite_a=False, overwrite_b=False, check_finite=True, assume_a='gen', transposed=False)[source]#
      ! IMSL: lu_solve(a, b, transpose=False)
@@ -21,6 +22,15 @@ module stdlib_linalg_qr
         module procedure stdlib_linalg_z_qr
         module procedure stdlib_linalg_w_qr
      end interface qr
+     
+     interface qr_space
+        module procedure get_qr_s_workspace
+        module procedure get_qr_d_workspace
+        module procedure get_qr_q_workspace
+        module procedure get_qr_c_workspace
+        module procedure get_qr_z_workspace
+        module procedure get_qr_w_workspace
+     end interface qr_space
      
      character(*),parameter :: this = 'qr'
 
@@ -79,10 +89,11 @@ module stdlib_linalg_qr
          !> Minimum workspace size for both operations
          integer(ilp),intent(out) :: lwork
          !> State return flag. Returns an error if the query failed
-         type(linalg_state),intent(out) :: err
+         type(linalg_state),optional,intent(out) :: err
          
          integer(ilp) :: m,n,k,info,lwork_qr,lwork_ord
          real(sp) :: work_dummy(1),tau_dummy(1)
+         type(linalg_state) :: err0
          
          lwork = -1_ilp
          
@@ -94,22 +105,30 @@ module stdlib_linalg_qr
          ! QR space
          lwork_qr = -1_ilp
          call geqrf(m,n,a,m,tau_dummy,work_dummy,lwork_qr,info)
-         call handle_geqrf_info(info,m,n,lwork_qr,err)
-         if (err%error()) return
+         call handle_geqrf_info(info,m,n,lwork_qr,err0)
+         if (err0%error()) then
+            call linalg_error_handling(err0,err)
+            return
+         end if
          lwork_qr = ceiling(real(work_dummy(1),kind=sp),kind=ilp)
          
          ! Ordering space
          lwork_ord = -1_ilp
          call orgqr &
               (m,n,k,a,m,tau_dummy,work_dummy,lwork_ord,info)
-         call handle_orgqr_info(info,m,n,k,lwork_ord,err)
-         if (err%error()) return
+         call handle_orgqr_info(info,m,n,k,lwork_ord,err0)
+         if (err0%error()) then
+            call linalg_error_handling(err0,err)
+            return
+         end if
          lwork_ord = ceiling(real(work_dummy(1),kind=sp),kind=ilp)
          
          ! Pick the largest size, so two operations can be performed with the same allocation
          lwork = max(lwork_qr,lwork_ord)
                   
      end subroutine get_qr_s_workspace
+     
+     ! Get workspace size for QR operations
      
      ! Compute the solution to a real system of linear equations A * X = B
      pure subroutine stdlib_linalg_s_qr(a,q,r,overwrite_a,err)
@@ -249,10 +268,11 @@ module stdlib_linalg_qr
          !> Minimum workspace size for both operations
          integer(ilp),intent(out) :: lwork
          !> State return flag. Returns an error if the query failed
-         type(linalg_state),intent(out) :: err
+         type(linalg_state),optional,intent(out) :: err
          
          integer(ilp) :: m,n,k,info,lwork_qr,lwork_ord
          real(dp) :: work_dummy(1),tau_dummy(1)
+         type(linalg_state) :: err0
          
          lwork = -1_ilp
          
@@ -264,22 +284,30 @@ module stdlib_linalg_qr
          ! QR space
          lwork_qr = -1_ilp
          call geqrf(m,n,a,m,tau_dummy,work_dummy,lwork_qr,info)
-         call handle_geqrf_info(info,m,n,lwork_qr,err)
-         if (err%error()) return
+         call handle_geqrf_info(info,m,n,lwork_qr,err0)
+         if (err0%error()) then
+            call linalg_error_handling(err0,err)
+            return
+         end if
          lwork_qr = ceiling(real(work_dummy(1),kind=dp),kind=ilp)
          
          ! Ordering space
          lwork_ord = -1_ilp
          call orgqr &
               (m,n,k,a,m,tau_dummy,work_dummy,lwork_ord,info)
-         call handle_orgqr_info(info,m,n,k,lwork_ord,err)
-         if (err%error()) return
+         call handle_orgqr_info(info,m,n,k,lwork_ord,err0)
+         if (err0%error()) then
+            call linalg_error_handling(err0,err)
+            return
+         end if
          lwork_ord = ceiling(real(work_dummy(1),kind=dp),kind=ilp)
          
          ! Pick the largest size, so two operations can be performed with the same allocation
          lwork = max(lwork_qr,lwork_ord)
                   
      end subroutine get_qr_d_workspace
+     
+     ! Get workspace size for QR operations
      
      ! Compute the solution to a real system of linear equations A * X = B
      pure subroutine stdlib_linalg_d_qr(a,q,r,overwrite_a,err)
@@ -419,10 +447,11 @@ module stdlib_linalg_qr
          !> Minimum workspace size for both operations
          integer(ilp),intent(out) :: lwork
          !> State return flag. Returns an error if the query failed
-         type(linalg_state),intent(out) :: err
+         type(linalg_state),optional,intent(out) :: err
          
          integer(ilp) :: m,n,k,info,lwork_qr,lwork_ord
          real(qp) :: work_dummy(1),tau_dummy(1)
+         type(linalg_state) :: err0
          
          lwork = -1_ilp
          
@@ -434,22 +463,30 @@ module stdlib_linalg_qr
          ! QR space
          lwork_qr = -1_ilp
          call geqrf(m,n,a,m,tau_dummy,work_dummy,lwork_qr,info)
-         call handle_geqrf_info(info,m,n,lwork_qr,err)
-         if (err%error()) return
+         call handle_geqrf_info(info,m,n,lwork_qr,err0)
+         if (err0%error()) then
+            call linalg_error_handling(err0,err)
+            return
+         end if
          lwork_qr = ceiling(real(work_dummy(1),kind=qp),kind=ilp)
          
          ! Ordering space
          lwork_ord = -1_ilp
          call orgqr &
               (m,n,k,a,m,tau_dummy,work_dummy,lwork_ord,info)
-         call handle_orgqr_info(info,m,n,k,lwork_ord,err)
-         if (err%error()) return
+         call handle_orgqr_info(info,m,n,k,lwork_ord,err0)
+         if (err0%error()) then
+            call linalg_error_handling(err0,err)
+            return
+         end if
          lwork_ord = ceiling(real(work_dummy(1),kind=qp),kind=ilp)
          
          ! Pick the largest size, so two operations can be performed with the same allocation
          lwork = max(lwork_qr,lwork_ord)
                   
      end subroutine get_qr_q_workspace
+     
+     ! Get workspace size for QR operations
      
      ! Compute the solution to a real system of linear equations A * X = B
      pure subroutine stdlib_linalg_q_qr(a,q,r,overwrite_a,err)
@@ -589,10 +626,11 @@ module stdlib_linalg_qr
          !> Minimum workspace size for both operations
          integer(ilp),intent(out) :: lwork
          !> State return flag. Returns an error if the query failed
-         type(linalg_state),intent(out) :: err
+         type(linalg_state),optional,intent(out) :: err
          
          integer(ilp) :: m,n,k,info,lwork_qr,lwork_ord
          complex(sp) :: work_dummy(1),tau_dummy(1)
+         type(linalg_state) :: err0
          
          lwork = -1_ilp
          
@@ -604,22 +642,30 @@ module stdlib_linalg_qr
          ! QR space
          lwork_qr = -1_ilp
          call geqrf(m,n,a,m,tau_dummy,work_dummy,lwork_qr,info)
-         call handle_geqrf_info(info,m,n,lwork_qr,err)
-         if (err%error()) return
+         call handle_geqrf_info(info,m,n,lwork_qr,err0)
+         if (err0%error()) then
+            call linalg_error_handling(err0,err)
+            return
+         end if
          lwork_qr = ceiling(real(work_dummy(1),kind=sp),kind=ilp)
          
          ! Ordering space
          lwork_ord = -1_ilp
          call ungqr &
               (m,n,k,a,m,tau_dummy,work_dummy,lwork_ord,info)
-         call handle_orgqr_info(info,m,n,k,lwork_ord,err)
-         if (err%error()) return
+         call handle_orgqr_info(info,m,n,k,lwork_ord,err0)
+         if (err0%error()) then
+            call linalg_error_handling(err0,err)
+            return
+         end if
          lwork_ord = ceiling(real(work_dummy(1),kind=sp),kind=ilp)
          
          ! Pick the largest size, so two operations can be performed with the same allocation
          lwork = max(lwork_qr,lwork_ord)
                   
      end subroutine get_qr_c_workspace
+     
+     ! Get workspace size for QR operations
      
      ! Compute the solution to a real system of linear equations A * X = B
      pure subroutine stdlib_linalg_c_qr(a,q,r,overwrite_a,err)
@@ -759,10 +805,11 @@ module stdlib_linalg_qr
          !> Minimum workspace size for both operations
          integer(ilp),intent(out) :: lwork
          !> State return flag. Returns an error if the query failed
-         type(linalg_state),intent(out) :: err
+         type(linalg_state),optional,intent(out) :: err
          
          integer(ilp) :: m,n,k,info,lwork_qr,lwork_ord
          complex(dp) :: work_dummy(1),tau_dummy(1)
+         type(linalg_state) :: err0
          
          lwork = -1_ilp
          
@@ -774,22 +821,30 @@ module stdlib_linalg_qr
          ! QR space
          lwork_qr = -1_ilp
          call geqrf(m,n,a,m,tau_dummy,work_dummy,lwork_qr,info)
-         call handle_geqrf_info(info,m,n,lwork_qr,err)
-         if (err%error()) return
+         call handle_geqrf_info(info,m,n,lwork_qr,err0)
+         if (err0%error()) then
+            call linalg_error_handling(err0,err)
+            return
+         end if
          lwork_qr = ceiling(real(work_dummy(1),kind=dp),kind=ilp)
          
          ! Ordering space
          lwork_ord = -1_ilp
          call ungqr &
               (m,n,k,a,m,tau_dummy,work_dummy,lwork_ord,info)
-         call handle_orgqr_info(info,m,n,k,lwork_ord,err)
-         if (err%error()) return
+         call handle_orgqr_info(info,m,n,k,lwork_ord,err0)
+         if (err0%error()) then
+            call linalg_error_handling(err0,err)
+            return
+         end if
          lwork_ord = ceiling(real(work_dummy(1),kind=dp),kind=ilp)
          
          ! Pick the largest size, so two operations can be performed with the same allocation
          lwork = max(lwork_qr,lwork_ord)
                   
      end subroutine get_qr_z_workspace
+     
+     ! Get workspace size for QR operations
      
      ! Compute the solution to a real system of linear equations A * X = B
      pure subroutine stdlib_linalg_z_qr(a,q,r,overwrite_a,err)
@@ -929,10 +984,11 @@ module stdlib_linalg_qr
          !> Minimum workspace size for both operations
          integer(ilp),intent(out) :: lwork
          !> State return flag. Returns an error if the query failed
-         type(linalg_state),intent(out) :: err
+         type(linalg_state),optional,intent(out) :: err
          
          integer(ilp) :: m,n,k,info,lwork_qr,lwork_ord
          complex(qp) :: work_dummy(1),tau_dummy(1)
+         type(linalg_state) :: err0
          
          lwork = -1_ilp
          
@@ -944,22 +1000,30 @@ module stdlib_linalg_qr
          ! QR space
          lwork_qr = -1_ilp
          call geqrf(m,n,a,m,tau_dummy,work_dummy,lwork_qr,info)
-         call handle_geqrf_info(info,m,n,lwork_qr,err)
-         if (err%error()) return
+         call handle_geqrf_info(info,m,n,lwork_qr,err0)
+         if (err0%error()) then
+            call linalg_error_handling(err0,err)
+            return
+         end if
          lwork_qr = ceiling(real(work_dummy(1),kind=qp),kind=ilp)
          
          ! Ordering space
          lwork_ord = -1_ilp
          call ungqr &
               (m,n,k,a,m,tau_dummy,work_dummy,lwork_ord,info)
-         call handle_orgqr_info(info,m,n,k,lwork_ord,err)
-         if (err%error()) return
+         call handle_orgqr_info(info,m,n,k,lwork_ord,err0)
+         if (err0%error()) then
+            call linalg_error_handling(err0,err)
+            return
+         end if
          lwork_ord = ceiling(real(work_dummy(1),kind=qp),kind=ilp)
          
          ! Pick the largest size, so two operations can be performed with the same allocation
          lwork = max(lwork_qr,lwork_ord)
                   
      end subroutine get_qr_w_workspace
+     
+     ! Get workspace size for QR operations
      
      ! Compute the solution to a real system of linear equations A * X = B
      pure subroutine stdlib_linalg_w_qr(a,q,r,overwrite_a,err)
