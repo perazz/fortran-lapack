@@ -128,8 +128,6 @@ module stdlib_linalg_qr
                   
      end subroutine get_qr_s_workspace
      
-     ! Get workspace size for QR operations
-     
      ! Compute the solution to a real system of linear equations A * X = B
      pure subroutine stdlib_linalg_s_qr(a,q,r,overwrite_a,storage,err)
          !> Input matrix a[m,n]
@@ -146,7 +144,6 @@ module stdlib_linalg_qr
          type(linalg_state),optional,intent(out) :: err
 
          !> Local variables
-         character(len=8) :: mode_
          type(linalg_state) :: err0
          integer(ilp) :: i,j,m,n,k,q1,q2,r1,r2,lda,lwork,info
          logical(lk) :: overwrite_a_,use_q_matrix,reduced
@@ -252,12 +249,9 @@ module stdlib_linalg_qr
                  r(1,1) = r11
                  r(2:,1) = zero
                  
-                 ! Ensure last m-n columns of Q and rows of R are zeros,
+                 ! Ensure last m-n rows of R are zeros,
                  ! if full matrices were provided
-                 if (.not. reduced) then
-                    q(1:m,k + 1:m) = zero
-                    r(k + 1:m,1:n) = zero
-                 end if
+                 if (.not. reduced) r(k + 1:m,1:n) = zero
                     
              end if
              
@@ -318,8 +312,6 @@ module stdlib_linalg_qr
                   
      end subroutine get_qr_d_workspace
      
-     ! Get workspace size for QR operations
-     
      ! Compute the solution to a real system of linear equations A * X = B
      pure subroutine stdlib_linalg_d_qr(a,q,r,overwrite_a,storage,err)
          !> Input matrix a[m,n]
@@ -336,7 +328,6 @@ module stdlib_linalg_qr
          type(linalg_state),optional,intent(out) :: err
 
          !> Local variables
-         character(len=8) :: mode_
          type(linalg_state) :: err0
          integer(ilp) :: i,j,m,n,k,q1,q2,r1,r2,lda,lwork,info
          logical(lk) :: overwrite_a_,use_q_matrix,reduced
@@ -442,12 +433,9 @@ module stdlib_linalg_qr
                  r(1,1) = r11
                  r(2:,1) = zero
                  
-                 ! Ensure last m-n columns of Q and rows of R are zeros,
+                 ! Ensure last m-n rows of R are zeros,
                  ! if full matrices were provided
-                 if (.not. reduced) then
-                    q(1:m,k + 1:m) = zero
-                    r(k + 1:m,1:n) = zero
-                 end if
+                 if (.not. reduced) r(k + 1:m,1:n) = zero
                     
              end if
              
@@ -508,8 +496,6 @@ module stdlib_linalg_qr
                   
      end subroutine get_qr_q_workspace
      
-     ! Get workspace size for QR operations
-     
      ! Compute the solution to a real system of linear equations A * X = B
      pure subroutine stdlib_linalg_q_qr(a,q,r,overwrite_a,storage,err)
          !> Input matrix a[m,n]
@@ -526,7 +512,6 @@ module stdlib_linalg_qr
          type(linalg_state),optional,intent(out) :: err
 
          !> Local variables
-         character(len=8) :: mode_
          type(linalg_state) :: err0
          integer(ilp) :: i,j,m,n,k,q1,q2,r1,r2,lda,lwork,info
          logical(lk) :: overwrite_a_,use_q_matrix,reduced
@@ -632,12 +617,9 @@ module stdlib_linalg_qr
                  r(1,1) = r11
                  r(2:,1) = zero
                  
-                 ! Ensure last m-n columns of Q and rows of R are zeros,
+                 ! Ensure last m-n rows of R are zeros,
                  ! if full matrices were provided
-                 if (.not. reduced) then
-                    q(1:m,k + 1:m) = zero
-                    r(k + 1:m,1:n) = zero
-                 end if
+                 if (.not. reduced) r(k + 1:m,1:n) = zero
                     
              end if
              
@@ -698,8 +680,6 @@ module stdlib_linalg_qr
                   
      end subroutine get_qr_c_workspace
      
-     ! Get workspace size for QR operations
-     
      ! Compute the solution to a real system of linear equations A * X = B
      pure subroutine stdlib_linalg_c_qr(a,q,r,overwrite_a,storage,err)
          !> Input matrix a[m,n]
@@ -716,7 +696,6 @@ module stdlib_linalg_qr
          type(linalg_state),optional,intent(out) :: err
 
          !> Local variables
-         character(len=8) :: mode_
          type(linalg_state) :: err0
          integer(ilp) :: i,j,m,n,k,q1,q2,r1,r2,lda,lwork,info
          logical(lk) :: overwrite_a_,use_q_matrix,reduced
@@ -822,12 +801,9 @@ module stdlib_linalg_qr
                  r(1,1) = r11
                  r(2:,1) = zero
                  
-                 ! Ensure last m-n columns of Q and rows of R are zeros,
+                 ! Ensure last m-n rows of R are zeros,
                  ! if full matrices were provided
-                 if (.not. reduced) then
-                    q(1:m,k + 1:m) = zero
-                    r(k + 1:m,1:n) = zero
-                 end if
+                 if (.not. reduced) r(k + 1:m,1:n) = zero
                     
              end if
              
@@ -888,8 +864,6 @@ module stdlib_linalg_qr
                   
      end subroutine get_qr_z_workspace
      
-     ! Get workspace size for QR operations
-     
      ! Compute the solution to a real system of linear equations A * X = B
      pure subroutine stdlib_linalg_z_qr(a,q,r,overwrite_a,storage,err)
          !> Input matrix a[m,n]
@@ -906,7 +880,6 @@ module stdlib_linalg_qr
          type(linalg_state),optional,intent(out) :: err
 
          !> Local variables
-         character(len=8) :: mode_
          type(linalg_state) :: err0
          integer(ilp) :: i,j,m,n,k,q1,q2,r1,r2,lda,lwork,info
          logical(lk) :: overwrite_a_,use_q_matrix,reduced
@@ -1012,12 +985,9 @@ module stdlib_linalg_qr
                  r(1,1) = r11
                  r(2:,1) = zero
                  
-                 ! Ensure last m-n columns of Q and rows of R are zeros,
+                 ! Ensure last m-n rows of R are zeros,
                  ! if full matrices were provided
-                 if (.not. reduced) then
-                    q(1:m,k + 1:m) = zero
-                    r(k + 1:m,1:n) = zero
-                 end if
+                 if (.not. reduced) r(k + 1:m,1:n) = zero
                     
              end if
              
@@ -1078,8 +1048,6 @@ module stdlib_linalg_qr
                   
      end subroutine get_qr_w_workspace
      
-     ! Get workspace size for QR operations
-     
      ! Compute the solution to a real system of linear equations A * X = B
      pure subroutine stdlib_linalg_w_qr(a,q,r,overwrite_a,storage,err)
          !> Input matrix a[m,n]
@@ -1096,7 +1064,6 @@ module stdlib_linalg_qr
          type(linalg_state),optional,intent(out) :: err
 
          !> Local variables
-         character(len=8) :: mode_
          type(linalg_state) :: err0
          integer(ilp) :: i,j,m,n,k,q1,q2,r1,r2,lda,lwork,info
          logical(lk) :: overwrite_a_,use_q_matrix,reduced
@@ -1202,12 +1169,9 @@ module stdlib_linalg_qr
                  r(1,1) = r11
                  r(2:,1) = zero
                  
-                 ! Ensure last m-n columns of Q and rows of R are zeros,
+                 ! Ensure last m-n rows of R are zeros,
                  ! if full matrices were provided
-                 if (.not. reduced) then
-                    q(1:m,k + 1:m) = zero
-                    r(k + 1:m,1:n) = zero
-                 end if
+                 if (.not. reduced) r(k + 1:m,1:n) = zero
                     
              end if
              
