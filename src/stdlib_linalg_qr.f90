@@ -131,7 +131,7 @@ module stdlib_linalg_qr
      ! Get workspace size for QR operations
      
      ! Compute the solution to a real system of linear equations A * X = B
-     pure subroutine stdlib_linalg_s_qr(a,q,r,overwrite_a,err)
+     pure subroutine stdlib_linalg_s_qr(a,q,r,overwrite_a,storage,err)
          !> Input matrix a[m,n]
          real(sp),intent(inout),target :: a(:,:)
          !> Orthogonal matrix Q ([m,m], or [m,k] if reduced)
@@ -140,6 +140,8 @@ module stdlib_linalg_qr
          real(sp),intent(out),contiguous,target :: r(:,:)
          !> [optional] Can A data be overwritten and destroyed?
          logical(lk),optional,intent(in) :: overwrite_a
+         !> [optional] Provide pre-allocated workspace, size to be checked with qr_space
+         real(sp),intent(inout),optional,target :: storage(:)
          !> [optional] state return flag. On error if not requested, the code will stop
          type(linalg_state),optional,intent(out) :: err
 
@@ -216,7 +218,16 @@ module stdlib_linalg_qr
 
          if (err0%ok()) then
                      
-             allocate (work(lwork))
+             if (present(storage)) then
+                work => storage
+             else
+                allocate (work(lwork))
+             end if
+             if (.not. size(work,kind=ilp) >= lwork) then
+                 err0 = linalg_state(this,LINALG_ERROR,'insufficient workspace: should be at least ',lwork)
+                 call linalg_error_handling(err0,err)
+                 return
+             end if
              
              ! Compute factorization.
              call geqrf(m,n,amat,m,tau,work,lwork,info)
@@ -250,7 +261,7 @@ module stdlib_linalg_qr
                     
              end if
              
-             deallocate (work)
+             if (.not. present(storage)) deallocate (work)
           
          end if
 
@@ -310,7 +321,7 @@ module stdlib_linalg_qr
      ! Get workspace size for QR operations
      
      ! Compute the solution to a real system of linear equations A * X = B
-     pure subroutine stdlib_linalg_d_qr(a,q,r,overwrite_a,err)
+     pure subroutine stdlib_linalg_d_qr(a,q,r,overwrite_a,storage,err)
          !> Input matrix a[m,n]
          real(dp),intent(inout),target :: a(:,:)
          !> Orthogonal matrix Q ([m,m], or [m,k] if reduced)
@@ -319,6 +330,8 @@ module stdlib_linalg_qr
          real(dp),intent(out),contiguous,target :: r(:,:)
          !> [optional] Can A data be overwritten and destroyed?
          logical(lk),optional,intent(in) :: overwrite_a
+         !> [optional] Provide pre-allocated workspace, size to be checked with qr_space
+         real(dp),intent(inout),optional,target :: storage(:)
          !> [optional] state return flag. On error if not requested, the code will stop
          type(linalg_state),optional,intent(out) :: err
 
@@ -395,7 +408,16 @@ module stdlib_linalg_qr
 
          if (err0%ok()) then
                      
-             allocate (work(lwork))
+             if (present(storage)) then
+                work => storage
+             else
+                allocate (work(lwork))
+             end if
+             if (.not. size(work,kind=ilp) >= lwork) then
+                 err0 = linalg_state(this,LINALG_ERROR,'insufficient workspace: should be at least ',lwork)
+                 call linalg_error_handling(err0,err)
+                 return
+             end if
              
              ! Compute factorization.
              call geqrf(m,n,amat,m,tau,work,lwork,info)
@@ -429,7 +451,7 @@ module stdlib_linalg_qr
                     
              end if
              
-             deallocate (work)
+             if (.not. present(storage)) deallocate (work)
           
          end if
 
@@ -489,7 +511,7 @@ module stdlib_linalg_qr
      ! Get workspace size for QR operations
      
      ! Compute the solution to a real system of linear equations A * X = B
-     pure subroutine stdlib_linalg_q_qr(a,q,r,overwrite_a,err)
+     pure subroutine stdlib_linalg_q_qr(a,q,r,overwrite_a,storage,err)
          !> Input matrix a[m,n]
          real(qp),intent(inout),target :: a(:,:)
          !> Orthogonal matrix Q ([m,m], or [m,k] if reduced)
@@ -498,6 +520,8 @@ module stdlib_linalg_qr
          real(qp),intent(out),contiguous,target :: r(:,:)
          !> [optional] Can A data be overwritten and destroyed?
          logical(lk),optional,intent(in) :: overwrite_a
+         !> [optional] Provide pre-allocated workspace, size to be checked with qr_space
+         real(qp),intent(inout),optional,target :: storage(:)
          !> [optional] state return flag. On error if not requested, the code will stop
          type(linalg_state),optional,intent(out) :: err
 
@@ -574,7 +598,16 @@ module stdlib_linalg_qr
 
          if (err0%ok()) then
                      
-             allocate (work(lwork))
+             if (present(storage)) then
+                work => storage
+             else
+                allocate (work(lwork))
+             end if
+             if (.not. size(work,kind=ilp) >= lwork) then
+                 err0 = linalg_state(this,LINALG_ERROR,'insufficient workspace: should be at least ',lwork)
+                 call linalg_error_handling(err0,err)
+                 return
+             end if
              
              ! Compute factorization.
              call geqrf(m,n,amat,m,tau,work,lwork,info)
@@ -608,7 +641,7 @@ module stdlib_linalg_qr
                     
              end if
              
-             deallocate (work)
+             if (.not. present(storage)) deallocate (work)
           
          end if
 
@@ -668,7 +701,7 @@ module stdlib_linalg_qr
      ! Get workspace size for QR operations
      
      ! Compute the solution to a real system of linear equations A * X = B
-     pure subroutine stdlib_linalg_c_qr(a,q,r,overwrite_a,err)
+     pure subroutine stdlib_linalg_c_qr(a,q,r,overwrite_a,storage,err)
          !> Input matrix a[m,n]
          complex(sp),intent(inout),target :: a(:,:)
          !> Orthogonal matrix Q ([m,m], or [m,k] if reduced)
@@ -677,6 +710,8 @@ module stdlib_linalg_qr
          complex(sp),intent(out),contiguous,target :: r(:,:)
          !> [optional] Can A data be overwritten and destroyed?
          logical(lk),optional,intent(in) :: overwrite_a
+         !> [optional] Provide pre-allocated workspace, size to be checked with qr_space
+         complex(sp),intent(inout),optional,target :: storage(:)
          !> [optional] state return flag. On error if not requested, the code will stop
          type(linalg_state),optional,intent(out) :: err
 
@@ -753,7 +788,16 @@ module stdlib_linalg_qr
 
          if (err0%ok()) then
                      
-             allocate (work(lwork))
+             if (present(storage)) then
+                work => storage
+             else
+                allocate (work(lwork))
+             end if
+             if (.not. size(work,kind=ilp) >= lwork) then
+                 err0 = linalg_state(this,LINALG_ERROR,'insufficient workspace: should be at least ',lwork)
+                 call linalg_error_handling(err0,err)
+                 return
+             end if
              
              ! Compute factorization.
              call geqrf(m,n,amat,m,tau,work,lwork,info)
@@ -787,7 +831,7 @@ module stdlib_linalg_qr
                     
              end if
              
-             deallocate (work)
+             if (.not. present(storage)) deallocate (work)
           
          end if
 
@@ -847,7 +891,7 @@ module stdlib_linalg_qr
      ! Get workspace size for QR operations
      
      ! Compute the solution to a real system of linear equations A * X = B
-     pure subroutine stdlib_linalg_z_qr(a,q,r,overwrite_a,err)
+     pure subroutine stdlib_linalg_z_qr(a,q,r,overwrite_a,storage,err)
          !> Input matrix a[m,n]
          complex(dp),intent(inout),target :: a(:,:)
          !> Orthogonal matrix Q ([m,m], or [m,k] if reduced)
@@ -856,6 +900,8 @@ module stdlib_linalg_qr
          complex(dp),intent(out),contiguous,target :: r(:,:)
          !> [optional] Can A data be overwritten and destroyed?
          logical(lk),optional,intent(in) :: overwrite_a
+         !> [optional] Provide pre-allocated workspace, size to be checked with qr_space
+         complex(dp),intent(inout),optional,target :: storage(:)
          !> [optional] state return flag. On error if not requested, the code will stop
          type(linalg_state),optional,intent(out) :: err
 
@@ -932,7 +978,16 @@ module stdlib_linalg_qr
 
          if (err0%ok()) then
                      
-             allocate (work(lwork))
+             if (present(storage)) then
+                work => storage
+             else
+                allocate (work(lwork))
+             end if
+             if (.not. size(work,kind=ilp) >= lwork) then
+                 err0 = linalg_state(this,LINALG_ERROR,'insufficient workspace: should be at least ',lwork)
+                 call linalg_error_handling(err0,err)
+                 return
+             end if
              
              ! Compute factorization.
              call geqrf(m,n,amat,m,tau,work,lwork,info)
@@ -966,7 +1021,7 @@ module stdlib_linalg_qr
                     
              end if
              
-             deallocate (work)
+             if (.not. present(storage)) deallocate (work)
           
          end if
 
@@ -1026,7 +1081,7 @@ module stdlib_linalg_qr
      ! Get workspace size for QR operations
      
      ! Compute the solution to a real system of linear equations A * X = B
-     pure subroutine stdlib_linalg_w_qr(a,q,r,overwrite_a,err)
+     pure subroutine stdlib_linalg_w_qr(a,q,r,overwrite_a,storage,err)
          !> Input matrix a[m,n]
          complex(qp),intent(inout),target :: a(:,:)
          !> Orthogonal matrix Q ([m,m], or [m,k] if reduced)
@@ -1035,6 +1090,8 @@ module stdlib_linalg_qr
          complex(qp),intent(out),contiguous,target :: r(:,:)
          !> [optional] Can A data be overwritten and destroyed?
          logical(lk),optional,intent(in) :: overwrite_a
+         !> [optional] Provide pre-allocated workspace, size to be checked with qr_space
+         complex(qp),intent(inout),optional,target :: storage(:)
          !> [optional] state return flag. On error if not requested, the code will stop
          type(linalg_state),optional,intent(out) :: err
 
@@ -1111,7 +1168,16 @@ module stdlib_linalg_qr
 
          if (err0%ok()) then
                      
-             allocate (work(lwork))
+             if (present(storage)) then
+                work => storage
+             else
+                allocate (work(lwork))
+             end if
+             if (.not. size(work,kind=ilp) >= lwork) then
+                 err0 = linalg_state(this,LINALG_ERROR,'insufficient workspace: should be at least ',lwork)
+                 call linalg_error_handling(err0,err)
+                 return
+             end if
              
              ! Compute factorization.
              call geqrf(m,n,amat,m,tau,work,lwork,info)
@@ -1145,7 +1211,7 @@ module stdlib_linalg_qr
                     
              end if
              
-             deallocate (work)
+             if (.not. present(storage)) deallocate (work)
           
          end if
 

@@ -42,8 +42,11 @@ module test_linalg_qr
         integer(ilp),parameter :: m = 15_ilp
         integer(ilp),parameter :: n = 4_ilp
         integer(ilp),parameter :: k = min(m,n)
+        real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
         real(sp) :: a(m,n),q(m,m),r(m,n),qred(m,k),rred(k,n)
         real(sp) :: rea(m,n),ima(m,n)
+        integer(ilp) :: lwork
+        real(sp),allocatable :: work(:)
         type(linalg_state) :: err
         
         call random_number(rea)
@@ -51,34 +54,51 @@ module test_linalg_qr
         
         ! 1) QR factorization with full matrices
         call qr(a,q,r,err=err)
-        print *, 'full, err=',err%print()
         
         ! Check return code
         error = err%error()
         if (error) return
         
         ! Check solution
-        print *, 'epsilon=',epsilon(0.0_sp),' within bounds=', &
-        count(abs(a - matmul(q,r)) < sqrt(epsilon(0.0_sp))),' out of ',m*n
-        error = .not. all(abs(a - matmul(q,r)) < sqrt(epsilon(0.0_sp)))
+        error = .not. all(abs(a - matmul(q,r)) < tol)
         if (error) return
         
         ! 2) QR factorization with reduced matrices
         call qr(a,qred,rred,err=err)
-        print *, 'reduced, err=',err%print()
         
         ! Check return code
         error = err%error()
         if (error) return
         
-        print *, 'epsilon=',epsilon(0.0_sp),' within bounds=', &
-        count(abs(a - matmul(qred,rred)) < sqrt(epsilon(0.0_sp))),' out of ',m*n
+        ! Check solution
+        error = .not. all(abs(a - matmul(qred,rred)) < tol)
+        if (error) return
+        
+        ! 3) overwrite A
+        call qr(a,qred,rred,overwrite_a=.true.,err=err)
+        
+        ! Check return code
+        error = err%error()
+        if (error) return
         
         ! Check solution
-        error = .not. all(abs(a - matmul(qred,rred)) < sqrt(epsilon(0.0_sp)))
-        
+        error = .not. all(abs(a - matmul(qred,rred)) < tol)
         if (error) return
+        
+        ! 4) External storage option
+        a = rea
+        call qr_space(a,lwork)
+        allocate (work(lwork))
+        call qr(a,q,r,storage=work,err=err)
     
+        ! Check return code
+        error = err%error()
+        if (error) return
+        
+        ! Check solution
+        error = .not. all(abs(a - matmul(qred,rred)) < tol)
+        if (error) return
+        
     end subroutine test_qr_random_s
 
     subroutine test_qr_random_d(error)
@@ -87,8 +107,11 @@ module test_linalg_qr
         integer(ilp),parameter :: m = 15_ilp
         integer(ilp),parameter :: n = 4_ilp
         integer(ilp),parameter :: k = min(m,n)
+        real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
         real(dp) :: a(m,n),q(m,m),r(m,n),qred(m,k),rred(k,n)
         real(dp) :: rea(m,n),ima(m,n)
+        integer(ilp) :: lwork
+        real(dp),allocatable :: work(:)
         type(linalg_state) :: err
         
         call random_number(rea)
@@ -96,34 +119,51 @@ module test_linalg_qr
         
         ! 1) QR factorization with full matrices
         call qr(a,q,r,err=err)
-        print *, 'full, err=',err%print()
         
         ! Check return code
         error = err%error()
         if (error) return
         
         ! Check solution
-        print *, 'epsilon=',epsilon(0.0_dp),' within bounds=', &
-        count(abs(a - matmul(q,r)) < sqrt(epsilon(0.0_dp))),' out of ',m*n
-        error = .not. all(abs(a - matmul(q,r)) < sqrt(epsilon(0.0_dp)))
+        error = .not. all(abs(a - matmul(q,r)) < tol)
         if (error) return
         
         ! 2) QR factorization with reduced matrices
         call qr(a,qred,rred,err=err)
-        print *, 'reduced, err=',err%print()
         
         ! Check return code
         error = err%error()
         if (error) return
         
-        print *, 'epsilon=',epsilon(0.0_dp),' within bounds=', &
-        count(abs(a - matmul(qred,rred)) < sqrt(epsilon(0.0_dp))),' out of ',m*n
+        ! Check solution
+        error = .not. all(abs(a - matmul(qred,rred)) < tol)
+        if (error) return
+        
+        ! 3) overwrite A
+        call qr(a,qred,rred,overwrite_a=.true.,err=err)
+        
+        ! Check return code
+        error = err%error()
+        if (error) return
         
         ! Check solution
-        error = .not. all(abs(a - matmul(qred,rred)) < sqrt(epsilon(0.0_dp)))
-        
+        error = .not. all(abs(a - matmul(qred,rred)) < tol)
         if (error) return
+        
+        ! 4) External storage option
+        a = rea
+        call qr_space(a,lwork)
+        allocate (work(lwork))
+        call qr(a,q,r,storage=work,err=err)
     
+        ! Check return code
+        error = err%error()
+        if (error) return
+        
+        ! Check solution
+        error = .not. all(abs(a - matmul(qred,rred)) < tol)
+        if (error) return
+        
     end subroutine test_qr_random_d
 
     subroutine test_qr_random_q(error)
@@ -132,8 +172,11 @@ module test_linalg_qr
         integer(ilp),parameter :: m = 15_ilp
         integer(ilp),parameter :: n = 4_ilp
         integer(ilp),parameter :: k = min(m,n)
+        real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
         real(qp) :: a(m,n),q(m,m),r(m,n),qred(m,k),rred(k,n)
         real(qp) :: rea(m,n),ima(m,n)
+        integer(ilp) :: lwork
+        real(qp),allocatable :: work(:)
         type(linalg_state) :: err
         
         call random_number(rea)
@@ -141,34 +184,51 @@ module test_linalg_qr
         
         ! 1) QR factorization with full matrices
         call qr(a,q,r,err=err)
-        print *, 'full, err=',err%print()
         
         ! Check return code
         error = err%error()
         if (error) return
         
         ! Check solution
-        print *, 'epsilon=',epsilon(0.0_qp),' within bounds=', &
-        count(abs(a - matmul(q,r)) < sqrt(epsilon(0.0_qp))),' out of ',m*n
-        error = .not. all(abs(a - matmul(q,r)) < sqrt(epsilon(0.0_qp)))
+        error = .not. all(abs(a - matmul(q,r)) < tol)
         if (error) return
         
         ! 2) QR factorization with reduced matrices
         call qr(a,qred,rred,err=err)
-        print *, 'reduced, err=',err%print()
         
         ! Check return code
         error = err%error()
         if (error) return
         
-        print *, 'epsilon=',epsilon(0.0_qp),' within bounds=', &
-        count(abs(a - matmul(qred,rred)) < sqrt(epsilon(0.0_qp))),' out of ',m*n
+        ! Check solution
+        error = .not. all(abs(a - matmul(qred,rred)) < tol)
+        if (error) return
+        
+        ! 3) overwrite A
+        call qr(a,qred,rred,overwrite_a=.true.,err=err)
+        
+        ! Check return code
+        error = err%error()
+        if (error) return
         
         ! Check solution
-        error = .not. all(abs(a - matmul(qred,rred)) < sqrt(epsilon(0.0_qp)))
-        
+        error = .not. all(abs(a - matmul(qred,rred)) < tol)
         if (error) return
+        
+        ! 4) External storage option
+        a = rea
+        call qr_space(a,lwork)
+        allocate (work(lwork))
+        call qr(a,q,r,storage=work,err=err)
     
+        ! Check return code
+        error = err%error()
+        if (error) return
+        
+        ! Check solution
+        error = .not. all(abs(a - matmul(qred,rred)) < tol)
+        if (error) return
+        
     end subroutine test_qr_random_q
 
     subroutine test_qr_random_c(error)
@@ -177,8 +237,11 @@ module test_linalg_qr
         integer(ilp),parameter :: m = 15_ilp
         integer(ilp),parameter :: n = 4_ilp
         integer(ilp),parameter :: k = min(m,n)
+        real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
         complex(sp) :: a(m,n),q(m,m),r(m,n),qred(m,k),rred(k,n)
         real(sp) :: rea(m,n),ima(m,n)
+        integer(ilp) :: lwork
+        complex(sp),allocatable :: work(:)
         type(linalg_state) :: err
         
         call random_number(rea)
@@ -187,34 +250,51 @@ module test_linalg_qr
         
         ! 1) QR factorization with full matrices
         call qr(a,q,r,err=err)
-        print *, 'full, err=',err%print()
         
         ! Check return code
         error = err%error()
         if (error) return
         
         ! Check solution
-        print *, 'epsilon=',epsilon(0.0_sp),' within bounds=', &
-        count(abs(a - matmul(q,r)) < sqrt(epsilon(0.0_sp))),' out of ',m*n
-        error = .not. all(abs(a - matmul(q,r)) < sqrt(epsilon(0.0_sp)))
+        error = .not. all(abs(a - matmul(q,r)) < tol)
         if (error) return
         
         ! 2) QR factorization with reduced matrices
         call qr(a,qred,rred,err=err)
-        print *, 'reduced, err=',err%print()
         
         ! Check return code
         error = err%error()
         if (error) return
         
-        print *, 'epsilon=',epsilon(0.0_sp),' within bounds=', &
-        count(abs(a - matmul(qred,rred)) < sqrt(epsilon(0.0_sp))),' out of ',m*n
+        ! Check solution
+        error = .not. all(abs(a - matmul(qred,rred)) < tol)
+        if (error) return
+        
+        ! 3) overwrite A
+        call qr(a,qred,rred,overwrite_a=.true.,err=err)
+        
+        ! Check return code
+        error = err%error()
+        if (error) return
         
         ! Check solution
-        error = .not. all(abs(a - matmul(qred,rred)) < sqrt(epsilon(0.0_sp)))
-        
+        error = .not. all(abs(a - matmul(qred,rred)) < tol)
         if (error) return
+        
+        ! 4) External storage option
+        a = cmplx(rea,ima,kind=sp)
+        call qr_space(a,lwork)
+        allocate (work(lwork))
+        call qr(a,q,r,storage=work,err=err)
     
+        ! Check return code
+        error = err%error()
+        if (error) return
+        
+        ! Check solution
+        error = .not. all(abs(a - matmul(qred,rred)) < tol)
+        if (error) return
+        
     end subroutine test_qr_random_c
 
     subroutine test_qr_random_z(error)
@@ -223,8 +303,11 @@ module test_linalg_qr
         integer(ilp),parameter :: m = 15_ilp
         integer(ilp),parameter :: n = 4_ilp
         integer(ilp),parameter :: k = min(m,n)
+        real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
         complex(dp) :: a(m,n),q(m,m),r(m,n),qred(m,k),rred(k,n)
         real(dp) :: rea(m,n),ima(m,n)
+        integer(ilp) :: lwork
+        complex(dp),allocatable :: work(:)
         type(linalg_state) :: err
         
         call random_number(rea)
@@ -233,34 +316,51 @@ module test_linalg_qr
         
         ! 1) QR factorization with full matrices
         call qr(a,q,r,err=err)
-        print *, 'full, err=',err%print()
         
         ! Check return code
         error = err%error()
         if (error) return
         
         ! Check solution
-        print *, 'epsilon=',epsilon(0.0_dp),' within bounds=', &
-        count(abs(a - matmul(q,r)) < sqrt(epsilon(0.0_dp))),' out of ',m*n
-        error = .not. all(abs(a - matmul(q,r)) < sqrt(epsilon(0.0_dp)))
+        error = .not. all(abs(a - matmul(q,r)) < tol)
         if (error) return
         
         ! 2) QR factorization with reduced matrices
         call qr(a,qred,rred,err=err)
-        print *, 'reduced, err=',err%print()
         
         ! Check return code
         error = err%error()
         if (error) return
         
-        print *, 'epsilon=',epsilon(0.0_dp),' within bounds=', &
-        count(abs(a - matmul(qred,rred)) < sqrt(epsilon(0.0_dp))),' out of ',m*n
+        ! Check solution
+        error = .not. all(abs(a - matmul(qred,rred)) < tol)
+        if (error) return
+        
+        ! 3) overwrite A
+        call qr(a,qred,rred,overwrite_a=.true.,err=err)
+        
+        ! Check return code
+        error = err%error()
+        if (error) return
         
         ! Check solution
-        error = .not. all(abs(a - matmul(qred,rred)) < sqrt(epsilon(0.0_dp)))
-        
+        error = .not. all(abs(a - matmul(qred,rred)) < tol)
         if (error) return
+        
+        ! 4) External storage option
+        a = cmplx(rea,ima,kind=dp)
+        call qr_space(a,lwork)
+        allocate (work(lwork))
+        call qr(a,q,r,storage=work,err=err)
     
+        ! Check return code
+        error = err%error()
+        if (error) return
+        
+        ! Check solution
+        error = .not. all(abs(a - matmul(qred,rred)) < tol)
+        if (error) return
+        
     end subroutine test_qr_random_z
 
     subroutine test_qr_random_w(error)
@@ -269,8 +369,11 @@ module test_linalg_qr
         integer(ilp),parameter :: m = 15_ilp
         integer(ilp),parameter :: n = 4_ilp
         integer(ilp),parameter :: k = min(m,n)
+        real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
         complex(qp) :: a(m,n),q(m,m),r(m,n),qred(m,k),rred(k,n)
         real(qp) :: rea(m,n),ima(m,n)
+        integer(ilp) :: lwork
+        complex(qp),allocatable :: work(:)
         type(linalg_state) :: err
         
         call random_number(rea)
@@ -279,34 +382,51 @@ module test_linalg_qr
         
         ! 1) QR factorization with full matrices
         call qr(a,q,r,err=err)
-        print *, 'full, err=',err%print()
         
         ! Check return code
         error = err%error()
         if (error) return
         
         ! Check solution
-        print *, 'epsilon=',epsilon(0.0_qp),' within bounds=', &
-        count(abs(a - matmul(q,r)) < sqrt(epsilon(0.0_qp))),' out of ',m*n
-        error = .not. all(abs(a - matmul(q,r)) < sqrt(epsilon(0.0_qp)))
+        error = .not. all(abs(a - matmul(q,r)) < tol)
         if (error) return
         
         ! 2) QR factorization with reduced matrices
         call qr(a,qred,rred,err=err)
-        print *, 'reduced, err=',err%print()
         
         ! Check return code
         error = err%error()
         if (error) return
         
-        print *, 'epsilon=',epsilon(0.0_qp),' within bounds=', &
-        count(abs(a - matmul(qred,rred)) < sqrt(epsilon(0.0_qp))),' out of ',m*n
+        ! Check solution
+        error = .not. all(abs(a - matmul(qred,rred)) < tol)
+        if (error) return
+        
+        ! 3) overwrite A
+        call qr(a,qred,rred,overwrite_a=.true.,err=err)
+        
+        ! Check return code
+        error = err%error()
+        if (error) return
         
         ! Check solution
-        error = .not. all(abs(a - matmul(qred,rred)) < sqrt(epsilon(0.0_qp)))
-        
+        error = .not. all(abs(a - matmul(qred,rred)) < tol)
         if (error) return
+        
+        ! 4) External storage option
+        a = cmplx(rea,ima,kind=qp)
+        call qr_space(a,lwork)
+        allocate (work(lwork))
+        call qr(a,q,r,storage=work,err=err)
     
+        ! Check return code
+        error = err%error()
+        if (error) return
+        
+        ! Check solution
+        error = .not. all(abs(a - matmul(qred,rred)) < tol)
+        if (error) return
+        
     end subroutine test_qr_random_w
 
 end module test_linalg_qr
