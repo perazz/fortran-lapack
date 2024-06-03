@@ -18,6 +18,8 @@ Procedure   | Type | Description | Optional arguments
 `eigh(A,lambda)` | subroutine | Eigenproblem of symmetric or hermitianmatrix $A$ | `eigh(A,lambda,vector,upper_a,overwrite_a,err)`: optional output eigenvectors 
 `diag(n,source)` | function | Diagonal matrix from scalar input value | `diag(n,source,err)`: Optional error handler
 `diag(source)` | function | Diagonal matrix from array input values | `diag(source,err)`: Optional error handler
+`qr(A,Q,R)` | subroutine | QR factorization | `qr(A,Q,R,storage=work,err=err)`: Optional pre-allocated working storage, error handler
+`qr_space(A,lwork)` | subroutine | QR Working space size | `qr_space(A,lwork,err)`: Optional error handler
 
 All procedures work with all types (`real`, `complex`) and kinds (32, 64, 128-bit floats).
 

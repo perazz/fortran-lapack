@@ -10,6 +10,7 @@ module stdlib_linalg_interface
      use stdlib_linalg_state
      use stdlib_linalg_svd
      use stdlib_linalg_eig
+     use stdlib_linalg_qr
      implicit none(type,external)
      public
 

@@ -116,7 +116,7 @@ module stdlib_linalg_solve
          ! Process output
          call handle_gesv_info(info,lda,n,nrhs,err0)
 
-         if (.not. copy_a) deallocate (amat)
+         if (copy_a) deallocate (amat)
 
          ! Process output and return
 1        call linalg_error_handling(err0,err)
@@ -183,7 +183,7 @@ module stdlib_linalg_solve
          ! Process output
          call handle_gesv_info(info,lda,n,nrhs,err0)
 
-         if (.not. copy_a) deallocate (amat)
+         if (copy_a) deallocate (amat)
 
          ! Process output and return
 1        call linalg_error_handling(err0,err)
@@ -250,7 +250,7 @@ module stdlib_linalg_solve
          ! Process output
          call handle_gesv_info(info,lda,n,nrhs,err0)
 
-         if (.not. copy_a) deallocate (amat)
+         if (copy_a) deallocate (amat)
 
          ! Process output and return
 1        call linalg_error_handling(err0,err)
@@ -317,7 +317,7 @@ module stdlib_linalg_solve
          ! Process output
          call handle_gesv_info(info,lda,n,nrhs,err0)
 
-         if (.not. copy_a) deallocate (amat)
+         if (copy_a) deallocate (amat)
 
          ! Process output and return
 1        call linalg_error_handling(err0,err)
@@ -384,7 +384,7 @@ module stdlib_linalg_solve
          ! Process output
          call handle_gesv_info(info,lda,n,nrhs,err0)
 
-         if (.not. copy_a) deallocate (amat)
+         if (copy_a) deallocate (amat)
 
          ! Process output and return
 1        call linalg_error_handling(err0,err)
@@ -451,7 +451,7 @@ module stdlib_linalg_solve
          ! Process output
          call handle_gesv_info(info,lda,n,nrhs,err0)
 
-         if (.not. copy_a) deallocate (amat)
+         if (copy_a) deallocate (amat)
 
          ! Process output and return
 1        call linalg_error_handling(err0,err)
@@ -518,7 +518,7 @@ module stdlib_linalg_solve
          ! Process output
          call handle_gesv_info(info,lda,n,nrhs,err0)
 
-         if (.not. copy_a) deallocate (amat)
+         if (copy_a) deallocate (amat)
 
          ! Process output and return
 1        call linalg_error_handling(err0,err)
@@ -585,7 +585,7 @@ module stdlib_linalg_solve
          ! Process output
          call handle_gesv_info(info,lda,n,nrhs,err0)
 
-         if (.not. copy_a) deallocate (amat)
+         if (copy_a) deallocate (amat)
 
          ! Process output and return
 1        call linalg_error_handling(err0,err)
@@ -652,7 +652,7 @@ module stdlib_linalg_solve
          ! Process output
          call handle_gesv_info(info,lda,n,nrhs,err0)
 
-         if (.not. copy_a) deallocate (amat)
+         if (copy_a) deallocate (amat)
 
          ! Process output and return
 1        call linalg_error_handling(err0,err)
@@ -719,7 +719,7 @@ module stdlib_linalg_solve
          ! Process output
          call handle_gesv_info(info,lda,n,nrhs,err0)
 
-         if (.not. copy_a) deallocate (amat)
+         if (copy_a) deallocate (amat)
 
          ! Process output and return
 1        call linalg_error_handling(err0,err)
@@ -786,7 +786,7 @@ module stdlib_linalg_solve
          ! Process output
          call handle_gesv_info(info,lda,n,nrhs,err0)
 
-         if (.not. copy_a) deallocate (amat)
+         if (copy_a) deallocate (amat)
 
          ! Process output and return
 1        call linalg_error_handling(err0,err)
@@ -853,7 +853,7 @@ module stdlib_linalg_solve
          ! Process output
          call handle_gesv_info(info,lda,n,nrhs,err0)
 
-         if (.not. copy_a) deallocate (amat)
+         if (copy_a) deallocate (amat)
 
          ! Process output and return
 1        call linalg_error_handling(err0,err)

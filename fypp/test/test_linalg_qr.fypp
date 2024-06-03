@@ -1,0 +1,112 @@
+#:include "common.fypp"
+! Test QR factorization 
+module test_linalg_qr
+    use stdlib_linalg_interface
+
+    implicit none (type,external)
+
+    contains
+
+    !> SVD tests
+    subroutine test_qr(error)
+        logical, intent(out) :: error
+
+        real :: t0,t1
+
+        call cpu_time(t0)
+
+        #:for rk,rt,ri in ALL_KINDS_TYPES
+        call test_qr_random_${ri}$(error)
+        if (error) return
+        #: endfor
+
+        call cpu_time(t1)
+
+        print 1, 1000*(t1-t0), merge('SUCCESS','ERROR  ',.not.error)
+
+        1 format('QR tests completed in ',f9.4,' milliseconds, result=',a)
+
+    end subroutine test_qr
+
+    !> QR factorization of a random matrix
+    #:for rk,rt,ri in ALL_KINDS_TYPES
+    subroutine test_qr_random_${ri}$(error)
+        logical,intent(out) :: error
+
+        integer(ilp), parameter :: m   = 15_ilp
+        integer(ilp), parameter :: n   =  4_ilp
+        integer(ilp), parameter :: k   = min(m,n)
+        real(${rk}$), parameter :: tol = 10*sqrt(epsilon(0.0_${rk}$))
+        ${rt}$ :: a(m,n),q(m,m),r(m,n),qred(m,k),rred(k,n)
+        real(${rk}$) :: rea(m,n),ima(m,n)
+        integer(ilp) :: lwork
+        ${rt}$, allocatable :: work(:)
+        type(linalg_state) :: err
+        
+        call random_number(rea)
+        #:if rt.startswith('complex')
+        call random_number(ima)
+        a = cmplx(rea,ima,kind=${rk}$)
+        #:else
+        a = rea
+        #:endif
+        
+        ! 1) QR factorization with full matrices
+        call qr(a,q,r,err=err)
+        
+        ! Check return code
+        error = err%error()
+        if (error) return
+        
+        ! Check solution
+        error = .not. all(abs(a-matmul(q,r))<tol)
+        if (error) return
+        
+        ! 2) QR factorization with reduced matrices
+        call qr(a,qred,rred,err=err)
+        
+        ! Check return code
+        error = err%error()
+        if (error) return
+        
+        ! Check solution
+        error = .not. all(abs(a-matmul(qred,rred))<tol)        
+        if (error) return 
+        
+        ! 3) overwrite A
+        call qr(a,qred,rred,overwrite_a=.true.,err=err)
+        
+        ! Check return code
+        error = err%error()
+        if (error) return
+        
+        ! Check solution
+        error = .not. all(abs(a-matmul(qred,rred))<tol)        
+        if (error) return         
+        
+        ! 4) External storage option   
+        #:if rt.startswith('complex')
+        a = cmplx(rea,ima,kind=${rk}$)
+        #:else
+        a = rea
+        #:endif        
+        call qr_space(a,lwork)
+        allocate(work(lwork))
+        call qr(a,q,r,storage=work,err=err)
+    
+        ! Check return code
+        error = err%error()
+        if (error) return
+        
+        ! Check solution
+        error = .not. all(abs(a-matmul(qred,rred))<tol)        
+        if (error) return     
+        
+    end subroutine test_qr_random_${ri}$
+
+    #:endfor
+
+
+end module test_linalg_qr
+
+
