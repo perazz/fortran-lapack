@@ -16,7 +16,7 @@ module test_linalg_cholesky
         call cpu_time(t0)
 
         #:for rk,rt,ri in ALL_KINDS_TYPES
-        call test_cholesky_random_${ri}$(error)
+        call test_cholesky_${ri}$(error)
         if (error) return
         #: endfor
 
@@ -24,7 +24,7 @@ module test_linalg_cholesky
 
         print 1, 1000*(t1-t0), merge('SUCCESS','ERROR  ',.not.error)
 
-        1 format('QR tests completed in ',f9.4,' milliseconds, result=',a)
+        1 format('Cholesky tests completed in ',f9.4,' milliseconds, result=',a)
 
     end subroutine test_cholesky
 

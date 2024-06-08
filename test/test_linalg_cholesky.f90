@@ -14,17 +14,17 @@ module test_linalg_cholesky
 
         call cpu_time(t0)
 
-        call test_cholesky_random_s(error)
+        call test_cholesky_s(error)
         if (error) return
-        call test_cholesky_random_d(error)
+        call test_cholesky_d(error)
         if (error) return
-        call test_cholesky_random_q(error)
+        call test_cholesky_q(error)
         if (error) return
-        call test_cholesky_random_c(error)
+        call test_cholesky_c(error)
         if (error) return
-        call test_cholesky_random_z(error)
+        call test_cholesky_z(error)
         if (error) return
-        call test_cholesky_random_w(error)
+        call test_cholesky_w(error)
         if (error) return
 
         call cpu_time(t1)

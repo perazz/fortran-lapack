@@ -11,6 +11,7 @@ module stdlib_linalg_interface
      use stdlib_linalg_svd
      use stdlib_linalg_eig
      use stdlib_linalg_qr
+     use stdlib_linalg_cholesky
      implicit none(type,external)
      public
 
