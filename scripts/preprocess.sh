@@ -3,7 +3,7 @@
 #
 # preprocess linear algebra sources with fypp
 #
-declare -a linalg_sources=("solve" "inverse" "least_squares" "determinant" "eye" "svd" "eigs" "qr")
+declare -a linalg_sources=("solve" "inverse" "least_squares" "determinant" "eye" "svd" "eigs" "qr" "cholesky")
 
 fypp_path="../fypp"
 declare -a operations=("src" "test")
