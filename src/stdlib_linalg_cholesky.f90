@@ -23,11 +23,17 @@ module stdlib_linalg_cholesky
      
      interface cholesky
         module procedure stdlib_linalg_s_cholesky_inplace
+        module procedure stdlib_linalg_s_cholesky
         module procedure stdlib_linalg_d_cholesky_inplace
+        module procedure stdlib_linalg_d_cholesky
         module procedure stdlib_linalg_q_cholesky_inplace
+        module procedure stdlib_linalg_q_cholesky
         module procedure stdlib_linalg_c_cholesky_inplace
+        module procedure stdlib_linalg_c_cholesky
         module procedure stdlib_linalg_z_cholesky_inplace
+        module procedure stdlib_linalg_z_cholesky
         module procedure stdlib_linalg_w_cholesky_inplace
+        module procedure stdlib_linalg_w_cholesky
      end interface cholesky
      
      character(*),parameter :: this = 'cholesky'
@@ -119,6 +125,47 @@ module stdlib_linalg_cholesky
      end subroutine stdlib_linalg_s_cholesky_inplace
 
      ! Compute the Cholesky factorization of a symmetric / Hermitian matrix, A = L*L^T = U^T*U.
+     ! The factorization is returned as a separate matrix
+     pure subroutine stdlib_linalg_s_cholesky(a,c,lower,other_zeroed,err)
+         !> Input matrix a[n,n]
+         real(sp),intent(in) :: a(:,:)
+         !> Output matrix with Cholesky factors c[n,n]
+         real(sp),intent(out) :: c(:,:)
+         !> [optional] is the lower or upper triangular factor required? Default = lower
+         logical(lk),optional,intent(in) :: lower
+         !> [optional] should the unused half of the return matrix be zeroed out? Default: yes
+         logical(lk),optional,intent(in) :: other_zeroed
+         !> [optional] state return flag. On error if not requested, the code will stop
+         type(linalg_state),optional,intent(out) :: err
+         
+         type(linalg_state) :: err0
+         integer(ilp) :: lda,n,ldc,nc
+         
+         ! Check C sizes
+         lda = size(a,1,kind=ilp)
+           n = size(a,2,kind=ilp)
+         ldc = size(c,1,kind=ilp)
+          nc = size(c,2,kind=ilp)
+          
+         if (lda < 1 .or. n < 1 .or. lda < n .or. ldc < n .or. nc < n) then
+            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix sizes: a=', [lda,n],' c=', [ldc,nc])
+        
+         else
+            
+            ! Copy data in
+            c(:n,:n) = a(:n,:n)
+            
+            ! Get cholesky factors
+            call stdlib_linalg_s_cholesky_inplace(c,lower,other_zeroed,err0)
+            
+         end if
+         
+         ! Process output and return
+         call linalg_error_handling(err0,err)
+         
+     end subroutine stdlib_linalg_s_cholesky
+
+     ! Compute the Cholesky factorization of a symmetric / Hermitian matrix, A = L*L^T = U^T*U.
      ! The factorization is returned in-place, overwriting matrix A
      pure subroutine stdlib_linalg_d_cholesky_inplace(a,lower,other_zeroed,err)
          !> Input matrix a[m,n]
@@ -176,6 +223,47 @@ module stdlib_linalg_cholesky
          call linalg_error_handling(err0,err)
 
      end subroutine stdlib_linalg_d_cholesky_inplace
+
+     ! Compute the Cholesky factorization of a symmetric / Hermitian matrix, A = L*L^T = U^T*U.
+     ! The factorization is returned as a separate matrix
+     pure subroutine stdlib_linalg_d_cholesky(a,c,lower,other_zeroed,err)
+         !> Input matrix a[n,n]
+         real(dp),intent(in) :: a(:,:)
+         !> Output matrix with Cholesky factors c[n,n]
+         real(dp),intent(out) :: c(:,:)
+         !> [optional] is the lower or upper triangular factor required? Default = lower
+         logical(lk),optional,intent(in) :: lower
+         !> [optional] should the unused half of the return matrix be zeroed out? Default: yes
+         logical(lk),optional,intent(in) :: other_zeroed
+         !> [optional] state return flag. On error if not requested, the code will stop
+         type(linalg_state),optional,intent(out) :: err
+         
+         type(linalg_state) :: err0
+         integer(ilp) :: lda,n,ldc,nc
+         
+         ! Check C sizes
+         lda = size(a,1,kind=ilp)
+           n = size(a,2,kind=ilp)
+         ldc = size(c,1,kind=ilp)
+          nc = size(c,2,kind=ilp)
+          
+         if (lda < 1 .or. n < 1 .or. lda < n .or. ldc < n .or. nc < n) then
+            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix sizes: a=', [lda,n],' c=', [ldc,nc])
+        
+         else
+            
+            ! Copy data in
+            c(:n,:n) = a(:n,:n)
+            
+            ! Get cholesky factors
+            call stdlib_linalg_d_cholesky_inplace(c,lower,other_zeroed,err0)
+            
+         end if
+         
+         ! Process output and return
+         call linalg_error_handling(err0,err)
+         
+     end subroutine stdlib_linalg_d_cholesky
 
      ! Compute the Cholesky factorization of a symmetric / Hermitian matrix, A = L*L^T = U^T*U.
      ! The factorization is returned in-place, overwriting matrix A
@@ -237,6 +325,47 @@ module stdlib_linalg_cholesky
      end subroutine stdlib_linalg_q_cholesky_inplace
 
      ! Compute the Cholesky factorization of a symmetric / Hermitian matrix, A = L*L^T = U^T*U.
+     ! The factorization is returned as a separate matrix
+     pure subroutine stdlib_linalg_q_cholesky(a,c,lower,other_zeroed,err)
+         !> Input matrix a[n,n]
+         real(qp),intent(in) :: a(:,:)
+         !> Output matrix with Cholesky factors c[n,n]
+         real(qp),intent(out) :: c(:,:)
+         !> [optional] is the lower or upper triangular factor required? Default = lower
+         logical(lk),optional,intent(in) :: lower
+         !> [optional] should the unused half of the return matrix be zeroed out? Default: yes
+         logical(lk),optional,intent(in) :: other_zeroed
+         !> [optional] state return flag. On error if not requested, the code will stop
+         type(linalg_state),optional,intent(out) :: err
+         
+         type(linalg_state) :: err0
+         integer(ilp) :: lda,n,ldc,nc
+         
+         ! Check C sizes
+         lda = size(a,1,kind=ilp)
+           n = size(a,2,kind=ilp)
+         ldc = size(c,1,kind=ilp)
+          nc = size(c,2,kind=ilp)
+          
+         if (lda < 1 .or. n < 1 .or. lda < n .or. ldc < n .or. nc < n) then
+            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix sizes: a=', [lda,n],' c=', [ldc,nc])
+        
+         else
+            
+            ! Copy data in
+            c(:n,:n) = a(:n,:n)
+            
+            ! Get cholesky factors
+            call stdlib_linalg_q_cholesky_inplace(c,lower,other_zeroed,err0)
+            
+         end if
+         
+         ! Process output and return
+         call linalg_error_handling(err0,err)
+         
+     end subroutine stdlib_linalg_q_cholesky
+
+     ! Compute the Cholesky factorization of a symmetric / Hermitian matrix, A = L*L^T = U^T*U.
      ! The factorization is returned in-place, overwriting matrix A
      pure subroutine stdlib_linalg_c_cholesky_inplace(a,lower,other_zeroed,err)
          !> Input matrix a[m,n]
@@ -294,6 +423,47 @@ module stdlib_linalg_cholesky
          call linalg_error_handling(err0,err)
 
      end subroutine stdlib_linalg_c_cholesky_inplace
+
+     ! Compute the Cholesky factorization of a symmetric / Hermitian matrix, A = L*L^T = U^T*U.
+     ! The factorization is returned as a separate matrix
+     pure subroutine stdlib_linalg_c_cholesky(a,c,lower,other_zeroed,err)
+         !> Input matrix a[n,n]
+         complex(sp),intent(in) :: a(:,:)
+         !> Output matrix with Cholesky factors c[n,n]
+         complex(sp),intent(out) :: c(:,:)
+         !> [optional] is the lower or upper triangular factor required? Default = lower
+         logical(lk),optional,intent(in) :: lower
+         !> [optional] should the unused half of the return matrix be zeroed out? Default: yes
+         logical(lk),optional,intent(in) :: other_zeroed
+         !> [optional] state return flag. On error if not requested, the code will stop
+         type(linalg_state),optional,intent(out) :: err
+         
+         type(linalg_state) :: err0
+         integer(ilp) :: lda,n,ldc,nc
+         
+         ! Check C sizes
+         lda = size(a,1,kind=ilp)
+           n = size(a,2,kind=ilp)
+         ldc = size(c,1,kind=ilp)
+          nc = size(c,2,kind=ilp)
+          
+         if (lda < 1 .or. n < 1 .or. lda < n .or. ldc < n .or. nc < n) then
+            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix sizes: a=', [lda,n],' c=', [ldc,nc])
+        
+         else
+            
+            ! Copy data in
+            c(:n,:n) = a(:n,:n)
+            
+            ! Get cholesky factors
+            call stdlib_linalg_c_cholesky_inplace(c,lower,other_zeroed,err0)
+            
+         end if
+         
+         ! Process output and return
+         call linalg_error_handling(err0,err)
+         
+     end subroutine stdlib_linalg_c_cholesky
 
      ! Compute the Cholesky factorization of a symmetric / Hermitian matrix, A = L*L^T = U^T*U.
      ! The factorization is returned in-place, overwriting matrix A
@@ -355,6 +525,47 @@ module stdlib_linalg_cholesky
      end subroutine stdlib_linalg_z_cholesky_inplace
 
      ! Compute the Cholesky factorization of a symmetric / Hermitian matrix, A = L*L^T = U^T*U.
+     ! The factorization is returned as a separate matrix
+     pure subroutine stdlib_linalg_z_cholesky(a,c,lower,other_zeroed,err)
+         !> Input matrix a[n,n]
+         complex(dp),intent(in) :: a(:,:)
+         !> Output matrix with Cholesky factors c[n,n]
+         complex(dp),intent(out) :: c(:,:)
+         !> [optional] is the lower or upper triangular factor required? Default = lower
+         logical(lk),optional,intent(in) :: lower
+         !> [optional] should the unused half of the return matrix be zeroed out? Default: yes
+         logical(lk),optional,intent(in) :: other_zeroed
+         !> [optional] state return flag. On error if not requested, the code will stop
+         type(linalg_state),optional,intent(out) :: err
+         
+         type(linalg_state) :: err0
+         integer(ilp) :: lda,n,ldc,nc
+         
+         ! Check C sizes
+         lda = size(a,1,kind=ilp)
+           n = size(a,2,kind=ilp)
+         ldc = size(c,1,kind=ilp)
+          nc = size(c,2,kind=ilp)
+          
+         if (lda < 1 .or. n < 1 .or. lda < n .or. ldc < n .or. nc < n) then
+            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix sizes: a=', [lda,n],' c=', [ldc,nc])
+        
+         else
+            
+            ! Copy data in
+            c(:n,:n) = a(:n,:n)
+            
+            ! Get cholesky factors
+            call stdlib_linalg_z_cholesky_inplace(c,lower,other_zeroed,err0)
+            
+         end if
+         
+         ! Process output and return
+         call linalg_error_handling(err0,err)
+         
+     end subroutine stdlib_linalg_z_cholesky
+
+     ! Compute the Cholesky factorization of a symmetric / Hermitian matrix, A = L*L^T = U^T*U.
      ! The factorization is returned in-place, overwriting matrix A
      pure subroutine stdlib_linalg_w_cholesky_inplace(a,lower,other_zeroed,err)
          !> Input matrix a[m,n]
@@ -412,5 +623,46 @@ module stdlib_linalg_cholesky
          call linalg_error_handling(err0,err)
 
      end subroutine stdlib_linalg_w_cholesky_inplace
+
+     ! Compute the Cholesky factorization of a symmetric / Hermitian matrix, A = L*L^T = U^T*U.
+     ! The factorization is returned as a separate matrix
+     pure subroutine stdlib_linalg_w_cholesky(a,c,lower,other_zeroed,err)
+         !> Input matrix a[n,n]
+         complex(qp),intent(in) :: a(:,:)
+         !> Output matrix with Cholesky factors c[n,n]
+         complex(qp),intent(out) :: c(:,:)
+         !> [optional] is the lower or upper triangular factor required? Default = lower
+         logical(lk),optional,intent(in) :: lower
+         !> [optional] should the unused half of the return matrix be zeroed out? Default: yes
+         logical(lk),optional,intent(in) :: other_zeroed
+         !> [optional] state return flag. On error if not requested, the code will stop
+         type(linalg_state),optional,intent(out) :: err
+         
+         type(linalg_state) :: err0
+         integer(ilp) :: lda,n,ldc,nc
+         
+         ! Check C sizes
+         lda = size(a,1,kind=ilp)
+           n = size(a,2,kind=ilp)
+         ldc = size(c,1,kind=ilp)
+          nc = size(c,2,kind=ilp)
+          
+         if (lda < 1 .or. n < 1 .or. lda < n .or. ldc < n .or. nc < n) then
+            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix sizes: a=', [lda,n],' c=', [ldc,nc])
+        
+         else
+            
+            ! Copy data in
+            c(:n,:n) = a(:n,:n)
+            
+            ! Get cholesky factors
+            call stdlib_linalg_w_cholesky_inplace(c,lower,other_zeroed,err0)
+            
+         end if
+         
+         ! Process output and return
+         call linalg_error_handling(err0,err)
+         
+     end subroutine stdlib_linalg_w_cholesky
 
 end module stdlib_linalg_cholesky

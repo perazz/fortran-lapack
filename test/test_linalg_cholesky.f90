@@ -36,398 +36,191 @@ module test_linalg_cholesky
     end subroutine test_cholesky
 
     !> QR factorization of a random matrix
-    subroutine test_cholesky_random_s(error)
+    subroutine test_cholesky_s(error)
         logical,intent(out) :: error
 
-        integer(ilp),parameter :: m = 15_ilp
-        integer(ilp),parameter :: n = 4_ilp
-        integer(ilp),parameter :: k = min(m,n)
+        integer(ilp),parameter :: n = 3_ilp
         real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
-        real(sp) :: a(m,n),q(m,m),r(m,n),qred(m,k),rred(k,n)
-        real(sp) :: rea(m,n),ima(m,n)
-        integer(ilp) :: lwork
-        real(sp),allocatable :: work(:)
+        real(sp) :: a(n,n),l(n,n)
         type(linalg_state) :: err
         
-        call random_number(rea)
-        a = rea
+        ! Set real matrix
+        a(1,:) = [6,15,55]
+        a(2,:) = [15,55,225]
+        a(3,:) = [55,225,979]
+        
+        ! Set result (lower factor)
+        l(1,:) = [2.4495_sp,0.0000_sp,0.0000_sp]
+        l(2,:) = [6.1237_sp,4.1833_sp,0.0000_sp]
+        l(3,:) = [22.4537_sp,20.9165_sp,6.1101_sp]
         
         ! 1) QR factorization with full matrices
-        call qr(a,q,r,err=err)
+        call cholesky(a,l,other_zeroed=.true.,err=err)
         
         ! Check return code
         error = err%error()
         if (error) return
         
         ! Check solution
-        error = .not. all(abs(a - matmul(q,r)) < tol)
-        if (error) return
+        !error = .not. all(abs(a-matmul(q,r))<tol)
+        !if (error) return
         
-        ! 2) QR factorization with reduced matrices
-        call qr(a,qred,rred,err=err)
-        
-        ! Check return code
-        error = err%error()
-        if (error) return
-        
-        ! Check solution
-        error = .not. all(abs(a - matmul(qred,rred)) < tol)
-        if (error) return
-        
-        ! 3) overwrite A
-        call qr(a,qred,rred,overwrite_a=.true.,err=err)
-        
-        ! Check return code
-        error = err%error()
-        if (error) return
-        
-        ! Check solution
-        error = .not. all(abs(a - matmul(qred,rred)) < tol)
-        if (error) return
-        
-        ! 4) External storage option
-        a = rea
-        call qr_space(a,lwork)
-        allocate (work(lwork))
-        call qr(a,q,r,storage=work,err=err)
-    
-        ! Check return code
-        error = err%error()
-        if (error) return
-        
-        ! Check solution
-        error = .not. all(abs(a - matmul(qred,rred)) < tol)
-        if (error) return
-        
-    end subroutine test_cholesky_random_s
+    end subroutine test_cholesky_s
 
-    subroutine test_cholesky_random_d(error)
+    subroutine test_cholesky_d(error)
         logical,intent(out) :: error
 
-        integer(ilp),parameter :: m = 15_ilp
-        integer(ilp),parameter :: n = 4_ilp
-        integer(ilp),parameter :: k = min(m,n)
+        integer(ilp),parameter :: n = 3_ilp
         real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
-        real(dp) :: a(m,n),q(m,m),r(m,n),qred(m,k),rred(k,n)
-        real(dp) :: rea(m,n),ima(m,n)
-        integer(ilp) :: lwork
-        real(dp),allocatable :: work(:)
+        real(dp) :: a(n,n),l(n,n)
         type(linalg_state) :: err
         
-        call random_number(rea)
-        a = rea
+        ! Set real matrix
+        a(1,:) = [6,15,55]
+        a(2,:) = [15,55,225]
+        a(3,:) = [55,225,979]
+        
+        ! Set result (lower factor)
+        l(1,:) = [2.4495_dp,0.0000_dp,0.0000_dp]
+        l(2,:) = [6.1237_dp,4.1833_dp,0.0000_dp]
+        l(3,:) = [22.4537_dp,20.9165_dp,6.1101_dp]
         
         ! 1) QR factorization with full matrices
-        call qr(a,q,r,err=err)
+        call cholesky(a,l,other_zeroed=.true.,err=err)
         
         ! Check return code
         error = err%error()
         if (error) return
         
         ! Check solution
-        error = .not. all(abs(a - matmul(q,r)) < tol)
-        if (error) return
+        !error = .not. all(abs(a-matmul(q,r))<tol)
+        !if (error) return
         
-        ! 2) QR factorization with reduced matrices
-        call qr(a,qred,rred,err=err)
-        
-        ! Check return code
-        error = err%error()
-        if (error) return
-        
-        ! Check solution
-        error = .not. all(abs(a - matmul(qred,rred)) < tol)
-        if (error) return
-        
-        ! 3) overwrite A
-        call qr(a,qred,rred,overwrite_a=.true.,err=err)
-        
-        ! Check return code
-        error = err%error()
-        if (error) return
-        
-        ! Check solution
-        error = .not. all(abs(a - matmul(qred,rred)) < tol)
-        if (error) return
-        
-        ! 4) External storage option
-        a = rea
-        call qr_space(a,lwork)
-        allocate (work(lwork))
-        call qr(a,q,r,storage=work,err=err)
-    
-        ! Check return code
-        error = err%error()
-        if (error) return
-        
-        ! Check solution
-        error = .not. all(abs(a - matmul(qred,rred)) < tol)
-        if (error) return
-        
-    end subroutine test_cholesky_random_d
+    end subroutine test_cholesky_d
 
-    subroutine test_cholesky_random_q(error)
+    subroutine test_cholesky_q(error)
         logical,intent(out) :: error
 
-        integer(ilp),parameter :: m = 15_ilp
-        integer(ilp),parameter :: n = 4_ilp
-        integer(ilp),parameter :: k = min(m,n)
+        integer(ilp),parameter :: n = 3_ilp
         real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
-        real(qp) :: a(m,n),q(m,m),r(m,n),qred(m,k),rred(k,n)
-        real(qp) :: rea(m,n),ima(m,n)
-        integer(ilp) :: lwork
-        real(qp),allocatable :: work(:)
+        real(qp) :: a(n,n),l(n,n)
         type(linalg_state) :: err
         
-        call random_number(rea)
-        a = rea
+        ! Set real matrix
+        a(1,:) = [6,15,55]
+        a(2,:) = [15,55,225]
+        a(3,:) = [55,225,979]
+        
+        ! Set result (lower factor)
+        l(1,:) = [2.4495_qp,0.0000_qp,0.0000_qp]
+        l(2,:) = [6.1237_qp,4.1833_qp,0.0000_qp]
+        l(3,:) = [22.4537_qp,20.9165_qp,6.1101_qp]
         
         ! 1) QR factorization with full matrices
-        call qr(a,q,r,err=err)
+        call cholesky(a,l,other_zeroed=.true.,err=err)
         
         ! Check return code
         error = err%error()
         if (error) return
         
         ! Check solution
-        error = .not. all(abs(a - matmul(q,r)) < tol)
-        if (error) return
+        !error = .not. all(abs(a-matmul(q,r))<tol)
+        !if (error) return
         
-        ! 2) QR factorization with reduced matrices
-        call qr(a,qred,rred,err=err)
-        
-        ! Check return code
-        error = err%error()
-        if (error) return
-        
-        ! Check solution
-        error = .not. all(abs(a - matmul(qred,rred)) < tol)
-        if (error) return
-        
-        ! 3) overwrite A
-        call qr(a,qred,rred,overwrite_a=.true.,err=err)
-        
-        ! Check return code
-        error = err%error()
-        if (error) return
-        
-        ! Check solution
-        error = .not. all(abs(a - matmul(qred,rred)) < tol)
-        if (error) return
-        
-        ! 4) External storage option
-        a = rea
-        call qr_space(a,lwork)
-        allocate (work(lwork))
-        call qr(a,q,r,storage=work,err=err)
-    
-        ! Check return code
-        error = err%error()
-        if (error) return
-        
-        ! Check solution
-        error = .not. all(abs(a - matmul(qred,rred)) < tol)
-        if (error) return
-        
-    end subroutine test_cholesky_random_q
+    end subroutine test_cholesky_q
 
-    subroutine test_cholesky_random_c(error)
+    subroutine test_cholesky_c(error)
         logical,intent(out) :: error
 
-        integer(ilp),parameter :: m = 15_ilp
-        integer(ilp),parameter :: n = 4_ilp
-        integer(ilp),parameter :: k = min(m,n)
+        integer(ilp),parameter :: n = 3_ilp
         real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
-        complex(sp) :: a(m,n),q(m,m),r(m,n),qred(m,k),rred(k,n)
-        real(sp) :: rea(m,n),ima(m,n)
-        integer(ilp) :: lwork
-        complex(sp),allocatable :: work(:)
+        complex(sp) :: a(n,n),l(n,n)
         type(linalg_state) :: err
         
-        call random_number(rea)
-        call random_number(ima)
-        a = cmplx(rea,ima,kind=sp)
+        ! Set real matrix
+        a(1,:) = [6,15,55]
+        a(2,:) = [15,55,225]
+        a(3,:) = [55,225,979]
+        
+        ! Set result (lower factor)
+        l(1,:) = [2.4495_sp,0.0000_sp,0.0000_sp]
+        l(2,:) = [6.1237_sp,4.1833_sp,0.0000_sp]
+        l(3,:) = [22.4537_sp,20.9165_sp,6.1101_sp]
         
         ! 1) QR factorization with full matrices
-        call qr(a,q,r,err=err)
+        call cholesky(a,l,other_zeroed=.true.,err=err)
         
         ! Check return code
         error = err%error()
         if (error) return
         
         ! Check solution
-        error = .not. all(abs(a - matmul(q,r)) < tol)
-        if (error) return
+        !error = .not. all(abs(a-matmul(q,r))<tol)
+        !if (error) return
         
-        ! 2) QR factorization with reduced matrices
-        call qr(a,qred,rred,err=err)
-        
-        ! Check return code
-        error = err%error()
-        if (error) return
-        
-        ! Check solution
-        error = .not. all(abs(a - matmul(qred,rred)) < tol)
-        if (error) return
-        
-        ! 3) overwrite A
-        call qr(a,qred,rred,overwrite_a=.true.,err=err)
-        
-        ! Check return code
-        error = err%error()
-        if (error) return
-        
-        ! Check solution
-        error = .not. all(abs(a - matmul(qred,rred)) < tol)
-        if (error) return
-        
-        ! 4) External storage option
-        a = cmplx(rea,ima,kind=sp)
-        call qr_space(a,lwork)
-        allocate (work(lwork))
-        call qr(a,q,r,storage=work,err=err)
-    
-        ! Check return code
-        error = err%error()
-        if (error) return
-        
-        ! Check solution
-        error = .not. all(abs(a - matmul(qred,rred)) < tol)
-        if (error) return
-        
-    end subroutine test_cholesky_random_c
+    end subroutine test_cholesky_c
 
-    subroutine test_cholesky_random_z(error)
+    subroutine test_cholesky_z(error)
         logical,intent(out) :: error
 
-        integer(ilp),parameter :: m = 15_ilp
-        integer(ilp),parameter :: n = 4_ilp
-        integer(ilp),parameter :: k = min(m,n)
+        integer(ilp),parameter :: n = 3_ilp
         real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
-        complex(dp) :: a(m,n),q(m,m),r(m,n),qred(m,k),rred(k,n)
-        real(dp) :: rea(m,n),ima(m,n)
-        integer(ilp) :: lwork
-        complex(dp),allocatable :: work(:)
+        complex(dp) :: a(n,n),l(n,n)
         type(linalg_state) :: err
         
-        call random_number(rea)
-        call random_number(ima)
-        a = cmplx(rea,ima,kind=dp)
+        ! Set real matrix
+        a(1,:) = [6,15,55]
+        a(2,:) = [15,55,225]
+        a(3,:) = [55,225,979]
+        
+        ! Set result (lower factor)
+        l(1,:) = [2.4495_dp,0.0000_dp,0.0000_dp]
+        l(2,:) = [6.1237_dp,4.1833_dp,0.0000_dp]
+        l(3,:) = [22.4537_dp,20.9165_dp,6.1101_dp]
         
         ! 1) QR factorization with full matrices
-        call qr(a,q,r,err=err)
+        call cholesky(a,l,other_zeroed=.true.,err=err)
         
         ! Check return code
         error = err%error()
         if (error) return
         
         ! Check solution
-        error = .not. all(abs(a - matmul(q,r)) < tol)
-        if (error) return
+        !error = .not. all(abs(a-matmul(q,r))<tol)
+        !if (error) return
         
-        ! 2) QR factorization with reduced matrices
-        call qr(a,qred,rred,err=err)
-        
-        ! Check return code
-        error = err%error()
-        if (error) return
-        
-        ! Check solution
-        error = .not. all(abs(a - matmul(qred,rred)) < tol)
-        if (error) return
-        
-        ! 3) overwrite A
-        call qr(a,qred,rred,overwrite_a=.true.,err=err)
-        
-        ! Check return code
-        error = err%error()
-        if (error) return
-        
-        ! Check solution
-        error = .not. all(abs(a - matmul(qred,rred)) < tol)
-        if (error) return
-        
-        ! 4) External storage option
-        a = cmplx(rea,ima,kind=dp)
-        call qr_space(a,lwork)
-        allocate (work(lwork))
-        call qr(a,q,r,storage=work,err=err)
-    
-        ! Check return code
-        error = err%error()
-        if (error) return
-        
-        ! Check solution
-        error = .not. all(abs(a - matmul(qred,rred)) < tol)
-        if (error) return
-        
-    end subroutine test_cholesky_random_z
+    end subroutine test_cholesky_z
 
-    subroutine test_cholesky_random_w(error)
+    subroutine test_cholesky_w(error)
         logical,intent(out) :: error
 
-        integer(ilp),parameter :: m = 15_ilp
-        integer(ilp),parameter :: n = 4_ilp
-        integer(ilp),parameter :: k = min(m,n)
+        integer(ilp),parameter :: n = 3_ilp
         real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
-        complex(qp) :: a(m,n),q(m,m),r(m,n),qred(m,k),rred(k,n)
-        real(qp) :: rea(m,n),ima(m,n)
-        integer(ilp) :: lwork
-        complex(qp),allocatable :: work(:)
+        complex(qp) :: a(n,n),l(n,n)
         type(linalg_state) :: err
         
-        call random_number(rea)
-        call random_number(ima)
-        a = cmplx(rea,ima,kind=qp)
+        ! Set real matrix
+        a(1,:) = [6,15,55]
+        a(2,:) = [15,55,225]
+        a(3,:) = [55,225,979]
+        
+        ! Set result (lower factor)
+        l(1,:) = [2.4495_qp,0.0000_qp,0.0000_qp]
+        l(2,:) = [6.1237_qp,4.1833_qp,0.0000_qp]
+        l(3,:) = [22.4537_qp,20.9165_qp,6.1101_qp]
         
         ! 1) QR factorization with full matrices
-        call qr(a,q,r,err=err)
+        call cholesky(a,l,other_zeroed=.true.,err=err)
         
         ! Check return code
         error = err%error()
         if (error) return
         
         ! Check solution
-        error = .not. all(abs(a - matmul(q,r)) < tol)
-        if (error) return
+        !error = .not. all(abs(a-matmul(q,r))<tol)
+        !if (error) return
         
-        ! 2) QR factorization with reduced matrices
-        call qr(a,qred,rred,err=err)
-        
-        ! Check return code
-        error = err%error()
-        if (error) return
-        
-        ! Check solution
-        error = .not. all(abs(a - matmul(qred,rred)) < tol)
-        if (error) return
-        
-        ! 3) overwrite A
-        call qr(a,qred,rred,overwrite_a=.true.,err=err)
-        
-        ! Check return code
-        error = err%error()
-        if (error) return
-        
-        ! Check solution
-        error = .not. all(abs(a - matmul(qred,rred)) < tol)
-        if (error) return
-        
-        ! 4) External storage option
-        a = cmplx(rea,ima,kind=qp)
-        call qr_space(a,lwork)
-        allocate (work(lwork))
-        call qr(a,q,r,storage=work,err=err)
-    
-        ! Check return code
-        error = err%error()
-        if (error) return
-        
-        ! Check solution
-        error = .not. all(abs(a - matmul(qred,rred)) < tol)
-        if (error) return
-        
-    end subroutine test_cholesky_random_w
+    end subroutine test_cholesky_w
 
 end module test_linalg_cholesky
 
