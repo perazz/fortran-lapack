@@ -115,7 +115,7 @@ module stdlib_linalg_qr
          ! Ordering space
          lwork_ord = -1_ilp
          call orgqr &
-              (m,n,k,a,m,tau_dummy,work_dummy,lwork_ord,info)
+              (m,m,k,a,m,tau_dummy,work_dummy,lwork_ord,info)
          call handle_orgqr_info(info,m,n,k,lwork_ord,err0)
          if (err0%error()) then
             call linalg_error_handling(err0,err)
@@ -239,7 +239,7 @@ module stdlib_linalg_qr
              
                  ! Convert K elementary reflectors tau(1:k) -> orthogonal matrix Q
                  call orgqr &
-                      (m,n,k,amat,lda,tau,work,lwork,info)
+                      (q1,q2,k,amat,lda,tau,work,lwork,info)
                  call handle_orgqr_info(info,m,n,k,lwork,err0)
                       
                  ! Copy result back to Q
@@ -299,7 +299,7 @@ module stdlib_linalg_qr
          ! Ordering space
          lwork_ord = -1_ilp
          call orgqr &
-              (m,n,k,a,m,tau_dummy,work_dummy,lwork_ord,info)
+              (m,m,k,a,m,tau_dummy,work_dummy,lwork_ord,info)
          call handle_orgqr_info(info,m,n,k,lwork_ord,err0)
          if (err0%error()) then
             call linalg_error_handling(err0,err)
@@ -423,7 +423,7 @@ module stdlib_linalg_qr
              
                  ! Convert K elementary reflectors tau(1:k) -> orthogonal matrix Q
                  call orgqr &
-                      (m,n,k,amat,lda,tau,work,lwork,info)
+                      (q1,q2,k,amat,lda,tau,work,lwork,info)
                  call handle_orgqr_info(info,m,n,k,lwork,err0)
                       
                  ! Copy result back to Q
@@ -483,7 +483,7 @@ module stdlib_linalg_qr
          ! Ordering space
          lwork_ord = -1_ilp
          call orgqr &
-              (m,n,k,a,m,tau_dummy,work_dummy,lwork_ord,info)
+              (m,m,k,a,m,tau_dummy,work_dummy,lwork_ord,info)
          call handle_orgqr_info(info,m,n,k,lwork_ord,err0)
          if (err0%error()) then
             call linalg_error_handling(err0,err)
@@ -607,7 +607,7 @@ module stdlib_linalg_qr
              
                  ! Convert K elementary reflectors tau(1:k) -> orthogonal matrix Q
                  call orgqr &
-                      (m,n,k,amat,lda,tau,work,lwork,info)
+                      (q1,q2,k,amat,lda,tau,work,lwork,info)
                  call handle_orgqr_info(info,m,n,k,lwork,err0)
                       
                  ! Copy result back to Q
@@ -667,7 +667,7 @@ module stdlib_linalg_qr
          ! Ordering space
          lwork_ord = -1_ilp
          call ungqr &
-              (m,n,k,a,m,tau_dummy,work_dummy,lwork_ord,info)
+              (m,m,k,a,m,tau_dummy,work_dummy,lwork_ord,info)
          call handle_orgqr_info(info,m,n,k,lwork_ord,err0)
          if (err0%error()) then
             call linalg_error_handling(err0,err)
@@ -791,7 +791,7 @@ module stdlib_linalg_qr
              
                  ! Convert K elementary reflectors tau(1:k) -> orthogonal matrix Q
                  call ungqr &
-                      (m,n,k,amat,lda,tau,work,lwork,info)
+                      (q1,q2,k,amat,lda,tau,work,lwork,info)
                  call handle_orgqr_info(info,m,n,k,lwork,err0)
                       
                  ! Copy result back to Q
@@ -851,7 +851,7 @@ module stdlib_linalg_qr
          ! Ordering space
          lwork_ord = -1_ilp
          call ungqr &
-              (m,n,k,a,m,tau_dummy,work_dummy,lwork_ord,info)
+              (m,m,k,a,m,tau_dummy,work_dummy,lwork_ord,info)
          call handle_orgqr_info(info,m,n,k,lwork_ord,err0)
          if (err0%error()) then
             call linalg_error_handling(err0,err)
@@ -975,7 +975,7 @@ module stdlib_linalg_qr
              
                  ! Convert K elementary reflectors tau(1:k) -> orthogonal matrix Q
                  call ungqr &
-                      (m,n,k,amat,lda,tau,work,lwork,info)
+                      (q1,q2,k,amat,lda,tau,work,lwork,info)
                  call handle_orgqr_info(info,m,n,k,lwork,err0)
                       
                  ! Copy result back to Q
@@ -1035,7 +1035,7 @@ module stdlib_linalg_qr
          ! Ordering space
          lwork_ord = -1_ilp
          call ungqr &
-              (m,n,k,a,m,tau_dummy,work_dummy,lwork_ord,info)
+              (m,m,k,a,m,tau_dummy,work_dummy,lwork_ord,info)
          call handle_orgqr_info(info,m,n,k,lwork_ord,err0)
          if (err0%error()) then
             call linalg_error_handling(err0,err)
@@ -1159,7 +1159,7 @@ module stdlib_linalg_qr
              
                  ! Convert K elementary reflectors tau(1:k) -> orthogonal matrix Q
                  call ungqr &
-                      (m,n,k,amat,lda,tau,work,lwork,info)
+                      (q1,q2,k,amat,lda,tau,work,lwork,info)
                  call handle_orgqr_info(info,m,n,k,lwork,err0)
                       
                  ! Copy result back to Q

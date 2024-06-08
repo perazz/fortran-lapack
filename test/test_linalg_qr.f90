@@ -52,7 +52,11 @@ module test_linalg_qr
         call random_number(rea)
         a = rea
         
-        ! 1) QR factorization with full matrices
+        ! 1) QR factorization with full matrices. Input NaNs to be sure Q and R are OK on return
+        q = 0.0_sp
+        q = 1.0_sp/q
+        r = 0.0_sp
+        r = 1.0_sp/r
         call qr(a,q,r,err=err)
         
         ! Check return code
@@ -96,7 +100,7 @@ module test_linalg_qr
         if (error) return
         
         ! Check solution
-        error = .not. all(abs(a - matmul(qred,rred)) < tol)
+        error = .not. all(abs(a - matmul(q,r)) < tol)
         if (error) return
         
     end subroutine test_qr_random_s
@@ -117,7 +121,11 @@ module test_linalg_qr
         call random_number(rea)
         a = rea
         
-        ! 1) QR factorization with full matrices
+        ! 1) QR factorization with full matrices. Input NaNs to be sure Q and R are OK on return
+        q = 0.0_dp
+        q = 1.0_dp/q
+        r = 0.0_dp
+        r = 1.0_dp/r
         call qr(a,q,r,err=err)
         
         ! Check return code
@@ -161,7 +169,7 @@ module test_linalg_qr
         if (error) return
         
         ! Check solution
-        error = .not. all(abs(a - matmul(qred,rred)) < tol)
+        error = .not. all(abs(a - matmul(q,r)) < tol)
         if (error) return
         
     end subroutine test_qr_random_d
@@ -182,7 +190,11 @@ module test_linalg_qr
         call random_number(rea)
         a = rea
         
-        ! 1) QR factorization with full matrices
+        ! 1) QR factorization with full matrices. Input NaNs to be sure Q and R are OK on return
+        q = 0.0_qp
+        q = 1.0_qp/q
+        r = 0.0_qp
+        r = 1.0_qp/r
         call qr(a,q,r,err=err)
         
         ! Check return code
@@ -226,7 +238,7 @@ module test_linalg_qr
         if (error) return
         
         ! Check solution
-        error = .not. all(abs(a - matmul(qred,rred)) < tol)
+        error = .not. all(abs(a - matmul(q,r)) < tol)
         if (error) return
         
     end subroutine test_qr_random_q
@@ -248,7 +260,11 @@ module test_linalg_qr
         call random_number(ima)
         a = cmplx(rea,ima,kind=sp)
         
-        ! 1) QR factorization with full matrices
+        ! 1) QR factorization with full matrices. Input NaNs to be sure Q and R are OK on return
+        q = 0.0_sp
+        q = 1.0_sp/q
+        r = 0.0_sp
+        r = 1.0_sp/r
         call qr(a,q,r,err=err)
         
         ! Check return code
@@ -292,7 +308,7 @@ module test_linalg_qr
         if (error) return
         
         ! Check solution
-        error = .not. all(abs(a - matmul(qred,rred)) < tol)
+        error = .not. all(abs(a - matmul(q,r)) < tol)
         if (error) return
         
     end subroutine test_qr_random_c
@@ -314,7 +330,11 @@ module test_linalg_qr
         call random_number(ima)
         a = cmplx(rea,ima,kind=dp)
         
-        ! 1) QR factorization with full matrices
+        ! 1) QR factorization with full matrices. Input NaNs to be sure Q and R are OK on return
+        q = 0.0_dp
+        q = 1.0_dp/q
+        r = 0.0_dp
+        r = 1.0_dp/r
         call qr(a,q,r,err=err)
         
         ! Check return code
@@ -358,7 +378,7 @@ module test_linalg_qr
         if (error) return
         
         ! Check solution
-        error = .not. all(abs(a - matmul(qred,rred)) < tol)
+        error = .not. all(abs(a - matmul(q,r)) < tol)
         if (error) return
         
     end subroutine test_qr_random_z
@@ -380,7 +400,11 @@ module test_linalg_qr
         call random_number(ima)
         a = cmplx(rea,ima,kind=qp)
         
-        ! 1) QR factorization with full matrices
+        ! 1) QR factorization with full matrices. Input NaNs to be sure Q and R are OK on return
+        q = 0.0_qp
+        q = 1.0_qp/q
+        r = 0.0_qp
+        r = 1.0_qp/r
         call qr(a,q,r,err=err)
         
         ! Check return code
@@ -424,7 +448,7 @@ module test_linalg_qr
         if (error) return
         
         ! Check solution
-        error = .not. all(abs(a - matmul(qred,rred)) < tol)
+        error = .not. all(abs(a - matmul(q,r)) < tol)
         if (error) return
         
     end subroutine test_qr_random_w
