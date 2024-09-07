@@ -28,6 +28,7 @@ module stdlib_linalg_norms
         #:for rank in RANKS        
         module procedure stdlib_linalg_norm_${rank}$D_${ri}$
         #:endfor
+        !> Array norms
         #:for rank in range(2, MAXRANK + 1)
         module procedure stdlib_linalg_norm_${rank}$D_to_${rank-1}$D_${ri}$
         #:endfor
@@ -37,8 +38,8 @@ module stdlib_linalg_norms
      interface parse_norm_type
         module procedure parse_norm_type_integer
         !module procedure parse_norm_type_character
-     end interface
-
+     end interface parse_norm_type
+     
      contains
      
      !> Parse norm type from an integer user input
@@ -110,10 +111,14 @@ module stdlib_linalg_norms
         endif
 
         select case(order)
-            case(NORM_TWO)
-                nrm = nrm2(sze, a, 1_ilp)
             case(NORM_ONE)
                 nrm = sum( abs(a) )
+            case(NORM_TWO)            
+                #:if rt.startswith('complex')
+                nrm = sqrt( sum( a * conjg(a) ) )
+                #:else
+                nrm = sqrt( sum( a ** 2 ) )
+                #:endif             
             case(NORM_INF)
                 nrm = maxval( abs(a) )
             case(-NORM_INF)
@@ -178,11 +183,15 @@ module stdlib_linalg_norms
             return
         endif        
 
-        select case(order)
-            case(NORM_TWO)
-                nrm = sqrt( sum( a ** 2 , dim = dim ) )
+        select case(order)            
             case(NORM_ONE)
-                nrm = sum( abs(a) , dim = dim )
+                nrm = sum( abs(a) , dim = dim )                
+            case(NORM_TWO)                
+                #:if rt.startswith('complex')
+                nrm = sqrt( sum( a * conjg(a) , dim = dim ) )
+                #:else
+                nrm = sqrt( sum( a ** 2 , dim = dim ) )
+                #:endif
             case(NORM_INF)
                 nrm = maxval( abs(a) , dim = dim )
             case(-NORM_INF)

@@ -29,6 +29,7 @@ module stdlib_linalg_norms
         module procedure stdlib_linalg_norm_5D_s
         module procedure stdlib_linalg_norm_6D_s
         module procedure stdlib_linalg_norm_7D_s
+        !> Array norms
         module procedure stdlib_linalg_norm_2D_to_1D_s
         module procedure stdlib_linalg_norm_3D_to_2D_s
         module procedure stdlib_linalg_norm_4D_to_3D_s
@@ -42,6 +43,7 @@ module stdlib_linalg_norms
         module procedure stdlib_linalg_norm_5D_d
         module procedure stdlib_linalg_norm_6D_d
         module procedure stdlib_linalg_norm_7D_d
+        !> Array norms
         module procedure stdlib_linalg_norm_2D_to_1D_d
         module procedure stdlib_linalg_norm_3D_to_2D_d
         module procedure stdlib_linalg_norm_4D_to_3D_d
@@ -55,6 +57,7 @@ module stdlib_linalg_norms
         module procedure stdlib_linalg_norm_5D_q
         module procedure stdlib_linalg_norm_6D_q
         module procedure stdlib_linalg_norm_7D_q
+        !> Array norms
         module procedure stdlib_linalg_norm_2D_to_1D_q
         module procedure stdlib_linalg_norm_3D_to_2D_q
         module procedure stdlib_linalg_norm_4D_to_3D_q
@@ -68,6 +71,7 @@ module stdlib_linalg_norms
         module procedure stdlib_linalg_norm_5D_c
         module procedure stdlib_linalg_norm_6D_c
         module procedure stdlib_linalg_norm_7D_c
+        !> Array norms
         module procedure stdlib_linalg_norm_2D_to_1D_c
         module procedure stdlib_linalg_norm_3D_to_2D_c
         module procedure stdlib_linalg_norm_4D_to_3D_c
@@ -81,6 +85,7 @@ module stdlib_linalg_norms
         module procedure stdlib_linalg_norm_5D_z
         module procedure stdlib_linalg_norm_6D_z
         module procedure stdlib_linalg_norm_7D_z
+        !> Array norms
         module procedure stdlib_linalg_norm_2D_to_1D_z
         module procedure stdlib_linalg_norm_3D_to_2D_z
         module procedure stdlib_linalg_norm_4D_to_3D_z
@@ -94,6 +99,7 @@ module stdlib_linalg_norms
         module procedure stdlib_linalg_norm_5D_w
         module procedure stdlib_linalg_norm_6D_w
         module procedure stdlib_linalg_norm_7D_w
+        !> Array norms
         module procedure stdlib_linalg_norm_2D_to_1D_w
         module procedure stdlib_linalg_norm_3D_to_2D_w
         module procedure stdlib_linalg_norm_4D_to_3D_w
@@ -105,7 +111,10 @@ module stdlib_linalg_norms
      interface parse_norm_type
         module procedure parse_norm_type_integer
         !module procedure parse_norm_type_character
-     end interface
+     end interface parse_norm_type
+     
+     !>
+     character,parameter :: LANGE_NORM_INF = 'M'
 
      contains
      
@@ -136,6 +145,17 @@ module stdlib_linalg_norms
         end select
         
      end subroutine parse_norm_type_integer
+     
+     !> Handle *LANGE LAPACK input
+     
+!               real(sp) function clange(norm,m,n,a,lda,work)
+!                    import sp,dp,qp,ilp,lk
+!                    implicit none(type,external)
+!                    character,intent(in) :: norm
+!                    integer(ilp),intent(in) :: lda,m,n
+!                    real(sp),intent(out) :: work(*)
+!                    complex(sp),intent(in) :: a(lda,*)
+!               end function clange
      
     !==============================================
     ! Norms : any rank to 0D
@@ -176,10 +196,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = nrm2(sze,a,1_ilp)
             case (NORM_ONE)
                 nrm = sum(abs(a))
+            case (NORM_TWO)
+                nrm = sqrt(sum(a**2))
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -229,10 +249,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = nrm2(sze,a,1_ilp)
             case (NORM_ONE)
                 nrm = sum(abs(a))
+            case (NORM_TWO)
+                nrm = sqrt(sum(a**2))
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -282,10 +302,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = nrm2(sze,a,1_ilp)
             case (NORM_ONE)
                 nrm = sum(abs(a))
+            case (NORM_TWO)
+                nrm = sqrt(sum(a**2))
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -335,10 +355,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = nrm2(sze,a,1_ilp)
             case (NORM_ONE)
                 nrm = sum(abs(a))
+            case (NORM_TWO)
+                nrm = sqrt(sum(a**2))
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -388,10 +408,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = nrm2(sze,a,1_ilp)
             case (NORM_ONE)
                 nrm = sum(abs(a))
+            case (NORM_TWO)
+                nrm = sqrt(sum(a**2))
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -441,10 +461,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = nrm2(sze,a,1_ilp)
             case (NORM_ONE)
                 nrm = sum(abs(a))
+            case (NORM_TWO)
+                nrm = sqrt(sum(a**2))
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -494,10 +514,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = nrm2(sze,a,1_ilp)
             case (NORM_ONE)
                 nrm = sum(abs(a))
+            case (NORM_TWO)
+                nrm = sqrt(sum(a**2))
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -547,10 +567,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = nrm2(sze,a,1_ilp)
             case (NORM_ONE)
                 nrm = sum(abs(a))
+            case (NORM_TWO)
+                nrm = sqrt(sum(a**2))
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -600,10 +620,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = nrm2(sze,a,1_ilp)
             case (NORM_ONE)
                 nrm = sum(abs(a))
+            case (NORM_TWO)
+                nrm = sqrt(sum(a**2))
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -653,10 +673,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = nrm2(sze,a,1_ilp)
             case (NORM_ONE)
                 nrm = sum(abs(a))
+            case (NORM_TWO)
+                nrm = sqrt(sum(a**2))
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -706,10 +726,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = nrm2(sze,a,1_ilp)
             case (NORM_ONE)
                 nrm = sum(abs(a))
+            case (NORM_TWO)
+                nrm = sqrt(sum(a**2))
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -759,10 +779,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = nrm2(sze,a,1_ilp)
             case (NORM_ONE)
                 nrm = sum(abs(a))
+            case (NORM_TWO)
+                nrm = sqrt(sum(a**2))
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -812,10 +832,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = nrm2(sze,a,1_ilp)
             case (NORM_ONE)
                 nrm = sum(abs(a))
+            case (NORM_TWO)
+                nrm = sqrt(sum(a**2))
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -865,10 +885,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = nrm2(sze,a,1_ilp)
             case (NORM_ONE)
                 nrm = sum(abs(a))
+            case (NORM_TWO)
+                nrm = sqrt(sum(a**2))
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -918,10 +938,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = nrm2(sze,a,1_ilp)
             case (NORM_ONE)
                 nrm = sum(abs(a))
+            case (NORM_TWO)
+                nrm = sqrt(sum(a**2))
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -971,10 +991,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = nrm2(sze,a,1_ilp)
             case (NORM_ONE)
                 nrm = sum(abs(a))
+            case (NORM_TWO)
+                nrm = sqrt(sum(a**2))
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -1024,10 +1044,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = nrm2(sze,a,1_ilp)
             case (NORM_ONE)
                 nrm = sum(abs(a))
+            case (NORM_TWO)
+                nrm = sqrt(sum(a**2))
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -1077,10 +1097,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = nrm2(sze,a,1_ilp)
             case (NORM_ONE)
                 nrm = sum(abs(a))
+            case (NORM_TWO)
+                nrm = sqrt(sum(a**2))
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -1130,10 +1150,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = nrm2(sze,a,1_ilp)
             case (NORM_ONE)
                 nrm = sum(abs(a))
+            case (NORM_TWO)
+                nrm = sqrt(sum(a**2))
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -1183,10 +1203,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = nrm2(sze,a,1_ilp)
             case (NORM_ONE)
                 nrm = sum(abs(a))
+            case (NORM_TWO)
+                nrm = sqrt(sum(a**2))
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -1236,10 +1256,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = nrm2(sze,a,1_ilp)
             case (NORM_ONE)
                 nrm = sum(abs(a))
+            case (NORM_TWO)
+                nrm = sqrt(sum(a**2))
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -1289,10 +1309,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = nrm2(sze,a,1_ilp)
             case (NORM_ONE)
                 nrm = sum(abs(a))
+            case (NORM_TWO)
+                nrm = sqrt(sum(a*conjg(a)))
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -1342,10 +1362,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = nrm2(sze,a,1_ilp)
             case (NORM_ONE)
                 nrm = sum(abs(a))
+            case (NORM_TWO)
+                nrm = sqrt(sum(a*conjg(a)))
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -1395,10 +1415,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = nrm2(sze,a,1_ilp)
             case (NORM_ONE)
                 nrm = sum(abs(a))
+            case (NORM_TWO)
+                nrm = sqrt(sum(a*conjg(a)))
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -1448,10 +1468,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = nrm2(sze,a,1_ilp)
             case (NORM_ONE)
                 nrm = sum(abs(a))
+            case (NORM_TWO)
+                nrm = sqrt(sum(a*conjg(a)))
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -1501,10 +1521,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = nrm2(sze,a,1_ilp)
             case (NORM_ONE)
                 nrm = sum(abs(a))
+            case (NORM_TWO)
+                nrm = sqrt(sum(a*conjg(a)))
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -1554,10 +1574,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = nrm2(sze,a,1_ilp)
             case (NORM_ONE)
                 nrm = sum(abs(a))
+            case (NORM_TWO)
+                nrm = sqrt(sum(a*conjg(a)))
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -1607,10 +1627,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = nrm2(sze,a,1_ilp)
             case (NORM_ONE)
                 nrm = sum(abs(a))
+            case (NORM_TWO)
+                nrm = sqrt(sum(a*conjg(a)))
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -1660,10 +1680,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = nrm2(sze,a,1_ilp)
             case (NORM_ONE)
                 nrm = sum(abs(a))
+            case (NORM_TWO)
+                nrm = sqrt(sum(a*conjg(a)))
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -1713,10 +1733,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = nrm2(sze,a,1_ilp)
             case (NORM_ONE)
                 nrm = sum(abs(a))
+            case (NORM_TWO)
+                nrm = sqrt(sum(a*conjg(a)))
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -1766,10 +1786,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = nrm2(sze,a,1_ilp)
             case (NORM_ONE)
                 nrm = sum(abs(a))
+            case (NORM_TWO)
+                nrm = sqrt(sum(a*conjg(a)))
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -1819,10 +1839,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = nrm2(sze,a,1_ilp)
             case (NORM_ONE)
                 nrm = sum(abs(a))
+            case (NORM_TWO)
+                nrm = sqrt(sum(a*conjg(a)))
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -1872,10 +1892,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = nrm2(sze,a,1_ilp)
             case (NORM_ONE)
                 nrm = sum(abs(a))
+            case (NORM_TWO)
+                nrm = sqrt(sum(a*conjg(a)))
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -1925,10 +1945,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = nrm2(sze,a,1_ilp)
             case (NORM_ONE)
                 nrm = sum(abs(a))
+            case (NORM_TWO)
+                nrm = sqrt(sum(a*conjg(a)))
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -1978,10 +1998,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = nrm2(sze,a,1_ilp)
             case (NORM_ONE)
                 nrm = sum(abs(a))
+            case (NORM_TWO)
+                nrm = sqrt(sum(a*conjg(a)))
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -2031,10 +2051,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = nrm2(sze,a,1_ilp)
             case (NORM_ONE)
                 nrm = sum(abs(a))
+            case (NORM_TWO)
+                nrm = sqrt(sum(a*conjg(a)))
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -2084,10 +2104,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = nrm2(sze,a,1_ilp)
             case (NORM_ONE)
                 nrm = sum(abs(a))
+            case (NORM_TWO)
+                nrm = sqrt(sum(a*conjg(a)))
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -2137,10 +2157,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = nrm2(sze,a,1_ilp)
             case (NORM_ONE)
                 nrm = sum(abs(a))
+            case (NORM_TWO)
+                nrm = sqrt(sum(a*conjg(a)))
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -2190,10 +2210,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = nrm2(sze,a,1_ilp)
             case (NORM_ONE)
                 nrm = sum(abs(a))
+            case (NORM_TWO)
+                nrm = sqrt(sum(a*conjg(a)))
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -2243,10 +2263,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = nrm2(sze,a,1_ilp)
             case (NORM_ONE)
                 nrm = sum(abs(a))
+            case (NORM_TWO)
+                nrm = sqrt(sum(a*conjg(a)))
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -2296,10 +2316,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = nrm2(sze,a,1_ilp)
             case (NORM_ONE)
                 nrm = sum(abs(a))
+            case (NORM_TWO)
+                nrm = sqrt(sum(a*conjg(a)))
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -2349,10 +2369,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = nrm2(sze,a,1_ilp)
             case (NORM_ONE)
                 nrm = sum(abs(a))
+            case (NORM_TWO)
+                nrm = sqrt(sum(a*conjg(a)))
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -2413,10 +2433,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
+            case (NORM_TWO)
+                nrm = sqrt(sum(a**2,dim=dim))
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -2473,10 +2493,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
+            case (NORM_TWO)
+                nrm = sqrt(sum(a**2,dim=dim))
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -2534,10 +2554,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
+            case (NORM_TWO)
+                nrm = sqrt(sum(a**2,dim=dim))
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -2595,10 +2615,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
+            case (NORM_TWO)
+                nrm = sqrt(sum(a**2,dim=dim))
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -2657,10 +2677,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
+            case (NORM_TWO)
+                nrm = sqrt(sum(a**2,dim=dim))
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -2719,10 +2739,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
+            case (NORM_TWO)
+                nrm = sqrt(sum(a**2,dim=dim))
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -2779,10 +2799,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
+            case (NORM_TWO)
+                nrm = sqrt(sum(a**2,dim=dim))
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -2839,10 +2859,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
+            case (NORM_TWO)
+                nrm = sqrt(sum(a**2,dim=dim))
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -2900,10 +2920,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
+            case (NORM_TWO)
+                nrm = sqrt(sum(a**2,dim=dim))
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -2961,10 +2981,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
+            case (NORM_TWO)
+                nrm = sqrt(sum(a**2,dim=dim))
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -3023,10 +3043,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
+            case (NORM_TWO)
+                nrm = sqrt(sum(a**2,dim=dim))
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -3085,10 +3105,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
+            case (NORM_TWO)
+                nrm = sqrt(sum(a**2,dim=dim))
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -3145,10 +3165,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
+            case (NORM_TWO)
+                nrm = sqrt(sum(a**2,dim=dim))
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -3205,10 +3225,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
+            case (NORM_TWO)
+                nrm = sqrt(sum(a**2,dim=dim))
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -3266,10 +3286,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
+            case (NORM_TWO)
+                nrm = sqrt(sum(a**2,dim=dim))
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -3327,10 +3347,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
+            case (NORM_TWO)
+                nrm = sqrt(sum(a**2,dim=dim))
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -3389,10 +3409,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
+            case (NORM_TWO)
+                nrm = sqrt(sum(a**2,dim=dim))
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -3451,10 +3471,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
+            case (NORM_TWO)
+                nrm = sqrt(sum(a**2,dim=dim))
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -3511,10 +3531,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
+            case (NORM_TWO)
+                nrm = sqrt(sum(a*conjg(a),dim=dim))
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -3571,10 +3591,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
+            case (NORM_TWO)
+                nrm = sqrt(sum(a*conjg(a),dim=dim))
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -3632,10 +3652,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
+            case (NORM_TWO)
+                nrm = sqrt(sum(a*conjg(a),dim=dim))
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -3693,10 +3713,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
+            case (NORM_TWO)
+                nrm = sqrt(sum(a*conjg(a),dim=dim))
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -3755,10 +3775,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
+            case (NORM_TWO)
+                nrm = sqrt(sum(a*conjg(a),dim=dim))
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -3817,10 +3837,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
+            case (NORM_TWO)
+                nrm = sqrt(sum(a*conjg(a),dim=dim))
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -3877,10 +3897,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
+            case (NORM_TWO)
+                nrm = sqrt(sum(a*conjg(a),dim=dim))
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -3937,10 +3957,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
+            case (NORM_TWO)
+                nrm = sqrt(sum(a*conjg(a),dim=dim))
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -3998,10 +4018,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
+            case (NORM_TWO)
+                nrm = sqrt(sum(a*conjg(a),dim=dim))
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -4059,10 +4079,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
+            case (NORM_TWO)
+                nrm = sqrt(sum(a*conjg(a),dim=dim))
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -4121,10 +4141,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
+            case (NORM_TWO)
+                nrm = sqrt(sum(a*conjg(a),dim=dim))
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -4183,10 +4203,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
+            case (NORM_TWO)
+                nrm = sqrt(sum(a*conjg(a),dim=dim))
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -4243,10 +4263,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
+            case (NORM_TWO)
+                nrm = sqrt(sum(a*conjg(a),dim=dim))
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -4303,10 +4323,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
+            case (NORM_TWO)
+                nrm = sqrt(sum(a*conjg(a),dim=dim))
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -4364,10 +4384,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
+            case (NORM_TWO)
+                nrm = sqrt(sum(a*conjg(a),dim=dim))
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -4425,10 +4445,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
+            case (NORM_TWO)
+                nrm = sqrt(sum(a*conjg(a),dim=dim))
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -4487,10 +4507,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
+            case (NORM_TWO)
+                nrm = sqrt(sum(a*conjg(a),dim=dim))
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -4549,10 +4569,10 @@ module stdlib_linalg_norms
         end if
 
         select case (order)
-            case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
+            case (NORM_TWO)
+                nrm = sqrt(sum(a*conjg(a),dim=dim))
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
