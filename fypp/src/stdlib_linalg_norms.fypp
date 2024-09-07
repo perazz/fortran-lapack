@@ -1,59 +1,203 @@
 #:include "common.fypp"
-! Cholesky factorization of a matrix, based on LAPACK *POTRF functions
+#:set RANKS = range(1, MAXRANK + 1)
+! Vector norms
 module stdlib_linalg_norms
      use stdlib_linalg_constants
-     use stdlib_linalg_blas
+     use stdlib_linalg_blas, only: nrm2
      use stdlib_linalg_lapack, only: lange
      use stdlib_linalg_state
      use iso_fortran_env,only:real32,real64,real128,int8,int16,int32,int64,stderr => error_unit
      implicit none(type,external)
      private
+     
+     public :: norm
 
      character(*), parameter :: this = 'norm'
      
-     !> List of internal 
-     integer(ilp), parameter :: NORM_ONE = 1 
-     integer(ilp), parameter :: NORM_TWO = 2  
-     integer(ilp), parameter :: NORM_INF = huge(0_ilp) ! infinity norm 
+     !> List of internal norm flags
+     integer(ilp), parameter :: NORM_ONE      = 1 
+     integer(ilp), parameter :: NORM_TWO      = 2  
+     integer(ilp), parameter :: NORM_P        = 3
+     integer(ilp), parameter :: NORM_INF      = +huge(0_ilp) ! infinity norm 
+     integer(ilp), parameter :: NORM_MINUSINF = -huge(0_ilp)
+     
+     !> Vector norm interface
+     interface norm
+        !> Scalar norms
+        #:for rk,rt,ri in ALL_KINDS_TYPES
+        #:for rank in RANKS        
+        module procedure stdlib_linalg_norm_${rank}$D_${ri}$
+        #:endfor
+        #:for rank in range(2, MAXRANK + 1)
+        module procedure stdlib_linalg_norm_${rank}$D_to_${rank-1}$D_${ri}$
+        #:endfor
+        #:endfor        
+     end interface norm
+     
+     interface parse_norm_type
+        module procedure parse_norm_type_integer
+        !module procedure parse_norm_type_character
+     end interface
 
      contains
      
-
-         
-         
-
-
+     !> Parse norm type from an integer user input
+     pure subroutine parse_norm_type_integer(order,norm_type,err)
+        !> User input value
+        integer(ilp), intent(in) :: order
+        !> Return value: norm type
+        integer(ilp), intent(out) :: norm_type
+        !> State return flag
+        type(linalg_state), intent(out) :: err
+        
+        select case (order)
+           case (1_ilp)
+               norm_type = NORM_ONE
+           case (2_ilp)
+               norm_type = NORM_TWO
+           case (3_ilp:huge(0_ilp)-1_ilp)
+               norm_type = NORM_P
+           case (huge(0_ilp):)
+               norm_type = NORM_INF
+           case (:-huge(0_ilp))
+               norm_type = NORM_MINUSINF
+           
+           case default
+               norm_type = NORM_ONE
+               err = linalg_state(this,LINALG_ERROR,'Input norm type ',order,' is not recognized.')
+        end select    
+        
+     end subroutine parse_norm_type_integer
      
-     #:for rk,rt,ri in ALL_KINDS_TYPES
-     
-     pure subroutine stdlib_linalg_matrix_norm_${ri}$(a, order, nrm, err) result(nrm)
-         !> Input matrix a[m,n]
-         ${rt}$, intent(in), target :: a(:,:)
-         !> Order of the matrix norm being computed.
-         integer, intent(in) :: order
-         !> Norm of the matrix.
-         real(${rk}$), intent(out) :: nrm
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state), optional, intent(out) :: err         
-         
-         type(linalg_state) :: err0
-         integer(ilp) :: m,n
-         
-         m = size(a,1,kind=ilp)
-         n = size(a,2,kind=ilp)
-         
-         ! Initialize norm to zero
-         nrm = 0.0_${rk}$
-         
-         if (.not.(m>0 .and. n>0)) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix size: a=',[m,n])
-            call linalg_error_handling(err0,err)
+    !==============================================
+    ! Norms : any rank to 0D
+    !==============================================
+
+    #:for rk,rt,ri in ALL_KINDS_TYPES
+    #:for rank in RANKS
+    pure subroutine stdlib_linalg_norm_${rank}$D_${ri}$(a, order, err, nrm)
+        !> Input ${rank}$-d matrix a${ranksuffix(rank)}$
+        ${rt}$, intent(in) :: a${ranksuffix(rank)}$
+        !> Order of the matrix norm being computed.
+        integer, intent(in) :: order
+        !> Norm of the matrix.
+        ${rt}$, intent(out) :: nrm
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state), intent(out), optional :: err         
+        
+        type(linalg_state) :: err_
+        
+        integer(ilp) :: sze,norm_request
+        real(${rk}$) :: rorder
+        
+        sze = size(a,kind=ilp)
+        
+        ! Initialize norm to zero
+        nrm = 0.0_${rk}$
+        
+        ! Check matrix size
+        if (sze<=0) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            call linalg_error_handling(err_,err)
             return
-         end if   
-         
-     end function stdlib_linalg_vector_norm_${ri}$
+        end if
+        
+        ! Check norm request
+        call parse_norm_type(order,norm_request,err_)
+        if (err_%error()) then 
+            call linalg_error_handling(err_,err)
+            return
+        endif
 
+        select case(order)
+            case(NORM_TWO)
+                nrm = nrm2(sze, a, 1_ilp)
+            case(NORM_ONE)
+                nrm = sum( abs(a) )
+            case(NORM_INF)
+                nrm = maxval( abs(a) )
+            case(-NORM_INF)
+                nrm = minval( abs(a) )
+            case (NORM_P)
+                rorder = 1.0_${rk}$ / order
+                nrm = sum( a ** order ) ** rorder
+            case default
+                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                call linalg_error_handling(err_,err)
+        end select
+        
+    end subroutine stdlib_linalg_norm_${rank}$D_${ri}$
 
-     #:endfor
+    #:endfor
+    #:endfor
+
+    !==============================================
+    ! Norms : any rank to rank-1, for rank > 2
+    !==============================================
+
+    #:for rk,rt,ri in ALL_KINDS_TYPES
+    #:for rank in range(2, MAXRANK + 1)
+    pure subroutine stdlib_linalg_norm_${rank}$D_to_${rank-1}$D_${ri}$(a, order, dim, err, nrm)
+        !> Input matrix a[..]
+        ${rt}$, intent(in), target :: a${ranksuffix(rank)}$
+        !> Order of the matrix norm being computed.
+        integer, intent(in) :: order
+        !> Dimension to collapse by computing the norm w.r.t other dimensions
+        integer, intent(in) :: dim
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state), intent(out), optional :: err           
+        !> Norm of the matrix.
+        ${rt}$, intent(out) :: nrm${reduced_shape('a', rank, 'dim')}$     
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: sze,norm_request
+        real(${rk}$) :: rorder
+        
+        sze = size(a,kind=ilp)
+        
+        ! Initialize norm to zero
+        nrm = 0.0_${rk}$
+        
+        if (sze<=0) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+
+        if (dim<1 .or. dim>${rank}$) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+                                'is out of rank for shape(a)=',shape(a,kind=ilp))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Check norm request
+        call parse_norm_type(order,norm_request,err_)
+        if (err_%error()) then 
+            call linalg_error_handling(err_,err)
+            return
+        endif        
+
+        select case(order)
+            case(NORM_TWO)
+                nrm = sqrt( sum( a ** 2 , dim = dim ) )
+            case(NORM_ONE)
+                nrm = sum( abs(a) , dim = dim )
+            case(NORM_INF)
+                nrm = maxval( abs(a) , dim = dim )
+            case(-NORM_INF)
+                nrm = minval( abs(a) , dim = dim )
+            case (NORM_P)
+                rorder = 1.0_${rk}$ / order
+                nrm = sum( a ** order , dim = dim ) ** rorder
+            case default
+                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                call linalg_error_handling(err_,err)            
+        end select
+        
+    end subroutine stdlib_linalg_norm_${rank}$D_to_${rank-1}$D_${ri}$
+
+    #:endfor
+    #:endfor
 
 end module stdlib_linalg_norms
