@@ -385,7 +385,7 @@ module stdlib_linalg_norms
      
      interface parse_norm_type
         module procedure parse_norm_type_integer
-        !module procedure parse_norm_type_character
+        module procedure parse_norm_type_character
      end interface parse_norm_type
      
      contains
@@ -417,6 +417,39 @@ module stdlib_linalg_norms
         end select
         
      end subroutine parse_norm_type_integer
+
+     pure subroutine parse_norm_type_character(order,norm_type,err)
+        !> User input value
+        character(*),intent(in) :: order
+        !> Return value: norm type
+        integer(ilp),intent(out) :: norm_type
+        !> State return flag
+        type(linalg_state),intent(out) :: err
+        
+        integer(ilp) :: int_order,read_err
+        
+        select case (order)
+           case ('inf','Inf','INF')
+              norm_type = NORM_INF
+           case ('-inf','-Inf','-INF')
+              norm_type = NORM_MINUSINF
+           case ('Euclidean','euclidean','EUCLIDEAN')
+              norm_type = NORM_TWO
+           case default
+            
+              ! Check if this input can be read as an integer
+              read (order,*,iostat=read_err) int_order
+              if (read_err /= 0) then
+                 ! Cannot read as an integer
+                 norm_type = NORM_ONE
+                 err = linalg_state(this,LINALG_ERROR,'Input norm type ',order,' is not recognized.')
+              else
+                 call parse_norm_type_integer(int_order,norm_type,err)
+              end if
+
+        end select
+        
+     end subroutine parse_norm_type_character
 
     !==============================================
     ! Norms : any rank to scalar
