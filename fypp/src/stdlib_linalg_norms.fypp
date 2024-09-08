@@ -204,7 +204,7 @@ module stdlib_linalg_norms
                 nrm = sum( abs(a) )
             case(NORM_TWO)            
                 #:if rt.startswith('complex')
-                nrm = sqrt( sum( a * conjg(a) ) )
+                nrm = sqrt( real( sum( a * conjg(a) ), ${rk}$) )
                 #:else
                 nrm = sqrt( sum( a ** 2 ) )
                 #:endif             
@@ -311,7 +311,7 @@ module stdlib_linalg_norms
                 nrm = sum( abs(a) , dim = dim )                
             case(NORM_TWO)                
                 #:if rt.startswith('complex')
-                nrm = sqrt( sum( a * conjg(a) , dim = dim ) )
+                nrm = sqrt( real( sum( a * conjg(a) , dim = dim ), ${rk}$) )
                 #:else
                 nrm = sqrt( sum( a ** 2 , dim = dim ) )
                 #:endif

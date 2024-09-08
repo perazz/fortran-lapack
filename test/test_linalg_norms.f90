@@ -199,7 +199,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**1
         real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
-        real(sp) :: a(n),b(2)
+        real(sp),allocatable :: a(:),b(:)
+        
+        allocate (a(n),b(2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -232,7 +234,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**2
         real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
-        real(sp) :: a(n),b(2,2)
+        real(sp),allocatable :: a(:),b(:,:)
+        
+        allocate (a(n),b(2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -265,7 +269,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**3
         real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
-        real(sp) :: a(n),b(2,2,2)
+        real(sp),allocatable :: a(:),b(:,:,:)
+        
+        allocate (a(n),b(2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -298,7 +304,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**4
         real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
-        real(sp) :: a(n),b(2,2,2,2)
+        real(sp),allocatable :: a(:),b(:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -331,7 +339,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**5
         real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
-        real(sp) :: a(n),b(2,2,2,2,2)
+        real(sp),allocatable :: a(:),b(:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -364,7 +374,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**6
         real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
-        real(sp) :: a(n),b(2,2,2,2,2,2)
+        real(sp),allocatable :: a(:),b(:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -397,7 +409,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**7
         real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
-        real(sp) :: a(n),b(2,2,2,2,2,2,2)
+        real(sp),allocatable :: a(:),b(:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -430,7 +444,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**8
         real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
-        real(sp) :: a(n),b(2,2,2,2,2,2,2,2)
+        real(sp),allocatable :: a(:),b(:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -463,7 +479,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**9
         real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
-        real(sp) :: a(n),b(2,2,2,2,2,2,2,2,2)
+        real(sp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -496,7 +514,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**10
         real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
-        real(sp) :: a(n),b(2,2,2,2,2,2,2,2,2,2)
+        real(sp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -529,7 +549,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**11
         real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
-        real(sp) :: a(n),b(2,2,2,2,2,2,2,2,2,2,2)
+        real(sp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -562,7 +584,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**12
         real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
-        real(sp) :: a(n),b(2,2,2,2,2,2,2,2,2,2,2,2)
+        real(sp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2,2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -595,7 +619,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**13
         real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
-        real(sp) :: a(n),b(2,2,2,2,2,2,2,2,2,2,2,2,2)
+        real(sp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2,2,2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -628,7 +654,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**14
         real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
-        real(sp) :: a(n),b(2,2,2,2,2,2,2,2,2,2,2,2,2,2)
+        real(sp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2,2,2,2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -661,7 +689,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**1
         real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
-        real(dp) :: a(n),b(2)
+        real(dp),allocatable :: a(:),b(:)
+        
+        allocate (a(n),b(2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -694,7 +724,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**2
         real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
-        real(dp) :: a(n),b(2,2)
+        real(dp),allocatable :: a(:),b(:,:)
+        
+        allocate (a(n),b(2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -727,7 +759,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**3
         real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
-        real(dp) :: a(n),b(2,2,2)
+        real(dp),allocatable :: a(:),b(:,:,:)
+        
+        allocate (a(n),b(2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -760,7 +794,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**4
         real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
-        real(dp) :: a(n),b(2,2,2,2)
+        real(dp),allocatable :: a(:),b(:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -793,7 +829,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**5
         real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
-        real(dp) :: a(n),b(2,2,2,2,2)
+        real(dp),allocatable :: a(:),b(:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -826,7 +864,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**6
         real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
-        real(dp) :: a(n),b(2,2,2,2,2,2)
+        real(dp),allocatable :: a(:),b(:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -859,7 +899,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**7
         real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
-        real(dp) :: a(n),b(2,2,2,2,2,2,2)
+        real(dp),allocatable :: a(:),b(:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -892,7 +934,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**8
         real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
-        real(dp) :: a(n),b(2,2,2,2,2,2,2,2)
+        real(dp),allocatable :: a(:),b(:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -925,7 +969,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**9
         real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
-        real(dp) :: a(n),b(2,2,2,2,2,2,2,2,2)
+        real(dp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -958,7 +1004,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**10
         real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
-        real(dp) :: a(n),b(2,2,2,2,2,2,2,2,2,2)
+        real(dp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -991,7 +1039,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**11
         real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
-        real(dp) :: a(n),b(2,2,2,2,2,2,2,2,2,2,2)
+        real(dp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -1024,7 +1074,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**12
         real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
-        real(dp) :: a(n),b(2,2,2,2,2,2,2,2,2,2,2,2)
+        real(dp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2,2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -1057,7 +1109,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**13
         real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
-        real(dp) :: a(n),b(2,2,2,2,2,2,2,2,2,2,2,2,2)
+        real(dp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2,2,2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -1090,7 +1144,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**14
         real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
-        real(dp) :: a(n),b(2,2,2,2,2,2,2,2,2,2,2,2,2,2)
+        real(dp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2,2,2,2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -1123,7 +1179,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**1
         real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
-        real(qp) :: a(n),b(2)
+        real(qp),allocatable :: a(:),b(:)
+        
+        allocate (a(n),b(2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -1156,7 +1214,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**2
         real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
-        real(qp) :: a(n),b(2,2)
+        real(qp),allocatable :: a(:),b(:,:)
+        
+        allocate (a(n),b(2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -1189,7 +1249,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**3
         real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
-        real(qp) :: a(n),b(2,2,2)
+        real(qp),allocatable :: a(:),b(:,:,:)
+        
+        allocate (a(n),b(2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -1222,7 +1284,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**4
         real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
-        real(qp) :: a(n),b(2,2,2,2)
+        real(qp),allocatable :: a(:),b(:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -1255,7 +1319,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**5
         real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
-        real(qp) :: a(n),b(2,2,2,2,2)
+        real(qp),allocatable :: a(:),b(:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -1288,7 +1354,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**6
         real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
-        real(qp) :: a(n),b(2,2,2,2,2,2)
+        real(qp),allocatable :: a(:),b(:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -1321,7 +1389,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**7
         real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
-        real(qp) :: a(n),b(2,2,2,2,2,2,2)
+        real(qp),allocatable :: a(:),b(:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -1354,7 +1424,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**8
         real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
-        real(qp) :: a(n),b(2,2,2,2,2,2,2,2)
+        real(qp),allocatable :: a(:),b(:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -1387,7 +1459,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**9
         real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
-        real(qp) :: a(n),b(2,2,2,2,2,2,2,2,2)
+        real(qp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -1420,7 +1494,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**10
         real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
-        real(qp) :: a(n),b(2,2,2,2,2,2,2,2,2,2)
+        real(qp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -1453,7 +1529,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**11
         real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
-        real(qp) :: a(n),b(2,2,2,2,2,2,2,2,2,2,2)
+        real(qp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -1486,7 +1564,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**12
         real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
-        real(qp) :: a(n),b(2,2,2,2,2,2,2,2,2,2,2,2)
+        real(qp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2,2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -1519,7 +1599,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**13
         real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
-        real(qp) :: a(n),b(2,2,2,2,2,2,2,2,2,2,2,2,2)
+        real(qp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2,2,2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -1552,7 +1634,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**14
         real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
-        real(qp) :: a(n),b(2,2,2,2,2,2,2,2,2,2,2,2,2,2)
+        real(qp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2,2,2,2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -1585,7 +1669,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**1
         real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
-        complex(sp) :: a(n),b(2)
+        complex(sp),allocatable :: a(:),b(:)
+        
+        allocate (a(n),b(2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -1618,7 +1704,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**2
         real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
-        complex(sp) :: a(n),b(2,2)
+        complex(sp),allocatable :: a(:),b(:,:)
+        
+        allocate (a(n),b(2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -1651,7 +1739,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**3
         real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
-        complex(sp) :: a(n),b(2,2,2)
+        complex(sp),allocatable :: a(:),b(:,:,:)
+        
+        allocate (a(n),b(2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -1684,7 +1774,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**4
         real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
-        complex(sp) :: a(n),b(2,2,2,2)
+        complex(sp),allocatable :: a(:),b(:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -1717,7 +1809,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**5
         real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
-        complex(sp) :: a(n),b(2,2,2,2,2)
+        complex(sp),allocatable :: a(:),b(:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -1750,7 +1844,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**6
         real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
-        complex(sp) :: a(n),b(2,2,2,2,2,2)
+        complex(sp),allocatable :: a(:),b(:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -1783,7 +1879,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**7
         real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
-        complex(sp) :: a(n),b(2,2,2,2,2,2,2)
+        complex(sp),allocatable :: a(:),b(:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -1816,7 +1914,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**8
         real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
-        complex(sp) :: a(n),b(2,2,2,2,2,2,2,2)
+        complex(sp),allocatable :: a(:),b(:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -1849,7 +1949,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**9
         real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
-        complex(sp) :: a(n),b(2,2,2,2,2,2,2,2,2)
+        complex(sp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -1882,7 +1984,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**10
         real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
-        complex(sp) :: a(n),b(2,2,2,2,2,2,2,2,2,2)
+        complex(sp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -1915,7 +2019,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**11
         real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
-        complex(sp) :: a(n),b(2,2,2,2,2,2,2,2,2,2,2)
+        complex(sp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -1948,7 +2054,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**12
         real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
-        complex(sp) :: a(n),b(2,2,2,2,2,2,2,2,2,2,2,2)
+        complex(sp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2,2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -1981,7 +2089,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**13
         real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
-        complex(sp) :: a(n),b(2,2,2,2,2,2,2,2,2,2,2,2,2)
+        complex(sp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2,2,2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -2014,7 +2124,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**14
         real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
-        complex(sp) :: a(n),b(2,2,2,2,2,2,2,2,2,2,2,2,2,2)
+        complex(sp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2,2,2,2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -2047,7 +2159,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**1
         real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
-        complex(dp) :: a(n),b(2)
+        complex(dp),allocatable :: a(:),b(:)
+        
+        allocate (a(n),b(2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -2080,7 +2194,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**2
         real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
-        complex(dp) :: a(n),b(2,2)
+        complex(dp),allocatable :: a(:),b(:,:)
+        
+        allocate (a(n),b(2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -2113,7 +2229,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**3
         real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
-        complex(dp) :: a(n),b(2,2,2)
+        complex(dp),allocatable :: a(:),b(:,:,:)
+        
+        allocate (a(n),b(2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -2146,7 +2264,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**4
         real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
-        complex(dp) :: a(n),b(2,2,2,2)
+        complex(dp),allocatable :: a(:),b(:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -2179,7 +2299,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**5
         real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
-        complex(dp) :: a(n),b(2,2,2,2,2)
+        complex(dp),allocatable :: a(:),b(:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -2212,7 +2334,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**6
         real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
-        complex(dp) :: a(n),b(2,2,2,2,2,2)
+        complex(dp),allocatable :: a(:),b(:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -2245,7 +2369,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**7
         real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
-        complex(dp) :: a(n),b(2,2,2,2,2,2,2)
+        complex(dp),allocatable :: a(:),b(:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -2278,7 +2404,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**8
         real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
-        complex(dp) :: a(n),b(2,2,2,2,2,2,2,2)
+        complex(dp),allocatable :: a(:),b(:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -2311,7 +2439,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**9
         real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
-        complex(dp) :: a(n),b(2,2,2,2,2,2,2,2,2)
+        complex(dp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -2344,7 +2474,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**10
         real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
-        complex(dp) :: a(n),b(2,2,2,2,2,2,2,2,2,2)
+        complex(dp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -2377,7 +2509,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**11
         real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
-        complex(dp) :: a(n),b(2,2,2,2,2,2,2,2,2,2,2)
+        complex(dp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -2410,7 +2544,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**12
         real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
-        complex(dp) :: a(n),b(2,2,2,2,2,2,2,2,2,2,2,2)
+        complex(dp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2,2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -2443,7 +2579,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**13
         real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
-        complex(dp) :: a(n),b(2,2,2,2,2,2,2,2,2,2,2,2,2)
+        complex(dp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2,2,2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -2476,7 +2614,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**14
         real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
-        complex(dp) :: a(n),b(2,2,2,2,2,2,2,2,2,2,2,2,2,2)
+        complex(dp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2,2,2,2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -2509,7 +2649,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**1
         real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
-        complex(qp) :: a(n),b(2)
+        complex(qp),allocatable :: a(:),b(:)
+        
+        allocate (a(n),b(2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -2542,7 +2684,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**2
         real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
-        complex(qp) :: a(n),b(2,2)
+        complex(qp),allocatable :: a(:),b(:,:)
+        
+        allocate (a(n),b(2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -2575,7 +2719,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**3
         real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
-        complex(qp) :: a(n),b(2,2,2)
+        complex(qp),allocatable :: a(:),b(:,:,:)
+        
+        allocate (a(n),b(2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -2608,7 +2754,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**4
         real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
-        complex(qp) :: a(n),b(2,2,2,2)
+        complex(qp),allocatable :: a(:),b(:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -2641,7 +2789,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**5
         real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
-        complex(qp) :: a(n),b(2,2,2,2,2)
+        complex(qp),allocatable :: a(:),b(:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -2674,7 +2824,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**6
         real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
-        complex(qp) :: a(n),b(2,2,2,2,2,2)
+        complex(qp),allocatable :: a(:),b(:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -2707,7 +2859,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**7
         real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
-        complex(qp) :: a(n),b(2,2,2,2,2,2,2)
+        complex(qp),allocatable :: a(:),b(:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -2740,7 +2894,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**8
         real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
-        complex(qp) :: a(n),b(2,2,2,2,2,2,2,2)
+        complex(qp),allocatable :: a(:),b(:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -2773,7 +2929,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**9
         real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
-        complex(qp) :: a(n),b(2,2,2,2,2,2,2,2,2)
+        complex(qp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -2806,7 +2964,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**10
         real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
-        complex(qp) :: a(n),b(2,2,2,2,2,2,2,2,2,2)
+        complex(qp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -2839,7 +2999,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**11
         real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
-        complex(qp) :: a(n),b(2,2,2,2,2,2,2,2,2,2,2)
+        complex(qp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -2872,7 +3034,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**12
         real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
-        complex(qp) :: a(n),b(2,2,2,2,2,2,2,2,2,2,2,2)
+        complex(qp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2,2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -2905,7 +3069,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**13
         real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
-        complex(qp) :: a(n),b(2,2,2,2,2,2,2,2,2,2,2,2,2)
+        complex(qp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2,2,2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision
@@ -2938,7 +3104,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp),parameter :: n = 2_ilp**14
         real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
-        complex(qp) :: a(n),b(2,2,2,2,2,2,2,2,2,2,2,2,2,2)
+        complex(qp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2,2,2,2,2,2))
         
         ! Init as a range,but with small elements such that all power norms will
         ! never overflow, even in single precision

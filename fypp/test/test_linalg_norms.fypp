@@ -53,7 +53,9 @@ module test_linalg_norms
         integer(ilp) :: j,order
         integer(ilp), parameter :: n   = 2_ilp**${rank}$
         real(${rk}$), parameter :: tol = 10*sqrt(epsilon(0.0_${rk}$))
-        ${rt}$ :: a(n), b${fixedranksuffix(rank,2)}$
+        ${rt}$, allocatable :: a(:), b${ranksuffix(rank)}$
+        
+        allocate(a(n), b${fixedranksuffix(rank,2)}$)
         
         ! Init as a range,but with small elements such that all power norms will 
         ! never overflow, even in single precision
