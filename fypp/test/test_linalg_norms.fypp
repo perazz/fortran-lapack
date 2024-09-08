@@ -38,6 +38,8 @@ module test_linalg_norms
         call test_norm2_${ri}$_${rank}$d(error)
         if (error) return
         #:endif
+        call test_norm_dimmed_${ri}$_${rank}$d(error)
+        if (error) return
         #:endfor
         #:endfor
 
@@ -123,6 +125,44 @@ module test_linalg_norms
         
     end subroutine test_norm2_${ri}$_${rank}$d
     #:endif
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_${ri}$_${rank}$d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp), parameter :: ndim = ${rank}$
+        integer(ilp), parameter :: n = 2_ilp**ndim
+        integer(ilp), parameter :: dims(*) = [(dim, dim=1,ndim)]
+        real(${rk}$), parameter :: tol = 10*sqrt(epsilon(0.0_${rk}$))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        ${rt}$, allocatable :: a(:), b${ranksuffix(rank)}$
+        real(${rk}$), allocatable :: bnrm${ranksuffix(rank-1)}$
+        
+        allocate(a(n), b${fixedranksuffix(rank,2)}$)
+        
+        ! Init as a range,but with small elements such that all power norms will 
+        ! never overflow, even in single precision
+        a = [(0.01_${rk}$*(j-n/2_ilp), j=1_ilp,n)]        
+        b = reshape(a, shape(b))        
+        
+        do order = 1, 5
+        
+           do dim = 1, ndim
+            
+               bnrm = norm(b, order, dim)
+               
+               ! Assert size
+               error = .not. all( shape(bnrm)==pack(shape(b),dims/=dim) )
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do 
+            
+        end do
+        
+    end subroutine test_norm_dimmed_${ri}$_${rank}$d
+    
 
     #:endfor
     #:endfor

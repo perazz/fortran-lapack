@@ -45,29 +45,55 @@ module test_linalg_norms
         if (error) return
         call test_norm2_s_2d(error)
         if (error) return
+        call test_norm_dimmed_s_2d(error)
+        if (error) return
         call test_norm2_s_3d(error)
+        if (error) return
+        call test_norm_dimmed_s_3d(error)
         if (error) return
         call test_norm2_s_4d(error)
         if (error) return
+        call test_norm_dimmed_s_4d(error)
+        if (error) return
         call test_norm2_s_5d(error)
+        if (error) return
+        call test_norm_dimmed_s_5d(error)
         if (error) return
         call test_norm2_s_6d(error)
         if (error) return
+        call test_norm_dimmed_s_6d(error)
+        if (error) return
         call test_norm2_s_7d(error)
+        if (error) return
+        call test_norm_dimmed_s_7d(error)
         if (error) return
         call test_norm2_s_8d(error)
         if (error) return
+        call test_norm_dimmed_s_8d(error)
+        if (error) return
         call test_norm2_s_9d(error)
+        if (error) return
+        call test_norm_dimmed_s_9d(error)
         if (error) return
         call test_norm2_s_10d(error)
         if (error) return
+        call test_norm_dimmed_s_10d(error)
+        if (error) return
         call test_norm2_s_11d(error)
+        if (error) return
+        call test_norm_dimmed_s_11d(error)
         if (error) return
         call test_norm2_s_12d(error)
         if (error) return
+        call test_norm_dimmed_s_12d(error)
+        if (error) return
         call test_norm2_s_13d(error)
         if (error) return
+        call test_norm_dimmed_s_13d(error)
+        if (error) return
         call test_norm2_s_14d(error)
+        if (error) return
+        call test_norm_dimmed_s_14d(error)
         if (error) return
         call test_norm_d_1d(error)
         if (error) return
@@ -99,29 +125,55 @@ module test_linalg_norms
         if (error) return
         call test_norm2_d_2d(error)
         if (error) return
+        call test_norm_dimmed_d_2d(error)
+        if (error) return
         call test_norm2_d_3d(error)
+        if (error) return
+        call test_norm_dimmed_d_3d(error)
         if (error) return
         call test_norm2_d_4d(error)
         if (error) return
+        call test_norm_dimmed_d_4d(error)
+        if (error) return
         call test_norm2_d_5d(error)
+        if (error) return
+        call test_norm_dimmed_d_5d(error)
         if (error) return
         call test_norm2_d_6d(error)
         if (error) return
+        call test_norm_dimmed_d_6d(error)
+        if (error) return
         call test_norm2_d_7d(error)
+        if (error) return
+        call test_norm_dimmed_d_7d(error)
         if (error) return
         call test_norm2_d_8d(error)
         if (error) return
+        call test_norm_dimmed_d_8d(error)
+        if (error) return
         call test_norm2_d_9d(error)
+        if (error) return
+        call test_norm_dimmed_d_9d(error)
         if (error) return
         call test_norm2_d_10d(error)
         if (error) return
+        call test_norm_dimmed_d_10d(error)
+        if (error) return
         call test_norm2_d_11d(error)
+        if (error) return
+        call test_norm_dimmed_d_11d(error)
         if (error) return
         call test_norm2_d_12d(error)
         if (error) return
+        call test_norm_dimmed_d_12d(error)
+        if (error) return
         call test_norm2_d_13d(error)
         if (error) return
+        call test_norm_dimmed_d_13d(error)
+        if (error) return
         call test_norm2_d_14d(error)
+        if (error) return
+        call test_norm_dimmed_d_14d(error)
         if (error) return
         call test_norm_q_1d(error)
         if (error) return
@@ -153,29 +205,55 @@ module test_linalg_norms
         if (error) return
         call test_norm2_q_2d(error)
         if (error) return
+        call test_norm_dimmed_q_2d(error)
+        if (error) return
         call test_norm2_q_3d(error)
+        if (error) return
+        call test_norm_dimmed_q_3d(error)
         if (error) return
         call test_norm2_q_4d(error)
         if (error) return
+        call test_norm_dimmed_q_4d(error)
+        if (error) return
         call test_norm2_q_5d(error)
+        if (error) return
+        call test_norm_dimmed_q_5d(error)
         if (error) return
         call test_norm2_q_6d(error)
         if (error) return
+        call test_norm_dimmed_q_6d(error)
+        if (error) return
         call test_norm2_q_7d(error)
+        if (error) return
+        call test_norm_dimmed_q_7d(error)
         if (error) return
         call test_norm2_q_8d(error)
         if (error) return
+        call test_norm_dimmed_q_8d(error)
+        if (error) return
         call test_norm2_q_9d(error)
+        if (error) return
+        call test_norm_dimmed_q_9d(error)
         if (error) return
         call test_norm2_q_10d(error)
         if (error) return
+        call test_norm_dimmed_q_10d(error)
+        if (error) return
         call test_norm2_q_11d(error)
+        if (error) return
+        call test_norm_dimmed_q_11d(error)
         if (error) return
         call test_norm2_q_12d(error)
         if (error) return
+        call test_norm_dimmed_q_12d(error)
+        if (error) return
         call test_norm2_q_13d(error)
         if (error) return
+        call test_norm_dimmed_q_13d(error)
+        if (error) return
         call test_norm2_q_14d(error)
+        if (error) return
+        call test_norm_dimmed_q_14d(error)
         if (error) return
         call test_norm_c_1d(error)
         if (error) return
@@ -205,6 +283,32 @@ module test_linalg_norms
         if (error) return
         call test_norm_c_14d(error)
         if (error) return
+        call test_norm_dimmed_c_2d(error)
+        if (error) return
+        call test_norm_dimmed_c_3d(error)
+        if (error) return
+        call test_norm_dimmed_c_4d(error)
+        if (error) return
+        call test_norm_dimmed_c_5d(error)
+        if (error) return
+        call test_norm_dimmed_c_6d(error)
+        if (error) return
+        call test_norm_dimmed_c_7d(error)
+        if (error) return
+        call test_norm_dimmed_c_8d(error)
+        if (error) return
+        call test_norm_dimmed_c_9d(error)
+        if (error) return
+        call test_norm_dimmed_c_10d(error)
+        if (error) return
+        call test_norm_dimmed_c_11d(error)
+        if (error) return
+        call test_norm_dimmed_c_12d(error)
+        if (error) return
+        call test_norm_dimmed_c_13d(error)
+        if (error) return
+        call test_norm_dimmed_c_14d(error)
+        if (error) return
         call test_norm_z_1d(error)
         if (error) return
         call test_norm_z_2d(error)
@@ -233,6 +337,32 @@ module test_linalg_norms
         if (error) return
         call test_norm_z_14d(error)
         if (error) return
+        call test_norm_dimmed_z_2d(error)
+        if (error) return
+        call test_norm_dimmed_z_3d(error)
+        if (error) return
+        call test_norm_dimmed_z_4d(error)
+        if (error) return
+        call test_norm_dimmed_z_5d(error)
+        if (error) return
+        call test_norm_dimmed_z_6d(error)
+        if (error) return
+        call test_norm_dimmed_z_7d(error)
+        if (error) return
+        call test_norm_dimmed_z_8d(error)
+        if (error) return
+        call test_norm_dimmed_z_9d(error)
+        if (error) return
+        call test_norm_dimmed_z_10d(error)
+        if (error) return
+        call test_norm_dimmed_z_11d(error)
+        if (error) return
+        call test_norm_dimmed_z_12d(error)
+        if (error) return
+        call test_norm_dimmed_z_13d(error)
+        if (error) return
+        call test_norm_dimmed_z_14d(error)
+        if (error) return
         call test_norm_w_1d(error)
         if (error) return
         call test_norm_w_2d(error)
@@ -260,6 +390,32 @@ module test_linalg_norms
         call test_norm_w_13d(error)
         if (error) return
         call test_norm_w_14d(error)
+        if (error) return
+        call test_norm_dimmed_w_2d(error)
+        if (error) return
+        call test_norm_dimmed_w_3d(error)
+        if (error) return
+        call test_norm_dimmed_w_4d(error)
+        if (error) return
+        call test_norm_dimmed_w_5d(error)
+        if (error) return
+        call test_norm_dimmed_w_6d(error)
+        if (error) return
+        call test_norm_dimmed_w_7d(error)
+        if (error) return
+        call test_norm_dimmed_w_8d(error)
+        if (error) return
+        call test_norm_dimmed_w_9d(error)
+        if (error) return
+        call test_norm_dimmed_w_10d(error)
+        if (error) return
+        call test_norm_dimmed_w_11d(error)
+        if (error) return
+        call test_norm_dimmed_w_12d(error)
+        if (error) return
+        call test_norm_dimmed_w_13d(error)
+        if (error) return
+        call test_norm_dimmed_w_14d(error)
         if (error) return
 
         call cpu_time(t1)
@@ -738,29 +894,59 @@ module test_linalg_norms
         
         ! Test some norms
         error = .not. abs(norm(a,2) - norm2(a)) < tol*norm(a,2)
-        print *, 'a ',norm(a,2),norm2(a)
         if (error) return
         
         ! Infinity norms
         error = .not. abs(norm(b,2) - norm2(b)) < tol*norm(b,2)
-        print *, 'B ',norm(b,2),norm2(b)
         if (error) return
         
         ! Test norm as collapsed around dimension
         do dim = 1,ndim
             
             error = .not. all(abs(norm(b,2,dim) - norm2(b,dim)) < tol*max(1.0_sp,norm(b,2,dim)))
-            if (error) then
-            print *, 'dim=',dim
-            print *, ' normA=',norm(b,2,dim)
-            print *, ' normB=',norm2(b,dim)
             if (error) return
-            end if
             
         end do
         
     end subroutine test_norm2_s_2d
-
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_s_2d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 2
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        real(sp),allocatable :: a(:),b(:,:)
+        real(sp),allocatable :: bnrm(:)
+        
+        allocate (a(n),b(2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_sp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_s_2d
+    
     subroutine test_norm2_s_3d(error)
         logical,intent(out) :: error
 
@@ -780,29 +966,59 @@ module test_linalg_norms
         
         ! Test some norms
         error = .not. abs(norm(a,2) - norm2(a)) < tol*norm(a,2)
-        print *, 'a ',norm(a,2),norm2(a)
         if (error) return
         
         ! Infinity norms
         error = .not. abs(norm(b,2) - norm2(b)) < tol*norm(b,2)
-        print *, 'B ',norm(b,2),norm2(b)
         if (error) return
         
         ! Test norm as collapsed around dimension
         do dim = 1,ndim
             
             error = .not. all(abs(norm(b,2,dim) - norm2(b,dim)) < tol*max(1.0_sp,norm(b,2,dim)))
-            if (error) then
-            print *, 'dim=',dim
-            print *, ' normA=',norm(b,2,dim)
-            print *, ' normB=',norm2(b,dim)
             if (error) return
-            end if
             
         end do
         
     end subroutine test_norm2_s_3d
-
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_s_3d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 3
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        real(sp),allocatable :: a(:),b(:,:,:)
+        real(sp),allocatable :: bnrm(:,:)
+        
+        allocate (a(n),b(2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_sp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_s_3d
+    
     subroutine test_norm2_s_4d(error)
         logical,intent(out) :: error
 
@@ -822,29 +1038,59 @@ module test_linalg_norms
         
         ! Test some norms
         error = .not. abs(norm(a,2) - norm2(a)) < tol*norm(a,2)
-        print *, 'a ',norm(a,2),norm2(a)
         if (error) return
         
         ! Infinity norms
         error = .not. abs(norm(b,2) - norm2(b)) < tol*norm(b,2)
-        print *, 'B ',norm(b,2),norm2(b)
         if (error) return
         
         ! Test norm as collapsed around dimension
         do dim = 1,ndim
             
             error = .not. all(abs(norm(b,2,dim) - norm2(b,dim)) < tol*max(1.0_sp,norm(b,2,dim)))
-            if (error) then
-            print *, 'dim=',dim
-            print *, ' normA=',norm(b,2,dim)
-            print *, ' normB=',norm2(b,dim)
             if (error) return
-            end if
             
         end do
         
     end subroutine test_norm2_s_4d
-
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_s_4d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 4
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        real(sp),allocatable :: a(:),b(:,:,:,:)
+        real(sp),allocatable :: bnrm(:,:,:)
+        
+        allocate (a(n),b(2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_sp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_s_4d
+    
     subroutine test_norm2_s_5d(error)
         logical,intent(out) :: error
 
@@ -864,29 +1110,59 @@ module test_linalg_norms
         
         ! Test some norms
         error = .not. abs(norm(a,2) - norm2(a)) < tol*norm(a,2)
-        print *, 'a ',norm(a,2),norm2(a)
         if (error) return
         
         ! Infinity norms
         error = .not. abs(norm(b,2) - norm2(b)) < tol*norm(b,2)
-        print *, 'B ',norm(b,2),norm2(b)
         if (error) return
         
         ! Test norm as collapsed around dimension
         do dim = 1,ndim
             
             error = .not. all(abs(norm(b,2,dim) - norm2(b,dim)) < tol*max(1.0_sp,norm(b,2,dim)))
-            if (error) then
-            print *, 'dim=',dim
-            print *, ' normA=',norm(b,2,dim)
-            print *, ' normB=',norm2(b,dim)
             if (error) return
-            end if
             
         end do
         
     end subroutine test_norm2_s_5d
-
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_s_5d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 5
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        real(sp),allocatable :: a(:),b(:,:,:,:,:)
+        real(sp),allocatable :: bnrm(:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_sp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_s_5d
+    
     subroutine test_norm2_s_6d(error)
         logical,intent(out) :: error
 
@@ -906,29 +1182,59 @@ module test_linalg_norms
         
         ! Test some norms
         error = .not. abs(norm(a,2) - norm2(a)) < tol*norm(a,2)
-        print *, 'a ',norm(a,2),norm2(a)
         if (error) return
         
         ! Infinity norms
         error = .not. abs(norm(b,2) - norm2(b)) < tol*norm(b,2)
-        print *, 'B ',norm(b,2),norm2(b)
         if (error) return
         
         ! Test norm as collapsed around dimension
         do dim = 1,ndim
             
             error = .not. all(abs(norm(b,2,dim) - norm2(b,dim)) < tol*max(1.0_sp,norm(b,2,dim)))
-            if (error) then
-            print *, 'dim=',dim
-            print *, ' normA=',norm(b,2,dim)
-            print *, ' normB=',norm2(b,dim)
             if (error) return
-            end if
             
         end do
         
     end subroutine test_norm2_s_6d
-
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_s_6d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 6
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        real(sp),allocatable :: a(:),b(:,:,:,:,:,:)
+        real(sp),allocatable :: bnrm(:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_sp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_s_6d
+    
     subroutine test_norm2_s_7d(error)
         logical,intent(out) :: error
 
@@ -948,29 +1254,59 @@ module test_linalg_norms
         
         ! Test some norms
         error = .not. abs(norm(a,2) - norm2(a)) < tol*norm(a,2)
-        print *, 'a ',norm(a,2),norm2(a)
         if (error) return
         
         ! Infinity norms
         error = .not. abs(norm(b,2) - norm2(b)) < tol*norm(b,2)
-        print *, 'B ',norm(b,2),norm2(b)
         if (error) return
         
         ! Test norm as collapsed around dimension
         do dim = 1,ndim
             
             error = .not. all(abs(norm(b,2,dim) - norm2(b,dim)) < tol*max(1.0_sp,norm(b,2,dim)))
-            if (error) then
-            print *, 'dim=',dim
-            print *, ' normA=',norm(b,2,dim)
-            print *, ' normB=',norm2(b,dim)
             if (error) return
-            end if
             
         end do
         
     end subroutine test_norm2_s_7d
-
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_s_7d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 7
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        real(sp),allocatable :: a(:),b(:,:,:,:,:,:,:)
+        real(sp),allocatable :: bnrm(:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_sp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_s_7d
+    
     subroutine test_norm2_s_8d(error)
         logical,intent(out) :: error
 
@@ -990,29 +1326,59 @@ module test_linalg_norms
         
         ! Test some norms
         error = .not. abs(norm(a,2) - norm2(a)) < tol*norm(a,2)
-        print *, 'a ',norm(a,2),norm2(a)
         if (error) return
         
         ! Infinity norms
         error = .not. abs(norm(b,2) - norm2(b)) < tol*norm(b,2)
-        print *, 'B ',norm(b,2),norm2(b)
         if (error) return
         
         ! Test norm as collapsed around dimension
         do dim = 1,ndim
             
             error = .not. all(abs(norm(b,2,dim) - norm2(b,dim)) < tol*max(1.0_sp,norm(b,2,dim)))
-            if (error) then
-            print *, 'dim=',dim
-            print *, ' normA=',norm(b,2,dim)
-            print *, ' normB=',norm2(b,dim)
             if (error) return
-            end if
             
         end do
         
     end subroutine test_norm2_s_8d
-
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_s_8d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 8
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        real(sp),allocatable :: a(:),b(:,:,:,:,:,:,:,:)
+        real(sp),allocatable :: bnrm(:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_sp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_s_8d
+    
     subroutine test_norm2_s_9d(error)
         logical,intent(out) :: error
 
@@ -1032,29 +1398,59 @@ module test_linalg_norms
         
         ! Test some norms
         error = .not. abs(norm(a,2) - norm2(a)) < tol*norm(a,2)
-        print *, 'a ',norm(a,2),norm2(a)
         if (error) return
         
         ! Infinity norms
         error = .not. abs(norm(b,2) - norm2(b)) < tol*norm(b,2)
-        print *, 'B ',norm(b,2),norm2(b)
         if (error) return
         
         ! Test norm as collapsed around dimension
         do dim = 1,ndim
             
             error = .not. all(abs(norm(b,2,dim) - norm2(b,dim)) < tol*max(1.0_sp,norm(b,2,dim)))
-            if (error) then
-            print *, 'dim=',dim
-            print *, ' normA=',norm(b,2,dim)
-            print *, ' normB=',norm2(b,dim)
             if (error) return
-            end if
             
         end do
         
     end subroutine test_norm2_s_9d
-
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_s_9d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 9
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        real(sp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:)
+        real(sp),allocatable :: bnrm(:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_sp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_s_9d
+    
     subroutine test_norm2_s_10d(error)
         logical,intent(out) :: error
 
@@ -1074,29 +1470,59 @@ module test_linalg_norms
         
         ! Test some norms
         error = .not. abs(norm(a,2) - norm2(a)) < tol*norm(a,2)
-        print *, 'a ',norm(a,2),norm2(a)
         if (error) return
         
         ! Infinity norms
         error = .not. abs(norm(b,2) - norm2(b)) < tol*norm(b,2)
-        print *, 'B ',norm(b,2),norm2(b)
         if (error) return
         
         ! Test norm as collapsed around dimension
         do dim = 1,ndim
             
             error = .not. all(abs(norm(b,2,dim) - norm2(b,dim)) < tol*max(1.0_sp,norm(b,2,dim)))
-            if (error) then
-            print *, 'dim=',dim
-            print *, ' normA=',norm(b,2,dim)
-            print *, ' normB=',norm2(b,dim)
             if (error) return
-            end if
             
         end do
         
     end subroutine test_norm2_s_10d
-
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_s_10d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 10
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        real(sp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:,:)
+        real(sp),allocatable :: bnrm(:,:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_sp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_s_10d
+    
     subroutine test_norm2_s_11d(error)
         logical,intent(out) :: error
 
@@ -1116,29 +1542,59 @@ module test_linalg_norms
         
         ! Test some norms
         error = .not. abs(norm(a,2) - norm2(a)) < tol*norm(a,2)
-        print *, 'a ',norm(a,2),norm2(a)
         if (error) return
         
         ! Infinity norms
         error = .not. abs(norm(b,2) - norm2(b)) < tol*norm(b,2)
-        print *, 'B ',norm(b,2),norm2(b)
         if (error) return
         
         ! Test norm as collapsed around dimension
         do dim = 1,ndim
             
             error = .not. all(abs(norm(b,2,dim) - norm2(b,dim)) < tol*max(1.0_sp,norm(b,2,dim)))
-            if (error) then
-            print *, 'dim=',dim
-            print *, ' normA=',norm(b,2,dim)
-            print *, ' normB=',norm2(b,dim)
             if (error) return
-            end if
             
         end do
         
     end subroutine test_norm2_s_11d
-
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_s_11d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 11
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        real(sp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:,:,:)
+        real(sp),allocatable :: bnrm(:,:,:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_sp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_s_11d
+    
     subroutine test_norm2_s_12d(error)
         logical,intent(out) :: error
 
@@ -1158,29 +1614,59 @@ module test_linalg_norms
         
         ! Test some norms
         error = .not. abs(norm(a,2) - norm2(a)) < tol*norm(a,2)
-        print *, 'a ',norm(a,2),norm2(a)
         if (error) return
         
         ! Infinity norms
         error = .not. abs(norm(b,2) - norm2(b)) < tol*norm(b,2)
-        print *, 'B ',norm(b,2),norm2(b)
         if (error) return
         
         ! Test norm as collapsed around dimension
         do dim = 1,ndim
             
             error = .not. all(abs(norm(b,2,dim) - norm2(b,dim)) < tol*max(1.0_sp,norm(b,2,dim)))
-            if (error) then
-            print *, 'dim=',dim
-            print *, ' normA=',norm(b,2,dim)
-            print *, ' normB=',norm2(b,dim)
             if (error) return
-            end if
             
         end do
         
     end subroutine test_norm2_s_12d
-
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_s_12d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 12
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        real(sp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:,:,:,:)
+        real(sp),allocatable :: bnrm(:,:,:,:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_sp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_s_12d
+    
     subroutine test_norm2_s_13d(error)
         logical,intent(out) :: error
 
@@ -1200,29 +1686,59 @@ module test_linalg_norms
         
         ! Test some norms
         error = .not. abs(norm(a,2) - norm2(a)) < tol*norm(a,2)
-        print *, 'a ',norm(a,2),norm2(a)
         if (error) return
         
         ! Infinity norms
         error = .not. abs(norm(b,2) - norm2(b)) < tol*norm(b,2)
-        print *, 'B ',norm(b,2),norm2(b)
         if (error) return
         
         ! Test norm as collapsed around dimension
         do dim = 1,ndim
             
             error = .not. all(abs(norm(b,2,dim) - norm2(b,dim)) < tol*max(1.0_sp,norm(b,2,dim)))
-            if (error) then
-            print *, 'dim=',dim
-            print *, ' normA=',norm(b,2,dim)
-            print *, ' normB=',norm2(b,dim)
             if (error) return
-            end if
             
         end do
         
     end subroutine test_norm2_s_13d
-
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_s_13d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 13
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        real(sp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:,:,:,:,:)
+        real(sp),allocatable :: bnrm(:,:,:,:,:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2,2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_sp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_s_13d
+    
     subroutine test_norm2_s_14d(error)
         logical,intent(out) :: error
 
@@ -1242,29 +1758,59 @@ module test_linalg_norms
         
         ! Test some norms
         error = .not. abs(norm(a,2) - norm2(a)) < tol*norm(a,2)
-        print *, 'a ',norm(a,2),norm2(a)
         if (error) return
         
         ! Infinity norms
         error = .not. abs(norm(b,2) - norm2(b)) < tol*norm(b,2)
-        print *, 'B ',norm(b,2),norm2(b)
         if (error) return
         
         ! Test norm as collapsed around dimension
         do dim = 1,ndim
             
             error = .not. all(abs(norm(b,2,dim) - norm2(b,dim)) < tol*max(1.0_sp,norm(b,2,dim)))
-            if (error) then
-            print *, 'dim=',dim
-            print *, ' normA=',norm(b,2,dim)
-            print *, ' normB=',norm2(b,dim)
             if (error) return
-            end if
             
         end do
         
     end subroutine test_norm2_s_14d
-
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_s_14d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 14
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        real(sp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        real(sp),allocatable :: bnrm(:,:,:,:,:,:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2,2,2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_sp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_s_14d
+    
     !> Test several norms with different dimensions
     subroutine test_norm_d_1d(error)
         logical,intent(out) :: error
@@ -1733,29 +2279,59 @@ module test_linalg_norms
         
         ! Test some norms
         error = .not. abs(norm(a,2) - norm2(a)) < tol*norm(a,2)
-        print *, 'a ',norm(a,2),norm2(a)
         if (error) return
         
         ! Infinity norms
         error = .not. abs(norm(b,2) - norm2(b)) < tol*norm(b,2)
-        print *, 'B ',norm(b,2),norm2(b)
         if (error) return
         
         ! Test norm as collapsed around dimension
         do dim = 1,ndim
             
             error = .not. all(abs(norm(b,2,dim) - norm2(b,dim)) < tol*max(1.0_dp,norm(b,2,dim)))
-            if (error) then
-            print *, 'dim=',dim
-            print *, ' normA=',norm(b,2,dim)
-            print *, ' normB=',norm2(b,dim)
             if (error) return
-            end if
             
         end do
         
     end subroutine test_norm2_d_2d
-
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_d_2d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 2
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        real(dp),allocatable :: a(:),b(:,:)
+        real(dp),allocatable :: bnrm(:)
+        
+        allocate (a(n),b(2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_dp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_d_2d
+    
     subroutine test_norm2_d_3d(error)
         logical,intent(out) :: error
 
@@ -1775,29 +2351,59 @@ module test_linalg_norms
         
         ! Test some norms
         error = .not. abs(norm(a,2) - norm2(a)) < tol*norm(a,2)
-        print *, 'a ',norm(a,2),norm2(a)
         if (error) return
         
         ! Infinity norms
         error = .not. abs(norm(b,2) - norm2(b)) < tol*norm(b,2)
-        print *, 'B ',norm(b,2),norm2(b)
         if (error) return
         
         ! Test norm as collapsed around dimension
         do dim = 1,ndim
             
             error = .not. all(abs(norm(b,2,dim) - norm2(b,dim)) < tol*max(1.0_dp,norm(b,2,dim)))
-            if (error) then
-            print *, 'dim=',dim
-            print *, ' normA=',norm(b,2,dim)
-            print *, ' normB=',norm2(b,dim)
             if (error) return
-            end if
             
         end do
         
     end subroutine test_norm2_d_3d
-
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_d_3d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 3
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        real(dp),allocatable :: a(:),b(:,:,:)
+        real(dp),allocatable :: bnrm(:,:)
+        
+        allocate (a(n),b(2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_dp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_d_3d
+    
     subroutine test_norm2_d_4d(error)
         logical,intent(out) :: error
 
@@ -1817,29 +2423,59 @@ module test_linalg_norms
         
         ! Test some norms
         error = .not. abs(norm(a,2) - norm2(a)) < tol*norm(a,2)
-        print *, 'a ',norm(a,2),norm2(a)
         if (error) return
         
         ! Infinity norms
         error = .not. abs(norm(b,2) - norm2(b)) < tol*norm(b,2)
-        print *, 'B ',norm(b,2),norm2(b)
         if (error) return
         
         ! Test norm as collapsed around dimension
         do dim = 1,ndim
             
             error = .not. all(abs(norm(b,2,dim) - norm2(b,dim)) < tol*max(1.0_dp,norm(b,2,dim)))
-            if (error) then
-            print *, 'dim=',dim
-            print *, ' normA=',norm(b,2,dim)
-            print *, ' normB=',norm2(b,dim)
             if (error) return
-            end if
             
         end do
         
     end subroutine test_norm2_d_4d
-
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_d_4d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 4
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        real(dp),allocatable :: a(:),b(:,:,:,:)
+        real(dp),allocatable :: bnrm(:,:,:)
+        
+        allocate (a(n),b(2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_dp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_d_4d
+    
     subroutine test_norm2_d_5d(error)
         logical,intent(out) :: error
 
@@ -1859,29 +2495,59 @@ module test_linalg_norms
         
         ! Test some norms
         error = .not. abs(norm(a,2) - norm2(a)) < tol*norm(a,2)
-        print *, 'a ',norm(a,2),norm2(a)
         if (error) return
         
         ! Infinity norms
         error = .not. abs(norm(b,2) - norm2(b)) < tol*norm(b,2)
-        print *, 'B ',norm(b,2),norm2(b)
         if (error) return
         
         ! Test norm as collapsed around dimension
         do dim = 1,ndim
             
             error = .not. all(abs(norm(b,2,dim) - norm2(b,dim)) < tol*max(1.0_dp,norm(b,2,dim)))
-            if (error) then
-            print *, 'dim=',dim
-            print *, ' normA=',norm(b,2,dim)
-            print *, ' normB=',norm2(b,dim)
             if (error) return
-            end if
             
         end do
         
     end subroutine test_norm2_d_5d
-
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_d_5d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 5
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        real(dp),allocatable :: a(:),b(:,:,:,:,:)
+        real(dp),allocatable :: bnrm(:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_dp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_d_5d
+    
     subroutine test_norm2_d_6d(error)
         logical,intent(out) :: error
 
@@ -1901,29 +2567,59 @@ module test_linalg_norms
         
         ! Test some norms
         error = .not. abs(norm(a,2) - norm2(a)) < tol*norm(a,2)
-        print *, 'a ',norm(a,2),norm2(a)
         if (error) return
         
         ! Infinity norms
         error = .not. abs(norm(b,2) - norm2(b)) < tol*norm(b,2)
-        print *, 'B ',norm(b,2),norm2(b)
         if (error) return
         
         ! Test norm as collapsed around dimension
         do dim = 1,ndim
             
             error = .not. all(abs(norm(b,2,dim) - norm2(b,dim)) < tol*max(1.0_dp,norm(b,2,dim)))
-            if (error) then
-            print *, 'dim=',dim
-            print *, ' normA=',norm(b,2,dim)
-            print *, ' normB=',norm2(b,dim)
             if (error) return
-            end if
             
         end do
         
     end subroutine test_norm2_d_6d
-
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_d_6d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 6
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        real(dp),allocatable :: a(:),b(:,:,:,:,:,:)
+        real(dp),allocatable :: bnrm(:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_dp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_d_6d
+    
     subroutine test_norm2_d_7d(error)
         logical,intent(out) :: error
 
@@ -1943,29 +2639,59 @@ module test_linalg_norms
         
         ! Test some norms
         error = .not. abs(norm(a,2) - norm2(a)) < tol*norm(a,2)
-        print *, 'a ',norm(a,2),norm2(a)
         if (error) return
         
         ! Infinity norms
         error = .not. abs(norm(b,2) - norm2(b)) < tol*norm(b,2)
-        print *, 'B ',norm(b,2),norm2(b)
         if (error) return
         
         ! Test norm as collapsed around dimension
         do dim = 1,ndim
             
             error = .not. all(abs(norm(b,2,dim) - norm2(b,dim)) < tol*max(1.0_dp,norm(b,2,dim)))
-            if (error) then
-            print *, 'dim=',dim
-            print *, ' normA=',norm(b,2,dim)
-            print *, ' normB=',norm2(b,dim)
             if (error) return
-            end if
             
         end do
         
     end subroutine test_norm2_d_7d
-
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_d_7d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 7
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        real(dp),allocatable :: a(:),b(:,:,:,:,:,:,:)
+        real(dp),allocatable :: bnrm(:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_dp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_d_7d
+    
     subroutine test_norm2_d_8d(error)
         logical,intent(out) :: error
 
@@ -1985,29 +2711,59 @@ module test_linalg_norms
         
         ! Test some norms
         error = .not. abs(norm(a,2) - norm2(a)) < tol*norm(a,2)
-        print *, 'a ',norm(a,2),norm2(a)
         if (error) return
         
         ! Infinity norms
         error = .not. abs(norm(b,2) - norm2(b)) < tol*norm(b,2)
-        print *, 'B ',norm(b,2),norm2(b)
         if (error) return
         
         ! Test norm as collapsed around dimension
         do dim = 1,ndim
             
             error = .not. all(abs(norm(b,2,dim) - norm2(b,dim)) < tol*max(1.0_dp,norm(b,2,dim)))
-            if (error) then
-            print *, 'dim=',dim
-            print *, ' normA=',norm(b,2,dim)
-            print *, ' normB=',norm2(b,dim)
             if (error) return
-            end if
             
         end do
         
     end subroutine test_norm2_d_8d
-
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_d_8d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 8
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        real(dp),allocatable :: a(:),b(:,:,:,:,:,:,:,:)
+        real(dp),allocatable :: bnrm(:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_dp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_d_8d
+    
     subroutine test_norm2_d_9d(error)
         logical,intent(out) :: error
 
@@ -2027,29 +2783,59 @@ module test_linalg_norms
         
         ! Test some norms
         error = .not. abs(norm(a,2) - norm2(a)) < tol*norm(a,2)
-        print *, 'a ',norm(a,2),norm2(a)
         if (error) return
         
         ! Infinity norms
         error = .not. abs(norm(b,2) - norm2(b)) < tol*norm(b,2)
-        print *, 'B ',norm(b,2),norm2(b)
         if (error) return
         
         ! Test norm as collapsed around dimension
         do dim = 1,ndim
             
             error = .not. all(abs(norm(b,2,dim) - norm2(b,dim)) < tol*max(1.0_dp,norm(b,2,dim)))
-            if (error) then
-            print *, 'dim=',dim
-            print *, ' normA=',norm(b,2,dim)
-            print *, ' normB=',norm2(b,dim)
             if (error) return
-            end if
             
         end do
         
     end subroutine test_norm2_d_9d
-
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_d_9d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 9
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        real(dp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:)
+        real(dp),allocatable :: bnrm(:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_dp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_d_9d
+    
     subroutine test_norm2_d_10d(error)
         logical,intent(out) :: error
 
@@ -2069,29 +2855,59 @@ module test_linalg_norms
         
         ! Test some norms
         error = .not. abs(norm(a,2) - norm2(a)) < tol*norm(a,2)
-        print *, 'a ',norm(a,2),norm2(a)
         if (error) return
         
         ! Infinity norms
         error = .not. abs(norm(b,2) - norm2(b)) < tol*norm(b,2)
-        print *, 'B ',norm(b,2),norm2(b)
         if (error) return
         
         ! Test norm as collapsed around dimension
         do dim = 1,ndim
             
             error = .not. all(abs(norm(b,2,dim) - norm2(b,dim)) < tol*max(1.0_dp,norm(b,2,dim)))
-            if (error) then
-            print *, 'dim=',dim
-            print *, ' normA=',norm(b,2,dim)
-            print *, ' normB=',norm2(b,dim)
             if (error) return
-            end if
             
         end do
         
     end subroutine test_norm2_d_10d
-
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_d_10d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 10
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        real(dp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:,:)
+        real(dp),allocatable :: bnrm(:,:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_dp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_d_10d
+    
     subroutine test_norm2_d_11d(error)
         logical,intent(out) :: error
 
@@ -2111,29 +2927,59 @@ module test_linalg_norms
         
         ! Test some norms
         error = .not. abs(norm(a,2) - norm2(a)) < tol*norm(a,2)
-        print *, 'a ',norm(a,2),norm2(a)
         if (error) return
         
         ! Infinity norms
         error = .not. abs(norm(b,2) - norm2(b)) < tol*norm(b,2)
-        print *, 'B ',norm(b,2),norm2(b)
         if (error) return
         
         ! Test norm as collapsed around dimension
         do dim = 1,ndim
             
             error = .not. all(abs(norm(b,2,dim) - norm2(b,dim)) < tol*max(1.0_dp,norm(b,2,dim)))
-            if (error) then
-            print *, 'dim=',dim
-            print *, ' normA=',norm(b,2,dim)
-            print *, ' normB=',norm2(b,dim)
             if (error) return
-            end if
             
         end do
         
     end subroutine test_norm2_d_11d
-
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_d_11d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 11
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        real(dp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:,:,:)
+        real(dp),allocatable :: bnrm(:,:,:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_dp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_d_11d
+    
     subroutine test_norm2_d_12d(error)
         logical,intent(out) :: error
 
@@ -2153,29 +2999,59 @@ module test_linalg_norms
         
         ! Test some norms
         error = .not. abs(norm(a,2) - norm2(a)) < tol*norm(a,2)
-        print *, 'a ',norm(a,2),norm2(a)
         if (error) return
         
         ! Infinity norms
         error = .not. abs(norm(b,2) - norm2(b)) < tol*norm(b,2)
-        print *, 'B ',norm(b,2),norm2(b)
         if (error) return
         
         ! Test norm as collapsed around dimension
         do dim = 1,ndim
             
             error = .not. all(abs(norm(b,2,dim) - norm2(b,dim)) < tol*max(1.0_dp,norm(b,2,dim)))
-            if (error) then
-            print *, 'dim=',dim
-            print *, ' normA=',norm(b,2,dim)
-            print *, ' normB=',norm2(b,dim)
             if (error) return
-            end if
             
         end do
         
     end subroutine test_norm2_d_12d
-
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_d_12d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 12
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        real(dp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:,:,:,:)
+        real(dp),allocatable :: bnrm(:,:,:,:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_dp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_d_12d
+    
     subroutine test_norm2_d_13d(error)
         logical,intent(out) :: error
 
@@ -2195,29 +3071,59 @@ module test_linalg_norms
         
         ! Test some norms
         error = .not. abs(norm(a,2) - norm2(a)) < tol*norm(a,2)
-        print *, 'a ',norm(a,2),norm2(a)
         if (error) return
         
         ! Infinity norms
         error = .not. abs(norm(b,2) - norm2(b)) < tol*norm(b,2)
-        print *, 'B ',norm(b,2),norm2(b)
         if (error) return
         
         ! Test norm as collapsed around dimension
         do dim = 1,ndim
             
             error = .not. all(abs(norm(b,2,dim) - norm2(b,dim)) < tol*max(1.0_dp,norm(b,2,dim)))
-            if (error) then
-            print *, 'dim=',dim
-            print *, ' normA=',norm(b,2,dim)
-            print *, ' normB=',norm2(b,dim)
             if (error) return
-            end if
             
         end do
         
     end subroutine test_norm2_d_13d
-
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_d_13d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 13
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        real(dp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:,:,:,:,:)
+        real(dp),allocatable :: bnrm(:,:,:,:,:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2,2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_dp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_d_13d
+    
     subroutine test_norm2_d_14d(error)
         logical,intent(out) :: error
 
@@ -2237,29 +3143,59 @@ module test_linalg_norms
         
         ! Test some norms
         error = .not. abs(norm(a,2) - norm2(a)) < tol*norm(a,2)
-        print *, 'a ',norm(a,2),norm2(a)
         if (error) return
         
         ! Infinity norms
         error = .not. abs(norm(b,2) - norm2(b)) < tol*norm(b,2)
-        print *, 'B ',norm(b,2),norm2(b)
         if (error) return
         
         ! Test norm as collapsed around dimension
         do dim = 1,ndim
             
             error = .not. all(abs(norm(b,2,dim) - norm2(b,dim)) < tol*max(1.0_dp,norm(b,2,dim)))
-            if (error) then
-            print *, 'dim=',dim
-            print *, ' normA=',norm(b,2,dim)
-            print *, ' normB=',norm2(b,dim)
             if (error) return
-            end if
             
         end do
         
     end subroutine test_norm2_d_14d
-
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_d_14d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 14
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        real(dp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        real(dp),allocatable :: bnrm(:,:,:,:,:,:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2,2,2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_dp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_d_14d
+    
     !> Test several norms with different dimensions
     subroutine test_norm_q_1d(error)
         logical,intent(out) :: error
@@ -2728,29 +3664,59 @@ module test_linalg_norms
         
         ! Test some norms
         error = .not. abs(norm(a,2) - norm2(a)) < tol*norm(a,2)
-        print *, 'a ',norm(a,2),norm2(a)
         if (error) return
         
         ! Infinity norms
         error = .not. abs(norm(b,2) - norm2(b)) < tol*norm(b,2)
-        print *, 'B ',norm(b,2),norm2(b)
         if (error) return
         
         ! Test norm as collapsed around dimension
         do dim = 1,ndim
             
             error = .not. all(abs(norm(b,2,dim) - norm2(b,dim)) < tol*max(1.0_qp,norm(b,2,dim)))
-            if (error) then
-            print *, 'dim=',dim
-            print *, ' normA=',norm(b,2,dim)
-            print *, ' normB=',norm2(b,dim)
             if (error) return
-            end if
             
         end do
         
     end subroutine test_norm2_q_2d
-
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_q_2d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 2
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        real(qp),allocatable :: a(:),b(:,:)
+        real(qp),allocatable :: bnrm(:)
+        
+        allocate (a(n),b(2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_qp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_q_2d
+    
     subroutine test_norm2_q_3d(error)
         logical,intent(out) :: error
 
@@ -2770,29 +3736,59 @@ module test_linalg_norms
         
         ! Test some norms
         error = .not. abs(norm(a,2) - norm2(a)) < tol*norm(a,2)
-        print *, 'a ',norm(a,2),norm2(a)
         if (error) return
         
         ! Infinity norms
         error = .not. abs(norm(b,2) - norm2(b)) < tol*norm(b,2)
-        print *, 'B ',norm(b,2),norm2(b)
         if (error) return
         
         ! Test norm as collapsed around dimension
         do dim = 1,ndim
             
             error = .not. all(abs(norm(b,2,dim) - norm2(b,dim)) < tol*max(1.0_qp,norm(b,2,dim)))
-            if (error) then
-            print *, 'dim=',dim
-            print *, ' normA=',norm(b,2,dim)
-            print *, ' normB=',norm2(b,dim)
             if (error) return
-            end if
             
         end do
         
     end subroutine test_norm2_q_3d
-
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_q_3d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 3
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        real(qp),allocatable :: a(:),b(:,:,:)
+        real(qp),allocatable :: bnrm(:,:)
+        
+        allocate (a(n),b(2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_qp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_q_3d
+    
     subroutine test_norm2_q_4d(error)
         logical,intent(out) :: error
 
@@ -2812,29 +3808,59 @@ module test_linalg_norms
         
         ! Test some norms
         error = .not. abs(norm(a,2) - norm2(a)) < tol*norm(a,2)
-        print *, 'a ',norm(a,2),norm2(a)
         if (error) return
         
         ! Infinity norms
         error = .not. abs(norm(b,2) - norm2(b)) < tol*norm(b,2)
-        print *, 'B ',norm(b,2),norm2(b)
         if (error) return
         
         ! Test norm as collapsed around dimension
         do dim = 1,ndim
             
             error = .not. all(abs(norm(b,2,dim) - norm2(b,dim)) < tol*max(1.0_qp,norm(b,2,dim)))
-            if (error) then
-            print *, 'dim=',dim
-            print *, ' normA=',norm(b,2,dim)
-            print *, ' normB=',norm2(b,dim)
             if (error) return
-            end if
             
         end do
         
     end subroutine test_norm2_q_4d
-
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_q_4d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 4
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        real(qp),allocatable :: a(:),b(:,:,:,:)
+        real(qp),allocatable :: bnrm(:,:,:)
+        
+        allocate (a(n),b(2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_qp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_q_4d
+    
     subroutine test_norm2_q_5d(error)
         logical,intent(out) :: error
 
@@ -2854,29 +3880,59 @@ module test_linalg_norms
         
         ! Test some norms
         error = .not. abs(norm(a,2) - norm2(a)) < tol*norm(a,2)
-        print *, 'a ',norm(a,2),norm2(a)
         if (error) return
         
         ! Infinity norms
         error = .not. abs(norm(b,2) - norm2(b)) < tol*norm(b,2)
-        print *, 'B ',norm(b,2),norm2(b)
         if (error) return
         
         ! Test norm as collapsed around dimension
         do dim = 1,ndim
             
             error = .not. all(abs(norm(b,2,dim) - norm2(b,dim)) < tol*max(1.0_qp,norm(b,2,dim)))
-            if (error) then
-            print *, 'dim=',dim
-            print *, ' normA=',norm(b,2,dim)
-            print *, ' normB=',norm2(b,dim)
             if (error) return
-            end if
             
         end do
         
     end subroutine test_norm2_q_5d
-
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_q_5d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 5
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        real(qp),allocatable :: a(:),b(:,:,:,:,:)
+        real(qp),allocatable :: bnrm(:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_qp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_q_5d
+    
     subroutine test_norm2_q_6d(error)
         logical,intent(out) :: error
 
@@ -2896,29 +3952,59 @@ module test_linalg_norms
         
         ! Test some norms
         error = .not. abs(norm(a,2) - norm2(a)) < tol*norm(a,2)
-        print *, 'a ',norm(a,2),norm2(a)
         if (error) return
         
         ! Infinity norms
         error = .not. abs(norm(b,2) - norm2(b)) < tol*norm(b,2)
-        print *, 'B ',norm(b,2),norm2(b)
         if (error) return
         
         ! Test norm as collapsed around dimension
         do dim = 1,ndim
             
             error = .not. all(abs(norm(b,2,dim) - norm2(b,dim)) < tol*max(1.0_qp,norm(b,2,dim)))
-            if (error) then
-            print *, 'dim=',dim
-            print *, ' normA=',norm(b,2,dim)
-            print *, ' normB=',norm2(b,dim)
             if (error) return
-            end if
             
         end do
         
     end subroutine test_norm2_q_6d
-
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_q_6d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 6
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        real(qp),allocatable :: a(:),b(:,:,:,:,:,:)
+        real(qp),allocatable :: bnrm(:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_qp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_q_6d
+    
     subroutine test_norm2_q_7d(error)
         logical,intent(out) :: error
 
@@ -2938,29 +4024,59 @@ module test_linalg_norms
         
         ! Test some norms
         error = .not. abs(norm(a,2) - norm2(a)) < tol*norm(a,2)
-        print *, 'a ',norm(a,2),norm2(a)
         if (error) return
         
         ! Infinity norms
         error = .not. abs(norm(b,2) - norm2(b)) < tol*norm(b,2)
-        print *, 'B ',norm(b,2),norm2(b)
         if (error) return
         
         ! Test norm as collapsed around dimension
         do dim = 1,ndim
             
             error = .not. all(abs(norm(b,2,dim) - norm2(b,dim)) < tol*max(1.0_qp,norm(b,2,dim)))
-            if (error) then
-            print *, 'dim=',dim
-            print *, ' normA=',norm(b,2,dim)
-            print *, ' normB=',norm2(b,dim)
             if (error) return
-            end if
             
         end do
         
     end subroutine test_norm2_q_7d
-
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_q_7d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 7
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        real(qp),allocatable :: a(:),b(:,:,:,:,:,:,:)
+        real(qp),allocatable :: bnrm(:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_qp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_q_7d
+    
     subroutine test_norm2_q_8d(error)
         logical,intent(out) :: error
 
@@ -2980,29 +4096,59 @@ module test_linalg_norms
         
         ! Test some norms
         error = .not. abs(norm(a,2) - norm2(a)) < tol*norm(a,2)
-        print *, 'a ',norm(a,2),norm2(a)
         if (error) return
         
         ! Infinity norms
         error = .not. abs(norm(b,2) - norm2(b)) < tol*norm(b,2)
-        print *, 'B ',norm(b,2),norm2(b)
         if (error) return
         
         ! Test norm as collapsed around dimension
         do dim = 1,ndim
             
             error = .not. all(abs(norm(b,2,dim) - norm2(b,dim)) < tol*max(1.0_qp,norm(b,2,dim)))
-            if (error) then
-            print *, 'dim=',dim
-            print *, ' normA=',norm(b,2,dim)
-            print *, ' normB=',norm2(b,dim)
             if (error) return
-            end if
             
         end do
         
     end subroutine test_norm2_q_8d
-
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_q_8d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 8
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        real(qp),allocatable :: a(:),b(:,:,:,:,:,:,:,:)
+        real(qp),allocatable :: bnrm(:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_qp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_q_8d
+    
     subroutine test_norm2_q_9d(error)
         logical,intent(out) :: error
 
@@ -3022,29 +4168,59 @@ module test_linalg_norms
         
         ! Test some norms
         error = .not. abs(norm(a,2) - norm2(a)) < tol*norm(a,2)
-        print *, 'a ',norm(a,2),norm2(a)
         if (error) return
         
         ! Infinity norms
         error = .not. abs(norm(b,2) - norm2(b)) < tol*norm(b,2)
-        print *, 'B ',norm(b,2),norm2(b)
         if (error) return
         
         ! Test norm as collapsed around dimension
         do dim = 1,ndim
             
             error = .not. all(abs(norm(b,2,dim) - norm2(b,dim)) < tol*max(1.0_qp,norm(b,2,dim)))
-            if (error) then
-            print *, 'dim=',dim
-            print *, ' normA=',norm(b,2,dim)
-            print *, ' normB=',norm2(b,dim)
             if (error) return
-            end if
             
         end do
         
     end subroutine test_norm2_q_9d
-
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_q_9d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 9
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        real(qp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:)
+        real(qp),allocatable :: bnrm(:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_qp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_q_9d
+    
     subroutine test_norm2_q_10d(error)
         logical,intent(out) :: error
 
@@ -3064,29 +4240,59 @@ module test_linalg_norms
         
         ! Test some norms
         error = .not. abs(norm(a,2) - norm2(a)) < tol*norm(a,2)
-        print *, 'a ',norm(a,2),norm2(a)
         if (error) return
         
         ! Infinity norms
         error = .not. abs(norm(b,2) - norm2(b)) < tol*norm(b,2)
-        print *, 'B ',norm(b,2),norm2(b)
         if (error) return
         
         ! Test norm as collapsed around dimension
         do dim = 1,ndim
             
             error = .not. all(abs(norm(b,2,dim) - norm2(b,dim)) < tol*max(1.0_qp,norm(b,2,dim)))
-            if (error) then
-            print *, 'dim=',dim
-            print *, ' normA=',norm(b,2,dim)
-            print *, ' normB=',norm2(b,dim)
             if (error) return
-            end if
             
         end do
         
     end subroutine test_norm2_q_10d
-
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_q_10d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 10
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        real(qp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:,:)
+        real(qp),allocatable :: bnrm(:,:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_qp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_q_10d
+    
     subroutine test_norm2_q_11d(error)
         logical,intent(out) :: error
 
@@ -3106,29 +4312,59 @@ module test_linalg_norms
         
         ! Test some norms
         error = .not. abs(norm(a,2) - norm2(a)) < tol*norm(a,2)
-        print *, 'a ',norm(a,2),norm2(a)
         if (error) return
         
         ! Infinity norms
         error = .not. abs(norm(b,2) - norm2(b)) < tol*norm(b,2)
-        print *, 'B ',norm(b,2),norm2(b)
         if (error) return
         
         ! Test norm as collapsed around dimension
         do dim = 1,ndim
             
             error = .not. all(abs(norm(b,2,dim) - norm2(b,dim)) < tol*max(1.0_qp,norm(b,2,dim)))
-            if (error) then
-            print *, 'dim=',dim
-            print *, ' normA=',norm(b,2,dim)
-            print *, ' normB=',norm2(b,dim)
             if (error) return
-            end if
             
         end do
         
     end subroutine test_norm2_q_11d
-
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_q_11d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 11
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        real(qp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:,:,:)
+        real(qp),allocatable :: bnrm(:,:,:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_qp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_q_11d
+    
     subroutine test_norm2_q_12d(error)
         logical,intent(out) :: error
 
@@ -3148,29 +4384,59 @@ module test_linalg_norms
         
         ! Test some norms
         error = .not. abs(norm(a,2) - norm2(a)) < tol*norm(a,2)
-        print *, 'a ',norm(a,2),norm2(a)
         if (error) return
         
         ! Infinity norms
         error = .not. abs(norm(b,2) - norm2(b)) < tol*norm(b,2)
-        print *, 'B ',norm(b,2),norm2(b)
         if (error) return
         
         ! Test norm as collapsed around dimension
         do dim = 1,ndim
             
             error = .not. all(abs(norm(b,2,dim) - norm2(b,dim)) < tol*max(1.0_qp,norm(b,2,dim)))
-            if (error) then
-            print *, 'dim=',dim
-            print *, ' normA=',norm(b,2,dim)
-            print *, ' normB=',norm2(b,dim)
             if (error) return
-            end if
             
         end do
         
     end subroutine test_norm2_q_12d
-
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_q_12d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 12
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        real(qp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:,:,:,:)
+        real(qp),allocatable :: bnrm(:,:,:,:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_qp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_q_12d
+    
     subroutine test_norm2_q_13d(error)
         logical,intent(out) :: error
 
@@ -3190,29 +4456,59 @@ module test_linalg_norms
         
         ! Test some norms
         error = .not. abs(norm(a,2) - norm2(a)) < tol*norm(a,2)
-        print *, 'a ',norm(a,2),norm2(a)
         if (error) return
         
         ! Infinity norms
         error = .not. abs(norm(b,2) - norm2(b)) < tol*norm(b,2)
-        print *, 'B ',norm(b,2),norm2(b)
         if (error) return
         
         ! Test norm as collapsed around dimension
         do dim = 1,ndim
             
             error = .not. all(abs(norm(b,2,dim) - norm2(b,dim)) < tol*max(1.0_qp,norm(b,2,dim)))
-            if (error) then
-            print *, 'dim=',dim
-            print *, ' normA=',norm(b,2,dim)
-            print *, ' normB=',norm2(b,dim)
             if (error) return
-            end if
             
         end do
         
     end subroutine test_norm2_q_13d
-
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_q_13d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 13
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        real(qp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:,:,:,:,:)
+        real(qp),allocatable :: bnrm(:,:,:,:,:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2,2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_qp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_q_13d
+    
     subroutine test_norm2_q_14d(error)
         logical,intent(out) :: error
 
@@ -3232,29 +4528,59 @@ module test_linalg_norms
         
         ! Test some norms
         error = .not. abs(norm(a,2) - norm2(a)) < tol*norm(a,2)
-        print *, 'a ',norm(a,2),norm2(a)
         if (error) return
         
         ! Infinity norms
         error = .not. abs(norm(b,2) - norm2(b)) < tol*norm(b,2)
-        print *, 'B ',norm(b,2),norm2(b)
         if (error) return
         
         ! Test norm as collapsed around dimension
         do dim = 1,ndim
             
             error = .not. all(abs(norm(b,2,dim) - norm2(b,dim)) < tol*max(1.0_qp,norm(b,2,dim)))
-            if (error) then
-            print *, 'dim=',dim
-            print *, ' normA=',norm(b,2,dim)
-            print *, ' normB=',norm2(b,dim)
             if (error) return
-            end if
             
         end do
         
     end subroutine test_norm2_q_14d
-
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_q_14d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 14
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        real(qp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        real(qp),allocatable :: bnrm(:,:,:,:,:,:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2,2,2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_qp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_q_14d
+    
     !> Test several norms with different dimensions
     subroutine test_norm_c_1d(error)
         logical,intent(out) :: error
@@ -3704,7 +5030,488 @@ module test_linalg_norms
     end subroutine test_norm_c_14d
 
     !> Test Euclidean norm; compare with Fortran intrinsic norm2 for reals
-
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_c_2d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 2
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        complex(sp),allocatable :: a(:),b(:,:)
+        real(sp),allocatable :: bnrm(:)
+        
+        allocate (a(n),b(2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_sp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_c_2d
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_c_3d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 3
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        complex(sp),allocatable :: a(:),b(:,:,:)
+        real(sp),allocatable :: bnrm(:,:)
+        
+        allocate (a(n),b(2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_sp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_c_3d
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_c_4d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 4
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        complex(sp),allocatable :: a(:),b(:,:,:,:)
+        real(sp),allocatable :: bnrm(:,:,:)
+        
+        allocate (a(n),b(2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_sp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_c_4d
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_c_5d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 5
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        complex(sp),allocatable :: a(:),b(:,:,:,:,:)
+        real(sp),allocatable :: bnrm(:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_sp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_c_5d
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_c_6d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 6
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        complex(sp),allocatable :: a(:),b(:,:,:,:,:,:)
+        real(sp),allocatable :: bnrm(:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_sp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_c_6d
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_c_7d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 7
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        complex(sp),allocatable :: a(:),b(:,:,:,:,:,:,:)
+        real(sp),allocatable :: bnrm(:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_sp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_c_7d
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_c_8d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 8
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        complex(sp),allocatable :: a(:),b(:,:,:,:,:,:,:,:)
+        real(sp),allocatable :: bnrm(:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_sp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_c_8d
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_c_9d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 9
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        complex(sp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:)
+        real(sp),allocatable :: bnrm(:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_sp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_c_9d
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_c_10d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 10
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        complex(sp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:,:)
+        real(sp),allocatable :: bnrm(:,:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_sp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_c_10d
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_c_11d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 11
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        complex(sp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:,:,:)
+        real(sp),allocatable :: bnrm(:,:,:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_sp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_c_11d
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_c_12d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 12
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        complex(sp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:,:,:,:)
+        real(sp),allocatable :: bnrm(:,:,:,:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_sp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_c_12d
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_c_13d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 13
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        complex(sp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:,:,:,:,:)
+        real(sp),allocatable :: bnrm(:,:,:,:,:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2,2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_sp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_c_13d
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_c_14d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 14
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        complex(sp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        real(sp),allocatable :: bnrm(:,:,:,:,:,:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2,2,2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_sp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_c_14d
+    
     !> Test several norms with different dimensions
     subroutine test_norm_z_1d(error)
         logical,intent(out) :: error
@@ -4154,7 +5961,488 @@ module test_linalg_norms
     end subroutine test_norm_z_14d
 
     !> Test Euclidean norm; compare with Fortran intrinsic norm2 for reals
-
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_z_2d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 2
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        complex(dp),allocatable :: a(:),b(:,:)
+        real(dp),allocatable :: bnrm(:)
+        
+        allocate (a(n),b(2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_dp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_z_2d
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_z_3d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 3
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        complex(dp),allocatable :: a(:),b(:,:,:)
+        real(dp),allocatable :: bnrm(:,:)
+        
+        allocate (a(n),b(2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_dp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_z_3d
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_z_4d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 4
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        complex(dp),allocatable :: a(:),b(:,:,:,:)
+        real(dp),allocatable :: bnrm(:,:,:)
+        
+        allocate (a(n),b(2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_dp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_z_4d
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_z_5d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 5
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        complex(dp),allocatable :: a(:),b(:,:,:,:,:)
+        real(dp),allocatable :: bnrm(:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_dp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_z_5d
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_z_6d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 6
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        complex(dp),allocatable :: a(:),b(:,:,:,:,:,:)
+        real(dp),allocatable :: bnrm(:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_dp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_z_6d
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_z_7d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 7
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        complex(dp),allocatable :: a(:),b(:,:,:,:,:,:,:)
+        real(dp),allocatable :: bnrm(:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_dp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_z_7d
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_z_8d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 8
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        complex(dp),allocatable :: a(:),b(:,:,:,:,:,:,:,:)
+        real(dp),allocatable :: bnrm(:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_dp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_z_8d
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_z_9d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 9
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        complex(dp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:)
+        real(dp),allocatable :: bnrm(:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_dp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_z_9d
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_z_10d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 10
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        complex(dp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:,:)
+        real(dp),allocatable :: bnrm(:,:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_dp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_z_10d
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_z_11d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 11
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        complex(dp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:,:,:)
+        real(dp),allocatable :: bnrm(:,:,:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_dp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_z_11d
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_z_12d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 12
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        complex(dp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:,:,:,:)
+        real(dp),allocatable :: bnrm(:,:,:,:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_dp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_z_12d
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_z_13d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 13
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        complex(dp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:,:,:,:,:)
+        real(dp),allocatable :: bnrm(:,:,:,:,:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2,2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_dp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_z_13d
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_z_14d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 14
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        complex(dp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        real(dp),allocatable :: bnrm(:,:,:,:,:,:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2,2,2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_dp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_z_14d
+    
     !> Test several norms with different dimensions
     subroutine test_norm_w_1d(error)
         logical,intent(out) :: error
@@ -4604,6 +6892,487 @@ module test_linalg_norms
     end subroutine test_norm_w_14d
 
     !> Test Euclidean norm; compare with Fortran intrinsic norm2 for reals
-
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_w_2d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 2
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        complex(qp),allocatable :: a(:),b(:,:)
+        real(qp),allocatable :: bnrm(:)
+        
+        allocate (a(n),b(2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_qp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_w_2d
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_w_3d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 3
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        complex(qp),allocatable :: a(:),b(:,:,:)
+        real(qp),allocatable :: bnrm(:,:)
+        
+        allocate (a(n),b(2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_qp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_w_3d
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_w_4d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 4
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        complex(qp),allocatable :: a(:),b(:,:,:,:)
+        real(qp),allocatable :: bnrm(:,:,:)
+        
+        allocate (a(n),b(2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_qp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_w_4d
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_w_5d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 5
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        complex(qp),allocatable :: a(:),b(:,:,:,:,:)
+        real(qp),allocatable :: bnrm(:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_qp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_w_5d
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_w_6d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 6
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        complex(qp),allocatable :: a(:),b(:,:,:,:,:,:)
+        real(qp),allocatable :: bnrm(:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_qp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_w_6d
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_w_7d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 7
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        complex(qp),allocatable :: a(:),b(:,:,:,:,:,:,:)
+        real(qp),allocatable :: bnrm(:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_qp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_w_7d
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_w_8d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 8
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        complex(qp),allocatable :: a(:),b(:,:,:,:,:,:,:,:)
+        real(qp),allocatable :: bnrm(:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_qp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_w_8d
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_w_9d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 9
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        complex(qp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:)
+        real(qp),allocatable :: bnrm(:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_qp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_w_9d
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_w_10d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 10
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        complex(qp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:,:)
+        real(qp),allocatable :: bnrm(:,:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_qp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_w_10d
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_w_11d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 11
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        complex(qp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:,:,:)
+        real(qp),allocatable :: bnrm(:,:,:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_qp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_w_11d
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_w_12d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 12
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        complex(qp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:,:,:,:)
+        real(qp),allocatable :: bnrm(:,:,:,:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_qp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_w_12d
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_w_13d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 13
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        complex(qp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:,:,:,:,:)
+        real(qp),allocatable :: bnrm(:,:,:,:,:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2,2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_qp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_w_13d
+    
+    ! Test norm along a dimension and compare it against individually evaluated norms
+    subroutine test_norm_dimmed_w_14d(error)
+        logical,intent(out) :: error
+       
+        integer(ilp) :: j,dim,order
+        integer(ilp),parameter :: ndim = 14
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim,dim=1,ndim)]
+        real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
+        integer(ilp) :: coords(ndim)
+        real :: x(ndim)
+        complex(qp),allocatable :: a(:),b(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        real(qp),allocatable :: bnrm(:,:,:,:,:,:,:,:,:,:,:,:,:)
+        
+        allocate (a(n),b(2,2,2,2,2,2,2,2,2,2,2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_qp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        do order = 1,5
+        
+           do dim = 1,ndim
+            
+               bnrm = norm(b,order,dim)
+               
+               ! Assert size
+               error = .not. all(shape(bnrm) == pack(shape(b),dims /= dim))
+               if (error) print *, 'INVALID OUTPUT SHAPE, order=',order,' dim=',dim
+               
+           end do
+            
+        end do
+        
+    end subroutine test_norm_dimmed_w_14d
+    
 end module test_linalg_norms
 
