@@ -1,4 +1,17 @@
 #:include "common.fypp"
+
+#! Generates an array rank suffix with a fixed integer size for all dimensions.
+#!
+#! Args:
+#!     rank (int): Rank of the variable
+#!     size (int): Size along each dimension
+#!
+#! Returns:
+#!     Array rank suffix string (e.g. (4,4,4) if rank = 3 and size = 4)
+#!
+#:def fixedranksuffix(rank,size)
+#{if rank > 0}#(${str(size) + (","+str(size)) * (rank - 1)}$)#{endif}#
+#:enddef
 ! Test matrix norms 
 module test_linalg_norms
     use stdlib_linalg_interface
@@ -7,8 +20,8 @@ module test_linalg_norms
 
     contains
 
-    !> SVD tests
-    subroutine test_cholesky(error)
+    !> Vector norm test: array interfaces
+    subroutine test_norms(error)
         logical, intent(out) :: error
 
         real :: t0,t1
@@ -16,53 +29,57 @@ module test_linalg_norms
         call cpu_time(t0)
 
         #:for rk,rt,ri in ALL_KINDS_TYPES
-        call test_cholesky_${ri}$(error)
+        #:for rank in range(1, MAXRANK)
+        call test_norm_${ri}$_${rank}$d(error)
         if (error) return
-        #: endfor
+        #:endfor
+        #:endfor
 
         call cpu_time(t1)
 
         print 1, 1000*(t1-t0), merge('SUCCESS','ERROR  ',.not.error)
 
-        1 format('Cholesky tests completed in ',f9.4,' milliseconds, result=',a)
+        1 format('Vector norm tests completed in ',f9.4,' milliseconds, result=',a)
 
-    end subroutine test_cholesky
-
-    !> QR factorization of a random matrix
+    end subroutine test_norms
+    
     #:for rk,rt,ri in ALL_KINDS_TYPES
-    subroutine test_cholesky_${ri}$(error)
+    #:for rank in range(1, MAXRANK)
+    
+    !> Test 2-norm with different dimensions; compare with Fortran norm2 intrinsic
+    subroutine test_norm_${ri}$_${rank}$d(error)
         logical,intent(out) :: error
 
-        integer(ilp), parameter :: n = 3_ilp
+        integer(ilp) :: j,order
+        integer(ilp), parameter :: n   = 2_ilp**${rank}$
         real(${rk}$), parameter :: tol = 10*sqrt(epsilon(0.0_${rk}$))
-        ${rt}$ :: a(n,n), l(n,n)
-        type(linalg_state) :: err
+        ${rt}$ :: a(n), b${fixedranksuffix(rank,2)}$
         
-        ! Set real matrix
-        a(1,:) = [6, 15, 55]
-        a(2,:) = [15, 55, 225]
-        a(3,:) = [55, 225, 979]
+        ! Init as a range,but with small elements such that all power norms will 
+        ! never overflow, even in single precision
+        a = [(0.01_${rk}$*(j-n/2_ilp), j=1_ilp,n)]        
+        b = reshape(a, shape(b))
         
+        ! Test some norms
+        do order = 1, 10            
+           error = .not. abs(norm(a,order)-norm(b,order))<tol
+           print *, 'order ',order ,' ok ',.not.error,' RT= ${rt}$ ', norm(a,order), norm(b,order)
+           if (error) return
+        end do
         
-        ! Set result (lower factor) 
-        l(1,:) = [ 2.4495_${rk}$,  0.0000_${rk}$, 0.0000_${rk}$]
-        l(2,:) = [ 6.1237_${rk}$,  4.1833_${rk}$, 0.0000_${rk}$]
-        l(3,:) = [22.4537_${rk}$, 20.9165_${rk}$, 6.1101_${rk}$]
-        
-        ! 1) QR factorization with full matrices
-        call cholesky(a, l, other_zeroed=.true., err=err)
-        
-        ! Check return code
-        error = err%error()
-        if (error) return
-        
-        ! Check solution
-        !error = .not. all(abs(a-matmul(q,r))<tol)
-        !if (error) return
-        
-        
-    end subroutine test_cholesky_${ri}$
+        ! Infinity norms
+        error = .not. abs(norm(a,'inf')-norm(b,'inf'))<tol
+        print *, 'inf ',order ,' ok ',.not.error
+        if (error) return        
 
+        ! Infinity norms
+        error = .not. abs(norm(a,'-inf')-norm(b,'-inf'))<tol
+        print *, '-inf ',order ,' ok ',.not.error
+        if (error) return        
+        
+    end subroutine test_norm_${ri}$_${rank}$d
+
+    #:endfor
     #:endfor
 
 

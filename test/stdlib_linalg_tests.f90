@@ -8,6 +8,7 @@ program stdlib_linalg_tests
     use test_linalg_svd
     use test_linalg_eig
     use test_linalg_qr
+    use test_linalg_norms
     implicit none(type, external)
 
     logical :: error
@@ -36,9 +37,9 @@ program stdlib_linalg_tests
 !    call test_eig(error)
 !    if (error) error stop 'test_eig'
 
-    call test_qr(error)
-    if (error) error stop 'test_qr'
-
+    call test_norms(error)
+    if (error) error stop 'test_norms'
+    
     !> All tests passed
     stop 0
 
