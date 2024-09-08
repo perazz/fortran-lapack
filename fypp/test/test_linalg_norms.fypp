@@ -33,6 +33,12 @@ module test_linalg_norms
         call test_norm_${ri}$_${rank}$d(error)
         if (error) return
         #:endfor
+        #:for rank in range(2, MAXRANK)
+        #:if rt.startswith('real')
+        call test_norm2_${ri}$_${rank}$d(error)
+        if (error) return
+        #:endif
+        #:endfor
         #:endfor
 
         call cpu_time(t1)
@@ -46,7 +52,7 @@ module test_linalg_norms
     #:for rk,rt,ri in ALL_KINDS_TYPES
     #:for rank in range(1, MAXRANK)
     
-    !> Test 2-norm with different dimensions; compare with Fortran norm2 intrinsic
+    !> Test several norms with different dimensions
     subroutine test_norm_${ri}$_${rank}$d(error)
         logical,intent(out) :: error
 
@@ -64,22 +70,59 @@ module test_linalg_norms
         
         ! Test some norms
         do order = 1, 10            
-           error = .not. abs(norm(a,order)-norm(b,order))<tol
-           print *, 'order ',order ,' ok ',.not.error,' RT= ${rt}$ ', norm(a,order), norm(b,order)
+           error = .not. abs(norm(a,order)-norm(b,order))<tol*max(1.0_${rk}$,norm(a,order))
            if (error) return
         end do
         
         ! Infinity norms
-        error = .not. abs(norm(a,'inf')-norm(b,'inf'))<tol
-        print *, 'inf ',order ,' ok ',.not.error
+        error = .not. abs(norm(a,'inf')-norm(b,'inf'))<tol*max(1.0_${rk}$,norm(a,'inf'))
         if (error) return        
 
         ! Infinity norms
-        error = .not. abs(norm(a,'-inf')-norm(b,'-inf'))<tol
-        print *, '-inf ',order ,' ok ',.not.error
+        error = .not. abs(norm(a,'-inf')-norm(b,'-inf'))<tol*max(1.0_${rk}$,norm(a,'-inf'))
         if (error) return        
         
     end subroutine test_norm_${ri}$_${rank}$d
+    #:endfor
+
+    !> Test Euclidean norm; compare with Fortran intrinsic norm2 for reals
+    #:for rank in range(2, MAXRANK)
+    #:if rt.startswith('real')
+    subroutine test_norm2_${ri}$_${rank}$d(error)
+        logical,intent(out) :: error
+
+        integer(ilp) :: j,dim
+        integer(ilp), parameter :: ndim = ${rank}$
+        integer(ilp), parameter :: n   = 2_ilp**ndim
+        real(${rk}$), parameter :: tol = 10*sqrt(epsilon(0.0_${rk}$))
+        ${rt}$, allocatable :: a(:), b${ranksuffix(rank)}$
+        intrinsic :: norm2
+        
+        allocate(a(n), b${fixedranksuffix(rank,2)}$)
+        
+        ! Init as a range,but with small elements such that all power norms will 
+        ! never overflow, even in single precision
+        a = [(0.01_${rk}$*(j-n/2_ilp), j=1_ilp,n)]        
+        b = reshape(a, shape(b))
+        
+        ! Test some norms
+        error = .not. abs(norm(a,2) - norm2(a))<tol*norm(a,2)
+        if (error) return
+        
+        ! Infinity norms
+        error = .not. abs(norm(b,2)-norm2(b))<tol*norm(b,2)
+        if (error) return        
+        
+        ! Test norm as collapsed around dimension
+        do dim = 1, ndim
+            
+            error = .not.all(abs(norm(b,2,dim)-norm2(b,dim))<tol*max(1.0_${rk}$,norm(b,2,dim)))
+            if (error) return
+            
+        end do
+        
+    end subroutine test_norm2_${ri}$_${rank}$d
+    #:endif
 
     #:endfor
     #:endfor
