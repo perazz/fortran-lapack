@@ -143,7 +143,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         ${it}$, intent(in) :: order
         !> Norm of the matrix.
-        ${rt}$ :: nrm
+        real(${rk}$) :: nrm
                                     
         call norm_${rank}$D_${ii}$_${ri}$(a, nrm=nrm, order=order)
         
@@ -158,7 +158,7 @@ module stdlib_linalg_norms
         !> Output state return flag. 
         type(linalg_state), intent(out) :: err                         
         !> Norm of the matrix.
-        ${rt}$ :: nrm                 
+        real(${rk}$) :: nrm                 
                 
         call norm_${rank}$D_${ii}$_${ri}$(a, nrm=nrm, order=order, err=err)
         
@@ -169,7 +169,7 @@ module stdlib_linalg_norms
         !> Input ${rank}$-d matrix a${ranksuffix(rank)}$
         ${rt}$, intent(in) :: a${ranksuffix(rank)}$
         !> Norm of the matrix.
-        ${rt}$, intent(out) :: nrm
+        real(${rk}$), intent(out) :: nrm
         !> Order of the matrix norm being computed.
         ${it}$, intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -239,7 +239,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp), intent(in) :: dim
         !> Norm of the matrix.
-        ${rt}$ :: nrm${reduced_shape('a', rank, 'dim')}$     
+        real(${rk}$) :: nrm${reduced_shape('a', rank, 'dim')}$     
         
         call norm_${rank}$D_to_${rank-1}$D_${ii}$_${ri}$(a, nrm, order, dim)
             
@@ -256,7 +256,7 @@ module stdlib_linalg_norms
         !> Output state return flag. 
         type(linalg_state), intent(out) :: err                                 
         !> Norm of the matrix.
-        ${rt}$ :: nrm${reduced_shape('a', rank, 'dim')}$     
+        real(${rk}$) :: nrm${reduced_shape('a', rank, 'dim')}$     
         
         call norm_${rank}$D_to_${rank-1}$D_${ii}$_${ri}$(a, nrm, order, dim, err)
             
@@ -270,7 +270,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp), intent(in) :: dim        
         !> Norm of the matrix.        
-        ${rt}$, intent(out) :: nrm${reduced_shape('a', rank, 'dim')}$     
+        real(${rk}$), intent(out) :: nrm${reduced_shape('a', rank, 'dim')}$     
         !> Order of the matrix norm being computed.
         ${it}$, intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop

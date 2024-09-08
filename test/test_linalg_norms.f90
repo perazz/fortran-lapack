@@ -201,6 +201,8 @@ module test_linalg_norms
         real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
         real(sp) :: a(n),b(2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_sp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -232,6 +234,8 @@ module test_linalg_norms
         real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
         real(sp) :: a(n),b(2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_sp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -263,6 +267,8 @@ module test_linalg_norms
         real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
         real(sp) :: a(n),b(2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_sp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -294,6 +300,8 @@ module test_linalg_norms
         real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
         real(sp) :: a(n),b(2,2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_sp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -325,6 +333,8 @@ module test_linalg_norms
         real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
         real(sp) :: a(n),b(2,2,2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_sp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -356,6 +366,8 @@ module test_linalg_norms
         real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
         real(sp) :: a(n),b(2,2,2,2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_sp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -387,6 +399,8 @@ module test_linalg_norms
         real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
         real(sp) :: a(n),b(2,2,2,2,2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_sp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -418,6 +432,8 @@ module test_linalg_norms
         real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
         real(sp) :: a(n),b(2,2,2,2,2,2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_sp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -449,6 +465,8 @@ module test_linalg_norms
         real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
         real(sp) :: a(n),b(2,2,2,2,2,2,2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_sp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -480,6 +498,8 @@ module test_linalg_norms
         real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
         real(sp) :: a(n),b(2,2,2,2,2,2,2,2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_sp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -511,6 +531,8 @@ module test_linalg_norms
         real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
         real(sp) :: a(n),b(2,2,2,2,2,2,2,2,2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_sp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -542,6 +564,8 @@ module test_linalg_norms
         real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
         real(sp) :: a(n),b(2,2,2,2,2,2,2,2,2,2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_sp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -573,6 +597,8 @@ module test_linalg_norms
         real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
         real(sp) :: a(n),b(2,2,2,2,2,2,2,2,2,2,2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_sp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -604,6 +630,8 @@ module test_linalg_norms
         real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
         real(sp) :: a(n),b(2,2,2,2,2,2,2,2,2,2,2,2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_sp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -635,6 +663,8 @@ module test_linalg_norms
         real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
         real(dp) :: a(n),b(2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_dp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -666,6 +696,8 @@ module test_linalg_norms
         real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
         real(dp) :: a(n),b(2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_dp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -697,6 +729,8 @@ module test_linalg_norms
         real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
         real(dp) :: a(n),b(2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_dp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -728,6 +762,8 @@ module test_linalg_norms
         real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
         real(dp) :: a(n),b(2,2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_dp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -759,6 +795,8 @@ module test_linalg_norms
         real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
         real(dp) :: a(n),b(2,2,2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_dp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -790,6 +828,8 @@ module test_linalg_norms
         real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
         real(dp) :: a(n),b(2,2,2,2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_dp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -821,6 +861,8 @@ module test_linalg_norms
         real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
         real(dp) :: a(n),b(2,2,2,2,2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_dp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -852,6 +894,8 @@ module test_linalg_norms
         real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
         real(dp) :: a(n),b(2,2,2,2,2,2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_dp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -883,6 +927,8 @@ module test_linalg_norms
         real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
         real(dp) :: a(n),b(2,2,2,2,2,2,2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_dp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -914,6 +960,8 @@ module test_linalg_norms
         real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
         real(dp) :: a(n),b(2,2,2,2,2,2,2,2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_dp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -945,6 +993,8 @@ module test_linalg_norms
         real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
         real(dp) :: a(n),b(2,2,2,2,2,2,2,2,2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_dp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -976,6 +1026,8 @@ module test_linalg_norms
         real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
         real(dp) :: a(n),b(2,2,2,2,2,2,2,2,2,2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_dp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -1007,6 +1059,8 @@ module test_linalg_norms
         real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
         real(dp) :: a(n),b(2,2,2,2,2,2,2,2,2,2,2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_dp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -1038,6 +1092,8 @@ module test_linalg_norms
         real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
         real(dp) :: a(n),b(2,2,2,2,2,2,2,2,2,2,2,2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_dp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -1069,6 +1125,8 @@ module test_linalg_norms
         real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
         real(qp) :: a(n),b(2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_qp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -1100,6 +1158,8 @@ module test_linalg_norms
         real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
         real(qp) :: a(n),b(2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_qp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -1131,6 +1191,8 @@ module test_linalg_norms
         real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
         real(qp) :: a(n),b(2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_qp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -1162,6 +1224,8 @@ module test_linalg_norms
         real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
         real(qp) :: a(n),b(2,2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_qp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -1193,6 +1257,8 @@ module test_linalg_norms
         real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
         real(qp) :: a(n),b(2,2,2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_qp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -1224,6 +1290,8 @@ module test_linalg_norms
         real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
         real(qp) :: a(n),b(2,2,2,2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_qp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -1255,6 +1323,8 @@ module test_linalg_norms
         real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
         real(qp) :: a(n),b(2,2,2,2,2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_qp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -1286,6 +1356,8 @@ module test_linalg_norms
         real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
         real(qp) :: a(n),b(2,2,2,2,2,2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_qp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -1317,6 +1389,8 @@ module test_linalg_norms
         real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
         real(qp) :: a(n),b(2,2,2,2,2,2,2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_qp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -1348,6 +1422,8 @@ module test_linalg_norms
         real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
         real(qp) :: a(n),b(2,2,2,2,2,2,2,2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_qp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -1379,6 +1455,8 @@ module test_linalg_norms
         real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
         real(qp) :: a(n),b(2,2,2,2,2,2,2,2,2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_qp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -1410,6 +1488,8 @@ module test_linalg_norms
         real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
         real(qp) :: a(n),b(2,2,2,2,2,2,2,2,2,2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_qp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -1441,6 +1521,8 @@ module test_linalg_norms
         real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
         real(qp) :: a(n),b(2,2,2,2,2,2,2,2,2,2,2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_qp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -1472,6 +1554,8 @@ module test_linalg_norms
         real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
         real(qp) :: a(n),b(2,2,2,2,2,2,2,2,2,2,2,2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_qp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -1503,6 +1587,8 @@ module test_linalg_norms
         real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
         complex(sp) :: a(n),b(2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_sp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -1534,6 +1620,8 @@ module test_linalg_norms
         real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
         complex(sp) :: a(n),b(2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_sp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -1565,6 +1653,8 @@ module test_linalg_norms
         real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
         complex(sp) :: a(n),b(2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_sp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -1596,6 +1686,8 @@ module test_linalg_norms
         real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
         complex(sp) :: a(n),b(2,2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_sp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -1627,6 +1719,8 @@ module test_linalg_norms
         real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
         complex(sp) :: a(n),b(2,2,2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_sp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -1658,6 +1752,8 @@ module test_linalg_norms
         real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
         complex(sp) :: a(n),b(2,2,2,2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_sp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -1689,6 +1785,8 @@ module test_linalg_norms
         real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
         complex(sp) :: a(n),b(2,2,2,2,2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_sp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -1720,6 +1818,8 @@ module test_linalg_norms
         real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
         complex(sp) :: a(n),b(2,2,2,2,2,2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_sp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -1751,6 +1851,8 @@ module test_linalg_norms
         real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
         complex(sp) :: a(n),b(2,2,2,2,2,2,2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_sp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -1782,6 +1884,8 @@ module test_linalg_norms
         real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
         complex(sp) :: a(n),b(2,2,2,2,2,2,2,2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_sp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -1813,6 +1917,8 @@ module test_linalg_norms
         real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
         complex(sp) :: a(n),b(2,2,2,2,2,2,2,2,2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_sp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -1844,6 +1950,8 @@ module test_linalg_norms
         real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
         complex(sp) :: a(n),b(2,2,2,2,2,2,2,2,2,2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_sp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -1875,6 +1983,8 @@ module test_linalg_norms
         real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
         complex(sp) :: a(n),b(2,2,2,2,2,2,2,2,2,2,2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_sp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -1906,6 +2016,8 @@ module test_linalg_norms
         real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
         complex(sp) :: a(n),b(2,2,2,2,2,2,2,2,2,2,2,2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_sp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -1937,6 +2049,8 @@ module test_linalg_norms
         real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
         complex(dp) :: a(n),b(2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_dp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -1968,6 +2082,8 @@ module test_linalg_norms
         real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
         complex(dp) :: a(n),b(2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_dp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -1999,6 +2115,8 @@ module test_linalg_norms
         real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
         complex(dp) :: a(n),b(2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_dp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -2030,6 +2148,8 @@ module test_linalg_norms
         real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
         complex(dp) :: a(n),b(2,2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_dp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -2061,6 +2181,8 @@ module test_linalg_norms
         real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
         complex(dp) :: a(n),b(2,2,2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_dp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -2092,6 +2214,8 @@ module test_linalg_norms
         real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
         complex(dp) :: a(n),b(2,2,2,2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_dp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -2123,6 +2247,8 @@ module test_linalg_norms
         real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
         complex(dp) :: a(n),b(2,2,2,2,2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_dp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -2154,6 +2280,8 @@ module test_linalg_norms
         real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
         complex(dp) :: a(n),b(2,2,2,2,2,2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_dp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -2185,6 +2313,8 @@ module test_linalg_norms
         real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
         complex(dp) :: a(n),b(2,2,2,2,2,2,2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_dp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -2216,6 +2346,8 @@ module test_linalg_norms
         real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
         complex(dp) :: a(n),b(2,2,2,2,2,2,2,2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_dp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -2247,6 +2379,8 @@ module test_linalg_norms
         real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
         complex(dp) :: a(n),b(2,2,2,2,2,2,2,2,2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_dp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -2278,6 +2412,8 @@ module test_linalg_norms
         real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
         complex(dp) :: a(n),b(2,2,2,2,2,2,2,2,2,2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_dp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -2309,6 +2445,8 @@ module test_linalg_norms
         real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
         complex(dp) :: a(n),b(2,2,2,2,2,2,2,2,2,2,2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_dp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -2340,6 +2478,8 @@ module test_linalg_norms
         real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
         complex(dp) :: a(n),b(2,2,2,2,2,2,2,2,2,2,2,2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_dp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -2371,6 +2511,8 @@ module test_linalg_norms
         real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
         complex(qp) :: a(n),b(2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_qp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -2402,6 +2544,8 @@ module test_linalg_norms
         real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
         complex(qp) :: a(n),b(2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_qp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -2433,6 +2577,8 @@ module test_linalg_norms
         real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
         complex(qp) :: a(n),b(2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_qp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -2464,6 +2610,8 @@ module test_linalg_norms
         real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
         complex(qp) :: a(n),b(2,2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_qp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -2495,6 +2643,8 @@ module test_linalg_norms
         real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
         complex(qp) :: a(n),b(2,2,2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_qp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -2526,6 +2676,8 @@ module test_linalg_norms
         real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
         complex(qp) :: a(n),b(2,2,2,2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_qp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -2557,6 +2709,8 @@ module test_linalg_norms
         real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
         complex(qp) :: a(n),b(2,2,2,2,2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_qp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -2588,6 +2742,8 @@ module test_linalg_norms
         real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
         complex(qp) :: a(n),b(2,2,2,2,2,2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_qp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -2619,6 +2775,8 @@ module test_linalg_norms
         real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
         complex(qp) :: a(n),b(2,2,2,2,2,2,2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_qp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -2650,6 +2808,8 @@ module test_linalg_norms
         real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
         complex(qp) :: a(n),b(2,2,2,2,2,2,2,2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_qp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -2681,6 +2841,8 @@ module test_linalg_norms
         real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
         complex(qp) :: a(n),b(2,2,2,2,2,2,2,2,2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_qp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -2712,6 +2874,8 @@ module test_linalg_norms
         real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
         complex(qp) :: a(n),b(2,2,2,2,2,2,2,2,2,2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_qp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -2743,6 +2907,8 @@ module test_linalg_norms
         real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
         complex(qp) :: a(n),b(2,2,2,2,2,2,2,2,2,2,2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_qp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         
@@ -2774,6 +2940,8 @@ module test_linalg_norms
         real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
         complex(qp) :: a(n),b(2,2,2,2,2,2,2,2,2,2,2,2,2,2)
         
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
         a = [(0.01_qp*(j - n/2_ilp),j=1_ilp,n)]
         b = reshape(a,shape(b))
         

@@ -17231,7 +17231,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Norm of the matrix.
-        complex(sp) :: nrm
+        real(sp) :: nrm
                                     
         call norm_1D_char_c(a,nrm=nrm,order=order)
         
@@ -17246,7 +17246,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(sp) :: nrm
+        real(sp) :: nrm
                 
         call norm_1D_char_c(a,nrm=nrm,order=order,err=err)
         
@@ -17257,7 +17257,7 @@ module stdlib_linalg_norms
         !> Input 1-d matrix a(:)
         complex(sp),intent(in) :: a(:)
         !> Norm of the matrix.
-        complex(sp),intent(out) :: nrm
+        real(sp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -17313,7 +17313,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Norm of the matrix.
-        complex(sp) :: nrm
+        real(sp) :: nrm
                                     
         call norm_2D_char_c(a,nrm=nrm,order=order)
         
@@ -17328,7 +17328,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(sp) :: nrm
+        real(sp) :: nrm
                 
         call norm_2D_char_c(a,nrm=nrm,order=order,err=err)
         
@@ -17339,7 +17339,7 @@ module stdlib_linalg_norms
         !> Input 2-d matrix a(:,:)
         complex(sp),intent(in) :: a(:,:)
         !> Norm of the matrix.
-        complex(sp),intent(out) :: nrm
+        real(sp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -17395,7 +17395,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Norm of the matrix.
-        complex(sp) :: nrm
+        real(sp) :: nrm
                                     
         call norm_3D_char_c(a,nrm=nrm,order=order)
         
@@ -17410,7 +17410,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(sp) :: nrm
+        real(sp) :: nrm
                 
         call norm_3D_char_c(a,nrm=nrm,order=order,err=err)
         
@@ -17421,7 +17421,7 @@ module stdlib_linalg_norms
         !> Input 3-d matrix a(:,:,:)
         complex(sp),intent(in) :: a(:,:,:)
         !> Norm of the matrix.
-        complex(sp),intent(out) :: nrm
+        real(sp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -17477,7 +17477,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Norm of the matrix.
-        complex(sp) :: nrm
+        real(sp) :: nrm
                                     
         call norm_4D_char_c(a,nrm=nrm,order=order)
         
@@ -17492,7 +17492,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(sp) :: nrm
+        real(sp) :: nrm
                 
         call norm_4D_char_c(a,nrm=nrm,order=order,err=err)
         
@@ -17503,7 +17503,7 @@ module stdlib_linalg_norms
         !> Input 4-d matrix a(:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:)
         !> Norm of the matrix.
-        complex(sp),intent(out) :: nrm
+        real(sp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -17559,7 +17559,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Norm of the matrix.
-        complex(sp) :: nrm
+        real(sp) :: nrm
                                     
         call norm_5D_char_c(a,nrm=nrm,order=order)
         
@@ -17574,7 +17574,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(sp) :: nrm
+        real(sp) :: nrm
                 
         call norm_5D_char_c(a,nrm=nrm,order=order,err=err)
         
@@ -17585,7 +17585,7 @@ module stdlib_linalg_norms
         !> Input 5-d matrix a(:,:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:,:)
         !> Norm of the matrix.
-        complex(sp),intent(out) :: nrm
+        real(sp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -17641,7 +17641,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Norm of the matrix.
-        complex(sp) :: nrm
+        real(sp) :: nrm
                                     
         call norm_6D_char_c(a,nrm=nrm,order=order)
         
@@ -17656,7 +17656,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(sp) :: nrm
+        real(sp) :: nrm
                 
         call norm_6D_char_c(a,nrm=nrm,order=order,err=err)
         
@@ -17667,7 +17667,7 @@ module stdlib_linalg_norms
         !> Input 6-d matrix a(:,:,:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:,:,:)
         !> Norm of the matrix.
-        complex(sp),intent(out) :: nrm
+        real(sp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -17723,7 +17723,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Norm of the matrix.
-        complex(sp) :: nrm
+        real(sp) :: nrm
                                     
         call norm_7D_char_c(a,nrm=nrm,order=order)
         
@@ -17738,7 +17738,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(sp) :: nrm
+        real(sp) :: nrm
                 
         call norm_7D_char_c(a,nrm=nrm,order=order,err=err)
         
@@ -17749,7 +17749,7 @@ module stdlib_linalg_norms
         !> Input 7-d matrix a(:,:,:,:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:,:,:,:)
         !> Norm of the matrix.
-        complex(sp),intent(out) :: nrm
+        real(sp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -17805,7 +17805,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Norm of the matrix.
-        complex(sp) :: nrm
+        real(sp) :: nrm
                                     
         call norm_8D_char_c(a,nrm=nrm,order=order)
         
@@ -17820,7 +17820,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(sp) :: nrm
+        real(sp) :: nrm
                 
         call norm_8D_char_c(a,nrm=nrm,order=order,err=err)
         
@@ -17831,7 +17831,7 @@ module stdlib_linalg_norms
         !> Input 8-d matrix a(:,:,:,:,:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:,:,:,:,:)
         !> Norm of the matrix.
-        complex(sp),intent(out) :: nrm
+        real(sp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -17887,7 +17887,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Norm of the matrix.
-        complex(sp) :: nrm
+        real(sp) :: nrm
                                     
         call norm_9D_char_c(a,nrm=nrm,order=order)
         
@@ -17902,7 +17902,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(sp) :: nrm
+        real(sp) :: nrm
                 
         call norm_9D_char_c(a,nrm=nrm,order=order,err=err)
         
@@ -17913,7 +17913,7 @@ module stdlib_linalg_norms
         !> Input 9-d matrix a(:,:,:,:,:,:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:)
         !> Norm of the matrix.
-        complex(sp),intent(out) :: nrm
+        real(sp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -17969,7 +17969,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Norm of the matrix.
-        complex(sp) :: nrm
+        real(sp) :: nrm
                                     
         call norm_10D_char_c(a,nrm=nrm,order=order)
         
@@ -17984,7 +17984,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(sp) :: nrm
+        real(sp) :: nrm
                 
         call norm_10D_char_c(a,nrm=nrm,order=order,err=err)
         
@@ -17995,7 +17995,7 @@ module stdlib_linalg_norms
         !> Input 10-d matrix a(:,:,:,:,:,:,:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:)
         !> Norm of the matrix.
-        complex(sp),intent(out) :: nrm
+        real(sp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -18051,7 +18051,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Norm of the matrix.
-        complex(sp) :: nrm
+        real(sp) :: nrm
                                     
         call norm_11D_char_c(a,nrm=nrm,order=order)
         
@@ -18066,7 +18066,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(sp) :: nrm
+        real(sp) :: nrm
                 
         call norm_11D_char_c(a,nrm=nrm,order=order,err=err)
         
@@ -18077,7 +18077,7 @@ module stdlib_linalg_norms
         !> Input 11-d matrix a(:,:,:,:,:,:,:,:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:)
         !> Norm of the matrix.
-        complex(sp),intent(out) :: nrm
+        real(sp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -18133,7 +18133,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Norm of the matrix.
-        complex(sp) :: nrm
+        real(sp) :: nrm
                                     
         call norm_12D_char_c(a,nrm=nrm,order=order)
         
@@ -18148,7 +18148,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(sp) :: nrm
+        real(sp) :: nrm
                 
         call norm_12D_char_c(a,nrm=nrm,order=order,err=err)
         
@@ -18159,7 +18159,7 @@ module stdlib_linalg_norms
         !> Input 12-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:)
         !> Norm of the matrix.
-        complex(sp),intent(out) :: nrm
+        real(sp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -18215,7 +18215,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Norm of the matrix.
-        complex(sp) :: nrm
+        real(sp) :: nrm
                                     
         call norm_13D_char_c(a,nrm=nrm,order=order)
         
@@ -18230,7 +18230,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(sp) :: nrm
+        real(sp) :: nrm
                 
         call norm_13D_char_c(a,nrm=nrm,order=order,err=err)
         
@@ -18241,7 +18241,7 @@ module stdlib_linalg_norms
         !> Input 13-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Norm of the matrix.
-        complex(sp),intent(out) :: nrm
+        real(sp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -18297,7 +18297,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Norm of the matrix.
-        complex(sp) :: nrm
+        real(sp) :: nrm
                                     
         call norm_14D_char_c(a,nrm=nrm,order=order)
         
@@ -18312,7 +18312,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(sp) :: nrm
+        real(sp) :: nrm
                 
         call norm_14D_char_c(a,nrm=nrm,order=order,err=err)
         
@@ -18323,7 +18323,7 @@ module stdlib_linalg_norms
         !> Input 14-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Norm of the matrix.
-        complex(sp),intent(out) :: nrm
+        real(sp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -18379,7 +18379,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Norm of the matrix.
-        complex(sp) :: nrm
+        real(sp) :: nrm
                                     
         call norm_15D_char_c(a,nrm=nrm,order=order)
         
@@ -18394,7 +18394,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(sp) :: nrm
+        real(sp) :: nrm
                 
         call norm_15D_char_c(a,nrm=nrm,order=order,err=err)
         
@@ -18405,7 +18405,7 @@ module stdlib_linalg_norms
         !> Input 15-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Norm of the matrix.
-        complex(sp),intent(out) :: nrm
+        real(sp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -18467,7 +18467,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim))
+        real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim))
         
         call norm_2D_to_1D_char_c(a,nrm,order,dim)
             
@@ -18484,7 +18484,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim))
+        real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim))
         
         call norm_2D_to_1D_char_c(a,nrm,order,dim,err)
             
@@ -18498,7 +18498,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(sp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim))
+        real(sp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim))
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -18562,7 +18562,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim))
+        real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim))
         
         call norm_3D_to_2D_char_c(a,nrm,order,dim)
             
@@ -18579,7 +18579,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim))
+        real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim))
         
         call norm_3D_to_2D_char_c(a,nrm,order,dim,err)
             
@@ -18593,7 +18593,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(sp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim))
+        real(sp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim))
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -18657,7 +18657,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim))
         
         call norm_4D_to_3D_char_c(a,nrm,order,dim)
@@ -18675,7 +18675,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim))
         
         call norm_4D_to_3D_char_c(a,nrm,order,dim,err)
@@ -18690,7 +18690,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(sp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(sp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim))
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
@@ -18755,7 +18755,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim))
         
         call norm_5D_to_4D_char_c(a,nrm,order,dim)
@@ -18773,7 +18773,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim))
         
         call norm_5D_to_4D_char_c(a,nrm,order,dim,err)
@@ -18788,7 +18788,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(sp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(sp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim))
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
@@ -18853,7 +18853,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim))
         
         call norm_6D_to_5D_char_c(a,nrm,order,dim)
@@ -18871,7 +18871,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim))
         
         call norm_6D_to_5D_char_c(a,nrm,order,dim,err)
@@ -18886,7 +18886,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(sp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(sp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),&
             & mask=5 < dim))
         !> Order of the matrix norm being computed.
@@ -18952,7 +18952,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim))
         
@@ -18971,7 +18971,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim))
         
@@ -18987,7 +18987,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(sp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(sp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),&
             & mask=5 < dim),merge(size(a,6),size(a,7),mask=6 < dim))
         !> Order of the matrix norm being computed.
@@ -19053,7 +19053,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim))
         
@@ -19072,7 +19072,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim))
         
@@ -19088,7 +19088,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(sp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(sp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),&
             & mask=5 < dim),merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim))
         !> Order of the matrix norm being computed.
@@ -19154,7 +19154,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim))
@@ -19174,7 +19174,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim))
@@ -19191,7 +19191,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(sp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(sp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),&
             & mask=5 < dim),merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),&
             & size(a,9),mask=8 < dim))
@@ -19258,7 +19258,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim))
@@ -19278,7 +19278,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim))
@@ -19295,7 +19295,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(sp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(sp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),&
             & mask=5 < dim),merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),&
             & size(a,9),mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim))
@@ -19362,7 +19362,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim))
@@ -19382,7 +19382,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim))
@@ -19399,7 +19399,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(sp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(sp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),&
             & mask=5 < dim),merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),&
             & size(a,9),mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim))  &
@@ -19467,7 +19467,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),merge(size(a,&
@@ -19488,7 +19488,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),merge(size(a,&
@@ -19506,7 +19506,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(sp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(sp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),&
             & mask=5 < dim),merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),&
             & size(a,9),mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),&
@@ -19574,7 +19574,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),merge(size(a,&
@@ -19595,7 +19595,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),merge(size(a,&
@@ -19613,7 +19613,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(sp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(sp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),&
             & mask=5 < dim),merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),&
             & size(a,9),mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),&
@@ -19681,7 +19681,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),merge(size(a,&
@@ -19703,7 +19703,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),merge(size(a,&
@@ -19722,7 +19722,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(sp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(sp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),&
             & mask=5 < dim),merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),&
             & size(a,9),mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),&
@@ -19791,7 +19791,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),merge(size(a,&
@@ -19813,7 +19813,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),merge(size(a,&
@@ -19832,7 +19832,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(sp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(sp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),&
             & mask=5 < dim),merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),&
             & size(a,9),mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),&
@@ -19903,7 +19903,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Norm of the matrix.
-        complex(sp) :: nrm
+        real(sp) :: nrm
                                     
         call norm_1D_int_c(a,nrm=nrm,order=order)
         
@@ -19918,7 +19918,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(sp) :: nrm
+        real(sp) :: nrm
                 
         call norm_1D_int_c(a,nrm=nrm,order=order,err=err)
         
@@ -19929,7 +19929,7 @@ module stdlib_linalg_norms
         !> Input 1-d matrix a(:)
         complex(sp),intent(in) :: a(:)
         !> Norm of the matrix.
-        complex(sp),intent(out) :: nrm
+        real(sp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -19985,7 +19985,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Norm of the matrix.
-        complex(sp) :: nrm
+        real(sp) :: nrm
                                     
         call norm_2D_int_c(a,nrm=nrm,order=order)
         
@@ -20000,7 +20000,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(sp) :: nrm
+        real(sp) :: nrm
                 
         call norm_2D_int_c(a,nrm=nrm,order=order,err=err)
         
@@ -20011,7 +20011,7 @@ module stdlib_linalg_norms
         !> Input 2-d matrix a(:,:)
         complex(sp),intent(in) :: a(:,:)
         !> Norm of the matrix.
-        complex(sp),intent(out) :: nrm
+        real(sp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -20067,7 +20067,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Norm of the matrix.
-        complex(sp) :: nrm
+        real(sp) :: nrm
                                     
         call norm_3D_int_c(a,nrm=nrm,order=order)
         
@@ -20082,7 +20082,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(sp) :: nrm
+        real(sp) :: nrm
                 
         call norm_3D_int_c(a,nrm=nrm,order=order,err=err)
         
@@ -20093,7 +20093,7 @@ module stdlib_linalg_norms
         !> Input 3-d matrix a(:,:,:)
         complex(sp),intent(in) :: a(:,:,:)
         !> Norm of the matrix.
-        complex(sp),intent(out) :: nrm
+        real(sp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -20149,7 +20149,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Norm of the matrix.
-        complex(sp) :: nrm
+        real(sp) :: nrm
                                     
         call norm_4D_int_c(a,nrm=nrm,order=order)
         
@@ -20164,7 +20164,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(sp) :: nrm
+        real(sp) :: nrm
                 
         call norm_4D_int_c(a,nrm=nrm,order=order,err=err)
         
@@ -20175,7 +20175,7 @@ module stdlib_linalg_norms
         !> Input 4-d matrix a(:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:)
         !> Norm of the matrix.
-        complex(sp),intent(out) :: nrm
+        real(sp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -20231,7 +20231,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Norm of the matrix.
-        complex(sp) :: nrm
+        real(sp) :: nrm
                                     
         call norm_5D_int_c(a,nrm=nrm,order=order)
         
@@ -20246,7 +20246,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(sp) :: nrm
+        real(sp) :: nrm
                 
         call norm_5D_int_c(a,nrm=nrm,order=order,err=err)
         
@@ -20257,7 +20257,7 @@ module stdlib_linalg_norms
         !> Input 5-d matrix a(:,:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:,:)
         !> Norm of the matrix.
-        complex(sp),intent(out) :: nrm
+        real(sp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -20313,7 +20313,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Norm of the matrix.
-        complex(sp) :: nrm
+        real(sp) :: nrm
                                     
         call norm_6D_int_c(a,nrm=nrm,order=order)
         
@@ -20328,7 +20328,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(sp) :: nrm
+        real(sp) :: nrm
                 
         call norm_6D_int_c(a,nrm=nrm,order=order,err=err)
         
@@ -20339,7 +20339,7 @@ module stdlib_linalg_norms
         !> Input 6-d matrix a(:,:,:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:,:,:)
         !> Norm of the matrix.
-        complex(sp),intent(out) :: nrm
+        real(sp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -20395,7 +20395,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Norm of the matrix.
-        complex(sp) :: nrm
+        real(sp) :: nrm
                                     
         call norm_7D_int_c(a,nrm=nrm,order=order)
         
@@ -20410,7 +20410,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(sp) :: nrm
+        real(sp) :: nrm
                 
         call norm_7D_int_c(a,nrm=nrm,order=order,err=err)
         
@@ -20421,7 +20421,7 @@ module stdlib_linalg_norms
         !> Input 7-d matrix a(:,:,:,:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:,:,:,:)
         !> Norm of the matrix.
-        complex(sp),intent(out) :: nrm
+        real(sp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -20477,7 +20477,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Norm of the matrix.
-        complex(sp) :: nrm
+        real(sp) :: nrm
                                     
         call norm_8D_int_c(a,nrm=nrm,order=order)
         
@@ -20492,7 +20492,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(sp) :: nrm
+        real(sp) :: nrm
                 
         call norm_8D_int_c(a,nrm=nrm,order=order,err=err)
         
@@ -20503,7 +20503,7 @@ module stdlib_linalg_norms
         !> Input 8-d matrix a(:,:,:,:,:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:,:,:,:,:)
         !> Norm of the matrix.
-        complex(sp),intent(out) :: nrm
+        real(sp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -20559,7 +20559,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Norm of the matrix.
-        complex(sp) :: nrm
+        real(sp) :: nrm
                                     
         call norm_9D_int_c(a,nrm=nrm,order=order)
         
@@ -20574,7 +20574,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(sp) :: nrm
+        real(sp) :: nrm
                 
         call norm_9D_int_c(a,nrm=nrm,order=order,err=err)
         
@@ -20585,7 +20585,7 @@ module stdlib_linalg_norms
         !> Input 9-d matrix a(:,:,:,:,:,:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:)
         !> Norm of the matrix.
-        complex(sp),intent(out) :: nrm
+        real(sp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -20641,7 +20641,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Norm of the matrix.
-        complex(sp) :: nrm
+        real(sp) :: nrm
                                     
         call norm_10D_int_c(a,nrm=nrm,order=order)
         
@@ -20656,7 +20656,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(sp) :: nrm
+        real(sp) :: nrm
                 
         call norm_10D_int_c(a,nrm=nrm,order=order,err=err)
         
@@ -20667,7 +20667,7 @@ module stdlib_linalg_norms
         !> Input 10-d matrix a(:,:,:,:,:,:,:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:)
         !> Norm of the matrix.
-        complex(sp),intent(out) :: nrm
+        real(sp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -20723,7 +20723,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Norm of the matrix.
-        complex(sp) :: nrm
+        real(sp) :: nrm
                                     
         call norm_11D_int_c(a,nrm=nrm,order=order)
         
@@ -20738,7 +20738,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(sp) :: nrm
+        real(sp) :: nrm
                 
         call norm_11D_int_c(a,nrm=nrm,order=order,err=err)
         
@@ -20749,7 +20749,7 @@ module stdlib_linalg_norms
         !> Input 11-d matrix a(:,:,:,:,:,:,:,:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:)
         !> Norm of the matrix.
-        complex(sp),intent(out) :: nrm
+        real(sp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -20805,7 +20805,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Norm of the matrix.
-        complex(sp) :: nrm
+        real(sp) :: nrm
                                     
         call norm_12D_int_c(a,nrm=nrm,order=order)
         
@@ -20820,7 +20820,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(sp) :: nrm
+        real(sp) :: nrm
                 
         call norm_12D_int_c(a,nrm=nrm,order=order,err=err)
         
@@ -20831,7 +20831,7 @@ module stdlib_linalg_norms
         !> Input 12-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:)
         !> Norm of the matrix.
-        complex(sp),intent(out) :: nrm
+        real(sp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -20887,7 +20887,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Norm of the matrix.
-        complex(sp) :: nrm
+        real(sp) :: nrm
                                     
         call norm_13D_int_c(a,nrm=nrm,order=order)
         
@@ -20902,7 +20902,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(sp) :: nrm
+        real(sp) :: nrm
                 
         call norm_13D_int_c(a,nrm=nrm,order=order,err=err)
         
@@ -20913,7 +20913,7 @@ module stdlib_linalg_norms
         !> Input 13-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Norm of the matrix.
-        complex(sp),intent(out) :: nrm
+        real(sp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -20969,7 +20969,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Norm of the matrix.
-        complex(sp) :: nrm
+        real(sp) :: nrm
                                     
         call norm_14D_int_c(a,nrm=nrm,order=order)
         
@@ -20984,7 +20984,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(sp) :: nrm
+        real(sp) :: nrm
                 
         call norm_14D_int_c(a,nrm=nrm,order=order,err=err)
         
@@ -20995,7 +20995,7 @@ module stdlib_linalg_norms
         !> Input 14-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Norm of the matrix.
-        complex(sp),intent(out) :: nrm
+        real(sp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -21051,7 +21051,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Norm of the matrix.
-        complex(sp) :: nrm
+        real(sp) :: nrm
                                     
         call norm_15D_int_c(a,nrm=nrm,order=order)
         
@@ -21066,7 +21066,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(sp) :: nrm
+        real(sp) :: nrm
                 
         call norm_15D_int_c(a,nrm=nrm,order=order,err=err)
         
@@ -21077,7 +21077,7 @@ module stdlib_linalg_norms
         !> Input 15-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Norm of the matrix.
-        complex(sp),intent(out) :: nrm
+        real(sp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -21139,7 +21139,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim))
+        real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim))
         
         call norm_2D_to_1D_int_c(a,nrm,order,dim)
             
@@ -21156,7 +21156,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim))
+        real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim))
         
         call norm_2D_to_1D_int_c(a,nrm,order,dim,err)
             
@@ -21170,7 +21170,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(sp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim))
+        real(sp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim))
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -21234,7 +21234,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim))
+        real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim))
         
         call norm_3D_to_2D_int_c(a,nrm,order,dim)
             
@@ -21251,7 +21251,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim))
+        real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim))
         
         call norm_3D_to_2D_int_c(a,nrm,order,dim,err)
             
@@ -21265,7 +21265,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(sp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim))
+        real(sp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim))
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -21329,7 +21329,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim))
         
         call norm_4D_to_3D_int_c(a,nrm,order,dim)
@@ -21347,7 +21347,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim))
         
         call norm_4D_to_3D_int_c(a,nrm,order,dim,err)
@@ -21362,7 +21362,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(sp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(sp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim))
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
@@ -21427,7 +21427,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim))
         
         call norm_5D_to_4D_int_c(a,nrm,order,dim)
@@ -21445,7 +21445,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim))
         
         call norm_5D_to_4D_int_c(a,nrm,order,dim,err)
@@ -21460,7 +21460,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(sp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(sp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim))
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
@@ -21525,7 +21525,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim))
         
         call norm_6D_to_5D_int_c(a,nrm,order,dim)
@@ -21543,7 +21543,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim))
         
         call norm_6D_to_5D_int_c(a,nrm,order,dim,err)
@@ -21558,7 +21558,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(sp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(sp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),&
             & mask=5 < dim))
         !> Order of the matrix norm being computed.
@@ -21624,7 +21624,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim))
         
@@ -21643,7 +21643,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim))
         
@@ -21659,7 +21659,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(sp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(sp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),&
             & mask=5 < dim),merge(size(a,6),size(a,7),mask=6 < dim))
         !> Order of the matrix norm being computed.
@@ -21725,7 +21725,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim))
         
@@ -21744,7 +21744,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim))
         
@@ -21760,7 +21760,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(sp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(sp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),&
             & mask=5 < dim),merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim))
         !> Order of the matrix norm being computed.
@@ -21826,7 +21826,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim))
@@ -21846,7 +21846,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim))
@@ -21863,7 +21863,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(sp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(sp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),&
             & mask=5 < dim),merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),&
             & size(a,9),mask=8 < dim))
@@ -21930,7 +21930,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim))
@@ -21950,7 +21950,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim))
@@ -21967,7 +21967,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(sp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(sp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),&
             & mask=5 < dim),merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),&
             & size(a,9),mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim))
@@ -22034,7 +22034,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim))
@@ -22054,7 +22054,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim))
@@ -22071,7 +22071,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(sp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(sp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),&
             & mask=5 < dim),merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),&
             & size(a,9),mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim))  &
@@ -22139,7 +22139,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),merge(size(a,&
@@ -22160,7 +22160,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),merge(size(a,&
@@ -22178,7 +22178,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(sp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(sp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),&
             & mask=5 < dim),merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),&
             & size(a,9),mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),&
@@ -22246,7 +22246,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),merge(size(a,&
@@ -22267,7 +22267,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),merge(size(a,&
@@ -22285,7 +22285,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(sp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(sp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),&
             & mask=5 < dim),merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),&
             & size(a,9),mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),&
@@ -22353,7 +22353,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),merge(size(a,&
@@ -22375,7 +22375,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),merge(size(a,&
@@ -22394,7 +22394,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(sp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(sp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),&
             & mask=5 < dim),merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),&
             & size(a,9),mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),&
@@ -22463,7 +22463,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),merge(size(a,&
@@ -22485,7 +22485,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),merge(size(a,&
@@ -22504,7 +22504,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(sp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(sp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),&
             & mask=5 < dim),merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),&
             & size(a,9),mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),&
@@ -22575,7 +22575,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Norm of the matrix.
-        complex(dp) :: nrm
+        real(dp) :: nrm
                                     
         call norm_1D_char_z(a,nrm=nrm,order=order)
         
@@ -22590,7 +22590,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(dp) :: nrm
+        real(dp) :: nrm
                 
         call norm_1D_char_z(a,nrm=nrm,order=order,err=err)
         
@@ -22601,7 +22601,7 @@ module stdlib_linalg_norms
         !> Input 1-d matrix a(:)
         complex(dp),intent(in) :: a(:)
         !> Norm of the matrix.
-        complex(dp),intent(out) :: nrm
+        real(dp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -22657,7 +22657,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Norm of the matrix.
-        complex(dp) :: nrm
+        real(dp) :: nrm
                                     
         call norm_2D_char_z(a,nrm=nrm,order=order)
         
@@ -22672,7 +22672,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(dp) :: nrm
+        real(dp) :: nrm
                 
         call norm_2D_char_z(a,nrm=nrm,order=order,err=err)
         
@@ -22683,7 +22683,7 @@ module stdlib_linalg_norms
         !> Input 2-d matrix a(:,:)
         complex(dp),intent(in) :: a(:,:)
         !> Norm of the matrix.
-        complex(dp),intent(out) :: nrm
+        real(dp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -22739,7 +22739,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Norm of the matrix.
-        complex(dp) :: nrm
+        real(dp) :: nrm
                                     
         call norm_3D_char_z(a,nrm=nrm,order=order)
         
@@ -22754,7 +22754,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(dp) :: nrm
+        real(dp) :: nrm
                 
         call norm_3D_char_z(a,nrm=nrm,order=order,err=err)
         
@@ -22765,7 +22765,7 @@ module stdlib_linalg_norms
         !> Input 3-d matrix a(:,:,:)
         complex(dp),intent(in) :: a(:,:,:)
         !> Norm of the matrix.
-        complex(dp),intent(out) :: nrm
+        real(dp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -22821,7 +22821,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Norm of the matrix.
-        complex(dp) :: nrm
+        real(dp) :: nrm
                                     
         call norm_4D_char_z(a,nrm=nrm,order=order)
         
@@ -22836,7 +22836,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(dp) :: nrm
+        real(dp) :: nrm
                 
         call norm_4D_char_z(a,nrm=nrm,order=order,err=err)
         
@@ -22847,7 +22847,7 @@ module stdlib_linalg_norms
         !> Input 4-d matrix a(:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:)
         !> Norm of the matrix.
-        complex(dp),intent(out) :: nrm
+        real(dp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -22903,7 +22903,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Norm of the matrix.
-        complex(dp) :: nrm
+        real(dp) :: nrm
                                     
         call norm_5D_char_z(a,nrm=nrm,order=order)
         
@@ -22918,7 +22918,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(dp) :: nrm
+        real(dp) :: nrm
                 
         call norm_5D_char_z(a,nrm=nrm,order=order,err=err)
         
@@ -22929,7 +22929,7 @@ module stdlib_linalg_norms
         !> Input 5-d matrix a(:,:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:,:)
         !> Norm of the matrix.
-        complex(dp),intent(out) :: nrm
+        real(dp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -22985,7 +22985,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Norm of the matrix.
-        complex(dp) :: nrm
+        real(dp) :: nrm
                                     
         call norm_6D_char_z(a,nrm=nrm,order=order)
         
@@ -23000,7 +23000,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(dp) :: nrm
+        real(dp) :: nrm
                 
         call norm_6D_char_z(a,nrm=nrm,order=order,err=err)
         
@@ -23011,7 +23011,7 @@ module stdlib_linalg_norms
         !> Input 6-d matrix a(:,:,:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:,:,:)
         !> Norm of the matrix.
-        complex(dp),intent(out) :: nrm
+        real(dp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -23067,7 +23067,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Norm of the matrix.
-        complex(dp) :: nrm
+        real(dp) :: nrm
                                     
         call norm_7D_char_z(a,nrm=nrm,order=order)
         
@@ -23082,7 +23082,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(dp) :: nrm
+        real(dp) :: nrm
                 
         call norm_7D_char_z(a,nrm=nrm,order=order,err=err)
         
@@ -23093,7 +23093,7 @@ module stdlib_linalg_norms
         !> Input 7-d matrix a(:,:,:,:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:,:,:,:)
         !> Norm of the matrix.
-        complex(dp),intent(out) :: nrm
+        real(dp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -23149,7 +23149,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Norm of the matrix.
-        complex(dp) :: nrm
+        real(dp) :: nrm
                                     
         call norm_8D_char_z(a,nrm=nrm,order=order)
         
@@ -23164,7 +23164,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(dp) :: nrm
+        real(dp) :: nrm
                 
         call norm_8D_char_z(a,nrm=nrm,order=order,err=err)
         
@@ -23175,7 +23175,7 @@ module stdlib_linalg_norms
         !> Input 8-d matrix a(:,:,:,:,:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:,:,:,:,:)
         !> Norm of the matrix.
-        complex(dp),intent(out) :: nrm
+        real(dp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -23231,7 +23231,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Norm of the matrix.
-        complex(dp) :: nrm
+        real(dp) :: nrm
                                     
         call norm_9D_char_z(a,nrm=nrm,order=order)
         
@@ -23246,7 +23246,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(dp) :: nrm
+        real(dp) :: nrm
                 
         call norm_9D_char_z(a,nrm=nrm,order=order,err=err)
         
@@ -23257,7 +23257,7 @@ module stdlib_linalg_norms
         !> Input 9-d matrix a(:,:,:,:,:,:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:)
         !> Norm of the matrix.
-        complex(dp),intent(out) :: nrm
+        real(dp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -23313,7 +23313,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Norm of the matrix.
-        complex(dp) :: nrm
+        real(dp) :: nrm
                                     
         call norm_10D_char_z(a,nrm=nrm,order=order)
         
@@ -23328,7 +23328,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(dp) :: nrm
+        real(dp) :: nrm
                 
         call norm_10D_char_z(a,nrm=nrm,order=order,err=err)
         
@@ -23339,7 +23339,7 @@ module stdlib_linalg_norms
         !> Input 10-d matrix a(:,:,:,:,:,:,:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:)
         !> Norm of the matrix.
-        complex(dp),intent(out) :: nrm
+        real(dp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -23395,7 +23395,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Norm of the matrix.
-        complex(dp) :: nrm
+        real(dp) :: nrm
                                     
         call norm_11D_char_z(a,nrm=nrm,order=order)
         
@@ -23410,7 +23410,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(dp) :: nrm
+        real(dp) :: nrm
                 
         call norm_11D_char_z(a,nrm=nrm,order=order,err=err)
         
@@ -23421,7 +23421,7 @@ module stdlib_linalg_norms
         !> Input 11-d matrix a(:,:,:,:,:,:,:,:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:)
         !> Norm of the matrix.
-        complex(dp),intent(out) :: nrm
+        real(dp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -23477,7 +23477,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Norm of the matrix.
-        complex(dp) :: nrm
+        real(dp) :: nrm
                                     
         call norm_12D_char_z(a,nrm=nrm,order=order)
         
@@ -23492,7 +23492,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(dp) :: nrm
+        real(dp) :: nrm
                 
         call norm_12D_char_z(a,nrm=nrm,order=order,err=err)
         
@@ -23503,7 +23503,7 @@ module stdlib_linalg_norms
         !> Input 12-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:)
         !> Norm of the matrix.
-        complex(dp),intent(out) :: nrm
+        real(dp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -23559,7 +23559,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Norm of the matrix.
-        complex(dp) :: nrm
+        real(dp) :: nrm
                                     
         call norm_13D_char_z(a,nrm=nrm,order=order)
         
@@ -23574,7 +23574,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(dp) :: nrm
+        real(dp) :: nrm
                 
         call norm_13D_char_z(a,nrm=nrm,order=order,err=err)
         
@@ -23585,7 +23585,7 @@ module stdlib_linalg_norms
         !> Input 13-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Norm of the matrix.
-        complex(dp),intent(out) :: nrm
+        real(dp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -23641,7 +23641,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Norm of the matrix.
-        complex(dp) :: nrm
+        real(dp) :: nrm
                                     
         call norm_14D_char_z(a,nrm=nrm,order=order)
         
@@ -23656,7 +23656,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(dp) :: nrm
+        real(dp) :: nrm
                 
         call norm_14D_char_z(a,nrm=nrm,order=order,err=err)
         
@@ -23667,7 +23667,7 @@ module stdlib_linalg_norms
         !> Input 14-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Norm of the matrix.
-        complex(dp),intent(out) :: nrm
+        real(dp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -23723,7 +23723,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Norm of the matrix.
-        complex(dp) :: nrm
+        real(dp) :: nrm
                                     
         call norm_15D_char_z(a,nrm=nrm,order=order)
         
@@ -23738,7 +23738,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(dp) :: nrm
+        real(dp) :: nrm
                 
         call norm_15D_char_z(a,nrm=nrm,order=order,err=err)
         
@@ -23749,7 +23749,7 @@ module stdlib_linalg_norms
         !> Input 15-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Norm of the matrix.
-        complex(dp),intent(out) :: nrm
+        real(dp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -23811,7 +23811,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim))
+        real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim))
         
         call norm_2D_to_1D_char_z(a,nrm,order,dim)
             
@@ -23828,7 +23828,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim))
+        real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim))
         
         call norm_2D_to_1D_char_z(a,nrm,order,dim,err)
             
@@ -23842,7 +23842,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(dp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim))
+        real(dp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim))
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -23906,7 +23906,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim))
+        real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim))
         
         call norm_3D_to_2D_char_z(a,nrm,order,dim)
             
@@ -23923,7 +23923,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim))
+        real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim))
         
         call norm_3D_to_2D_char_z(a,nrm,order,dim,err)
             
@@ -23937,7 +23937,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(dp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim))
+        real(dp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim))
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -24001,7 +24001,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim))
         
         call norm_4D_to_3D_char_z(a,nrm,order,dim)
@@ -24019,7 +24019,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim))
         
         call norm_4D_to_3D_char_z(a,nrm,order,dim,err)
@@ -24034,7 +24034,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(dp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(dp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim))
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
@@ -24099,7 +24099,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim))
         
         call norm_5D_to_4D_char_z(a,nrm,order,dim)
@@ -24117,7 +24117,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim))
         
         call norm_5D_to_4D_char_z(a,nrm,order,dim,err)
@@ -24132,7 +24132,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(dp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(dp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim))
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
@@ -24197,7 +24197,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim))
         
         call norm_6D_to_5D_char_z(a,nrm,order,dim)
@@ -24215,7 +24215,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim))
         
         call norm_6D_to_5D_char_z(a,nrm,order,dim,err)
@@ -24230,7 +24230,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(dp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(dp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),&
             & mask=5 < dim))
         !> Order of the matrix norm being computed.
@@ -24296,7 +24296,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim))
         
@@ -24315,7 +24315,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim))
         
@@ -24331,7 +24331,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(dp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(dp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),&
             & mask=5 < dim),merge(size(a,6),size(a,7),mask=6 < dim))
         !> Order of the matrix norm being computed.
@@ -24397,7 +24397,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim))
         
@@ -24416,7 +24416,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim))
         
@@ -24432,7 +24432,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(dp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(dp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),&
             & mask=5 < dim),merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim))
         !> Order of the matrix norm being computed.
@@ -24498,7 +24498,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim))
@@ -24518,7 +24518,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim))
@@ -24535,7 +24535,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(dp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(dp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),&
             & mask=5 < dim),merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),&
             & size(a,9),mask=8 < dim))
@@ -24602,7 +24602,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim))
@@ -24622,7 +24622,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim))
@@ -24639,7 +24639,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(dp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(dp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),&
             & mask=5 < dim),merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),&
             & size(a,9),mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim))
@@ -24706,7 +24706,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim))
@@ -24726,7 +24726,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim))
@@ -24743,7 +24743,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(dp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(dp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),&
             & mask=5 < dim),merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),&
             & size(a,9),mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim))  &
@@ -24811,7 +24811,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),merge(size(a,&
@@ -24832,7 +24832,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),merge(size(a,&
@@ -24850,7 +24850,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(dp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(dp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),&
             & mask=5 < dim),merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),&
             & size(a,9),mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),&
@@ -24918,7 +24918,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),merge(size(a,&
@@ -24939,7 +24939,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),merge(size(a,&
@@ -24957,7 +24957,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(dp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(dp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),&
             & mask=5 < dim),merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),&
             & size(a,9),mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),&
@@ -25025,7 +25025,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),merge(size(a,&
@@ -25047,7 +25047,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),merge(size(a,&
@@ -25066,7 +25066,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(dp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(dp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),&
             & mask=5 < dim),merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),&
             & size(a,9),mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),&
@@ -25135,7 +25135,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),merge(size(a,&
@@ -25157,7 +25157,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),merge(size(a,&
@@ -25176,7 +25176,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(dp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(dp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),&
             & mask=5 < dim),merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),&
             & size(a,9),mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),&
@@ -25247,7 +25247,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Norm of the matrix.
-        complex(dp) :: nrm
+        real(dp) :: nrm
                                     
         call norm_1D_int_z(a,nrm=nrm,order=order)
         
@@ -25262,7 +25262,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(dp) :: nrm
+        real(dp) :: nrm
                 
         call norm_1D_int_z(a,nrm=nrm,order=order,err=err)
         
@@ -25273,7 +25273,7 @@ module stdlib_linalg_norms
         !> Input 1-d matrix a(:)
         complex(dp),intent(in) :: a(:)
         !> Norm of the matrix.
-        complex(dp),intent(out) :: nrm
+        real(dp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -25329,7 +25329,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Norm of the matrix.
-        complex(dp) :: nrm
+        real(dp) :: nrm
                                     
         call norm_2D_int_z(a,nrm=nrm,order=order)
         
@@ -25344,7 +25344,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(dp) :: nrm
+        real(dp) :: nrm
                 
         call norm_2D_int_z(a,nrm=nrm,order=order,err=err)
         
@@ -25355,7 +25355,7 @@ module stdlib_linalg_norms
         !> Input 2-d matrix a(:,:)
         complex(dp),intent(in) :: a(:,:)
         !> Norm of the matrix.
-        complex(dp),intent(out) :: nrm
+        real(dp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -25411,7 +25411,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Norm of the matrix.
-        complex(dp) :: nrm
+        real(dp) :: nrm
                                     
         call norm_3D_int_z(a,nrm=nrm,order=order)
         
@@ -25426,7 +25426,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(dp) :: nrm
+        real(dp) :: nrm
                 
         call norm_3D_int_z(a,nrm=nrm,order=order,err=err)
         
@@ -25437,7 +25437,7 @@ module stdlib_linalg_norms
         !> Input 3-d matrix a(:,:,:)
         complex(dp),intent(in) :: a(:,:,:)
         !> Norm of the matrix.
-        complex(dp),intent(out) :: nrm
+        real(dp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -25493,7 +25493,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Norm of the matrix.
-        complex(dp) :: nrm
+        real(dp) :: nrm
                                     
         call norm_4D_int_z(a,nrm=nrm,order=order)
         
@@ -25508,7 +25508,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(dp) :: nrm
+        real(dp) :: nrm
                 
         call norm_4D_int_z(a,nrm=nrm,order=order,err=err)
         
@@ -25519,7 +25519,7 @@ module stdlib_linalg_norms
         !> Input 4-d matrix a(:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:)
         !> Norm of the matrix.
-        complex(dp),intent(out) :: nrm
+        real(dp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -25575,7 +25575,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Norm of the matrix.
-        complex(dp) :: nrm
+        real(dp) :: nrm
                                     
         call norm_5D_int_z(a,nrm=nrm,order=order)
         
@@ -25590,7 +25590,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(dp) :: nrm
+        real(dp) :: nrm
                 
         call norm_5D_int_z(a,nrm=nrm,order=order,err=err)
         
@@ -25601,7 +25601,7 @@ module stdlib_linalg_norms
         !> Input 5-d matrix a(:,:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:,:)
         !> Norm of the matrix.
-        complex(dp),intent(out) :: nrm
+        real(dp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -25657,7 +25657,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Norm of the matrix.
-        complex(dp) :: nrm
+        real(dp) :: nrm
                                     
         call norm_6D_int_z(a,nrm=nrm,order=order)
         
@@ -25672,7 +25672,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(dp) :: nrm
+        real(dp) :: nrm
                 
         call norm_6D_int_z(a,nrm=nrm,order=order,err=err)
         
@@ -25683,7 +25683,7 @@ module stdlib_linalg_norms
         !> Input 6-d matrix a(:,:,:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:,:,:)
         !> Norm of the matrix.
-        complex(dp),intent(out) :: nrm
+        real(dp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -25739,7 +25739,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Norm of the matrix.
-        complex(dp) :: nrm
+        real(dp) :: nrm
                                     
         call norm_7D_int_z(a,nrm=nrm,order=order)
         
@@ -25754,7 +25754,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(dp) :: nrm
+        real(dp) :: nrm
                 
         call norm_7D_int_z(a,nrm=nrm,order=order,err=err)
         
@@ -25765,7 +25765,7 @@ module stdlib_linalg_norms
         !> Input 7-d matrix a(:,:,:,:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:,:,:,:)
         !> Norm of the matrix.
-        complex(dp),intent(out) :: nrm
+        real(dp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -25821,7 +25821,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Norm of the matrix.
-        complex(dp) :: nrm
+        real(dp) :: nrm
                                     
         call norm_8D_int_z(a,nrm=nrm,order=order)
         
@@ -25836,7 +25836,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(dp) :: nrm
+        real(dp) :: nrm
                 
         call norm_8D_int_z(a,nrm=nrm,order=order,err=err)
         
@@ -25847,7 +25847,7 @@ module stdlib_linalg_norms
         !> Input 8-d matrix a(:,:,:,:,:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:,:,:,:,:)
         !> Norm of the matrix.
-        complex(dp),intent(out) :: nrm
+        real(dp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -25903,7 +25903,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Norm of the matrix.
-        complex(dp) :: nrm
+        real(dp) :: nrm
                                     
         call norm_9D_int_z(a,nrm=nrm,order=order)
         
@@ -25918,7 +25918,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(dp) :: nrm
+        real(dp) :: nrm
                 
         call norm_9D_int_z(a,nrm=nrm,order=order,err=err)
         
@@ -25929,7 +25929,7 @@ module stdlib_linalg_norms
         !> Input 9-d matrix a(:,:,:,:,:,:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:)
         !> Norm of the matrix.
-        complex(dp),intent(out) :: nrm
+        real(dp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -25985,7 +25985,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Norm of the matrix.
-        complex(dp) :: nrm
+        real(dp) :: nrm
                                     
         call norm_10D_int_z(a,nrm=nrm,order=order)
         
@@ -26000,7 +26000,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(dp) :: nrm
+        real(dp) :: nrm
                 
         call norm_10D_int_z(a,nrm=nrm,order=order,err=err)
         
@@ -26011,7 +26011,7 @@ module stdlib_linalg_norms
         !> Input 10-d matrix a(:,:,:,:,:,:,:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:)
         !> Norm of the matrix.
-        complex(dp),intent(out) :: nrm
+        real(dp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -26067,7 +26067,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Norm of the matrix.
-        complex(dp) :: nrm
+        real(dp) :: nrm
                                     
         call norm_11D_int_z(a,nrm=nrm,order=order)
         
@@ -26082,7 +26082,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(dp) :: nrm
+        real(dp) :: nrm
                 
         call norm_11D_int_z(a,nrm=nrm,order=order,err=err)
         
@@ -26093,7 +26093,7 @@ module stdlib_linalg_norms
         !> Input 11-d matrix a(:,:,:,:,:,:,:,:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:)
         !> Norm of the matrix.
-        complex(dp),intent(out) :: nrm
+        real(dp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -26149,7 +26149,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Norm of the matrix.
-        complex(dp) :: nrm
+        real(dp) :: nrm
                                     
         call norm_12D_int_z(a,nrm=nrm,order=order)
         
@@ -26164,7 +26164,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(dp) :: nrm
+        real(dp) :: nrm
                 
         call norm_12D_int_z(a,nrm=nrm,order=order,err=err)
         
@@ -26175,7 +26175,7 @@ module stdlib_linalg_norms
         !> Input 12-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:)
         !> Norm of the matrix.
-        complex(dp),intent(out) :: nrm
+        real(dp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -26231,7 +26231,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Norm of the matrix.
-        complex(dp) :: nrm
+        real(dp) :: nrm
                                     
         call norm_13D_int_z(a,nrm=nrm,order=order)
         
@@ -26246,7 +26246,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(dp) :: nrm
+        real(dp) :: nrm
                 
         call norm_13D_int_z(a,nrm=nrm,order=order,err=err)
         
@@ -26257,7 +26257,7 @@ module stdlib_linalg_norms
         !> Input 13-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Norm of the matrix.
-        complex(dp),intent(out) :: nrm
+        real(dp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -26313,7 +26313,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Norm of the matrix.
-        complex(dp) :: nrm
+        real(dp) :: nrm
                                     
         call norm_14D_int_z(a,nrm=nrm,order=order)
         
@@ -26328,7 +26328,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(dp) :: nrm
+        real(dp) :: nrm
                 
         call norm_14D_int_z(a,nrm=nrm,order=order,err=err)
         
@@ -26339,7 +26339,7 @@ module stdlib_linalg_norms
         !> Input 14-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Norm of the matrix.
-        complex(dp),intent(out) :: nrm
+        real(dp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -26395,7 +26395,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Norm of the matrix.
-        complex(dp) :: nrm
+        real(dp) :: nrm
                                     
         call norm_15D_int_z(a,nrm=nrm,order=order)
         
@@ -26410,7 +26410,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(dp) :: nrm
+        real(dp) :: nrm
                 
         call norm_15D_int_z(a,nrm=nrm,order=order,err=err)
         
@@ -26421,7 +26421,7 @@ module stdlib_linalg_norms
         !> Input 15-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Norm of the matrix.
-        complex(dp),intent(out) :: nrm
+        real(dp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -26483,7 +26483,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim))
+        real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim))
         
         call norm_2D_to_1D_int_z(a,nrm,order,dim)
             
@@ -26500,7 +26500,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim))
+        real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim))
         
         call norm_2D_to_1D_int_z(a,nrm,order,dim,err)
             
@@ -26514,7 +26514,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(dp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim))
+        real(dp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim))
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -26578,7 +26578,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim))
+        real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim))
         
         call norm_3D_to_2D_int_z(a,nrm,order,dim)
             
@@ -26595,7 +26595,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim))
+        real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim))
         
         call norm_3D_to_2D_int_z(a,nrm,order,dim,err)
             
@@ -26609,7 +26609,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(dp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim))
+        real(dp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim))
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -26673,7 +26673,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim))
         
         call norm_4D_to_3D_int_z(a,nrm,order,dim)
@@ -26691,7 +26691,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim))
         
         call norm_4D_to_3D_int_z(a,nrm,order,dim,err)
@@ -26706,7 +26706,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(dp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(dp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim))
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
@@ -26771,7 +26771,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim))
         
         call norm_5D_to_4D_int_z(a,nrm,order,dim)
@@ -26789,7 +26789,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim))
         
         call norm_5D_to_4D_int_z(a,nrm,order,dim,err)
@@ -26804,7 +26804,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(dp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(dp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim))
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
@@ -26869,7 +26869,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim))
         
         call norm_6D_to_5D_int_z(a,nrm,order,dim)
@@ -26887,7 +26887,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim))
         
         call norm_6D_to_5D_int_z(a,nrm,order,dim,err)
@@ -26902,7 +26902,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(dp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(dp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),&
             & mask=5 < dim))
         !> Order of the matrix norm being computed.
@@ -26968,7 +26968,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim))
         
@@ -26987,7 +26987,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim))
         
@@ -27003,7 +27003,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(dp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(dp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),&
             & mask=5 < dim),merge(size(a,6),size(a,7),mask=6 < dim))
         !> Order of the matrix norm being computed.
@@ -27069,7 +27069,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim))
         
@@ -27088,7 +27088,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim))
         
@@ -27104,7 +27104,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(dp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(dp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),&
             & mask=5 < dim),merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim))
         !> Order of the matrix norm being computed.
@@ -27170,7 +27170,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim))
@@ -27190,7 +27190,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim))
@@ -27207,7 +27207,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(dp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(dp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),&
             & mask=5 < dim),merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),&
             & size(a,9),mask=8 < dim))
@@ -27274,7 +27274,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim))
@@ -27294,7 +27294,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim))
@@ -27311,7 +27311,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(dp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(dp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),&
             & mask=5 < dim),merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),&
             & size(a,9),mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim))
@@ -27378,7 +27378,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim))
@@ -27398,7 +27398,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim))
@@ -27415,7 +27415,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(dp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(dp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),&
             & mask=5 < dim),merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),&
             & size(a,9),mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim))  &
@@ -27483,7 +27483,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),merge(size(a,&
@@ -27504,7 +27504,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),merge(size(a,&
@@ -27522,7 +27522,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(dp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(dp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),&
             & mask=5 < dim),merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),&
             & size(a,9),mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),&
@@ -27590,7 +27590,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),merge(size(a,&
@@ -27611,7 +27611,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),merge(size(a,&
@@ -27629,7 +27629,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(dp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(dp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),&
             & mask=5 < dim),merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),&
             & size(a,9),mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),&
@@ -27697,7 +27697,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),merge(size(a,&
@@ -27719,7 +27719,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),merge(size(a,&
@@ -27738,7 +27738,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(dp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(dp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),&
             & mask=5 < dim),merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),&
             & size(a,9),mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),&
@@ -27807,7 +27807,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),merge(size(a,&
@@ -27829,7 +27829,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),merge(size(a,&
@@ -27848,7 +27848,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(dp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(dp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),&
             & mask=5 < dim),merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),&
             & size(a,9),mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),&
@@ -27919,7 +27919,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Norm of the matrix.
-        complex(qp) :: nrm
+        real(qp) :: nrm
                                     
         call norm_1D_char_w(a,nrm=nrm,order=order)
         
@@ -27934,7 +27934,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(qp) :: nrm
+        real(qp) :: nrm
                 
         call norm_1D_char_w(a,nrm=nrm,order=order,err=err)
         
@@ -27945,7 +27945,7 @@ module stdlib_linalg_norms
         !> Input 1-d matrix a(:)
         complex(qp),intent(in) :: a(:)
         !> Norm of the matrix.
-        complex(qp),intent(out) :: nrm
+        real(qp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -28001,7 +28001,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Norm of the matrix.
-        complex(qp) :: nrm
+        real(qp) :: nrm
                                     
         call norm_2D_char_w(a,nrm=nrm,order=order)
         
@@ -28016,7 +28016,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(qp) :: nrm
+        real(qp) :: nrm
                 
         call norm_2D_char_w(a,nrm=nrm,order=order,err=err)
         
@@ -28027,7 +28027,7 @@ module stdlib_linalg_norms
         !> Input 2-d matrix a(:,:)
         complex(qp),intent(in) :: a(:,:)
         !> Norm of the matrix.
-        complex(qp),intent(out) :: nrm
+        real(qp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -28083,7 +28083,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Norm of the matrix.
-        complex(qp) :: nrm
+        real(qp) :: nrm
                                     
         call norm_3D_char_w(a,nrm=nrm,order=order)
         
@@ -28098,7 +28098,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(qp) :: nrm
+        real(qp) :: nrm
                 
         call norm_3D_char_w(a,nrm=nrm,order=order,err=err)
         
@@ -28109,7 +28109,7 @@ module stdlib_linalg_norms
         !> Input 3-d matrix a(:,:,:)
         complex(qp),intent(in) :: a(:,:,:)
         !> Norm of the matrix.
-        complex(qp),intent(out) :: nrm
+        real(qp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -28165,7 +28165,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Norm of the matrix.
-        complex(qp) :: nrm
+        real(qp) :: nrm
                                     
         call norm_4D_char_w(a,nrm=nrm,order=order)
         
@@ -28180,7 +28180,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(qp) :: nrm
+        real(qp) :: nrm
                 
         call norm_4D_char_w(a,nrm=nrm,order=order,err=err)
         
@@ -28191,7 +28191,7 @@ module stdlib_linalg_norms
         !> Input 4-d matrix a(:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:)
         !> Norm of the matrix.
-        complex(qp),intent(out) :: nrm
+        real(qp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -28247,7 +28247,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Norm of the matrix.
-        complex(qp) :: nrm
+        real(qp) :: nrm
                                     
         call norm_5D_char_w(a,nrm=nrm,order=order)
         
@@ -28262,7 +28262,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(qp) :: nrm
+        real(qp) :: nrm
                 
         call norm_5D_char_w(a,nrm=nrm,order=order,err=err)
         
@@ -28273,7 +28273,7 @@ module stdlib_linalg_norms
         !> Input 5-d matrix a(:,:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:,:)
         !> Norm of the matrix.
-        complex(qp),intent(out) :: nrm
+        real(qp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -28329,7 +28329,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Norm of the matrix.
-        complex(qp) :: nrm
+        real(qp) :: nrm
                                     
         call norm_6D_char_w(a,nrm=nrm,order=order)
         
@@ -28344,7 +28344,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(qp) :: nrm
+        real(qp) :: nrm
                 
         call norm_6D_char_w(a,nrm=nrm,order=order,err=err)
         
@@ -28355,7 +28355,7 @@ module stdlib_linalg_norms
         !> Input 6-d matrix a(:,:,:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:,:,:)
         !> Norm of the matrix.
-        complex(qp),intent(out) :: nrm
+        real(qp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -28411,7 +28411,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Norm of the matrix.
-        complex(qp) :: nrm
+        real(qp) :: nrm
                                     
         call norm_7D_char_w(a,nrm=nrm,order=order)
         
@@ -28426,7 +28426,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(qp) :: nrm
+        real(qp) :: nrm
                 
         call norm_7D_char_w(a,nrm=nrm,order=order,err=err)
         
@@ -28437,7 +28437,7 @@ module stdlib_linalg_norms
         !> Input 7-d matrix a(:,:,:,:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:,:,:,:)
         !> Norm of the matrix.
-        complex(qp),intent(out) :: nrm
+        real(qp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -28493,7 +28493,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Norm of the matrix.
-        complex(qp) :: nrm
+        real(qp) :: nrm
                                     
         call norm_8D_char_w(a,nrm=nrm,order=order)
         
@@ -28508,7 +28508,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(qp) :: nrm
+        real(qp) :: nrm
                 
         call norm_8D_char_w(a,nrm=nrm,order=order,err=err)
         
@@ -28519,7 +28519,7 @@ module stdlib_linalg_norms
         !> Input 8-d matrix a(:,:,:,:,:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:,:,:,:,:)
         !> Norm of the matrix.
-        complex(qp),intent(out) :: nrm
+        real(qp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -28575,7 +28575,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Norm of the matrix.
-        complex(qp) :: nrm
+        real(qp) :: nrm
                                     
         call norm_9D_char_w(a,nrm=nrm,order=order)
         
@@ -28590,7 +28590,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(qp) :: nrm
+        real(qp) :: nrm
                 
         call norm_9D_char_w(a,nrm=nrm,order=order,err=err)
         
@@ -28601,7 +28601,7 @@ module stdlib_linalg_norms
         !> Input 9-d matrix a(:,:,:,:,:,:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:)
         !> Norm of the matrix.
-        complex(qp),intent(out) :: nrm
+        real(qp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -28657,7 +28657,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Norm of the matrix.
-        complex(qp) :: nrm
+        real(qp) :: nrm
                                     
         call norm_10D_char_w(a,nrm=nrm,order=order)
         
@@ -28672,7 +28672,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(qp) :: nrm
+        real(qp) :: nrm
                 
         call norm_10D_char_w(a,nrm=nrm,order=order,err=err)
         
@@ -28683,7 +28683,7 @@ module stdlib_linalg_norms
         !> Input 10-d matrix a(:,:,:,:,:,:,:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:)
         !> Norm of the matrix.
-        complex(qp),intent(out) :: nrm
+        real(qp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -28739,7 +28739,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Norm of the matrix.
-        complex(qp) :: nrm
+        real(qp) :: nrm
                                     
         call norm_11D_char_w(a,nrm=nrm,order=order)
         
@@ -28754,7 +28754,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(qp) :: nrm
+        real(qp) :: nrm
                 
         call norm_11D_char_w(a,nrm=nrm,order=order,err=err)
         
@@ -28765,7 +28765,7 @@ module stdlib_linalg_norms
         !> Input 11-d matrix a(:,:,:,:,:,:,:,:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:)
         !> Norm of the matrix.
-        complex(qp),intent(out) :: nrm
+        real(qp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -28821,7 +28821,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Norm of the matrix.
-        complex(qp) :: nrm
+        real(qp) :: nrm
                                     
         call norm_12D_char_w(a,nrm=nrm,order=order)
         
@@ -28836,7 +28836,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(qp) :: nrm
+        real(qp) :: nrm
                 
         call norm_12D_char_w(a,nrm=nrm,order=order,err=err)
         
@@ -28847,7 +28847,7 @@ module stdlib_linalg_norms
         !> Input 12-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:)
         !> Norm of the matrix.
-        complex(qp),intent(out) :: nrm
+        real(qp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -28903,7 +28903,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Norm of the matrix.
-        complex(qp) :: nrm
+        real(qp) :: nrm
                                     
         call norm_13D_char_w(a,nrm=nrm,order=order)
         
@@ -28918,7 +28918,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(qp) :: nrm
+        real(qp) :: nrm
                 
         call norm_13D_char_w(a,nrm=nrm,order=order,err=err)
         
@@ -28929,7 +28929,7 @@ module stdlib_linalg_norms
         !> Input 13-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Norm of the matrix.
-        complex(qp),intent(out) :: nrm
+        real(qp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -28985,7 +28985,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Norm of the matrix.
-        complex(qp) :: nrm
+        real(qp) :: nrm
                                     
         call norm_14D_char_w(a,nrm=nrm,order=order)
         
@@ -29000,7 +29000,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(qp) :: nrm
+        real(qp) :: nrm
                 
         call norm_14D_char_w(a,nrm=nrm,order=order,err=err)
         
@@ -29011,7 +29011,7 @@ module stdlib_linalg_norms
         !> Input 14-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Norm of the matrix.
-        complex(qp),intent(out) :: nrm
+        real(qp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -29067,7 +29067,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Norm of the matrix.
-        complex(qp) :: nrm
+        real(qp) :: nrm
                                     
         call norm_15D_char_w(a,nrm=nrm,order=order)
         
@@ -29082,7 +29082,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(qp) :: nrm
+        real(qp) :: nrm
                 
         call norm_15D_char_w(a,nrm=nrm,order=order,err=err)
         
@@ -29093,7 +29093,7 @@ module stdlib_linalg_norms
         !> Input 15-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Norm of the matrix.
-        complex(qp),intent(out) :: nrm
+        real(qp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -29155,7 +29155,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim))
+        real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim))
         
         call norm_2D_to_1D_char_w(a,nrm,order,dim)
             
@@ -29172,7 +29172,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim))
+        real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim))
         
         call norm_2D_to_1D_char_w(a,nrm,order,dim,err)
             
@@ -29186,7 +29186,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(qp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim))
+        real(qp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim))
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -29250,7 +29250,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim))
+        real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim))
         
         call norm_3D_to_2D_char_w(a,nrm,order,dim)
             
@@ -29267,7 +29267,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim))
+        real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim))
         
         call norm_3D_to_2D_char_w(a,nrm,order,dim,err)
             
@@ -29281,7 +29281,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(qp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim))
+        real(qp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim))
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -29345,7 +29345,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim))
         
         call norm_4D_to_3D_char_w(a,nrm,order,dim)
@@ -29363,7 +29363,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim))
         
         call norm_4D_to_3D_char_w(a,nrm,order,dim,err)
@@ -29378,7 +29378,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(qp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(qp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim))
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
@@ -29443,7 +29443,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim))
         
         call norm_5D_to_4D_char_w(a,nrm,order,dim)
@@ -29461,7 +29461,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim))
         
         call norm_5D_to_4D_char_w(a,nrm,order,dim,err)
@@ -29476,7 +29476,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(qp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(qp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim))
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
@@ -29541,7 +29541,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim))
         
         call norm_6D_to_5D_char_w(a,nrm,order,dim)
@@ -29559,7 +29559,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim))
         
         call norm_6D_to_5D_char_w(a,nrm,order,dim,err)
@@ -29574,7 +29574,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(qp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(qp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),&
             & mask=5 < dim))
         !> Order of the matrix norm being computed.
@@ -29640,7 +29640,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim))
         
@@ -29659,7 +29659,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim))
         
@@ -29675,7 +29675,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(qp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(qp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),&
             & mask=5 < dim),merge(size(a,6),size(a,7),mask=6 < dim))
         !> Order of the matrix norm being computed.
@@ -29741,7 +29741,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim))
         
@@ -29760,7 +29760,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim))
         
@@ -29776,7 +29776,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(qp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(qp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),&
             & mask=5 < dim),merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim))
         !> Order of the matrix norm being computed.
@@ -29842,7 +29842,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim))
@@ -29862,7 +29862,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim))
@@ -29879,7 +29879,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(qp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(qp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),&
             & mask=5 < dim),merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),&
             & size(a,9),mask=8 < dim))
@@ -29946,7 +29946,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim))
@@ -29966,7 +29966,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim))
@@ -29983,7 +29983,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(qp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(qp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),&
             & mask=5 < dim),merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),&
             & size(a,9),mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim))
@@ -30050,7 +30050,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim))
@@ -30070,7 +30070,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim))
@@ -30087,7 +30087,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(qp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(qp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),&
             & mask=5 < dim),merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),&
             & size(a,9),mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim))  &
@@ -30155,7 +30155,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),merge(size(a,&
@@ -30176,7 +30176,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),merge(size(a,&
@@ -30194,7 +30194,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(qp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(qp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),&
             & mask=5 < dim),merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),&
             & size(a,9),mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),&
@@ -30262,7 +30262,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),merge(size(a,&
@@ -30283,7 +30283,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),merge(size(a,&
@@ -30301,7 +30301,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(qp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(qp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),&
             & mask=5 < dim),merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),&
             & size(a,9),mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),&
@@ -30369,7 +30369,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),merge(size(a,&
@@ -30391,7 +30391,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),merge(size(a,&
@@ -30410,7 +30410,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(qp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(qp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),&
             & mask=5 < dim),merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),&
             & size(a,9),mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),&
@@ -30479,7 +30479,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),merge(size(a,&
@@ -30501,7 +30501,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),merge(size(a,&
@@ -30520,7 +30520,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(qp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(qp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),&
             & mask=5 < dim),merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),&
             & size(a,9),mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),&
@@ -30591,7 +30591,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Norm of the matrix.
-        complex(qp) :: nrm
+        real(qp) :: nrm
                                     
         call norm_1D_int_w(a,nrm=nrm,order=order)
         
@@ -30606,7 +30606,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(qp) :: nrm
+        real(qp) :: nrm
                 
         call norm_1D_int_w(a,nrm=nrm,order=order,err=err)
         
@@ -30617,7 +30617,7 @@ module stdlib_linalg_norms
         !> Input 1-d matrix a(:)
         complex(qp),intent(in) :: a(:)
         !> Norm of the matrix.
-        complex(qp),intent(out) :: nrm
+        real(qp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -30673,7 +30673,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Norm of the matrix.
-        complex(qp) :: nrm
+        real(qp) :: nrm
                                     
         call norm_2D_int_w(a,nrm=nrm,order=order)
         
@@ -30688,7 +30688,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(qp) :: nrm
+        real(qp) :: nrm
                 
         call norm_2D_int_w(a,nrm=nrm,order=order,err=err)
         
@@ -30699,7 +30699,7 @@ module stdlib_linalg_norms
         !> Input 2-d matrix a(:,:)
         complex(qp),intent(in) :: a(:,:)
         !> Norm of the matrix.
-        complex(qp),intent(out) :: nrm
+        real(qp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -30755,7 +30755,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Norm of the matrix.
-        complex(qp) :: nrm
+        real(qp) :: nrm
                                     
         call norm_3D_int_w(a,nrm=nrm,order=order)
         
@@ -30770,7 +30770,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(qp) :: nrm
+        real(qp) :: nrm
                 
         call norm_3D_int_w(a,nrm=nrm,order=order,err=err)
         
@@ -30781,7 +30781,7 @@ module stdlib_linalg_norms
         !> Input 3-d matrix a(:,:,:)
         complex(qp),intent(in) :: a(:,:,:)
         !> Norm of the matrix.
-        complex(qp),intent(out) :: nrm
+        real(qp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -30837,7 +30837,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Norm of the matrix.
-        complex(qp) :: nrm
+        real(qp) :: nrm
                                     
         call norm_4D_int_w(a,nrm=nrm,order=order)
         
@@ -30852,7 +30852,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(qp) :: nrm
+        real(qp) :: nrm
                 
         call norm_4D_int_w(a,nrm=nrm,order=order,err=err)
         
@@ -30863,7 +30863,7 @@ module stdlib_linalg_norms
         !> Input 4-d matrix a(:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:)
         !> Norm of the matrix.
-        complex(qp),intent(out) :: nrm
+        real(qp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -30919,7 +30919,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Norm of the matrix.
-        complex(qp) :: nrm
+        real(qp) :: nrm
                                     
         call norm_5D_int_w(a,nrm=nrm,order=order)
         
@@ -30934,7 +30934,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(qp) :: nrm
+        real(qp) :: nrm
                 
         call norm_5D_int_w(a,nrm=nrm,order=order,err=err)
         
@@ -30945,7 +30945,7 @@ module stdlib_linalg_norms
         !> Input 5-d matrix a(:,:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:,:)
         !> Norm of the matrix.
-        complex(qp),intent(out) :: nrm
+        real(qp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -31001,7 +31001,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Norm of the matrix.
-        complex(qp) :: nrm
+        real(qp) :: nrm
                                     
         call norm_6D_int_w(a,nrm=nrm,order=order)
         
@@ -31016,7 +31016,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(qp) :: nrm
+        real(qp) :: nrm
                 
         call norm_6D_int_w(a,nrm=nrm,order=order,err=err)
         
@@ -31027,7 +31027,7 @@ module stdlib_linalg_norms
         !> Input 6-d matrix a(:,:,:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:,:,:)
         !> Norm of the matrix.
-        complex(qp),intent(out) :: nrm
+        real(qp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -31083,7 +31083,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Norm of the matrix.
-        complex(qp) :: nrm
+        real(qp) :: nrm
                                     
         call norm_7D_int_w(a,nrm=nrm,order=order)
         
@@ -31098,7 +31098,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(qp) :: nrm
+        real(qp) :: nrm
                 
         call norm_7D_int_w(a,nrm=nrm,order=order,err=err)
         
@@ -31109,7 +31109,7 @@ module stdlib_linalg_norms
         !> Input 7-d matrix a(:,:,:,:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:,:,:,:)
         !> Norm of the matrix.
-        complex(qp),intent(out) :: nrm
+        real(qp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -31165,7 +31165,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Norm of the matrix.
-        complex(qp) :: nrm
+        real(qp) :: nrm
                                     
         call norm_8D_int_w(a,nrm=nrm,order=order)
         
@@ -31180,7 +31180,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(qp) :: nrm
+        real(qp) :: nrm
                 
         call norm_8D_int_w(a,nrm=nrm,order=order,err=err)
         
@@ -31191,7 +31191,7 @@ module stdlib_linalg_norms
         !> Input 8-d matrix a(:,:,:,:,:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:,:,:,:,:)
         !> Norm of the matrix.
-        complex(qp),intent(out) :: nrm
+        real(qp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -31247,7 +31247,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Norm of the matrix.
-        complex(qp) :: nrm
+        real(qp) :: nrm
                                     
         call norm_9D_int_w(a,nrm=nrm,order=order)
         
@@ -31262,7 +31262,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(qp) :: nrm
+        real(qp) :: nrm
                 
         call norm_9D_int_w(a,nrm=nrm,order=order,err=err)
         
@@ -31273,7 +31273,7 @@ module stdlib_linalg_norms
         !> Input 9-d matrix a(:,:,:,:,:,:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:)
         !> Norm of the matrix.
-        complex(qp),intent(out) :: nrm
+        real(qp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -31329,7 +31329,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Norm of the matrix.
-        complex(qp) :: nrm
+        real(qp) :: nrm
                                     
         call norm_10D_int_w(a,nrm=nrm,order=order)
         
@@ -31344,7 +31344,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(qp) :: nrm
+        real(qp) :: nrm
                 
         call norm_10D_int_w(a,nrm=nrm,order=order,err=err)
         
@@ -31355,7 +31355,7 @@ module stdlib_linalg_norms
         !> Input 10-d matrix a(:,:,:,:,:,:,:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:)
         !> Norm of the matrix.
-        complex(qp),intent(out) :: nrm
+        real(qp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -31411,7 +31411,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Norm of the matrix.
-        complex(qp) :: nrm
+        real(qp) :: nrm
                                     
         call norm_11D_int_w(a,nrm=nrm,order=order)
         
@@ -31426,7 +31426,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(qp) :: nrm
+        real(qp) :: nrm
                 
         call norm_11D_int_w(a,nrm=nrm,order=order,err=err)
         
@@ -31437,7 +31437,7 @@ module stdlib_linalg_norms
         !> Input 11-d matrix a(:,:,:,:,:,:,:,:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:)
         !> Norm of the matrix.
-        complex(qp),intent(out) :: nrm
+        real(qp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -31493,7 +31493,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Norm of the matrix.
-        complex(qp) :: nrm
+        real(qp) :: nrm
                                     
         call norm_12D_int_w(a,nrm=nrm,order=order)
         
@@ -31508,7 +31508,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(qp) :: nrm
+        real(qp) :: nrm
                 
         call norm_12D_int_w(a,nrm=nrm,order=order,err=err)
         
@@ -31519,7 +31519,7 @@ module stdlib_linalg_norms
         !> Input 12-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:)
         !> Norm of the matrix.
-        complex(qp),intent(out) :: nrm
+        real(qp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -31575,7 +31575,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Norm of the matrix.
-        complex(qp) :: nrm
+        real(qp) :: nrm
                                     
         call norm_13D_int_w(a,nrm=nrm,order=order)
         
@@ -31590,7 +31590,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(qp) :: nrm
+        real(qp) :: nrm
                 
         call norm_13D_int_w(a,nrm=nrm,order=order,err=err)
         
@@ -31601,7 +31601,7 @@ module stdlib_linalg_norms
         !> Input 13-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Norm of the matrix.
-        complex(qp),intent(out) :: nrm
+        real(qp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -31657,7 +31657,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Norm of the matrix.
-        complex(qp) :: nrm
+        real(qp) :: nrm
                                     
         call norm_14D_int_w(a,nrm=nrm,order=order)
         
@@ -31672,7 +31672,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(qp) :: nrm
+        real(qp) :: nrm
                 
         call norm_14D_int_w(a,nrm=nrm,order=order,err=err)
         
@@ -31683,7 +31683,7 @@ module stdlib_linalg_norms
         !> Input 14-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Norm of the matrix.
-        complex(qp),intent(out) :: nrm
+        real(qp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -31739,7 +31739,7 @@ module stdlib_linalg_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Norm of the matrix.
-        complex(qp) :: nrm
+        real(qp) :: nrm
                                     
         call norm_15D_int_w(a,nrm=nrm,order=order)
         
@@ -31754,7 +31754,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(qp) :: nrm
+        real(qp) :: nrm
                 
         call norm_15D_int_w(a,nrm=nrm,order=order,err=err)
         
@@ -31765,7 +31765,7 @@ module stdlib_linalg_norms
         !> Input 15-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Norm of the matrix.
-        complex(qp),intent(out) :: nrm
+        real(qp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -31827,7 +31827,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim))
+        real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim))
         
         call norm_2D_to_1D_int_w(a,nrm,order,dim)
             
@@ -31844,7 +31844,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim))
+        real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim))
         
         call norm_2D_to_1D_int_w(a,nrm,order,dim,err)
             
@@ -31858,7 +31858,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(qp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim))
+        real(qp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim))
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -31922,7 +31922,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim))
+        real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim))
         
         call norm_3D_to_2D_int_w(a,nrm,order,dim)
             
@@ -31939,7 +31939,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim))
+        real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim))
         
         call norm_3D_to_2D_int_w(a,nrm,order,dim,err)
             
@@ -31953,7 +31953,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(qp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim))
+        real(qp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim))
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -32017,7 +32017,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim))
         
         call norm_4D_to_3D_int_w(a,nrm,order,dim)
@@ -32035,7 +32035,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim))
         
         call norm_4D_to_3D_int_w(a,nrm,order,dim,err)
@@ -32050,7 +32050,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(qp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(qp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim))
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
@@ -32115,7 +32115,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim))
         
         call norm_5D_to_4D_int_w(a,nrm,order,dim)
@@ -32133,7 +32133,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim))
         
         call norm_5D_to_4D_int_w(a,nrm,order,dim,err)
@@ -32148,7 +32148,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(qp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(qp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim))
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
@@ -32213,7 +32213,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim))
         
         call norm_6D_to_5D_int_w(a,nrm,order,dim)
@@ -32231,7 +32231,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim))
         
         call norm_6D_to_5D_int_w(a,nrm,order,dim,err)
@@ -32246,7 +32246,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(qp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(qp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),&
             & mask=5 < dim))
         !> Order of the matrix norm being computed.
@@ -32312,7 +32312,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim))
         
@@ -32331,7 +32331,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim))
         
@@ -32347,7 +32347,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(qp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(qp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),&
             & mask=5 < dim),merge(size(a,6),size(a,7),mask=6 < dim))
         !> Order of the matrix norm being computed.
@@ -32413,7 +32413,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim))
         
@@ -32432,7 +32432,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim))
         
@@ -32448,7 +32448,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(qp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(qp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),&
             & mask=5 < dim),merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim))
         !> Order of the matrix norm being computed.
@@ -32514,7 +32514,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim))
@@ -32534,7 +32534,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim))
@@ -32551,7 +32551,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(qp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(qp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),&
             & mask=5 < dim),merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),&
             & size(a,9),mask=8 < dim))
@@ -32618,7 +32618,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim))
@@ -32638,7 +32638,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim))
@@ -32655,7 +32655,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(qp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(qp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),&
             & mask=5 < dim),merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),&
             & size(a,9),mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim))
@@ -32722,7 +32722,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim))
@@ -32742,7 +32742,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim))
@@ -32759,7 +32759,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(qp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(qp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),&
             & mask=5 < dim),merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),&
             & size(a,9),mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim))  &
@@ -32827,7 +32827,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),merge(size(a,&
@@ -32848,7 +32848,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),merge(size(a,&
@@ -32866,7 +32866,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(qp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(qp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),&
             & mask=5 < dim),merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),&
             & size(a,9),mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),&
@@ -32934,7 +32934,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),merge(size(a,&
@@ -32955,7 +32955,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),merge(size(a,&
@@ -32973,7 +32973,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(qp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(qp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),&
             & mask=5 < dim),merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),&
             & size(a,9),mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),&
@@ -33041,7 +33041,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),merge(size(a,&
@@ -33063,7 +33063,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),merge(size(a,&
@@ -33082,7 +33082,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(qp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(qp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),&
             & mask=5 < dim),merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),&
             & size(a,9),mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),&
@@ -33151,7 +33151,7 @@ module stdlib_linalg_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),merge(size(a,&
@@ -33173,7 +33173,7 @@ module stdlib_linalg_norms
         !> Output state return flag.
         type(linalg_state),intent(out) :: err
         !> Norm of the matrix.
-        complex(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
+        real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
             & merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),size(a,9),&
             & mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),merge(size(a,&
@@ -33192,7 +33192,7 @@ module stdlib_linalg_norms
         !  (dim must be defined before it is used for `nrm`)
         integer(ilp),intent(in) :: dim
         !> Norm of the matrix.
-        complex(qp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
+        real(qp),intent(out) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),&
             & merge(size(a,3),size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),&
             & mask=5 < dim),merge(size(a,6),size(a,7),mask=6 < dim),merge(size(a,7),size(a,8),mask=7 < dim),merge(size(a,8),&
             & size(a,9),mask=8 < dim),merge(size(a,9),size(a,10),mask=9 < dim),merge(size(a,10),size(a,11),mask=10 < dim),&
