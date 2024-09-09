@@ -1,10 +1,11 @@
 ! Vector norm: demonstrate usage 
 program example_norm
-  use stdlib_linalg_interface, only: norm, get_norm
+  use stdlib_linalg_interface, only: norm, get_norm, linalg_state
   implicit none
   
-  real :: a(3,3)
+  real :: a(3,3),na
   integer :: j
+  type(linalg_state) :: err
     
   ! a = [   -3.00000000   0.00000000   3.00000000
   !         -2.00000000   1.00000000   4.00000000
@@ -31,8 +32,9 @@ program example_norm
   print *, 'minval(||a||)       = ',norm(a, '-inf')         ! 0.00000000
   print *, 'minval(||a(:,i)||)  = ',norm(a, '-inf', dim=1)  ! 1.00000000       0.00000000       3.00000000 
   
-  ! Error
-  print *, norm(a,'inf', dim=4)
-  
+  ! Catch Error: 
+  ! [norm] returned Value Error: dimension 4 is out of rank for shape(a)= [3 3]
+  print *, 'invalid: ',norm(a,'inf', dim=4, err=err)
+  print *, 'error =  ',err%print()  
 
 end program example_norm
