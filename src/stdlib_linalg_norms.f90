@@ -8,7 +8,7 @@ module stdlib_linalg_norms
      implicit none(type,external)
      private
      
-     public :: norm,measure
+     public :: norm,get_norm
 
      character(*),parameter :: this = 'norm'
      
@@ -745,7 +745,7 @@ module stdlib_linalg_norms
      end interface norm
      
      !> Vector norm: subroutine interface
-     interface measure
+     interface get_norm
             !> Scalar norms: real(sp)
             module procedure norm_1D_char_s
             module procedure norm_2D_char_s
@@ -1118,7 +1118,7 @@ module stdlib_linalg_norms
             module procedure norm_13D_to_12D_int_w
             module procedure norm_14D_to_13D_int_w
             module procedure norm_15D_to_14D_int_w
-     end interface measure
+     end interface get_norm
      
      interface parse_norm_type
         module procedure parse_norm_type_integer
