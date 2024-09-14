@@ -13,7 +13,7 @@ module stdlib_linalg_norms
      implicit none(type,external)
      private
      
-     public :: norm, get_norm
+     public :: norm, get_norm, get_mnorm
 
      character(*), parameter :: this = 'norm'
      
@@ -66,46 +66,21 @@ module stdlib_linalg_norms
         #:endfor
      end interface get_norm
      
+     !> Matrix norm: subroutine interface
+     interface get_mnorm
+         #:for rk,rt,ri in ALL_KINDS_TYPES
+         #:for it,ii in INPUT_OPTIONS        
+            module procedure matrix_norm_${ii}$_${ri}$
+         #:endfor
+         #:endfor            
+     end interface get_mnorm
+     
      interface parse_norm_type
         module procedure parse_norm_type_integer
         module procedure parse_norm_type_character
      end interface parse_norm_type
      
      contains
-     
-     ! Matrix norms (pure subroutine interface) via *LANGE LAPACK backends
-     pure function stdlib_linalg_norm_${rank}$D_order_${ii}$_${ri}$(a, order) result(nrm)
-        !> Input ${rank}$-d matrix a${ranksuffix(rank)}$
-        ${rt}$, intent(in) :: a(:,:)
-        !> Order of the matrix norm being computed.
-        ${it}$, intent(in) :: order
-        !> Norm of the matrix.
-        real(${rk}$) :: nrm
-        
-        !> Local variables
-        character :: lapack_norm
-        real(${rk}$), target :: work1(1)
-        real(${rk}$), pointer :: work(:)
-        
-        
-        call lange(lapack_norm)
-             
-
-          !> LANGE:  returns the value of the one norm,  or the Frobenius norm, or
-          !> the  infinity norm,  or the  element of  largest absolute value  of a
-          !> complex matrix A.
-          interface lange
-#ifdef STDLIB_EXTERNAL_LAPACK
-               real(sp) function clange(norm,m,n,a,lda,work)
-                    import sp,dp,qp,ilp,lk
-                    implicit none(type,external)
-                    character,intent(in) :: norm
-                    integer(ilp),intent(in) :: lda,m,n
-                    real(sp),intent(out) :: work(*)
-                    complex(sp),intent(in) :: a(lda,*)
-               end function clange
-#else
-               module procedure stdlib_clange     
      
      !> Parse norm type from an integer user input
      pure subroutine parse_norm_type_integer(order,norm_type,err)
@@ -392,6 +367,105 @@ module stdlib_linalg_norms
     end subroutine norm_${rank}$D_to_${rank-1}$D_${ii}$_${ri}$
 
     #:endfor
+    
+    !====================================================================
+    ! Matrix norms
+    !====================================================================    
+    
+    ! Internal implementation 
+    function matrix_norm_${ii}$_${ri}$(a, order, err) result(nrm)
+        !> Input matrix a(m,n)
+        ${rt}$, intent(in), target :: a(:,:)
+        !> Norm of the matrix.        
+        real(${rk}$) :: nrm
+        !> Order of the matrix norm being computed.
+        ${it}$, intent(in) :: order
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state), intent(out), optional :: err           
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: m,n,norm_request
+        character :: lange_task
+        real(${rk}$), target :: work1(1)
+        real(${rk}$), pointer :: work(:)        
+        
+        m = size(a,dim=1,kind=ilp)
+        n = size(a,dim=2,kind=ilp)
+        
+        ! Initialize norm to zero
+        nrm = 0.0_${rk}$
+        
+        if (m<=0 .or. n<=0) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',[m,n])
+            call linalg_error_handling(err_,err)
+            return
+        end if
+
+        ! Check norm request: user + *LANGE support
+        call parse_norm_type(order,norm_request,err_)
+        call lange_task_request(norm_request,lange_task,err_)
+        if (err_%error()) then 
+            call linalg_error_handling(err_,err)
+            return
+        endif       
+        
+        if (lange_task==LANGE_NORM_INF) then 
+            allocate(work(m))
+        else
+            work => work1
+        endif
+        
+        ! LAPACK interface
+        nrm = lange(lange_task,m,n,a,m,work)
+        
+        if (lange_task==LANGE_NORM_INF) deallocate(work)
+        
+    end function matrix_norm_${ii}$_${ri}$
+    
+    #:for rank in range(3, MAXRANK + 1)
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_${rank}$D_to_${rank-1}$D_${ii}$_${ri}$(a, order, dim, err) result(nrm)
+        !> Input matrix a(m,n)
+        ${rt}$, intent(in), target :: a${ranksuffix(rank)}$
+        !> Norm of the matrix.        
+        real(${rk}$), allocatable :: nrm${ranksuffix(rank-1)}$
+        !> Order of the matrix norm being computed.
+        ${it}$, intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp), optional, intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state), intent(out), optional :: err  
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(${rank}$)
+        integer(ilp), parameter :: dim_range(*) = [(j,j=1_ilp,${rank}$_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then 
+           dims = dim 
+        else
+           dims = [1,2]
+        endif
+
+        if (.not.all(dims>0 .and. dims<=${rank}$)) then 
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',${rank}$,' matrix norm has invalid dim=',dims)
+            allocate(nrm${emptyranksuffix(rank-1)}$)
+            call linalg_error_handling(err_,err)
+            return
+        endif
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)        
+        
+        
+    end function matrix_norm_${rank}$D_to_${rank-1}$D_${ii}$_${ri}$
+    
+    #:endfor
+    
     #:endfor
     #:endfor
 

@@ -1,17 +1,5 @@
 #:include "common.fypp"
 
-#! Generates an array rank suffix with a fixed integer size for all dimensions.
-#!
-#! Args:
-#!     rank (int): Rank of the variable
-#!     size (int): Size along each dimension
-#!
-#! Returns:
-#!     Array rank suffix string (e.g. (4,4,4) if rank = 3 and size = 4)
-#!
-#:def fixedranksuffix(rank,size)
-#{if rank > 0}#(${str(size) + (","+str(size)) * (rank - 1)}$)#{endif}#
-#:enddef
 ! Test matrix norms 
 module test_linalg_norms
     use stdlib_linalg_interface

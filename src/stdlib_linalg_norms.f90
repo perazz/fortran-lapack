@@ -8,7 +8,7 @@ module stdlib_linalg_norms
      implicit none(type,external)
      private
      
-     public :: norm,get_norm
+     public :: norm,get_norm,get_mnorm
 
      character(*),parameter :: this = 'norm'
      
@@ -19,6 +19,12 @@ module stdlib_linalg_norms
      integer(ilp),parameter :: NORM_INF = +huge(0_ilp) ! infinity norm
      integer(ilp),parameter :: NORM_POW_LAST = NORM_INF - 1_ilp
      integer(ilp),parameter :: NORM_MINUSINF = -huge(0_ilp)
+     
+     !> List of *LANGE norm flags
+     character,parameter :: LANGE_NORM_MAT = 'M' ! maxval(sum(abs(a)))   ! over whole matrix: unused
+     character,parameter :: LANGE_NORM_ONE = '1' ! maxval(sum(abs(a),1)) ! over columns
+     character,parameter :: LANGE_NORM_INF = 'I' ! maxval(sum(abs(a),2)) ! over rows
+     character,parameter :: LANGE_NORM_TWO = 'E' ! "Euclidean" or "Frobenius"
      
      !> Vector norm: function interface
      interface norm
@@ -1120,6 +1126,22 @@ module stdlib_linalg_norms
             module procedure norm_15D_to_14D_int_w
      end interface get_norm
      
+     !> Matrix norm: subroutine interface
+     interface get_mnorm
+            module procedure matrix_norm_char_s
+            module procedure matrix_norm_int_s
+            module procedure matrix_norm_char_d
+            module procedure matrix_norm_int_d
+            module procedure matrix_norm_char_q
+            module procedure matrix_norm_int_q
+            module procedure matrix_norm_char_c
+            module procedure matrix_norm_int_c
+            module procedure matrix_norm_char_z
+            module procedure matrix_norm_int_z
+            module procedure matrix_norm_char_w
+            module procedure matrix_norm_int_w
+     end interface get_mnorm
+     
      interface parse_norm_type
         module procedure parse_norm_type_integer
         module procedure parse_norm_type_character
@@ -1188,6 +1210,27 @@ module stdlib_linalg_norms
         
      end subroutine parse_norm_type_character
 
+     !> From a user norm request, generate a *LANGE task command
+     pure subroutine lange_task_request(norm_type,lange_task,err)
+        !> Parsed matrix norm type
+        integer(ilp),intent(in) :: norm_type
+        !> LANGE task
+        character,intent(out) :: lange_task
+        !> Error flag
+        type(linalg_state),intent(inout) :: err
+        
+        select case (norm_type)
+           case (NORM_INF)
+              lange_task = LANGE_NORM_INF
+           case (NORM_ONE)
+              lange_task = LANGE_NORM_ONE
+           case (NORM_TWO)
+              lange_task = LANGE_NORM_TWO
+           case default
+              err = linalg_state(this,LINALG_VALUE_ERROR,'Order ',norm_type,' is not a valid matrix norm input.')
+        end select
+     end subroutine lange_task_request
+               
     !==============================================
     ! Norms : any rank to scalar
     !==============================================
@@ -3860,6 +3903,567 @@ module stdlib_linalg_norms
         
     end subroutine norm_15D_to_14D_char_s
 
+    !====================================================================
+    ! Matrix norms
+    !====================================================================
+    
+    ! Internal implementation
+    function matrix_norm_char_s(a,order,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(sp),intent(in),target :: a(:,:)
+        !> Norm of the matrix.
+        real(sp) :: nrm
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: m,n,norm_request
+        character :: lange_task
+        real(sp),target :: work1(1)
+        real(sp),pointer :: work(:)
+        
+        m = size(a,dim=1,kind=ilp)
+        n = size(a,dim=2,kind=ilp)
+        
+        ! Initialize norm to zero
+        nrm = 0.0_sp
+        
+        if (m <= 0 .or. n <= 0) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=', [m,n])
+            call linalg_error_handling(err_,err)
+            return
+        end if
+
+        ! Check norm request: user + *LANGE support
+        call parse_norm_type(order,norm_request,err_)
+        call lange_task_request(norm_request,lange_task,err_)
+        if (err_%error()) then
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! LAPACK interface
+        nrm = lange(lange_task,m,n,a,m,work)
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
+    end function matrix_norm_char_s
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_3D_to_2D_char_s(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(sp),intent(in),target :: a(:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(3)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,3_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 3)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',3,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_3D_to_2D_char_s
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_4D_to_3D_char_s(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(sp),intent(in),target :: a(:,:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(4)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,4_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 4)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',4,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_4D_to_3D_char_s
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_5D_to_4D_char_s(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(sp),intent(in),target :: a(:,:,:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(5)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,5_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 5)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',5,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_5D_to_4D_char_s
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_6D_to_5D_char_s(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(sp),intent(in),target :: a(:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(6)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,6_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 6)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',6,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_6D_to_5D_char_s
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_7D_to_6D_char_s(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(sp),intent(in),target :: a(:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(7)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,7_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 7)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',7,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_7D_to_6D_char_s
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_8D_to_7D_char_s(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(sp),intent(in),target :: a(:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(8)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,8_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 8)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',8,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_8D_to_7D_char_s
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_9D_to_8D_char_s(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(9)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,9_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 9)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',9,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_9D_to_8D_char_s
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_10D_to_9D_char_s(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(10)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,10_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 10)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',10,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_10D_to_9D_char_s
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_11D_to_10D_char_s(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:,:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(11)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,11_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 11)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',11,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_11D_to_10D_char_s
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_12D_to_11D_char_s(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:,:,:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(12)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,12_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 12)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',12,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_12D_to_11D_char_s
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_13D_to_12D_char_s(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(13)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,13_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 13)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',13,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_13D_to_12D_char_s
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_14D_to_13D_char_s(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:,:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(14)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,14_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 14)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',14,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_14D_to_13D_char_s
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_15D_to_14D_char_s(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(15)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,15_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 15)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',15,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_15D_to_14D_char_s
+    
     !==============================================
     ! Norms : any rank to scalar
     !==============================================
@@ -6532,6 +7136,567 @@ module stdlib_linalg_norms
         
     end subroutine norm_15D_to_14D_int_s
 
+    !====================================================================
+    ! Matrix norms
+    !====================================================================
+    
+    ! Internal implementation
+    function matrix_norm_int_s(a,order,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(sp),intent(in),target :: a(:,:)
+        !> Norm of the matrix.
+        real(sp) :: nrm
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: m,n,norm_request
+        character :: lange_task
+        real(sp),target :: work1(1)
+        real(sp),pointer :: work(:)
+        
+        m = size(a,dim=1,kind=ilp)
+        n = size(a,dim=2,kind=ilp)
+        
+        ! Initialize norm to zero
+        nrm = 0.0_sp
+        
+        if (m <= 0 .or. n <= 0) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=', [m,n])
+            call linalg_error_handling(err_,err)
+            return
+        end if
+
+        ! Check norm request: user + *LANGE support
+        call parse_norm_type(order,norm_request,err_)
+        call lange_task_request(norm_request,lange_task,err_)
+        if (err_%error()) then
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! LAPACK interface
+        nrm = lange(lange_task,m,n,a,m,work)
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
+    end function matrix_norm_int_s
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_3D_to_2D_int_s(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(sp),intent(in),target :: a(:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(3)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,3_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 3)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',3,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_3D_to_2D_int_s
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_4D_to_3D_int_s(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(sp),intent(in),target :: a(:,:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(4)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,4_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 4)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',4,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_4D_to_3D_int_s
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_5D_to_4D_int_s(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(sp),intent(in),target :: a(:,:,:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(5)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,5_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 5)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',5,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_5D_to_4D_int_s
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_6D_to_5D_int_s(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(sp),intent(in),target :: a(:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(6)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,6_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 6)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',6,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_6D_to_5D_int_s
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_7D_to_6D_int_s(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(sp),intent(in),target :: a(:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(7)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,7_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 7)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',7,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_7D_to_6D_int_s
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_8D_to_7D_int_s(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(sp),intent(in),target :: a(:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(8)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,8_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 8)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',8,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_8D_to_7D_int_s
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_9D_to_8D_int_s(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(9)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,9_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 9)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',9,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_9D_to_8D_int_s
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_10D_to_9D_int_s(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(10)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,10_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 10)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',10,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_10D_to_9D_int_s
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_11D_to_10D_int_s(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:,:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(11)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,11_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 11)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',11,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_11D_to_10D_int_s
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_12D_to_11D_int_s(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:,:,:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(12)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,12_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 12)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',12,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_12D_to_11D_int_s
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_13D_to_12D_int_s(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(13)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,13_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 13)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',13,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_13D_to_12D_int_s
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_14D_to_13D_int_s(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:,:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(14)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,14_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 14)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',14,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_14D_to_13D_int_s
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_15D_to_14D_int_s(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(15)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,15_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 15)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',15,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_15D_to_14D_int_s
+    
     !==============================================
     ! Norms : any rank to scalar
     !==============================================
@@ -9204,6 +10369,567 @@ module stdlib_linalg_norms
         
     end subroutine norm_15D_to_14D_char_d
 
+    !====================================================================
+    ! Matrix norms
+    !====================================================================
+    
+    ! Internal implementation
+    function matrix_norm_char_d(a,order,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(dp),intent(in),target :: a(:,:)
+        !> Norm of the matrix.
+        real(dp) :: nrm
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: m,n,norm_request
+        character :: lange_task
+        real(dp),target :: work1(1)
+        real(dp),pointer :: work(:)
+        
+        m = size(a,dim=1,kind=ilp)
+        n = size(a,dim=2,kind=ilp)
+        
+        ! Initialize norm to zero
+        nrm = 0.0_dp
+        
+        if (m <= 0 .or. n <= 0) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=', [m,n])
+            call linalg_error_handling(err_,err)
+            return
+        end if
+
+        ! Check norm request: user + *LANGE support
+        call parse_norm_type(order,norm_request,err_)
+        call lange_task_request(norm_request,lange_task,err_)
+        if (err_%error()) then
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! LAPACK interface
+        nrm = lange(lange_task,m,n,a,m,work)
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
+    end function matrix_norm_char_d
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_3D_to_2D_char_d(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(dp),intent(in),target :: a(:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(3)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,3_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 3)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',3,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_3D_to_2D_char_d
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_4D_to_3D_char_d(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(dp),intent(in),target :: a(:,:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(4)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,4_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 4)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',4,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_4D_to_3D_char_d
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_5D_to_4D_char_d(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(dp),intent(in),target :: a(:,:,:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(5)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,5_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 5)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',5,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_5D_to_4D_char_d
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_6D_to_5D_char_d(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(dp),intent(in),target :: a(:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(6)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,6_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 6)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',6,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_6D_to_5D_char_d
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_7D_to_6D_char_d(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(dp),intent(in),target :: a(:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(7)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,7_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 7)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',7,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_7D_to_6D_char_d
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_8D_to_7D_char_d(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(dp),intent(in),target :: a(:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(8)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,8_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 8)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',8,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_8D_to_7D_char_d
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_9D_to_8D_char_d(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(9)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,9_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 9)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',9,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_9D_to_8D_char_d
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_10D_to_9D_char_d(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(10)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,10_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 10)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',10,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_10D_to_9D_char_d
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_11D_to_10D_char_d(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:,:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(11)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,11_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 11)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',11,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_11D_to_10D_char_d
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_12D_to_11D_char_d(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:,:,:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(12)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,12_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 12)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',12,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_12D_to_11D_char_d
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_13D_to_12D_char_d(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(13)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,13_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 13)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',13,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_13D_to_12D_char_d
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_14D_to_13D_char_d(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:,:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(14)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,14_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 14)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',14,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_14D_to_13D_char_d
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_15D_to_14D_char_d(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(15)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,15_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 15)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',15,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_15D_to_14D_char_d
+    
     !==============================================
     ! Norms : any rank to scalar
     !==============================================
@@ -11876,6 +13602,567 @@ module stdlib_linalg_norms
         
     end subroutine norm_15D_to_14D_int_d
 
+    !====================================================================
+    ! Matrix norms
+    !====================================================================
+    
+    ! Internal implementation
+    function matrix_norm_int_d(a,order,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(dp),intent(in),target :: a(:,:)
+        !> Norm of the matrix.
+        real(dp) :: nrm
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: m,n,norm_request
+        character :: lange_task
+        real(dp),target :: work1(1)
+        real(dp),pointer :: work(:)
+        
+        m = size(a,dim=1,kind=ilp)
+        n = size(a,dim=2,kind=ilp)
+        
+        ! Initialize norm to zero
+        nrm = 0.0_dp
+        
+        if (m <= 0 .or. n <= 0) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=', [m,n])
+            call linalg_error_handling(err_,err)
+            return
+        end if
+
+        ! Check norm request: user + *LANGE support
+        call parse_norm_type(order,norm_request,err_)
+        call lange_task_request(norm_request,lange_task,err_)
+        if (err_%error()) then
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! LAPACK interface
+        nrm = lange(lange_task,m,n,a,m,work)
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
+    end function matrix_norm_int_d
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_3D_to_2D_int_d(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(dp),intent(in),target :: a(:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(3)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,3_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 3)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',3,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_3D_to_2D_int_d
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_4D_to_3D_int_d(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(dp),intent(in),target :: a(:,:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(4)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,4_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 4)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',4,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_4D_to_3D_int_d
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_5D_to_4D_int_d(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(dp),intent(in),target :: a(:,:,:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(5)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,5_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 5)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',5,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_5D_to_4D_int_d
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_6D_to_5D_int_d(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(dp),intent(in),target :: a(:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(6)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,6_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 6)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',6,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_6D_to_5D_int_d
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_7D_to_6D_int_d(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(dp),intent(in),target :: a(:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(7)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,7_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 7)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',7,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_7D_to_6D_int_d
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_8D_to_7D_int_d(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(dp),intent(in),target :: a(:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(8)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,8_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 8)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',8,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_8D_to_7D_int_d
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_9D_to_8D_int_d(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(9)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,9_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 9)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',9,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_9D_to_8D_int_d
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_10D_to_9D_int_d(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(10)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,10_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 10)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',10,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_10D_to_9D_int_d
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_11D_to_10D_int_d(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:,:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(11)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,11_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 11)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',11,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_11D_to_10D_int_d
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_12D_to_11D_int_d(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:,:,:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(12)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,12_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 12)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',12,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_12D_to_11D_int_d
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_13D_to_12D_int_d(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(13)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,13_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 13)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',13,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_13D_to_12D_int_d
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_14D_to_13D_int_d(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:,:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(14)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,14_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 14)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',14,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_14D_to_13D_int_d
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_15D_to_14D_int_d(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(15)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,15_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 15)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',15,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_15D_to_14D_int_d
+    
     !==============================================
     ! Norms : any rank to scalar
     !==============================================
@@ -14548,6 +16835,567 @@ module stdlib_linalg_norms
         
     end subroutine norm_15D_to_14D_char_q
 
+    !====================================================================
+    ! Matrix norms
+    !====================================================================
+    
+    ! Internal implementation
+    function matrix_norm_char_q(a,order,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(qp),intent(in),target :: a(:,:)
+        !> Norm of the matrix.
+        real(qp) :: nrm
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: m,n,norm_request
+        character :: lange_task
+        real(qp),target :: work1(1)
+        real(qp),pointer :: work(:)
+        
+        m = size(a,dim=1,kind=ilp)
+        n = size(a,dim=2,kind=ilp)
+        
+        ! Initialize norm to zero
+        nrm = 0.0_qp
+        
+        if (m <= 0 .or. n <= 0) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=', [m,n])
+            call linalg_error_handling(err_,err)
+            return
+        end if
+
+        ! Check norm request: user + *LANGE support
+        call parse_norm_type(order,norm_request,err_)
+        call lange_task_request(norm_request,lange_task,err_)
+        if (err_%error()) then
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! LAPACK interface
+        nrm = lange(lange_task,m,n,a,m,work)
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
+    end function matrix_norm_char_q
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_3D_to_2D_char_q(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(qp),intent(in),target :: a(:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(3)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,3_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 3)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',3,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_3D_to_2D_char_q
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_4D_to_3D_char_q(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(qp),intent(in),target :: a(:,:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(4)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,4_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 4)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',4,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_4D_to_3D_char_q
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_5D_to_4D_char_q(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(qp),intent(in),target :: a(:,:,:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(5)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,5_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 5)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',5,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_5D_to_4D_char_q
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_6D_to_5D_char_q(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(qp),intent(in),target :: a(:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(6)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,6_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 6)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',6,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_6D_to_5D_char_q
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_7D_to_6D_char_q(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(qp),intent(in),target :: a(:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(7)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,7_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 7)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',7,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_7D_to_6D_char_q
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_8D_to_7D_char_q(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(qp),intent(in),target :: a(:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(8)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,8_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 8)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',8,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_8D_to_7D_char_q
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_9D_to_8D_char_q(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(9)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,9_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 9)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',9,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_9D_to_8D_char_q
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_10D_to_9D_char_q(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(10)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,10_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 10)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',10,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_10D_to_9D_char_q
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_11D_to_10D_char_q(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:,:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(11)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,11_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 11)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',11,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_11D_to_10D_char_q
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_12D_to_11D_char_q(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:,:,:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(12)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,12_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 12)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',12,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_12D_to_11D_char_q
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_13D_to_12D_char_q(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(13)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,13_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 13)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',13,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_13D_to_12D_char_q
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_14D_to_13D_char_q(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:,:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(14)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,14_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 14)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',14,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_14D_to_13D_char_q
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_15D_to_14D_char_q(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(15)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,15_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 15)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',15,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_15D_to_14D_char_q
+    
     !==============================================
     ! Norms : any rank to scalar
     !==============================================
@@ -17220,6 +20068,567 @@ module stdlib_linalg_norms
         
     end subroutine norm_15D_to_14D_int_q
 
+    !====================================================================
+    ! Matrix norms
+    !====================================================================
+    
+    ! Internal implementation
+    function matrix_norm_int_q(a,order,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(qp),intent(in),target :: a(:,:)
+        !> Norm of the matrix.
+        real(qp) :: nrm
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: m,n,norm_request
+        character :: lange_task
+        real(qp),target :: work1(1)
+        real(qp),pointer :: work(:)
+        
+        m = size(a,dim=1,kind=ilp)
+        n = size(a,dim=2,kind=ilp)
+        
+        ! Initialize norm to zero
+        nrm = 0.0_qp
+        
+        if (m <= 0 .or. n <= 0) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=', [m,n])
+            call linalg_error_handling(err_,err)
+            return
+        end if
+
+        ! Check norm request: user + *LANGE support
+        call parse_norm_type(order,norm_request,err_)
+        call lange_task_request(norm_request,lange_task,err_)
+        if (err_%error()) then
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! LAPACK interface
+        nrm = lange(lange_task,m,n,a,m,work)
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
+    end function matrix_norm_int_q
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_3D_to_2D_int_q(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(qp),intent(in),target :: a(:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(3)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,3_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 3)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',3,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_3D_to_2D_int_q
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_4D_to_3D_int_q(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(qp),intent(in),target :: a(:,:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(4)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,4_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 4)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',4,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_4D_to_3D_int_q
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_5D_to_4D_int_q(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(qp),intent(in),target :: a(:,:,:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(5)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,5_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 5)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',5,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_5D_to_4D_int_q
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_6D_to_5D_int_q(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(qp),intent(in),target :: a(:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(6)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,6_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 6)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',6,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_6D_to_5D_int_q
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_7D_to_6D_int_q(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(qp),intent(in),target :: a(:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(7)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,7_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 7)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',7,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_7D_to_6D_int_q
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_8D_to_7D_int_q(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(qp),intent(in),target :: a(:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(8)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,8_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 8)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',8,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_8D_to_7D_int_q
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_9D_to_8D_int_q(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(9)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,9_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 9)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',9,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_9D_to_8D_int_q
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_10D_to_9D_int_q(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(10)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,10_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 10)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',10,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_10D_to_9D_int_q
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_11D_to_10D_int_q(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:,:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(11)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,11_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 11)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',11,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_11D_to_10D_int_q
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_12D_to_11D_int_q(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:,:,:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(12)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,12_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 12)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',12,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_12D_to_11D_int_q
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_13D_to_12D_int_q(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(13)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,13_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 13)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',13,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_13D_to_12D_int_q
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_14D_to_13D_int_q(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:,:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(14)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,14_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 14)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',14,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_14D_to_13D_int_q
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_15D_to_14D_int_q(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(15)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,15_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 15)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',15,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_15D_to_14D_int_q
+    
     !==============================================
     ! Norms : any rank to scalar
     !==============================================
@@ -19892,6 +23301,567 @@ module stdlib_linalg_norms
         
     end subroutine norm_15D_to_14D_char_c
 
+    !====================================================================
+    ! Matrix norms
+    !====================================================================
+    
+    ! Internal implementation
+    function matrix_norm_char_c(a,order,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(sp),intent(in),target :: a(:,:)
+        !> Norm of the matrix.
+        real(sp) :: nrm
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: m,n,norm_request
+        character :: lange_task
+        real(sp),target :: work1(1)
+        real(sp),pointer :: work(:)
+        
+        m = size(a,dim=1,kind=ilp)
+        n = size(a,dim=2,kind=ilp)
+        
+        ! Initialize norm to zero
+        nrm = 0.0_sp
+        
+        if (m <= 0 .or. n <= 0) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=', [m,n])
+            call linalg_error_handling(err_,err)
+            return
+        end if
+
+        ! Check norm request: user + *LANGE support
+        call parse_norm_type(order,norm_request,err_)
+        call lange_task_request(norm_request,lange_task,err_)
+        if (err_%error()) then
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! LAPACK interface
+        nrm = lange(lange_task,m,n,a,m,work)
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
+    end function matrix_norm_char_c
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_3D_to_2D_char_c(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(sp),intent(in),target :: a(:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(3)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,3_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 3)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',3,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_3D_to_2D_char_c
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_4D_to_3D_char_c(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(sp),intent(in),target :: a(:,:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(4)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,4_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 4)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',4,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_4D_to_3D_char_c
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_5D_to_4D_char_c(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(sp),intent(in),target :: a(:,:,:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(5)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,5_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 5)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',5,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_5D_to_4D_char_c
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_6D_to_5D_char_c(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(sp),intent(in),target :: a(:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(6)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,6_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 6)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',6,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_6D_to_5D_char_c
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_7D_to_6D_char_c(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(sp),intent(in),target :: a(:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(7)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,7_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 7)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',7,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_7D_to_6D_char_c
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_8D_to_7D_char_c(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(sp),intent(in),target :: a(:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(8)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,8_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 8)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',8,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_8D_to_7D_char_c
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_9D_to_8D_char_c(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(9)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,9_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 9)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',9,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_9D_to_8D_char_c
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_10D_to_9D_char_c(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(10)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,10_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 10)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',10,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_10D_to_9D_char_c
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_11D_to_10D_char_c(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:,:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(11)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,11_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 11)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',11,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_11D_to_10D_char_c
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_12D_to_11D_char_c(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:,:,:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(12)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,12_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 12)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',12,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_12D_to_11D_char_c
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_13D_to_12D_char_c(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(13)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,13_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 13)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',13,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_13D_to_12D_char_c
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_14D_to_13D_char_c(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:,:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(14)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,14_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 14)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',14,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_14D_to_13D_char_c
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_15D_to_14D_char_c(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(15)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,15_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 15)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',15,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_15D_to_14D_char_c
+    
     !==============================================
     ! Norms : any rank to scalar
     !==============================================
@@ -22564,6 +26534,567 @@ module stdlib_linalg_norms
         
     end subroutine norm_15D_to_14D_int_c
 
+    !====================================================================
+    ! Matrix norms
+    !====================================================================
+    
+    ! Internal implementation
+    function matrix_norm_int_c(a,order,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(sp),intent(in),target :: a(:,:)
+        !> Norm of the matrix.
+        real(sp) :: nrm
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: m,n,norm_request
+        character :: lange_task
+        real(sp),target :: work1(1)
+        real(sp),pointer :: work(:)
+        
+        m = size(a,dim=1,kind=ilp)
+        n = size(a,dim=2,kind=ilp)
+        
+        ! Initialize norm to zero
+        nrm = 0.0_sp
+        
+        if (m <= 0 .or. n <= 0) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=', [m,n])
+            call linalg_error_handling(err_,err)
+            return
+        end if
+
+        ! Check norm request: user + *LANGE support
+        call parse_norm_type(order,norm_request,err_)
+        call lange_task_request(norm_request,lange_task,err_)
+        if (err_%error()) then
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! LAPACK interface
+        nrm = lange(lange_task,m,n,a,m,work)
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
+    end function matrix_norm_int_c
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_3D_to_2D_int_c(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(sp),intent(in),target :: a(:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(3)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,3_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 3)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',3,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_3D_to_2D_int_c
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_4D_to_3D_int_c(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(sp),intent(in),target :: a(:,:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(4)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,4_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 4)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',4,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_4D_to_3D_int_c
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_5D_to_4D_int_c(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(sp),intent(in),target :: a(:,:,:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(5)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,5_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 5)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',5,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_5D_to_4D_int_c
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_6D_to_5D_int_c(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(sp),intent(in),target :: a(:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(6)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,6_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 6)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',6,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_6D_to_5D_int_c
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_7D_to_6D_int_c(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(sp),intent(in),target :: a(:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(7)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,7_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 7)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',7,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_7D_to_6D_int_c
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_8D_to_7D_int_c(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(sp),intent(in),target :: a(:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(8)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,8_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 8)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',8,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_8D_to_7D_int_c
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_9D_to_8D_int_c(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(9)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,9_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 9)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',9,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_9D_to_8D_int_c
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_10D_to_9D_int_c(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(10)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,10_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 10)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',10,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_10D_to_9D_int_c
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_11D_to_10D_int_c(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:,:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(11)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,11_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 11)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',11,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_11D_to_10D_int_c
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_12D_to_11D_int_c(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:,:,:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(12)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,12_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 12)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',12,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_12D_to_11D_int_c
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_13D_to_12D_int_c(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(13)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,13_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 13)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',13,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_13D_to_12D_int_c
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_14D_to_13D_int_c(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:,:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(14)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,14_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 14)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',14,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_14D_to_13D_int_c
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_15D_to_14D_int_c(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(15)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,15_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 15)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',15,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_15D_to_14D_int_c
+    
     !==============================================
     ! Norms : any rank to scalar
     !==============================================
@@ -25236,6 +29767,567 @@ module stdlib_linalg_norms
         
     end subroutine norm_15D_to_14D_char_z
 
+    !====================================================================
+    ! Matrix norms
+    !====================================================================
+    
+    ! Internal implementation
+    function matrix_norm_char_z(a,order,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(dp),intent(in),target :: a(:,:)
+        !> Norm of the matrix.
+        real(dp) :: nrm
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: m,n,norm_request
+        character :: lange_task
+        real(dp),target :: work1(1)
+        real(dp),pointer :: work(:)
+        
+        m = size(a,dim=1,kind=ilp)
+        n = size(a,dim=2,kind=ilp)
+        
+        ! Initialize norm to zero
+        nrm = 0.0_dp
+        
+        if (m <= 0 .or. n <= 0) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=', [m,n])
+            call linalg_error_handling(err_,err)
+            return
+        end if
+
+        ! Check norm request: user + *LANGE support
+        call parse_norm_type(order,norm_request,err_)
+        call lange_task_request(norm_request,lange_task,err_)
+        if (err_%error()) then
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! LAPACK interface
+        nrm = lange(lange_task,m,n,a,m,work)
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
+    end function matrix_norm_char_z
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_3D_to_2D_char_z(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(dp),intent(in),target :: a(:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(3)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,3_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 3)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',3,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_3D_to_2D_char_z
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_4D_to_3D_char_z(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(dp),intent(in),target :: a(:,:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(4)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,4_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 4)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',4,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_4D_to_3D_char_z
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_5D_to_4D_char_z(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(dp),intent(in),target :: a(:,:,:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(5)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,5_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 5)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',5,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_5D_to_4D_char_z
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_6D_to_5D_char_z(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(dp),intent(in),target :: a(:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(6)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,6_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 6)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',6,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_6D_to_5D_char_z
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_7D_to_6D_char_z(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(dp),intent(in),target :: a(:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(7)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,7_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 7)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',7,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_7D_to_6D_char_z
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_8D_to_7D_char_z(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(dp),intent(in),target :: a(:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(8)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,8_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 8)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',8,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_8D_to_7D_char_z
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_9D_to_8D_char_z(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(9)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,9_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 9)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',9,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_9D_to_8D_char_z
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_10D_to_9D_char_z(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(10)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,10_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 10)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',10,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_10D_to_9D_char_z
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_11D_to_10D_char_z(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:,:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(11)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,11_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 11)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',11,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_11D_to_10D_char_z
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_12D_to_11D_char_z(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:,:,:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(12)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,12_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 12)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',12,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_12D_to_11D_char_z
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_13D_to_12D_char_z(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(13)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,13_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 13)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',13,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_13D_to_12D_char_z
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_14D_to_13D_char_z(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:,:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(14)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,14_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 14)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',14,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_14D_to_13D_char_z
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_15D_to_14D_char_z(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(15)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,15_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 15)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',15,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_15D_to_14D_char_z
+    
     !==============================================
     ! Norms : any rank to scalar
     !==============================================
@@ -27908,6 +33000,567 @@ module stdlib_linalg_norms
         
     end subroutine norm_15D_to_14D_int_z
 
+    !====================================================================
+    ! Matrix norms
+    !====================================================================
+    
+    ! Internal implementation
+    function matrix_norm_int_z(a,order,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(dp),intent(in),target :: a(:,:)
+        !> Norm of the matrix.
+        real(dp) :: nrm
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: m,n,norm_request
+        character :: lange_task
+        real(dp),target :: work1(1)
+        real(dp),pointer :: work(:)
+        
+        m = size(a,dim=1,kind=ilp)
+        n = size(a,dim=2,kind=ilp)
+        
+        ! Initialize norm to zero
+        nrm = 0.0_dp
+        
+        if (m <= 0 .or. n <= 0) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=', [m,n])
+            call linalg_error_handling(err_,err)
+            return
+        end if
+
+        ! Check norm request: user + *LANGE support
+        call parse_norm_type(order,norm_request,err_)
+        call lange_task_request(norm_request,lange_task,err_)
+        if (err_%error()) then
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! LAPACK interface
+        nrm = lange(lange_task,m,n,a,m,work)
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
+    end function matrix_norm_int_z
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_3D_to_2D_int_z(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(dp),intent(in),target :: a(:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(3)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,3_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 3)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',3,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_3D_to_2D_int_z
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_4D_to_3D_int_z(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(dp),intent(in),target :: a(:,:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(4)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,4_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 4)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',4,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_4D_to_3D_int_z
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_5D_to_4D_int_z(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(dp),intent(in),target :: a(:,:,:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(5)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,5_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 5)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',5,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_5D_to_4D_int_z
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_6D_to_5D_int_z(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(dp),intent(in),target :: a(:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(6)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,6_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 6)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',6,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_6D_to_5D_int_z
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_7D_to_6D_int_z(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(dp),intent(in),target :: a(:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(7)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,7_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 7)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',7,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_7D_to_6D_int_z
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_8D_to_7D_int_z(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(dp),intent(in),target :: a(:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(8)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,8_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 8)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',8,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_8D_to_7D_int_z
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_9D_to_8D_int_z(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(9)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,9_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 9)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',9,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_9D_to_8D_int_z
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_10D_to_9D_int_z(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(10)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,10_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 10)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',10,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_10D_to_9D_int_z
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_11D_to_10D_int_z(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:,:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(11)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,11_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 11)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',11,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_11D_to_10D_int_z
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_12D_to_11D_int_z(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:,:,:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(12)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,12_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 12)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',12,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_12D_to_11D_int_z
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_13D_to_12D_int_z(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(13)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,13_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 13)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',13,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_13D_to_12D_int_z
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_14D_to_13D_int_z(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:,:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(14)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,14_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 14)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',14,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_14D_to_13D_int_z
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_15D_to_14D_int_z(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(15)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,15_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 15)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',15,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_15D_to_14D_int_z
+    
     !==============================================
     ! Norms : any rank to scalar
     !==============================================
@@ -30580,6 +36233,567 @@ module stdlib_linalg_norms
         
     end subroutine norm_15D_to_14D_char_w
 
+    !====================================================================
+    ! Matrix norms
+    !====================================================================
+    
+    ! Internal implementation
+    function matrix_norm_char_w(a,order,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(qp),intent(in),target :: a(:,:)
+        !> Norm of the matrix.
+        real(qp) :: nrm
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: m,n,norm_request
+        character :: lange_task
+        real(qp),target :: work1(1)
+        real(qp),pointer :: work(:)
+        
+        m = size(a,dim=1,kind=ilp)
+        n = size(a,dim=2,kind=ilp)
+        
+        ! Initialize norm to zero
+        nrm = 0.0_qp
+        
+        if (m <= 0 .or. n <= 0) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=', [m,n])
+            call linalg_error_handling(err_,err)
+            return
+        end if
+
+        ! Check norm request: user + *LANGE support
+        call parse_norm_type(order,norm_request,err_)
+        call lange_task_request(norm_request,lange_task,err_)
+        if (err_%error()) then
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! LAPACK interface
+        nrm = lange(lange_task,m,n,a,m,work)
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
+    end function matrix_norm_char_w
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_3D_to_2D_char_w(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(qp),intent(in),target :: a(:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(3)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,3_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 3)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',3,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_3D_to_2D_char_w
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_4D_to_3D_char_w(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(qp),intent(in),target :: a(:,:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(4)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,4_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 4)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',4,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_4D_to_3D_char_w
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_5D_to_4D_char_w(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(qp),intent(in),target :: a(:,:,:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(5)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,5_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 5)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',5,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_5D_to_4D_char_w
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_6D_to_5D_char_w(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(qp),intent(in),target :: a(:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(6)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,6_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 6)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',6,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_6D_to_5D_char_w
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_7D_to_6D_char_w(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(qp),intent(in),target :: a(:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(7)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,7_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 7)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',7,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_7D_to_6D_char_w
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_8D_to_7D_char_w(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(qp),intent(in),target :: a(:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(8)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,8_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 8)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',8,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_8D_to_7D_char_w
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_9D_to_8D_char_w(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(9)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,9_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 9)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',9,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_9D_to_8D_char_w
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_10D_to_9D_char_w(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(10)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,10_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 10)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',10,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_10D_to_9D_char_w
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_11D_to_10D_char_w(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:,:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(11)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,11_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 11)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',11,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_11D_to_10D_char_w
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_12D_to_11D_char_w(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:,:,:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(12)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,12_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 12)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',12,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_12D_to_11D_char_w
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_13D_to_12D_char_w(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(13)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,13_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 13)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',13,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_13D_to_12D_char_w
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_14D_to_13D_char_w(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:,:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(14)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,14_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 14)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',14,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_14D_to_13D_char_w
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_15D_to_14D_char_w(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(15)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,15_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 15)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',15,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_15D_to_14D_char_w
+    
     !==============================================
     ! Norms : any rank to scalar
     !==============================================
@@ -33252,4 +39466,565 @@ module stdlib_linalg_norms
         
     end subroutine norm_15D_to_14D_int_w
 
+    !====================================================================
+    ! Matrix norms
+    !====================================================================
+    
+    ! Internal implementation
+    function matrix_norm_int_w(a,order,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(qp),intent(in),target :: a(:,:)
+        !> Norm of the matrix.
+        real(qp) :: nrm
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: m,n,norm_request
+        character :: lange_task
+        real(qp),target :: work1(1)
+        real(qp),pointer :: work(:)
+        
+        m = size(a,dim=1,kind=ilp)
+        n = size(a,dim=2,kind=ilp)
+        
+        ! Initialize norm to zero
+        nrm = 0.0_qp
+        
+        if (m <= 0 .or. n <= 0) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=', [m,n])
+            call linalg_error_handling(err_,err)
+            return
+        end if
+
+        ! Check norm request: user + *LANGE support
+        call parse_norm_type(order,norm_request,err_)
+        call lange_task_request(norm_request,lange_task,err_)
+        if (err_%error()) then
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! LAPACK interface
+        nrm = lange(lange_task,m,n,a,m,work)
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
+    end function matrix_norm_int_w
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_3D_to_2D_int_w(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(qp),intent(in),target :: a(:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(3)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,3_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 3)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',3,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_3D_to_2D_int_w
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_4D_to_3D_int_w(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(qp),intent(in),target :: a(:,:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(4)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,4_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 4)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',4,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_4D_to_3D_int_w
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_5D_to_4D_int_w(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(qp),intent(in),target :: a(:,:,:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(5)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,5_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 5)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',5,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_5D_to_4D_int_w
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_6D_to_5D_int_w(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(qp),intent(in),target :: a(:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(6)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,6_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 6)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',6,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_6D_to_5D_int_w
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_7D_to_6D_int_w(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(qp),intent(in),target :: a(:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(7)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,7_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 7)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',7,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_7D_to_6D_int_w
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_8D_to_7D_int_w(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(qp),intent(in),target :: a(:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(8)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,8_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 8)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',8,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_8D_to_7D_int_w
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_9D_to_8D_int_w(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(9)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,9_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 9)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',9,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_9D_to_8D_int_w
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_10D_to_9D_int_w(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(10)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,10_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 10)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',10,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_10D_to_9D_int_w
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_11D_to_10D_int_w(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:,:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(11)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,11_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 11)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',11,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_11D_to_10D_int_w
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_12D_to_11D_int_w(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:,:,:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(12)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,12_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 12)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',12,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_12D_to_11D_int_w
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_13D_to_12D_int_w(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(13)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,13_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 13)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',13,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_13D_to_12D_int_w
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_14D_to_13D_int_w(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:,:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(14)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,14_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 14)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',14,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_14D_to_13D_int_w
+    
+    ! Pure function interface with DIM specifier. On error, the code will stop
+    function matrix_norm_15D_to_14D_int_w(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(linalg_state),intent(out),optional :: err
+        
+        type(linalg_state) :: err_
+        integer(ilp) :: j,dims(2),s(15)
+        integer(ilp),parameter :: dim_range(*) = [(j,j=1_ilp,15_ilp)]
+        
+        ! Get dimensions
+        if (present(dim)) then
+           dims = dim
+        else
+           dims = [1,2]
+        end if
+
+        if (.not. all(dims > 0 .and. dims <= 15)) then
+            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',15,' matrix norm has invalid dim=',dims)
+            allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0,0,0))
+            call linalg_error_handling(err_,err)
+            return
+        end if
+        
+        ! Input matrix properties
+        s = shape(a,kind=ilp)
+        
+        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
+        call linalg_error_handling(err_,err)
+        
+    end function matrix_norm_15D_to_14D_int_w
+    
 end module stdlib_linalg_norms
