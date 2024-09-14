@@ -25,6 +25,13 @@ module stdlib_linalg_norms
      integer(ilp), parameter :: NORM_POW_LAST  = NORM_INF - 1_ilp
      integer(ilp), parameter :: NORM_MINUSINF = -huge(0_ilp)
      
+     !> List of *LANGE norm flags
+     character, parameter :: LANGE_NORM_MAT = 'M' ! maxval(sum(abs(a)))   ! over whole matrix: unused
+     character, parameter :: LANGE_NORM_ONE = '1' ! maxval(sum(abs(a),1)) ! over columns
+     character, parameter :: LANGE_NORM_INF = 'I' ! maxval(sum(abs(a),2)) ! over rows
+     character, parameter :: LANGE_NORM_TWO = 'E' ! "Euclidean" or "Frobenius"
+     
+     
      !> Vector norm: function interface
      interface norm
         #:for rk,rt,ri in ALL_KINDS_TYPES
@@ -65,6 +72,40 @@ module stdlib_linalg_norms
      end interface parse_norm_type
      
      contains
+     
+     ! Matrix norms (pure subroutine interface) via *LANGE LAPACK backends
+     pure function stdlib_linalg_norm_${rank}$D_order_${ii}$_${ri}$(a, order) result(nrm)
+        !> Input ${rank}$-d matrix a${ranksuffix(rank)}$
+        ${rt}$, intent(in) :: a(:,:)
+        !> Order of the matrix norm being computed.
+        ${it}$, intent(in) :: order
+        !> Norm of the matrix.
+        real(${rk}$) :: nrm
+        
+        !> Local variables
+        character :: lapack_norm
+        real(${rk}$), target :: work1(1)
+        real(${rk}$), pointer :: work(:)
+        
+        
+        call lange(lapack_norm)
+             
+
+          !> LANGE:  returns the value of the one norm,  or the Frobenius norm, or
+          !> the  infinity norm,  or the  element of  largest absolute value  of a
+          !> complex matrix A.
+          interface lange
+#ifdef STDLIB_EXTERNAL_LAPACK
+               real(sp) function clange(norm,m,n,a,lda,work)
+                    import sp,dp,qp,ilp,lk
+                    implicit none(type,external)
+                    character,intent(in) :: norm
+                    integer(ilp),intent(in) :: lda,m,n
+                    real(sp),intent(out) :: work(*)
+                    complex(sp),intent(in) :: a(lda,*)
+               end function clange
+#else
+               module procedure stdlib_clange     
      
      !> Parse norm type from an integer user input
      pure subroutine parse_norm_type_integer(order,norm_type,err)
@@ -127,6 +168,27 @@ module stdlib_linalg_norms
         
      end subroutine parse_norm_type_character
 
+     !> From a user norm request, generate a *LANGE task command
+     pure subroutine lange_task_request(norm_type,lange_task,err)
+        !> Parsed matrix norm type
+        integer(ilp), intent(in) :: norm_type
+        !> LANGE task
+        character, intent(out) :: lange_task
+        !> Error flag
+        type(linalg_state), intent(inout) :: err
+        
+        select case (norm_type)
+           case (NORM_INF)
+              lange_task = LANGE_NORM_INF 
+           case (NORM_ONE)
+              lange_task = LANGE_NORM_ONE
+           case (NORM_TWO)
+              lange_task = LANGE_NORM_TWO
+           case default 
+              err = linalg_state(this,LINALG_VALUE_ERROR,'Order ',norm_type,' is not a valid matrix norm input.')
+        end select
+     end subroutine lange_task_request
+               
     #:for rk,rt,ri in ALL_KINDS_TYPES
     #:for it,ii in INPUT_OPTIONS
 
