@@ -8,7 +8,7 @@ module stdlib_linalg_norms
      implicit none(type,external)
      private
      
-     public :: norm,get_norm,get_mnorm
+     public :: norm,get_norm,mnorm
 
      character(*),parameter :: this = 'norm'
      
@@ -1126,21 +1126,189 @@ module stdlib_linalg_norms
             module procedure norm_15D_to_14D_int_w
      end interface get_norm
      
-     !> Matrix norm: subroutine interface
-     interface get_mnorm
-            module procedure matrix_norm_char_s
-            module procedure matrix_norm_int_s
-            module procedure matrix_norm_char_d
-            module procedure matrix_norm_int_d
-            module procedure matrix_norm_char_q
-            module procedure matrix_norm_int_q
-            module procedure matrix_norm_char_c
-            module procedure matrix_norm_int_c
-            module procedure matrix_norm_char_z
-            module procedure matrix_norm_int_z
-            module procedure matrix_norm_char_w
-            module procedure matrix_norm_int_w
-     end interface get_mnorm
+     !> Matrix norm: function interface
+     interface mnorm
+         module procedure matrix_norm_char_s
+         module procedure matrix_norm_2D_to_0D_char_s
+         module procedure matrix_norm_3D_to_1D_char_s
+         module procedure matrix_norm_4D_to_2D_char_s
+         module procedure matrix_norm_5D_to_3D_char_s
+         module procedure matrix_norm_6D_to_4D_char_s
+         module procedure matrix_norm_7D_to_5D_char_s
+         module procedure matrix_norm_8D_to_6D_char_s
+         module procedure matrix_norm_9D_to_7D_char_s
+         module procedure matrix_norm_10D_to_8D_char_s
+         module procedure matrix_norm_11D_to_9D_char_s
+         module procedure matrix_norm_12D_to_10D_char_s
+         module procedure matrix_norm_13D_to_11D_char_s
+         module procedure matrix_norm_14D_to_12D_char_s
+         module procedure matrix_norm_15D_to_13D_char_s
+         module procedure matrix_norm_int_s
+         module procedure matrix_norm_2D_to_0D_int_s
+         module procedure matrix_norm_3D_to_1D_int_s
+         module procedure matrix_norm_4D_to_2D_int_s
+         module procedure matrix_norm_5D_to_3D_int_s
+         module procedure matrix_norm_6D_to_4D_int_s
+         module procedure matrix_norm_7D_to_5D_int_s
+         module procedure matrix_norm_8D_to_6D_int_s
+         module procedure matrix_norm_9D_to_7D_int_s
+         module procedure matrix_norm_10D_to_8D_int_s
+         module procedure matrix_norm_11D_to_9D_int_s
+         module procedure matrix_norm_12D_to_10D_int_s
+         module procedure matrix_norm_13D_to_11D_int_s
+         module procedure matrix_norm_14D_to_12D_int_s
+         module procedure matrix_norm_15D_to_13D_int_s
+         module procedure matrix_norm_char_d
+         module procedure matrix_norm_2D_to_0D_char_d
+         module procedure matrix_norm_3D_to_1D_char_d
+         module procedure matrix_norm_4D_to_2D_char_d
+         module procedure matrix_norm_5D_to_3D_char_d
+         module procedure matrix_norm_6D_to_4D_char_d
+         module procedure matrix_norm_7D_to_5D_char_d
+         module procedure matrix_norm_8D_to_6D_char_d
+         module procedure matrix_norm_9D_to_7D_char_d
+         module procedure matrix_norm_10D_to_8D_char_d
+         module procedure matrix_norm_11D_to_9D_char_d
+         module procedure matrix_norm_12D_to_10D_char_d
+         module procedure matrix_norm_13D_to_11D_char_d
+         module procedure matrix_norm_14D_to_12D_char_d
+         module procedure matrix_norm_15D_to_13D_char_d
+         module procedure matrix_norm_int_d
+         module procedure matrix_norm_2D_to_0D_int_d
+         module procedure matrix_norm_3D_to_1D_int_d
+         module procedure matrix_norm_4D_to_2D_int_d
+         module procedure matrix_norm_5D_to_3D_int_d
+         module procedure matrix_norm_6D_to_4D_int_d
+         module procedure matrix_norm_7D_to_5D_int_d
+         module procedure matrix_norm_8D_to_6D_int_d
+         module procedure matrix_norm_9D_to_7D_int_d
+         module procedure matrix_norm_10D_to_8D_int_d
+         module procedure matrix_norm_11D_to_9D_int_d
+         module procedure matrix_norm_12D_to_10D_int_d
+         module procedure matrix_norm_13D_to_11D_int_d
+         module procedure matrix_norm_14D_to_12D_int_d
+         module procedure matrix_norm_15D_to_13D_int_d
+         module procedure matrix_norm_char_q
+         module procedure matrix_norm_2D_to_0D_char_q
+         module procedure matrix_norm_3D_to_1D_char_q
+         module procedure matrix_norm_4D_to_2D_char_q
+         module procedure matrix_norm_5D_to_3D_char_q
+         module procedure matrix_norm_6D_to_4D_char_q
+         module procedure matrix_norm_7D_to_5D_char_q
+         module procedure matrix_norm_8D_to_6D_char_q
+         module procedure matrix_norm_9D_to_7D_char_q
+         module procedure matrix_norm_10D_to_8D_char_q
+         module procedure matrix_norm_11D_to_9D_char_q
+         module procedure matrix_norm_12D_to_10D_char_q
+         module procedure matrix_norm_13D_to_11D_char_q
+         module procedure matrix_norm_14D_to_12D_char_q
+         module procedure matrix_norm_15D_to_13D_char_q
+         module procedure matrix_norm_int_q
+         module procedure matrix_norm_2D_to_0D_int_q
+         module procedure matrix_norm_3D_to_1D_int_q
+         module procedure matrix_norm_4D_to_2D_int_q
+         module procedure matrix_norm_5D_to_3D_int_q
+         module procedure matrix_norm_6D_to_4D_int_q
+         module procedure matrix_norm_7D_to_5D_int_q
+         module procedure matrix_norm_8D_to_6D_int_q
+         module procedure matrix_norm_9D_to_7D_int_q
+         module procedure matrix_norm_10D_to_8D_int_q
+         module procedure matrix_norm_11D_to_9D_int_q
+         module procedure matrix_norm_12D_to_10D_int_q
+         module procedure matrix_norm_13D_to_11D_int_q
+         module procedure matrix_norm_14D_to_12D_int_q
+         module procedure matrix_norm_15D_to_13D_int_q
+         module procedure matrix_norm_char_c
+         module procedure matrix_norm_2D_to_0D_char_c
+         module procedure matrix_norm_3D_to_1D_char_c
+         module procedure matrix_norm_4D_to_2D_char_c
+         module procedure matrix_norm_5D_to_3D_char_c
+         module procedure matrix_norm_6D_to_4D_char_c
+         module procedure matrix_norm_7D_to_5D_char_c
+         module procedure matrix_norm_8D_to_6D_char_c
+         module procedure matrix_norm_9D_to_7D_char_c
+         module procedure matrix_norm_10D_to_8D_char_c
+         module procedure matrix_norm_11D_to_9D_char_c
+         module procedure matrix_norm_12D_to_10D_char_c
+         module procedure matrix_norm_13D_to_11D_char_c
+         module procedure matrix_norm_14D_to_12D_char_c
+         module procedure matrix_norm_15D_to_13D_char_c
+         module procedure matrix_norm_int_c
+         module procedure matrix_norm_2D_to_0D_int_c
+         module procedure matrix_norm_3D_to_1D_int_c
+         module procedure matrix_norm_4D_to_2D_int_c
+         module procedure matrix_norm_5D_to_3D_int_c
+         module procedure matrix_norm_6D_to_4D_int_c
+         module procedure matrix_norm_7D_to_5D_int_c
+         module procedure matrix_norm_8D_to_6D_int_c
+         module procedure matrix_norm_9D_to_7D_int_c
+         module procedure matrix_norm_10D_to_8D_int_c
+         module procedure matrix_norm_11D_to_9D_int_c
+         module procedure matrix_norm_12D_to_10D_int_c
+         module procedure matrix_norm_13D_to_11D_int_c
+         module procedure matrix_norm_14D_to_12D_int_c
+         module procedure matrix_norm_15D_to_13D_int_c
+         module procedure matrix_norm_char_z
+         module procedure matrix_norm_2D_to_0D_char_z
+         module procedure matrix_norm_3D_to_1D_char_z
+         module procedure matrix_norm_4D_to_2D_char_z
+         module procedure matrix_norm_5D_to_3D_char_z
+         module procedure matrix_norm_6D_to_4D_char_z
+         module procedure matrix_norm_7D_to_5D_char_z
+         module procedure matrix_norm_8D_to_6D_char_z
+         module procedure matrix_norm_9D_to_7D_char_z
+         module procedure matrix_norm_10D_to_8D_char_z
+         module procedure matrix_norm_11D_to_9D_char_z
+         module procedure matrix_norm_12D_to_10D_char_z
+         module procedure matrix_norm_13D_to_11D_char_z
+         module procedure matrix_norm_14D_to_12D_char_z
+         module procedure matrix_norm_15D_to_13D_char_z
+         module procedure matrix_norm_int_z
+         module procedure matrix_norm_2D_to_0D_int_z
+         module procedure matrix_norm_3D_to_1D_int_z
+         module procedure matrix_norm_4D_to_2D_int_z
+         module procedure matrix_norm_5D_to_3D_int_z
+         module procedure matrix_norm_6D_to_4D_int_z
+         module procedure matrix_norm_7D_to_5D_int_z
+         module procedure matrix_norm_8D_to_6D_int_z
+         module procedure matrix_norm_9D_to_7D_int_z
+         module procedure matrix_norm_10D_to_8D_int_z
+         module procedure matrix_norm_11D_to_9D_int_z
+         module procedure matrix_norm_12D_to_10D_int_z
+         module procedure matrix_norm_13D_to_11D_int_z
+         module procedure matrix_norm_14D_to_12D_int_z
+         module procedure matrix_norm_15D_to_13D_int_z
+         module procedure matrix_norm_char_w
+         module procedure matrix_norm_2D_to_0D_char_w
+         module procedure matrix_norm_3D_to_1D_char_w
+         module procedure matrix_norm_4D_to_2D_char_w
+         module procedure matrix_norm_5D_to_3D_char_w
+         module procedure matrix_norm_6D_to_4D_char_w
+         module procedure matrix_norm_7D_to_5D_char_w
+         module procedure matrix_norm_8D_to_6D_char_w
+         module procedure matrix_norm_9D_to_7D_char_w
+         module procedure matrix_norm_10D_to_8D_char_w
+         module procedure matrix_norm_11D_to_9D_char_w
+         module procedure matrix_norm_12D_to_10D_char_w
+         module procedure matrix_norm_13D_to_11D_char_w
+         module procedure matrix_norm_14D_to_12D_char_w
+         module procedure matrix_norm_15D_to_13D_char_w
+         module procedure matrix_norm_int_w
+         module procedure matrix_norm_2D_to_0D_int_w
+         module procedure matrix_norm_3D_to_1D_int_w
+         module procedure matrix_norm_4D_to_2D_int_w
+         module procedure matrix_norm_5D_to_3D_int_w
+         module procedure matrix_norm_6D_to_4D_int_w
+         module procedure matrix_norm_7D_to_5D_int_w
+         module procedure matrix_norm_8D_to_6D_int_w
+         module procedure matrix_norm_9D_to_7D_int_w
+         module procedure matrix_norm_10D_to_8D_int_w
+         module procedure matrix_norm_11D_to_9D_int_w
+         module procedure matrix_norm_12D_to_10D_int_w
+         module procedure matrix_norm_13D_to_11D_int_w
+         module procedure matrix_norm_14D_to_12D_int_w
+         module procedure matrix_norm_15D_to_13D_int_w
+     end interface mnorm
      
      interface parse_norm_type
         module procedure parse_norm_type_integer
@@ -3974,7 +4142,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(3),perm(3),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,3_ilp)]
         character :: lange_task
-        real(sp),allocatable :: apack(:,:,:)
+        real(sp),allocatable,target :: apack(:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -4004,29 +4172,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -4049,7 +4202,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(4),perm(4),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,4_ilp)]
         character :: lange_task
-        real(sp),allocatable :: apack(:,:,:,:)
+        real(sp),allocatable,target :: apack(:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -4079,29 +4232,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -4124,7 +4262,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(5),perm(5),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,5_ilp)]
         character :: lange_task
-        real(sp),allocatable :: apack(:,:,:,:,:)
+        real(sp),allocatable,target :: apack(:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -4154,29 +4292,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -4199,7 +4322,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(6),perm(6),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,6_ilp)]
         character :: lange_task
-        real(sp),allocatable :: apack(:,:,:,:,:,:)
+        real(sp),allocatable,target :: apack(:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -4229,29 +4352,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -4274,7 +4382,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(7),perm(7),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,7_ilp)]
         character :: lange_task
-        real(sp),allocatable :: apack(:,:,:,:,:,:,:)
+        real(sp),allocatable,target :: apack(:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -4304,29 +4412,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -4349,7 +4442,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(8),perm(8),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,8_ilp)]
         character :: lange_task
-        real(sp),allocatable :: apack(:,:,:,:,:,:,:,:)
+        real(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -4379,29 +4472,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -4424,7 +4502,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(9),perm(9),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,9_ilp)]
         character :: lange_task
-        real(sp),allocatable :: apack(:,:,:,:,:,:,:,:,:)
+        real(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -4454,29 +4532,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -4499,7 +4562,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(10),perm(10),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,10_ilp)]
         character :: lange_task
-        real(sp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:)
+        real(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -4529,29 +4592,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -4574,7 +4622,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(11),perm(11),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,11_ilp)]
         character :: lange_task
-        real(sp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:,:)
+        real(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -4604,29 +4652,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -4649,7 +4682,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(12),perm(12),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,12_ilp)]
         character :: lange_task
-        real(sp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:,:,:)
+        real(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -4679,29 +4712,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -4724,7 +4742,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(13),perm(13),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,13_ilp)]
         character :: lange_task
-        real(sp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:)
+        real(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -4754,29 +4772,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -4799,7 +4802,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(14),perm(14),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,14_ilp)]
         character :: lange_task
-        real(sp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        real(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -4829,29 +4832,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -4874,7 +4862,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(15),perm(15),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,15_ilp)]
         character :: lange_task
-        real(sp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        real(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -4904,29 +4892,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -7675,7 +7648,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(3),perm(3),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,3_ilp)]
         character :: lange_task
-        real(sp),allocatable :: apack(:,:,:)
+        real(sp),allocatable,target :: apack(:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -7705,29 +7678,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -7750,7 +7708,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(4),perm(4),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,4_ilp)]
         character :: lange_task
-        real(sp),allocatable :: apack(:,:,:,:)
+        real(sp),allocatable,target :: apack(:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -7780,29 +7738,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -7825,7 +7768,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(5),perm(5),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,5_ilp)]
         character :: lange_task
-        real(sp),allocatable :: apack(:,:,:,:,:)
+        real(sp),allocatable,target :: apack(:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -7855,29 +7798,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -7900,7 +7828,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(6),perm(6),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,6_ilp)]
         character :: lange_task
-        real(sp),allocatable :: apack(:,:,:,:,:,:)
+        real(sp),allocatable,target :: apack(:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -7930,29 +7858,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -7975,7 +7888,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(7),perm(7),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,7_ilp)]
         character :: lange_task
-        real(sp),allocatable :: apack(:,:,:,:,:,:,:)
+        real(sp),allocatable,target :: apack(:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -8005,29 +7918,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -8050,7 +7948,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(8),perm(8),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,8_ilp)]
         character :: lange_task
-        real(sp),allocatable :: apack(:,:,:,:,:,:,:,:)
+        real(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -8080,29 +7978,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -8125,7 +8008,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(9),perm(9),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,9_ilp)]
         character :: lange_task
-        real(sp),allocatable :: apack(:,:,:,:,:,:,:,:,:)
+        real(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -8155,29 +8038,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -8200,7 +8068,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(10),perm(10),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,10_ilp)]
         character :: lange_task
-        real(sp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:)
+        real(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -8230,29 +8098,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -8275,7 +8128,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(11),perm(11),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,11_ilp)]
         character :: lange_task
-        real(sp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:,:)
+        real(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -8305,29 +8158,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -8350,7 +8188,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(12),perm(12),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,12_ilp)]
         character :: lange_task
-        real(sp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:,:,:)
+        real(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -8380,29 +8218,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -8425,7 +8248,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(13),perm(13),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,13_ilp)]
         character :: lange_task
-        real(sp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:)
+        real(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -8455,29 +8278,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -8500,7 +8308,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(14),perm(14),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,14_ilp)]
         character :: lange_task
-        real(sp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        real(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -8530,29 +8338,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -8575,7 +8368,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(15),perm(15),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,15_ilp)]
         character :: lange_task
-        real(sp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        real(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -8605,29 +8398,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -11376,7 +11154,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(3),perm(3),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,3_ilp)]
         character :: lange_task
-        real(dp),allocatable :: apack(:,:,:)
+        real(dp),allocatable,target :: apack(:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -11406,29 +11184,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -11451,7 +11214,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(4),perm(4),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,4_ilp)]
         character :: lange_task
-        real(dp),allocatable :: apack(:,:,:,:)
+        real(dp),allocatable,target :: apack(:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -11481,29 +11244,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -11526,7 +11274,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(5),perm(5),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,5_ilp)]
         character :: lange_task
-        real(dp),allocatable :: apack(:,:,:,:,:)
+        real(dp),allocatable,target :: apack(:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -11556,29 +11304,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -11601,7 +11334,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(6),perm(6),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,6_ilp)]
         character :: lange_task
-        real(dp),allocatable :: apack(:,:,:,:,:,:)
+        real(dp),allocatable,target :: apack(:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -11631,29 +11364,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -11676,7 +11394,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(7),perm(7),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,7_ilp)]
         character :: lange_task
-        real(dp),allocatable :: apack(:,:,:,:,:,:,:)
+        real(dp),allocatable,target :: apack(:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -11706,29 +11424,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -11751,7 +11454,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(8),perm(8),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,8_ilp)]
         character :: lange_task
-        real(dp),allocatable :: apack(:,:,:,:,:,:,:,:)
+        real(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -11781,29 +11484,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -11826,7 +11514,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(9),perm(9),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,9_ilp)]
         character :: lange_task
-        real(dp),allocatable :: apack(:,:,:,:,:,:,:,:,:)
+        real(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -11856,29 +11544,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -11901,7 +11574,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(10),perm(10),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,10_ilp)]
         character :: lange_task
-        real(dp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:)
+        real(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -11931,29 +11604,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -11976,7 +11634,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(11),perm(11),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,11_ilp)]
         character :: lange_task
-        real(dp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:,:)
+        real(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -12006,29 +11664,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -12051,7 +11694,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(12),perm(12),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,12_ilp)]
         character :: lange_task
-        real(dp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:,:,:)
+        real(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -12081,29 +11724,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -12126,7 +11754,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(13),perm(13),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,13_ilp)]
         character :: lange_task
-        real(dp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:)
+        real(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -12156,29 +11784,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -12201,7 +11814,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(14),perm(14),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,14_ilp)]
         character :: lange_task
-        real(dp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        real(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -12231,29 +11844,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -12276,7 +11874,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(15),perm(15),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,15_ilp)]
         character :: lange_task
-        real(dp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        real(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -12306,29 +11904,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -15077,7 +14660,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(3),perm(3),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,3_ilp)]
         character :: lange_task
-        real(dp),allocatable :: apack(:,:,:)
+        real(dp),allocatable,target :: apack(:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -15107,29 +14690,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -15152,7 +14720,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(4),perm(4),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,4_ilp)]
         character :: lange_task
-        real(dp),allocatable :: apack(:,:,:,:)
+        real(dp),allocatable,target :: apack(:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -15182,29 +14750,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -15227,7 +14780,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(5),perm(5),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,5_ilp)]
         character :: lange_task
-        real(dp),allocatable :: apack(:,:,:,:,:)
+        real(dp),allocatable,target :: apack(:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -15257,29 +14810,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -15302,7 +14840,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(6),perm(6),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,6_ilp)]
         character :: lange_task
-        real(dp),allocatable :: apack(:,:,:,:,:,:)
+        real(dp),allocatable,target :: apack(:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -15332,29 +14870,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -15377,7 +14900,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(7),perm(7),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,7_ilp)]
         character :: lange_task
-        real(dp),allocatable :: apack(:,:,:,:,:,:,:)
+        real(dp),allocatable,target :: apack(:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -15407,29 +14930,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -15452,7 +14960,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(8),perm(8),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,8_ilp)]
         character :: lange_task
-        real(dp),allocatable :: apack(:,:,:,:,:,:,:,:)
+        real(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -15482,29 +14990,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -15527,7 +15020,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(9),perm(9),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,9_ilp)]
         character :: lange_task
-        real(dp),allocatable :: apack(:,:,:,:,:,:,:,:,:)
+        real(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -15557,29 +15050,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -15602,7 +15080,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(10),perm(10),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,10_ilp)]
         character :: lange_task
-        real(dp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:)
+        real(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -15632,29 +15110,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -15677,7 +15140,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(11),perm(11),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,11_ilp)]
         character :: lange_task
-        real(dp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:,:)
+        real(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -15707,29 +15170,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -15752,7 +15200,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(12),perm(12),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,12_ilp)]
         character :: lange_task
-        real(dp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:,:,:)
+        real(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -15782,29 +15230,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -15827,7 +15260,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(13),perm(13),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,13_ilp)]
         character :: lange_task
-        real(dp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:)
+        real(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -15857,29 +15290,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -15902,7 +15320,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(14),perm(14),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,14_ilp)]
         character :: lange_task
-        real(dp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        real(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -15932,29 +15350,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -15977,7 +15380,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(15),perm(15),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,15_ilp)]
         character :: lange_task
-        real(dp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        real(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -16007,29 +15410,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -18778,7 +18166,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(3),perm(3),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,3_ilp)]
         character :: lange_task
-        real(qp),allocatable :: apack(:,:,:)
+        real(qp),allocatable,target :: apack(:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -18808,29 +18196,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -18853,7 +18226,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(4),perm(4),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,4_ilp)]
         character :: lange_task
-        real(qp),allocatable :: apack(:,:,:,:)
+        real(qp),allocatable,target :: apack(:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -18883,29 +18256,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -18928,7 +18286,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(5),perm(5),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,5_ilp)]
         character :: lange_task
-        real(qp),allocatable :: apack(:,:,:,:,:)
+        real(qp),allocatable,target :: apack(:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -18958,29 +18316,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -19003,7 +18346,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(6),perm(6),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,6_ilp)]
         character :: lange_task
-        real(qp),allocatable :: apack(:,:,:,:,:,:)
+        real(qp),allocatable,target :: apack(:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -19033,29 +18376,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -19078,7 +18406,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(7),perm(7),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,7_ilp)]
         character :: lange_task
-        real(qp),allocatable :: apack(:,:,:,:,:,:,:)
+        real(qp),allocatable,target :: apack(:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -19108,29 +18436,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -19153,7 +18466,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(8),perm(8),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,8_ilp)]
         character :: lange_task
-        real(qp),allocatable :: apack(:,:,:,:,:,:,:,:)
+        real(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -19183,29 +18496,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -19228,7 +18526,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(9),perm(9),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,9_ilp)]
         character :: lange_task
-        real(qp),allocatable :: apack(:,:,:,:,:,:,:,:,:)
+        real(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -19258,29 +18556,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -19303,7 +18586,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(10),perm(10),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,10_ilp)]
         character :: lange_task
-        real(qp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:)
+        real(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -19333,29 +18616,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -19378,7 +18646,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(11),perm(11),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,11_ilp)]
         character :: lange_task
-        real(qp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:,:)
+        real(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -19408,29 +18676,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -19453,7 +18706,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(12),perm(12),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,12_ilp)]
         character :: lange_task
-        real(qp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:,:,:)
+        real(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -19483,29 +18736,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -19528,7 +18766,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(13),perm(13),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,13_ilp)]
         character :: lange_task
-        real(qp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:)
+        real(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -19558,29 +18796,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -19603,7 +18826,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(14),perm(14),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,14_ilp)]
         character :: lange_task
-        real(qp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        real(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -19633,29 +18856,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -19678,7 +18886,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(15),perm(15),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,15_ilp)]
         character :: lange_task
-        real(qp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        real(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -19708,29 +18916,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -22479,7 +21672,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(3),perm(3),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,3_ilp)]
         character :: lange_task
-        real(qp),allocatable :: apack(:,:,:)
+        real(qp),allocatable,target :: apack(:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -22509,29 +21702,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -22554,7 +21732,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(4),perm(4),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,4_ilp)]
         character :: lange_task
-        real(qp),allocatable :: apack(:,:,:,:)
+        real(qp),allocatable,target :: apack(:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -22584,29 +21762,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -22629,7 +21792,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(5),perm(5),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,5_ilp)]
         character :: lange_task
-        real(qp),allocatable :: apack(:,:,:,:,:)
+        real(qp),allocatable,target :: apack(:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -22659,29 +21822,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -22704,7 +21852,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(6),perm(6),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,6_ilp)]
         character :: lange_task
-        real(qp),allocatable :: apack(:,:,:,:,:,:)
+        real(qp),allocatable,target :: apack(:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -22734,29 +21882,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -22779,7 +21912,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(7),perm(7),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,7_ilp)]
         character :: lange_task
-        real(qp),allocatable :: apack(:,:,:,:,:,:,:)
+        real(qp),allocatable,target :: apack(:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -22809,29 +21942,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -22854,7 +21972,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(8),perm(8),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,8_ilp)]
         character :: lange_task
-        real(qp),allocatable :: apack(:,:,:,:,:,:,:,:)
+        real(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -22884,29 +22002,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -22929,7 +22032,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(9),perm(9),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,9_ilp)]
         character :: lange_task
-        real(qp),allocatable :: apack(:,:,:,:,:,:,:,:,:)
+        real(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -22959,29 +22062,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -23004,7 +22092,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(10),perm(10),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,10_ilp)]
         character :: lange_task
-        real(qp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:)
+        real(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -23034,29 +22122,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -23079,7 +22152,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(11),perm(11),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,11_ilp)]
         character :: lange_task
-        real(qp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:,:)
+        real(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -23109,29 +22182,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -23154,7 +22212,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(12),perm(12),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,12_ilp)]
         character :: lange_task
-        real(qp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:,:,:)
+        real(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -23184,29 +22242,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -23229,7 +22272,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(13),perm(13),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,13_ilp)]
         character :: lange_task
-        real(qp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:)
+        real(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -23259,29 +22302,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -23304,7 +22332,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(14),perm(14),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,14_ilp)]
         character :: lange_task
-        real(qp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        real(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -23334,29 +22362,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -23379,7 +22392,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(15),perm(15),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,15_ilp)]
         character :: lange_task
-        real(qp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        real(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -23409,29 +22422,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -26180,7 +25178,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(3),perm(3),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,3_ilp)]
         character :: lange_task
-        complex(sp),allocatable :: apack(:,:,:)
+        complex(sp),allocatable,target :: apack(:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -26210,29 +25208,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -26255,7 +25238,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(4),perm(4),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,4_ilp)]
         character :: lange_task
-        complex(sp),allocatable :: apack(:,:,:,:)
+        complex(sp),allocatable,target :: apack(:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -26285,29 +25268,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -26330,7 +25298,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(5),perm(5),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,5_ilp)]
         character :: lange_task
-        complex(sp),allocatable :: apack(:,:,:,:,:)
+        complex(sp),allocatable,target :: apack(:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -26360,29 +25328,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -26405,7 +25358,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(6),perm(6),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,6_ilp)]
         character :: lange_task
-        complex(sp),allocatable :: apack(:,:,:,:,:,:)
+        complex(sp),allocatable,target :: apack(:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -26435,29 +25388,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -26480,7 +25418,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(7),perm(7),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,7_ilp)]
         character :: lange_task
-        complex(sp),allocatable :: apack(:,:,:,:,:,:,:)
+        complex(sp),allocatable,target :: apack(:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -26510,29 +25448,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -26555,7 +25478,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(8),perm(8),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,8_ilp)]
         character :: lange_task
-        complex(sp),allocatable :: apack(:,:,:,:,:,:,:,:)
+        complex(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -26585,29 +25508,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -26630,7 +25538,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(9),perm(9),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,9_ilp)]
         character :: lange_task
-        complex(sp),allocatable :: apack(:,:,:,:,:,:,:,:,:)
+        complex(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -26660,29 +25568,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -26705,7 +25598,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(10),perm(10),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,10_ilp)]
         character :: lange_task
-        complex(sp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:)
+        complex(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -26735,29 +25628,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -26780,7 +25658,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(11),perm(11),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,11_ilp)]
         character :: lange_task
-        complex(sp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:,:)
+        complex(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -26810,29 +25688,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -26855,7 +25718,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(12),perm(12),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,12_ilp)]
         character :: lange_task
-        complex(sp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:,:,:)
+        complex(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -26885,29 +25748,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -26930,7 +25778,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(13),perm(13),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,13_ilp)]
         character :: lange_task
-        complex(sp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:)
+        complex(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -26960,29 +25808,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -27005,7 +25838,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(14),perm(14),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,14_ilp)]
         character :: lange_task
-        complex(sp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        complex(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -27035,29 +25868,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -27080,7 +25898,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(15),perm(15),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,15_ilp)]
         character :: lange_task
-        complex(sp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        complex(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -27110,29 +25928,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -29881,7 +28684,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(3),perm(3),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,3_ilp)]
         character :: lange_task
-        complex(sp),allocatable :: apack(:,:,:)
+        complex(sp),allocatable,target :: apack(:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -29911,29 +28714,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -29956,7 +28744,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(4),perm(4),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,4_ilp)]
         character :: lange_task
-        complex(sp),allocatable :: apack(:,:,:,:)
+        complex(sp),allocatable,target :: apack(:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -29986,29 +28774,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -30031,7 +28804,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(5),perm(5),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,5_ilp)]
         character :: lange_task
-        complex(sp),allocatable :: apack(:,:,:,:,:)
+        complex(sp),allocatable,target :: apack(:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -30061,29 +28834,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -30106,7 +28864,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(6),perm(6),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,6_ilp)]
         character :: lange_task
-        complex(sp),allocatable :: apack(:,:,:,:,:,:)
+        complex(sp),allocatable,target :: apack(:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -30136,29 +28894,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -30181,7 +28924,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(7),perm(7),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,7_ilp)]
         character :: lange_task
-        complex(sp),allocatable :: apack(:,:,:,:,:,:,:)
+        complex(sp),allocatable,target :: apack(:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -30211,29 +28954,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -30256,7 +28984,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(8),perm(8),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,8_ilp)]
         character :: lange_task
-        complex(sp),allocatable :: apack(:,:,:,:,:,:,:,:)
+        complex(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -30286,29 +29014,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -30331,7 +29044,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(9),perm(9),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,9_ilp)]
         character :: lange_task
-        complex(sp),allocatable :: apack(:,:,:,:,:,:,:,:,:)
+        complex(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -30361,29 +29074,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -30406,7 +29104,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(10),perm(10),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,10_ilp)]
         character :: lange_task
-        complex(sp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:)
+        complex(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -30436,29 +29134,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -30481,7 +29164,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(11),perm(11),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,11_ilp)]
         character :: lange_task
-        complex(sp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:,:)
+        complex(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -30511,29 +29194,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -30556,7 +29224,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(12),perm(12),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,12_ilp)]
         character :: lange_task
-        complex(sp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:,:,:)
+        complex(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -30586,29 +29254,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -30631,7 +29284,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(13),perm(13),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,13_ilp)]
         character :: lange_task
-        complex(sp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:)
+        complex(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -30661,29 +29314,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -30706,7 +29344,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(14),perm(14),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,14_ilp)]
         character :: lange_task
-        complex(sp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        complex(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -30736,29 +29374,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -30781,7 +29404,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(15),perm(15),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,15_ilp)]
         character :: lange_task
-        complex(sp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        complex(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -30811,29 +29434,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -33582,7 +32190,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(3),perm(3),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,3_ilp)]
         character :: lange_task
-        complex(dp),allocatable :: apack(:,:,:)
+        complex(dp),allocatable,target :: apack(:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -33612,29 +32220,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -33657,7 +32250,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(4),perm(4),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,4_ilp)]
         character :: lange_task
-        complex(dp),allocatable :: apack(:,:,:,:)
+        complex(dp),allocatable,target :: apack(:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -33687,29 +32280,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -33732,7 +32310,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(5),perm(5),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,5_ilp)]
         character :: lange_task
-        complex(dp),allocatable :: apack(:,:,:,:,:)
+        complex(dp),allocatable,target :: apack(:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -33762,29 +32340,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -33807,7 +32370,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(6),perm(6),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,6_ilp)]
         character :: lange_task
-        complex(dp),allocatable :: apack(:,:,:,:,:,:)
+        complex(dp),allocatable,target :: apack(:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -33837,29 +32400,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -33882,7 +32430,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(7),perm(7),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,7_ilp)]
         character :: lange_task
-        complex(dp),allocatable :: apack(:,:,:,:,:,:,:)
+        complex(dp),allocatable,target :: apack(:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -33912,29 +32460,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -33957,7 +32490,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(8),perm(8),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,8_ilp)]
         character :: lange_task
-        complex(dp),allocatable :: apack(:,:,:,:,:,:,:,:)
+        complex(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -33987,29 +32520,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -34032,7 +32550,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(9),perm(9),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,9_ilp)]
         character :: lange_task
-        complex(dp),allocatable :: apack(:,:,:,:,:,:,:,:,:)
+        complex(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -34062,29 +32580,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -34107,7 +32610,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(10),perm(10),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,10_ilp)]
         character :: lange_task
-        complex(dp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:)
+        complex(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -34137,29 +32640,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -34182,7 +32670,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(11),perm(11),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,11_ilp)]
         character :: lange_task
-        complex(dp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:,:)
+        complex(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -34212,29 +32700,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -34257,7 +32730,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(12),perm(12),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,12_ilp)]
         character :: lange_task
-        complex(dp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:,:,:)
+        complex(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -34287,29 +32760,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -34332,7 +32790,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(13),perm(13),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,13_ilp)]
         character :: lange_task
-        complex(dp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:)
+        complex(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -34362,29 +32820,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -34407,7 +32850,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(14),perm(14),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,14_ilp)]
         character :: lange_task
-        complex(dp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        complex(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -34437,29 +32880,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -34482,7 +32910,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(15),perm(15),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,15_ilp)]
         character :: lange_task
-        complex(dp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        complex(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -34512,29 +32940,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -37283,7 +35696,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(3),perm(3),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,3_ilp)]
         character :: lange_task
-        complex(dp),allocatable :: apack(:,:,:)
+        complex(dp),allocatable,target :: apack(:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -37313,29 +35726,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -37358,7 +35756,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(4),perm(4),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,4_ilp)]
         character :: lange_task
-        complex(dp),allocatable :: apack(:,:,:,:)
+        complex(dp),allocatable,target :: apack(:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -37388,29 +35786,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -37433,7 +35816,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(5),perm(5),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,5_ilp)]
         character :: lange_task
-        complex(dp),allocatable :: apack(:,:,:,:,:)
+        complex(dp),allocatable,target :: apack(:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -37463,29 +35846,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -37508,7 +35876,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(6),perm(6),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,6_ilp)]
         character :: lange_task
-        complex(dp),allocatable :: apack(:,:,:,:,:,:)
+        complex(dp),allocatable,target :: apack(:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -37538,29 +35906,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -37583,7 +35936,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(7),perm(7),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,7_ilp)]
         character :: lange_task
-        complex(dp),allocatable :: apack(:,:,:,:,:,:,:)
+        complex(dp),allocatable,target :: apack(:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -37613,29 +35966,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -37658,7 +35996,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(8),perm(8),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,8_ilp)]
         character :: lange_task
-        complex(dp),allocatable :: apack(:,:,:,:,:,:,:,:)
+        complex(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -37688,29 +36026,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -37733,7 +36056,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(9),perm(9),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,9_ilp)]
         character :: lange_task
-        complex(dp),allocatable :: apack(:,:,:,:,:,:,:,:,:)
+        complex(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -37763,29 +36086,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -37808,7 +36116,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(10),perm(10),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,10_ilp)]
         character :: lange_task
-        complex(dp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:)
+        complex(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -37838,29 +36146,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -37883,7 +36176,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(11),perm(11),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,11_ilp)]
         character :: lange_task
-        complex(dp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:,:)
+        complex(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -37913,29 +36206,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -37958,7 +36236,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(12),perm(12),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,12_ilp)]
         character :: lange_task
-        complex(dp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:,:,:)
+        complex(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -37988,29 +36266,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -38033,7 +36296,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(13),perm(13),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,13_ilp)]
         character :: lange_task
-        complex(dp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:)
+        complex(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -38063,29 +36326,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -38108,7 +36356,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(14),perm(14),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,14_ilp)]
         character :: lange_task
-        complex(dp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        complex(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -38138,29 +36386,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -38183,7 +36416,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(15),perm(15),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,15_ilp)]
         character :: lange_task
-        complex(dp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        complex(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -38213,29 +36446,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -40984,7 +39202,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(3),perm(3),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,3_ilp)]
         character :: lange_task
-        complex(qp),allocatable :: apack(:,:,:)
+        complex(qp),allocatable,target :: apack(:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -41014,29 +39232,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -41059,7 +39262,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(4),perm(4),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,4_ilp)]
         character :: lange_task
-        complex(qp),allocatable :: apack(:,:,:,:)
+        complex(qp),allocatable,target :: apack(:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -41089,29 +39292,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -41134,7 +39322,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(5),perm(5),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,5_ilp)]
         character :: lange_task
-        complex(qp),allocatable :: apack(:,:,:,:,:)
+        complex(qp),allocatable,target :: apack(:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -41164,29 +39352,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -41209,7 +39382,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(6),perm(6),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,6_ilp)]
         character :: lange_task
-        complex(qp),allocatable :: apack(:,:,:,:,:,:)
+        complex(qp),allocatable,target :: apack(:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -41239,29 +39412,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -41284,7 +39442,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(7),perm(7),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,7_ilp)]
         character :: lange_task
-        complex(qp),allocatable :: apack(:,:,:,:,:,:,:)
+        complex(qp),allocatable,target :: apack(:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -41314,29 +39472,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -41359,7 +39502,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(8),perm(8),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,8_ilp)]
         character :: lange_task
-        complex(qp),allocatable :: apack(:,:,:,:,:,:,:,:)
+        complex(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -41389,29 +39532,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -41434,7 +39562,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(9),perm(9),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,9_ilp)]
         character :: lange_task
-        complex(qp),allocatable :: apack(:,:,:,:,:,:,:,:,:)
+        complex(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -41464,29 +39592,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -41509,7 +39622,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(10),perm(10),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,10_ilp)]
         character :: lange_task
-        complex(qp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:)
+        complex(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -41539,29 +39652,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -41584,7 +39682,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(11),perm(11),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,11_ilp)]
         character :: lange_task
-        complex(qp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:,:)
+        complex(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -41614,29 +39712,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -41659,7 +39742,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(12),perm(12),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,12_ilp)]
         character :: lange_task
-        complex(qp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:,:,:)
+        complex(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -41689,29 +39772,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -41734,7 +39802,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(13),perm(13),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,13_ilp)]
         character :: lange_task
-        complex(qp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:)
+        complex(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -41764,29 +39832,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -41809,7 +39862,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(14),perm(14),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,14_ilp)]
         character :: lange_task
-        complex(qp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        complex(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -41839,29 +39892,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -41884,7 +39922,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(15),perm(15),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,15_ilp)]
         character :: lange_task
-        complex(qp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        complex(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -41914,29 +39952,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -44685,7 +42708,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(3),perm(3),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,3_ilp)]
         character :: lange_task
-        complex(qp),allocatable :: apack(:,:,:)
+        complex(qp),allocatable,target :: apack(:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -44715,29 +42738,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -44760,7 +42768,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(4),perm(4),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,4_ilp)]
         character :: lange_task
-        complex(qp),allocatable :: apack(:,:,:,:)
+        complex(qp),allocatable,target :: apack(:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -44790,29 +42798,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -44835,7 +42828,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(5),perm(5),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,5_ilp)]
         character :: lange_task
-        complex(qp),allocatable :: apack(:,:,:,:,:)
+        complex(qp),allocatable,target :: apack(:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -44865,29 +42858,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -44910,7 +42888,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(6),perm(6),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,6_ilp)]
         character :: lange_task
-        complex(qp),allocatable :: apack(:,:,:,:,:,:)
+        complex(qp),allocatable,target :: apack(:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -44940,29 +42918,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -44985,7 +42948,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(7),perm(7),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,7_ilp)]
         character :: lange_task
-        complex(qp),allocatable :: apack(:,:,:,:,:,:,:)
+        complex(qp),allocatable,target :: apack(:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -45015,29 +42978,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -45060,7 +43008,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(8),perm(8),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,8_ilp)]
         character :: lange_task
-        complex(qp),allocatable :: apack(:,:,:,:,:,:,:,:)
+        complex(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -45090,29 +43038,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -45135,7 +43068,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(9),perm(9),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,9_ilp)]
         character :: lange_task
-        complex(qp),allocatable :: apack(:,:,:,:,:,:,:,:,:)
+        complex(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -45165,29 +43098,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -45210,7 +43128,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(10),perm(10),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,10_ilp)]
         character :: lange_task
-        complex(qp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:)
+        complex(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -45240,29 +43158,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -45285,7 +43188,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(11),perm(11),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,11_ilp)]
         character :: lange_task
-        complex(qp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:,:)
+        complex(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -45315,29 +43218,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -45360,7 +43248,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(12),perm(12),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,12_ilp)]
         character :: lange_task
-        complex(qp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:,:,:)
+        complex(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -45390,29 +43278,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -45435,7 +43308,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(13),perm(13),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,13_ilp)]
         character :: lange_task
-        complex(qp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:)
+        complex(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -45465,29 +43338,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -45510,7 +43368,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(14),perm(14),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,14_ilp)]
         character :: lange_task
-        complex(qp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        complex(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -45540,29 +43398,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
@@ -45585,7 +43428,7 @@ module stdlib_linalg_norms
         integer(ilp) :: m,n,lda,ldn,dims(2),s(15),perm(15),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,15_ilp)]
         character :: lange_task
-        complex(qp),allocatable :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        complex(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -45615,29 +43458,14 @@ module stdlib_linalg_norms
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
-        
-        is_data_contiguous: if (dims(1) == 1) then
-        
-!            ! Norm row data is contiguous: no need to swap any elements
-!            ! Remap N-D matrix to a 2D matrix with stride
-!            lda = product(s(:dims(2)-1))
-!            ldn = product(s(dims(2):))
-!            apack(1:lda,1:ldn) => a
-!
-!
-!
-        
-        else is_data_contiguous
-            
-            ! Dimension permutations to map dims(1),dims(2) => 1:2
-            perm(1:2) = dims ! packed data for many *LANGE calls
-            perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
-            ! Get packed data with norm dimensions as 1:2
-            apack = reshape(a,shape=s(perm),order=perm)
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a,shape=s(perm),order=perm)
             
-        end if is_data_contiguous
-        
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         

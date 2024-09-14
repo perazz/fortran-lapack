@@ -13,7 +13,7 @@ module stdlib_linalg_norms
      implicit none(type,external)
      private
      
-     public :: norm, get_norm, get_mnorm
+     public :: norm, get_norm, mnorm
 
      character(*), parameter :: this = 'norm'
      
@@ -66,14 +66,17 @@ module stdlib_linalg_norms
         #:endfor
      end interface get_norm
      
-     !> Matrix norm: subroutine interface
-     interface get_mnorm
+     !> Matrix norm: function interface
+     interface mnorm
          #:for rk,rt,ri in ALL_KINDS_TYPES
          #:for it,ii in INPUT_OPTIONS        
-            module procedure matrix_norm_${ii}$_${ri}$
+         module procedure matrix_norm_${ii}$_${ri}$
+         #:for rank in range(3, MAXRANK + 1)
+         module procedure matrix_norm_${rank}$D_to_${rank-2}$D_${ii}$_${ri}$
+         #:endfor            
          #:endfor
          #:endfor            
-     end interface get_mnorm
+     end interface mnorm
      
      interface parse_norm_type
         module procedure parse_norm_type_integer
@@ -480,7 +483,9 @@ module stdlib_linalg_norms
         apack = reshape(a, shape=s(perm), order=perm)            
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)        
+        call linalg_error_handling(err_,err)     
+        
+           
         
         
     end function matrix_norm_${rank}$D_to_${rank-2}$D_${ii}$_${ri}$
