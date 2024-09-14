@@ -425,11 +425,11 @@ module stdlib_linalg_norms
     #:for rank in range(3, MAXRANK + 1)
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_${rank}$D_to_${rank-1}$D_${ii}$_${ri}$(a, order, dim, err) result(nrm)
+    function matrix_norm_${rank}$D_to_${rank-2}$D_${ii}$_${ri}$(a, order, dim, err) result(nrm)
         !> Input matrix a(m,n)
-        ${rt}$, intent(in), target :: a${ranksuffix(rank)}$
+        ${rt}$, intent(in), contiguous, target :: a${ranksuffix(rank)}$
         !> Norm of the matrix.        
-        real(${rk}$), allocatable :: nrm${ranksuffix(rank-1)}$
+        real(${rk}$), allocatable :: nrm${ranksuffix(rank-2)}$
         !> Order of the matrix norm being computed.
         ${it}$, intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -438,8 +438,10 @@ module stdlib_linalg_norms
         type(linalg_state), intent(out), optional :: err  
         
         type(linalg_state) :: err_
-        integer(ilp) :: j,dims(2),s(${rank}$)
-        integer(ilp), parameter :: dim_range(*) = [(j,j=1_ilp,${rank}$_ilp)]
+        integer(ilp) :: m,n,lda,ldn,dims(2),s(${rank}$),perm(${rank}$),norm_request
+        integer(ilp), parameter :: dim_range(*) = [(m,m=1_ilp,${rank}$_ilp)]
+        character :: lange_task
+        ${rt}$, allocatable, target :: apack${ranksuffix(rank)}$
         
         ! Get dimensions
         if (present(dim)) then 
@@ -450,19 +452,38 @@ module stdlib_linalg_norms
 
         if (.not.all(dims>0 .and. dims<=${rank}$)) then 
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',${rank}$,' matrix norm has invalid dim=',dims)
-            allocate(nrm${emptyranksuffix(rank-1)}$)
+            allocate(nrm${emptyranksuffix(rank-2)}$)
             call linalg_error_handling(err_,err)
             return
         endif
         
+        ! Check norm request: user + *LANGE support
+        call parse_norm_type(order,norm_request,err_)
+        call lange_task_request(norm_request,lange_task,err_)
+        if (err_%error()) then 
+            call linalg_error_handling(err_,err)
+            return
+        endif             
+        
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Matrix norm size
+        m = s(dims(1))
+        n = s(dims(2))
+
+        ! Dimension permutations to map dims(1),dims(2) => 1:2
+        perm(1:2) = dims ! packed data for many *LANGE calls
+        perm(3:)  = pack(dim_range, dim_range/=dims(1) .and. dim_range/=dims(2))
+
+        ! Get packed data with norm dimensions as 1:2
+        apack = reshape(a, shape=s(perm), order=perm)            
+            
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)        
         
         
-    end function matrix_norm_${rank}$D_to_${rank-1}$D_${ii}$_${ri}$
+    end function matrix_norm_${rank}$D_to_${rank-2}$D_${ii}$_${ri}$
     
     #:endfor
     
