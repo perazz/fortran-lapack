@@ -1,3 +1,4 @@
+
 ! Vector norms
 module stdlib_linalg_norms
      use stdlib_linalg_constants
@@ -1129,7 +1130,6 @@ module stdlib_linalg_norms
      !> Matrix norm: function interface
      interface mnorm
          module procedure matrix_norm_char_s
-         module procedure matrix_norm_2D_to_0D_char_s
          module procedure matrix_norm_3D_to_1D_char_s
          module procedure matrix_norm_4D_to_2D_char_s
          module procedure matrix_norm_5D_to_3D_char_s
@@ -1144,7 +1144,6 @@ module stdlib_linalg_norms
          module procedure matrix_norm_14D_to_12D_char_s
          module procedure matrix_norm_15D_to_13D_char_s
          module procedure matrix_norm_int_s
-         module procedure matrix_norm_2D_to_0D_int_s
          module procedure matrix_norm_3D_to_1D_int_s
          module procedure matrix_norm_4D_to_2D_int_s
          module procedure matrix_norm_5D_to_3D_int_s
@@ -1159,7 +1158,6 @@ module stdlib_linalg_norms
          module procedure matrix_norm_14D_to_12D_int_s
          module procedure matrix_norm_15D_to_13D_int_s
          module procedure matrix_norm_char_d
-         module procedure matrix_norm_2D_to_0D_char_d
          module procedure matrix_norm_3D_to_1D_char_d
          module procedure matrix_norm_4D_to_2D_char_d
          module procedure matrix_norm_5D_to_3D_char_d
@@ -1174,7 +1172,6 @@ module stdlib_linalg_norms
          module procedure matrix_norm_14D_to_12D_char_d
          module procedure matrix_norm_15D_to_13D_char_d
          module procedure matrix_norm_int_d
-         module procedure matrix_norm_2D_to_0D_int_d
          module procedure matrix_norm_3D_to_1D_int_d
          module procedure matrix_norm_4D_to_2D_int_d
          module procedure matrix_norm_5D_to_3D_int_d
@@ -1189,7 +1186,6 @@ module stdlib_linalg_norms
          module procedure matrix_norm_14D_to_12D_int_d
          module procedure matrix_norm_15D_to_13D_int_d
          module procedure matrix_norm_char_q
-         module procedure matrix_norm_2D_to_0D_char_q
          module procedure matrix_norm_3D_to_1D_char_q
          module procedure matrix_norm_4D_to_2D_char_q
          module procedure matrix_norm_5D_to_3D_char_q
@@ -1204,7 +1200,6 @@ module stdlib_linalg_norms
          module procedure matrix_norm_14D_to_12D_char_q
          module procedure matrix_norm_15D_to_13D_char_q
          module procedure matrix_norm_int_q
-         module procedure matrix_norm_2D_to_0D_int_q
          module procedure matrix_norm_3D_to_1D_int_q
          module procedure matrix_norm_4D_to_2D_int_q
          module procedure matrix_norm_5D_to_3D_int_q
@@ -1219,7 +1214,6 @@ module stdlib_linalg_norms
          module procedure matrix_norm_14D_to_12D_int_q
          module procedure matrix_norm_15D_to_13D_int_q
          module procedure matrix_norm_char_c
-         module procedure matrix_norm_2D_to_0D_char_c
          module procedure matrix_norm_3D_to_1D_char_c
          module procedure matrix_norm_4D_to_2D_char_c
          module procedure matrix_norm_5D_to_3D_char_c
@@ -1234,7 +1228,6 @@ module stdlib_linalg_norms
          module procedure matrix_norm_14D_to_12D_char_c
          module procedure matrix_norm_15D_to_13D_char_c
          module procedure matrix_norm_int_c
-         module procedure matrix_norm_2D_to_0D_int_c
          module procedure matrix_norm_3D_to_1D_int_c
          module procedure matrix_norm_4D_to_2D_int_c
          module procedure matrix_norm_5D_to_3D_int_c
@@ -1249,7 +1242,6 @@ module stdlib_linalg_norms
          module procedure matrix_norm_14D_to_12D_int_c
          module procedure matrix_norm_15D_to_13D_int_c
          module procedure matrix_norm_char_z
-         module procedure matrix_norm_2D_to_0D_char_z
          module procedure matrix_norm_3D_to_1D_char_z
          module procedure matrix_norm_4D_to_2D_char_z
          module procedure matrix_norm_5D_to_3D_char_z
@@ -1264,7 +1256,6 @@ module stdlib_linalg_norms
          module procedure matrix_norm_14D_to_12D_char_z
          module procedure matrix_norm_15D_to_13D_char_z
          module procedure matrix_norm_int_z
-         module procedure matrix_norm_2D_to_0D_int_z
          module procedure matrix_norm_3D_to_1D_int_z
          module procedure matrix_norm_4D_to_2D_int_z
          module procedure matrix_norm_5D_to_3D_int_z
@@ -1279,7 +1270,6 @@ module stdlib_linalg_norms
          module procedure matrix_norm_14D_to_12D_int_z
          module procedure matrix_norm_15D_to_13D_int_z
          module procedure matrix_norm_char_w
-         module procedure matrix_norm_2D_to_0D_char_w
          module procedure matrix_norm_3D_to_1D_char_w
          module procedure matrix_norm_4D_to_2D_char_w
          module procedure matrix_norm_5D_to_3D_char_w
@@ -1294,7 +1284,6 @@ module stdlib_linalg_norms
          module procedure matrix_norm_14D_to_12D_char_w
          module procedure matrix_norm_15D_to_13D_char_w
          module procedure matrix_norm_int_w
-         module procedure matrix_norm_2D_to_0D_int_w
          module procedure matrix_norm_3D_to_1D_int_w
          module procedure matrix_norm_4D_to_2D_int_w
          module procedure matrix_norm_5D_to_3D_int_w
@@ -1444,6 +1433,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         
@@ -1470,7 +1460,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -1526,6 +1516,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         
@@ -1552,7 +1543,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -1608,6 +1599,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         
@@ -1634,7 +1626,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -1690,6 +1682,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         
@@ -1716,7 +1709,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -1772,6 +1765,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         
@@ -1798,7 +1792,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -1854,6 +1848,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         
@@ -1880,7 +1875,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -1936,6 +1931,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         
@@ -1962,7 +1958,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -2018,6 +2014,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         
@@ -2044,7 +2041,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -2100,6 +2097,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         
@@ -2126,7 +2124,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -2182,6 +2180,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         
@@ -2208,7 +2207,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -2264,6 +2263,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         
@@ -2290,7 +2290,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -2346,6 +2346,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         
@@ -2372,7 +2373,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -2428,6 +2429,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         
@@ -2454,7 +2456,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -2510,6 +2512,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         
@@ -2536,7 +2539,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -2592,6 +2595,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         
@@ -2618,7 +2622,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -2686,6 +2690,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -2717,7 +2722,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -2781,6 +2786,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -2812,7 +2818,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -2879,6 +2885,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -2910,7 +2917,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -2977,6 +2984,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -3008,7 +3016,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -3076,6 +3084,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -3107,7 +3116,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -3177,6 +3186,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -3208,7 +3218,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -3278,6 +3288,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -3309,7 +3320,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -3382,6 +3393,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -3413,7 +3425,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -3486,6 +3498,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -3517,7 +3530,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -3591,6 +3604,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -3622,7 +3636,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -3698,6 +3712,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -3729,7 +3744,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -3805,6 +3820,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -3836,7 +3852,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -3915,6 +3931,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -3946,7 +3963,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -4025,6 +4042,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -4056,7 +4074,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -4141,7 +4159,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(3),perm(3),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,3_ilp)]
+        integer(ilp) :: j3
         character :: lange_task
+        real(sp),target :: work1(1)
+        real(sp),pointer :: work(:)
         real(sp),allocatable,target :: apack(:,:,:)
         
         ! Get dimensions
@@ -4183,6 +4204,23 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3)))
+        
+        ! LAPACK interface
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3) = &
+        lange(lange_task,m,n,apack(:,:,j3),m,work)
+        end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_3D_to_1D_char_s
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -4201,7 +4239,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(4),perm(4),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,4_ilp)]
+        integer(ilp) :: j3,j4
         character :: lange_task
+        real(sp),target :: work1(1)
+        real(sp),pointer :: work(:)
         real(sp),allocatable,target :: apack(:,:,:,:)
         
         ! Get dimensions
@@ -4243,6 +4284,24 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4)))
+        
+        ! LAPACK interface
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4),m,work)
+        end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_4D_to_2D_char_s
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -4261,7 +4320,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(5),perm(5),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,5_ilp)]
+        integer(ilp) :: j3,j4,j5
         character :: lange_task
+        real(sp),target :: work1(1)
+        real(sp),pointer :: work(:)
         real(sp),allocatable,target :: apack(:,:,:,:,:)
         
         ! Get dimensions
@@ -4303,6 +4365,25 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5)))
+        
+        ! LAPACK interface
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5),m,work)
+        end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_5D_to_3D_char_s
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -4321,7 +4402,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(6),perm(6),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,6_ilp)]
+        integer(ilp) :: j3,j4,j5,j6
         character :: lange_task
+        real(sp),target :: work1(1)
+        real(sp),pointer :: work(:)
         real(sp),allocatable,target :: apack(:,:,:,:,:,:)
         
         ! Get dimensions
@@ -4363,6 +4447,26 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6)))
+        
+        ! LAPACK interface
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6),m,work)
+        end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_6D_to_4D_char_s
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -4381,7 +4485,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(7),perm(7),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,7_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7
         character :: lange_task
+        real(sp),target :: work1(1)
+        real(sp),pointer :: work(:)
         real(sp),allocatable,target :: apack(:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -4423,6 +4530,27 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7)))
+        
+        ! LAPACK interface
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),m,work)
+        end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_7D_to_5D_char_s
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -4441,7 +4569,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(8),perm(8),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,8_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8
         character :: lange_task
+        real(sp),target :: work1(1)
+        real(sp),pointer :: work(:)
         real(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -4483,6 +4614,28 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8)))
+        
+        ! LAPACK interface
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8),m,work)
+        end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_8D_to_6D_char_s
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -4501,7 +4654,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(9),perm(9),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,9_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9
         character :: lange_task
+        real(sp),target :: work1(1)
+        real(sp),pointer :: work(:)
         real(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -4543,6 +4699,29 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9)))
+        
+        ! LAPACK interface
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9),m,work)
+        end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_9D_to_7D_char_s
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -4561,7 +4740,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(10),perm(10),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,10_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10
         character :: lange_task
+        real(sp),target :: work1(1)
+        real(sp),pointer :: work(:)
         real(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -4603,6 +4785,31 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10)))
+        
+        ! LAPACK interface
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_10D_to_8D_char_s
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -4621,7 +4828,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(11),perm(11),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,11_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11
         character :: lange_task
+        real(sp),target :: work1(1)
+        real(sp),pointer :: work(:)
         real(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -4663,6 +4873,32 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10),size(apack,11)))
+        
+        ! LAPACK interface
+        do j11 = lbound(apack,11),ubound(apack,11)
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_11D_to_9D_char_s
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -4681,7 +4917,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(12),perm(12),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,12_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12
         character :: lange_task
+        real(sp),target :: work1(1)
+        real(sp),pointer :: work(:)
         real(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -4723,6 +4962,33 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10),size(apack,11),size(apack,12)))
+        
+        ! LAPACK interface
+        do j12 = lbound(apack,12),ubound(apack,12)
+        do j11 = lbound(apack,11),ubound(apack,11)
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_12D_to_10D_char_s
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -4741,7 +5007,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(13),perm(13),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,13_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13
         character :: lange_task
+        real(sp),target :: work1(1)
+        real(sp),pointer :: work(:)
         real(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -4783,6 +5052,34 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10),size(apack,11),size(apack,12),size(apack,13)))
+        
+        ! LAPACK interface
+        do j13 = lbound(apack,13),ubound(apack,13)
+        do j12 = lbound(apack,12),ubound(apack,12)
+        do j11 = lbound(apack,11),ubound(apack,11)
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_13D_to_11D_char_s
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -4801,7 +5098,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(14),perm(14),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,14_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14
         character :: lange_task
+        real(sp),target :: work1(1)
+        real(sp),pointer :: work(:)
         real(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -4843,6 +5143,35 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10),size(apack,11),size(apack,12),size(apack,13),size(apack,14)))
+        
+        ! LAPACK interface
+        do j14 = lbound(apack,14),ubound(apack,14)
+        do j13 = lbound(apack,13),ubound(apack,13)
+        do j12 = lbound(apack,12),ubound(apack,12)
+        do j11 = lbound(apack,11),ubound(apack,11)
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_14D_to_12D_char_s
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -4861,7 +5190,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(15),perm(15),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,15_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15
         character :: lange_task
+        real(sp),target :: work1(1)
+        real(sp),pointer :: work(:)
         real(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -4902,6 +5234,36 @@ module stdlib_linalg_norms
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
+        
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10),size(apack,11),size(apack,12),size(apack,13),size(apack,14),size(apack,15)))
+        
+        ! LAPACK interface
+        do j15 = lbound(apack,15),ubound(apack,15)
+        do j14 = lbound(apack,14),ubound(apack,14)
+        do j13 = lbound(apack,13),ubound(apack,13)
+        do j12 = lbound(apack,12),ubound(apack,12)
+        do j11 = lbound(apack,11),ubound(apack,11)
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
         
     end function matrix_norm_15D_to_13D_char_s
     
@@ -4950,6 +5312,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         
@@ -4976,7 +5339,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -5032,6 +5395,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         
@@ -5058,7 +5422,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -5114,6 +5478,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         
@@ -5140,7 +5505,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -5196,6 +5561,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         
@@ -5222,7 +5588,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -5278,6 +5644,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         
@@ -5304,7 +5671,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -5360,6 +5727,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         
@@ -5386,7 +5754,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -5442,6 +5810,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         
@@ -5468,7 +5837,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -5524,6 +5893,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         
@@ -5550,7 +5920,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -5606,6 +5976,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         
@@ -5632,7 +6003,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -5688,6 +6059,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         
@@ -5714,7 +6086,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -5770,6 +6142,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         
@@ -5796,7 +6169,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -5852,6 +6225,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         
@@ -5878,7 +6252,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -5934,6 +6308,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         
@@ -5960,7 +6335,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -6016,6 +6391,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         
@@ -6042,7 +6418,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -6098,6 +6474,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         
@@ -6124,7 +6501,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -6192,6 +6569,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -6223,7 +6601,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -6287,6 +6665,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -6318,7 +6697,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -6385,6 +6764,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -6416,7 +6796,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -6483,6 +6863,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -6514,7 +6895,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -6582,6 +6963,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -6613,7 +6995,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -6683,6 +7065,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -6714,7 +7097,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -6784,6 +7167,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -6815,7 +7199,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -6888,6 +7272,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -6919,7 +7304,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -6992,6 +7377,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -7023,7 +7409,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -7097,6 +7483,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -7128,7 +7515,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -7204,6 +7591,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -7235,7 +7623,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -7311,6 +7699,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -7342,7 +7731,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -7421,6 +7810,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -7452,7 +7842,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -7531,6 +7921,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -7562,7 +7953,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -7647,7 +8038,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(3),perm(3),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,3_ilp)]
+        integer(ilp) :: j3
         character :: lange_task
+        real(sp),target :: work1(1)
+        real(sp),pointer :: work(:)
         real(sp),allocatable,target :: apack(:,:,:)
         
         ! Get dimensions
@@ -7689,6 +8083,23 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3)))
+        
+        ! LAPACK interface
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3) = &
+        lange(lange_task,m,n,apack(:,:,j3),m,work)
+        end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_3D_to_1D_int_s
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -7707,7 +8118,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(4),perm(4),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,4_ilp)]
+        integer(ilp) :: j3,j4
         character :: lange_task
+        real(sp),target :: work1(1)
+        real(sp),pointer :: work(:)
         real(sp),allocatable,target :: apack(:,:,:,:)
         
         ! Get dimensions
@@ -7749,6 +8163,24 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4)))
+        
+        ! LAPACK interface
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4),m,work)
+        end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_4D_to_2D_int_s
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -7767,7 +8199,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(5),perm(5),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,5_ilp)]
+        integer(ilp) :: j3,j4,j5
         character :: lange_task
+        real(sp),target :: work1(1)
+        real(sp),pointer :: work(:)
         real(sp),allocatable,target :: apack(:,:,:,:,:)
         
         ! Get dimensions
@@ -7809,6 +8244,25 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5)))
+        
+        ! LAPACK interface
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5),m,work)
+        end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_5D_to_3D_int_s
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -7827,7 +8281,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(6),perm(6),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,6_ilp)]
+        integer(ilp) :: j3,j4,j5,j6
         character :: lange_task
+        real(sp),target :: work1(1)
+        real(sp),pointer :: work(:)
         real(sp),allocatable,target :: apack(:,:,:,:,:,:)
         
         ! Get dimensions
@@ -7869,6 +8326,26 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6)))
+        
+        ! LAPACK interface
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6),m,work)
+        end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_6D_to_4D_int_s
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -7887,7 +8364,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(7),perm(7),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,7_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7
         character :: lange_task
+        real(sp),target :: work1(1)
+        real(sp),pointer :: work(:)
         real(sp),allocatable,target :: apack(:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -7929,6 +8409,27 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7)))
+        
+        ! LAPACK interface
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),m,work)
+        end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_7D_to_5D_int_s
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -7947,7 +8448,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(8),perm(8),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,8_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8
         character :: lange_task
+        real(sp),target :: work1(1)
+        real(sp),pointer :: work(:)
         real(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -7989,6 +8493,28 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8)))
+        
+        ! LAPACK interface
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8),m,work)
+        end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_8D_to_6D_int_s
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -8007,7 +8533,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(9),perm(9),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,9_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9
         character :: lange_task
+        real(sp),target :: work1(1)
+        real(sp),pointer :: work(:)
         real(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -8049,6 +8578,29 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9)))
+        
+        ! LAPACK interface
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9),m,work)
+        end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_9D_to_7D_int_s
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -8067,7 +8619,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(10),perm(10),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,10_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10
         character :: lange_task
+        real(sp),target :: work1(1)
+        real(sp),pointer :: work(:)
         real(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -8109,6 +8664,31 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10)))
+        
+        ! LAPACK interface
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_10D_to_8D_int_s
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -8127,7 +8707,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(11),perm(11),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,11_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11
         character :: lange_task
+        real(sp),target :: work1(1)
+        real(sp),pointer :: work(:)
         real(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -8169,6 +8752,32 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10),size(apack,11)))
+        
+        ! LAPACK interface
+        do j11 = lbound(apack,11),ubound(apack,11)
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_11D_to_9D_int_s
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -8187,7 +8796,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(12),perm(12),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,12_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12
         character :: lange_task
+        real(sp),target :: work1(1)
+        real(sp),pointer :: work(:)
         real(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -8229,6 +8841,33 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10),size(apack,11),size(apack,12)))
+        
+        ! LAPACK interface
+        do j12 = lbound(apack,12),ubound(apack,12)
+        do j11 = lbound(apack,11),ubound(apack,11)
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_12D_to_10D_int_s
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -8247,7 +8886,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(13),perm(13),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,13_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13
         character :: lange_task
+        real(sp),target :: work1(1)
+        real(sp),pointer :: work(:)
         real(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -8289,6 +8931,34 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10),size(apack,11),size(apack,12),size(apack,13)))
+        
+        ! LAPACK interface
+        do j13 = lbound(apack,13),ubound(apack,13)
+        do j12 = lbound(apack,12),ubound(apack,12)
+        do j11 = lbound(apack,11),ubound(apack,11)
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_13D_to_11D_int_s
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -8307,7 +8977,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(14),perm(14),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,14_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14
         character :: lange_task
+        real(sp),target :: work1(1)
+        real(sp),pointer :: work(:)
         real(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -8349,6 +9022,35 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10),size(apack,11),size(apack,12),size(apack,13),size(apack,14)))
+        
+        ! LAPACK interface
+        do j14 = lbound(apack,14),ubound(apack,14)
+        do j13 = lbound(apack,13),ubound(apack,13)
+        do j12 = lbound(apack,12),ubound(apack,12)
+        do j11 = lbound(apack,11),ubound(apack,11)
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_14D_to_12D_int_s
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -8367,7 +9069,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(15),perm(15),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,15_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15
         character :: lange_task
+        real(sp),target :: work1(1)
+        real(sp),pointer :: work(:)
         real(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -8408,6 +9113,36 @@ module stdlib_linalg_norms
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
+        
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10),size(apack,11),size(apack,12),size(apack,13),size(apack,14),size(apack,15)))
+        
+        ! LAPACK interface
+        do j15 = lbound(apack,15),ubound(apack,15)
+        do j14 = lbound(apack,14),ubound(apack,14)
+        do j13 = lbound(apack,13),ubound(apack,13)
+        do j12 = lbound(apack,12),ubound(apack,12)
+        do j11 = lbound(apack,11),ubound(apack,11)
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
         
     end function matrix_norm_15D_to_13D_int_s
     
@@ -8456,6 +9191,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         
@@ -8482,7 +9218,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -8538,6 +9274,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         
@@ -8564,7 +9301,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -8620,6 +9357,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         
@@ -8646,7 +9384,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -8702,6 +9440,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         
@@ -8728,7 +9467,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -8784,6 +9523,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         
@@ -8810,7 +9550,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -8866,6 +9606,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         
@@ -8892,7 +9633,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -8948,6 +9689,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         
@@ -8974,7 +9716,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -9030,6 +9772,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         
@@ -9056,7 +9799,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -9112,6 +9855,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         
@@ -9138,7 +9882,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -9194,6 +9938,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         
@@ -9220,7 +9965,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -9276,6 +10021,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         
@@ -9302,7 +10048,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -9358,6 +10104,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         
@@ -9384,7 +10131,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -9440,6 +10187,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         
@@ -9466,7 +10214,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -9522,6 +10270,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         
@@ -9548,7 +10297,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -9604,6 +10353,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         
@@ -9630,7 +10380,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -9698,6 +10448,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -9729,7 +10480,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -9793,6 +10544,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -9824,7 +10576,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -9891,6 +10643,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -9922,7 +10675,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -9989,6 +10742,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -10020,7 +10774,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -10088,6 +10842,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -10119,7 +10874,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -10189,6 +10944,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -10220,7 +10976,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -10290,6 +11046,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -10321,7 +11078,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -10394,6 +11151,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -10425,7 +11183,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -10498,6 +11256,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -10529,7 +11288,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -10603,6 +11362,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -10634,7 +11394,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -10710,6 +11470,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -10741,7 +11502,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -10817,6 +11578,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -10848,7 +11610,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -10927,6 +11689,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -10958,7 +11721,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -11037,6 +11800,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -11068,7 +11832,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -11153,7 +11917,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(3),perm(3),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,3_ilp)]
+        integer(ilp) :: j3
         character :: lange_task
+        real(dp),target :: work1(1)
+        real(dp),pointer :: work(:)
         real(dp),allocatable,target :: apack(:,:,:)
         
         ! Get dimensions
@@ -11195,6 +11962,23 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3)))
+        
+        ! LAPACK interface
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3) = &
+        lange(lange_task,m,n,apack(:,:,j3),m,work)
+        end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_3D_to_1D_char_d
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -11213,7 +11997,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(4),perm(4),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,4_ilp)]
+        integer(ilp) :: j3,j4
         character :: lange_task
+        real(dp),target :: work1(1)
+        real(dp),pointer :: work(:)
         real(dp),allocatable,target :: apack(:,:,:,:)
         
         ! Get dimensions
@@ -11255,6 +12042,24 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4)))
+        
+        ! LAPACK interface
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4),m,work)
+        end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_4D_to_2D_char_d
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -11273,7 +12078,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(5),perm(5),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,5_ilp)]
+        integer(ilp) :: j3,j4,j5
         character :: lange_task
+        real(dp),target :: work1(1)
+        real(dp),pointer :: work(:)
         real(dp),allocatable,target :: apack(:,:,:,:,:)
         
         ! Get dimensions
@@ -11315,6 +12123,25 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5)))
+        
+        ! LAPACK interface
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5),m,work)
+        end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_5D_to_3D_char_d
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -11333,7 +12160,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(6),perm(6),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,6_ilp)]
+        integer(ilp) :: j3,j4,j5,j6
         character :: lange_task
+        real(dp),target :: work1(1)
+        real(dp),pointer :: work(:)
         real(dp),allocatable,target :: apack(:,:,:,:,:,:)
         
         ! Get dimensions
@@ -11375,6 +12205,26 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6)))
+        
+        ! LAPACK interface
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6),m,work)
+        end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_6D_to_4D_char_d
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -11393,7 +12243,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(7),perm(7),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,7_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7
         character :: lange_task
+        real(dp),target :: work1(1)
+        real(dp),pointer :: work(:)
         real(dp),allocatable,target :: apack(:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -11435,6 +12288,27 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7)))
+        
+        ! LAPACK interface
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),m,work)
+        end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_7D_to_5D_char_d
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -11453,7 +12327,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(8),perm(8),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,8_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8
         character :: lange_task
+        real(dp),target :: work1(1)
+        real(dp),pointer :: work(:)
         real(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -11495,6 +12372,28 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8)))
+        
+        ! LAPACK interface
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8),m,work)
+        end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_8D_to_6D_char_d
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -11513,7 +12412,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(9),perm(9),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,9_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9
         character :: lange_task
+        real(dp),target :: work1(1)
+        real(dp),pointer :: work(:)
         real(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -11555,6 +12457,29 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9)))
+        
+        ! LAPACK interface
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9),m,work)
+        end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_9D_to_7D_char_d
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -11573,7 +12498,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(10),perm(10),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,10_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10
         character :: lange_task
+        real(dp),target :: work1(1)
+        real(dp),pointer :: work(:)
         real(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -11615,6 +12543,31 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10)))
+        
+        ! LAPACK interface
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_10D_to_8D_char_d
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -11633,7 +12586,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(11),perm(11),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,11_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11
         character :: lange_task
+        real(dp),target :: work1(1)
+        real(dp),pointer :: work(:)
         real(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -11675,6 +12631,32 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10),size(apack,11)))
+        
+        ! LAPACK interface
+        do j11 = lbound(apack,11),ubound(apack,11)
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_11D_to_9D_char_d
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -11693,7 +12675,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(12),perm(12),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,12_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12
         character :: lange_task
+        real(dp),target :: work1(1)
+        real(dp),pointer :: work(:)
         real(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -11735,6 +12720,33 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10),size(apack,11),size(apack,12)))
+        
+        ! LAPACK interface
+        do j12 = lbound(apack,12),ubound(apack,12)
+        do j11 = lbound(apack,11),ubound(apack,11)
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_12D_to_10D_char_d
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -11753,7 +12765,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(13),perm(13),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,13_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13
         character :: lange_task
+        real(dp),target :: work1(1)
+        real(dp),pointer :: work(:)
         real(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -11795,6 +12810,34 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10),size(apack,11),size(apack,12),size(apack,13)))
+        
+        ! LAPACK interface
+        do j13 = lbound(apack,13),ubound(apack,13)
+        do j12 = lbound(apack,12),ubound(apack,12)
+        do j11 = lbound(apack,11),ubound(apack,11)
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_13D_to_11D_char_d
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -11813,7 +12856,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(14),perm(14),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,14_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14
         character :: lange_task
+        real(dp),target :: work1(1)
+        real(dp),pointer :: work(:)
         real(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -11855,6 +12901,35 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10),size(apack,11),size(apack,12),size(apack,13),size(apack,14)))
+        
+        ! LAPACK interface
+        do j14 = lbound(apack,14),ubound(apack,14)
+        do j13 = lbound(apack,13),ubound(apack,13)
+        do j12 = lbound(apack,12),ubound(apack,12)
+        do j11 = lbound(apack,11),ubound(apack,11)
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_14D_to_12D_char_d
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -11873,7 +12948,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(15),perm(15),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,15_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15
         character :: lange_task
+        real(dp),target :: work1(1)
+        real(dp),pointer :: work(:)
         real(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -11914,6 +12992,36 @@ module stdlib_linalg_norms
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
+        
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10),size(apack,11),size(apack,12),size(apack,13),size(apack,14),size(apack,15)))
+        
+        ! LAPACK interface
+        do j15 = lbound(apack,15),ubound(apack,15)
+        do j14 = lbound(apack,14),ubound(apack,14)
+        do j13 = lbound(apack,13),ubound(apack,13)
+        do j12 = lbound(apack,12),ubound(apack,12)
+        do j11 = lbound(apack,11),ubound(apack,11)
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
         
     end function matrix_norm_15D_to_13D_char_d
     
@@ -11962,6 +13070,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         
@@ -11988,7 +13097,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -12044,6 +13153,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         
@@ -12070,7 +13180,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -12126,6 +13236,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         
@@ -12152,7 +13263,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -12208,6 +13319,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         
@@ -12234,7 +13346,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -12290,6 +13402,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         
@@ -12316,7 +13429,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -12372,6 +13485,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         
@@ -12398,7 +13512,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -12454,6 +13568,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         
@@ -12480,7 +13595,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -12536,6 +13651,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         
@@ -12562,7 +13678,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -12618,6 +13734,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         
@@ -12644,7 +13761,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -12700,6 +13817,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         
@@ -12726,7 +13844,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -12782,6 +13900,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         
@@ -12808,7 +13927,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -12864,6 +13983,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         
@@ -12890,7 +14010,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -12946,6 +14066,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         
@@ -12972,7 +14093,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -13028,6 +14149,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         
@@ -13054,7 +14176,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -13110,6 +14232,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         
@@ -13136,7 +14259,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -13204,6 +14327,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -13235,7 +14359,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -13299,6 +14423,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -13330,7 +14455,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -13397,6 +14522,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -13428,7 +14554,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -13495,6 +14621,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -13526,7 +14653,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -13594,6 +14721,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -13625,7 +14753,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -13695,6 +14823,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -13726,7 +14855,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -13796,6 +14925,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -13827,7 +14957,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -13900,6 +15030,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -13931,7 +15062,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -14004,6 +15135,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -14035,7 +15167,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -14109,6 +15241,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -14140,7 +15273,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -14216,6 +15349,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -14247,7 +15381,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -14323,6 +15457,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -14354,7 +15489,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -14433,6 +15568,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -14464,7 +15600,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -14543,6 +15679,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -14574,7 +15711,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -14659,7 +15796,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(3),perm(3),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,3_ilp)]
+        integer(ilp) :: j3
         character :: lange_task
+        real(dp),target :: work1(1)
+        real(dp),pointer :: work(:)
         real(dp),allocatable,target :: apack(:,:,:)
         
         ! Get dimensions
@@ -14701,6 +15841,23 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3)))
+        
+        ! LAPACK interface
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3) = &
+        lange(lange_task,m,n,apack(:,:,j3),m,work)
+        end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_3D_to_1D_int_d
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -14719,7 +15876,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(4),perm(4),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,4_ilp)]
+        integer(ilp) :: j3,j4
         character :: lange_task
+        real(dp),target :: work1(1)
+        real(dp),pointer :: work(:)
         real(dp),allocatable,target :: apack(:,:,:,:)
         
         ! Get dimensions
@@ -14761,6 +15921,24 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4)))
+        
+        ! LAPACK interface
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4),m,work)
+        end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_4D_to_2D_int_d
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -14779,7 +15957,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(5),perm(5),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,5_ilp)]
+        integer(ilp) :: j3,j4,j5
         character :: lange_task
+        real(dp),target :: work1(1)
+        real(dp),pointer :: work(:)
         real(dp),allocatable,target :: apack(:,:,:,:,:)
         
         ! Get dimensions
@@ -14821,6 +16002,25 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5)))
+        
+        ! LAPACK interface
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5),m,work)
+        end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_5D_to_3D_int_d
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -14839,7 +16039,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(6),perm(6),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,6_ilp)]
+        integer(ilp) :: j3,j4,j5,j6
         character :: lange_task
+        real(dp),target :: work1(1)
+        real(dp),pointer :: work(:)
         real(dp),allocatable,target :: apack(:,:,:,:,:,:)
         
         ! Get dimensions
@@ -14881,6 +16084,26 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6)))
+        
+        ! LAPACK interface
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6),m,work)
+        end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_6D_to_4D_int_d
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -14899,7 +16122,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(7),perm(7),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,7_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7
         character :: lange_task
+        real(dp),target :: work1(1)
+        real(dp),pointer :: work(:)
         real(dp),allocatable,target :: apack(:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -14941,6 +16167,27 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7)))
+        
+        ! LAPACK interface
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),m,work)
+        end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_7D_to_5D_int_d
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -14959,7 +16206,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(8),perm(8),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,8_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8
         character :: lange_task
+        real(dp),target :: work1(1)
+        real(dp),pointer :: work(:)
         real(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -15001,6 +16251,28 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8)))
+        
+        ! LAPACK interface
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8),m,work)
+        end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_8D_to_6D_int_d
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -15019,7 +16291,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(9),perm(9),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,9_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9
         character :: lange_task
+        real(dp),target :: work1(1)
+        real(dp),pointer :: work(:)
         real(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -15061,6 +16336,29 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9)))
+        
+        ! LAPACK interface
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9),m,work)
+        end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_9D_to_7D_int_d
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -15079,7 +16377,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(10),perm(10),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,10_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10
         character :: lange_task
+        real(dp),target :: work1(1)
+        real(dp),pointer :: work(:)
         real(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -15121,6 +16422,31 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10)))
+        
+        ! LAPACK interface
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_10D_to_8D_int_d
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -15139,7 +16465,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(11),perm(11),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,11_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11
         character :: lange_task
+        real(dp),target :: work1(1)
+        real(dp),pointer :: work(:)
         real(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -15181,6 +16510,32 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10),size(apack,11)))
+        
+        ! LAPACK interface
+        do j11 = lbound(apack,11),ubound(apack,11)
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_11D_to_9D_int_d
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -15199,7 +16554,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(12),perm(12),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,12_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12
         character :: lange_task
+        real(dp),target :: work1(1)
+        real(dp),pointer :: work(:)
         real(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -15241,6 +16599,33 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10),size(apack,11),size(apack,12)))
+        
+        ! LAPACK interface
+        do j12 = lbound(apack,12),ubound(apack,12)
+        do j11 = lbound(apack,11),ubound(apack,11)
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_12D_to_10D_int_d
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -15259,7 +16644,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(13),perm(13),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,13_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13
         character :: lange_task
+        real(dp),target :: work1(1)
+        real(dp),pointer :: work(:)
         real(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -15301,6 +16689,34 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10),size(apack,11),size(apack,12),size(apack,13)))
+        
+        ! LAPACK interface
+        do j13 = lbound(apack,13),ubound(apack,13)
+        do j12 = lbound(apack,12),ubound(apack,12)
+        do j11 = lbound(apack,11),ubound(apack,11)
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_13D_to_11D_int_d
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -15319,7 +16735,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(14),perm(14),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,14_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14
         character :: lange_task
+        real(dp),target :: work1(1)
+        real(dp),pointer :: work(:)
         real(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -15361,6 +16780,35 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10),size(apack,11),size(apack,12),size(apack,13),size(apack,14)))
+        
+        ! LAPACK interface
+        do j14 = lbound(apack,14),ubound(apack,14)
+        do j13 = lbound(apack,13),ubound(apack,13)
+        do j12 = lbound(apack,12),ubound(apack,12)
+        do j11 = lbound(apack,11),ubound(apack,11)
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_14D_to_12D_int_d
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -15379,7 +16827,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(15),perm(15),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,15_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15
         character :: lange_task
+        real(dp),target :: work1(1)
+        real(dp),pointer :: work(:)
         real(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -15420,6 +16871,36 @@ module stdlib_linalg_norms
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
+        
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10),size(apack,11),size(apack,12),size(apack,13),size(apack,14),size(apack,15)))
+        
+        ! LAPACK interface
+        do j15 = lbound(apack,15),ubound(apack,15)
+        do j14 = lbound(apack,14),ubound(apack,14)
+        do j13 = lbound(apack,13),ubound(apack,13)
+        do j12 = lbound(apack,12),ubound(apack,12)
+        do j11 = lbound(apack,11),ubound(apack,11)
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
         
     end function matrix_norm_15D_to_13D_int_d
     
@@ -15468,6 +16949,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         
@@ -15494,7 +16976,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -15550,6 +17032,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         
@@ -15576,7 +17059,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -15632,6 +17115,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         
@@ -15658,7 +17142,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -15714,6 +17198,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         
@@ -15740,7 +17225,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -15796,6 +17281,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         
@@ -15822,7 +17308,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -15878,6 +17364,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         
@@ -15904,7 +17391,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -15960,6 +17447,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         
@@ -15986,7 +17474,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -16042,6 +17530,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         
@@ -16068,7 +17557,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -16124,6 +17613,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         
@@ -16150,7 +17640,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -16206,6 +17696,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         
@@ -16232,7 +17723,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -16288,6 +17779,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         
@@ -16314,7 +17806,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -16370,6 +17862,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         
@@ -16396,7 +17889,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -16452,6 +17945,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         
@@ -16478,7 +17972,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -16534,6 +18028,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         
@@ -16560,7 +18055,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -16616,6 +18111,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         
@@ -16642,7 +18138,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -16710,6 +18206,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -16741,7 +18238,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -16805,6 +18302,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -16836,7 +18334,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -16903,6 +18401,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -16934,7 +18433,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -17001,6 +18500,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -17032,7 +18532,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -17100,6 +18600,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -17131,7 +18632,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -17201,6 +18702,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -17232,7 +18734,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -17302,6 +18804,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -17333,7 +18836,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -17406,6 +18909,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -17437,7 +18941,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -17510,6 +19014,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -17541,7 +19046,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -17615,6 +19120,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -17646,7 +19152,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -17722,6 +19228,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -17753,7 +19260,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -17829,6 +19336,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -17860,7 +19368,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -17939,6 +19447,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -17970,7 +19479,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -18049,6 +19558,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -18080,7 +19590,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -18165,7 +19675,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(3),perm(3),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,3_ilp)]
+        integer(ilp) :: j3
         character :: lange_task
+        real(qp),target :: work1(1)
+        real(qp),pointer :: work(:)
         real(qp),allocatable,target :: apack(:,:,:)
         
         ! Get dimensions
@@ -18207,6 +19720,23 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3)))
+        
+        ! LAPACK interface
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3) = &
+        lange(lange_task,m,n,apack(:,:,j3),m,work)
+        end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_3D_to_1D_char_q
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -18225,7 +19755,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(4),perm(4),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,4_ilp)]
+        integer(ilp) :: j3,j4
         character :: lange_task
+        real(qp),target :: work1(1)
+        real(qp),pointer :: work(:)
         real(qp),allocatable,target :: apack(:,:,:,:)
         
         ! Get dimensions
@@ -18267,6 +19800,24 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4)))
+        
+        ! LAPACK interface
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4),m,work)
+        end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_4D_to_2D_char_q
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -18285,7 +19836,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(5),perm(5),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,5_ilp)]
+        integer(ilp) :: j3,j4,j5
         character :: lange_task
+        real(qp),target :: work1(1)
+        real(qp),pointer :: work(:)
         real(qp),allocatable,target :: apack(:,:,:,:,:)
         
         ! Get dimensions
@@ -18327,6 +19881,25 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5)))
+        
+        ! LAPACK interface
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5),m,work)
+        end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_5D_to_3D_char_q
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -18345,7 +19918,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(6),perm(6),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,6_ilp)]
+        integer(ilp) :: j3,j4,j5,j6
         character :: lange_task
+        real(qp),target :: work1(1)
+        real(qp),pointer :: work(:)
         real(qp),allocatable,target :: apack(:,:,:,:,:,:)
         
         ! Get dimensions
@@ -18387,6 +19963,26 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6)))
+        
+        ! LAPACK interface
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6),m,work)
+        end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_6D_to_4D_char_q
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -18405,7 +20001,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(7),perm(7),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,7_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7
         character :: lange_task
+        real(qp),target :: work1(1)
+        real(qp),pointer :: work(:)
         real(qp),allocatable,target :: apack(:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -18447,6 +20046,27 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7)))
+        
+        ! LAPACK interface
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),m,work)
+        end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_7D_to_5D_char_q
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -18465,7 +20085,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(8),perm(8),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,8_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8
         character :: lange_task
+        real(qp),target :: work1(1)
+        real(qp),pointer :: work(:)
         real(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -18507,6 +20130,28 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8)))
+        
+        ! LAPACK interface
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8),m,work)
+        end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_8D_to_6D_char_q
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -18525,7 +20170,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(9),perm(9),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,9_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9
         character :: lange_task
+        real(qp),target :: work1(1)
+        real(qp),pointer :: work(:)
         real(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -18567,6 +20215,29 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9)))
+        
+        ! LAPACK interface
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9),m,work)
+        end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_9D_to_7D_char_q
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -18585,7 +20256,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(10),perm(10),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,10_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10
         character :: lange_task
+        real(qp),target :: work1(1)
+        real(qp),pointer :: work(:)
         real(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -18627,6 +20301,31 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10)))
+        
+        ! LAPACK interface
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_10D_to_8D_char_q
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -18645,7 +20344,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(11),perm(11),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,11_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11
         character :: lange_task
+        real(qp),target :: work1(1)
+        real(qp),pointer :: work(:)
         real(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -18687,6 +20389,32 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10),size(apack,11)))
+        
+        ! LAPACK interface
+        do j11 = lbound(apack,11),ubound(apack,11)
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_11D_to_9D_char_q
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -18705,7 +20433,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(12),perm(12),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,12_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12
         character :: lange_task
+        real(qp),target :: work1(1)
+        real(qp),pointer :: work(:)
         real(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -18747,6 +20478,33 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10),size(apack,11),size(apack,12)))
+        
+        ! LAPACK interface
+        do j12 = lbound(apack,12),ubound(apack,12)
+        do j11 = lbound(apack,11),ubound(apack,11)
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_12D_to_10D_char_q
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -18765,7 +20523,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(13),perm(13),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,13_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13
         character :: lange_task
+        real(qp),target :: work1(1)
+        real(qp),pointer :: work(:)
         real(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -18807,6 +20568,34 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10),size(apack,11),size(apack,12),size(apack,13)))
+        
+        ! LAPACK interface
+        do j13 = lbound(apack,13),ubound(apack,13)
+        do j12 = lbound(apack,12),ubound(apack,12)
+        do j11 = lbound(apack,11),ubound(apack,11)
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_13D_to_11D_char_q
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -18825,7 +20614,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(14),perm(14),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,14_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14
         character :: lange_task
+        real(qp),target :: work1(1)
+        real(qp),pointer :: work(:)
         real(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -18867,6 +20659,35 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10),size(apack,11),size(apack,12),size(apack,13),size(apack,14)))
+        
+        ! LAPACK interface
+        do j14 = lbound(apack,14),ubound(apack,14)
+        do j13 = lbound(apack,13),ubound(apack,13)
+        do j12 = lbound(apack,12),ubound(apack,12)
+        do j11 = lbound(apack,11),ubound(apack,11)
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_14D_to_12D_char_q
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -18885,7 +20706,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(15),perm(15),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,15_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15
         character :: lange_task
+        real(qp),target :: work1(1)
+        real(qp),pointer :: work(:)
         real(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -18926,6 +20750,36 @@ module stdlib_linalg_norms
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
+        
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10),size(apack,11),size(apack,12),size(apack,13),size(apack,14),size(apack,15)))
+        
+        ! LAPACK interface
+        do j15 = lbound(apack,15),ubound(apack,15)
+        do j14 = lbound(apack,14),ubound(apack,14)
+        do j13 = lbound(apack,13),ubound(apack,13)
+        do j12 = lbound(apack,12),ubound(apack,12)
+        do j11 = lbound(apack,11),ubound(apack,11)
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
         
     end function matrix_norm_15D_to_13D_char_q
     
@@ -18974,6 +20828,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         
@@ -19000,7 +20855,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -19056,6 +20911,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         
@@ -19082,7 +20938,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -19138,6 +20994,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         
@@ -19164,7 +21021,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -19220,6 +21077,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         
@@ -19246,7 +21104,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -19302,6 +21160,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         
@@ -19328,7 +21187,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -19384,6 +21243,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         
@@ -19410,7 +21270,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -19466,6 +21326,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         
@@ -19492,7 +21353,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -19548,6 +21409,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         
@@ -19574,7 +21436,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -19630,6 +21492,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         
@@ -19656,7 +21519,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -19712,6 +21575,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         
@@ -19738,7 +21602,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -19794,6 +21658,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         
@@ -19820,7 +21685,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -19876,6 +21741,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         
@@ -19902,7 +21768,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -19958,6 +21824,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         
@@ -19984,7 +21851,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -20040,6 +21907,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         
@@ -20066,7 +21934,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -20122,6 +21990,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         
@@ -20148,7 +22017,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a))
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2))
+                nrm = norm2(a)
             case (NORM_INF)
                 nrm = maxval(abs(a))
             case (-NORM_INF)
@@ -20216,6 +22085,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -20247,7 +22117,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -20311,6 +22181,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -20342,7 +22213,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -20409,6 +22280,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -20440,7 +22312,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -20507,6 +22379,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -20538,7 +22411,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -20606,6 +22479,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -20637,7 +22511,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -20707,6 +22581,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -20738,7 +22613,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -20808,6 +22683,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -20839,7 +22715,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -20912,6 +22788,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -20943,7 +22820,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -21016,6 +22893,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -21047,7 +22925,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -21121,6 +22999,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -21152,7 +23031,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -21228,6 +23107,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -21259,7 +23139,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -21335,6 +23215,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -21366,7 +23247,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -21445,6 +23326,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -21476,7 +23358,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -21555,6 +23437,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -21586,7 +23469,7 @@ module stdlib_linalg_norms
             case (NORM_ONE)
                 nrm = sum(abs(a),dim=dim)
             case (NORM_TWO)
-                nrm = sqrt(sum(a**2,dim=dim))
+                nrm = norm2(a,dim=dim)
             case (NORM_INF)
                 nrm = maxval(abs(a),dim=dim)
             case (-NORM_INF)
@@ -21671,7 +23554,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(3),perm(3),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,3_ilp)]
+        integer(ilp) :: j3
         character :: lange_task
+        real(qp),target :: work1(1)
+        real(qp),pointer :: work(:)
         real(qp),allocatable,target :: apack(:,:,:)
         
         ! Get dimensions
@@ -21713,6 +23599,23 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3)))
+        
+        ! LAPACK interface
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3) = &
+        lange(lange_task,m,n,apack(:,:,j3),m,work)
+        end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_3D_to_1D_int_q
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -21731,7 +23634,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(4),perm(4),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,4_ilp)]
+        integer(ilp) :: j3,j4
         character :: lange_task
+        real(qp),target :: work1(1)
+        real(qp),pointer :: work(:)
         real(qp),allocatable,target :: apack(:,:,:,:)
         
         ! Get dimensions
@@ -21773,6 +23679,24 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4)))
+        
+        ! LAPACK interface
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4),m,work)
+        end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_4D_to_2D_int_q
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -21791,7 +23715,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(5),perm(5),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,5_ilp)]
+        integer(ilp) :: j3,j4,j5
         character :: lange_task
+        real(qp),target :: work1(1)
+        real(qp),pointer :: work(:)
         real(qp),allocatable,target :: apack(:,:,:,:,:)
         
         ! Get dimensions
@@ -21833,6 +23760,25 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5)))
+        
+        ! LAPACK interface
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5),m,work)
+        end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_5D_to_3D_int_q
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -21851,7 +23797,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(6),perm(6),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,6_ilp)]
+        integer(ilp) :: j3,j4,j5,j6
         character :: lange_task
+        real(qp),target :: work1(1)
+        real(qp),pointer :: work(:)
         real(qp),allocatable,target :: apack(:,:,:,:,:,:)
         
         ! Get dimensions
@@ -21893,6 +23842,26 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6)))
+        
+        ! LAPACK interface
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6),m,work)
+        end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_6D_to_4D_int_q
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -21911,7 +23880,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(7),perm(7),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,7_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7
         character :: lange_task
+        real(qp),target :: work1(1)
+        real(qp),pointer :: work(:)
         real(qp),allocatable,target :: apack(:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -21953,6 +23925,27 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7)))
+        
+        ! LAPACK interface
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),m,work)
+        end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_7D_to_5D_int_q
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -21971,7 +23964,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(8),perm(8),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,8_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8
         character :: lange_task
+        real(qp),target :: work1(1)
+        real(qp),pointer :: work(:)
         real(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -22013,6 +24009,28 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8)))
+        
+        ! LAPACK interface
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8),m,work)
+        end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_8D_to_6D_int_q
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -22031,7 +24049,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(9),perm(9),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,9_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9
         character :: lange_task
+        real(qp),target :: work1(1)
+        real(qp),pointer :: work(:)
         real(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -22073,6 +24094,29 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9)))
+        
+        ! LAPACK interface
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9),m,work)
+        end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_9D_to_7D_int_q
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -22091,7 +24135,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(10),perm(10),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,10_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10
         character :: lange_task
+        real(qp),target :: work1(1)
+        real(qp),pointer :: work(:)
         real(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -22133,6 +24180,31 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10)))
+        
+        ! LAPACK interface
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_10D_to_8D_int_q
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -22151,7 +24223,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(11),perm(11),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,11_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11
         character :: lange_task
+        real(qp),target :: work1(1)
+        real(qp),pointer :: work(:)
         real(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -22193,6 +24268,32 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10),size(apack,11)))
+        
+        ! LAPACK interface
+        do j11 = lbound(apack,11),ubound(apack,11)
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_11D_to_9D_int_q
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -22211,7 +24312,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(12),perm(12),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,12_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12
         character :: lange_task
+        real(qp),target :: work1(1)
+        real(qp),pointer :: work(:)
         real(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -22253,6 +24357,33 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10),size(apack,11),size(apack,12)))
+        
+        ! LAPACK interface
+        do j12 = lbound(apack,12),ubound(apack,12)
+        do j11 = lbound(apack,11),ubound(apack,11)
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_12D_to_10D_int_q
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -22271,7 +24402,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(13),perm(13),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,13_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13
         character :: lange_task
+        real(qp),target :: work1(1)
+        real(qp),pointer :: work(:)
         real(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -22313,6 +24447,34 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10),size(apack,11),size(apack,12),size(apack,13)))
+        
+        ! LAPACK interface
+        do j13 = lbound(apack,13),ubound(apack,13)
+        do j12 = lbound(apack,12),ubound(apack,12)
+        do j11 = lbound(apack,11),ubound(apack,11)
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_13D_to_11D_int_q
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -22331,7 +24493,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(14),perm(14),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,14_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14
         character :: lange_task
+        real(qp),target :: work1(1)
+        real(qp),pointer :: work(:)
         real(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -22373,6 +24538,35 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10),size(apack,11),size(apack,12),size(apack,13),size(apack,14)))
+        
+        ! LAPACK interface
+        do j14 = lbound(apack,14),ubound(apack,14)
+        do j13 = lbound(apack,13),ubound(apack,13)
+        do j12 = lbound(apack,12),ubound(apack,12)
+        do j11 = lbound(apack,11),ubound(apack,11)
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_14D_to_12D_int_q
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -22391,7 +24585,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(15),perm(15),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,15_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15
         character :: lange_task
+        real(qp),target :: work1(1)
+        real(qp),pointer :: work(:)
         real(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -22432,6 +24629,36 @@ module stdlib_linalg_norms
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
+        
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10),size(apack,11),size(apack,12),size(apack,13),size(apack,14),size(apack,15)))
+        
+        ! LAPACK interface
+        do j15 = lbound(apack,15),ubound(apack,15)
+        do j14 = lbound(apack,14),ubound(apack,14)
+        do j13 = lbound(apack,13),ubound(apack,13)
+        do j12 = lbound(apack,12),ubound(apack,12)
+        do j11 = lbound(apack,11),ubound(apack,11)
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
         
     end function matrix_norm_15D_to_13D_int_q
     
@@ -22480,6 +24707,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         
@@ -22562,6 +24790,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         
@@ -22644,6 +24873,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         
@@ -22726,6 +24956,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         
@@ -22808,6 +25039,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         
@@ -22890,6 +25122,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         
@@ -22972,6 +25205,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         
@@ -23054,6 +25288,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         
@@ -23136,6 +25371,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         
@@ -23218,6 +25454,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         
@@ -23300,6 +25537,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         
@@ -23382,6 +25620,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         
@@ -23464,6 +25703,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         
@@ -23546,6 +25786,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         
@@ -23628,6 +25869,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         
@@ -23722,6 +25964,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -23817,6 +26060,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -23915,6 +26159,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -24013,6 +26258,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -24112,6 +26358,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -24213,6 +26460,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -24314,6 +26562,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -24418,6 +26667,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -24522,6 +26772,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -24627,6 +26878,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -24734,6 +26986,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -24841,6 +27094,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -24951,6 +27205,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -25061,6 +27316,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -25177,7 +27433,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(3),perm(3),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,3_ilp)]
+        integer(ilp) :: j3
         character :: lange_task
+        real(sp),target :: work1(1)
+        real(sp),pointer :: work(:)
         complex(sp),allocatable,target :: apack(:,:,:)
         
         ! Get dimensions
@@ -25219,6 +27478,23 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3)))
+        
+        ! LAPACK interface
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3) = &
+        lange(lange_task,m,n,apack(:,:,j3),m,work)
+        end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_3D_to_1D_char_c
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -25237,7 +27513,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(4),perm(4),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,4_ilp)]
+        integer(ilp) :: j3,j4
         character :: lange_task
+        real(sp),target :: work1(1)
+        real(sp),pointer :: work(:)
         complex(sp),allocatable,target :: apack(:,:,:,:)
         
         ! Get dimensions
@@ -25279,6 +27558,24 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4)))
+        
+        ! LAPACK interface
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4),m,work)
+        end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_4D_to_2D_char_c
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -25297,7 +27594,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(5),perm(5),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,5_ilp)]
+        integer(ilp) :: j3,j4,j5
         character :: lange_task
+        real(sp),target :: work1(1)
+        real(sp),pointer :: work(:)
         complex(sp),allocatable,target :: apack(:,:,:,:,:)
         
         ! Get dimensions
@@ -25339,6 +27639,25 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5)))
+        
+        ! LAPACK interface
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5),m,work)
+        end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_5D_to_3D_char_c
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -25357,7 +27676,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(6),perm(6),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,6_ilp)]
+        integer(ilp) :: j3,j4,j5,j6
         character :: lange_task
+        real(sp),target :: work1(1)
+        real(sp),pointer :: work(:)
         complex(sp),allocatable,target :: apack(:,:,:,:,:,:)
         
         ! Get dimensions
@@ -25399,6 +27721,26 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6)))
+        
+        ! LAPACK interface
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6),m,work)
+        end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_6D_to_4D_char_c
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -25417,7 +27759,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(7),perm(7),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,7_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7
         character :: lange_task
+        real(sp),target :: work1(1)
+        real(sp),pointer :: work(:)
         complex(sp),allocatable,target :: apack(:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -25459,6 +27804,27 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7)))
+        
+        ! LAPACK interface
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),m,work)
+        end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_7D_to_5D_char_c
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -25477,7 +27843,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(8),perm(8),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,8_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8
         character :: lange_task
+        real(sp),target :: work1(1)
+        real(sp),pointer :: work(:)
         complex(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -25519,6 +27888,28 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8)))
+        
+        ! LAPACK interface
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8),m,work)
+        end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_8D_to_6D_char_c
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -25537,7 +27928,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(9),perm(9),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,9_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9
         character :: lange_task
+        real(sp),target :: work1(1)
+        real(sp),pointer :: work(:)
         complex(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -25579,6 +27973,29 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9)))
+        
+        ! LAPACK interface
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9),m,work)
+        end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_9D_to_7D_char_c
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -25597,7 +28014,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(10),perm(10),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,10_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10
         character :: lange_task
+        real(sp),target :: work1(1)
+        real(sp),pointer :: work(:)
         complex(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -25639,6 +28059,31 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10)))
+        
+        ! LAPACK interface
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_10D_to_8D_char_c
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -25657,7 +28102,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(11),perm(11),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,11_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11
         character :: lange_task
+        real(sp),target :: work1(1)
+        real(sp),pointer :: work(:)
         complex(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -25699,6 +28147,32 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10),size(apack,11)))
+        
+        ! LAPACK interface
+        do j11 = lbound(apack,11),ubound(apack,11)
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_11D_to_9D_char_c
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -25717,7 +28191,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(12),perm(12),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,12_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12
         character :: lange_task
+        real(sp),target :: work1(1)
+        real(sp),pointer :: work(:)
         complex(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -25759,6 +28236,33 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10),size(apack,11),size(apack,12)))
+        
+        ! LAPACK interface
+        do j12 = lbound(apack,12),ubound(apack,12)
+        do j11 = lbound(apack,11),ubound(apack,11)
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_12D_to_10D_char_c
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -25777,7 +28281,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(13),perm(13),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,13_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13
         character :: lange_task
+        real(sp),target :: work1(1)
+        real(sp),pointer :: work(:)
         complex(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -25819,6 +28326,34 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10),size(apack,11),size(apack,12),size(apack,13)))
+        
+        ! LAPACK interface
+        do j13 = lbound(apack,13),ubound(apack,13)
+        do j12 = lbound(apack,12),ubound(apack,12)
+        do j11 = lbound(apack,11),ubound(apack,11)
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_13D_to_11D_char_c
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -25837,7 +28372,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(14),perm(14),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,14_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14
         character :: lange_task
+        real(sp),target :: work1(1)
+        real(sp),pointer :: work(:)
         complex(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -25879,6 +28417,35 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10),size(apack,11),size(apack,12),size(apack,13),size(apack,14)))
+        
+        ! LAPACK interface
+        do j14 = lbound(apack,14),ubound(apack,14)
+        do j13 = lbound(apack,13),ubound(apack,13)
+        do j12 = lbound(apack,12),ubound(apack,12)
+        do j11 = lbound(apack,11),ubound(apack,11)
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_14D_to_12D_char_c
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -25897,7 +28464,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(15),perm(15),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,15_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15
         character :: lange_task
+        real(sp),target :: work1(1)
+        real(sp),pointer :: work(:)
         complex(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -25938,6 +28508,36 @@ module stdlib_linalg_norms
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
+        
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10),size(apack,11),size(apack,12),size(apack,13),size(apack,14),size(apack,15)))
+        
+        ! LAPACK interface
+        do j15 = lbound(apack,15),ubound(apack,15)
+        do j14 = lbound(apack,14),ubound(apack,14)
+        do j13 = lbound(apack,13),ubound(apack,13)
+        do j12 = lbound(apack,12),ubound(apack,12)
+        do j11 = lbound(apack,11),ubound(apack,11)
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
         
     end function matrix_norm_15D_to_13D_char_c
     
@@ -25986,6 +28586,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         
@@ -26068,6 +28669,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         
@@ -26150,6 +28752,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         
@@ -26232,6 +28835,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         
@@ -26314,6 +28918,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         
@@ -26396,6 +29001,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         
@@ -26478,6 +29084,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         
@@ -26560,6 +29167,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         
@@ -26642,6 +29250,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         
@@ -26724,6 +29333,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         
@@ -26806,6 +29416,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         
@@ -26888,6 +29499,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         
@@ -26970,6 +29582,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         
@@ -27052,6 +29665,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         
@@ -27134,6 +29748,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         
@@ -27228,6 +29843,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -27323,6 +29939,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -27421,6 +30038,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -27519,6 +30137,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -27618,6 +30237,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -27719,6 +30339,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -27820,6 +30441,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -27924,6 +30546,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -28028,6 +30651,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -28133,6 +30757,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -28240,6 +30865,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -28347,6 +30973,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -28457,6 +31084,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -28567,6 +31195,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -28683,7 +31312,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(3),perm(3),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,3_ilp)]
+        integer(ilp) :: j3
         character :: lange_task
+        real(sp),target :: work1(1)
+        real(sp),pointer :: work(:)
         complex(sp),allocatable,target :: apack(:,:,:)
         
         ! Get dimensions
@@ -28725,6 +31357,23 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3)))
+        
+        ! LAPACK interface
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3) = &
+        lange(lange_task,m,n,apack(:,:,j3),m,work)
+        end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_3D_to_1D_int_c
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -28743,7 +31392,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(4),perm(4),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,4_ilp)]
+        integer(ilp) :: j3,j4
         character :: lange_task
+        real(sp),target :: work1(1)
+        real(sp),pointer :: work(:)
         complex(sp),allocatable,target :: apack(:,:,:,:)
         
         ! Get dimensions
@@ -28785,6 +31437,24 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4)))
+        
+        ! LAPACK interface
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4),m,work)
+        end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_4D_to_2D_int_c
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -28803,7 +31473,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(5),perm(5),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,5_ilp)]
+        integer(ilp) :: j3,j4,j5
         character :: lange_task
+        real(sp),target :: work1(1)
+        real(sp),pointer :: work(:)
         complex(sp),allocatable,target :: apack(:,:,:,:,:)
         
         ! Get dimensions
@@ -28845,6 +31518,25 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5)))
+        
+        ! LAPACK interface
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5),m,work)
+        end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_5D_to_3D_int_c
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -28863,7 +31555,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(6),perm(6),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,6_ilp)]
+        integer(ilp) :: j3,j4,j5,j6
         character :: lange_task
+        real(sp),target :: work1(1)
+        real(sp),pointer :: work(:)
         complex(sp),allocatable,target :: apack(:,:,:,:,:,:)
         
         ! Get dimensions
@@ -28905,6 +31600,26 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6)))
+        
+        ! LAPACK interface
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6),m,work)
+        end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_6D_to_4D_int_c
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -28923,7 +31638,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(7),perm(7),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,7_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7
         character :: lange_task
+        real(sp),target :: work1(1)
+        real(sp),pointer :: work(:)
         complex(sp),allocatable,target :: apack(:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -28965,6 +31683,27 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7)))
+        
+        ! LAPACK interface
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),m,work)
+        end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_7D_to_5D_int_c
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -28983,7 +31722,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(8),perm(8),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,8_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8
         character :: lange_task
+        real(sp),target :: work1(1)
+        real(sp),pointer :: work(:)
         complex(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -29025,6 +31767,28 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8)))
+        
+        ! LAPACK interface
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8),m,work)
+        end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_8D_to_6D_int_c
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -29043,7 +31807,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(9),perm(9),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,9_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9
         character :: lange_task
+        real(sp),target :: work1(1)
+        real(sp),pointer :: work(:)
         complex(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -29085,6 +31852,29 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9)))
+        
+        ! LAPACK interface
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9),m,work)
+        end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_9D_to_7D_int_c
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -29103,7 +31893,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(10),perm(10),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,10_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10
         character :: lange_task
+        real(sp),target :: work1(1)
+        real(sp),pointer :: work(:)
         complex(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -29145,6 +31938,31 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10)))
+        
+        ! LAPACK interface
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_10D_to_8D_int_c
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -29163,7 +31981,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(11),perm(11),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,11_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11
         character :: lange_task
+        real(sp),target :: work1(1)
+        real(sp),pointer :: work(:)
         complex(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -29205,6 +32026,32 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10),size(apack,11)))
+        
+        ! LAPACK interface
+        do j11 = lbound(apack,11),ubound(apack,11)
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_11D_to_9D_int_c
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -29223,7 +32070,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(12),perm(12),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,12_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12
         character :: lange_task
+        real(sp),target :: work1(1)
+        real(sp),pointer :: work(:)
         complex(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -29265,6 +32115,33 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10),size(apack,11),size(apack,12)))
+        
+        ! LAPACK interface
+        do j12 = lbound(apack,12),ubound(apack,12)
+        do j11 = lbound(apack,11),ubound(apack,11)
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_12D_to_10D_int_c
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -29283,7 +32160,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(13),perm(13),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,13_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13
         character :: lange_task
+        real(sp),target :: work1(1)
+        real(sp),pointer :: work(:)
         complex(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -29325,6 +32205,34 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10),size(apack,11),size(apack,12),size(apack,13)))
+        
+        ! LAPACK interface
+        do j13 = lbound(apack,13),ubound(apack,13)
+        do j12 = lbound(apack,12),ubound(apack,12)
+        do j11 = lbound(apack,11),ubound(apack,11)
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_13D_to_11D_int_c
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -29343,7 +32251,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(14),perm(14),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,14_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14
         character :: lange_task
+        real(sp),target :: work1(1)
+        real(sp),pointer :: work(:)
         complex(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -29385,6 +32296,35 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10),size(apack,11),size(apack,12),size(apack,13),size(apack,14)))
+        
+        ! LAPACK interface
+        do j14 = lbound(apack,14),ubound(apack,14)
+        do j13 = lbound(apack,13),ubound(apack,13)
+        do j12 = lbound(apack,12),ubound(apack,12)
+        do j11 = lbound(apack,11),ubound(apack,11)
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_14D_to_12D_int_c
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -29403,7 +32343,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(15),perm(15),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,15_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15
         character :: lange_task
+        real(sp),target :: work1(1)
+        real(sp),pointer :: work(:)
         complex(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -29444,6 +32387,36 @@ module stdlib_linalg_norms
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
+        
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10),size(apack,11),size(apack,12),size(apack,13),size(apack,14),size(apack,15)))
+        
+        ! LAPACK interface
+        do j15 = lbound(apack,15),ubound(apack,15)
+        do j14 = lbound(apack,14),ubound(apack,14)
+        do j13 = lbound(apack,13),ubound(apack,13)
+        do j12 = lbound(apack,12),ubound(apack,12)
+        do j11 = lbound(apack,11),ubound(apack,11)
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
         
     end function matrix_norm_15D_to_13D_int_c
     
@@ -29492,6 +32465,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         
@@ -29574,6 +32548,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         
@@ -29656,6 +32631,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         
@@ -29738,6 +32714,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         
@@ -29820,6 +32797,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         
@@ -29902,6 +32880,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         
@@ -29984,6 +32963,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         
@@ -30066,6 +33046,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         
@@ -30148,6 +33129,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         
@@ -30230,6 +33212,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         
@@ -30312,6 +33295,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         
@@ -30394,6 +33378,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         
@@ -30476,6 +33461,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         
@@ -30558,6 +33544,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         
@@ -30640,6 +33627,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         
@@ -30734,6 +33722,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -30829,6 +33818,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -30927,6 +33917,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -31025,6 +34016,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -31124,6 +34116,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -31225,6 +34218,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -31326,6 +34320,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -31430,6 +34425,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -31534,6 +34530,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -31639,6 +34636,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -31746,6 +34744,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -31853,6 +34852,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -31963,6 +34963,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -32073,6 +35074,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -32189,7 +35191,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(3),perm(3),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,3_ilp)]
+        integer(ilp) :: j3
         character :: lange_task
+        real(dp),target :: work1(1)
+        real(dp),pointer :: work(:)
         complex(dp),allocatable,target :: apack(:,:,:)
         
         ! Get dimensions
@@ -32231,6 +35236,23 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3)))
+        
+        ! LAPACK interface
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3) = &
+        lange(lange_task,m,n,apack(:,:,j3),m,work)
+        end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_3D_to_1D_char_z
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -32249,7 +35271,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(4),perm(4),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,4_ilp)]
+        integer(ilp) :: j3,j4
         character :: lange_task
+        real(dp),target :: work1(1)
+        real(dp),pointer :: work(:)
         complex(dp),allocatable,target :: apack(:,:,:,:)
         
         ! Get dimensions
@@ -32291,6 +35316,24 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4)))
+        
+        ! LAPACK interface
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4),m,work)
+        end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_4D_to_2D_char_z
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -32309,7 +35352,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(5),perm(5),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,5_ilp)]
+        integer(ilp) :: j3,j4,j5
         character :: lange_task
+        real(dp),target :: work1(1)
+        real(dp),pointer :: work(:)
         complex(dp),allocatable,target :: apack(:,:,:,:,:)
         
         ! Get dimensions
@@ -32351,6 +35397,25 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5)))
+        
+        ! LAPACK interface
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5),m,work)
+        end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_5D_to_3D_char_z
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -32369,7 +35434,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(6),perm(6),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,6_ilp)]
+        integer(ilp) :: j3,j4,j5,j6
         character :: lange_task
+        real(dp),target :: work1(1)
+        real(dp),pointer :: work(:)
         complex(dp),allocatable,target :: apack(:,:,:,:,:,:)
         
         ! Get dimensions
@@ -32411,6 +35479,26 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6)))
+        
+        ! LAPACK interface
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6),m,work)
+        end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_6D_to_4D_char_z
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -32429,7 +35517,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(7),perm(7),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,7_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7
         character :: lange_task
+        real(dp),target :: work1(1)
+        real(dp),pointer :: work(:)
         complex(dp),allocatable,target :: apack(:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -32471,6 +35562,27 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7)))
+        
+        ! LAPACK interface
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),m,work)
+        end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_7D_to_5D_char_z
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -32489,7 +35601,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(8),perm(8),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,8_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8
         character :: lange_task
+        real(dp),target :: work1(1)
+        real(dp),pointer :: work(:)
         complex(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -32531,6 +35646,28 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8)))
+        
+        ! LAPACK interface
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8),m,work)
+        end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_8D_to_6D_char_z
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -32549,7 +35686,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(9),perm(9),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,9_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9
         character :: lange_task
+        real(dp),target :: work1(1)
+        real(dp),pointer :: work(:)
         complex(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -32591,6 +35731,29 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9)))
+        
+        ! LAPACK interface
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9),m,work)
+        end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_9D_to_7D_char_z
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -32609,7 +35772,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(10),perm(10),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,10_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10
         character :: lange_task
+        real(dp),target :: work1(1)
+        real(dp),pointer :: work(:)
         complex(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -32651,6 +35817,31 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10)))
+        
+        ! LAPACK interface
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_10D_to_8D_char_z
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -32669,7 +35860,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(11),perm(11),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,11_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11
         character :: lange_task
+        real(dp),target :: work1(1)
+        real(dp),pointer :: work(:)
         complex(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -32711,6 +35905,32 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10),size(apack,11)))
+        
+        ! LAPACK interface
+        do j11 = lbound(apack,11),ubound(apack,11)
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_11D_to_9D_char_z
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -32729,7 +35949,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(12),perm(12),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,12_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12
         character :: lange_task
+        real(dp),target :: work1(1)
+        real(dp),pointer :: work(:)
         complex(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -32771,6 +35994,33 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10),size(apack,11),size(apack,12)))
+        
+        ! LAPACK interface
+        do j12 = lbound(apack,12),ubound(apack,12)
+        do j11 = lbound(apack,11),ubound(apack,11)
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_12D_to_10D_char_z
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -32789,7 +36039,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(13),perm(13),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,13_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13
         character :: lange_task
+        real(dp),target :: work1(1)
+        real(dp),pointer :: work(:)
         complex(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -32831,6 +36084,34 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10),size(apack,11),size(apack,12),size(apack,13)))
+        
+        ! LAPACK interface
+        do j13 = lbound(apack,13),ubound(apack,13)
+        do j12 = lbound(apack,12),ubound(apack,12)
+        do j11 = lbound(apack,11),ubound(apack,11)
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_13D_to_11D_char_z
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -32849,7 +36130,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(14),perm(14),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,14_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14
         character :: lange_task
+        real(dp),target :: work1(1)
+        real(dp),pointer :: work(:)
         complex(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -32891,6 +36175,35 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10),size(apack,11),size(apack,12),size(apack,13),size(apack,14)))
+        
+        ! LAPACK interface
+        do j14 = lbound(apack,14),ubound(apack,14)
+        do j13 = lbound(apack,13),ubound(apack,13)
+        do j12 = lbound(apack,12),ubound(apack,12)
+        do j11 = lbound(apack,11),ubound(apack,11)
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_14D_to_12D_char_z
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -32909,7 +36222,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(15),perm(15),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,15_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15
         character :: lange_task
+        real(dp),target :: work1(1)
+        real(dp),pointer :: work(:)
         complex(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -32950,6 +36266,36 @@ module stdlib_linalg_norms
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
+        
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10),size(apack,11),size(apack,12),size(apack,13),size(apack,14),size(apack,15)))
+        
+        ! LAPACK interface
+        do j15 = lbound(apack,15),ubound(apack,15)
+        do j14 = lbound(apack,14),ubound(apack,14)
+        do j13 = lbound(apack,13),ubound(apack,13)
+        do j12 = lbound(apack,12),ubound(apack,12)
+        do j11 = lbound(apack,11),ubound(apack,11)
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
         
     end function matrix_norm_15D_to_13D_char_z
     
@@ -32998,6 +36344,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         
@@ -33080,6 +36427,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         
@@ -33162,6 +36510,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         
@@ -33244,6 +36593,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         
@@ -33326,6 +36676,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         
@@ -33408,6 +36759,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         
@@ -33490,6 +36842,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         
@@ -33572,6 +36925,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         
@@ -33654,6 +37008,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         
@@ -33736,6 +37091,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         
@@ -33818,6 +37174,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         
@@ -33900,6 +37257,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         
@@ -33982,6 +37340,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         
@@ -34064,6 +37423,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         
@@ -34146,6 +37506,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         
@@ -34240,6 +37601,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -34335,6 +37697,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -34433,6 +37796,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -34531,6 +37895,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -34630,6 +37995,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -34731,6 +38097,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -34832,6 +38199,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -34936,6 +38304,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -35040,6 +38409,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -35145,6 +38515,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -35252,6 +38623,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -35359,6 +38731,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -35469,6 +38842,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -35579,6 +38953,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -35695,7 +39070,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(3),perm(3),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,3_ilp)]
+        integer(ilp) :: j3
         character :: lange_task
+        real(dp),target :: work1(1)
+        real(dp),pointer :: work(:)
         complex(dp),allocatable,target :: apack(:,:,:)
         
         ! Get dimensions
@@ -35737,6 +39115,23 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3)))
+        
+        ! LAPACK interface
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3) = &
+        lange(lange_task,m,n,apack(:,:,j3),m,work)
+        end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_3D_to_1D_int_z
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -35755,7 +39150,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(4),perm(4),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,4_ilp)]
+        integer(ilp) :: j3,j4
         character :: lange_task
+        real(dp),target :: work1(1)
+        real(dp),pointer :: work(:)
         complex(dp),allocatable,target :: apack(:,:,:,:)
         
         ! Get dimensions
@@ -35797,6 +39195,24 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4)))
+        
+        ! LAPACK interface
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4),m,work)
+        end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_4D_to_2D_int_z
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -35815,7 +39231,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(5),perm(5),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,5_ilp)]
+        integer(ilp) :: j3,j4,j5
         character :: lange_task
+        real(dp),target :: work1(1)
+        real(dp),pointer :: work(:)
         complex(dp),allocatable,target :: apack(:,:,:,:,:)
         
         ! Get dimensions
@@ -35857,6 +39276,25 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5)))
+        
+        ! LAPACK interface
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5),m,work)
+        end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_5D_to_3D_int_z
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -35875,7 +39313,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(6),perm(6),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,6_ilp)]
+        integer(ilp) :: j3,j4,j5,j6
         character :: lange_task
+        real(dp),target :: work1(1)
+        real(dp),pointer :: work(:)
         complex(dp),allocatable,target :: apack(:,:,:,:,:,:)
         
         ! Get dimensions
@@ -35917,6 +39358,26 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6)))
+        
+        ! LAPACK interface
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6),m,work)
+        end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_6D_to_4D_int_z
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -35935,7 +39396,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(7),perm(7),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,7_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7
         character :: lange_task
+        real(dp),target :: work1(1)
+        real(dp),pointer :: work(:)
         complex(dp),allocatable,target :: apack(:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -35977,6 +39441,27 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7)))
+        
+        ! LAPACK interface
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),m,work)
+        end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_7D_to_5D_int_z
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -35995,7 +39480,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(8),perm(8),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,8_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8
         character :: lange_task
+        real(dp),target :: work1(1)
+        real(dp),pointer :: work(:)
         complex(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -36037,6 +39525,28 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8)))
+        
+        ! LAPACK interface
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8),m,work)
+        end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_8D_to_6D_int_z
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -36055,7 +39565,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(9),perm(9),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,9_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9
         character :: lange_task
+        real(dp),target :: work1(1)
+        real(dp),pointer :: work(:)
         complex(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -36097,6 +39610,29 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9)))
+        
+        ! LAPACK interface
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9),m,work)
+        end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_9D_to_7D_int_z
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -36115,7 +39651,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(10),perm(10),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,10_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10
         character :: lange_task
+        real(dp),target :: work1(1)
+        real(dp),pointer :: work(:)
         complex(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -36157,6 +39696,31 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10)))
+        
+        ! LAPACK interface
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_10D_to_8D_int_z
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -36175,7 +39739,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(11),perm(11),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,11_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11
         character :: lange_task
+        real(dp),target :: work1(1)
+        real(dp),pointer :: work(:)
         complex(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -36217,6 +39784,32 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10),size(apack,11)))
+        
+        ! LAPACK interface
+        do j11 = lbound(apack,11),ubound(apack,11)
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_11D_to_9D_int_z
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -36235,7 +39828,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(12),perm(12),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,12_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12
         character :: lange_task
+        real(dp),target :: work1(1)
+        real(dp),pointer :: work(:)
         complex(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -36277,6 +39873,33 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10),size(apack,11),size(apack,12)))
+        
+        ! LAPACK interface
+        do j12 = lbound(apack,12),ubound(apack,12)
+        do j11 = lbound(apack,11),ubound(apack,11)
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_12D_to_10D_int_z
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -36295,7 +39918,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(13),perm(13),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,13_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13
         character :: lange_task
+        real(dp),target :: work1(1)
+        real(dp),pointer :: work(:)
         complex(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -36337,6 +39963,34 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10),size(apack,11),size(apack,12),size(apack,13)))
+        
+        ! LAPACK interface
+        do j13 = lbound(apack,13),ubound(apack,13)
+        do j12 = lbound(apack,12),ubound(apack,12)
+        do j11 = lbound(apack,11),ubound(apack,11)
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_13D_to_11D_int_z
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -36355,7 +40009,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(14),perm(14),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,14_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14
         character :: lange_task
+        real(dp),target :: work1(1)
+        real(dp),pointer :: work(:)
         complex(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -36397,6 +40054,35 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10),size(apack,11),size(apack,12),size(apack,13),size(apack,14)))
+        
+        ! LAPACK interface
+        do j14 = lbound(apack,14),ubound(apack,14)
+        do j13 = lbound(apack,13),ubound(apack,13)
+        do j12 = lbound(apack,12),ubound(apack,12)
+        do j11 = lbound(apack,11),ubound(apack,11)
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_14D_to_12D_int_z
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -36415,7 +40101,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(15),perm(15),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,15_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15
         character :: lange_task
+        real(dp),target :: work1(1)
+        real(dp),pointer :: work(:)
         complex(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -36456,6 +40145,36 @@ module stdlib_linalg_norms
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
+        
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10),size(apack,11),size(apack,12),size(apack,13),size(apack,14),size(apack,15)))
+        
+        ! LAPACK interface
+        do j15 = lbound(apack,15),ubound(apack,15)
+        do j14 = lbound(apack,14),ubound(apack,14)
+        do j13 = lbound(apack,13),ubound(apack,13)
+        do j12 = lbound(apack,12),ubound(apack,12)
+        do j11 = lbound(apack,11),ubound(apack,11)
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
         
     end function matrix_norm_15D_to_13D_int_z
     
@@ -36504,6 +40223,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         
@@ -36586,6 +40306,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         
@@ -36668,6 +40389,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         
@@ -36750,6 +40472,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         
@@ -36832,6 +40555,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         
@@ -36914,6 +40638,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         
@@ -36996,6 +40721,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         
@@ -37078,6 +40804,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         
@@ -37160,6 +40887,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         
@@ -37242,6 +40970,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         
@@ -37324,6 +41053,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         
@@ -37406,6 +41136,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         
@@ -37488,6 +41219,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         
@@ -37570,6 +41302,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         
@@ -37652,6 +41385,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         
@@ -37746,6 +41480,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -37841,6 +41576,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -37939,6 +41675,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -38037,6 +41774,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -38136,6 +41874,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -38237,6 +41976,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -38338,6 +42078,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -38442,6 +42183,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -38546,6 +42288,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -38651,6 +42394,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -38758,6 +42502,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -38865,6 +42610,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -38975,6 +42721,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -39085,6 +42832,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -39201,7 +42949,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(3),perm(3),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,3_ilp)]
+        integer(ilp) :: j3
         character :: lange_task
+        real(qp),target :: work1(1)
+        real(qp),pointer :: work(:)
         complex(qp),allocatable,target :: apack(:,:,:)
         
         ! Get dimensions
@@ -39243,6 +42994,23 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3)))
+        
+        ! LAPACK interface
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3) = &
+        lange(lange_task,m,n,apack(:,:,j3),m,work)
+        end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_3D_to_1D_char_w
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -39261,7 +43029,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(4),perm(4),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,4_ilp)]
+        integer(ilp) :: j3,j4
         character :: lange_task
+        real(qp),target :: work1(1)
+        real(qp),pointer :: work(:)
         complex(qp),allocatable,target :: apack(:,:,:,:)
         
         ! Get dimensions
@@ -39303,6 +43074,24 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4)))
+        
+        ! LAPACK interface
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4),m,work)
+        end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_4D_to_2D_char_w
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -39321,7 +43110,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(5),perm(5),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,5_ilp)]
+        integer(ilp) :: j3,j4,j5
         character :: lange_task
+        real(qp),target :: work1(1)
+        real(qp),pointer :: work(:)
         complex(qp),allocatable,target :: apack(:,:,:,:,:)
         
         ! Get dimensions
@@ -39363,6 +43155,25 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5)))
+        
+        ! LAPACK interface
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5),m,work)
+        end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_5D_to_3D_char_w
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -39381,7 +43192,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(6),perm(6),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,6_ilp)]
+        integer(ilp) :: j3,j4,j5,j6
         character :: lange_task
+        real(qp),target :: work1(1)
+        real(qp),pointer :: work(:)
         complex(qp),allocatable,target :: apack(:,:,:,:,:,:)
         
         ! Get dimensions
@@ -39423,6 +43237,26 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6)))
+        
+        ! LAPACK interface
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6),m,work)
+        end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_6D_to_4D_char_w
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -39441,7 +43275,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(7),perm(7),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,7_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7
         character :: lange_task
+        real(qp),target :: work1(1)
+        real(qp),pointer :: work(:)
         complex(qp),allocatable,target :: apack(:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -39483,6 +43320,27 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7)))
+        
+        ! LAPACK interface
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),m,work)
+        end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_7D_to_5D_char_w
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -39501,7 +43359,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(8),perm(8),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,8_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8
         character :: lange_task
+        real(qp),target :: work1(1)
+        real(qp),pointer :: work(:)
         complex(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -39543,6 +43404,28 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8)))
+        
+        ! LAPACK interface
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8),m,work)
+        end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_8D_to_6D_char_w
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -39561,7 +43444,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(9),perm(9),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,9_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9
         character :: lange_task
+        real(qp),target :: work1(1)
+        real(qp),pointer :: work(:)
         complex(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -39603,6 +43489,29 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9)))
+        
+        ! LAPACK interface
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9),m,work)
+        end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_9D_to_7D_char_w
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -39621,7 +43530,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(10),perm(10),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,10_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10
         character :: lange_task
+        real(qp),target :: work1(1)
+        real(qp),pointer :: work(:)
         complex(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -39663,6 +43575,31 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10)))
+        
+        ! LAPACK interface
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_10D_to_8D_char_w
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -39681,7 +43618,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(11),perm(11),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,11_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11
         character :: lange_task
+        real(qp),target :: work1(1)
+        real(qp),pointer :: work(:)
         complex(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -39723,6 +43663,32 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10),size(apack,11)))
+        
+        ! LAPACK interface
+        do j11 = lbound(apack,11),ubound(apack,11)
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_11D_to_9D_char_w
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -39741,7 +43707,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(12),perm(12),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,12_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12
         character :: lange_task
+        real(qp),target :: work1(1)
+        real(qp),pointer :: work(:)
         complex(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -39783,6 +43752,33 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10),size(apack,11),size(apack,12)))
+        
+        ! LAPACK interface
+        do j12 = lbound(apack,12),ubound(apack,12)
+        do j11 = lbound(apack,11),ubound(apack,11)
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_12D_to_10D_char_w
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -39801,7 +43797,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(13),perm(13),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,13_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13
         character :: lange_task
+        real(qp),target :: work1(1)
+        real(qp),pointer :: work(:)
         complex(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -39843,6 +43842,34 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10),size(apack,11),size(apack,12),size(apack,13)))
+        
+        ! LAPACK interface
+        do j13 = lbound(apack,13),ubound(apack,13)
+        do j12 = lbound(apack,12),ubound(apack,12)
+        do j11 = lbound(apack,11),ubound(apack,11)
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_13D_to_11D_char_w
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -39861,7 +43888,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(14),perm(14),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,14_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14
         character :: lange_task
+        real(qp),target :: work1(1)
+        real(qp),pointer :: work(:)
         complex(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -39903,6 +43933,35 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10),size(apack,11),size(apack,12),size(apack,13),size(apack,14)))
+        
+        ! LAPACK interface
+        do j14 = lbound(apack,14),ubound(apack,14)
+        do j13 = lbound(apack,13),ubound(apack,13)
+        do j12 = lbound(apack,12),ubound(apack,12)
+        do j11 = lbound(apack,11),ubound(apack,11)
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_14D_to_12D_char_w
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -39921,7 +43980,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(15),perm(15),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,15_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15
         character :: lange_task
+        real(qp),target :: work1(1)
+        real(qp),pointer :: work(:)
         complex(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -39962,6 +44024,36 @@ module stdlib_linalg_norms
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
+        
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10),size(apack,11),size(apack,12),size(apack,13),size(apack,14),size(apack,15)))
+        
+        ! LAPACK interface
+        do j15 = lbound(apack,15),ubound(apack,15)
+        do j14 = lbound(apack,14),ubound(apack,14)
+        do j13 = lbound(apack,13),ubound(apack,13)
+        do j12 = lbound(apack,12),ubound(apack,12)
+        do j11 = lbound(apack,11),ubound(apack,11)
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
         
     end function matrix_norm_15D_to_13D_char_w
     
@@ -40010,6 +44102,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         
@@ -40092,6 +44185,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         
@@ -40174,6 +44268,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         
@@ -40256,6 +44351,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         
@@ -40338,6 +44434,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         
@@ -40420,6 +44517,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         
@@ -40502,6 +44600,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         
@@ -40584,6 +44683,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         
@@ -40666,6 +44766,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         
@@ -40748,6 +44849,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         
@@ -40830,6 +44932,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         
@@ -40912,6 +45015,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         
@@ -40994,6 +45098,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         
@@ -41076,6 +45181,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         
@@ -41158,6 +45264,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         
@@ -41252,6 +45359,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -41347,6 +45455,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -41445,6 +45554,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -41543,6 +45653,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -41642,6 +45753,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -41743,6 +45855,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -41844,6 +45957,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -41948,6 +46062,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -42052,6 +46167,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -42157,6 +46273,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -42264,6 +46381,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -42371,6 +46489,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -42481,6 +46600,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -42591,6 +46711,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
+        intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
         
         sze = size(a,kind=ilp)
         
@@ -42707,7 +46828,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(3),perm(3),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,3_ilp)]
+        integer(ilp) :: j3
         character :: lange_task
+        real(qp),target :: work1(1)
+        real(qp),pointer :: work(:)
         complex(qp),allocatable,target :: apack(:,:,:)
         
         ! Get dimensions
@@ -42749,6 +46873,23 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3)))
+        
+        ! LAPACK interface
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3) = &
+        lange(lange_task,m,n,apack(:,:,j3),m,work)
+        end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_3D_to_1D_int_w
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -42767,7 +46908,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(4),perm(4),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,4_ilp)]
+        integer(ilp) :: j3,j4
         character :: lange_task
+        real(qp),target :: work1(1)
+        real(qp),pointer :: work(:)
         complex(qp),allocatable,target :: apack(:,:,:,:)
         
         ! Get dimensions
@@ -42809,6 +46953,24 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4)))
+        
+        ! LAPACK interface
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4),m,work)
+        end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_4D_to_2D_int_w
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -42827,7 +46989,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(5),perm(5),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,5_ilp)]
+        integer(ilp) :: j3,j4,j5
         character :: lange_task
+        real(qp),target :: work1(1)
+        real(qp),pointer :: work(:)
         complex(qp),allocatable,target :: apack(:,:,:,:,:)
         
         ! Get dimensions
@@ -42869,6 +47034,25 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5)))
+        
+        ! LAPACK interface
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5),m,work)
+        end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_5D_to_3D_int_w
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -42887,7 +47071,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(6),perm(6),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,6_ilp)]
+        integer(ilp) :: j3,j4,j5,j6
         character :: lange_task
+        real(qp),target :: work1(1)
+        real(qp),pointer :: work(:)
         complex(qp),allocatable,target :: apack(:,:,:,:,:,:)
         
         ! Get dimensions
@@ -42929,6 +47116,26 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6)))
+        
+        ! LAPACK interface
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6),m,work)
+        end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_6D_to_4D_int_w
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -42947,7 +47154,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(7),perm(7),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,7_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7
         character :: lange_task
+        real(qp),target :: work1(1)
+        real(qp),pointer :: work(:)
         complex(qp),allocatable,target :: apack(:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -42989,6 +47199,27 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7)))
+        
+        ! LAPACK interface
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),m,work)
+        end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_7D_to_5D_int_w
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -43007,7 +47238,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(8),perm(8),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,8_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8
         character :: lange_task
+        real(qp),target :: work1(1)
+        real(qp),pointer :: work(:)
         complex(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -43049,6 +47283,28 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8)))
+        
+        ! LAPACK interface
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8),m,work)
+        end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_8D_to_6D_int_w
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -43067,7 +47323,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(9),perm(9),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,9_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9
         character :: lange_task
+        real(qp),target :: work1(1)
+        real(qp),pointer :: work(:)
         complex(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -43109,6 +47368,29 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9)))
+        
+        ! LAPACK interface
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9),m,work)
+        end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_9D_to_7D_int_w
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -43127,7 +47409,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(10),perm(10),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,10_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10
         character :: lange_task
+        real(qp),target :: work1(1)
+        real(qp),pointer :: work(:)
         complex(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -43169,6 +47454,31 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10)))
+        
+        ! LAPACK interface
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_10D_to_8D_int_w
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -43187,7 +47497,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(11),perm(11),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,11_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11
         character :: lange_task
+        real(qp),target :: work1(1)
+        real(qp),pointer :: work(:)
         complex(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -43229,6 +47542,32 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10),size(apack,11)))
+        
+        ! LAPACK interface
+        do j11 = lbound(apack,11),ubound(apack,11)
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_11D_to_9D_int_w
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -43247,7 +47586,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(12),perm(12),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,12_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12
         character :: lange_task
+        real(qp),target :: work1(1)
+        real(qp),pointer :: work(:)
         complex(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -43289,6 +47631,33 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10),size(apack,11),size(apack,12)))
+        
+        ! LAPACK interface
+        do j12 = lbound(apack,12),ubound(apack,12)
+        do j11 = lbound(apack,11),ubound(apack,11)
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_12D_to_10D_int_w
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -43307,7 +47676,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(13),perm(13),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,13_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13
         character :: lange_task
+        real(qp),target :: work1(1)
+        real(qp),pointer :: work(:)
         complex(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -43349,6 +47721,34 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10),size(apack,11),size(apack,12),size(apack,13)))
+        
+        ! LAPACK interface
+        do j13 = lbound(apack,13),ubound(apack,13)
+        do j12 = lbound(apack,12),ubound(apack,12)
+        do j11 = lbound(apack,11),ubound(apack,11)
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_13D_to_11D_int_w
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -43367,7 +47767,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(14),perm(14),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,14_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14
         character :: lange_task
+        real(qp),target :: work1(1)
+        real(qp),pointer :: work(:)
         complex(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -43409,6 +47812,35 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
         
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10),size(apack,11),size(apack,12),size(apack,13),size(apack,14)))
+        
+        ! LAPACK interface
+        do j14 = lbound(apack,14),ubound(apack,14)
+        do j13 = lbound(apack,13),ubound(apack,13)
+        do j12 = lbound(apack,12),ubound(apack,12)
+        do j11 = lbound(apack,11),ubound(apack,11)
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
+        
     end function matrix_norm_14D_to_12D_int_w
     
     ! Pure function interface with DIM specifier. On error, the code will stop
@@ -43427,7 +47859,10 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: m,n,lda,ldn,dims(2),s(15),perm(15),norm_request
         integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,15_ilp)]
+        integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15
         character :: lange_task
+        real(qp),target :: work1(1)
+        real(qp),pointer :: work(:)
         complex(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
@@ -43468,6 +47903,36 @@ module stdlib_linalg_norms
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
+        
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+        
+        ! Allocate norm
+        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
+            & size(apack,10),size(apack,11),size(apack,12),size(apack,13),size(apack,14),size(apack,15)))
+        
+        ! LAPACK interface
+        do j15 = lbound(apack,15),ubound(apack,15)
+        do j14 = lbound(apack,14),ubound(apack,14)
+        do j13 = lbound(apack,13),ubound(apack,13)
+        do j12 = lbound(apack,12),ubound(apack,12)
+        do j11 = lbound(apack,11),ubound(apack,11)
+        do j10 = lbound(apack,10),ubound(apack,10)
+        do j9 = lbound(apack,9),ubound(apack,9)
+        do j8 = lbound(apack,8),ubound(apack,8)
+        do j7 = lbound(apack,7),ubound(apack,7)
+        do j6 = lbound(apack,6),ubound(apack,6)
+        do j5 = lbound(apack,5),ubound(apack,5)
+        do j4 = lbound(apack,4),ubound(apack,4)
+        do j3 = lbound(apack,3),ubound(apack,3)
+        nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15) = &
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15),m,work)
+        end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
+        
+        if (lange_task == LANGE_NORM_INF) deallocate (work)
         
     end function matrix_norm_15D_to_13D_int_w
     

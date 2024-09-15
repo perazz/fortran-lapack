@@ -3,6 +3,83 @@
 #:set INPUT_TYPE    = ["character(len=*)","integer(ilp)"]
 #:set INPUT_SHORT   = ["char","int"]
 #:set INPUT_OPTIONS = list(zip(INPUT_TYPE,INPUT_SHORT))
+
+#!
+#! Generates a list of loop variables
+#!
+#! Args:
+#!   varname(str): Name of the variable to be used as prefix
+#!   n      (int): Number of loop variables to be created
+#!   offset (int): Optional index offset
+#!
+#! Returns:
+#!   Variable definition string 
+#!
+#! E.g.,
+#!  loop_variables('j', 5)
+#!   -> "j1, j2, j3, j4, j5
+#!
+#:def loop_variables(varname, n, offset=0)
+  #:assert n > 0
+    #:call join_lines(joinstr=", ")
+      #:for i in range(1, n + 1)
+        ${varname}$${i+offset}$
+      #:endfor
+    #:endcall
+#:enddef
+
+#! Generates an array allocation suffix to copy an N-D array size
+#!
+#! Args:
+#!   name  (str): Name of the original variable
+#!   rank  (int): Rank of the original variable
+#!   offset(int): optional offset of the dimension loop (default = 0)
+#!
+#! Returns:
+#!   Array rank suffix string enclosed in braces
+#!
+#! E.g.,
+#!   array_size('mat', 5)}$
+#!   -> (size(mat,1),size(mat,2),size(mat,3),size(mat,4),size(mat,5))
+#!   array_size('mat', 5, 2)}$
+#!   -> (size(mat,3),size(mat,4),size(mat,5),size(mat,6),size(mat,7))
+#!
+#:def array_size(name, rank, offset=0)
+  #:assert rank > 0
+  #:call join_lines(joinstr=", ", prefix="(", suffix=")")
+    #:for i in range(1, rank + 1)
+      size(${name}$,${i+offset}$)
+    #:endfor
+  #:endcall
+#:enddef
+
+#!
+#! Start a sequence of loop with indexed variables over an N-D array
+#!
+#! Args:
+#!   varname    (str): Name of the variable to be used as prefix
+#!   matname    (str): Name of the variable to be used as array
+#!   n          (int): Number of nested loops to be created (1=innermost; n=outermost)
+#!   dim_offset (int): Optional dimension offset (1st loop is over dimension 1+dim_offset)
+#!   intent     (str): Optional indentation. Default: 8 spaces
+#!
+#!
+#:def loop_variables_start(varname, matname, n, dim_offset=0, indent=" "*8)
+  #:assert n > 0
+    #:for i in range(1, n + 1)
+${indent}$do ${varname}$${n+1+dim_offset-i}$ = lbound(${matname}$, ${n+1+dim_offset-i}$), ubound(${matname}$, ${n+1+dim_offset-i}$)
+    #:endfor
+#:enddef
+
+#:def loop_variables_end(n, indent=" "*8)
+#:assert n > 0
+  #:call join_lines(joinstr="; ",prefix=indent)
+    #:for i in range(1, n + 1)
+       enddo 
+    #:endfor
+  #:endcall  
+#:enddef
+
 ! Vector norms
 module stdlib_linalg_norms
      use stdlib_linalg_constants
@@ -217,6 +294,7 @@ module stdlib_linalg_norms
         
         type(linalg_state) :: err_
         
+        intrinsic :: abs, sum, sqrt, norm2, maxval, minval, conjg
         integer(ilp) :: sze,norm_request
         real(${rk}$) :: rorder
         
@@ -246,7 +324,7 @@ module stdlib_linalg_norms
                 #:if rt.startswith('complex')
                 nrm = sqrt( real( sum( a * conjg(a) ), ${rk}$) )
                 #:else
-                nrm = sqrt( sum( a ** 2 ) )
+                nrm = norm2( a )
                 #:endif             
             case(NORM_INF)
                 nrm = maxval( abs(a) )
@@ -319,6 +397,7 @@ module stdlib_linalg_norms
         type(linalg_state) :: err_
         integer(ilp) :: sze,norm_request
         real(${rk}$) :: rorder
+        intrinsic :: sum, abs, sqrt, conjg, norm2, maxval, minval
         
         sze = size(a,kind=ilp)
         
@@ -353,7 +432,7 @@ module stdlib_linalg_norms
                 #:if rt.startswith('complex')
                 nrm = sqrt( real( sum( a * conjg(a) , dim = dim ), ${rk}$) )
                 #:else
-                nrm = sqrt( sum( a ** 2 , dim = dim ) )
+                nrm = norm2( a , dim = dim )
                 #:endif
             case(NORM_INF)
                 nrm = maxval( abs(a) , dim = dim )
@@ -441,9 +520,12 @@ module stdlib_linalg_norms
         type(linalg_state), intent(out), optional :: err  
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(${rank}$),perm(${rank}$),norm_request
+        integer(ilp) :: m,n,dims(2),s(${rank}$),perm(${rank}$),norm_request
+        integer(ilp) :: ${loop_variables('j',rank-2,2)}$
         integer(ilp), parameter :: dim_range(*) = [(m,m=1_ilp,${rank}$_ilp)]
         character :: lange_task
+        real(${rk}$), target :: work1(1)
+        real(${rk}$), pointer :: work(:)        
         ${rt}$, allocatable, target :: apack${ranksuffix(rank)}$
         
         ! Get dimensions
@@ -485,7 +567,22 @@ module stdlib_linalg_norms
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)     
         
-           
+        if (lange_task==LANGE_NORM_INF) then 
+            allocate(work(m))
+        else
+            work => work1
+        endif
+        
+        ! Allocate norm        
+        allocate(nrm${array_size('apack',rank-2, 2)}$)
+        
+        ! LAPACK interface
+${loop_variables_start('j', 'apack', rank-2, 2)}$
+        nrm(${loop_variables('j',rank-2,2)}$) = &
+        lange(lange_task,m,n,apack(:,:,${loop_variables('j',rank-2,2)}$),m,work)
+${loop_variables_end(rank-2)}$
+        
+        if (lange_task==LANGE_NORM_INF) deallocate(work)
         
         
     end function matrix_norm_${rank}$D_to_${rank-2}$D_${ii}$_${ri}$
