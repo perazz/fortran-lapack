@@ -535,7 +535,7 @@ module stdlib_linalg_norms
            dims = [1,2]
         endif
 
-        if (.not.all(dims>0 .and. dims<=${rank}$)) then 
+        if (dims(1)==dims(2) .or. .not.all(dims>0 .and. dims<=${rank}$)) then 
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',${rank}$,' matrix norm has invalid dim=',dims)
             allocate(nrm${emptyranksuffix(rank-2)}$)
             call linalg_error_handling(err_,err)
