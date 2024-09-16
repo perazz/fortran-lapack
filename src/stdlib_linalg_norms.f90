@@ -4157,13 +4157,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(3),perm(3),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,3_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(3) :: s,spack,perm
+        integer(ilp),dimension(3),parameter :: dim_range = [(m,m=1_ilp,3_ilp)]
         integer(ilp) :: j3
+        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        real(sp),allocatable,target :: apack(:,:,:)
+        real(sp),pointer :: apack(:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -4171,8 +4173,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 3)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 3)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',3,' matrix norm has invalid dim=',dims)
             allocate (nrm(0))
             call linalg_error_handling(err_,err)
@@ -4190,6 +4194,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -4199,7 +4206,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -4216,10 +4238,11 @@ module stdlib_linalg_norms
         ! LAPACK interface
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3) = &
-        lange(lange_task,m,n,apack(:,:,j3),m,work)
+        lange(lange_task,m,n,apack(:,:,j3),lda,work)
         end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_3D_to_1D_char_s
     
@@ -4237,13 +4260,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(4),perm(4),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,4_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(4) :: s,spack,perm
+        integer(ilp),dimension(4),parameter :: dim_range = [(m,m=1_ilp,4_ilp)]
         integer(ilp) :: j3,j4
+        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        real(sp),allocatable,target :: apack(:,:,:,:)
+        real(sp),pointer :: apack(:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -4251,8 +4276,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 4)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 4)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',4,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0))
             call linalg_error_handling(err_,err)
@@ -4270,6 +4297,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -4279,7 +4309,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -4297,10 +4342,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4),lda,work)
         end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_4D_to_2D_char_s
     
@@ -4318,13 +4364,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(5),perm(5),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,5_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(5) :: s,spack,perm
+        integer(ilp),dimension(5),parameter :: dim_range = [(m,m=1_ilp,5_ilp)]
         integer(ilp) :: j3,j4,j5
+        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        real(sp),allocatable,target :: apack(:,:,:,:,:)
+        real(sp),pointer :: apack(:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -4332,8 +4380,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 5)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 5)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',5,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0))
             call linalg_error_handling(err_,err)
@@ -4351,6 +4401,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -4360,7 +4413,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -4379,10 +4447,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5),lda,work)
         end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_5D_to_3D_char_s
     
@@ -4400,13 +4469,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(6),perm(6),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,6_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(6) :: s,spack,perm
+        integer(ilp),dimension(6),parameter :: dim_range = [(m,m=1_ilp,6_ilp)]
         integer(ilp) :: j3,j4,j5,j6
+        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        real(sp),allocatable,target :: apack(:,:,:,:,:,:)
+        real(sp),pointer :: apack(:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -4414,8 +4485,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 6)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 6)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',6,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -4433,6 +4506,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -4442,7 +4518,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -4462,10 +4553,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6),lda,work)
         end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_6D_to_4D_char_s
     
@@ -4483,13 +4575,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(7),perm(7),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,7_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(7) :: s,spack,perm
+        integer(ilp),dimension(7),parameter :: dim_range = [(m,m=1_ilp,7_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7
+        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        real(sp),allocatable,target :: apack(:,:,:,:,:,:,:)
+        real(sp),pointer :: apack(:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -4497,8 +4591,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 7)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 7)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',7,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -4516,6 +4612,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -4525,7 +4624,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -4546,10 +4660,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),lda,work)
         end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_7D_to_5D_char_s
     
@@ -4567,13 +4682,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(8),perm(8),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,8_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(8) :: s,spack,perm
+        integer(ilp),dimension(8),parameter :: dim_range = [(m,m=1_ilp,8_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8
+        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        real(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:)
+        real(sp),pointer :: apack(:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -4581,8 +4698,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 8)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 8)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',8,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -4600,6 +4719,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -4609,7 +4731,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -4631,10 +4768,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8),lda,work)
         end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_8D_to_6D_char_s
     
@@ -4652,13 +4790,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(9),perm(9),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,9_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(9) :: s,spack,perm
+        integer(ilp),dimension(9),parameter :: dim_range = [(m,m=1_ilp,9_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9
+        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        real(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:)
+        real(sp),pointer :: apack(:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -4666,8 +4806,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 9)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 9)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',9,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -4685,6 +4827,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -4694,7 +4839,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -4717,10 +4877,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9),lda,work)
         end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_9D_to_7D_char_s
     
@@ -4738,13 +4899,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(10),perm(10),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,10_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(10) :: s,spack,perm
+        integer(ilp),dimension(10),parameter :: dim_range = [(m,m=1_ilp,10_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10
+        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        real(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:)
+        real(sp),pointer :: apack(:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -4752,8 +4915,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 10)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 10)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',10,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -4771,6 +4936,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -4780,7 +4948,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -4805,10 +4989,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_10D_to_8D_char_s
     
@@ -4826,13 +5011,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(11),perm(11),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,11_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(11) :: s,spack,perm
+        integer(ilp),dimension(11),parameter :: dim_range = [(m,m=1_ilp,11_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11
+        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        real(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:)
+        real(sp),pointer :: apack(:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -4840,8 +5027,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 11)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 11)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',11,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -4859,6 +5048,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -4868,7 +5060,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10),1:spack(11)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -4894,10 +5102,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_11D_to_9D_char_s
     
@@ -4915,13 +5124,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(12),perm(12),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,12_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(12) :: s,spack,perm
+        integer(ilp),dimension(12),parameter :: dim_range = [(m,m=1_ilp,12_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12
+        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        real(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:)
+        real(sp),pointer :: apack(:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -4929,8 +5140,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 12)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 12)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',12,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -4948,6 +5161,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -4957,7 +5173,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10),1:spack(11),1:spack(12)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -4984,10 +5216,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_12D_to_10D_char_s
     
@@ -5005,13 +5238,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(13),perm(13),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,13_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(13) :: s,spack,perm
+        integer(ilp),dimension(13),parameter :: dim_range = [(m,m=1_ilp,13_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13
+        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        real(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:)
+        real(sp),pointer :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -5019,8 +5254,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 13)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 13)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',13,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -5038,6 +5275,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -5047,7 +5287,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10),1:spack(11),1:spack(12),1:spack(13)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -5075,10 +5331,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_13D_to_11D_char_s
     
@@ -5096,13 +5353,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(14),perm(14),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,14_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(14) :: s,spack,perm
+        integer(ilp),dimension(14),parameter :: dim_range = [(m,m=1_ilp,14_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14
+        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        real(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        real(sp),pointer :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -5110,8 +5369,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 14)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 14)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',14,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -5129,6 +5390,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -5138,7 +5402,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10),1:spack(11),1:spack(12),1:spack(13),1:spack(14)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -5167,10 +5447,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_14D_to_12D_char_s
     
@@ -5188,13 +5469,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(15),perm(15),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,15_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(15) :: s,spack,perm
+        integer(ilp),dimension(15),parameter :: dim_range = [(m,m=1_ilp,15_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15
+        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        real(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        real(sp),pointer :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -5202,8 +5485,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 15)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 15)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',15,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -5221,6 +5506,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -5230,7 +5518,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10),1:spack(11),1:spack(12),1:spack(13),1:spack(14),1:spack(15)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -5260,10 +5564,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_15D_to_13D_char_s
     
@@ -8036,13 +8341,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(3),perm(3),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,3_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(3) :: s,spack,perm
+        integer(ilp),dimension(3),parameter :: dim_range = [(m,m=1_ilp,3_ilp)]
         integer(ilp) :: j3
+        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        real(sp),allocatable,target :: apack(:,:,:)
+        real(sp),pointer :: apack(:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -8050,8 +8357,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 3)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 3)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',3,' matrix norm has invalid dim=',dims)
             allocate (nrm(0))
             call linalg_error_handling(err_,err)
@@ -8069,6 +8378,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -8078,7 +8390,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -8095,10 +8422,11 @@ module stdlib_linalg_norms
         ! LAPACK interface
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3) = &
-        lange(lange_task,m,n,apack(:,:,j3),m,work)
+        lange(lange_task,m,n,apack(:,:,j3),lda,work)
         end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_3D_to_1D_int_s
     
@@ -8116,13 +8444,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(4),perm(4),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,4_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(4) :: s,spack,perm
+        integer(ilp),dimension(4),parameter :: dim_range = [(m,m=1_ilp,4_ilp)]
         integer(ilp) :: j3,j4
+        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        real(sp),allocatable,target :: apack(:,:,:,:)
+        real(sp),pointer :: apack(:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -8130,8 +8460,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 4)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 4)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',4,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0))
             call linalg_error_handling(err_,err)
@@ -8149,6 +8481,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -8158,7 +8493,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -8176,10 +8526,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4),lda,work)
         end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_4D_to_2D_int_s
     
@@ -8197,13 +8548,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(5),perm(5),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,5_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(5) :: s,spack,perm
+        integer(ilp),dimension(5),parameter :: dim_range = [(m,m=1_ilp,5_ilp)]
         integer(ilp) :: j3,j4,j5
+        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        real(sp),allocatable,target :: apack(:,:,:,:,:)
+        real(sp),pointer :: apack(:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -8211,8 +8564,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 5)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 5)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',5,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0))
             call linalg_error_handling(err_,err)
@@ -8230,6 +8585,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -8239,7 +8597,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -8258,10 +8631,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5),lda,work)
         end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_5D_to_3D_int_s
     
@@ -8279,13 +8653,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(6),perm(6),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,6_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(6) :: s,spack,perm
+        integer(ilp),dimension(6),parameter :: dim_range = [(m,m=1_ilp,6_ilp)]
         integer(ilp) :: j3,j4,j5,j6
+        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        real(sp),allocatable,target :: apack(:,:,:,:,:,:)
+        real(sp),pointer :: apack(:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -8293,8 +8669,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 6)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 6)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',6,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -8312,6 +8690,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -8321,7 +8702,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -8341,10 +8737,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6),lda,work)
         end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_6D_to_4D_int_s
     
@@ -8362,13 +8759,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(7),perm(7),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,7_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(7) :: s,spack,perm
+        integer(ilp),dimension(7),parameter :: dim_range = [(m,m=1_ilp,7_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7
+        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        real(sp),allocatable,target :: apack(:,:,:,:,:,:,:)
+        real(sp),pointer :: apack(:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -8376,8 +8775,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 7)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 7)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',7,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -8395,6 +8796,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -8404,7 +8808,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -8425,10 +8844,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),lda,work)
         end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_7D_to_5D_int_s
     
@@ -8446,13 +8866,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(8),perm(8),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,8_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(8) :: s,spack,perm
+        integer(ilp),dimension(8),parameter :: dim_range = [(m,m=1_ilp,8_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8
+        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        real(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:)
+        real(sp),pointer :: apack(:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -8460,8 +8882,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 8)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 8)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',8,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -8479,6 +8903,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -8488,7 +8915,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -8510,10 +8952,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8),lda,work)
         end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_8D_to_6D_int_s
     
@@ -8531,13 +8974,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(9),perm(9),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,9_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(9) :: s,spack,perm
+        integer(ilp),dimension(9),parameter :: dim_range = [(m,m=1_ilp,9_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9
+        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        real(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:)
+        real(sp),pointer :: apack(:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -8545,8 +8990,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 9)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 9)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',9,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -8564,6 +9011,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -8573,7 +9023,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -8596,10 +9061,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9),lda,work)
         end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_9D_to_7D_int_s
     
@@ -8617,13 +9083,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(10),perm(10),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,10_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(10) :: s,spack,perm
+        integer(ilp),dimension(10),parameter :: dim_range = [(m,m=1_ilp,10_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10
+        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        real(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:)
+        real(sp),pointer :: apack(:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -8631,8 +9099,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 10)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 10)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',10,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -8650,6 +9120,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -8659,7 +9132,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -8684,10 +9173,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_10D_to_8D_int_s
     
@@ -8705,13 +9195,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(11),perm(11),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,11_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(11) :: s,spack,perm
+        integer(ilp),dimension(11),parameter :: dim_range = [(m,m=1_ilp,11_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11
+        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        real(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:)
+        real(sp),pointer :: apack(:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -8719,8 +9211,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 11)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 11)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',11,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -8738,6 +9232,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -8747,7 +9244,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10),1:spack(11)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -8773,10 +9286,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_11D_to_9D_int_s
     
@@ -8794,13 +9308,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(12),perm(12),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,12_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(12) :: s,spack,perm
+        integer(ilp),dimension(12),parameter :: dim_range = [(m,m=1_ilp,12_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12
+        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        real(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:)
+        real(sp),pointer :: apack(:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -8808,8 +9324,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 12)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 12)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',12,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -8827,6 +9345,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -8836,7 +9357,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10),1:spack(11),1:spack(12)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -8863,10 +9400,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_12D_to_10D_int_s
     
@@ -8884,13 +9422,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(13),perm(13),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,13_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(13) :: s,spack,perm
+        integer(ilp),dimension(13),parameter :: dim_range = [(m,m=1_ilp,13_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13
+        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        real(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:)
+        real(sp),pointer :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -8898,8 +9438,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 13)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 13)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',13,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -8917,6 +9459,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -8926,7 +9471,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10),1:spack(11),1:spack(12),1:spack(13)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -8954,10 +9515,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_13D_to_11D_int_s
     
@@ -8975,13 +9537,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(14),perm(14),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,14_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(14) :: s,spack,perm
+        integer(ilp),dimension(14),parameter :: dim_range = [(m,m=1_ilp,14_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14
+        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        real(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        real(sp),pointer :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -8989,8 +9553,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 14)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 14)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',14,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -9008,6 +9574,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -9017,7 +9586,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10),1:spack(11),1:spack(12),1:spack(13),1:spack(14)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -9046,10 +9631,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_14D_to_12D_int_s
     
@@ -9067,13 +9653,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(15),perm(15),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,15_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(15) :: s,spack,perm
+        integer(ilp),dimension(15),parameter :: dim_range = [(m,m=1_ilp,15_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15
+        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        real(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        real(sp),pointer :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -9081,8 +9669,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 15)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 15)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',15,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -9100,6 +9690,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -9109,7 +9702,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10),1:spack(11),1:spack(12),1:spack(13),1:spack(14),1:spack(15)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -9139,10 +9748,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_15D_to_13D_int_s
     
@@ -11915,13 +12525,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(3),perm(3),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,3_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(3) :: s,spack,perm
+        integer(ilp),dimension(3),parameter :: dim_range = [(m,m=1_ilp,3_ilp)]
         integer(ilp) :: j3
+        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        real(dp),allocatable,target :: apack(:,:,:)
+        real(dp),pointer :: apack(:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -11929,8 +12541,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 3)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 3)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',3,' matrix norm has invalid dim=',dims)
             allocate (nrm(0))
             call linalg_error_handling(err_,err)
@@ -11948,6 +12562,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -11957,7 +12574,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -11974,10 +12606,11 @@ module stdlib_linalg_norms
         ! LAPACK interface
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3) = &
-        lange(lange_task,m,n,apack(:,:,j3),m,work)
+        lange(lange_task,m,n,apack(:,:,j3),lda,work)
         end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_3D_to_1D_char_d
     
@@ -11995,13 +12628,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(4),perm(4),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,4_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(4) :: s,spack,perm
+        integer(ilp),dimension(4),parameter :: dim_range = [(m,m=1_ilp,4_ilp)]
         integer(ilp) :: j3,j4
+        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        real(dp),allocatable,target :: apack(:,:,:,:)
+        real(dp),pointer :: apack(:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -12009,8 +12644,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 4)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 4)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',4,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0))
             call linalg_error_handling(err_,err)
@@ -12028,6 +12665,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -12037,7 +12677,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -12055,10 +12710,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4),lda,work)
         end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_4D_to_2D_char_d
     
@@ -12076,13 +12732,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(5),perm(5),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,5_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(5) :: s,spack,perm
+        integer(ilp),dimension(5),parameter :: dim_range = [(m,m=1_ilp,5_ilp)]
         integer(ilp) :: j3,j4,j5
+        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        real(dp),allocatable,target :: apack(:,:,:,:,:)
+        real(dp),pointer :: apack(:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -12090,8 +12748,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 5)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 5)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',5,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0))
             call linalg_error_handling(err_,err)
@@ -12109,6 +12769,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -12118,7 +12781,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -12137,10 +12815,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5),lda,work)
         end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_5D_to_3D_char_d
     
@@ -12158,13 +12837,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(6),perm(6),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,6_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(6) :: s,spack,perm
+        integer(ilp),dimension(6),parameter :: dim_range = [(m,m=1_ilp,6_ilp)]
         integer(ilp) :: j3,j4,j5,j6
+        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        real(dp),allocatable,target :: apack(:,:,:,:,:,:)
+        real(dp),pointer :: apack(:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -12172,8 +12853,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 6)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 6)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',6,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -12191,6 +12874,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -12200,7 +12886,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -12220,10 +12921,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6),lda,work)
         end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_6D_to_4D_char_d
     
@@ -12241,13 +12943,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(7),perm(7),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,7_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(7) :: s,spack,perm
+        integer(ilp),dimension(7),parameter :: dim_range = [(m,m=1_ilp,7_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7
+        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        real(dp),allocatable,target :: apack(:,:,:,:,:,:,:)
+        real(dp),pointer :: apack(:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -12255,8 +12959,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 7)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 7)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',7,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -12274,6 +12980,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -12283,7 +12992,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -12304,10 +13028,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),lda,work)
         end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_7D_to_5D_char_d
     
@@ -12325,13 +13050,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(8),perm(8),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,8_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(8) :: s,spack,perm
+        integer(ilp),dimension(8),parameter :: dim_range = [(m,m=1_ilp,8_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8
+        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        real(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:)
+        real(dp),pointer :: apack(:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -12339,8 +13066,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 8)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 8)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',8,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -12358,6 +13087,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -12367,7 +13099,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -12389,10 +13136,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8),lda,work)
         end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_8D_to_6D_char_d
     
@@ -12410,13 +13158,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(9),perm(9),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,9_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(9) :: s,spack,perm
+        integer(ilp),dimension(9),parameter :: dim_range = [(m,m=1_ilp,9_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9
+        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        real(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:)
+        real(dp),pointer :: apack(:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -12424,8 +13174,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 9)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 9)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',9,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -12443,6 +13195,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -12452,7 +13207,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -12475,10 +13245,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9),lda,work)
         end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_9D_to_7D_char_d
     
@@ -12496,13 +13267,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(10),perm(10),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,10_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(10) :: s,spack,perm
+        integer(ilp),dimension(10),parameter :: dim_range = [(m,m=1_ilp,10_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10
+        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        real(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:)
+        real(dp),pointer :: apack(:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -12510,8 +13283,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 10)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 10)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',10,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -12529,6 +13304,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -12538,7 +13316,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -12563,10 +13357,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_10D_to_8D_char_d
     
@@ -12584,13 +13379,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(11),perm(11),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,11_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(11) :: s,spack,perm
+        integer(ilp),dimension(11),parameter :: dim_range = [(m,m=1_ilp,11_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11
+        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        real(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:)
+        real(dp),pointer :: apack(:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -12598,8 +13395,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 11)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 11)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',11,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -12617,6 +13416,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -12626,7 +13428,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10),1:spack(11)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -12652,10 +13470,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_11D_to_9D_char_d
     
@@ -12673,13 +13492,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(12),perm(12),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,12_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(12) :: s,spack,perm
+        integer(ilp),dimension(12),parameter :: dim_range = [(m,m=1_ilp,12_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12
+        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        real(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:)
+        real(dp),pointer :: apack(:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -12687,8 +13508,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 12)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 12)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',12,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -12706,6 +13529,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -12715,7 +13541,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10),1:spack(11),1:spack(12)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -12742,10 +13584,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_12D_to_10D_char_d
     
@@ -12763,13 +13606,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(13),perm(13),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,13_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(13) :: s,spack,perm
+        integer(ilp),dimension(13),parameter :: dim_range = [(m,m=1_ilp,13_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13
+        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        real(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:)
+        real(dp),pointer :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -12777,8 +13622,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 13)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 13)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',13,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -12796,6 +13643,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -12805,7 +13655,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10),1:spack(11),1:spack(12),1:spack(13)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -12833,10 +13699,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_13D_to_11D_char_d
     
@@ -12854,13 +13721,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(14),perm(14),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,14_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(14) :: s,spack,perm
+        integer(ilp),dimension(14),parameter :: dim_range = [(m,m=1_ilp,14_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14
+        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        real(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        real(dp),pointer :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -12868,8 +13737,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 14)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 14)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',14,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -12887,6 +13758,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -12896,7 +13770,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10),1:spack(11),1:spack(12),1:spack(13),1:spack(14)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -12925,10 +13815,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_14D_to_12D_char_d
     
@@ -12946,13 +13837,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(15),perm(15),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,15_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(15) :: s,spack,perm
+        integer(ilp),dimension(15),parameter :: dim_range = [(m,m=1_ilp,15_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15
+        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        real(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        real(dp),pointer :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -12960,8 +13853,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 15)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 15)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',15,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -12979,6 +13874,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -12988,7 +13886,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10),1:spack(11),1:spack(12),1:spack(13),1:spack(14),1:spack(15)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -13018,10 +13932,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_15D_to_13D_char_d
     
@@ -15794,13 +16709,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(3),perm(3),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,3_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(3) :: s,spack,perm
+        integer(ilp),dimension(3),parameter :: dim_range = [(m,m=1_ilp,3_ilp)]
         integer(ilp) :: j3
+        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        real(dp),allocatable,target :: apack(:,:,:)
+        real(dp),pointer :: apack(:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -15808,8 +16725,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 3)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 3)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',3,' matrix norm has invalid dim=',dims)
             allocate (nrm(0))
             call linalg_error_handling(err_,err)
@@ -15827,6 +16746,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -15836,7 +16758,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -15853,10 +16790,11 @@ module stdlib_linalg_norms
         ! LAPACK interface
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3) = &
-        lange(lange_task,m,n,apack(:,:,j3),m,work)
+        lange(lange_task,m,n,apack(:,:,j3),lda,work)
         end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_3D_to_1D_int_d
     
@@ -15874,13 +16812,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(4),perm(4),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,4_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(4) :: s,spack,perm
+        integer(ilp),dimension(4),parameter :: dim_range = [(m,m=1_ilp,4_ilp)]
         integer(ilp) :: j3,j4
+        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        real(dp),allocatable,target :: apack(:,:,:,:)
+        real(dp),pointer :: apack(:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -15888,8 +16828,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 4)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 4)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',4,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0))
             call linalg_error_handling(err_,err)
@@ -15907,6 +16849,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -15916,7 +16861,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -15934,10 +16894,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4),lda,work)
         end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_4D_to_2D_int_d
     
@@ -15955,13 +16916,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(5),perm(5),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,5_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(5) :: s,spack,perm
+        integer(ilp),dimension(5),parameter :: dim_range = [(m,m=1_ilp,5_ilp)]
         integer(ilp) :: j3,j4,j5
+        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        real(dp),allocatable,target :: apack(:,:,:,:,:)
+        real(dp),pointer :: apack(:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -15969,8 +16932,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 5)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 5)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',5,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0))
             call linalg_error_handling(err_,err)
@@ -15988,6 +16953,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -15997,7 +16965,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -16016,10 +16999,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5),lda,work)
         end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_5D_to_3D_int_d
     
@@ -16037,13 +17021,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(6),perm(6),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,6_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(6) :: s,spack,perm
+        integer(ilp),dimension(6),parameter :: dim_range = [(m,m=1_ilp,6_ilp)]
         integer(ilp) :: j3,j4,j5,j6
+        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        real(dp),allocatable,target :: apack(:,:,:,:,:,:)
+        real(dp),pointer :: apack(:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -16051,8 +17037,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 6)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 6)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',6,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -16070,6 +17058,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -16079,7 +17070,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -16099,10 +17105,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6),lda,work)
         end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_6D_to_4D_int_d
     
@@ -16120,13 +17127,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(7),perm(7),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,7_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(7) :: s,spack,perm
+        integer(ilp),dimension(7),parameter :: dim_range = [(m,m=1_ilp,7_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7
+        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        real(dp),allocatable,target :: apack(:,:,:,:,:,:,:)
+        real(dp),pointer :: apack(:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -16134,8 +17143,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 7)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 7)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',7,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -16153,6 +17164,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -16162,7 +17176,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -16183,10 +17212,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),lda,work)
         end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_7D_to_5D_int_d
     
@@ -16204,13 +17234,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(8),perm(8),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,8_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(8) :: s,spack,perm
+        integer(ilp),dimension(8),parameter :: dim_range = [(m,m=1_ilp,8_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8
+        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        real(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:)
+        real(dp),pointer :: apack(:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -16218,8 +17250,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 8)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 8)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',8,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -16237,6 +17271,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -16246,7 +17283,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -16268,10 +17320,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8),lda,work)
         end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_8D_to_6D_int_d
     
@@ -16289,13 +17342,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(9),perm(9),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,9_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(9) :: s,spack,perm
+        integer(ilp),dimension(9),parameter :: dim_range = [(m,m=1_ilp,9_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9
+        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        real(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:)
+        real(dp),pointer :: apack(:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -16303,8 +17358,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 9)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 9)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',9,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -16322,6 +17379,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -16331,7 +17391,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -16354,10 +17429,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9),lda,work)
         end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_9D_to_7D_int_d
     
@@ -16375,13 +17451,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(10),perm(10),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,10_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(10) :: s,spack,perm
+        integer(ilp),dimension(10),parameter :: dim_range = [(m,m=1_ilp,10_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10
+        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        real(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:)
+        real(dp),pointer :: apack(:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -16389,8 +17467,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 10)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 10)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',10,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -16408,6 +17488,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -16417,7 +17500,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -16442,10 +17541,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_10D_to_8D_int_d
     
@@ -16463,13 +17563,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(11),perm(11),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,11_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(11) :: s,spack,perm
+        integer(ilp),dimension(11),parameter :: dim_range = [(m,m=1_ilp,11_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11
+        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        real(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:)
+        real(dp),pointer :: apack(:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -16477,8 +17579,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 11)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 11)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',11,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -16496,6 +17600,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -16505,7 +17612,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10),1:spack(11)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -16531,10 +17654,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_11D_to_9D_int_d
     
@@ -16552,13 +17676,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(12),perm(12),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,12_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(12) :: s,spack,perm
+        integer(ilp),dimension(12),parameter :: dim_range = [(m,m=1_ilp,12_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12
+        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        real(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:)
+        real(dp),pointer :: apack(:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -16566,8 +17692,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 12)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 12)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',12,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -16585,6 +17713,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -16594,7 +17725,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10),1:spack(11),1:spack(12)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -16621,10 +17768,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_12D_to_10D_int_d
     
@@ -16642,13 +17790,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(13),perm(13),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,13_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(13) :: s,spack,perm
+        integer(ilp),dimension(13),parameter :: dim_range = [(m,m=1_ilp,13_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13
+        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        real(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:)
+        real(dp),pointer :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -16656,8 +17806,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 13)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 13)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',13,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -16675,6 +17827,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -16684,7 +17839,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10),1:spack(11),1:spack(12),1:spack(13)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -16712,10 +17883,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_13D_to_11D_int_d
     
@@ -16733,13 +17905,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(14),perm(14),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,14_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(14) :: s,spack,perm
+        integer(ilp),dimension(14),parameter :: dim_range = [(m,m=1_ilp,14_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14
+        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        real(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        real(dp),pointer :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -16747,8 +17921,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 14)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 14)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',14,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -16766,6 +17942,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -16775,7 +17954,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10),1:spack(11),1:spack(12),1:spack(13),1:spack(14)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -16804,10 +17999,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_14D_to_12D_int_d
     
@@ -16825,13 +18021,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(15),perm(15),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,15_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(15) :: s,spack,perm
+        integer(ilp),dimension(15),parameter :: dim_range = [(m,m=1_ilp,15_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15
+        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        real(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        real(dp),pointer :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -16839,8 +18037,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 15)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 15)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',15,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -16858,6 +18058,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -16867,7 +18070,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10),1:spack(11),1:spack(12),1:spack(13),1:spack(14),1:spack(15)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -16897,10 +18116,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_15D_to_13D_int_d
     
@@ -19673,13 +20893,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(3),perm(3),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,3_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(3) :: s,spack,perm
+        integer(ilp),dimension(3),parameter :: dim_range = [(m,m=1_ilp,3_ilp)]
         integer(ilp) :: j3
+        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        real(qp),allocatable,target :: apack(:,:,:)
+        real(qp),pointer :: apack(:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -19687,8 +20909,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 3)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 3)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',3,' matrix norm has invalid dim=',dims)
             allocate (nrm(0))
             call linalg_error_handling(err_,err)
@@ -19706,6 +20930,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -19715,7 +20942,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -19732,10 +20974,11 @@ module stdlib_linalg_norms
         ! LAPACK interface
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3) = &
-        lange(lange_task,m,n,apack(:,:,j3),m,work)
+        lange(lange_task,m,n,apack(:,:,j3),lda,work)
         end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_3D_to_1D_char_q
     
@@ -19753,13 +20996,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(4),perm(4),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,4_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(4) :: s,spack,perm
+        integer(ilp),dimension(4),parameter :: dim_range = [(m,m=1_ilp,4_ilp)]
         integer(ilp) :: j3,j4
+        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        real(qp),allocatable,target :: apack(:,:,:,:)
+        real(qp),pointer :: apack(:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -19767,8 +21012,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 4)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 4)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',4,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0))
             call linalg_error_handling(err_,err)
@@ -19786,6 +21033,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -19795,7 +21045,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -19813,10 +21078,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4),lda,work)
         end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_4D_to_2D_char_q
     
@@ -19834,13 +21100,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(5),perm(5),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,5_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(5) :: s,spack,perm
+        integer(ilp),dimension(5),parameter :: dim_range = [(m,m=1_ilp,5_ilp)]
         integer(ilp) :: j3,j4,j5
+        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        real(qp),allocatable,target :: apack(:,:,:,:,:)
+        real(qp),pointer :: apack(:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -19848,8 +21116,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 5)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 5)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',5,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0))
             call linalg_error_handling(err_,err)
@@ -19867,6 +21137,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -19876,7 +21149,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -19895,10 +21183,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5),lda,work)
         end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_5D_to_3D_char_q
     
@@ -19916,13 +21205,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(6),perm(6),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,6_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(6) :: s,spack,perm
+        integer(ilp),dimension(6),parameter :: dim_range = [(m,m=1_ilp,6_ilp)]
         integer(ilp) :: j3,j4,j5,j6
+        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        real(qp),allocatable,target :: apack(:,:,:,:,:,:)
+        real(qp),pointer :: apack(:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -19930,8 +21221,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 6)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 6)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',6,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -19949,6 +21242,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -19958,7 +21254,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -19978,10 +21289,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6),lda,work)
         end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_6D_to_4D_char_q
     
@@ -19999,13 +21311,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(7),perm(7),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,7_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(7) :: s,spack,perm
+        integer(ilp),dimension(7),parameter :: dim_range = [(m,m=1_ilp,7_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7
+        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        real(qp),allocatable,target :: apack(:,:,:,:,:,:,:)
+        real(qp),pointer :: apack(:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -20013,8 +21327,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 7)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 7)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',7,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -20032,6 +21348,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -20041,7 +21360,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -20062,10 +21396,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),lda,work)
         end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_7D_to_5D_char_q
     
@@ -20083,13 +21418,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(8),perm(8),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,8_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(8) :: s,spack,perm
+        integer(ilp),dimension(8),parameter :: dim_range = [(m,m=1_ilp,8_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8
+        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        real(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:)
+        real(qp),pointer :: apack(:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -20097,8 +21434,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 8)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 8)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',8,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -20116,6 +21455,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -20125,7 +21467,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -20147,10 +21504,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8),lda,work)
         end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_8D_to_6D_char_q
     
@@ -20168,13 +21526,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(9),perm(9),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,9_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(9) :: s,spack,perm
+        integer(ilp),dimension(9),parameter :: dim_range = [(m,m=1_ilp,9_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9
+        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        real(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:)
+        real(qp),pointer :: apack(:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -20182,8 +21542,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 9)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 9)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',9,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -20201,6 +21563,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -20210,7 +21575,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -20233,10 +21613,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9),lda,work)
         end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_9D_to_7D_char_q
     
@@ -20254,13 +21635,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(10),perm(10),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,10_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(10) :: s,spack,perm
+        integer(ilp),dimension(10),parameter :: dim_range = [(m,m=1_ilp,10_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10
+        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        real(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:)
+        real(qp),pointer :: apack(:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -20268,8 +21651,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 10)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 10)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',10,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -20287,6 +21672,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -20296,7 +21684,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -20321,10 +21725,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_10D_to_8D_char_q
     
@@ -20342,13 +21747,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(11),perm(11),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,11_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(11) :: s,spack,perm
+        integer(ilp),dimension(11),parameter :: dim_range = [(m,m=1_ilp,11_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11
+        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        real(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:)
+        real(qp),pointer :: apack(:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -20356,8 +21763,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 11)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 11)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',11,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -20375,6 +21784,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -20384,7 +21796,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10),1:spack(11)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -20410,10 +21838,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_11D_to_9D_char_q
     
@@ -20431,13 +21860,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(12),perm(12),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,12_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(12) :: s,spack,perm
+        integer(ilp),dimension(12),parameter :: dim_range = [(m,m=1_ilp,12_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12
+        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        real(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:)
+        real(qp),pointer :: apack(:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -20445,8 +21876,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 12)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 12)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',12,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -20464,6 +21897,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -20473,7 +21909,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10),1:spack(11),1:spack(12)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -20500,10 +21952,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_12D_to_10D_char_q
     
@@ -20521,13 +21974,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(13),perm(13),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,13_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(13) :: s,spack,perm
+        integer(ilp),dimension(13),parameter :: dim_range = [(m,m=1_ilp,13_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13
+        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        real(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:)
+        real(qp),pointer :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -20535,8 +21990,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 13)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 13)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',13,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -20554,6 +22011,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -20563,7 +22023,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10),1:spack(11),1:spack(12),1:spack(13)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -20591,10 +22067,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_13D_to_11D_char_q
     
@@ -20612,13 +22089,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(14),perm(14),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,14_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(14) :: s,spack,perm
+        integer(ilp),dimension(14),parameter :: dim_range = [(m,m=1_ilp,14_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14
+        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        real(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        real(qp),pointer :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -20626,8 +22105,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 14)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 14)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',14,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -20645,6 +22126,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -20654,7 +22138,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10),1:spack(11),1:spack(12),1:spack(13),1:spack(14)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -20683,10 +22183,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_14D_to_12D_char_q
     
@@ -20704,13 +22205,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(15),perm(15),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,15_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(15) :: s,spack,perm
+        integer(ilp),dimension(15),parameter :: dim_range = [(m,m=1_ilp,15_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15
+        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        real(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        real(qp),pointer :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -20718,8 +22221,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 15)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 15)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',15,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -20737,6 +22242,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -20746,7 +22254,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10),1:spack(11),1:spack(12),1:spack(13),1:spack(14),1:spack(15)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -20776,10 +22300,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_15D_to_13D_char_q
     
@@ -23552,13 +25077,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(3),perm(3),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,3_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(3) :: s,spack,perm
+        integer(ilp),dimension(3),parameter :: dim_range = [(m,m=1_ilp,3_ilp)]
         integer(ilp) :: j3
+        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        real(qp),allocatable,target :: apack(:,:,:)
+        real(qp),pointer :: apack(:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -23566,8 +25093,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 3)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 3)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',3,' matrix norm has invalid dim=',dims)
             allocate (nrm(0))
             call linalg_error_handling(err_,err)
@@ -23585,6 +25114,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -23594,7 +25126,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -23611,10 +25158,11 @@ module stdlib_linalg_norms
         ! LAPACK interface
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3) = &
-        lange(lange_task,m,n,apack(:,:,j3),m,work)
+        lange(lange_task,m,n,apack(:,:,j3),lda,work)
         end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_3D_to_1D_int_q
     
@@ -23632,13 +25180,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(4),perm(4),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,4_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(4) :: s,spack,perm
+        integer(ilp),dimension(4),parameter :: dim_range = [(m,m=1_ilp,4_ilp)]
         integer(ilp) :: j3,j4
+        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        real(qp),allocatable,target :: apack(:,:,:,:)
+        real(qp),pointer :: apack(:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -23646,8 +25196,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 4)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 4)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',4,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0))
             call linalg_error_handling(err_,err)
@@ -23665,6 +25217,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -23674,7 +25229,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -23692,10 +25262,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4),lda,work)
         end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_4D_to_2D_int_q
     
@@ -23713,13 +25284,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(5),perm(5),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,5_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(5) :: s,spack,perm
+        integer(ilp),dimension(5),parameter :: dim_range = [(m,m=1_ilp,5_ilp)]
         integer(ilp) :: j3,j4,j5
+        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        real(qp),allocatable,target :: apack(:,:,:,:,:)
+        real(qp),pointer :: apack(:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -23727,8 +25300,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 5)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 5)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',5,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0))
             call linalg_error_handling(err_,err)
@@ -23746,6 +25321,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -23755,7 +25333,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -23774,10 +25367,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5),lda,work)
         end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_5D_to_3D_int_q
     
@@ -23795,13 +25389,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(6),perm(6),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,6_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(6) :: s,spack,perm
+        integer(ilp),dimension(6),parameter :: dim_range = [(m,m=1_ilp,6_ilp)]
         integer(ilp) :: j3,j4,j5,j6
+        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        real(qp),allocatable,target :: apack(:,:,:,:,:,:)
+        real(qp),pointer :: apack(:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -23809,8 +25405,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 6)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 6)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',6,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -23828,6 +25426,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -23837,7 +25438,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -23857,10 +25473,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6),lda,work)
         end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_6D_to_4D_int_q
     
@@ -23878,13 +25495,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(7),perm(7),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,7_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(7) :: s,spack,perm
+        integer(ilp),dimension(7),parameter :: dim_range = [(m,m=1_ilp,7_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7
+        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        real(qp),allocatable,target :: apack(:,:,:,:,:,:,:)
+        real(qp),pointer :: apack(:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -23892,8 +25511,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 7)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 7)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',7,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -23911,6 +25532,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -23920,7 +25544,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -23941,10 +25580,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),lda,work)
         end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_7D_to_5D_int_q
     
@@ -23962,13 +25602,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(8),perm(8),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,8_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(8) :: s,spack,perm
+        integer(ilp),dimension(8),parameter :: dim_range = [(m,m=1_ilp,8_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8
+        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        real(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:)
+        real(qp),pointer :: apack(:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -23976,8 +25618,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 8)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 8)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',8,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -23995,6 +25639,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -24004,7 +25651,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -24026,10 +25688,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8),lda,work)
         end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_8D_to_6D_int_q
     
@@ -24047,13 +25710,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(9),perm(9),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,9_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(9) :: s,spack,perm
+        integer(ilp),dimension(9),parameter :: dim_range = [(m,m=1_ilp,9_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9
+        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        real(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:)
+        real(qp),pointer :: apack(:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -24061,8 +25726,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 9)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 9)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',9,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -24080,6 +25747,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -24089,7 +25759,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -24112,10 +25797,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9),lda,work)
         end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_9D_to_7D_int_q
     
@@ -24133,13 +25819,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(10),perm(10),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,10_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(10) :: s,spack,perm
+        integer(ilp),dimension(10),parameter :: dim_range = [(m,m=1_ilp,10_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10
+        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        real(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:)
+        real(qp),pointer :: apack(:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -24147,8 +25835,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 10)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 10)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',10,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -24166,6 +25856,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -24175,7 +25868,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -24200,10 +25909,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_10D_to_8D_int_q
     
@@ -24221,13 +25931,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(11),perm(11),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,11_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(11) :: s,spack,perm
+        integer(ilp),dimension(11),parameter :: dim_range = [(m,m=1_ilp,11_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11
+        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        real(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:)
+        real(qp),pointer :: apack(:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -24235,8 +25947,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 11)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 11)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',11,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -24254,6 +25968,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -24263,7 +25980,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10),1:spack(11)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -24289,10 +26022,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_11D_to_9D_int_q
     
@@ -24310,13 +26044,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(12),perm(12),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,12_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(12) :: s,spack,perm
+        integer(ilp),dimension(12),parameter :: dim_range = [(m,m=1_ilp,12_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12
+        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        real(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:)
+        real(qp),pointer :: apack(:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -24324,8 +26060,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 12)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 12)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',12,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -24343,6 +26081,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -24352,7 +26093,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10),1:spack(11),1:spack(12)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -24379,10 +26136,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_12D_to_10D_int_q
     
@@ -24400,13 +26158,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(13),perm(13),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,13_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(13) :: s,spack,perm
+        integer(ilp),dimension(13),parameter :: dim_range = [(m,m=1_ilp,13_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13
+        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        real(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:)
+        real(qp),pointer :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -24414,8 +26174,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 13)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 13)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',13,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -24433,6 +26195,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -24442,7 +26207,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10),1:spack(11),1:spack(12),1:spack(13)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -24470,10 +26251,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_13D_to_11D_int_q
     
@@ -24491,13 +26273,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(14),perm(14),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,14_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(14) :: s,spack,perm
+        integer(ilp),dimension(14),parameter :: dim_range = [(m,m=1_ilp,14_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14
+        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        real(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        real(qp),pointer :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -24505,8 +26289,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 14)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 14)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',14,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -24524,6 +26310,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -24533,7 +26322,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10),1:spack(11),1:spack(12),1:spack(13),1:spack(14)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -24562,10 +26367,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_14D_to_12D_int_q
     
@@ -24583,13 +26389,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(15),perm(15),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,15_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(15) :: s,spack,perm
+        integer(ilp),dimension(15),parameter :: dim_range = [(m,m=1_ilp,15_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15
+        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        real(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        real(qp),pointer :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -24597,8 +26405,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 15)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 15)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',15,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -24616,6 +26426,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -24625,7 +26438,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10),1:spack(11),1:spack(12),1:spack(13),1:spack(14),1:spack(15)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -24655,10 +26484,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_15D_to_13D_int_q
     
@@ -27431,13 +29261,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(3),perm(3),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,3_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(3) :: s,spack,perm
+        integer(ilp),dimension(3),parameter :: dim_range = [(m,m=1_ilp,3_ilp)]
         integer(ilp) :: j3
+        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        complex(sp),allocatable,target :: apack(:,:,:)
+        complex(sp),pointer :: apack(:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -27445,8 +29277,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 3)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 3)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',3,' matrix norm has invalid dim=',dims)
             allocate (nrm(0))
             call linalg_error_handling(err_,err)
@@ -27464,6 +29298,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -27473,7 +29310,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -27490,10 +29342,11 @@ module stdlib_linalg_norms
         ! LAPACK interface
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3) = &
-        lange(lange_task,m,n,apack(:,:,j3),m,work)
+        lange(lange_task,m,n,apack(:,:,j3),lda,work)
         end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_3D_to_1D_char_c
     
@@ -27511,13 +29364,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(4),perm(4),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,4_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(4) :: s,spack,perm
+        integer(ilp),dimension(4),parameter :: dim_range = [(m,m=1_ilp,4_ilp)]
         integer(ilp) :: j3,j4
+        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        complex(sp),allocatable,target :: apack(:,:,:,:)
+        complex(sp),pointer :: apack(:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -27525,8 +29380,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 4)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 4)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',4,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0))
             call linalg_error_handling(err_,err)
@@ -27544,6 +29401,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -27553,7 +29413,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -27571,10 +29446,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4),lda,work)
         end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_4D_to_2D_char_c
     
@@ -27592,13 +29468,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(5),perm(5),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,5_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(5) :: s,spack,perm
+        integer(ilp),dimension(5),parameter :: dim_range = [(m,m=1_ilp,5_ilp)]
         integer(ilp) :: j3,j4,j5
+        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        complex(sp),allocatable,target :: apack(:,:,:,:,:)
+        complex(sp),pointer :: apack(:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -27606,8 +29484,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 5)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 5)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',5,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0))
             call linalg_error_handling(err_,err)
@@ -27625,6 +29505,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -27634,7 +29517,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -27653,10 +29551,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5),lda,work)
         end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_5D_to_3D_char_c
     
@@ -27674,13 +29573,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(6),perm(6),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,6_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(6) :: s,spack,perm
+        integer(ilp),dimension(6),parameter :: dim_range = [(m,m=1_ilp,6_ilp)]
         integer(ilp) :: j3,j4,j5,j6
+        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        complex(sp),allocatable,target :: apack(:,:,:,:,:,:)
+        complex(sp),pointer :: apack(:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -27688,8 +29589,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 6)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 6)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',6,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -27707,6 +29610,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -27716,7 +29622,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -27736,10 +29657,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6),lda,work)
         end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_6D_to_4D_char_c
     
@@ -27757,13 +29679,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(7),perm(7),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,7_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(7) :: s,spack,perm
+        integer(ilp),dimension(7),parameter :: dim_range = [(m,m=1_ilp,7_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7
+        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        complex(sp),allocatable,target :: apack(:,:,:,:,:,:,:)
+        complex(sp),pointer :: apack(:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -27771,8 +29695,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 7)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 7)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',7,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -27790,6 +29716,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -27799,7 +29728,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -27820,10 +29764,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),lda,work)
         end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_7D_to_5D_char_c
     
@@ -27841,13 +29786,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(8),perm(8),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,8_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(8) :: s,spack,perm
+        integer(ilp),dimension(8),parameter :: dim_range = [(m,m=1_ilp,8_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8
+        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        complex(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:)
+        complex(sp),pointer :: apack(:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -27855,8 +29802,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 8)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 8)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',8,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -27874,6 +29823,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -27883,7 +29835,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -27905,10 +29872,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8),lda,work)
         end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_8D_to_6D_char_c
     
@@ -27926,13 +29894,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(9),perm(9),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,9_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(9) :: s,spack,perm
+        integer(ilp),dimension(9),parameter :: dim_range = [(m,m=1_ilp,9_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9
+        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        complex(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:)
+        complex(sp),pointer :: apack(:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -27940,8 +29910,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 9)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 9)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',9,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -27959,6 +29931,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -27968,7 +29943,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -27991,10 +29981,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9),lda,work)
         end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_9D_to_7D_char_c
     
@@ -28012,13 +30003,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(10),perm(10),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,10_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(10) :: s,spack,perm
+        integer(ilp),dimension(10),parameter :: dim_range = [(m,m=1_ilp,10_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10
+        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        complex(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:)
+        complex(sp),pointer :: apack(:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -28026,8 +30019,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 10)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 10)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',10,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -28045,6 +30040,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -28054,7 +30052,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -28079,10 +30093,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_10D_to_8D_char_c
     
@@ -28100,13 +30115,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(11),perm(11),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,11_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(11) :: s,spack,perm
+        integer(ilp),dimension(11),parameter :: dim_range = [(m,m=1_ilp,11_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11
+        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        complex(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:)
+        complex(sp),pointer :: apack(:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -28114,8 +30131,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 11)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 11)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',11,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -28133,6 +30152,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -28142,7 +30164,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10),1:spack(11)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -28168,10 +30206,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_11D_to_9D_char_c
     
@@ -28189,13 +30228,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(12),perm(12),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,12_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(12) :: s,spack,perm
+        integer(ilp),dimension(12),parameter :: dim_range = [(m,m=1_ilp,12_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12
+        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        complex(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:)
+        complex(sp),pointer :: apack(:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -28203,8 +30244,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 12)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 12)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',12,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -28222,6 +30265,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -28231,7 +30277,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10),1:spack(11),1:spack(12)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -28258,10 +30320,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_12D_to_10D_char_c
     
@@ -28279,13 +30342,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(13),perm(13),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,13_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(13) :: s,spack,perm
+        integer(ilp),dimension(13),parameter :: dim_range = [(m,m=1_ilp,13_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13
+        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        complex(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:)
+        complex(sp),pointer :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -28293,8 +30358,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 13)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 13)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',13,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -28312,6 +30379,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -28321,7 +30391,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10),1:spack(11),1:spack(12),1:spack(13)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -28349,10 +30435,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_13D_to_11D_char_c
     
@@ -28370,13 +30457,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(14),perm(14),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,14_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(14) :: s,spack,perm
+        integer(ilp),dimension(14),parameter :: dim_range = [(m,m=1_ilp,14_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14
+        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        complex(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        complex(sp),pointer :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -28384,8 +30473,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 14)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 14)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',14,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -28403,6 +30494,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -28412,7 +30506,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10),1:spack(11),1:spack(12),1:spack(13),1:spack(14)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -28441,10 +30551,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_14D_to_12D_char_c
     
@@ -28462,13 +30573,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(15),perm(15),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,15_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(15) :: s,spack,perm
+        integer(ilp),dimension(15),parameter :: dim_range = [(m,m=1_ilp,15_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15
+        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        complex(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        complex(sp),pointer :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -28476,8 +30589,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 15)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 15)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',15,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -28495,6 +30610,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -28504,7 +30622,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10),1:spack(11),1:spack(12),1:spack(13),1:spack(14),1:spack(15)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -28534,10 +30668,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_15D_to_13D_char_c
     
@@ -31310,13 +33445,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(3),perm(3),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,3_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(3) :: s,spack,perm
+        integer(ilp),dimension(3),parameter :: dim_range = [(m,m=1_ilp,3_ilp)]
         integer(ilp) :: j3
+        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        complex(sp),allocatable,target :: apack(:,:,:)
+        complex(sp),pointer :: apack(:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -31324,8 +33461,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 3)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 3)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',3,' matrix norm has invalid dim=',dims)
             allocate (nrm(0))
             call linalg_error_handling(err_,err)
@@ -31343,6 +33482,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -31352,7 +33494,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -31369,10 +33526,11 @@ module stdlib_linalg_norms
         ! LAPACK interface
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3) = &
-        lange(lange_task,m,n,apack(:,:,j3),m,work)
+        lange(lange_task,m,n,apack(:,:,j3),lda,work)
         end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_3D_to_1D_int_c
     
@@ -31390,13 +33548,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(4),perm(4),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,4_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(4) :: s,spack,perm
+        integer(ilp),dimension(4),parameter :: dim_range = [(m,m=1_ilp,4_ilp)]
         integer(ilp) :: j3,j4
+        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        complex(sp),allocatable,target :: apack(:,:,:,:)
+        complex(sp),pointer :: apack(:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -31404,8 +33564,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 4)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 4)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',4,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0))
             call linalg_error_handling(err_,err)
@@ -31423,6 +33585,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -31432,7 +33597,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -31450,10 +33630,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4),lda,work)
         end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_4D_to_2D_int_c
     
@@ -31471,13 +33652,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(5),perm(5),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,5_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(5) :: s,spack,perm
+        integer(ilp),dimension(5),parameter :: dim_range = [(m,m=1_ilp,5_ilp)]
         integer(ilp) :: j3,j4,j5
+        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        complex(sp),allocatable,target :: apack(:,:,:,:,:)
+        complex(sp),pointer :: apack(:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -31485,8 +33668,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 5)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 5)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',5,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0))
             call linalg_error_handling(err_,err)
@@ -31504,6 +33689,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -31513,7 +33701,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -31532,10 +33735,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5),lda,work)
         end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_5D_to_3D_int_c
     
@@ -31553,13 +33757,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(6),perm(6),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,6_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(6) :: s,spack,perm
+        integer(ilp),dimension(6),parameter :: dim_range = [(m,m=1_ilp,6_ilp)]
         integer(ilp) :: j3,j4,j5,j6
+        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        complex(sp),allocatable,target :: apack(:,:,:,:,:,:)
+        complex(sp),pointer :: apack(:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -31567,8 +33773,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 6)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 6)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',6,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -31586,6 +33794,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -31595,7 +33806,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -31615,10 +33841,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6),lda,work)
         end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_6D_to_4D_int_c
     
@@ -31636,13 +33863,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(7),perm(7),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,7_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(7) :: s,spack,perm
+        integer(ilp),dimension(7),parameter :: dim_range = [(m,m=1_ilp,7_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7
+        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        complex(sp),allocatable,target :: apack(:,:,:,:,:,:,:)
+        complex(sp),pointer :: apack(:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -31650,8 +33879,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 7)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 7)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',7,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -31669,6 +33900,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -31678,7 +33912,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -31699,10 +33948,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),lda,work)
         end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_7D_to_5D_int_c
     
@@ -31720,13 +33970,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(8),perm(8),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,8_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(8) :: s,spack,perm
+        integer(ilp),dimension(8),parameter :: dim_range = [(m,m=1_ilp,8_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8
+        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        complex(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:)
+        complex(sp),pointer :: apack(:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -31734,8 +33986,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 8)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 8)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',8,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -31753,6 +34007,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -31762,7 +34019,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -31784,10 +34056,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8),lda,work)
         end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_8D_to_6D_int_c
     
@@ -31805,13 +34078,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(9),perm(9),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,9_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(9) :: s,spack,perm
+        integer(ilp),dimension(9),parameter :: dim_range = [(m,m=1_ilp,9_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9
+        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        complex(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:)
+        complex(sp),pointer :: apack(:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -31819,8 +34094,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 9)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 9)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',9,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -31838,6 +34115,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -31847,7 +34127,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -31870,10 +34165,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9),lda,work)
         end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_9D_to_7D_int_c
     
@@ -31891,13 +34187,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(10),perm(10),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,10_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(10) :: s,spack,perm
+        integer(ilp),dimension(10),parameter :: dim_range = [(m,m=1_ilp,10_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10
+        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        complex(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:)
+        complex(sp),pointer :: apack(:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -31905,8 +34203,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 10)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 10)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',10,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -31924,6 +34224,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -31933,7 +34236,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -31958,10 +34277,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_10D_to_8D_int_c
     
@@ -31979,13 +34299,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(11),perm(11),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,11_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(11) :: s,spack,perm
+        integer(ilp),dimension(11),parameter :: dim_range = [(m,m=1_ilp,11_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11
+        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        complex(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:)
+        complex(sp),pointer :: apack(:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -31993,8 +34315,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 11)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 11)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',11,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -32012,6 +34336,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -32021,7 +34348,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10),1:spack(11)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -32047,10 +34390,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_11D_to_9D_int_c
     
@@ -32068,13 +34412,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(12),perm(12),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,12_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(12) :: s,spack,perm
+        integer(ilp),dimension(12),parameter :: dim_range = [(m,m=1_ilp,12_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12
+        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        complex(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:)
+        complex(sp),pointer :: apack(:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -32082,8 +34428,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 12)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 12)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',12,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -32101,6 +34449,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -32110,7 +34461,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10),1:spack(11),1:spack(12)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -32137,10 +34504,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_12D_to_10D_int_c
     
@@ -32158,13 +34526,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(13),perm(13),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,13_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(13) :: s,spack,perm
+        integer(ilp),dimension(13),parameter :: dim_range = [(m,m=1_ilp,13_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13
+        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        complex(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:)
+        complex(sp),pointer :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -32172,8 +34542,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 13)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 13)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',13,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -32191,6 +34563,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -32200,7 +34575,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10),1:spack(11),1:spack(12),1:spack(13)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -32228,10 +34619,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_13D_to_11D_int_c
     
@@ -32249,13 +34641,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(14),perm(14),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,14_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(14) :: s,spack,perm
+        integer(ilp),dimension(14),parameter :: dim_range = [(m,m=1_ilp,14_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14
+        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        complex(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        complex(sp),pointer :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -32263,8 +34657,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 14)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 14)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',14,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -32282,6 +34678,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -32291,7 +34690,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10),1:spack(11),1:spack(12),1:spack(13),1:spack(14)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -32320,10 +34735,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_14D_to_12D_int_c
     
@@ -32341,13 +34757,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(15),perm(15),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,15_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(15) :: s,spack,perm
+        integer(ilp),dimension(15),parameter :: dim_range = [(m,m=1_ilp,15_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15
+        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        complex(sp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        complex(sp),pointer :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -32355,8 +34773,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 15)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 15)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',15,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -32374,6 +34794,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -32383,7 +34806,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10),1:spack(11),1:spack(12),1:spack(13),1:spack(14),1:spack(15)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -32413,10 +34852,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_15D_to_13D_int_c
     
@@ -35189,13 +37629,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(3),perm(3),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,3_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(3) :: s,spack,perm
+        integer(ilp),dimension(3),parameter :: dim_range = [(m,m=1_ilp,3_ilp)]
         integer(ilp) :: j3
+        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        complex(dp),allocatable,target :: apack(:,:,:)
+        complex(dp),pointer :: apack(:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -35203,8 +37645,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 3)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 3)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',3,' matrix norm has invalid dim=',dims)
             allocate (nrm(0))
             call linalg_error_handling(err_,err)
@@ -35222,6 +37666,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -35231,7 +37678,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -35248,10 +37710,11 @@ module stdlib_linalg_norms
         ! LAPACK interface
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3) = &
-        lange(lange_task,m,n,apack(:,:,j3),m,work)
+        lange(lange_task,m,n,apack(:,:,j3),lda,work)
         end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_3D_to_1D_char_z
     
@@ -35269,13 +37732,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(4),perm(4),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,4_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(4) :: s,spack,perm
+        integer(ilp),dimension(4),parameter :: dim_range = [(m,m=1_ilp,4_ilp)]
         integer(ilp) :: j3,j4
+        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        complex(dp),allocatable,target :: apack(:,:,:,:)
+        complex(dp),pointer :: apack(:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -35283,8 +37748,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 4)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 4)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',4,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0))
             call linalg_error_handling(err_,err)
@@ -35302,6 +37769,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -35311,7 +37781,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -35329,10 +37814,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4),lda,work)
         end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_4D_to_2D_char_z
     
@@ -35350,13 +37836,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(5),perm(5),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,5_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(5) :: s,spack,perm
+        integer(ilp),dimension(5),parameter :: dim_range = [(m,m=1_ilp,5_ilp)]
         integer(ilp) :: j3,j4,j5
+        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        complex(dp),allocatable,target :: apack(:,:,:,:,:)
+        complex(dp),pointer :: apack(:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -35364,8 +37852,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 5)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 5)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',5,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0))
             call linalg_error_handling(err_,err)
@@ -35383,6 +37873,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -35392,7 +37885,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -35411,10 +37919,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5),lda,work)
         end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_5D_to_3D_char_z
     
@@ -35432,13 +37941,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(6),perm(6),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,6_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(6) :: s,spack,perm
+        integer(ilp),dimension(6),parameter :: dim_range = [(m,m=1_ilp,6_ilp)]
         integer(ilp) :: j3,j4,j5,j6
+        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        complex(dp),allocatable,target :: apack(:,:,:,:,:,:)
+        complex(dp),pointer :: apack(:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -35446,8 +37957,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 6)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 6)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',6,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -35465,6 +37978,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -35474,7 +37990,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -35494,10 +38025,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6),lda,work)
         end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_6D_to_4D_char_z
     
@@ -35515,13 +38047,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(7),perm(7),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,7_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(7) :: s,spack,perm
+        integer(ilp),dimension(7),parameter :: dim_range = [(m,m=1_ilp,7_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7
+        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        complex(dp),allocatable,target :: apack(:,:,:,:,:,:,:)
+        complex(dp),pointer :: apack(:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -35529,8 +38063,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 7)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 7)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',7,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -35548,6 +38084,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -35557,7 +38096,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -35578,10 +38132,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),lda,work)
         end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_7D_to_5D_char_z
     
@@ -35599,13 +38154,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(8),perm(8),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,8_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(8) :: s,spack,perm
+        integer(ilp),dimension(8),parameter :: dim_range = [(m,m=1_ilp,8_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8
+        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        complex(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:)
+        complex(dp),pointer :: apack(:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -35613,8 +38170,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 8)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 8)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',8,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -35632,6 +38191,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -35641,7 +38203,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -35663,10 +38240,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8),lda,work)
         end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_8D_to_6D_char_z
     
@@ -35684,13 +38262,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(9),perm(9),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,9_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(9) :: s,spack,perm
+        integer(ilp),dimension(9),parameter :: dim_range = [(m,m=1_ilp,9_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9
+        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        complex(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:)
+        complex(dp),pointer :: apack(:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -35698,8 +38278,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 9)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 9)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',9,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -35717,6 +38299,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -35726,7 +38311,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -35749,10 +38349,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9),lda,work)
         end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_9D_to_7D_char_z
     
@@ -35770,13 +38371,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(10),perm(10),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,10_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(10) :: s,spack,perm
+        integer(ilp),dimension(10),parameter :: dim_range = [(m,m=1_ilp,10_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10
+        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        complex(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:)
+        complex(dp),pointer :: apack(:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -35784,8 +38387,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 10)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 10)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',10,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -35803,6 +38408,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -35812,7 +38420,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -35837,10 +38461,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_10D_to_8D_char_z
     
@@ -35858,13 +38483,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(11),perm(11),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,11_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(11) :: s,spack,perm
+        integer(ilp),dimension(11),parameter :: dim_range = [(m,m=1_ilp,11_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11
+        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        complex(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:)
+        complex(dp),pointer :: apack(:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -35872,8 +38499,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 11)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 11)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',11,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -35891,6 +38520,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -35900,7 +38532,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10),1:spack(11)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -35926,10 +38574,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_11D_to_9D_char_z
     
@@ -35947,13 +38596,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(12),perm(12),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,12_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(12) :: s,spack,perm
+        integer(ilp),dimension(12),parameter :: dim_range = [(m,m=1_ilp,12_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12
+        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        complex(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:)
+        complex(dp),pointer :: apack(:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -35961,8 +38612,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 12)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 12)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',12,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -35980,6 +38633,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -35989,7 +38645,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10),1:spack(11),1:spack(12)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -36016,10 +38688,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_12D_to_10D_char_z
     
@@ -36037,13 +38710,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(13),perm(13),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,13_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(13) :: s,spack,perm
+        integer(ilp),dimension(13),parameter :: dim_range = [(m,m=1_ilp,13_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13
+        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        complex(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:)
+        complex(dp),pointer :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -36051,8 +38726,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 13)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 13)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',13,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -36070,6 +38747,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -36079,7 +38759,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10),1:spack(11),1:spack(12),1:spack(13)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -36107,10 +38803,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_13D_to_11D_char_z
     
@@ -36128,13 +38825,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(14),perm(14),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,14_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(14) :: s,spack,perm
+        integer(ilp),dimension(14),parameter :: dim_range = [(m,m=1_ilp,14_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14
+        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        complex(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        complex(dp),pointer :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -36142,8 +38841,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 14)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 14)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',14,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -36161,6 +38862,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -36170,7 +38874,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10),1:spack(11),1:spack(12),1:spack(13),1:spack(14)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -36199,10 +38919,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_14D_to_12D_char_z
     
@@ -36220,13 +38941,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(15),perm(15),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,15_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(15) :: s,spack,perm
+        integer(ilp),dimension(15),parameter :: dim_range = [(m,m=1_ilp,15_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15
+        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        complex(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        complex(dp),pointer :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -36234,8 +38957,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 15)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 15)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',15,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -36253,6 +38978,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -36262,7 +38990,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10),1:spack(11),1:spack(12),1:spack(13),1:spack(14),1:spack(15)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -36292,10 +39036,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_15D_to_13D_char_z
     
@@ -39068,13 +41813,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(3),perm(3),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,3_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(3) :: s,spack,perm
+        integer(ilp),dimension(3),parameter :: dim_range = [(m,m=1_ilp,3_ilp)]
         integer(ilp) :: j3
+        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        complex(dp),allocatable,target :: apack(:,:,:)
+        complex(dp),pointer :: apack(:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -39082,8 +41829,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 3)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 3)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',3,' matrix norm has invalid dim=',dims)
             allocate (nrm(0))
             call linalg_error_handling(err_,err)
@@ -39101,6 +41850,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -39110,7 +41862,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -39127,10 +41894,11 @@ module stdlib_linalg_norms
         ! LAPACK interface
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3) = &
-        lange(lange_task,m,n,apack(:,:,j3),m,work)
+        lange(lange_task,m,n,apack(:,:,j3),lda,work)
         end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_3D_to_1D_int_z
     
@@ -39148,13 +41916,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(4),perm(4),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,4_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(4) :: s,spack,perm
+        integer(ilp),dimension(4),parameter :: dim_range = [(m,m=1_ilp,4_ilp)]
         integer(ilp) :: j3,j4
+        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        complex(dp),allocatable,target :: apack(:,:,:,:)
+        complex(dp),pointer :: apack(:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -39162,8 +41932,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 4)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 4)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',4,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0))
             call linalg_error_handling(err_,err)
@@ -39181,6 +41953,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -39190,7 +41965,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -39208,10 +41998,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4),lda,work)
         end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_4D_to_2D_int_z
     
@@ -39229,13 +42020,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(5),perm(5),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,5_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(5) :: s,spack,perm
+        integer(ilp),dimension(5),parameter :: dim_range = [(m,m=1_ilp,5_ilp)]
         integer(ilp) :: j3,j4,j5
+        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        complex(dp),allocatable,target :: apack(:,:,:,:,:)
+        complex(dp),pointer :: apack(:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -39243,8 +42036,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 5)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 5)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',5,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0))
             call linalg_error_handling(err_,err)
@@ -39262,6 +42057,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -39271,7 +42069,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -39290,10 +42103,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5),lda,work)
         end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_5D_to_3D_int_z
     
@@ -39311,13 +42125,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(6),perm(6),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,6_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(6) :: s,spack,perm
+        integer(ilp),dimension(6),parameter :: dim_range = [(m,m=1_ilp,6_ilp)]
         integer(ilp) :: j3,j4,j5,j6
+        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        complex(dp),allocatable,target :: apack(:,:,:,:,:,:)
+        complex(dp),pointer :: apack(:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -39325,8 +42141,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 6)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 6)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',6,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -39344,6 +42162,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -39353,7 +42174,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -39373,10 +42209,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6),lda,work)
         end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_6D_to_4D_int_z
     
@@ -39394,13 +42231,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(7),perm(7),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,7_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(7) :: s,spack,perm
+        integer(ilp),dimension(7),parameter :: dim_range = [(m,m=1_ilp,7_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7
+        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        complex(dp),allocatable,target :: apack(:,:,:,:,:,:,:)
+        complex(dp),pointer :: apack(:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -39408,8 +42247,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 7)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 7)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',7,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -39427,6 +42268,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -39436,7 +42280,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -39457,10 +42316,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),lda,work)
         end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_7D_to_5D_int_z
     
@@ -39478,13 +42338,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(8),perm(8),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,8_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(8) :: s,spack,perm
+        integer(ilp),dimension(8),parameter :: dim_range = [(m,m=1_ilp,8_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8
+        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        complex(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:)
+        complex(dp),pointer :: apack(:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -39492,8 +42354,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 8)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 8)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',8,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -39511,6 +42375,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -39520,7 +42387,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -39542,10 +42424,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8),lda,work)
         end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_8D_to_6D_int_z
     
@@ -39563,13 +42446,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(9),perm(9),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,9_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(9) :: s,spack,perm
+        integer(ilp),dimension(9),parameter :: dim_range = [(m,m=1_ilp,9_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9
+        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        complex(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:)
+        complex(dp),pointer :: apack(:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -39577,8 +42462,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 9)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 9)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',9,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -39596,6 +42483,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -39605,7 +42495,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -39628,10 +42533,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9),lda,work)
         end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_9D_to_7D_int_z
     
@@ -39649,13 +42555,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(10),perm(10),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,10_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(10) :: s,spack,perm
+        integer(ilp),dimension(10),parameter :: dim_range = [(m,m=1_ilp,10_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10
+        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        complex(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:)
+        complex(dp),pointer :: apack(:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -39663,8 +42571,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 10)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 10)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',10,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -39682,6 +42592,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -39691,7 +42604,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -39716,10 +42645,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_10D_to_8D_int_z
     
@@ -39737,13 +42667,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(11),perm(11),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,11_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(11) :: s,spack,perm
+        integer(ilp),dimension(11),parameter :: dim_range = [(m,m=1_ilp,11_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11
+        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        complex(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:)
+        complex(dp),pointer :: apack(:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -39751,8 +42683,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 11)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 11)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',11,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -39770,6 +42704,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -39779,7 +42716,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10),1:spack(11)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -39805,10 +42758,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_11D_to_9D_int_z
     
@@ -39826,13 +42780,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(12),perm(12),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,12_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(12) :: s,spack,perm
+        integer(ilp),dimension(12),parameter :: dim_range = [(m,m=1_ilp,12_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12
+        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        complex(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:)
+        complex(dp),pointer :: apack(:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -39840,8 +42796,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 12)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 12)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',12,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -39859,6 +42817,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -39868,7 +42829,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10),1:spack(11),1:spack(12)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -39895,10 +42872,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_12D_to_10D_int_z
     
@@ -39916,13 +42894,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(13),perm(13),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,13_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(13) :: s,spack,perm
+        integer(ilp),dimension(13),parameter :: dim_range = [(m,m=1_ilp,13_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13
+        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        complex(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:)
+        complex(dp),pointer :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -39930,8 +42910,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 13)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 13)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',13,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -39949,6 +42931,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -39958,7 +42943,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10),1:spack(11),1:spack(12),1:spack(13)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -39986,10 +42987,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_13D_to_11D_int_z
     
@@ -40007,13 +43009,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(14),perm(14),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,14_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(14) :: s,spack,perm
+        integer(ilp),dimension(14),parameter :: dim_range = [(m,m=1_ilp,14_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14
+        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        complex(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        complex(dp),pointer :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -40021,8 +43025,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 14)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 14)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',14,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -40040,6 +43046,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -40049,7 +43058,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10),1:spack(11),1:spack(12),1:spack(13),1:spack(14)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -40078,10 +43103,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_14D_to_12D_int_z
     
@@ -40099,13 +43125,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(15),perm(15),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,15_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(15) :: s,spack,perm
+        integer(ilp),dimension(15),parameter :: dim_range = [(m,m=1_ilp,15_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15
+        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        complex(dp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        complex(dp),pointer :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -40113,8 +43141,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 15)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 15)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',15,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -40132,6 +43162,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -40141,7 +43174,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10),1:spack(11),1:spack(12),1:spack(13),1:spack(14),1:spack(15)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -40171,10 +43220,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_15D_to_13D_int_z
     
@@ -42947,13 +45997,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(3),perm(3),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,3_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(3) :: s,spack,perm
+        integer(ilp),dimension(3),parameter :: dim_range = [(m,m=1_ilp,3_ilp)]
         integer(ilp) :: j3
+        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        complex(qp),allocatable,target :: apack(:,:,:)
+        complex(qp),pointer :: apack(:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -42961,8 +46013,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 3)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 3)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',3,' matrix norm has invalid dim=',dims)
             allocate (nrm(0))
             call linalg_error_handling(err_,err)
@@ -42980,6 +46034,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -42989,7 +46046,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -43006,10 +46078,11 @@ module stdlib_linalg_norms
         ! LAPACK interface
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3) = &
-        lange(lange_task,m,n,apack(:,:,j3),m,work)
+        lange(lange_task,m,n,apack(:,:,j3),lda,work)
         end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_3D_to_1D_char_w
     
@@ -43027,13 +46100,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(4),perm(4),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,4_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(4) :: s,spack,perm
+        integer(ilp),dimension(4),parameter :: dim_range = [(m,m=1_ilp,4_ilp)]
         integer(ilp) :: j3,j4
+        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        complex(qp),allocatable,target :: apack(:,:,:,:)
+        complex(qp),pointer :: apack(:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -43041,8 +46116,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 4)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 4)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',4,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0))
             call linalg_error_handling(err_,err)
@@ -43060,6 +46137,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -43069,7 +46149,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -43087,10 +46182,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4),lda,work)
         end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_4D_to_2D_char_w
     
@@ -43108,13 +46204,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(5),perm(5),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,5_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(5) :: s,spack,perm
+        integer(ilp),dimension(5),parameter :: dim_range = [(m,m=1_ilp,5_ilp)]
         integer(ilp) :: j3,j4,j5
+        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        complex(qp),allocatable,target :: apack(:,:,:,:,:)
+        complex(qp),pointer :: apack(:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -43122,8 +46220,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 5)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 5)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',5,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0))
             call linalg_error_handling(err_,err)
@@ -43141,6 +46241,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -43150,7 +46253,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -43169,10 +46287,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5),lda,work)
         end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_5D_to_3D_char_w
     
@@ -43190,13 +46309,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(6),perm(6),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,6_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(6) :: s,spack,perm
+        integer(ilp),dimension(6),parameter :: dim_range = [(m,m=1_ilp,6_ilp)]
         integer(ilp) :: j3,j4,j5,j6
+        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        complex(qp),allocatable,target :: apack(:,:,:,:,:,:)
+        complex(qp),pointer :: apack(:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -43204,8 +46325,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 6)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 6)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',6,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -43223,6 +46346,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -43232,7 +46358,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -43252,10 +46393,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6),lda,work)
         end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_6D_to_4D_char_w
     
@@ -43273,13 +46415,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(7),perm(7),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,7_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(7) :: s,spack,perm
+        integer(ilp),dimension(7),parameter :: dim_range = [(m,m=1_ilp,7_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7
+        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        complex(qp),allocatable,target :: apack(:,:,:,:,:,:,:)
+        complex(qp),pointer :: apack(:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -43287,8 +46431,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 7)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 7)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',7,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -43306,6 +46452,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -43315,7 +46464,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -43336,10 +46500,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),lda,work)
         end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_7D_to_5D_char_w
     
@@ -43357,13 +46522,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(8),perm(8),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,8_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(8) :: s,spack,perm
+        integer(ilp),dimension(8),parameter :: dim_range = [(m,m=1_ilp,8_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8
+        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        complex(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:)
+        complex(qp),pointer :: apack(:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -43371,8 +46538,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 8)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 8)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',8,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -43390,6 +46559,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -43399,7 +46571,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -43421,10 +46608,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8),lda,work)
         end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_8D_to_6D_char_w
     
@@ -43442,13 +46630,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(9),perm(9),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,9_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(9) :: s,spack,perm
+        integer(ilp),dimension(9),parameter :: dim_range = [(m,m=1_ilp,9_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9
+        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        complex(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:)
+        complex(qp),pointer :: apack(:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -43456,8 +46646,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 9)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 9)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',9,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -43475,6 +46667,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -43484,7 +46679,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -43507,10 +46717,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9),lda,work)
         end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_9D_to_7D_char_w
     
@@ -43528,13 +46739,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(10),perm(10),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,10_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(10) :: s,spack,perm
+        integer(ilp),dimension(10),parameter :: dim_range = [(m,m=1_ilp,10_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10
+        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        complex(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:)
+        complex(qp),pointer :: apack(:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -43542,8 +46755,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 10)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 10)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',10,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -43561,6 +46776,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -43570,7 +46788,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -43595,10 +46829,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_10D_to_8D_char_w
     
@@ -43616,13 +46851,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(11),perm(11),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,11_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(11) :: s,spack,perm
+        integer(ilp),dimension(11),parameter :: dim_range = [(m,m=1_ilp,11_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11
+        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        complex(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:)
+        complex(qp),pointer :: apack(:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -43630,8 +46867,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 11)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 11)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',11,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -43649,6 +46888,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -43658,7 +46900,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10),1:spack(11)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -43684,10 +46942,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_11D_to_9D_char_w
     
@@ -43705,13 +46964,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(12),perm(12),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,12_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(12) :: s,spack,perm
+        integer(ilp),dimension(12),parameter :: dim_range = [(m,m=1_ilp,12_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12
+        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        complex(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:)
+        complex(qp),pointer :: apack(:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -43719,8 +46980,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 12)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 12)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',12,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -43738,6 +47001,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -43747,7 +47013,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10),1:spack(11),1:spack(12)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -43774,10 +47056,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_12D_to_10D_char_w
     
@@ -43795,13 +47078,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(13),perm(13),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,13_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(13) :: s,spack,perm
+        integer(ilp),dimension(13),parameter :: dim_range = [(m,m=1_ilp,13_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13
+        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        complex(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:)
+        complex(qp),pointer :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -43809,8 +47094,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 13)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 13)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',13,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -43828,6 +47115,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -43837,7 +47127,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10),1:spack(11),1:spack(12),1:spack(13)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -43865,10 +47171,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_13D_to_11D_char_w
     
@@ -43886,13 +47193,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(14),perm(14),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,14_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(14) :: s,spack,perm
+        integer(ilp),dimension(14),parameter :: dim_range = [(m,m=1_ilp,14_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14
+        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        complex(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        complex(qp),pointer :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -43900,8 +47209,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 14)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 14)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',14,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -43919,6 +47230,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -43928,7 +47242,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10),1:spack(11),1:spack(12),1:spack(13),1:spack(14)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -43957,10 +47287,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_14D_to_12D_char_w
     
@@ -43978,13 +47309,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(15),perm(15),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,15_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(15) :: s,spack,perm
+        integer(ilp),dimension(15),parameter :: dim_range = [(m,m=1_ilp,15_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15
+        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        complex(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        complex(qp),pointer :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -43992,8 +47325,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 15)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 15)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',15,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -44011,6 +47346,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -44020,7 +47358,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10),1:spack(11),1:spack(12),1:spack(13),1:spack(14),1:spack(15)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -44050,10 +47404,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_15D_to_13D_char_w
     
@@ -46826,13 +50181,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(3),perm(3),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,3_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(3) :: s,spack,perm
+        integer(ilp),dimension(3),parameter :: dim_range = [(m,m=1_ilp,3_ilp)]
         integer(ilp) :: j3
+        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        complex(qp),allocatable,target :: apack(:,:,:)
+        complex(qp),pointer :: apack(:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -46840,8 +50197,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 3)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 3)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',3,' matrix norm has invalid dim=',dims)
             allocate (nrm(0))
             call linalg_error_handling(err_,err)
@@ -46859,6 +50218,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -46868,7 +50230,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -46885,10 +50262,11 @@ module stdlib_linalg_norms
         ! LAPACK interface
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3) = &
-        lange(lange_task,m,n,apack(:,:,j3),m,work)
+        lange(lange_task,m,n,apack(:,:,j3),lda,work)
         end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_3D_to_1D_int_w
     
@@ -46906,13 +50284,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(4),perm(4),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,4_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(4) :: s,spack,perm
+        integer(ilp),dimension(4),parameter :: dim_range = [(m,m=1_ilp,4_ilp)]
         integer(ilp) :: j3,j4
+        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        complex(qp),allocatable,target :: apack(:,:,:,:)
+        complex(qp),pointer :: apack(:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -46920,8 +50300,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 4)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 4)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',4,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0))
             call linalg_error_handling(err_,err)
@@ -46939,6 +50321,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -46948,7 +50333,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -46966,10 +50366,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4),lda,work)
         end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_4D_to_2D_int_w
     
@@ -46987,13 +50388,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(5),perm(5),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,5_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(5) :: s,spack,perm
+        integer(ilp),dimension(5),parameter :: dim_range = [(m,m=1_ilp,5_ilp)]
         integer(ilp) :: j3,j4,j5
+        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        complex(qp),allocatable,target :: apack(:,:,:,:,:)
+        complex(qp),pointer :: apack(:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -47001,8 +50404,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 5)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 5)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',5,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0))
             call linalg_error_handling(err_,err)
@@ -47020,6 +50425,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -47029,7 +50437,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -47048,10 +50471,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5),lda,work)
         end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_5D_to_3D_int_w
     
@@ -47069,13 +50493,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(6),perm(6),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,6_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(6) :: s,spack,perm
+        integer(ilp),dimension(6),parameter :: dim_range = [(m,m=1_ilp,6_ilp)]
         integer(ilp) :: j3,j4,j5,j6
+        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        complex(qp),allocatable,target :: apack(:,:,:,:,:,:)
+        complex(qp),pointer :: apack(:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -47083,8 +50509,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 6)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 6)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',6,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -47102,6 +50530,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -47111,7 +50542,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -47131,10 +50577,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6),lda,work)
         end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_6D_to_4D_int_w
     
@@ -47152,13 +50599,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(7),perm(7),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,7_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(7) :: s,spack,perm
+        integer(ilp),dimension(7),parameter :: dim_range = [(m,m=1_ilp,7_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7
+        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        complex(qp),allocatable,target :: apack(:,:,:,:,:,:,:)
+        complex(qp),pointer :: apack(:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -47166,8 +50615,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 7)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 7)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',7,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -47185,6 +50636,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -47194,7 +50648,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -47215,10 +50684,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),lda,work)
         end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_7D_to_5D_int_w
     
@@ -47236,13 +50706,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(8),perm(8),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,8_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(8) :: s,spack,perm
+        integer(ilp),dimension(8),parameter :: dim_range = [(m,m=1_ilp,8_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8
+        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        complex(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:)
+        complex(qp),pointer :: apack(:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -47250,8 +50722,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 8)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 8)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',8,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -47269,6 +50743,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -47278,7 +50755,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -47300,10 +50792,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8),lda,work)
         end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_8D_to_6D_int_w
     
@@ -47321,13 +50814,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(9),perm(9),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,9_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(9) :: s,spack,perm
+        integer(ilp),dimension(9),parameter :: dim_range = [(m,m=1_ilp,9_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9
+        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        complex(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:)
+        complex(qp),pointer :: apack(:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -47335,8 +50830,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 9)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 9)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',9,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -47354,6 +50851,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -47363,7 +50863,22 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -47386,10 +50901,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9),lda,work)
         end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_9D_to_7D_int_w
     
@@ -47407,13 +50923,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(10),perm(10),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,10_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(10) :: s,spack,perm
+        integer(ilp),dimension(10),parameter :: dim_range = [(m,m=1_ilp,10_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10
+        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        complex(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:)
+        complex(qp),pointer :: apack(:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -47421,8 +50939,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 10)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 10)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',10,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -47440,6 +50960,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -47449,7 +50972,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -47474,10 +51013,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_10D_to_8D_int_w
     
@@ -47495,13 +51035,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(11),perm(11),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,11_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(11) :: s,spack,perm
+        integer(ilp),dimension(11),parameter :: dim_range = [(m,m=1_ilp,11_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11
+        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        complex(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:)
+        complex(qp),pointer :: apack(:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -47509,8 +51051,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 11)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 11)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',11,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -47528,6 +51072,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -47537,7 +51084,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10),1:spack(11)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -47563,10 +51126,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_11D_to_9D_int_w
     
@@ -47584,13 +51148,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(12),perm(12),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,12_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(12) :: s,spack,perm
+        integer(ilp),dimension(12),parameter :: dim_range = [(m,m=1_ilp,12_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12
+        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        complex(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:)
+        complex(qp),pointer :: apack(:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -47598,8 +51164,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 12)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 12)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',12,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -47617,6 +51185,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -47626,7 +51197,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10),1:spack(11),1:spack(12)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -47653,10 +51240,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_12D_to_10D_int_w
     
@@ -47674,13 +51262,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(13),perm(13),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,13_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(13) :: s,spack,perm
+        integer(ilp),dimension(13),parameter :: dim_range = [(m,m=1_ilp,13_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13
+        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        complex(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:)
+        complex(qp),pointer :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -47688,8 +51278,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 13)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 13)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',13,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -47707,6 +51299,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -47716,7 +51311,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10),1:spack(11),1:spack(12),1:spack(13)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -47744,10 +51355,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_13D_to_11D_int_w
     
@@ -47765,13 +51377,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(14),perm(14),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,14_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(14) :: s,spack,perm
+        integer(ilp),dimension(14),parameter :: dim_range = [(m,m=1_ilp,14_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14
+        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        complex(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        complex(qp),pointer :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -47779,8 +51393,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 14)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 14)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',14,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -47798,6 +51414,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -47807,7 +51426,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10),1:spack(11),1:spack(12),1:spack(13),1:spack(14)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -47836,10 +51471,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_14D_to_12D_int_w
     
@@ -47857,13 +51493,15 @@ module stdlib_linalg_norms
         type(linalg_state),intent(out),optional :: err
         
         type(linalg_state) :: err_
-        integer(ilp) :: m,n,lda,ldn,dims(2),s(15),perm(15),norm_request
-        integer(ilp),parameter :: dim_range(*) = [(m,m=1_ilp,15_ilp)]
+        integer(ilp) :: j,m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(15) :: s,spack,perm
+        integer(ilp),dimension(15),parameter :: dim_range = [(m,m=1_ilp,15_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15
+        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        complex(qp),allocatable,target :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+        complex(qp),pointer :: apack(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -47871,8 +51509,10 @@ module stdlib_linalg_norms
         else
            dims = [1,2]
         end if
+        
+        nullify (apack)
 
-        if (.not. all(dims > 0 .and. dims <= 15)) then
+        if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 15)) then
             err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',15,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
@@ -47890,6 +51530,9 @@ module stdlib_linalg_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
+        ! Check if input column data is contiguous
+        contiguous_data = dims(1) == 1
+        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
@@ -47899,7 +51542,23 @@ module stdlib_linalg_norms
         perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
 
         ! Get packed data with norm dimensions as 1:2
-        apack = reshape(a,shape=s(perm),order=perm)
+        if (contiguous_data) then
+            
+            ! Collapse everything before the 1st dimension as apack's dim #1
+            lda = product(s(1:dims(2) - 1))
+            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            
+            ! Reshape without moving data
+            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
+                & 1:spack(10),1:spack(11),1:spack(12),1:spack(13),1:spack(14),1:spack(15)) => a
+            
+        else
+            
+            lda = m
+            spack = s(perm)
+            apack = reshape(a,shape=spack,order=perm)
+            
+        end if
             
         err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
         call linalg_error_handling(err_,err)
@@ -47929,10 +51588,11 @@ module stdlib_linalg_norms
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
         nrm(j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15),m,work)
+        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15),lda,work)
         end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
+        if (.not. contiguous_data) deallocate (apack)
         
     end function matrix_norm_15D_to_13D_int_w
     
