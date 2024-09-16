@@ -4201,31 +4201,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -4234,6 +4228,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j3 = lbound(apack,3),ubound(apack,3)
@@ -4304,31 +4300,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -4337,6 +4327,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j4 = lbound(apack,4),ubound(apack,4)
@@ -4408,31 +4400,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -4441,6 +4427,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j5 = lbound(apack,5),ubound(apack,5)
@@ -4513,31 +4501,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -4546,6 +4528,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j6 = lbound(apack,6),ubound(apack,6)
@@ -4619,31 +4603,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -4652,6 +4630,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j7 = lbound(apack,7),ubound(apack,7)
@@ -4726,31 +4706,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -4759,6 +4733,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j8 = lbound(apack,8),ubound(apack,8)
@@ -4834,31 +4810,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -4867,6 +4837,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j9 = lbound(apack,9),ubound(apack,9)
@@ -4943,16 +4915,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -4960,15 +4928,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -4978,6 +4944,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j10 = lbound(apack,10),ubound(apack,10)
@@ -5055,16 +5023,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -5072,15 +5036,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -5090,6 +5052,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10),size(apack,11)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j11 = lbound(apack,11),ubound(apack,11)
@@ -5168,16 +5132,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -5185,15 +5145,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -5203,6 +5161,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10),size(apack,11),size(apack,12)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j12 = lbound(apack,12),ubound(apack,12)
@@ -5282,16 +5242,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -5299,15 +5255,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -5317,6 +5271,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10),size(apack,11),size(apack,12),size(apack,13)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j13 = lbound(apack,13),ubound(apack,13)
@@ -5397,16 +5353,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -5414,15 +5366,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -5432,6 +5382,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10),size(apack,11),size(apack,12),size(apack,13),size(apack,14)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j14 = lbound(apack,14),ubound(apack,14)
@@ -5513,16 +5465,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -5530,15 +5478,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -5548,6 +5494,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10),size(apack,11),size(apack,12),size(apack,13),size(apack,14),size(apack,15)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j15 = lbound(apack,15),ubound(apack,15)
@@ -8385,31 +8333,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -8418,6 +8360,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j3 = lbound(apack,3),ubound(apack,3)
@@ -8488,31 +8432,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -8521,6 +8459,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j4 = lbound(apack,4),ubound(apack,4)
@@ -8592,31 +8532,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -8625,6 +8559,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j5 = lbound(apack,5),ubound(apack,5)
@@ -8697,31 +8633,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -8730,6 +8660,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j6 = lbound(apack,6),ubound(apack,6)
@@ -8803,31 +8735,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -8836,6 +8762,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j7 = lbound(apack,7),ubound(apack,7)
@@ -8910,31 +8838,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -8943,6 +8865,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j8 = lbound(apack,8),ubound(apack,8)
@@ -9018,31 +8942,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -9051,6 +8969,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j9 = lbound(apack,9),ubound(apack,9)
@@ -9127,16 +9047,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -9144,15 +9060,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -9162,6 +9076,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j10 = lbound(apack,10),ubound(apack,10)
@@ -9239,16 +9155,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -9256,15 +9168,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -9274,6 +9184,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10),size(apack,11)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j11 = lbound(apack,11),ubound(apack,11)
@@ -9352,16 +9264,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -9369,15 +9277,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -9387,6 +9293,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10),size(apack,11),size(apack,12)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j12 = lbound(apack,12),ubound(apack,12)
@@ -9466,16 +9374,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -9483,15 +9387,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -9501,6 +9403,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10),size(apack,11),size(apack,12),size(apack,13)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j13 = lbound(apack,13),ubound(apack,13)
@@ -9581,16 +9485,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -9598,15 +9498,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -9616,6 +9514,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10),size(apack,11),size(apack,12),size(apack,13),size(apack,14)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j14 = lbound(apack,14),ubound(apack,14)
@@ -9697,16 +9597,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -9714,15 +9610,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -9732,6 +9626,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10),size(apack,11),size(apack,12),size(apack,13),size(apack,14),size(apack,15)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j15 = lbound(apack,15),ubound(apack,15)
@@ -12569,31 +12465,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -12602,6 +12492,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j3 = lbound(apack,3),ubound(apack,3)
@@ -12672,31 +12564,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -12705,6 +12591,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j4 = lbound(apack,4),ubound(apack,4)
@@ -12776,31 +12664,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -12809,6 +12691,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j5 = lbound(apack,5),ubound(apack,5)
@@ -12881,31 +12765,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -12914,6 +12792,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j6 = lbound(apack,6),ubound(apack,6)
@@ -12987,31 +12867,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -13020,6 +12894,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j7 = lbound(apack,7),ubound(apack,7)
@@ -13094,31 +12970,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -13127,6 +12997,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j8 = lbound(apack,8),ubound(apack,8)
@@ -13202,31 +13074,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -13235,6 +13101,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j9 = lbound(apack,9),ubound(apack,9)
@@ -13311,16 +13179,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -13328,15 +13192,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -13346,6 +13208,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j10 = lbound(apack,10),ubound(apack,10)
@@ -13423,16 +13287,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -13440,15 +13300,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -13458,6 +13316,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10),size(apack,11)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j11 = lbound(apack,11),ubound(apack,11)
@@ -13536,16 +13396,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -13553,15 +13409,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -13571,6 +13425,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10),size(apack,11),size(apack,12)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j12 = lbound(apack,12),ubound(apack,12)
@@ -13650,16 +13506,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -13667,15 +13519,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -13685,6 +13535,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10),size(apack,11),size(apack,12),size(apack,13)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j13 = lbound(apack,13),ubound(apack,13)
@@ -13765,16 +13617,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -13782,15 +13630,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -13800,6 +13646,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10),size(apack,11),size(apack,12),size(apack,13),size(apack,14)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j14 = lbound(apack,14),ubound(apack,14)
@@ -13881,16 +13729,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -13898,15 +13742,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -13916,6 +13758,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10),size(apack,11),size(apack,12),size(apack,13),size(apack,14),size(apack,15)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j15 = lbound(apack,15),ubound(apack,15)
@@ -16753,31 +16597,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -16786,6 +16624,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j3 = lbound(apack,3),ubound(apack,3)
@@ -16856,31 +16696,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -16889,6 +16723,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j4 = lbound(apack,4),ubound(apack,4)
@@ -16960,31 +16796,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -16993,6 +16823,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j5 = lbound(apack,5),ubound(apack,5)
@@ -17065,31 +16897,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -17098,6 +16924,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j6 = lbound(apack,6),ubound(apack,6)
@@ -17171,31 +16999,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -17204,6 +17026,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j7 = lbound(apack,7),ubound(apack,7)
@@ -17278,31 +17102,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -17311,6 +17129,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j8 = lbound(apack,8),ubound(apack,8)
@@ -17386,31 +17206,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -17419,6 +17233,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j9 = lbound(apack,9),ubound(apack,9)
@@ -17495,16 +17311,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -17512,15 +17324,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -17530,6 +17340,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j10 = lbound(apack,10),ubound(apack,10)
@@ -17607,16 +17419,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -17624,15 +17432,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -17642,6 +17448,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10),size(apack,11)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j11 = lbound(apack,11),ubound(apack,11)
@@ -17720,16 +17528,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -17737,15 +17541,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -17755,6 +17557,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10),size(apack,11),size(apack,12)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j12 = lbound(apack,12),ubound(apack,12)
@@ -17834,16 +17638,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -17851,15 +17651,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -17869,6 +17667,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10),size(apack,11),size(apack,12),size(apack,13)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j13 = lbound(apack,13),ubound(apack,13)
@@ -17949,16 +17749,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -17966,15 +17762,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -17984,6 +17778,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10),size(apack,11),size(apack,12),size(apack,13),size(apack,14)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j14 = lbound(apack,14),ubound(apack,14)
@@ -18065,16 +17861,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -18082,15 +17874,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -18100,6 +17890,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10),size(apack,11),size(apack,12),size(apack,13),size(apack,14),size(apack,15)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j15 = lbound(apack,15),ubound(apack,15)
@@ -20937,31 +20729,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -20970,6 +20756,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j3 = lbound(apack,3),ubound(apack,3)
@@ -21040,31 +20828,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -21073,6 +20855,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j4 = lbound(apack,4),ubound(apack,4)
@@ -21144,31 +20928,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -21177,6 +20955,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j5 = lbound(apack,5),ubound(apack,5)
@@ -21249,31 +21029,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -21282,6 +21056,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j6 = lbound(apack,6),ubound(apack,6)
@@ -21355,31 +21131,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -21388,6 +21158,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j7 = lbound(apack,7),ubound(apack,7)
@@ -21462,31 +21234,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -21495,6 +21261,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j8 = lbound(apack,8),ubound(apack,8)
@@ -21570,31 +21338,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -21603,6 +21365,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j9 = lbound(apack,9),ubound(apack,9)
@@ -21679,16 +21443,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -21696,15 +21456,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -21714,6 +21472,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j10 = lbound(apack,10),ubound(apack,10)
@@ -21791,16 +21551,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -21808,15 +21564,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -21826,6 +21580,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10),size(apack,11)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j11 = lbound(apack,11),ubound(apack,11)
@@ -21904,16 +21660,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -21921,15 +21673,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -21939,6 +21689,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10),size(apack,11),size(apack,12)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j12 = lbound(apack,12),ubound(apack,12)
@@ -22018,16 +21770,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -22035,15 +21783,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -22053,6 +21799,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10),size(apack,11),size(apack,12),size(apack,13)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j13 = lbound(apack,13),ubound(apack,13)
@@ -22133,16 +21881,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -22150,15 +21894,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -22168,6 +21910,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10),size(apack,11),size(apack,12),size(apack,13),size(apack,14)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j14 = lbound(apack,14),ubound(apack,14)
@@ -22249,16 +21993,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -22266,15 +22006,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -22284,6 +22022,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10),size(apack,11),size(apack,12),size(apack,13),size(apack,14),size(apack,15)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j15 = lbound(apack,15),ubound(apack,15)
@@ -25121,31 +24861,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -25154,6 +24888,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j3 = lbound(apack,3),ubound(apack,3)
@@ -25224,31 +24960,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -25257,6 +24987,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j4 = lbound(apack,4),ubound(apack,4)
@@ -25328,31 +25060,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -25361,6 +25087,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j5 = lbound(apack,5),ubound(apack,5)
@@ -25433,31 +25161,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -25466,6 +25188,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j6 = lbound(apack,6),ubound(apack,6)
@@ -25539,31 +25263,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -25572,6 +25290,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j7 = lbound(apack,7),ubound(apack,7)
@@ -25646,31 +25366,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -25679,6 +25393,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j8 = lbound(apack,8),ubound(apack,8)
@@ -25754,31 +25470,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -25787,6 +25497,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j9 = lbound(apack,9),ubound(apack,9)
@@ -25863,16 +25575,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -25880,15 +25588,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -25898,6 +25604,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j10 = lbound(apack,10),ubound(apack,10)
@@ -25975,16 +25683,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -25992,15 +25696,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -26010,6 +25712,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10),size(apack,11)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j11 = lbound(apack,11),ubound(apack,11)
@@ -26088,16 +25792,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -26105,15 +25805,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -26123,6 +25821,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10),size(apack,11),size(apack,12)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j12 = lbound(apack,12),ubound(apack,12)
@@ -26202,16 +25902,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -26219,15 +25915,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -26237,6 +25931,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10),size(apack,11),size(apack,12),size(apack,13)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j13 = lbound(apack,13),ubound(apack,13)
@@ -26317,16 +26013,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -26334,15 +26026,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -26352,6 +26042,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10),size(apack,11),size(apack,12),size(apack,13),size(apack,14)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j14 = lbound(apack,14),ubound(apack,14)
@@ -26433,16 +26125,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -26450,15 +26138,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -26468,6 +26154,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10),size(apack,11),size(apack,12),size(apack,13),size(apack,14),size(apack,15)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j15 = lbound(apack,15),ubound(apack,15)
@@ -29305,31 +28993,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -29338,6 +29020,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j3 = lbound(apack,3),ubound(apack,3)
@@ -29408,31 +29092,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -29441,6 +29119,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j4 = lbound(apack,4),ubound(apack,4)
@@ -29512,31 +29192,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -29545,6 +29219,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j5 = lbound(apack,5),ubound(apack,5)
@@ -29617,31 +29293,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -29650,6 +29320,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j6 = lbound(apack,6),ubound(apack,6)
@@ -29723,31 +29395,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -29756,6 +29422,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j7 = lbound(apack,7),ubound(apack,7)
@@ -29830,31 +29498,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -29863,6 +29525,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j8 = lbound(apack,8),ubound(apack,8)
@@ -29938,31 +29602,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -29971,6 +29629,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j9 = lbound(apack,9),ubound(apack,9)
@@ -30047,16 +29707,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -30064,15 +29720,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -30082,6 +29736,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j10 = lbound(apack,10),ubound(apack,10)
@@ -30159,16 +29815,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -30176,15 +29828,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -30194,6 +29844,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10),size(apack,11)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j11 = lbound(apack,11),ubound(apack,11)
@@ -30272,16 +29924,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -30289,15 +29937,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -30307,6 +29953,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10),size(apack,11),size(apack,12)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j12 = lbound(apack,12),ubound(apack,12)
@@ -30386,16 +30034,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -30403,15 +30047,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -30421,6 +30063,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10),size(apack,11),size(apack,12),size(apack,13)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j13 = lbound(apack,13),ubound(apack,13)
@@ -30501,16 +30145,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -30518,15 +30158,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -30536,6 +30174,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10),size(apack,11),size(apack,12),size(apack,13),size(apack,14)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j14 = lbound(apack,14),ubound(apack,14)
@@ -30617,16 +30257,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -30634,15 +30270,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -30652,6 +30286,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10),size(apack,11),size(apack,12),size(apack,13),size(apack,14),size(apack,15)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j15 = lbound(apack,15),ubound(apack,15)
@@ -33489,31 +33125,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -33522,6 +33152,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j3 = lbound(apack,3),ubound(apack,3)
@@ -33592,31 +33224,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -33625,6 +33251,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j4 = lbound(apack,4),ubound(apack,4)
@@ -33696,31 +33324,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -33729,6 +33351,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j5 = lbound(apack,5),ubound(apack,5)
@@ -33801,31 +33425,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -33834,6 +33452,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j6 = lbound(apack,6),ubound(apack,6)
@@ -33907,31 +33527,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -33940,6 +33554,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j7 = lbound(apack,7),ubound(apack,7)
@@ -34014,31 +33630,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -34047,6 +33657,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j8 = lbound(apack,8),ubound(apack,8)
@@ -34122,31 +33734,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -34155,6 +33761,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j9 = lbound(apack,9),ubound(apack,9)
@@ -34231,16 +33839,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -34248,15 +33852,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -34266,6 +33868,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j10 = lbound(apack,10),ubound(apack,10)
@@ -34343,16 +33947,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -34360,15 +33960,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -34378,6 +33976,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10),size(apack,11)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j11 = lbound(apack,11),ubound(apack,11)
@@ -34456,16 +34056,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -34473,15 +34069,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -34491,6 +34085,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10),size(apack,11),size(apack,12)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j12 = lbound(apack,12),ubound(apack,12)
@@ -34570,16 +34166,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -34587,15 +34179,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -34605,6 +34195,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10),size(apack,11),size(apack,12),size(apack,13)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j13 = lbound(apack,13),ubound(apack,13)
@@ -34685,16 +34277,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -34702,15 +34290,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -34720,6 +34306,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10),size(apack,11),size(apack,12),size(apack,13),size(apack,14)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j14 = lbound(apack,14),ubound(apack,14)
@@ -34801,16 +34389,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -34818,15 +34402,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -34836,6 +34418,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10),size(apack,11),size(apack,12),size(apack,13),size(apack,14),size(apack,15)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j15 = lbound(apack,15),ubound(apack,15)
@@ -37673,31 +37257,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -37706,6 +37284,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j3 = lbound(apack,3),ubound(apack,3)
@@ -37776,31 +37356,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -37809,6 +37383,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j4 = lbound(apack,4),ubound(apack,4)
@@ -37880,31 +37456,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -37913,6 +37483,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j5 = lbound(apack,5),ubound(apack,5)
@@ -37985,31 +37557,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -38018,6 +37584,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j6 = lbound(apack,6),ubound(apack,6)
@@ -38091,31 +37659,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -38124,6 +37686,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j7 = lbound(apack,7),ubound(apack,7)
@@ -38198,31 +37762,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -38231,6 +37789,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j8 = lbound(apack,8),ubound(apack,8)
@@ -38306,31 +37866,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -38339,6 +37893,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j9 = lbound(apack,9),ubound(apack,9)
@@ -38415,16 +37971,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -38432,15 +37984,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -38450,6 +38000,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j10 = lbound(apack,10),ubound(apack,10)
@@ -38527,16 +38079,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -38544,15 +38092,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -38562,6 +38108,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10),size(apack,11)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j11 = lbound(apack,11),ubound(apack,11)
@@ -38640,16 +38188,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -38657,15 +38201,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -38675,6 +38217,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10),size(apack,11),size(apack,12)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j12 = lbound(apack,12),ubound(apack,12)
@@ -38754,16 +38298,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -38771,15 +38311,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -38789,6 +38327,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10),size(apack,11),size(apack,12),size(apack,13)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j13 = lbound(apack,13),ubound(apack,13)
@@ -38869,16 +38409,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -38886,15 +38422,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -38904,6 +38438,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10),size(apack,11),size(apack,12),size(apack,13),size(apack,14)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j14 = lbound(apack,14),ubound(apack,14)
@@ -38985,16 +38521,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -39002,15 +38534,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -39020,6 +38550,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10),size(apack,11),size(apack,12),size(apack,13),size(apack,14),size(apack,15)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j15 = lbound(apack,15),ubound(apack,15)
@@ -41857,31 +41389,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -41890,6 +41416,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j3 = lbound(apack,3),ubound(apack,3)
@@ -41960,31 +41488,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -41993,6 +41515,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j4 = lbound(apack,4),ubound(apack,4)
@@ -42064,31 +41588,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -42097,6 +41615,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j5 = lbound(apack,5),ubound(apack,5)
@@ -42169,31 +41689,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -42202,6 +41716,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j6 = lbound(apack,6),ubound(apack,6)
@@ -42275,31 +41791,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -42308,6 +41818,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j7 = lbound(apack,7),ubound(apack,7)
@@ -42382,31 +41894,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -42415,6 +41921,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j8 = lbound(apack,8),ubound(apack,8)
@@ -42490,31 +41998,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -42523,6 +42025,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j9 = lbound(apack,9),ubound(apack,9)
@@ -42599,16 +42103,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -42616,15 +42116,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -42634,6 +42132,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j10 = lbound(apack,10),ubound(apack,10)
@@ -42711,16 +42211,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -42728,15 +42224,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -42746,6 +42240,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10),size(apack,11)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j11 = lbound(apack,11),ubound(apack,11)
@@ -42824,16 +42320,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -42841,15 +42333,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -42859,6 +42349,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10),size(apack,11),size(apack,12)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j12 = lbound(apack,12),ubound(apack,12)
@@ -42938,16 +42430,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -42955,15 +42443,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -42973,6 +42459,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10),size(apack,11),size(apack,12),size(apack,13)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j13 = lbound(apack,13),ubound(apack,13)
@@ -43053,16 +42541,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -43070,15 +42554,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -43088,6 +42570,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10),size(apack,11),size(apack,12),size(apack,13),size(apack,14)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j14 = lbound(apack,14),ubound(apack,14)
@@ -43169,16 +42653,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -43186,15 +42666,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -43204,6 +42682,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10),size(apack,11),size(apack,12),size(apack,13),size(apack,14),size(apack,15)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j15 = lbound(apack,15),ubound(apack,15)
@@ -46041,31 +45521,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -46074,6 +45548,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j3 = lbound(apack,3),ubound(apack,3)
@@ -46144,31 +45620,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -46177,6 +45647,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j4 = lbound(apack,4),ubound(apack,4)
@@ -46248,31 +45720,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -46281,6 +45747,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j5 = lbound(apack,5),ubound(apack,5)
@@ -46353,31 +45821,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -46386,6 +45848,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j6 = lbound(apack,6),ubound(apack,6)
@@ -46459,31 +45923,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -46492,6 +45950,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j7 = lbound(apack,7),ubound(apack,7)
@@ -46566,31 +46026,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -46599,6 +46053,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j8 = lbound(apack,8),ubound(apack,8)
@@ -46674,31 +46130,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -46707,6 +46157,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j9 = lbound(apack,9),ubound(apack,9)
@@ -46783,16 +46235,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -46800,15 +46248,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -46818,6 +46264,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j10 = lbound(apack,10),ubound(apack,10)
@@ -46895,16 +46343,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -46912,15 +46356,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -46930,6 +46372,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10),size(apack,11)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j11 = lbound(apack,11),ubound(apack,11)
@@ -47008,16 +46452,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -47025,15 +46465,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -47043,6 +46481,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10),size(apack,11),size(apack,12)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j12 = lbound(apack,12),ubound(apack,12)
@@ -47122,16 +46562,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -47139,15 +46575,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -47157,6 +46591,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10),size(apack,11),size(apack,12),size(apack,13)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j13 = lbound(apack,13),ubound(apack,13)
@@ -47237,16 +46673,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -47254,15 +46686,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -47272,6 +46702,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10),size(apack,11),size(apack,12),size(apack,13),size(apack,14)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j14 = lbound(apack,14),ubound(apack,14)
@@ -47353,16 +46785,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -47370,15 +46798,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -47388,6 +46814,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10),size(apack,11),size(apack,12),size(apack,13),size(apack,14),size(apack,15)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j15 = lbound(apack,15),ubound(apack,15)
@@ -50225,31 +49653,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -50258,6 +49680,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j3 = lbound(apack,3),ubound(apack,3)
@@ -50328,31 +49752,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -50361,6 +49779,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j4 = lbound(apack,4),ubound(apack,4)
@@ -50432,31 +49852,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -50465,6 +49879,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j5 = lbound(apack,5),ubound(apack,5)
@@ -50537,31 +49953,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -50570,6 +49980,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j6 = lbound(apack,6),ubound(apack,6)
@@ -50643,31 +50055,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -50676,6 +50082,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j7 = lbound(apack,7),ubound(apack,7)
@@ -50750,31 +50158,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -50783,6 +50185,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j8 = lbound(apack,8),ubound(apack,8)
@@ -50858,31 +50262,25 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9)) => a
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -50891,6 +50289,8 @@ module stdlib_linalg_norms
         
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j9 = lbound(apack,9),ubound(apack,9)
@@ -50967,16 +50367,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -50984,15 +50380,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -51002,6 +50396,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j10 = lbound(apack,10),ubound(apack,10)
@@ -51079,16 +50475,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -51096,15 +50488,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -51114,6 +50504,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10),size(apack,11)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j11 = lbound(apack,11),ubound(apack,11)
@@ -51192,16 +50584,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -51209,15 +50597,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -51227,6 +50613,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10),size(apack,11),size(apack,12)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j12 = lbound(apack,12),ubound(apack,12)
@@ -51306,16 +50694,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -51323,15 +50707,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -51341,6 +50723,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10),size(apack,11),size(apack,12),size(apack,13)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j13 = lbound(apack,13),ubound(apack,13)
@@ -51421,16 +50805,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -51438,15 +50818,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -51456,6 +50834,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10),size(apack,11),size(apack,12),size(apack,13),size(apack,14)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j14 = lbound(apack,14),ubound(apack,14)
@@ -51537,16 +50917,12 @@ module stdlib_linalg_norms
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Dimension permutations to map dims(1),dims(2) => 1:2
-        perm(1:2) = dims ! packed data for many *LANGE calls
-        perm(3:) = pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))
-
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
             ! Collapse everything before the 1st dimension as apack's dim #1
-            lda = product(s(1:dims(2) - 1))
-            spack = [lda,dims(2),s(dims(2) + 1:), (1_ilp,j=1,dims(2) - 2)]
+            ! Set size==1 for all unused trailing dimensions
+            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -51554,15 +50930,13 @@ module stdlib_linalg_norms
             
         else
             
-            lda = m
+            ! Dimension permutations to map dims(1),dims(2) => 1:2
+            perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
             spack = s(perm)
             apack = reshape(a,shape=spack,order=perm)
             
         end if
             
-        err_ = linalg_state(this,LINALG_VALUE_ERROR,'N-D matrix norm is not implemented');
-        call linalg_error_handling(err_,err)
-        
         if (lange_task == LANGE_NORM_INF) then
             allocate (work(m))
         else
@@ -51572,6 +50946,8 @@ module stdlib_linalg_norms
         ! Allocate norm
         allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7),size(apack,8),size(apack,9),&
             & size(apack,10),size(apack,11),size(apack,12),size(apack,13),size(apack,14),size(apack,15)))
+        
+        lda = size(apack,dim=1,kind=ilp)
         
         ! LAPACK interface
         do j15 = lbound(apack,15),ubound(apack,15)
