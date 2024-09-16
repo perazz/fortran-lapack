@@ -593,8 +593,9 @@ module stdlib_linalg_norms
         if (contiguous_data) then 
             
             ! Collapse everything before the 1st dimension as apack's dim #1
+            ! Set size==1 for all unused trailing dimensions
             lda    = product(s(1:dims(2)-1))
-            spack  = [lda,dims(2),s(dims(2)+1:),(1_ilp,j=1,dims(2)-2)]
+            spack  = [lda,s(dims(2):),(1_ilp,j=1,dims(2)-2)]
             
             ! Reshape without moving data
             apack${shape_from_array_data('spack',rank)}$ => a
