@@ -594,7 +594,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions            
-            spack  = [product(s(1:dims(2)-1)),s(dims(2):),(1_ilp,j=1,dims(2)-2)]
+            spack  = [product(s(:dims(2)-1)),s(dims(2):),(1_ilp,j=1,dims(2)-2)]
             
             ! Reshape without moving data
             apack${shape_from_array_data('spack',rank)}$ => a
