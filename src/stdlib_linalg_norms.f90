@@ -4206,7 +4206,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3)) => a
@@ -4305,7 +4305,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4)) => a
@@ -4405,7 +4405,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5)) => a
@@ -4506,7 +4506,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6)) => a
@@ -4608,7 +4608,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7)) => a
@@ -4711,7 +4711,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8)) => a
@@ -4815,7 +4815,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9)) => a
@@ -4920,7 +4920,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -5028,7 +5028,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -5137,7 +5137,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -5247,7 +5247,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -5358,7 +5358,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -5470,7 +5470,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -8338,7 +8338,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3)) => a
@@ -8437,7 +8437,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4)) => a
@@ -8537,7 +8537,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5)) => a
@@ -8638,7 +8638,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6)) => a
@@ -8740,7 +8740,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7)) => a
@@ -8843,7 +8843,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8)) => a
@@ -8947,7 +8947,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9)) => a
@@ -9052,7 +9052,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -9160,7 +9160,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -9269,7 +9269,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -9379,7 +9379,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -9490,7 +9490,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -9602,7 +9602,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -12470,7 +12470,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3)) => a
@@ -12569,7 +12569,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4)) => a
@@ -12669,7 +12669,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5)) => a
@@ -12770,7 +12770,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6)) => a
@@ -12872,7 +12872,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7)) => a
@@ -12975,7 +12975,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8)) => a
@@ -13079,7 +13079,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9)) => a
@@ -13184,7 +13184,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -13292,7 +13292,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -13401,7 +13401,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -13511,7 +13511,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -13622,7 +13622,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -13734,7 +13734,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -16602,7 +16602,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3)) => a
@@ -16701,7 +16701,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4)) => a
@@ -16801,7 +16801,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5)) => a
@@ -16902,7 +16902,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6)) => a
@@ -17004,7 +17004,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7)) => a
@@ -17107,7 +17107,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8)) => a
@@ -17211,7 +17211,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9)) => a
@@ -17316,7 +17316,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -17424,7 +17424,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -17533,7 +17533,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -17643,7 +17643,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -17754,7 +17754,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -17866,7 +17866,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -20734,7 +20734,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3)) => a
@@ -20833,7 +20833,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4)) => a
@@ -20933,7 +20933,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5)) => a
@@ -21034,7 +21034,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6)) => a
@@ -21136,7 +21136,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7)) => a
@@ -21239,7 +21239,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8)) => a
@@ -21343,7 +21343,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9)) => a
@@ -21448,7 +21448,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -21556,7 +21556,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -21665,7 +21665,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -21775,7 +21775,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -21886,7 +21886,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -21998,7 +21998,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -24866,7 +24866,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3)) => a
@@ -24965,7 +24965,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4)) => a
@@ -25065,7 +25065,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5)) => a
@@ -25166,7 +25166,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6)) => a
@@ -25268,7 +25268,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7)) => a
@@ -25371,7 +25371,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8)) => a
@@ -25475,7 +25475,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9)) => a
@@ -25580,7 +25580,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -25688,7 +25688,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -25797,7 +25797,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -25907,7 +25907,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -26018,7 +26018,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -26130,7 +26130,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -28998,7 +28998,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3)) => a
@@ -29097,7 +29097,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4)) => a
@@ -29197,7 +29197,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5)) => a
@@ -29298,7 +29298,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6)) => a
@@ -29400,7 +29400,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7)) => a
@@ -29503,7 +29503,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8)) => a
@@ -29607,7 +29607,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9)) => a
@@ -29712,7 +29712,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -29820,7 +29820,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -29929,7 +29929,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -30039,7 +30039,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -30150,7 +30150,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -30262,7 +30262,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -33130,7 +33130,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3)) => a
@@ -33229,7 +33229,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4)) => a
@@ -33329,7 +33329,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5)) => a
@@ -33430,7 +33430,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6)) => a
@@ -33532,7 +33532,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7)) => a
@@ -33635,7 +33635,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8)) => a
@@ -33739,7 +33739,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9)) => a
@@ -33844,7 +33844,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -33952,7 +33952,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -34061,7 +34061,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -34171,7 +34171,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -34282,7 +34282,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -34394,7 +34394,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -37262,7 +37262,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3)) => a
@@ -37361,7 +37361,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4)) => a
@@ -37461,7 +37461,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5)) => a
@@ -37562,7 +37562,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6)) => a
@@ -37664,7 +37664,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7)) => a
@@ -37767,7 +37767,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8)) => a
@@ -37871,7 +37871,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9)) => a
@@ -37976,7 +37976,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -38084,7 +38084,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -38193,7 +38193,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -38303,7 +38303,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -38414,7 +38414,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -38526,7 +38526,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -41394,7 +41394,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3)) => a
@@ -41493,7 +41493,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4)) => a
@@ -41593,7 +41593,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5)) => a
@@ -41694,7 +41694,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6)) => a
@@ -41796,7 +41796,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7)) => a
@@ -41899,7 +41899,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8)) => a
@@ -42003,7 +42003,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9)) => a
@@ -42108,7 +42108,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -42216,7 +42216,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -42325,7 +42325,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -42435,7 +42435,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -42546,7 +42546,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -42658,7 +42658,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -45526,7 +45526,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3)) => a
@@ -45625,7 +45625,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4)) => a
@@ -45725,7 +45725,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5)) => a
@@ -45826,7 +45826,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6)) => a
@@ -45928,7 +45928,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7)) => a
@@ -46031,7 +46031,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8)) => a
@@ -46135,7 +46135,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9)) => a
@@ -46240,7 +46240,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -46348,7 +46348,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -46457,7 +46457,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -46567,7 +46567,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -46678,7 +46678,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -46790,7 +46790,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -49658,7 +49658,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3)) => a
@@ -49757,7 +49757,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4)) => a
@@ -49857,7 +49857,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5)) => a
@@ -49958,7 +49958,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6)) => a
@@ -50060,7 +50060,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7)) => a
@@ -50163,7 +50163,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8)) => a
@@ -50267,7 +50267,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9)) => a
@@ -50372,7 +50372,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -50480,7 +50480,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -50589,7 +50589,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -50699,7 +50699,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -50810,7 +50810,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
@@ -50922,7 +50922,7 @@ module stdlib_linalg_norms
             
             ! Collapse everything before the 1st dimension as apack's dim #1
             ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(1:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
+            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
             
             ! Reshape without moving data
             apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7),1:spack(8),1:spack(9),&
