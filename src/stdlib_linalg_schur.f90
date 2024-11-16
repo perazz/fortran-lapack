@@ -104,13 +104,13 @@ module stdlib_linalg_schur
         integer(ilp) :: m,n,sdim,info
         character :: jobvs,sort
         logical(lk) :: bwork_dummy(1)
-        real(qp) :: vs_dummy(1,1),work_dummy(1),wr_dummy(1),wi_dummy(1)
+        complex(qp) :: wr_dummy(1),wi_dummy(1),vs_dummy(1,1),work_dummy(1)
         type(linalg_state) :: err0
         
         !> Initialize problem
         lwork = -1_ilp
         m = size(a,1,kind=ilp)
-        n = size(a,2,kind=ilp)
+        n = size(a,2,kind=ilp) 
         
         !> Select task
         jobvs = gees_vectors(.true.)
@@ -120,7 +120,7 @@ module stdlib_linalg_schur
         sdim = 0_ilp
         
         ! Get Schur space
-        call gees(jobvs,sort,do_not_select,n,a,m,sdim,wr_dummy,wi_dummy, &
+        call gees(jobvs,sort,do_not_select,n,a,m,sdim,wr_dummy, &
                   vs_dummy,m,work_dummy,lwork,bwork_dummy,info)
         call handle_gees_info(info,m,sort,err0)
         call linalg_error_handling(err0,err)
@@ -135,57 +135,69 @@ module stdlib_linalg_schur
         
     end subroutine get_schur_w_workspace
     
-    elemental subroutine handle_gees_info(info,m,sort,err)
-        integer(ilp),intent(in) :: info,m
+    elemental subroutine handle_gees_info(info,m,n,ldvs,sort,err)
+        integer(ilp),intent(in) :: info,m,n,ldvs
         logical,intent(in) :: sort
         type(linalg_state),intent(out) :: err
 
         ! Process GEES output
         select case (info)
-        case (0)
+        case (0_ilp)
             ! Success
-        case (-1)
-            err = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix size m=',m)
-        case default
-            if (sort .and. info > 0) then
-                err = linalg_state(this,LINALG_INTERNAL_ERROR,'sorting eigenvalues failed at index ',info)
+        case (-1_ilp)
+            ! Vector not wanted, but task is wrong
+            err = linalg_state(this,LINALG_INTERNAL_ERROR,'Invalid Schur vector task request')
+        case (-2_ilp)
+            ! Vector not wanted, but task is wrong
+            err = linalg_state(this,LINALG_INTERNAL_ERROR,'Invalid sorting task request')
+        case (-4_ilp,-6_ilp)
+            ! Vector not wanted, but task is wrong
+            err = linalg_state(this,LINALG_VALUE_ERROR,'Invalid/non-square input matrix size:', [m,n])
+        case (-11_ilp)
+            err = linalg_state(this,LINALG_VALUE_ERROR,'Schur vector matrix has insufficient size', [ldvs,n])
+        case (-13_ilp)
+            err = linalg_state(this,LINALG_INTERNAL_ERROR,'Insufficient working storage size')
+        case (1_ilp:)
+            
+            if (info == n + 2) then
+                err = linalg_state(this,LINALG_ERROR,'Ill-conditioned problem: could not sort eigenvalues')
+            elseif (info == n + 1) then
+                err = linalg_state(this,LINALG_ERROR,'Some selected eigenvalues lost property due to sorting')
             else
-                err = linalg_state(this,LINALG_INTERNAL_ERROR,'GEES catastrophic error: info=',info)
+                err = linalg_state(this,LINALG_ERROR,'Convergence failure; converged range is', [info,n])
             end if
+            
+        case default
+            
+            err = linalg_state(this,LINALG_INTERNAL_ERROR,'GEES catastrophic error: info=',info)
+
         end select
+        
     end subroutine handle_gees_info
 
     ! Schur decomposition subroutine
-    pure subroutine stdlib_linalg_s_schur(a,t,z,lwork,overwrite_a,sort,err)
+    pure subroutine stdlib_linalg_s_schur(a,t,z,storage,err)
         !> Input matrix a[m,m]
         real(sp),intent(inout),target :: a(:,:)
         !> Schur form of A: upper-triangular or quasi-upper-triangular matrix T
         real(sp),intent(out),contiguous,target :: t(:,:)
         !> Unitary/orthonormal transformation matrix Z
-        real(sp),intent(out),contiguous,target :: z(:,:)
-        !> [optional] Number of eigenvalues satisfying the sort condition
-        integer(ilp),optional,intent(out) :: sdim
-        !> [optional] Output type: 'real' or 'complex'
-        character(*),optional,intent(in) :: output
-        !> [optional] Can A data be overwritten and destroyed?
-        logical(lk),optional,intent(in) :: overwrite_a
-        !> [optional] Sorting criterion: callable or predefined values ('lhp', 'rhp', 'iuc', 'ouc', or None)
-        class(*),optional,intent(in) :: sort
+        real(sp),optional,intent(out),contiguous,target :: z(:,:)
         !> [optional] Provide pre-allocated workspace, size to be checked with schur_space
         real(sp),intent(out),optional,target :: storage(:)
         !> [optional] State return flag. On error if not requested, the code will stop
         type(linalg_state),optional,intent(out) :: err
 
         ! Local variables
-        type(linalg_state) :: err0
-        integer(ilp) :: m,lda,info,liwork
-        logical(lk) :: overwrite_a_
-        logical,pointer :: bwork(:)
-        integer(ilp),allocatable :: iwork(:)
-        real(sp),pointer :: amat(:,:),tau(:),work(:)
-        real(sp) :: rwork_dummy(1) ! Dummy for real/complex cases
-        real(sp),allocatable :: tmat(:,:),zmat(:,:)
-        character :: jobz
+!        type(linalg_state) :: err0
+!        integer(ilp) :: m, lda, info, liwork
+!        logical(lk) :: overwrite_a_
+!        logical, pointer :: bwork(:)
+!        integer(ilp), allocatable :: iwork(:)
+!        real(sp), pointer :: amat(:,:), tau(:), work(:)
+!        real(sp) :: rwork_dummy(1)  ! Dummy for real/complex cases
+!        real(sp), allocatable :: tmat(:,:), zmat(:,:)
+!        character :: jobz
 
 !        ! Problem size
 !        m = size(a, 1, kind=ilp)
@@ -256,41 +268,31 @@ module stdlib_linalg_schur
 !        t = amat
 !        z = zmat
 
-        if (.not. overwrite_a_) deallocate (amat)
-        if (.not. present(lwork)) deallocate (work)
     end subroutine stdlib_linalg_s_schur
 
     ! Schur decomposition subroutine
-    pure subroutine stdlib_linalg_d_schur(a,t,z,lwork,overwrite_a,sort,err)
+    pure subroutine stdlib_linalg_d_schur(a,t,z,storage,err)
         !> Input matrix a[m,m]
         real(dp),intent(inout),target :: a(:,:)
         !> Schur form of A: upper-triangular or quasi-upper-triangular matrix T
         real(dp),intent(out),contiguous,target :: t(:,:)
         !> Unitary/orthonormal transformation matrix Z
-        real(dp),intent(out),contiguous,target :: z(:,:)
-        !> [optional] Number of eigenvalues satisfying the sort condition
-        integer(ilp),optional,intent(out) :: sdim
-        !> [optional] Output type: 'real' or 'complex'
-        character(*),optional,intent(in) :: output
-        !> [optional] Can A data be overwritten and destroyed?
-        logical(lk),optional,intent(in) :: overwrite_a
-        !> [optional] Sorting criterion: callable or predefined values ('lhp', 'rhp', 'iuc', 'ouc', or None)
-        class(*),optional,intent(in) :: sort
+        real(dp),optional,intent(out),contiguous,target :: z(:,:)
         !> [optional] Provide pre-allocated workspace, size to be checked with schur_space
         real(dp),intent(out),optional,target :: storage(:)
         !> [optional] State return flag. On error if not requested, the code will stop
         type(linalg_state),optional,intent(out) :: err
 
         ! Local variables
-        type(linalg_state) :: err0
-        integer(ilp) :: m,lda,info,liwork
-        logical(lk) :: overwrite_a_
-        logical,pointer :: bwork(:)
-        integer(ilp),allocatable :: iwork(:)
-        real(dp),pointer :: amat(:,:),tau(:),work(:)
-        real(dp) :: rwork_dummy(1) ! Dummy for real/complex cases
-        real(dp),allocatable :: tmat(:,:),zmat(:,:)
-        character :: jobz
+!        type(linalg_state) :: err0
+!        integer(ilp) :: m, lda, info, liwork
+!        logical(lk) :: overwrite_a_
+!        logical, pointer :: bwork(:)
+!        integer(ilp), allocatable :: iwork(:)
+!        real(dp), pointer :: amat(:,:), tau(:), work(:)
+!        real(dp) :: rwork_dummy(1)  ! Dummy for real/complex cases
+!        real(dp), allocatable :: tmat(:,:), zmat(:,:)
+!        character :: jobz
 
 !        ! Problem size
 !        m = size(a, 1, kind=ilp)
@@ -361,41 +363,31 @@ module stdlib_linalg_schur
 !        t = amat
 !        z = zmat
 
-        if (.not. overwrite_a_) deallocate (amat)
-        if (.not. present(lwork)) deallocate (work)
     end subroutine stdlib_linalg_d_schur
 
     ! Schur decomposition subroutine
-    pure subroutine stdlib_linalg_q_schur(a,t,z,lwork,overwrite_a,sort,err)
+    pure subroutine stdlib_linalg_q_schur(a,t,z,storage,err)
         !> Input matrix a[m,m]
         real(qp),intent(inout),target :: a(:,:)
         !> Schur form of A: upper-triangular or quasi-upper-triangular matrix T
         real(qp),intent(out),contiguous,target :: t(:,:)
         !> Unitary/orthonormal transformation matrix Z
-        real(qp),intent(out),contiguous,target :: z(:,:)
-        !> [optional] Number of eigenvalues satisfying the sort condition
-        integer(ilp),optional,intent(out) :: sdim
-        !> [optional] Output type: 'real' or 'complex'
-        character(*),optional,intent(in) :: output
-        !> [optional] Can A data be overwritten and destroyed?
-        logical(lk),optional,intent(in) :: overwrite_a
-        !> [optional] Sorting criterion: callable or predefined values ('lhp', 'rhp', 'iuc', 'ouc', or None)
-        class(*),optional,intent(in) :: sort
+        real(qp),optional,intent(out),contiguous,target :: z(:,:)
         !> [optional] Provide pre-allocated workspace, size to be checked with schur_space
         real(qp),intent(out),optional,target :: storage(:)
         !> [optional] State return flag. On error if not requested, the code will stop
         type(linalg_state),optional,intent(out) :: err
 
         ! Local variables
-        type(linalg_state) :: err0
-        integer(ilp) :: m,lda,info,liwork
-        logical(lk) :: overwrite_a_
-        logical,pointer :: bwork(:)
-        integer(ilp),allocatable :: iwork(:)
-        real(qp),pointer :: amat(:,:),tau(:),work(:)
-        real(qp) :: rwork_dummy(1) ! Dummy for real/complex cases
-        real(qp),allocatable :: tmat(:,:),zmat(:,:)
-        character :: jobz
+!        type(linalg_state) :: err0
+!        integer(ilp) :: m, lda, info, liwork
+!        logical(lk) :: overwrite_a_
+!        logical, pointer :: bwork(:)
+!        integer(ilp), allocatable :: iwork(:)
+!        real(qp), pointer :: amat(:,:), tau(:), work(:)
+!        real(qp) :: rwork_dummy(1)  ! Dummy for real/complex cases
+!        real(qp), allocatable :: tmat(:,:), zmat(:,:)
+!        character :: jobz
 
 !        ! Problem size
 !        m = size(a, 1, kind=ilp)
@@ -466,41 +458,31 @@ module stdlib_linalg_schur
 !        t = amat
 !        z = zmat
 
-        if (.not. overwrite_a_) deallocate (amat)
-        if (.not. present(lwork)) deallocate (work)
     end subroutine stdlib_linalg_q_schur
 
     ! Schur decomposition subroutine
-    pure subroutine stdlib_linalg_c_schur(a,t,z,lwork,overwrite_a,sort,err)
+    pure subroutine stdlib_linalg_c_schur(a,t,z,storage,err)
         !> Input matrix a[m,m]
         complex(sp),intent(inout),target :: a(:,:)
         !> Schur form of A: upper-triangular or quasi-upper-triangular matrix T
         complex(sp),intent(out),contiguous,target :: t(:,:)
         !> Unitary/orthonormal transformation matrix Z
-        complex(sp),intent(out),contiguous,target :: z(:,:)
-        !> [optional] Number of eigenvalues satisfying the sort condition
-        integer(ilp),optional,intent(out) :: sdim
-        !> [optional] Output type: 'real' or 'complex'
-        character(*),optional,intent(in) :: output
-        !> [optional] Can A data be overwritten and destroyed?
-        logical(lk),optional,intent(in) :: overwrite_a
-        !> [optional] Sorting criterion: callable or predefined values ('lhp', 'rhp', 'iuc', 'ouc', or None)
-        class(*),optional,intent(in) :: sort
+        complex(sp),optional,intent(out),contiguous,target :: z(:,:)
         !> [optional] Provide pre-allocated workspace, size to be checked with schur_space
         complex(sp),intent(out),optional,target :: storage(:)
         !> [optional] State return flag. On error if not requested, the code will stop
         type(linalg_state),optional,intent(out) :: err
 
         ! Local variables
-        type(linalg_state) :: err0
-        integer(ilp) :: m,lda,info,liwork
-        logical(lk) :: overwrite_a_
-        logical,pointer :: bwork(:)
-        integer(ilp),allocatable :: iwork(:)
-        complex(sp),pointer :: amat(:,:),tau(:),work(:)
-        complex(sp) :: rwork_dummy(1) ! Dummy for real/complex cases
-        complex(sp),allocatable :: tmat(:,:),zmat(:,:)
-        character :: jobz
+!        type(linalg_state) :: err0
+!        integer(ilp) :: m, lda, info, liwork
+!        logical(lk) :: overwrite_a_
+!        logical, pointer :: bwork(:)
+!        integer(ilp), allocatable :: iwork(:)
+!        complex(sp), pointer :: amat(:,:), tau(:), work(:)
+!        complex(sp) :: rwork_dummy(1)  ! Dummy for real/complex cases
+!        complex(sp), allocatable :: tmat(:,:), zmat(:,:)
+!        character :: jobz
 
 !        ! Problem size
 !        m = size(a, 1, kind=ilp)
@@ -571,41 +553,31 @@ module stdlib_linalg_schur
 !        t = amat
 !        z = zmat
 
-        if (.not. overwrite_a_) deallocate (amat)
-        if (.not. present(lwork)) deallocate (work)
     end subroutine stdlib_linalg_c_schur
 
     ! Schur decomposition subroutine
-    pure subroutine stdlib_linalg_z_schur(a,t,z,lwork,overwrite_a,sort,err)
+    pure subroutine stdlib_linalg_z_schur(a,t,z,storage,err)
         !> Input matrix a[m,m]
         complex(dp),intent(inout),target :: a(:,:)
         !> Schur form of A: upper-triangular or quasi-upper-triangular matrix T
         complex(dp),intent(out),contiguous,target :: t(:,:)
         !> Unitary/orthonormal transformation matrix Z
-        complex(dp),intent(out),contiguous,target :: z(:,:)
-        !> [optional] Number of eigenvalues satisfying the sort condition
-        integer(ilp),optional,intent(out) :: sdim
-        !> [optional] Output type: 'real' or 'complex'
-        character(*),optional,intent(in) :: output
-        !> [optional] Can A data be overwritten and destroyed?
-        logical(lk),optional,intent(in) :: overwrite_a
-        !> [optional] Sorting criterion: callable or predefined values ('lhp', 'rhp', 'iuc', 'ouc', or None)
-        class(*),optional,intent(in) :: sort
+        complex(dp),optional,intent(out),contiguous,target :: z(:,:)
         !> [optional] Provide pre-allocated workspace, size to be checked with schur_space
         complex(dp),intent(out),optional,target :: storage(:)
         !> [optional] State return flag. On error if not requested, the code will stop
         type(linalg_state),optional,intent(out) :: err
 
         ! Local variables
-        type(linalg_state) :: err0
-        integer(ilp) :: m,lda,info,liwork
-        logical(lk) :: overwrite_a_
-        logical,pointer :: bwork(:)
-        integer(ilp),allocatable :: iwork(:)
-        complex(dp),pointer :: amat(:,:),tau(:),work(:)
-        complex(dp) :: rwork_dummy(1) ! Dummy for real/complex cases
-        complex(dp),allocatable :: tmat(:,:),zmat(:,:)
-        character :: jobz
+!        type(linalg_state) :: err0
+!        integer(ilp) :: m, lda, info, liwork
+!        logical(lk) :: overwrite_a_
+!        logical, pointer :: bwork(:)
+!        integer(ilp), allocatable :: iwork(:)
+!        complex(dp), pointer :: amat(:,:), tau(:), work(:)
+!        complex(dp) :: rwork_dummy(1)  ! Dummy for real/complex cases
+!        complex(dp), allocatable :: tmat(:,:), zmat(:,:)
+!        character :: jobz
 
 !        ! Problem size
 !        m = size(a, 1, kind=ilp)
@@ -676,41 +648,31 @@ module stdlib_linalg_schur
 !        t = amat
 !        z = zmat
 
-        if (.not. overwrite_a_) deallocate (amat)
-        if (.not. present(lwork)) deallocate (work)
     end subroutine stdlib_linalg_z_schur
 
     ! Schur decomposition subroutine
-    pure subroutine stdlib_linalg_w_schur(a,t,z,lwork,overwrite_a,sort,err)
+    pure subroutine stdlib_linalg_w_schur(a,t,z,storage,err)
         !> Input matrix a[m,m]
         complex(qp),intent(inout),target :: a(:,:)
         !> Schur form of A: upper-triangular or quasi-upper-triangular matrix T
         complex(qp),intent(out),contiguous,target :: t(:,:)
         !> Unitary/orthonormal transformation matrix Z
-        complex(qp),intent(out),contiguous,target :: z(:,:)
-        !> [optional] Number of eigenvalues satisfying the sort condition
-        integer(ilp),optional,intent(out) :: sdim
-        !> [optional] Output type: 'real' or 'complex'
-        character(*),optional,intent(in) :: output
-        !> [optional] Can A data be overwritten and destroyed?
-        logical(lk),optional,intent(in) :: overwrite_a
-        !> [optional] Sorting criterion: callable or predefined values ('lhp', 'rhp', 'iuc', 'ouc', or None)
-        class(*),optional,intent(in) :: sort
+        complex(qp),optional,intent(out),contiguous,target :: z(:,:)
         !> [optional] Provide pre-allocated workspace, size to be checked with schur_space
         complex(qp),intent(out),optional,target :: storage(:)
         !> [optional] State return flag. On error if not requested, the code will stop
         type(linalg_state),optional,intent(out) :: err
 
         ! Local variables
-        type(linalg_state) :: err0
-        integer(ilp) :: m,lda,info,liwork
-        logical(lk) :: overwrite_a_
-        logical,pointer :: bwork(:)
-        integer(ilp),allocatable :: iwork(:)
-        complex(qp),pointer :: amat(:,:),tau(:),work(:)
-        complex(qp) :: rwork_dummy(1) ! Dummy for real/complex cases
-        complex(qp),allocatable :: tmat(:,:),zmat(:,:)
-        character :: jobz
+!        type(linalg_state) :: err0
+!        integer(ilp) :: m, lda, info, liwork
+!        logical(lk) :: overwrite_a_
+!        logical, pointer :: bwork(:)
+!        integer(ilp), allocatable :: iwork(:)
+!        complex(qp), pointer :: amat(:,:), tau(:), work(:)
+!        complex(qp) :: rwork_dummy(1)  ! Dummy for real/complex cases
+!        complex(qp), allocatable :: tmat(:,:), zmat(:,:)
+!        character :: jobz
 
 !        ! Problem size
 !        m = size(a, 1, kind=ilp)
@@ -781,8 +743,6 @@ module stdlib_linalg_schur
 !        t = amat
 !        z = zmat
 
-        if (.not. overwrite_a_) deallocate (amat)
-        if (.not. present(lwork)) deallocate (work)
     end subroutine stdlib_linalg_w_schur
 
 end module stdlib_linalg_schur

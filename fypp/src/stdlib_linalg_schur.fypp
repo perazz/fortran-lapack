@@ -90,49 +90,7 @@ module stdlib_linalg_schur
         gees_sort_eigs = merge(GEES_SORTED_VECTORS,GEES_NOT,sorted)
     end function gees_sort_eigs    
     
-    pure subroutine get_schur_${ri}$_workspace(a,lwork,err)
-        !> Input matrix a[m,m]
-        ${rt}$, intent(in), target :: a(:,:)
-        !> Minimum workspace size for the decomposition operation
-        integer(ilp), intent(out) :: lwork
-        !> State return flag. Returns an error if the query failed
-        type(linalg_state), optional, intent(out) :: err
-        
-        integer(ilp) :: m,n,sdim,info
-        character :: jobvs,sort
-        logical(lk) :: bwork_dummy(1)
-        real(${rk}$) :: vs_dummy(1,1),work_dummy(1),wr_dummy(1),wi_dummy(1)
-        type(linalg_state) :: err0
-        
-        !> Initialize problem
-        lwork = -1_ilp
-        m = size(a,1,kind=ilp)
-        n = size(a,2,kind=ilp)          
-        
-        !> Select task
-        jobvs = gees_vectors(.true.)
-        
-        !> Do not select eigenvalues
-        sort  = gees_sort_eigs(.false.)
-        sdim  = 0_ilp
-        
-        ! Get Schur space 
-        call gees(jobvs,sort,do_not_select,n,a,m,sdim,wr_dummy,wi_dummy, &
-                  vs_dummy,m,work_dummy,lwork,bwork_dummy,info)
-        call handle_gees_info(info,m,sort,err0)
-        call linalg_error_handling(err0,err)
-
-        contains
-        
-            ! Interface to dummy select routine
-            pure logical(lk) function do_not_select(alphar,alphai) 
-                real(${rk}$), intent(in) :: alphar,alphai 
-                do_not_select = .false.
-            end function do_not_select 
-        
-    end subroutine get_schur_${ri}$_workspace    
-    
-    
+    !> Wrapper function to handle GEES error codes
     elemental subroutine handle_gees_info(info, m, n, ldvs, sort, err)
         integer(ilp), intent(in) :: info, m, n, ldvs
         logical, intent(in) :: sort
@@ -172,9 +130,51 @@ module stdlib_linalg_schur
         end select
         
     end subroutine handle_gees_info
+    
+    
+    #:for rk,rt,ri in ALL_KINDS_TYPES
+    subroutine get_schur_${ri}$_workspace(a,lwork,err)
+        !> Input matrix a[m,m]
+        ${rt}$, intent(in), target :: a(:,:)
+        !> Minimum workspace size for the decomposition operation
+        integer(ilp), intent(out) :: lwork
+        !> State return flag. Returns an error if the query failed
+        type(linalg_state), optional, intent(out) :: err
+        
+        integer(ilp) :: m,n,sdim,info
+        character :: jobvs,sort
+        logical(lk) :: bwork_dummy(1)
+        ${rt}$ :: wr_dummy(1),wi_dummy(1),vs_dummy(1,1),work_dummy(1)
+        type(linalg_state) :: err0
+        
+        !> Initialize problem
+        lwork = -1_ilp
+        m = size(a,1,kind=ilp)
+        n = size(a,2,kind=ilp)          
+        
+        !> Select task
+        jobvs = gees_vectors(.true.)
+        
+        !> Do not select eigenvalues
+        sort  = gees_sort_eigs(.false.)
+        sdim  = 0_ilp
+        
+        ! Get Schur space 
+        call gees(jobvs,sort,do_not_select,n,a,m,sdim,wr_dummy,#{if 'real' in rt}#wi_dummy, #{endif}#&
+                  vs_dummy,m,work_dummy,lwork,bwork_dummy,info)
+        call handle_gees_info(info,m,n,m,sort,err0)
+        call linalg_error_handling(err0,err)
 
-    #:for rk, rt, ri in ALL_KINDS_TYPES
-
+        contains
+        
+            ! Interface to dummy select routine
+            pure logical(lk) function do_not_select(alphar,alphai) 
+                real(${rk}$), intent(in) :: alphar,alphai 
+                do_not_select = .false.
+            end function do_not_select 
+        
+    end subroutine get_schur_${ri}$_workspace    
+    
     ! Schur decomposition subroutine
     pure subroutine stdlib_linalg_${ri}$_schur(a, t, z, storage, err)
         !> Input matrix a[m,m]
@@ -268,8 +268,6 @@ module stdlib_linalg_schur
 !        t = amat
 !        z = zmat
 
-        if (.not.overwrite_a_) deallocate(amat)
-        if (.not.present(lwork)) deallocate(work)
     end subroutine stdlib_linalg_${ri}$_schur
 
     #:endfor
