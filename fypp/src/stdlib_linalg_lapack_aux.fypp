@@ -68,7 +68,7 @@ module stdlib_linalg_lapack_aux
 
      ! SELCTG is a LOGICAL FUNCTION of three DOUBLE PRECISION arguments 
      ! used to select eigenvalues to sort to the top left of the Schur form. 
-     ! An eigenvalue (ALPHAR(j)+ALPHAI(j))/BETA(j) is selected if SELCTG is true, i.e., 
+     ! An eigenvalue (ALPHAR(j)+ALPHAI(j))/BETA(j) is selected if SELCTG is true
      abstract interface 
         pure logical(lk) function stdlib_selctg_s(alphar,alphai,beta) 
             import sp,dp,qp,lk 
