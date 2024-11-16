@@ -91,9 +91,8 @@ module stdlib_linalg_schur
     end function gees_sort_eigs    
     
     !> Wrapper function to handle GEES error codes
-    elemental subroutine handle_gees_info(info, m, n, ldvs, sort, err)
+    elemental subroutine handle_gees_info(info, m, n, ldvs, err)
         integer(ilp), intent(in) :: info, m, n, ldvs
-        logical, intent(in) :: sort
         type(linalg_state), intent(out) :: err
 
         ! Process GEES output
@@ -144,27 +143,31 @@ module stdlib_linalg_schur
         integer(ilp) :: m,n,sdim,info
         character :: jobvs,sort
         logical(lk) :: bwork_dummy(1)
+        ${rt}$, pointer :: amat(:,:)
+        real(${rk}$) :: rwork_dummy(1)
         ${rt}$ :: wr_dummy(1),wi_dummy(1),vs_dummy(1,1),work_dummy(1)
         type(linalg_state) :: err0
         
         !> Initialize problem
         lwork = -1_ilp
         m = size(a,1,kind=ilp)
-        n = size(a,2,kind=ilp)          
+        n = size(a,2,kind=ilp)         
         
-        !> Select task
+        !> Create a dummy intent(inout) argument
+        amat => a
+        
+        !> Select dummy task
         jobvs = gees_vectors(.true.)
-        
-        !> Do not select eigenvalues
         sort  = gees_sort_eigs(.false.)
         sdim  = 0_ilp
         
-        ! Get Schur space 
-        call gees(jobvs,sort,do_not_select,n,a,m,sdim,wr_dummy,#{if 'real' in rt}#wi_dummy, #{endif}#&
-                  vs_dummy,m,work_dummy,lwork,bwork_dummy,info)
-        call handle_gees_info(info,m,n,m,sort,err0)
+        !> Get Schur workspace 
+        call gees(jobvs,sort,do_not_select,n,amat,m,sdim,wr_dummy,#{if 'real' in rt}#wi_dummy, #{endif}#&
+                  vs_dummy,m,work_dummy,lwork,#{if 'complex' in rt}#rwork_dummy,#{endif}#bwork_dummy,info)
+        if (info==0) lwork = int(work_dummy(1),kind=ilp)
+        call handle_gees_info(info,m,n,m,err0)
         call linalg_error_handling(err0,err)
-
+        
         contains
         
             ! Interface to dummy select routine
@@ -184,31 +187,47 @@ module stdlib_linalg_schur
         !> Unitary/orthonormal transformation matrix Z
         ${rt}$, optional, intent(out), contiguous, target :: z(:,:)
         !> [optional] Provide pre-allocated workspace, size to be checked with schur_space
-        ${rt}$, intent(out), optional, target :: storage(:)
+        ${rt}$, optional, intent(inout), target :: storage(:)
         !> [optional] State return flag. On error if not requested, the code will stop
         type(linalg_state), optional, intent(out) :: err
 
         ! Local variables
-!        type(linalg_state) :: err0
-!        integer(ilp) :: m, lda, info, liwork
-!        logical(lk) :: overwrite_a_
-!        logical, pointer :: bwork(:)
-!        integer(ilp), allocatable :: iwork(:)
-!        ${rt}$, pointer :: amat(:,:), tau(:), work(:)
-!        ${rt}$ :: rwork_dummy(1)  ! Dummy for real/complex cases
-!        ${rt}$, allocatable :: tmat(:,:), zmat(:,:)
-!        character :: jobz
+        integer(ilp) :: m,n,ldvs,nvs
+        ${rt}$, pointer :: vs(:,:)
+        character :: jobvs
+        type(linalg_state) :: err0
+        
+        ! Problem size
+        m = size(a, 1, kind=ilp)
+        n = size(a, 2, kind=ilp)        
+        
+        ! Validate dimensions
+        if (m/=n .or. m<=0 .or. n<=0) then
+            err0 = linalg_state(this, LINALG_VALUE_ERROR, 'Matrix A must be square: size(a)=',[m,n])
+            call linalg_error_handling(err0, err)
+            return
+        end if        
+        
+        !> Schur vectors
+        jobvs = gees_vectors(present(z))        
+        if (present(z)) then 
+            vs => z
+        else
+            allocate(vs(n,n))
+        end if
+        
+        ldvs = size(vs, 1, kind=ilp)
+        nvs  = size(vs, 2, kind=ilp)
+        
+        if (ldvs<n .or. nvs/=n) then
+            err0 = linalg_state(this, LINALG_VALUE_ERROR, 'Schur vectors size=',[ldvs,nvs], &
+                                                          'should be n=',n)
+            call linalg_error_handling(err0, err)
+            return
+        end if   
 
-!        ! Problem size
-!        m = size(a, 1, kind=ilp)
-!        lda = size(a, 1, kind=ilp)
-!
-!        ! Validate dimensions
-!        if (size(a, 1, kind=ilp) /= size(a, 2, kind=ilp)) then
-!            err0 = linalg_state(this, LINALG_VALUE_ERROR, 'Matrix A must be square: a=', [size(a,1), size(a,2)])
-!            call linalg_error_handling(err0, err)
-!            return
-!        end if
+
+
 !
 !        ! Set default values
 !        overwrite_a_ = .false._lk
@@ -264,9 +283,7 @@ module stdlib_linalg_schur
 !            return
 !        end if
 !
-!        ! Output results
-!        t = amat
-!        z = zmat
+         if (.not.present(z)) deallocate(vs)
 
     end subroutine stdlib_linalg_${ri}$_schur
 

@@ -94,9 +94,8 @@ module stdlib_linalg_schur
     end function gees_sort_eigs
     
     !> Wrapper function to handle GEES error codes
-    elemental subroutine handle_gees_info(info,m,n,ldvs,sort,err)
+    elemental subroutine handle_gees_info(info,m,n,ldvs,err)
         integer(ilp),intent(in) :: info,m,n,ldvs
-        logical,intent(in) :: sort
         type(linalg_state),intent(out) :: err
 
         ! Process GEES output
@@ -145,6 +144,8 @@ module stdlib_linalg_schur
         integer(ilp) :: m,n,sdim,info
         character :: jobvs,sort
         logical(lk) :: bwork_dummy(1)
+        real(sp),pointer :: amat(:,:)
+        real(sp) :: rwork_dummy(1)
         real(sp) :: wr_dummy(1),wi_dummy(1),vs_dummy(1,1),work_dummy(1)
         type(linalg_state) :: err0
         
@@ -153,19 +154,21 @@ module stdlib_linalg_schur
         m = size(a,1,kind=ilp)
         n = size(a,2,kind=ilp)
         
-        !> Select task
-        jobvs = gees_vectors(.true.)
+        !> Create a dummy intent(inout) argument
+        amat => a
         
-        !> Do not select eigenvalues
+        !> Select dummy task
+        jobvs = gees_vectors(.true.)
         sort = gees_sort_eigs(.false.)
         sdim = 0_ilp
         
-        ! Get Schur space
-        call gees(jobvs,sort,do_not_select,n,a,m,sdim,wr_dummy,wi_dummy, &
+        !> Get Schur workspace
+        call gees(jobvs,sort,do_not_select,n,amat,m,sdim,wr_dummy,wi_dummy, &
                   vs_dummy,m,work_dummy,lwork,bwork_dummy,info)
-        call handle_gees_info(info,m,n,m,sort,err0)
+        if (info == 0) lwork = int(work_dummy(1),kind=ilp)
+        call handle_gees_info(info,m,n,m,err0)
         call linalg_error_handling(err0,err)
-
+        
         contains
         
             ! Interface to dummy select routine
@@ -282,6 +285,8 @@ module stdlib_linalg_schur
         integer(ilp) :: m,n,sdim,info
         character :: jobvs,sort
         logical(lk) :: bwork_dummy(1)
+        real(dp),pointer :: amat(:,:)
+        real(dp) :: rwork_dummy(1)
         real(dp) :: wr_dummy(1),wi_dummy(1),vs_dummy(1,1),work_dummy(1)
         type(linalg_state) :: err0
         
@@ -290,19 +295,21 @@ module stdlib_linalg_schur
         m = size(a,1,kind=ilp)
         n = size(a,2,kind=ilp)
         
-        !> Select task
-        jobvs = gees_vectors(.true.)
+        !> Create a dummy intent(inout) argument
+        amat => a
         
-        !> Do not select eigenvalues
+        !> Select dummy task
+        jobvs = gees_vectors(.true.)
         sort = gees_sort_eigs(.false.)
         sdim = 0_ilp
         
-        ! Get Schur space
-        call gees(jobvs,sort,do_not_select,n,a,m,sdim,wr_dummy,wi_dummy, &
+        !> Get Schur workspace
+        call gees(jobvs,sort,do_not_select,n,amat,m,sdim,wr_dummy,wi_dummy, &
                   vs_dummy,m,work_dummy,lwork,bwork_dummy,info)
-        call handle_gees_info(info,m,n,m,sort,err0)
+        if (info == 0) lwork = int(work_dummy(1),kind=ilp)
+        call handle_gees_info(info,m,n,m,err0)
         call linalg_error_handling(err0,err)
-
+        
         contains
         
             ! Interface to dummy select routine
@@ -419,6 +426,8 @@ module stdlib_linalg_schur
         integer(ilp) :: m,n,sdim,info
         character :: jobvs,sort
         logical(lk) :: bwork_dummy(1)
+        real(qp),pointer :: amat(:,:)
+        real(qp) :: rwork_dummy(1)
         real(qp) :: wr_dummy(1),wi_dummy(1),vs_dummy(1,1),work_dummy(1)
         type(linalg_state) :: err0
         
@@ -427,19 +436,21 @@ module stdlib_linalg_schur
         m = size(a,1,kind=ilp)
         n = size(a,2,kind=ilp)
         
-        !> Select task
-        jobvs = gees_vectors(.true.)
+        !> Create a dummy intent(inout) argument
+        amat => a
         
-        !> Do not select eigenvalues
+        !> Select dummy task
+        jobvs = gees_vectors(.true.)
         sort = gees_sort_eigs(.false.)
         sdim = 0_ilp
         
-        ! Get Schur space
-        call gees(jobvs,sort,do_not_select,n,a,m,sdim,wr_dummy,wi_dummy, &
+        !> Get Schur workspace
+        call gees(jobvs,sort,do_not_select,n,amat,m,sdim,wr_dummy,wi_dummy, &
                   vs_dummy,m,work_dummy,lwork,bwork_dummy,info)
-        call handle_gees_info(info,m,n,m,sort,err0)
+        if (info == 0) lwork = int(work_dummy(1),kind=ilp)
+        call handle_gees_info(info,m,n,m,err0)
         call linalg_error_handling(err0,err)
-
+        
         contains
         
             ! Interface to dummy select routine
@@ -556,6 +567,8 @@ module stdlib_linalg_schur
         integer(ilp) :: m,n,sdim,info
         character :: jobvs,sort
         logical(lk) :: bwork_dummy(1)
+        complex(sp),pointer :: amat(:,:)
+        real(sp) :: rwork_dummy(1)
         complex(sp) :: wr_dummy(1),wi_dummy(1),vs_dummy(1,1),work_dummy(1)
         type(linalg_state) :: err0
         
@@ -564,24 +577,26 @@ module stdlib_linalg_schur
         m = size(a,1,kind=ilp)
         n = size(a,2,kind=ilp)
         
-        !> Select task
-        jobvs = gees_vectors(.true.)
+        !> Create a dummy intent(inout) argument
+        amat => a
         
-        !> Do not select eigenvalues
+        !> Select dummy task
+        jobvs = gees_vectors(.true.)
         sort = gees_sort_eigs(.false.)
         sdim = 0_ilp
         
-        ! Get Schur space
-        call gees(jobvs,sort,do_not_select,n,a,m,sdim,wr_dummy, &
-                  vs_dummy,m,work_dummy,lwork,bwork_dummy,info)
-        call handle_gees_info(info,m,n,m,sort,err0)
+        !> Get Schur workspace
+        call gees(jobvs,sort,do_not_select,n,amat,m,sdim,wr_dummy, &
+                  vs_dummy,m,work_dummy,lwork,rwork_dummy,bwork_dummy,info)
+        if (info == 0) lwork = int(work_dummy(1),kind=ilp)
+        call handle_gees_info(info,m,n,m,err0)
         call linalg_error_handling(err0,err)
-
+        
         contains
         
             ! Interface to dummy select routine
-            pure logical(lk) function do_not_select(alphar,alphai)
-                real(sp),intent(in) :: alphar,alphai
+            pure logical(lk) function do_not_select(alpha)
+                complex(sp),intent(in) :: alpha
                 do_not_select = .false.
             end function do_not_select
         
@@ -693,6 +708,8 @@ module stdlib_linalg_schur
         integer(ilp) :: m,n,sdim,info
         character :: jobvs,sort
         logical(lk) :: bwork_dummy(1)
+        complex(dp),pointer :: amat(:,:)
+        real(dp) :: rwork_dummy(1)
         complex(dp) :: wr_dummy(1),wi_dummy(1),vs_dummy(1,1),work_dummy(1)
         type(linalg_state) :: err0
         
@@ -701,24 +718,26 @@ module stdlib_linalg_schur
         m = size(a,1,kind=ilp)
         n = size(a,2,kind=ilp)
         
-        !> Select task
-        jobvs = gees_vectors(.true.)
+        !> Create a dummy intent(inout) argument
+        amat => a
         
-        !> Do not select eigenvalues
+        !> Select dummy task
+        jobvs = gees_vectors(.true.)
         sort = gees_sort_eigs(.false.)
         sdim = 0_ilp
         
-        ! Get Schur space
-        call gees(jobvs,sort,do_not_select,n,a,m,sdim,wr_dummy, &
-                  vs_dummy,m,work_dummy,lwork,bwork_dummy,info)
-        call handle_gees_info(info,m,n,m,sort,err0)
+        !> Get Schur workspace
+        call gees(jobvs,sort,do_not_select,n,amat,m,sdim,wr_dummy, &
+                  vs_dummy,m,work_dummy,lwork,rwork_dummy,bwork_dummy,info)
+        if (info == 0) lwork = int(work_dummy(1),kind=ilp)
+        call handle_gees_info(info,m,n,m,err0)
         call linalg_error_handling(err0,err)
-
+        
         contains
         
             ! Interface to dummy select routine
-            pure logical(lk) function do_not_select(alphar,alphai)
-                real(dp),intent(in) :: alphar,alphai
+            pure logical(lk) function do_not_select(alpha)
+                complex(dp),intent(in) :: alpha
                 do_not_select = .false.
             end function do_not_select
         
@@ -830,6 +849,8 @@ module stdlib_linalg_schur
         integer(ilp) :: m,n,sdim,info
         character :: jobvs,sort
         logical(lk) :: bwork_dummy(1)
+        complex(qp),pointer :: amat(:,:)
+        real(qp) :: rwork_dummy(1)
         complex(qp) :: wr_dummy(1),wi_dummy(1),vs_dummy(1,1),work_dummy(1)
         type(linalg_state) :: err0
         
@@ -838,24 +859,26 @@ module stdlib_linalg_schur
         m = size(a,1,kind=ilp)
         n = size(a,2,kind=ilp)
         
-        !> Select task
-        jobvs = gees_vectors(.true.)
+        !> Create a dummy intent(inout) argument
+        amat => a
         
-        !> Do not select eigenvalues
+        !> Select dummy task
+        jobvs = gees_vectors(.true.)
         sort = gees_sort_eigs(.false.)
         sdim = 0_ilp
         
-        ! Get Schur space
-        call gees(jobvs,sort,do_not_select,n,a,m,sdim,wr_dummy, &
-                  vs_dummy,m,work_dummy,lwork,bwork_dummy,info)
-        call handle_gees_info(info,m,n,m,sort,err0)
+        !> Get Schur workspace
+        call gees(jobvs,sort,do_not_select,n,amat,m,sdim,wr_dummy, &
+                  vs_dummy,m,work_dummy,lwork,rwork_dummy,bwork_dummy,info)
+        if (info == 0) lwork = int(work_dummy(1),kind=ilp)
+        call handle_gees_info(info,m,n,m,err0)
         call linalg_error_handling(err0,err)
-
+        
         contains
         
             ! Interface to dummy select routine
-            pure logical(lk) function do_not_select(alphar,alphai)
-                real(qp),intent(in) :: alphar,alphai
+            pure logical(lk) function do_not_select(alpha)
+                complex(qp),intent(in) :: alpha
                 do_not_select = .false.
             end function do_not_select
         
