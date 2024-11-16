@@ -164,7 +164,7 @@ module stdlib_linalg_schur
         !> Get Schur workspace 
         call gees(jobvs,sort,do_not_select,n,amat,m,sdim,wr_dummy,#{if 'real' in rt}#wi_dummy, #{endif}#&
                   vs_dummy,m,work_dummy,lwork,#{if 'complex' in rt}#rwork_dummy,#{endif}#bwork_dummy,info)
-        if (info==0) lwork = int(work_dummy(1),kind=ilp)
+        if (info==0) lwork = nint(real(work_dummy(1)kind=${rk}$),kind=ilp)
         call handle_gees_info(info,m,n,m,err0)
         call linalg_error_handling(err0,err)
         
@@ -192,21 +192,29 @@ module stdlib_linalg_schur
         type(linalg_state), optional, intent(out) :: err
 
         ! Local variables
-        integer(ilp) :: m,n,ldvs,nvs
-        ${rt}$, pointer :: vs(:,:)
+        integer(ilp) :: m,n,mt,nt,ldvs,nvs,lwork
+        ${rt}$, pointer :: vs(:,:),work(:)
         character :: jobvs
         type(linalg_state) :: err0
         
         ! Problem size
-        m = size(a, 1, kind=ilp)
-        n = size(a, 2, kind=ilp)        
+        m  = size(a, 1, kind=ilp)
+        n  = size(a, 2, kind=ilp)        
+        mt = size(t, 1, kind=ilp)
+        nt = size(t, 2, kind=ilp)
         
         ! Validate dimensions
         if (m/=n .or. m<=0 .or. n<=0) then
             err0 = linalg_state(this, LINALG_VALUE_ERROR, 'Matrix A must be square: size(a)=',[m,n])
             call linalg_error_handling(err0, err)
             return
-        end if        
+        end if    
+        if (mt/=nt .or. mt/=n .or. nt/=n) then
+            err0 = linalg_state(this, LINALG_VALUE_ERROR, 'Matrix T must be square: size(T)=',[mt,nt], &
+                                                          'should be',[m,n])
+            call linalg_error_handling(err0, err)
+            return
+        end if                 
         
         !> Schur vectors
         jobvs = gees_vectors(present(z))        
@@ -222,41 +230,25 @@ module stdlib_linalg_schur
         if (ldvs<n .or. nvs/=n) then
             err0 = linalg_state(this, LINALG_VALUE_ERROR, 'Schur vectors size=',[ldvs,nvs], &
                                                           'should be n=',n)
-            call linalg_error_handling(err0, err)
-            return
+            goto 1
         end if   
+        
+        !> User or self-allocated storage
+        if (present(storage)) then 
+            
+            work => storage
+            lwork = size(work, 1, kind=ilp)
+            
+        else
+            
+            ! Query optimal workspace
+            call get_schur_${ri}$_workspace(a,lwork,err0)
+            if (err0%error()) goto 1
+            allocate(work(lwork))
+            
+        end if
 
 
-
-!
-!        ! Set default values
-!        overwrite_a_ = .false._lk
-!        if (present(overwrite_a)) overwrite_a_ = overwrite_a
-!
-!        ! Job type based on sorting request
-!        if (present(sort) .and. sort) then
-!            jobz = 'S'  ! Compute and sort eigenvalues
-!        else
-!            jobz = 'N'  ! Compute Schur decomposition without sorting
-!        end if
-!
-!        ! Prepare storage
-!        allocate(tmat(m, m), source=0.0_${rk}$)
-!        allocate(zmat(m, m), source=0.0_${rk}$)
-!
-!        if (overwrite_a_) then
-!            amat => a
-!        else
-!            allocate(amat(m, m), source=a)
-!        end if
-!
-!        ! Allocate workspace
-!        liwork = -1
-!        if (present(lwork)) then
-!            allocate(work(lwork))
-!        else
-!            allocate(work(1))  ! Temporary workspace for querying size
-!        end if
 !
 !        ! Workspace query
 !        call #{if rt.startswith('complex')}# zgees #{else}# gees #{endif}# &
@@ -275,15 +267,30 @@ module stdlib_linalg_schur
 !        end if
 !
 !        ! Compute Schur decomposition
-!        call #{if rt.startswith('complex')}# zgees #{else}# gees #{endif}# &
-!            (jobz, 'N', nullify(bwork), m, amat, lda, tau, zmat, lda, work, liwork, iwork, info)
-!        call handle_gees_info(info, m, present(sort) .and. sort, err0)
-!        if (err0%error()) then
-!            call linalg_error_handling(err0, err)
-!            return
-!        end if
-!
-         if (.not.present(z)) deallocate(vs)
+         call gees(jobvs,sort,eig_select,n,t,m,sdim,wr_dummy,#{if 'real' in rt}#wi_dummy, #{endif}#&
+                   vs_dummy,m,work_dummy,lwork,#{if 'complex' in rt}#rwork_dummy,#{endif}#bwork_dummy,info)
+         if (info==0) lwork = nint(real(work_dummy(1)kind=${rk}$),kind=ilp)
+         call handle_gees_info(info,m,n,m,err0)
+         call linalg_error_handling(err0,err)
+
+         if (.not.present(storage)) deallocate(work)
+       1 if (.not.present(z)) deallocate(vs)
+         call linalg_error_handling(err0,err)
+
+        
+        contains
+        
+            ! Dummy select routine: currently, no sorting options are offered
+            pure logical(lk) function eig_select(alpha#{if 'real' in rt}#r,alphai#{endif}#)             
+                #:if 'real' in rt
+                ${rt}$, intent(in) :: alphar,alphai
+                complex(${rk}$)    :: alpha
+                alpha = cmplx(alphar,alphai,kind=${rk}$)
+                #:else
+                ${rt}$, intent(in) :: alpha
+                #:endif
+                eig_select = .false.
+            end function eig_select 
 
     end subroutine stdlib_linalg_${ri}$_schur
 
