@@ -168,8 +168,8 @@ module stdlib_linalg_schur
         contains
         
             ! Interface to dummy select routine
-            pure logical(lk) function do_not_select(alphar,alphai) 
-                real(${rk}$), intent(in) :: alphar,alphai 
+            pure logical(lk) function do_not_select(alpha#{if 'real' in rt}#r,alphai#{endif}#) 
+                ${rt}$, intent(in) :: alpha#{if 'real' in rt}#r,alphai#{endif}# 
                 do_not_select = .false.
             end function do_not_select 
         

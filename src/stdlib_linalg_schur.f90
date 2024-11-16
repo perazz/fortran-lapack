@@ -93,48 +93,7 @@ module stdlib_linalg_schur
         gees_sort_eigs = merge(GEES_SORTED_VECTORS,GEES_NOT,sorted)
     end function gees_sort_eigs
     
-    pure subroutine get_schur_w_workspace(a,lwork,err)
-        !> Input matrix a[m,m]
-        complex(qp),intent(in),target :: a(:,:)
-        !> Minimum workspace size for the decomposition operation
-        integer(ilp),intent(out) :: lwork
-        !> State return flag. Returns an error if the query failed
-        type(linalg_state),optional,intent(out) :: err
-        
-        integer(ilp) :: m,n,sdim,info
-        character :: jobvs,sort
-        logical(lk) :: bwork_dummy(1)
-        complex(qp) :: wr_dummy(1),wi_dummy(1),vs_dummy(1,1),work_dummy(1)
-        type(linalg_state) :: err0
-        
-        !> Initialize problem
-        lwork = -1_ilp
-        m = size(a,1,kind=ilp)
-        n = size(a,2,kind=ilp) 
-        
-        !> Select task
-        jobvs = gees_vectors(.true.)
-        
-        !> Do not select eigenvalues
-        sort = gees_sort_eigs(.false.)
-        sdim = 0_ilp
-        
-        ! Get Schur space
-        call gees(jobvs,sort,do_not_select,n,a,m,sdim,wr_dummy, &
-                  vs_dummy,m,work_dummy,lwork,bwork_dummy,info)
-        call handle_gees_info(info,m,sort,err0)
-        call linalg_error_handling(err0,err)
-
-        contains
-        
-            ! Interface to dummy select routine
-            pure logical(lk) function do_not_select(alphar,alphai)
-                real(qp),intent(in) :: alphar,alphai
-                do_not_select = .false.
-            end function do_not_select
-        
-    end subroutine get_schur_w_workspace
-    
+    !> Wrapper function to handle GEES error codes
     elemental subroutine handle_gees_info(info,m,n,ldvs,sort,err)
         integer(ilp),intent(in) :: info,m,n,ldvs
         logical,intent(in) :: sort
@@ -174,7 +133,49 @@ module stdlib_linalg_schur
         end select
         
     end subroutine handle_gees_info
+    
+    subroutine get_schur_s_workspace(a,lwork,err)
+        !> Input matrix a[m,m]
+        real(sp),intent(in),target :: a(:,:)
+        !> Minimum workspace size for the decomposition operation
+        integer(ilp),intent(out) :: lwork
+        !> State return flag. Returns an error if the query failed
+        type(linalg_state),optional,intent(out) :: err
+        
+        integer(ilp) :: m,n,sdim,info
+        character :: jobvs,sort
+        logical(lk) :: bwork_dummy(1)
+        real(sp) :: wr_dummy(1),wi_dummy(1),vs_dummy(1,1),work_dummy(1)
+        type(linalg_state) :: err0
+        
+        !> Initialize problem
+        lwork = -1_ilp
+        m = size(a,1,kind=ilp)
+        n = size(a,2,kind=ilp)
+        
+        !> Select task
+        jobvs = gees_vectors(.true.)
+        
+        !> Do not select eigenvalues
+        sort = gees_sort_eigs(.false.)
+        sdim = 0_ilp
+        
+        ! Get Schur space
+        call gees(jobvs,sort,do_not_select,n,a,m,sdim,wr_dummy,wi_dummy, &
+                  vs_dummy,m,work_dummy,lwork,bwork_dummy,info)
+        call handle_gees_info(info,m,n,m,sort,err0)
+        call linalg_error_handling(err0,err)
 
+        contains
+        
+            ! Interface to dummy select routine
+            pure logical(lk) function do_not_select(alphar,alphai)
+                real(sp),intent(in) :: alphar,alphai
+                do_not_select = .false.
+            end function do_not_select
+        
+    end subroutine get_schur_s_workspace
+    
     ! Schur decomposition subroutine
     pure subroutine stdlib_linalg_s_schur(a,t,z,storage,err)
         !> Input matrix a[m,m]
@@ -270,6 +271,48 @@ module stdlib_linalg_schur
 
     end subroutine stdlib_linalg_s_schur
 
+    subroutine get_schur_d_workspace(a,lwork,err)
+        !> Input matrix a[m,m]
+        real(dp),intent(in),target :: a(:,:)
+        !> Minimum workspace size for the decomposition operation
+        integer(ilp),intent(out) :: lwork
+        !> State return flag. Returns an error if the query failed
+        type(linalg_state),optional,intent(out) :: err
+        
+        integer(ilp) :: m,n,sdim,info
+        character :: jobvs,sort
+        logical(lk) :: bwork_dummy(1)
+        real(dp) :: wr_dummy(1),wi_dummy(1),vs_dummy(1,1),work_dummy(1)
+        type(linalg_state) :: err0
+        
+        !> Initialize problem
+        lwork = -1_ilp
+        m = size(a,1,kind=ilp)
+        n = size(a,2,kind=ilp)
+        
+        !> Select task
+        jobvs = gees_vectors(.true.)
+        
+        !> Do not select eigenvalues
+        sort = gees_sort_eigs(.false.)
+        sdim = 0_ilp
+        
+        ! Get Schur space
+        call gees(jobvs,sort,do_not_select,n,a,m,sdim,wr_dummy,wi_dummy, &
+                  vs_dummy,m,work_dummy,lwork,bwork_dummy,info)
+        call handle_gees_info(info,m,n,m,sort,err0)
+        call linalg_error_handling(err0,err)
+
+        contains
+        
+            ! Interface to dummy select routine
+            pure logical(lk) function do_not_select(alphar,alphai)
+                real(dp),intent(in) :: alphar,alphai
+                do_not_select = .false.
+            end function do_not_select
+        
+    end subroutine get_schur_d_workspace
+    
     ! Schur decomposition subroutine
     pure subroutine stdlib_linalg_d_schur(a,t,z,storage,err)
         !> Input matrix a[m,m]
@@ -365,6 +408,48 @@ module stdlib_linalg_schur
 
     end subroutine stdlib_linalg_d_schur
 
+    subroutine get_schur_q_workspace(a,lwork,err)
+        !> Input matrix a[m,m]
+        real(qp),intent(in),target :: a(:,:)
+        !> Minimum workspace size for the decomposition operation
+        integer(ilp),intent(out) :: lwork
+        !> State return flag. Returns an error if the query failed
+        type(linalg_state),optional,intent(out) :: err
+        
+        integer(ilp) :: m,n,sdim,info
+        character :: jobvs,sort
+        logical(lk) :: bwork_dummy(1)
+        real(qp) :: wr_dummy(1),wi_dummy(1),vs_dummy(1,1),work_dummy(1)
+        type(linalg_state) :: err0
+        
+        !> Initialize problem
+        lwork = -1_ilp
+        m = size(a,1,kind=ilp)
+        n = size(a,2,kind=ilp)
+        
+        !> Select task
+        jobvs = gees_vectors(.true.)
+        
+        !> Do not select eigenvalues
+        sort = gees_sort_eigs(.false.)
+        sdim = 0_ilp
+        
+        ! Get Schur space
+        call gees(jobvs,sort,do_not_select,n,a,m,sdim,wr_dummy,wi_dummy, &
+                  vs_dummy,m,work_dummy,lwork,bwork_dummy,info)
+        call handle_gees_info(info,m,n,m,sort,err0)
+        call linalg_error_handling(err0,err)
+
+        contains
+        
+            ! Interface to dummy select routine
+            pure logical(lk) function do_not_select(alphar,alphai)
+                real(qp),intent(in) :: alphar,alphai
+                do_not_select = .false.
+            end function do_not_select
+        
+    end subroutine get_schur_q_workspace
+    
     ! Schur decomposition subroutine
     pure subroutine stdlib_linalg_q_schur(a,t,z,storage,err)
         !> Input matrix a[m,m]
@@ -460,6 +545,48 @@ module stdlib_linalg_schur
 
     end subroutine stdlib_linalg_q_schur
 
+    subroutine get_schur_c_workspace(a,lwork,err)
+        !> Input matrix a[m,m]
+        complex(sp),intent(in),target :: a(:,:)
+        !> Minimum workspace size for the decomposition operation
+        integer(ilp),intent(out) :: lwork
+        !> State return flag. Returns an error if the query failed
+        type(linalg_state),optional,intent(out) :: err
+        
+        integer(ilp) :: m,n,sdim,info
+        character :: jobvs,sort
+        logical(lk) :: bwork_dummy(1)
+        complex(sp) :: wr_dummy(1),wi_dummy(1),vs_dummy(1,1),work_dummy(1)
+        type(linalg_state) :: err0
+        
+        !> Initialize problem
+        lwork = -1_ilp
+        m = size(a,1,kind=ilp)
+        n = size(a,2,kind=ilp)
+        
+        !> Select task
+        jobvs = gees_vectors(.true.)
+        
+        !> Do not select eigenvalues
+        sort = gees_sort_eigs(.false.)
+        sdim = 0_ilp
+        
+        ! Get Schur space
+        call gees(jobvs,sort,do_not_select,n,a,m,sdim,wr_dummy, &
+                  vs_dummy,m,work_dummy,lwork,bwork_dummy,info)
+        call handle_gees_info(info,m,n,m,sort,err0)
+        call linalg_error_handling(err0,err)
+
+        contains
+        
+            ! Interface to dummy select routine
+            pure logical(lk) function do_not_select(alphar,alphai)
+                real(sp),intent(in) :: alphar,alphai
+                do_not_select = .false.
+            end function do_not_select
+        
+    end subroutine get_schur_c_workspace
+    
     ! Schur decomposition subroutine
     pure subroutine stdlib_linalg_c_schur(a,t,z,storage,err)
         !> Input matrix a[m,m]
@@ -555,6 +682,48 @@ module stdlib_linalg_schur
 
     end subroutine stdlib_linalg_c_schur
 
+    subroutine get_schur_z_workspace(a,lwork,err)
+        !> Input matrix a[m,m]
+        complex(dp),intent(in),target :: a(:,:)
+        !> Minimum workspace size for the decomposition operation
+        integer(ilp),intent(out) :: lwork
+        !> State return flag. Returns an error if the query failed
+        type(linalg_state),optional,intent(out) :: err
+        
+        integer(ilp) :: m,n,sdim,info
+        character :: jobvs,sort
+        logical(lk) :: bwork_dummy(1)
+        complex(dp) :: wr_dummy(1),wi_dummy(1),vs_dummy(1,1),work_dummy(1)
+        type(linalg_state) :: err0
+        
+        !> Initialize problem
+        lwork = -1_ilp
+        m = size(a,1,kind=ilp)
+        n = size(a,2,kind=ilp)
+        
+        !> Select task
+        jobvs = gees_vectors(.true.)
+        
+        !> Do not select eigenvalues
+        sort = gees_sort_eigs(.false.)
+        sdim = 0_ilp
+        
+        ! Get Schur space
+        call gees(jobvs,sort,do_not_select,n,a,m,sdim,wr_dummy, &
+                  vs_dummy,m,work_dummy,lwork,bwork_dummy,info)
+        call handle_gees_info(info,m,n,m,sort,err0)
+        call linalg_error_handling(err0,err)
+
+        contains
+        
+            ! Interface to dummy select routine
+            pure logical(lk) function do_not_select(alphar,alphai)
+                real(dp),intent(in) :: alphar,alphai
+                do_not_select = .false.
+            end function do_not_select
+        
+    end subroutine get_schur_z_workspace
+    
     ! Schur decomposition subroutine
     pure subroutine stdlib_linalg_z_schur(a,t,z,storage,err)
         !> Input matrix a[m,m]
@@ -650,6 +819,48 @@ module stdlib_linalg_schur
 
     end subroutine stdlib_linalg_z_schur
 
+    subroutine get_schur_w_workspace(a,lwork,err)
+        !> Input matrix a[m,m]
+        complex(qp),intent(in),target :: a(:,:)
+        !> Minimum workspace size for the decomposition operation
+        integer(ilp),intent(out) :: lwork
+        !> State return flag. Returns an error if the query failed
+        type(linalg_state),optional,intent(out) :: err
+        
+        integer(ilp) :: m,n,sdim,info
+        character :: jobvs,sort
+        logical(lk) :: bwork_dummy(1)
+        complex(qp) :: wr_dummy(1),wi_dummy(1),vs_dummy(1,1),work_dummy(1)
+        type(linalg_state) :: err0
+        
+        !> Initialize problem
+        lwork = -1_ilp
+        m = size(a,1,kind=ilp)
+        n = size(a,2,kind=ilp)
+        
+        !> Select task
+        jobvs = gees_vectors(.true.)
+        
+        !> Do not select eigenvalues
+        sort = gees_sort_eigs(.false.)
+        sdim = 0_ilp
+        
+        ! Get Schur space
+        call gees(jobvs,sort,do_not_select,n,a,m,sdim,wr_dummy, &
+                  vs_dummy,m,work_dummy,lwork,bwork_dummy,info)
+        call handle_gees_info(info,m,n,m,sort,err0)
+        call linalg_error_handling(err0,err)
+
+        contains
+        
+            ! Interface to dummy select routine
+            pure logical(lk) function do_not_select(alphar,alphai)
+                real(qp),intent(in) :: alphar,alphai
+                do_not_select = .false.
+            end function do_not_select
+        
+    end subroutine get_schur_w_workspace
+    
     ! Schur decomposition subroutine
     pure subroutine stdlib_linalg_w_schur(a,t,z,storage,err)
         !> Input matrix a[m,m]
