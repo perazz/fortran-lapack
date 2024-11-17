@@ -221,7 +221,10 @@ module stdlib_linalg_schur
                                                           'should be',[m,n])
             call linalg_error_handling(err0, err)
             return
-        end if                 
+        end if                
+        
+        !> Copy data into the output array
+        t = a 
         
         !> SORTING: no sorting options are currently supported
         sort  = gees_sort_eigs(.false.)
@@ -262,8 +265,7 @@ module stdlib_linalg_schur
             
         else
             
-            ! Query optimal workspace
-            print *, 'get workspace'
+            ! Query optimal workspace            
             call get_schur_${ri}$_workspace(a,lwork,err0)
             if (err0%error()) goto 1
             allocate(work(lwork))
@@ -302,7 +304,6 @@ module stdlib_linalg_schur
         end if  
 
         ! Compute Schur decomposition
-        print *, 'get schur'
         call gees(jobvs,sort,eig_select,nt,t,mt,sdim,eigs,#{if 'real' in rt}#eigi, #{endif}#&
                   vs,ldvs,work,lwork,#{if 'complex' in rt}#rwork,#{endif}#bwork,info)
         call handle_gees_info(info,m,n,m,err0)

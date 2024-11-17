@@ -121,6 +121,8 @@ module stdlib_linalg_schur
                 err = linalg_state(this,LINALG_ERROR,'Ill-conditioned problem: could not sort eigenvalues')
             elseif (info == n + 1) then
                 err = linalg_state(this,LINALG_ERROR,'Some selected eigenvalues lost property due to sorting')
+            elseif (info == n) then
+                err = linalg_state(this,LINALG_ERROR,'Convergence failure: no converged eigenvalues')
             else
                 err = linalg_state(this,LINALG_ERROR,'Convergence failure; converged range is', [info,n])
             end if
@@ -222,6 +224,9 @@ module stdlib_linalg_schur
             return
         end if
         
+        !> Copy data into the output array
+        t = a
+        
         !> SORTING: no sorting options are currently supported
         sort = gees_sort_eigs(.false.)
         sdim = 0_ilp
@@ -262,7 +267,6 @@ module stdlib_linalg_schur
         else
             
             ! Query optimal workspace
-            print *, 'get workspace'
             call get_schur_s_workspace(a,lwork,err0)
             if (err0%error()) goto 1
             allocate (work(lwork))
@@ -404,6 +408,9 @@ module stdlib_linalg_schur
             return
         end if
         
+        !> Copy data into the output array
+        t = a
+        
         !> SORTING: no sorting options are currently supported
         sort = gees_sort_eigs(.false.)
         sdim = 0_ilp
@@ -444,7 +451,6 @@ module stdlib_linalg_schur
         else
             
             ! Query optimal workspace
-            print *, 'get workspace'
             call get_schur_d_workspace(a,lwork,err0)
             if (err0%error()) goto 1
             allocate (work(lwork))
@@ -586,6 +592,9 @@ module stdlib_linalg_schur
             return
         end if
         
+        !> Copy data into the output array
+        t = a
+        
         !> SORTING: no sorting options are currently supported
         sort = gees_sort_eigs(.false.)
         sdim = 0_ilp
@@ -626,7 +635,6 @@ module stdlib_linalg_schur
         else
             
             ! Query optimal workspace
-            print *, 'get workspace'
             call get_schur_q_workspace(a,lwork,err0)
             if (err0%error()) goto 1
             allocate (work(lwork))
@@ -768,6 +776,9 @@ module stdlib_linalg_schur
             return
         end if
         
+        !> Copy data into the output array
+        t = a
+        
         !> SORTING: no sorting options are currently supported
         sort = gees_sort_eigs(.false.)
         sdim = 0_ilp
@@ -808,7 +819,6 @@ module stdlib_linalg_schur
         else
             
             ! Query optimal workspace
-            print *, 'get workspace'
             call get_schur_c_workspace(a,lwork,err0)
             if (err0%error()) goto 1
             allocate (work(lwork))
@@ -950,6 +960,9 @@ module stdlib_linalg_schur
             return
         end if
         
+        !> Copy data into the output array
+        t = a
+        
         !> SORTING: no sorting options are currently supported
         sort = gees_sort_eigs(.false.)
         sdim = 0_ilp
@@ -990,7 +1003,6 @@ module stdlib_linalg_schur
         else
             
             ! Query optimal workspace
-            print *, 'get workspace'
             call get_schur_z_workspace(a,lwork,err0)
             if (err0%error()) goto 1
             allocate (work(lwork))
@@ -1132,6 +1144,9 @@ module stdlib_linalg_schur
             return
         end if
         
+        !> Copy data into the output array
+        t = a
+        
         !> SORTING: no sorting options are currently supported
         sort = gees_sort_eigs(.false.)
         sdim = 0_ilp
@@ -1172,7 +1187,6 @@ module stdlib_linalg_schur
         else
             
             ! Query optimal workspace
-            print *, 'get workspace'
             call get_schur_w_workspace(a,lwork,err0)
             if (err0%error()) goto 1
             allocate (work(lwork))
