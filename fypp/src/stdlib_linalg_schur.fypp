@@ -312,7 +312,15 @@ module stdlib_linalg_schur
                   vs,ldvs,work,lwork,#{if rt.startswith('c')}#rwork,#{endif}#bwork,info)
         call handle_gees_info(info,m,n,m,err0)
 
-      2 if (local_eigs) deallocate(eigs#{if rt.startswith('r')}#,eigi#{endif}#)
+      2 if (local_eigs) then 
+           #:if rt.startswith('r')
+           ! Build complex eigenvalues
+           eigvals = cmplx(eigs,eigi,kind=${rk}$)
+           deallocate(eigs,eigi)
+           #:else
+           deallocate(eigs)
+           #:endif
+        endif    
         if (.not.present(storage)) deallocate(work)
       1 if (sort/=GEES_NOT) deallocate(bwork)
         call linalg_error_handling(err0,err)
