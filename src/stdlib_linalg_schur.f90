@@ -262,6 +262,7 @@ module stdlib_linalg_schur
         else
             
             ! Query optimal workspace
+            print *, 'get workspace'
             call get_schur_s_workspace(a,lwork,err0)
             if (err0%error()) goto 1
             allocate (work(lwork))
@@ -291,6 +292,7 @@ module stdlib_linalg_schur
         end if
 
         ! Compute Schur decomposition
+        print *, 'get schur'
         call gees(jobvs,sort,eig_select,nt,t,mt,sdim,eigs,eigi, &
                   vs,ldvs,work,lwork,bwork,info)
         call handle_gees_info(info,m,n,m,err0)
@@ -442,6 +444,7 @@ module stdlib_linalg_schur
         else
             
             ! Query optimal workspace
+            print *, 'get workspace'
             call get_schur_d_workspace(a,lwork,err0)
             if (err0%error()) goto 1
             allocate (work(lwork))
@@ -471,6 +474,7 @@ module stdlib_linalg_schur
         end if
 
         ! Compute Schur decomposition
+        print *, 'get schur'
         call gees(jobvs,sort,eig_select,nt,t,mt,sdim,eigs,eigi, &
                   vs,ldvs,work,lwork,bwork,info)
         call handle_gees_info(info,m,n,m,err0)
@@ -622,6 +626,7 @@ module stdlib_linalg_schur
         else
             
             ! Query optimal workspace
+            print *, 'get workspace'
             call get_schur_q_workspace(a,lwork,err0)
             if (err0%error()) goto 1
             allocate (work(lwork))
@@ -651,6 +656,7 @@ module stdlib_linalg_schur
         end if
 
         ! Compute Schur decomposition
+        print *, 'get schur'
         call gees(jobvs,sort,eig_select,nt,t,mt,sdim,eigs,eigi, &
                   vs,ldvs,work,lwork,bwork,info)
         call handle_gees_info(info,m,n,m,err0)
@@ -802,6 +808,7 @@ module stdlib_linalg_schur
         else
             
             ! Query optimal workspace
+            print *, 'get workspace'
             call get_schur_c_workspace(a,lwork,err0)
             if (err0%error()) goto 1
             allocate (work(lwork))
@@ -833,6 +840,7 @@ module stdlib_linalg_schur
         end if
 
         ! Compute Schur decomposition
+        print *, 'get schur'
         call gees(jobvs,sort,eig_select,nt,t,mt,sdim,eigs, &
                   vs,ldvs,work,lwork,rwork,bwork,info)
         call handle_gees_info(info,m,n,m,err0)
@@ -982,6 +990,7 @@ module stdlib_linalg_schur
         else
             
             ! Query optimal workspace
+            print *, 'get workspace'
             call get_schur_z_workspace(a,lwork,err0)
             if (err0%error()) goto 1
             allocate (work(lwork))
@@ -1013,6 +1022,7 @@ module stdlib_linalg_schur
         end if
 
         ! Compute Schur decomposition
+        print *, 'get schur'
         call gees(jobvs,sort,eig_select,nt,t,mt,sdim,eigs, &
                   vs,ldvs,work,lwork,rwork,bwork,info)
         call handle_gees_info(info,m,n,m,err0)
@@ -1162,6 +1172,7 @@ module stdlib_linalg_schur
         else
             
             ! Query optimal workspace
+            print *, 'get workspace'
             call get_schur_w_workspace(a,lwork,err0)
             if (err0%error()) goto 1
             allocate (work(lwork))
@@ -1193,6 +1204,7 @@ module stdlib_linalg_schur
         end if
 
         ! Compute Schur decomposition
+        print *, 'get schur'
         call gees(jobvs,sort,eig_select,nt,t,mt,sdim,eigs, &
                   vs,ldvs,work,lwork,rwork,bwork,info)
         call handle_gees_info(info,m,n,m,err0)
