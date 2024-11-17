@@ -201,6 +201,7 @@ module stdlib_linalg_schur
         logical(lk),target :: bwork_dummy(1),local_eigs
         logical(lk),pointer :: bwork(:)
         real(sp),allocatable :: rwork(:)
+        real(sp),target :: vs_dummy(1,1)
         real(sp),pointer :: vs(:,:),work(:),eigs(:),eigi(:)
         character :: jobvs,sort
         type(linalg_state) :: err0
@@ -245,17 +246,18 @@ module stdlib_linalg_schur
         jobvs = gees_vectors(present(z))
         if (present(z)) then
             vs => z
+            
+            ldvs = size(vs,1,kind=ilp)
+            nvs = size(vs,2,kind=ilp)
+            
+            if (ldvs < n .or. nvs /= n) then
+                err0 = linalg_state(this,LINALG_VALUE_ERROR,'Schur vectors size=', [ldvs,nvs], &
+                                                              'should be n=',n)
+                goto 1
+            end if
+            
         else
-            allocate(vs(n,n))
-        end if
-        
-        ldvs = size(vs,1,kind=ilp)
-        nvs  = size(vs,2,kind=ilp)
-        
-        if (ldvs < n .or. nvs /= n) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'Schur vectors size=', [ldvs,nvs], &
-                                                          'should be n=',n)
-            goto 1
+            vs => vs_dummy
         end if
         
         !> User or self-allocated storage
@@ -302,8 +304,7 @@ module stdlib_linalg_schur
 
 2     if (local_eigs) deallocate (eigs,eigi)
         if (.not. present(storage)) deallocate (work)
-1     if (.not. present(z)) deallocate (vs)
-        if (sort /= GEES_NOT) deallocate (bwork)
+1     if (sort /= GEES_NOT) deallocate (bwork)
         call linalg_error_handling(err0,err)
         
         contains
@@ -384,6 +385,7 @@ module stdlib_linalg_schur
         logical(lk),target :: bwork_dummy(1),local_eigs
         logical(lk),pointer :: bwork(:)
         real(dp),allocatable :: rwork(:)
+        real(dp),target :: vs_dummy(1,1)
         real(dp),pointer :: vs(:,:),work(:),eigs(:),eigi(:)
         character :: jobvs,sort
         type(linalg_state) :: err0
@@ -428,17 +430,18 @@ module stdlib_linalg_schur
         jobvs = gees_vectors(present(z))
         if (present(z)) then
             vs => z
+            
+            ldvs = size(vs,1,kind=ilp)
+            nvs = size(vs,2,kind=ilp)
+            
+            if (ldvs < n .or. nvs /= n) then
+                err0 = linalg_state(this,LINALG_VALUE_ERROR,'Schur vectors size=', [ldvs,nvs], &
+                                                              'should be n=',n)
+                goto 1
+            end if
+            
         else
-            allocate (vs(n,n))
-        end if
-        
-        ldvs = size(vs,1,kind=ilp)
-        nvs = size(vs,2,kind=ilp)
-        
-        if (ldvs < n .or. nvs /= n) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'Schur vectors size=', [ldvs,nvs], &
-                                                          'should be n=',n)
-            goto 1
+            vs => vs_dummy
         end if
         
         !> User or self-allocated storage
@@ -485,8 +488,7 @@ module stdlib_linalg_schur
 
 2     if (local_eigs) deallocate (eigs,eigi)
         if (.not. present(storage)) deallocate (work)
-1     if (.not. present(z)) deallocate (vs)
-        if (sort /= GEES_NOT) deallocate (bwork)
+1     if (sort /= GEES_NOT) deallocate (bwork)
         call linalg_error_handling(err0,err)
         
         contains
@@ -567,6 +569,7 @@ module stdlib_linalg_schur
         logical(lk),target :: bwork_dummy(1),local_eigs
         logical(lk),pointer :: bwork(:)
         real(qp),allocatable :: rwork(:)
+        real(qp),target :: vs_dummy(1,1)
         real(qp),pointer :: vs(:,:),work(:),eigs(:),eigi(:)
         character :: jobvs,sort
         type(linalg_state) :: err0
@@ -611,17 +614,18 @@ module stdlib_linalg_schur
         jobvs = gees_vectors(present(z))
         if (present(z)) then
             vs => z
+            
+            ldvs = size(vs,1,kind=ilp)
+            nvs = size(vs,2,kind=ilp)
+            
+            if (ldvs < n .or. nvs /= n) then
+                err0 = linalg_state(this,LINALG_VALUE_ERROR,'Schur vectors size=', [ldvs,nvs], &
+                                                              'should be n=',n)
+                goto 1
+            end if
+            
         else
-            allocate (vs(n,n))
-        end if
-        
-        ldvs = size(vs,1,kind=ilp)
-        nvs = size(vs,2,kind=ilp)
-        
-        if (ldvs < n .or. nvs /= n) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'Schur vectors size=', [ldvs,nvs], &
-                                                          'should be n=',n)
-            goto 1
+            vs => vs_dummy
         end if
         
         !> User or self-allocated storage
@@ -668,8 +672,7 @@ module stdlib_linalg_schur
 
 2     if (local_eigs) deallocate (eigs,eigi)
         if (.not. present(storage)) deallocate (work)
-1     if (.not. present(z)) deallocate (vs)
-        if (sort /= GEES_NOT) deallocate (bwork)
+1     if (sort /= GEES_NOT) deallocate (bwork)
         call linalg_error_handling(err0,err)
         
         contains
@@ -750,6 +753,7 @@ module stdlib_linalg_schur
         logical(lk),target :: bwork_dummy(1),local_eigs
         logical(lk),pointer :: bwork(:)
         real(sp),allocatable :: rwork(:)
+        complex(sp),target :: vs_dummy(1,1)
         complex(sp),pointer :: vs(:,:),work(:),eigs(:)
         character :: jobvs,sort
         type(linalg_state) :: err0
@@ -794,17 +798,18 @@ module stdlib_linalg_schur
         jobvs = gees_vectors(present(z))
         if (present(z)) then
             vs => z
+            
+            ldvs = size(vs,1,kind=ilp)
+            nvs = size(vs,2,kind=ilp)
+            
+            if (ldvs < n .or. nvs /= n) then
+                err0 = linalg_state(this,LINALG_VALUE_ERROR,'Schur vectors size=', [ldvs,nvs], &
+                                                              'should be n=',n)
+                goto 1
+            end if
+            
         else
-            allocate (vs(n,n))
-        end if
-        
-        ldvs = size(vs,1,kind=ilp)
-        nvs = size(vs,2,kind=ilp)
-        
-        if (ldvs < n .or. nvs /= n) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'Schur vectors size=', [ldvs,nvs], &
-                                                          'should be n=',n)
-            goto 1
+            vs => vs_dummy
         end if
         
         !> User or self-allocated storage
@@ -853,8 +858,7 @@ module stdlib_linalg_schur
 
 2     if (local_eigs) deallocate (eigs)
         if (.not. present(storage)) deallocate (work)
-1     if (.not. present(z)) deallocate (vs)
-        if (sort /= GEES_NOT) deallocate (bwork)
+1     if (sort /= GEES_NOT) deallocate (bwork)
         call linalg_error_handling(err0,err)
         
         contains
@@ -933,6 +937,7 @@ module stdlib_linalg_schur
         logical(lk),target :: bwork_dummy(1),local_eigs
         logical(lk),pointer :: bwork(:)
         real(dp),allocatable :: rwork(:)
+        complex(dp),target :: vs_dummy(1,1)
         complex(dp),pointer :: vs(:,:),work(:),eigs(:)
         character :: jobvs,sort
         type(linalg_state) :: err0
@@ -977,17 +982,18 @@ module stdlib_linalg_schur
         jobvs = gees_vectors(present(z))
         if (present(z)) then
             vs => z
+            
+            ldvs = size(vs,1,kind=ilp)
+            nvs = size(vs,2,kind=ilp)
+            
+            if (ldvs < n .or. nvs /= n) then
+                err0 = linalg_state(this,LINALG_VALUE_ERROR,'Schur vectors size=', [ldvs,nvs], &
+                                                              'should be n=',n)
+                goto 1
+            end if
+            
         else
-            allocate (vs(n,n))
-        end if
-        
-        ldvs = size(vs,1,kind=ilp)
-        nvs = size(vs,2,kind=ilp)
-        
-        if (ldvs < n .or. nvs /= n) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'Schur vectors size=', [ldvs,nvs], &
-                                                          'should be n=',n)
-            goto 1
+            vs => vs_dummy
         end if
         
         !> User or self-allocated storage
@@ -1036,8 +1042,7 @@ module stdlib_linalg_schur
 
 2     if (local_eigs) deallocate (eigs)
         if (.not. present(storage)) deallocate (work)
-1     if (.not. present(z)) deallocate (vs)
-        if (sort /= GEES_NOT) deallocate (bwork)
+1     if (sort /= GEES_NOT) deallocate (bwork)
         call linalg_error_handling(err0,err)
         
         contains
@@ -1116,6 +1121,7 @@ module stdlib_linalg_schur
         logical(lk),target :: bwork_dummy(1),local_eigs
         logical(lk),pointer :: bwork(:)
         real(qp),allocatable :: rwork(:)
+        complex(qp),target :: vs_dummy(1,1)
         complex(qp),pointer :: vs(:,:),work(:),eigs(:)
         character :: jobvs,sort
         type(linalg_state) :: err0
@@ -1160,17 +1166,18 @@ module stdlib_linalg_schur
         jobvs = gees_vectors(present(z))
         if (present(z)) then
             vs => z
+            
+            ldvs = size(vs,1,kind=ilp)
+            nvs = size(vs,2,kind=ilp)
+            
+            if (ldvs < n .or. nvs /= n) then
+                err0 = linalg_state(this,LINALG_VALUE_ERROR,'Schur vectors size=', [ldvs,nvs], &
+                                                              'should be n=',n)
+                goto 1
+            end if
+            
         else
-            allocate (vs(n,n))
-        end if
-        
-        ldvs = size(vs,1,kind=ilp)
-        nvs = size(vs,2,kind=ilp)
-        
-        if (ldvs < n .or. nvs /= n) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'Schur vectors size=', [ldvs,nvs], &
-                                                          'should be n=',n)
-            goto 1
+            vs => vs_dummy
         end if
         
         !> User or self-allocated storage
@@ -1219,8 +1226,7 @@ module stdlib_linalg_schur
 
 2     if (local_eigs) deallocate (eigs)
         if (.not. present(storage)) deallocate (work)
-1     if (.not. present(z)) deallocate (vs)
-        if (sort /= GEES_NOT) deallocate (bwork)
+1     if (sort /= GEES_NOT) deallocate (bwork)
         call linalg_error_handling(err0,err)
         
         contains
