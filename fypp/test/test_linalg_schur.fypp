@@ -16,7 +16,7 @@ module test_linalg_schur
         call cpu_time(t0)
 
         #:for rk,rt,ri in ALL_KINDS_TYPES
-        call test_qr_random_${ri}$(error)
+        call test_schur_api_${ri}$(error)
         if (error) return
         #: endfor
 
@@ -30,17 +30,18 @@ module test_linalg_schur
 
     !> QR factorization of a random matrix
     #:for rk,rt,ri in ALL_KINDS_TYPES
-    subroutine test_qr_random_${ri}$(error)
+    subroutine test_schur_api_${ri}$(error)
         logical,intent(out) :: error
 
         integer(ilp), parameter :: n   = 15_ilp
+        integer(ilp) :: lwork
         real(${rk}$), parameter :: tol = 10*sqrt(epsilon(0.0_${rk}$))
+        complex(${rk}$) :: eigs(n)
         ${rt}$ :: a(n,n),t(n,n)
+        ${rt}$, allocatable :: storage(:)
         #:if 'complex' in rt
         real(${rk}$) :: rea(n,n),ima(n,n)
         #:endif
-        integer(ilp) :: lwork
-        ${rt}$, allocatable :: work(:)
         type(linalg_state) :: err
         
         #:if 'complex' in rt
@@ -51,17 +52,24 @@ module test_linalg_schur
         call random_number(a)
         #:endif
         
-        ! 1) QR factorization with full matrices
+        ! Test simple API
         call schur(a,t,err=err)
+        error = err%error(); if (error) return
         
-        print *, err%print() 
+        ! Test output eigenvalues
+        call schur(a,t,eigs,err=err)
+        error = err%error(); if (error) return
         
-        error = err%error()
+        ! Test storage query
+        call schur_space(a,lwork,err=err)
+        error = err%error(); if (error) return
         
-        ! Check solution
-        if (error) return     
+        ! Test with user-defined storage
+        allocate(storage(lwork))        
+        call schur(a,t,eigs,storage,err=err)
+        error = err%error(); if (error) return        
         
-    end subroutine test_qr_random_${ri}$
+    end subroutine test_schur_api_${ri}$
 
     #:endfor
 

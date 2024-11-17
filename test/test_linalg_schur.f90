@@ -14,17 +14,17 @@ module test_linalg_schur
 
         call cpu_time(t0)
 
-        call test_qr_random_s(error)
+        call test_schur_api_s(error)
         if (error) return
-        call test_qr_random_d(error)
+        call test_schur_api_d(error)
         if (error) return
-        call test_qr_random_q(error)
+        call test_schur_api_q(error)
         if (error) return
-        call test_qr_random_c(error)
+        call test_schur_api_c(error)
         if (error) return
-        call test_qr_random_z(error)
+        call test_schur_api_z(error)
         if (error) return
-        call test_qr_random_w(error)
+        call test_schur_api_w(error)
         if (error) return
 
         call cpu_time(t1)
@@ -36,158 +36,206 @@ module test_linalg_schur
     end subroutine test_schur
 
     !> QR factorization of a random matrix
-    subroutine test_qr_random_s(error)
+    subroutine test_schur_api_s(error)
         logical,intent(out) :: error
 
         integer(ilp),parameter :: n = 15_ilp
+        integer(ilp) :: lwork
         real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
+        complex(sp) :: eigs(n)
         real(sp) :: a(n,n),t(n,n)
-        integer(ilp) :: lwork
-        real(sp),allocatable :: work(:)
+        real(sp),allocatable :: storage(:)
         type(linalg_state) :: err
         
         call random_number(a)
         
-        ! 1) QR factorization with full matrices
+        ! Test simple API
         call schur(a,t,err=err)
+        error = err%error(); if (error) return
         
-        print *, err%print()
+        ! Test output eigenvalues
+        call schur(a,t,eigs,err=err)
+        error = err%error(); if (error) return
         
-        error = err%error()
+        ! Test storage query
+        call schur_space(a,lwork,err=err)
+        error = err%error(); if (error) return
         
-        ! Check solution
-        if (error) return
+        ! Test with user-defined storage
+        allocate (storage(lwork))
+        call schur(a,t,eigs,storage,err=err)
+        error = err%error(); if (error) return
         
-    end subroutine test_qr_random_s
+    end subroutine test_schur_api_s
 
-    subroutine test_qr_random_d(error)
+    subroutine test_schur_api_d(error)
         logical,intent(out) :: error
 
         integer(ilp),parameter :: n = 15_ilp
+        integer(ilp) :: lwork
         real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
+        complex(dp) :: eigs(n)
         real(dp) :: a(n,n),t(n,n)
-        integer(ilp) :: lwork
-        real(dp),allocatable :: work(:)
+        real(dp),allocatable :: storage(:)
         type(linalg_state) :: err
         
         call random_number(a)
         
-        ! 1) QR factorization with full matrices
+        ! Test simple API
         call schur(a,t,err=err)
+        error = err%error(); if (error) return
         
-        print *, err%print()
+        ! Test output eigenvalues
+        call schur(a,t,eigs,err=err)
+        error = err%error(); if (error) return
         
-        error = err%error()
+        ! Test storage query
+        call schur_space(a,lwork,err=err)
+        error = err%error(); if (error) return
         
-        ! Check solution
-        if (error) return
+        ! Test with user-defined storage
+        allocate (storage(lwork))
+        call schur(a,t,eigs,storage,err=err)
+        error = err%error(); if (error) return
         
-    end subroutine test_qr_random_d
+    end subroutine test_schur_api_d
 
-    subroutine test_qr_random_q(error)
+    subroutine test_schur_api_q(error)
         logical,intent(out) :: error
 
         integer(ilp),parameter :: n = 15_ilp
+        integer(ilp) :: lwork
         real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
+        complex(qp) :: eigs(n)
         real(qp) :: a(n,n),t(n,n)
-        integer(ilp) :: lwork
-        real(qp),allocatable :: work(:)
+        real(qp),allocatable :: storage(:)
         type(linalg_state) :: err
         
         call random_number(a)
         
-        ! 1) QR factorization with full matrices
+        ! Test simple API
         call schur(a,t,err=err)
+        error = err%error(); if (error) return
         
-        print *, err%print()
+        ! Test output eigenvalues
+        call schur(a,t,eigs,err=err)
+        error = err%error(); if (error) return
         
-        error = err%error()
+        ! Test storage query
+        call schur_space(a,lwork,err=err)
+        error = err%error(); if (error) return
         
-        ! Check solution
-        if (error) return
+        ! Test with user-defined storage
+        allocate (storage(lwork))
+        call schur(a,t,eigs,storage,err=err)
+        error = err%error(); if (error) return
         
-    end subroutine test_qr_random_q
+    end subroutine test_schur_api_q
 
-    subroutine test_qr_random_c(error)
+    subroutine test_schur_api_c(error)
         logical,intent(out) :: error
 
         integer(ilp),parameter :: n = 15_ilp
-        real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
-        complex(sp) :: a(n,n),t(n,n)
-        real(sp) :: rea(n,n),ima(n,n)
         integer(ilp) :: lwork
-        complex(sp),allocatable :: work(:)
+        real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
+        complex(sp) :: eigs(n)
+        complex(sp) :: a(n,n),t(n,n)
+        complex(sp),allocatable :: storage(:)
+        real(sp) :: rea(n,n),ima(n,n)
         type(linalg_state) :: err
         
         call random_number(rea)
         call random_number(ima)
         a = cmplx(rea,ima,kind=sp)
         
-        ! 1) QR factorization with full matrices
+        ! Test simple API
         call schur(a,t,err=err)
+        error = err%error(); if (error) return
         
-        print *, err%print()
+        ! Test output eigenvalues
+        call schur(a,t,eigs,err=err)
+        error = err%error(); if (error) return
         
-        error = err%error()
+        ! Test storage query
+        call schur_space(a,lwork,err=err)
+        error = err%error(); if (error) return
         
-        ! Check solution
-        if (error) return
+        ! Test with user-defined storage
+        allocate (storage(lwork))
+        call schur(a,t,eigs,storage,err=err)
+        error = err%error(); if (error) return
         
-    end subroutine test_qr_random_c
+    end subroutine test_schur_api_c
 
-    subroutine test_qr_random_z(error)
+    subroutine test_schur_api_z(error)
         logical,intent(out) :: error
 
         integer(ilp),parameter :: n = 15_ilp
-        real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
-        complex(dp) :: a(n,n),t(n,n)
-        real(dp) :: rea(n,n),ima(n,n)
         integer(ilp) :: lwork
-        complex(dp),allocatable :: work(:)
+        real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
+        complex(dp) :: eigs(n)
+        complex(dp) :: a(n,n),t(n,n)
+        complex(dp),allocatable :: storage(:)
+        real(dp) :: rea(n,n),ima(n,n)
         type(linalg_state) :: err
         
         call random_number(rea)
         call random_number(ima)
         a = cmplx(rea,ima,kind=dp)
         
-        ! 1) QR factorization with full matrices
+        ! Test simple API
         call schur(a,t,err=err)
+        error = err%error(); if (error) return
         
-        print *, err%print()
+        ! Test output eigenvalues
+        call schur(a,t,eigs,err=err)
+        error = err%error(); if (error) return
         
-        error = err%error()
+        ! Test storage query
+        call schur_space(a,lwork,err=err)
+        error = err%error(); if (error) return
         
-        ! Check solution
-        if (error) return
+        ! Test with user-defined storage
+        allocate (storage(lwork))
+        call schur(a,t,eigs,storage,err=err)
+        error = err%error(); if (error) return
         
-    end subroutine test_qr_random_z
+    end subroutine test_schur_api_z
 
-    subroutine test_qr_random_w(error)
+    subroutine test_schur_api_w(error)
         logical,intent(out) :: error
 
         integer(ilp),parameter :: n = 15_ilp
-        real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
-        complex(qp) :: a(n,n),t(n,n)
-        real(qp) :: rea(n,n),ima(n,n)
         integer(ilp) :: lwork
-        complex(qp),allocatable :: work(:)
+        real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
+        complex(qp) :: eigs(n)
+        complex(qp) :: a(n,n),t(n,n)
+        complex(qp),allocatable :: storage(:)
+        real(qp) :: rea(n,n),ima(n,n)
         type(linalg_state) :: err
         
         call random_number(rea)
         call random_number(ima)
         a = cmplx(rea,ima,kind=qp)
         
-        ! 1) QR factorization with full matrices
+        ! Test simple API
         call schur(a,t,err=err)
+        error = err%error(); if (error) return
         
-        print *, err%print()
+        ! Test output eigenvalues
+        call schur(a,t,eigs,err=err)
+        error = err%error(); if (error) return
         
-        error = err%error()
+        ! Test storage query
+        call schur_space(a,lwork,err=err)
+        error = err%error(); if (error) return
         
-        ! Check solution
-        if (error) return
+        ! Test with user-defined storage
+        allocate (storage(lwork))
+        call schur(a,t,eigs,storage,err=err)
+        error = err%error(); if (error) return
         
-    end subroutine test_qr_random_w
+    end subroutine test_schur_api_w
 
 end module test_linalg_schur
 

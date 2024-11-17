@@ -296,7 +296,6 @@ module stdlib_linalg_schur
         end if
 
         ! Compute Schur decomposition
-        print *, 'get schur'
         call gees(jobvs,sort,eig_select,nt,t,mt,sdim,eigs,eigi, &
                   vs,ldvs,work,lwork,bwork,info)
         call handle_gees_info(info,m,n,m,err0)
@@ -480,7 +479,6 @@ module stdlib_linalg_schur
         end if
 
         ! Compute Schur decomposition
-        print *, 'get schur'
         call gees(jobvs,sort,eig_select,nt,t,mt,sdim,eigs,eigi, &
                   vs,ldvs,work,lwork,bwork,info)
         call handle_gees_info(info,m,n,m,err0)
@@ -664,7 +662,6 @@ module stdlib_linalg_schur
         end if
 
         ! Compute Schur decomposition
-        print *, 'get schur'
         call gees(jobvs,sort,eig_select,nt,t,mt,sdim,eigs,eigi, &
                   vs,ldvs,work,lwork,bwork,info)
         call handle_gees_info(info,m,n,m,err0)
@@ -850,7 +847,6 @@ module stdlib_linalg_schur
         end if
 
         ! Compute Schur decomposition
-        print *, 'get schur'
         call gees(jobvs,sort,eig_select,nt,t,mt,sdim,eigs, &
                   vs,ldvs,work,lwork,rwork,bwork,info)
         call handle_gees_info(info,m,n,m,err0)
@@ -1034,7 +1030,6 @@ module stdlib_linalg_schur
         end if
 
         ! Compute Schur decomposition
-        print *, 'get schur'
         call gees(jobvs,sort,eig_select,nt,t,mt,sdim,eigs, &
                   vs,ldvs,work,lwork,rwork,bwork,info)
         call handle_gees_info(info,m,n,m,err0)
@@ -1218,7 +1213,6 @@ module stdlib_linalg_schur
         end if
 
         ! Compute Schur decomposition
-        print *, 'get schur'
         call gees(jobvs,sort,eig_select,nt,t,mt,sdim,eigs, &
                   vs,ldvs,work,lwork,rwork,bwork,info)
         call handle_gees_info(info,m,n,m,err0)
