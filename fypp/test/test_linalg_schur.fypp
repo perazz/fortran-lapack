@@ -33,30 +33,32 @@ module test_linalg_schur
     subroutine test_qr_random_${ri}$(error)
         logical,intent(out) :: error
 
-        integer(ilp), parameter :: m   = 15_ilp
-        integer(ilp), parameter :: n   =  4_ilp
-        integer(ilp), parameter :: k   = min(m,n)
+        integer(ilp), parameter :: n   = 15_ilp
         real(${rk}$), parameter :: tol = 10*sqrt(epsilon(0.0_${rk}$))
-        ${rt}$ :: a(m,n),q(m,m),r(m,n),qred(m,k),rred(k,n)
-        real(${rk}$) :: rea(m,n),ima(m,n)
+        ${rt}$ :: a(n,n),t(n,n)
+        #:if 'complex' in rt
+        real(${rk}$) :: rea(n,n),ima(n,n)
+        #:endif
         integer(ilp) :: lwork
         ${rt}$, allocatable :: work(:)
         type(linalg_state) :: err
         
+        #:if 'complex' in rt
         call random_number(rea)
-        #:if rt.startswith('complex')
         call random_number(ima)
         a = cmplx(rea,ima,kind=${rk}$)
         #:else
-        a = rea
+        call random_number(a)
         #:endif
         
         ! 1) QR factorization with full matrices
-   !     call schur(a,q,r,err=err)
-
+        call schur(a,t,err=err)
+        
+        print *, err%print() 
+        
+        error = err%error()
         
         ! Check solution
-        error = .not. all(abs(a-matmul(qred,rred))<tol)        
         if (error) return     
         
     end subroutine test_qr_random_${ri}$

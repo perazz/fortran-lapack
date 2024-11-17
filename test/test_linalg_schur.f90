@@ -39,24 +39,23 @@ module test_linalg_schur
     subroutine test_qr_random_s(error)
         logical,intent(out) :: error
 
-        integer(ilp),parameter :: m = 15_ilp
-        integer(ilp),parameter :: n = 4_ilp
-        integer(ilp),parameter :: k = min(m,n)
+        integer(ilp),parameter :: n = 15_ilp
         real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
-        real(sp) :: a(m,n),q(m,m),r(m,n),qred(m,k),rred(k,n)
-        real(sp) :: rea(m,n),ima(m,n)
+        real(sp) :: a(n,n),t(n,n)
         integer(ilp) :: lwork
         real(sp),allocatable :: work(:)
         type(linalg_state) :: err
         
-        call random_number(rea)
-        a = rea
+        call random_number(a)
         
         ! 1) QR factorization with full matrices
-   !     call schur(a,q,r,err=err)
-
+        call schur(a,t,err=err)
+        
+        print *, err%print()
+        
+        error = err%error()
+        
         ! Check solution
-        error = .not. all(abs(a - matmul(qred,rred)) < tol)
         if (error) return
         
     end subroutine test_qr_random_s
@@ -64,24 +63,23 @@ module test_linalg_schur
     subroutine test_qr_random_d(error)
         logical,intent(out) :: error
 
-        integer(ilp),parameter :: m = 15_ilp
-        integer(ilp),parameter :: n = 4_ilp
-        integer(ilp),parameter :: k = min(m,n)
+        integer(ilp),parameter :: n = 15_ilp
         real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
-        real(dp) :: a(m,n),q(m,m),r(m,n),qred(m,k),rred(k,n)
-        real(dp) :: rea(m,n),ima(m,n)
+        real(dp) :: a(n,n),t(n,n)
         integer(ilp) :: lwork
         real(dp),allocatable :: work(:)
         type(linalg_state) :: err
         
-        call random_number(rea)
-        a = rea
+        call random_number(a)
         
         ! 1) QR factorization with full matrices
-   !     call schur(a,q,r,err=err)
-
+        call schur(a,t,err=err)
+        
+        print *, err%print()
+        
+        error = err%error()
+        
         ! Check solution
-        error = .not. all(abs(a - matmul(qred,rred)) < tol)
         if (error) return
         
     end subroutine test_qr_random_d
@@ -89,24 +87,23 @@ module test_linalg_schur
     subroutine test_qr_random_q(error)
         logical,intent(out) :: error
 
-        integer(ilp),parameter :: m = 15_ilp
-        integer(ilp),parameter :: n = 4_ilp
-        integer(ilp),parameter :: k = min(m,n)
+        integer(ilp),parameter :: n = 15_ilp
         real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
-        real(qp) :: a(m,n),q(m,m),r(m,n),qred(m,k),rred(k,n)
-        real(qp) :: rea(m,n),ima(m,n)
+        real(qp) :: a(n,n),t(n,n)
         integer(ilp) :: lwork
         real(qp),allocatable :: work(:)
         type(linalg_state) :: err
         
-        call random_number(rea)
-        a = rea
+        call random_number(a)
         
         ! 1) QR factorization with full matrices
-   !     call schur(a,q,r,err=err)
-
+        call schur(a,t,err=err)
+        
+        print *, err%print()
+        
+        error = err%error()
+        
         ! Check solution
-        error = .not. all(abs(a - matmul(qred,rred)) < tol)
         if (error) return
         
     end subroutine test_qr_random_q
@@ -114,12 +111,10 @@ module test_linalg_schur
     subroutine test_qr_random_c(error)
         logical,intent(out) :: error
 
-        integer(ilp),parameter :: m = 15_ilp
-        integer(ilp),parameter :: n = 4_ilp
-        integer(ilp),parameter :: k = min(m,n)
+        integer(ilp),parameter :: n = 15_ilp
         real(sp),parameter :: tol = 10*sqrt(epsilon(0.0_sp))
-        complex(sp) :: a(m,n),q(m,m),r(m,n),qred(m,k),rred(k,n)
-        real(sp) :: rea(m,n),ima(m,n)
+        complex(sp) :: a(n,n),t(n,n)
+        real(sp) :: rea(n,n),ima(n,n)
         integer(ilp) :: lwork
         complex(sp),allocatable :: work(:)
         type(linalg_state) :: err
@@ -129,10 +124,13 @@ module test_linalg_schur
         a = cmplx(rea,ima,kind=sp)
         
         ! 1) QR factorization with full matrices
-   !     call schur(a,q,r,err=err)
-
+        call schur(a,t,err=err)
+        
+        print *, err%print()
+        
+        error = err%error()
+        
         ! Check solution
-        error = .not. all(abs(a - matmul(qred,rred)) < tol)
         if (error) return
         
     end subroutine test_qr_random_c
@@ -140,12 +138,10 @@ module test_linalg_schur
     subroutine test_qr_random_z(error)
         logical,intent(out) :: error
 
-        integer(ilp),parameter :: m = 15_ilp
-        integer(ilp),parameter :: n = 4_ilp
-        integer(ilp),parameter :: k = min(m,n)
+        integer(ilp),parameter :: n = 15_ilp
         real(dp),parameter :: tol = 10*sqrt(epsilon(0.0_dp))
-        complex(dp) :: a(m,n),q(m,m),r(m,n),qred(m,k),rred(k,n)
-        real(dp) :: rea(m,n),ima(m,n)
+        complex(dp) :: a(n,n),t(n,n)
+        real(dp) :: rea(n,n),ima(n,n)
         integer(ilp) :: lwork
         complex(dp),allocatable :: work(:)
         type(linalg_state) :: err
@@ -155,10 +151,13 @@ module test_linalg_schur
         a = cmplx(rea,ima,kind=dp)
         
         ! 1) QR factorization with full matrices
-   !     call schur(a,q,r,err=err)
-
+        call schur(a,t,err=err)
+        
+        print *, err%print()
+        
+        error = err%error()
+        
         ! Check solution
-        error = .not. all(abs(a - matmul(qred,rred)) < tol)
         if (error) return
         
     end subroutine test_qr_random_z
@@ -166,12 +165,10 @@ module test_linalg_schur
     subroutine test_qr_random_w(error)
         logical,intent(out) :: error
 
-        integer(ilp),parameter :: m = 15_ilp
-        integer(ilp),parameter :: n = 4_ilp
-        integer(ilp),parameter :: k = min(m,n)
+        integer(ilp),parameter :: n = 15_ilp
         real(qp),parameter :: tol = 10*sqrt(epsilon(0.0_qp))
-        complex(qp) :: a(m,n),q(m,m),r(m,n),qred(m,k),rred(k,n)
-        real(qp) :: rea(m,n),ima(m,n)
+        complex(qp) :: a(n,n),t(n,n)
+        real(qp) :: rea(n,n),ima(n,n)
         integer(ilp) :: lwork
         complex(qp),allocatable :: work(:)
         type(linalg_state) :: err
@@ -181,10 +178,13 @@ module test_linalg_schur
         a = cmplx(rea,ima,kind=qp)
         
         ! 1) QR factorization with full matrices
-   !     call schur(a,q,r,err=err)
-
+        call schur(a,t,err=err)
+        
+        print *, err%print()
+        
+        error = err%error()
+        
         ! Check solution
-        error = .not. all(abs(a - matmul(qred,rred)) < tol)
         if (error) return
         
     end subroutine test_qr_random_w

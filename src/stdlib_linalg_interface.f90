@@ -12,6 +12,7 @@ module stdlib_linalg_interface
      use stdlib_linalg_eig
      use stdlib_linalg_qr
      use stdlib_linalg_norms
+     use stdlib_linalg_schur
      implicit none(type,external)
      public
 

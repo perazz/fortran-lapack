@@ -165,7 +165,7 @@ module stdlib_linalg_schur
         !> Get Schur workspace
         call gees(jobvs,sort,do_not_select,n,amat,m,sdim,wr_dummy,wi_dummy, &
                   vs_dummy,m,work_dummy,lwork,bwork_dummy,info)
-        if (info == 0) lwork = int(work_dummy(1),kind=ilp)
+        if (info == 0) lwork = nint(real(work_dummy(1),kind=sp),kind=ilp)
         call handle_gees_info(info,m,n,m,err0)
         call linalg_error_handling(err0,err)
         
@@ -180,97 +180,136 @@ module stdlib_linalg_schur
     end subroutine get_schur_s_workspace
     
     ! Schur decomposition subroutine
-    pure subroutine stdlib_linalg_s_schur(a,t,z,storage,err)
+    subroutine stdlib_linalg_s_schur(a,t,z,eigvals,storage,err)
         !> Input matrix a[m,m]
         real(sp),intent(inout),target :: a(:,:)
         !> Schur form of A: upper-triangular or quasi-upper-triangular matrix T
         real(sp),intent(out),contiguous,target :: t(:,:)
         !> Unitary/orthonormal transformation matrix Z
         real(sp),optional,intent(out),contiguous,target :: z(:,:)
+        !> [optional] Output eigenvalues that appear on the diagonal of T
+        complex(sp),optional,intent(out),contiguous,target :: eigvals(:)
         !> [optional] Provide pre-allocated workspace, size to be checked with schur_space
-        real(sp),intent(out),optional,target :: storage(:)
+        real(sp),optional,intent(inout),target :: storage(:)
         !> [optional] State return flag. On error if not requested, the code will stop
         type(linalg_state),optional,intent(out) :: err
 
         ! Local variables
-!        type(linalg_state) :: err0
-!        integer(ilp) :: m, lda, info, liwork
-!        logical(lk) :: overwrite_a_
-!        logical, pointer :: bwork(:)
-!        integer(ilp), allocatable :: iwork(:)
-!        real(sp), pointer :: amat(:,:), tau(:), work(:)
-!        real(sp) :: rwork_dummy(1)  ! Dummy for real/complex cases
-!        real(sp), allocatable :: tmat(:,:), zmat(:,:)
-!        character :: jobz
+        integer(ilp) :: m,n,mt,nt,ldvs,nvs,lde,lwork,sdim,info
+        logical(lk),target :: bwork_dummy(1),local_eigs
+        logical(lk),pointer :: bwork(:)
+        real(sp),allocatable :: rwork(:)
+        real(sp),pointer :: vs(:,:),work(:),eigs(:),eigi(:)
+        character :: jobvs,sort
+        type(linalg_state) :: err0
+        
+        ! Problem size
+        m = size(a,1,kind=ilp)
+        n = size(a,2,kind=ilp)
+        mt = size(t,1,kind=ilp)
+        nt = size(t,2,kind=ilp)
+        
+        ! Validate dimensions
+        if (m /= n .or. m <= 0 .or. n <= 0) then
+            err0 = linalg_state(this,LINALG_VALUE_ERROR,'Matrix A must be square: size(a)=', [m,n])
+            call linalg_error_handling(err0,err)
+            return
+        end if
+        if (mt /= nt .or. mt /= n .or. nt /= n) then
+            err0 = linalg_state(this,LINALG_VALUE_ERROR,'Matrix T must be square: size(T)=', [mt,nt], &
+                                                          'should be', [m,n])
+            call linalg_error_handling(err0,err)
+            return
+        end if
+        
+        !> SORTING: no sorting options are currently supported
+        sort = gees_sort_eigs(.false.)
+        sdim = 0_ilp
+        
+        if (sort /= GEES_NOT) then
+            
+           allocate (bwork(n),source=.false.)
+        
+        else
+            
+           bwork => bwork_dummy
+            
+        end if
+        
+        !> Schur vectors
+        jobvs = gees_vectors(present(z))
+        if (present(z)) then
+            vs => z
+        else
+            allocate (vs(n,n))
+        end if
+        
+        ldvs = size(vs,1,kind=ilp)
+        nvs = size(vs,2,kind=ilp)
+        
+        if (ldvs < n .or. nvs /= n) then
+            err0 = linalg_state(this,LINALG_VALUE_ERROR,'Schur vectors size=', [ldvs,nvs], &
+                                                          'should be n=',n)
+            goto 1
+        end if
+        
+        !> User or self-allocated storage
+        if (present(storage)) then
+            
+            work => storage
+            lwork = size(work,1,kind=ilp)
+            
+        else
+            
+            ! Query optimal workspace
+            call get_schur_s_workspace(a,lwork,err0)
+            if (err0%error()) goto 1
+            allocate (work(lwork))
+            
+        end if
+        
+        !> User or self-allocated eigenvalue storage
+        if (present(eigvals)) then
+            
+            lde = size(eigvals,1,kind=ilp)
+            
+            allocate (eigs(n),eigi(n))
+            local_eigs = .true.
+            
+        else
+            
+            allocate (eigs(n),eigi(n))
+            local_eigs = .true.
+            lde = n
+            
+        end if
+        
+        if (lde < n) then
+            err0 = linalg_state(this,LINALG_VALUE_ERROR,'Insufficient eigenvalue array size=',lde, &
+                                                          'should be >=',n)
+            goto 2
+        end if
 
-!        ! Problem size
-!        m = size(a, 1, kind=ilp)
-!        lda = size(a, 1, kind=ilp)
-!
-!        ! Validate dimensions
-!        if (size(a, 1, kind=ilp) /= size(a, 2, kind=ilp)) then
-!            err0 = linalg_state(this, LINALG_VALUE_ERROR, 'Matrix A must be square: a=', [size(a,1), size(a,2)])
-!            call linalg_error_handling(err0, err)
-!            return
-!        end if
-!
-!        ! Set default values
-!        overwrite_a_ = .false._lk
-!        if (present(overwrite_a)) overwrite_a_ = overwrite_a
-!
-!        ! Job type based on sorting request
-!        if (present(sort) .and. sort) then
-!            jobz = 'S'  ! Compute and sort eigenvalues
-!        else
-!            jobz = 'N'  ! Compute Schur decomposition without sorting
-!        end if
-!
-!        ! Prepare storage
-!        allocate(tmat(m, m), source=0.0_sp)
-!        allocate(zmat(m, m), source=0.0_sp)
-!
-!        if (overwrite_a_) then
-!            amat => a
-!        else
-!            allocate(amat(m, m), source=a)
-!        end if
-!
-!        ! Allocate workspace
-!        liwork = -1
-!        if (present(lwork)) then
-!            allocate(work(lwork))
-!        else
-!            allocate(work(1))  ! Temporary workspace for querying size
-!        end if
-!
-!        ! Workspace query
-!        call  gees  &
-!            (jobz, 'N', nullify(bwork), m, amat, lda, tau, zmat, lda, work, liwork, iwork, info)
-!        call handle_gees_info(info, m, .false._lk, err0)
-!        if (err0%error()) then
-!            call linalg_error_handling(err0, err)
-!            return
-!        end if
-!
-!        ! Update workspace size
-!        if (.not.present(lwork)) then
-!            liwork = ceiling(real(work(1), kind=sp), kind=ilp)
-!            deallocate(work)
-!            allocate(work(liwork))
-!        end if
-!
-!        ! Compute Schur decomposition
-!        call  gees  &
-!            (jobz, 'N', nullify(bwork), m, amat, lda, tau, zmat, lda, work, liwork, iwork, info)
-!        call handle_gees_info(info, m, present(sort) .and. sort, err0)
-!        if (err0%error()) then
-!            call linalg_error_handling(err0, err)
-!            return
-!        end if
-!
-!        ! Output results
-!        t = amat
-!        z = zmat
+        ! Compute Schur decomposition
+        call gees(jobvs,sort,eig_select,nt,t,mt,sdim,eigs,eigi, &
+                  vs,ldvs,work,lwork,bwork,info)
+        call handle_gees_info(info,m,n,m,err0)
+
+2     if (local_eigs) deallocate (eigs,eigi)
+        if (.not. present(storage)) deallocate (work)
+1     if (.not. present(z)) deallocate (vs)
+        if (sort /= GEES_NOT) deallocate (bwork)
+        call linalg_error_handling(err0,err)
+        
+        contains
+        
+            ! Dummy select routine: currently, no sorting options are offered
+            pure logical(lk) function eig_select(alphar,alphai)
+                real(sp),intent(in) :: alphar,alphai
+                complex(sp) :: alpha
+                alpha = cmplx(alphar,alphai,kind=sp)
+                eig_select = .false.
+            end function eig_select
 
     end subroutine stdlib_linalg_s_schur
 
@@ -306,7 +345,7 @@ module stdlib_linalg_schur
         !> Get Schur workspace
         call gees(jobvs,sort,do_not_select,n,amat,m,sdim,wr_dummy,wi_dummy, &
                   vs_dummy,m,work_dummy,lwork,bwork_dummy,info)
-        if (info == 0) lwork = int(work_dummy(1),kind=ilp)
+        if (info == 0) lwork = nint(real(work_dummy(1),kind=dp),kind=ilp)
         call handle_gees_info(info,m,n,m,err0)
         call linalg_error_handling(err0,err)
         
@@ -321,97 +360,136 @@ module stdlib_linalg_schur
     end subroutine get_schur_d_workspace
     
     ! Schur decomposition subroutine
-    pure subroutine stdlib_linalg_d_schur(a,t,z,storage,err)
+    subroutine stdlib_linalg_d_schur(a,t,z,eigvals,storage,err)
         !> Input matrix a[m,m]
         real(dp),intent(inout),target :: a(:,:)
         !> Schur form of A: upper-triangular or quasi-upper-triangular matrix T
         real(dp),intent(out),contiguous,target :: t(:,:)
         !> Unitary/orthonormal transformation matrix Z
         real(dp),optional,intent(out),contiguous,target :: z(:,:)
+        !> [optional] Output eigenvalues that appear on the diagonal of T
+        complex(dp),optional,intent(out),contiguous,target :: eigvals(:)
         !> [optional] Provide pre-allocated workspace, size to be checked with schur_space
-        real(dp),intent(out),optional,target :: storage(:)
+        real(dp),optional,intent(inout),target :: storage(:)
         !> [optional] State return flag. On error if not requested, the code will stop
         type(linalg_state),optional,intent(out) :: err
 
         ! Local variables
-!        type(linalg_state) :: err0
-!        integer(ilp) :: m, lda, info, liwork
-!        logical(lk) :: overwrite_a_
-!        logical, pointer :: bwork(:)
-!        integer(ilp), allocatable :: iwork(:)
-!        real(dp), pointer :: amat(:,:), tau(:), work(:)
-!        real(dp) :: rwork_dummy(1)  ! Dummy for real/complex cases
-!        real(dp), allocatable :: tmat(:,:), zmat(:,:)
-!        character :: jobz
+        integer(ilp) :: m,n,mt,nt,ldvs,nvs,lde,lwork,sdim,info
+        logical(lk),target :: bwork_dummy(1),local_eigs
+        logical(lk),pointer :: bwork(:)
+        real(dp),allocatable :: rwork(:)
+        real(dp),pointer :: vs(:,:),work(:),eigs(:),eigi(:)
+        character :: jobvs,sort
+        type(linalg_state) :: err0
+        
+        ! Problem size
+        m = size(a,1,kind=ilp)
+        n = size(a,2,kind=ilp)
+        mt = size(t,1,kind=ilp)
+        nt = size(t,2,kind=ilp)
+        
+        ! Validate dimensions
+        if (m /= n .or. m <= 0 .or. n <= 0) then
+            err0 = linalg_state(this,LINALG_VALUE_ERROR,'Matrix A must be square: size(a)=', [m,n])
+            call linalg_error_handling(err0,err)
+            return
+        end if
+        if (mt /= nt .or. mt /= n .or. nt /= n) then
+            err0 = linalg_state(this,LINALG_VALUE_ERROR,'Matrix T must be square: size(T)=', [mt,nt], &
+                                                          'should be', [m,n])
+            call linalg_error_handling(err0,err)
+            return
+        end if
+        
+        !> SORTING: no sorting options are currently supported
+        sort = gees_sort_eigs(.false.)
+        sdim = 0_ilp
+        
+        if (sort /= GEES_NOT) then
+            
+           allocate (bwork(n),source=.false.)
+        
+        else
+            
+           bwork => bwork_dummy
+            
+        end if
+        
+        !> Schur vectors
+        jobvs = gees_vectors(present(z))
+        if (present(z)) then
+            vs => z
+        else
+            allocate (vs(n,n))
+        end if
+        
+        ldvs = size(vs,1,kind=ilp)
+        nvs = size(vs,2,kind=ilp)
+        
+        if (ldvs < n .or. nvs /= n) then
+            err0 = linalg_state(this,LINALG_VALUE_ERROR,'Schur vectors size=', [ldvs,nvs], &
+                                                          'should be n=',n)
+            goto 1
+        end if
+        
+        !> User or self-allocated storage
+        if (present(storage)) then
+            
+            work => storage
+            lwork = size(work,1,kind=ilp)
+            
+        else
+            
+            ! Query optimal workspace
+            call get_schur_d_workspace(a,lwork,err0)
+            if (err0%error()) goto 1
+            allocate (work(lwork))
+            
+        end if
+        
+        !> User or self-allocated eigenvalue storage
+        if (present(eigvals)) then
+            
+            lde = size(eigvals,1,kind=ilp)
+            
+            allocate (eigs(n),eigi(n))
+            local_eigs = .true.
+            
+        else
+            
+            allocate (eigs(n),eigi(n))
+            local_eigs = .true.
+            lde = n
+            
+        end if
+        
+        if (lde < n) then
+            err0 = linalg_state(this,LINALG_VALUE_ERROR,'Insufficient eigenvalue array size=',lde, &
+                                                          'should be >=',n)
+            goto 2
+        end if
 
-!        ! Problem size
-!        m = size(a, 1, kind=ilp)
-!        lda = size(a, 1, kind=ilp)
-!
-!        ! Validate dimensions
-!        if (size(a, 1, kind=ilp) /= size(a, 2, kind=ilp)) then
-!            err0 = linalg_state(this, LINALG_VALUE_ERROR, 'Matrix A must be square: a=', [size(a,1), size(a,2)])
-!            call linalg_error_handling(err0, err)
-!            return
-!        end if
-!
-!        ! Set default values
-!        overwrite_a_ = .false._lk
-!        if (present(overwrite_a)) overwrite_a_ = overwrite_a
-!
-!        ! Job type based on sorting request
-!        if (present(sort) .and. sort) then
-!            jobz = 'S'  ! Compute and sort eigenvalues
-!        else
-!            jobz = 'N'  ! Compute Schur decomposition without sorting
-!        end if
-!
-!        ! Prepare storage
-!        allocate(tmat(m, m), source=0.0_dp)
-!        allocate(zmat(m, m), source=0.0_dp)
-!
-!        if (overwrite_a_) then
-!            amat => a
-!        else
-!            allocate(amat(m, m), source=a)
-!        end if
-!
-!        ! Allocate workspace
-!        liwork = -1
-!        if (present(lwork)) then
-!            allocate(work(lwork))
-!        else
-!            allocate(work(1))  ! Temporary workspace for querying size
-!        end if
-!
-!        ! Workspace query
-!        call  gees  &
-!            (jobz, 'N', nullify(bwork), m, amat, lda, tau, zmat, lda, work, liwork, iwork, info)
-!        call handle_gees_info(info, m, .false._lk, err0)
-!        if (err0%error()) then
-!            call linalg_error_handling(err0, err)
-!            return
-!        end if
-!
-!        ! Update workspace size
-!        if (.not.present(lwork)) then
-!            liwork = ceiling(real(work(1), kind=dp), kind=ilp)
-!            deallocate(work)
-!            allocate(work(liwork))
-!        end if
-!
-!        ! Compute Schur decomposition
-!        call  gees  &
-!            (jobz, 'N', nullify(bwork), m, amat, lda, tau, zmat, lda, work, liwork, iwork, info)
-!        call handle_gees_info(info, m, present(sort) .and. sort, err0)
-!        if (err0%error()) then
-!            call linalg_error_handling(err0, err)
-!            return
-!        end if
-!
-!        ! Output results
-!        t = amat
-!        z = zmat
+        ! Compute Schur decomposition
+        call gees(jobvs,sort,eig_select,nt,t,mt,sdim,eigs,eigi, &
+                  vs,ldvs,work,lwork,bwork,info)
+        call handle_gees_info(info,m,n,m,err0)
+
+2     if (local_eigs) deallocate (eigs,eigi)
+        if (.not. present(storage)) deallocate (work)
+1     if (.not. present(z)) deallocate (vs)
+        if (sort /= GEES_NOT) deallocate (bwork)
+        call linalg_error_handling(err0,err)
+        
+        contains
+        
+            ! Dummy select routine: currently, no sorting options are offered
+            pure logical(lk) function eig_select(alphar,alphai)
+                real(dp),intent(in) :: alphar,alphai
+                complex(dp) :: alpha
+                alpha = cmplx(alphar,alphai,kind=dp)
+                eig_select = .false.
+            end function eig_select
 
     end subroutine stdlib_linalg_d_schur
 
@@ -447,7 +525,7 @@ module stdlib_linalg_schur
         !> Get Schur workspace
         call gees(jobvs,sort,do_not_select,n,amat,m,sdim,wr_dummy,wi_dummy, &
                   vs_dummy,m,work_dummy,lwork,bwork_dummy,info)
-        if (info == 0) lwork = int(work_dummy(1),kind=ilp)
+        if (info == 0) lwork = nint(real(work_dummy(1),kind=qp),kind=ilp)
         call handle_gees_info(info,m,n,m,err0)
         call linalg_error_handling(err0,err)
         
@@ -462,97 +540,136 @@ module stdlib_linalg_schur
     end subroutine get_schur_q_workspace
     
     ! Schur decomposition subroutine
-    pure subroutine stdlib_linalg_q_schur(a,t,z,storage,err)
+    subroutine stdlib_linalg_q_schur(a,t,z,eigvals,storage,err)
         !> Input matrix a[m,m]
         real(qp),intent(inout),target :: a(:,:)
         !> Schur form of A: upper-triangular or quasi-upper-triangular matrix T
         real(qp),intent(out),contiguous,target :: t(:,:)
         !> Unitary/orthonormal transformation matrix Z
         real(qp),optional,intent(out),contiguous,target :: z(:,:)
+        !> [optional] Output eigenvalues that appear on the diagonal of T
+        complex(qp),optional,intent(out),contiguous,target :: eigvals(:)
         !> [optional] Provide pre-allocated workspace, size to be checked with schur_space
-        real(qp),intent(out),optional,target :: storage(:)
+        real(qp),optional,intent(inout),target :: storage(:)
         !> [optional] State return flag. On error if not requested, the code will stop
         type(linalg_state),optional,intent(out) :: err
 
         ! Local variables
-!        type(linalg_state) :: err0
-!        integer(ilp) :: m, lda, info, liwork
-!        logical(lk) :: overwrite_a_
-!        logical, pointer :: bwork(:)
-!        integer(ilp), allocatable :: iwork(:)
-!        real(qp), pointer :: amat(:,:), tau(:), work(:)
-!        real(qp) :: rwork_dummy(1)  ! Dummy for real/complex cases
-!        real(qp), allocatable :: tmat(:,:), zmat(:,:)
-!        character :: jobz
+        integer(ilp) :: m,n,mt,nt,ldvs,nvs,lde,lwork,sdim,info
+        logical(lk),target :: bwork_dummy(1),local_eigs
+        logical(lk),pointer :: bwork(:)
+        real(qp),allocatable :: rwork(:)
+        real(qp),pointer :: vs(:,:),work(:),eigs(:),eigi(:)
+        character :: jobvs,sort
+        type(linalg_state) :: err0
+        
+        ! Problem size
+        m = size(a,1,kind=ilp)
+        n = size(a,2,kind=ilp)
+        mt = size(t,1,kind=ilp)
+        nt = size(t,2,kind=ilp)
+        
+        ! Validate dimensions
+        if (m /= n .or. m <= 0 .or. n <= 0) then
+            err0 = linalg_state(this,LINALG_VALUE_ERROR,'Matrix A must be square: size(a)=', [m,n])
+            call linalg_error_handling(err0,err)
+            return
+        end if
+        if (mt /= nt .or. mt /= n .or. nt /= n) then
+            err0 = linalg_state(this,LINALG_VALUE_ERROR,'Matrix T must be square: size(T)=', [mt,nt], &
+                                                          'should be', [m,n])
+            call linalg_error_handling(err0,err)
+            return
+        end if
+        
+        !> SORTING: no sorting options are currently supported
+        sort = gees_sort_eigs(.false.)
+        sdim = 0_ilp
+        
+        if (sort /= GEES_NOT) then
+            
+           allocate (bwork(n),source=.false.)
+        
+        else
+            
+           bwork => bwork_dummy
+            
+        end if
+        
+        !> Schur vectors
+        jobvs = gees_vectors(present(z))
+        if (present(z)) then
+            vs => z
+        else
+            allocate (vs(n,n))
+        end if
+        
+        ldvs = size(vs,1,kind=ilp)
+        nvs = size(vs,2,kind=ilp)
+        
+        if (ldvs < n .or. nvs /= n) then
+            err0 = linalg_state(this,LINALG_VALUE_ERROR,'Schur vectors size=', [ldvs,nvs], &
+                                                          'should be n=',n)
+            goto 1
+        end if
+        
+        !> User or self-allocated storage
+        if (present(storage)) then
+            
+            work => storage
+            lwork = size(work,1,kind=ilp)
+            
+        else
+            
+            ! Query optimal workspace
+            call get_schur_q_workspace(a,lwork,err0)
+            if (err0%error()) goto 1
+            allocate (work(lwork))
+            
+        end if
+        
+        !> User or self-allocated eigenvalue storage
+        if (present(eigvals)) then
+            
+            lde = size(eigvals,1,kind=ilp)
+            
+            allocate (eigs(n),eigi(n))
+            local_eigs = .true.
+            
+        else
+            
+            allocate (eigs(n),eigi(n))
+            local_eigs = .true.
+            lde = n
+            
+        end if
+        
+        if (lde < n) then
+            err0 = linalg_state(this,LINALG_VALUE_ERROR,'Insufficient eigenvalue array size=',lde, &
+                                                          'should be >=',n)
+            goto 2
+        end if
 
-!        ! Problem size
-!        m = size(a, 1, kind=ilp)
-!        lda = size(a, 1, kind=ilp)
-!
-!        ! Validate dimensions
-!        if (size(a, 1, kind=ilp) /= size(a, 2, kind=ilp)) then
-!            err0 = linalg_state(this, LINALG_VALUE_ERROR, 'Matrix A must be square: a=', [size(a,1), size(a,2)])
-!            call linalg_error_handling(err0, err)
-!            return
-!        end if
-!
-!        ! Set default values
-!        overwrite_a_ = .false._lk
-!        if (present(overwrite_a)) overwrite_a_ = overwrite_a
-!
-!        ! Job type based on sorting request
-!        if (present(sort) .and. sort) then
-!            jobz = 'S'  ! Compute and sort eigenvalues
-!        else
-!            jobz = 'N'  ! Compute Schur decomposition without sorting
-!        end if
-!
-!        ! Prepare storage
-!        allocate(tmat(m, m), source=0.0_qp)
-!        allocate(zmat(m, m), source=0.0_qp)
-!
-!        if (overwrite_a_) then
-!            amat => a
-!        else
-!            allocate(amat(m, m), source=a)
-!        end if
-!
-!        ! Allocate workspace
-!        liwork = -1
-!        if (present(lwork)) then
-!            allocate(work(lwork))
-!        else
-!            allocate(work(1))  ! Temporary workspace for querying size
-!        end if
-!
-!        ! Workspace query
-!        call  gees  &
-!            (jobz, 'N', nullify(bwork), m, amat, lda, tau, zmat, lda, work, liwork, iwork, info)
-!        call handle_gees_info(info, m, .false._lk, err0)
-!        if (err0%error()) then
-!            call linalg_error_handling(err0, err)
-!            return
-!        end if
-!
-!        ! Update workspace size
-!        if (.not.present(lwork)) then
-!            liwork = ceiling(real(work(1), kind=qp), kind=ilp)
-!            deallocate(work)
-!            allocate(work(liwork))
-!        end if
-!
-!        ! Compute Schur decomposition
-!        call  gees  &
-!            (jobz, 'N', nullify(bwork), m, amat, lda, tau, zmat, lda, work, liwork, iwork, info)
-!        call handle_gees_info(info, m, present(sort) .and. sort, err0)
-!        if (err0%error()) then
-!            call linalg_error_handling(err0, err)
-!            return
-!        end if
-!
-!        ! Output results
-!        t = amat
-!        z = zmat
+        ! Compute Schur decomposition
+        call gees(jobvs,sort,eig_select,nt,t,mt,sdim,eigs,eigi, &
+                  vs,ldvs,work,lwork,bwork,info)
+        call handle_gees_info(info,m,n,m,err0)
+
+2     if (local_eigs) deallocate (eigs,eigi)
+        if (.not. present(storage)) deallocate (work)
+1     if (.not. present(z)) deallocate (vs)
+        if (sort /= GEES_NOT) deallocate (bwork)
+        call linalg_error_handling(err0,err)
+        
+        contains
+        
+            ! Dummy select routine: currently, no sorting options are offered
+            pure logical(lk) function eig_select(alphar,alphai)
+                real(qp),intent(in) :: alphar,alphai
+                complex(qp) :: alpha
+                alpha = cmplx(alphar,alphai,kind=qp)
+                eig_select = .false.
+            end function eig_select
 
     end subroutine stdlib_linalg_q_schur
 
@@ -588,7 +705,7 @@ module stdlib_linalg_schur
         !> Get Schur workspace
         call gees(jobvs,sort,do_not_select,n,amat,m,sdim,wr_dummy, &
                   vs_dummy,m,work_dummy,lwork,rwork_dummy,bwork_dummy,info)
-        if (info == 0) lwork = int(work_dummy(1),kind=ilp)
+        if (info == 0) lwork = nint(real(work_dummy(1),kind=sp),kind=ilp)
         call handle_gees_info(info,m,n,m,err0)
         call linalg_error_handling(err0,err)
         
@@ -603,97 +720,136 @@ module stdlib_linalg_schur
     end subroutine get_schur_c_workspace
     
     ! Schur decomposition subroutine
-    pure subroutine stdlib_linalg_c_schur(a,t,z,storage,err)
+    subroutine stdlib_linalg_c_schur(a,t,z,eigvals,storage,err)
         !> Input matrix a[m,m]
         complex(sp),intent(inout),target :: a(:,:)
         !> Schur form of A: upper-triangular or quasi-upper-triangular matrix T
         complex(sp),intent(out),contiguous,target :: t(:,:)
         !> Unitary/orthonormal transformation matrix Z
         complex(sp),optional,intent(out),contiguous,target :: z(:,:)
+        !> [optional] Output eigenvalues that appear on the diagonal of T
+        complex(sp),optional,intent(out),contiguous,target :: eigvals(:)
         !> [optional] Provide pre-allocated workspace, size to be checked with schur_space
-        complex(sp),intent(out),optional,target :: storage(:)
+        complex(sp),optional,intent(inout),target :: storage(:)
         !> [optional] State return flag. On error if not requested, the code will stop
         type(linalg_state),optional,intent(out) :: err
 
         ! Local variables
-!        type(linalg_state) :: err0
-!        integer(ilp) :: m, lda, info, liwork
-!        logical(lk) :: overwrite_a_
-!        logical, pointer :: bwork(:)
-!        integer(ilp), allocatable :: iwork(:)
-!        complex(sp), pointer :: amat(:,:), tau(:), work(:)
-!        complex(sp) :: rwork_dummy(1)  ! Dummy for real/complex cases
-!        complex(sp), allocatable :: tmat(:,:), zmat(:,:)
-!        character :: jobz
+        integer(ilp) :: m,n,mt,nt,ldvs,nvs,lde,lwork,sdim,info
+        logical(lk),target :: bwork_dummy(1),local_eigs
+        logical(lk),pointer :: bwork(:)
+        real(sp),allocatable :: rwork(:)
+        complex(sp),pointer :: vs(:,:),work(:),eigs(:)
+        character :: jobvs,sort
+        type(linalg_state) :: err0
+        
+        ! Problem size
+        m = size(a,1,kind=ilp)
+        n = size(a,2,kind=ilp)
+        mt = size(t,1,kind=ilp)
+        nt = size(t,2,kind=ilp)
+        
+        ! Validate dimensions
+        if (m /= n .or. m <= 0 .or. n <= 0) then
+            err0 = linalg_state(this,LINALG_VALUE_ERROR,'Matrix A must be square: size(a)=', [m,n])
+            call linalg_error_handling(err0,err)
+            return
+        end if
+        if (mt /= nt .or. mt /= n .or. nt /= n) then
+            err0 = linalg_state(this,LINALG_VALUE_ERROR,'Matrix T must be square: size(T)=', [mt,nt], &
+                                                          'should be', [m,n])
+            call linalg_error_handling(err0,err)
+            return
+        end if
+        
+        !> SORTING: no sorting options are currently supported
+        sort = gees_sort_eigs(.false.)
+        sdim = 0_ilp
+        
+        if (sort /= GEES_NOT) then
+            
+           allocate (bwork(n),source=.false.)
+        
+        else
+            
+           bwork => bwork_dummy
+            
+        end if
+        
+        !> Schur vectors
+        jobvs = gees_vectors(present(z))
+        if (present(z)) then
+            vs => z
+        else
+            allocate (vs(n,n))
+        end if
+        
+        ldvs = size(vs,1,kind=ilp)
+        nvs = size(vs,2,kind=ilp)
+        
+        if (ldvs < n .or. nvs /= n) then
+            err0 = linalg_state(this,LINALG_VALUE_ERROR,'Schur vectors size=', [ldvs,nvs], &
+                                                          'should be n=',n)
+            goto 1
+        end if
+        
+        !> User or self-allocated storage
+        if (present(storage)) then
+            
+            work => storage
+            lwork = size(work,1,kind=ilp)
+            
+        else
+            
+            ! Query optimal workspace
+            call get_schur_c_workspace(a,lwork,err0)
+            if (err0%error()) goto 1
+            allocate (work(lwork))
+            
+        end if
+        
+        !> User or self-allocated eigenvalue storage
+        if (present(eigvals)) then
+            
+            lde = size(eigvals,1,kind=ilp)
+            
+            eigs => eigvals
+            local_eigs = .false.
+            
+        else
+            
+            allocate (eigs(n))
+            local_eigs = .true.
+            lde = n
+            
+        end if
+        
+        allocate (rwork(n))
 
-!        ! Problem size
-!        m = size(a, 1, kind=ilp)
-!        lda = size(a, 1, kind=ilp)
-!
-!        ! Validate dimensions
-!        if (size(a, 1, kind=ilp) /= size(a, 2, kind=ilp)) then
-!            err0 = linalg_state(this, LINALG_VALUE_ERROR, 'Matrix A must be square: a=', [size(a,1), size(a,2)])
-!            call linalg_error_handling(err0, err)
-!            return
-!        end if
-!
-!        ! Set default values
-!        overwrite_a_ = .false._lk
-!        if (present(overwrite_a)) overwrite_a_ = overwrite_a
-!
-!        ! Job type based on sorting request
-!        if (present(sort) .and. sort) then
-!            jobz = 'S'  ! Compute and sort eigenvalues
-!        else
-!            jobz = 'N'  ! Compute Schur decomposition without sorting
-!        end if
-!
-!        ! Prepare storage
-!        allocate(tmat(m, m), source=0.0_sp)
-!        allocate(zmat(m, m), source=0.0_sp)
-!
-!        if (overwrite_a_) then
-!            amat => a
-!        else
-!            allocate(amat(m, m), source=a)
-!        end if
-!
-!        ! Allocate workspace
-!        liwork = -1
-!        if (present(lwork)) then
-!            allocate(work(lwork))
-!        else
-!            allocate(work(1))  ! Temporary workspace for querying size
-!        end if
-!
-!        ! Workspace query
-!        call  zgees  &
-!            (jobz, 'N', nullify(bwork), m, amat, lda, tau, zmat, lda, work, liwork, iwork, info)
-!        call handle_gees_info(info, m, .false._lk, err0)
-!        if (err0%error()) then
-!            call linalg_error_handling(err0, err)
-!            return
-!        end if
-!
-!        ! Update workspace size
-!        if (.not.present(lwork)) then
-!            liwork = ceiling(real(work(1), kind=sp), kind=ilp)
-!            deallocate(work)
-!            allocate(work(liwork))
-!        end if
-!
-!        ! Compute Schur decomposition
-!        call  zgees  &
-!            (jobz, 'N', nullify(bwork), m, amat, lda, tau, zmat, lda, work, liwork, iwork, info)
-!        call handle_gees_info(info, m, present(sort) .and. sort, err0)
-!        if (err0%error()) then
-!            call linalg_error_handling(err0, err)
-!            return
-!        end if
-!
-!        ! Output results
-!        t = amat
-!        z = zmat
+        if (lde < n) then
+            err0 = linalg_state(this,LINALG_VALUE_ERROR,'Insufficient eigenvalue array size=',lde, &
+                                                          'should be >=',n)
+            goto 2
+        end if
+
+        ! Compute Schur decomposition
+        call gees(jobvs,sort,eig_select,nt,t,mt,sdim,eigs, &
+                  vs,ldvs,work,lwork,rwork,bwork,info)
+        call handle_gees_info(info,m,n,m,err0)
+
+2     if (local_eigs) deallocate (eigs)
+        if (.not. present(storage)) deallocate (work)
+1     if (.not. present(z)) deallocate (vs)
+        if (sort /= GEES_NOT) deallocate (bwork)
+        call linalg_error_handling(err0,err)
+        
+        contains
+        
+            ! Dummy select routine: currently, no sorting options are offered
+            pure logical(lk) function eig_select(alpha)
+                complex(sp),intent(in) :: alpha
+                eig_select = .false.
+            end function eig_select
 
     end subroutine stdlib_linalg_c_schur
 
@@ -729,7 +885,7 @@ module stdlib_linalg_schur
         !> Get Schur workspace
         call gees(jobvs,sort,do_not_select,n,amat,m,sdim,wr_dummy, &
                   vs_dummy,m,work_dummy,lwork,rwork_dummy,bwork_dummy,info)
-        if (info == 0) lwork = int(work_dummy(1),kind=ilp)
+        if (info == 0) lwork = nint(real(work_dummy(1),kind=dp),kind=ilp)
         call handle_gees_info(info,m,n,m,err0)
         call linalg_error_handling(err0,err)
         
@@ -744,97 +900,136 @@ module stdlib_linalg_schur
     end subroutine get_schur_z_workspace
     
     ! Schur decomposition subroutine
-    pure subroutine stdlib_linalg_z_schur(a,t,z,storage,err)
+    subroutine stdlib_linalg_z_schur(a,t,z,eigvals,storage,err)
         !> Input matrix a[m,m]
         complex(dp),intent(inout),target :: a(:,:)
         !> Schur form of A: upper-triangular or quasi-upper-triangular matrix T
         complex(dp),intent(out),contiguous,target :: t(:,:)
         !> Unitary/orthonormal transformation matrix Z
         complex(dp),optional,intent(out),contiguous,target :: z(:,:)
+        !> [optional] Output eigenvalues that appear on the diagonal of T
+        complex(dp),optional,intent(out),contiguous,target :: eigvals(:)
         !> [optional] Provide pre-allocated workspace, size to be checked with schur_space
-        complex(dp),intent(out),optional,target :: storage(:)
+        complex(dp),optional,intent(inout),target :: storage(:)
         !> [optional] State return flag. On error if not requested, the code will stop
         type(linalg_state),optional,intent(out) :: err
 
         ! Local variables
-!        type(linalg_state) :: err0
-!        integer(ilp) :: m, lda, info, liwork
-!        logical(lk) :: overwrite_a_
-!        logical, pointer :: bwork(:)
-!        integer(ilp), allocatable :: iwork(:)
-!        complex(dp), pointer :: amat(:,:), tau(:), work(:)
-!        complex(dp) :: rwork_dummy(1)  ! Dummy for real/complex cases
-!        complex(dp), allocatable :: tmat(:,:), zmat(:,:)
-!        character :: jobz
+        integer(ilp) :: m,n,mt,nt,ldvs,nvs,lde,lwork,sdim,info
+        logical(lk),target :: bwork_dummy(1),local_eigs
+        logical(lk),pointer :: bwork(:)
+        real(dp),allocatable :: rwork(:)
+        complex(dp),pointer :: vs(:,:),work(:),eigs(:)
+        character :: jobvs,sort
+        type(linalg_state) :: err0
+        
+        ! Problem size
+        m = size(a,1,kind=ilp)
+        n = size(a,2,kind=ilp)
+        mt = size(t,1,kind=ilp)
+        nt = size(t,2,kind=ilp)
+        
+        ! Validate dimensions
+        if (m /= n .or. m <= 0 .or. n <= 0) then
+            err0 = linalg_state(this,LINALG_VALUE_ERROR,'Matrix A must be square: size(a)=', [m,n])
+            call linalg_error_handling(err0,err)
+            return
+        end if
+        if (mt /= nt .or. mt /= n .or. nt /= n) then
+            err0 = linalg_state(this,LINALG_VALUE_ERROR,'Matrix T must be square: size(T)=', [mt,nt], &
+                                                          'should be', [m,n])
+            call linalg_error_handling(err0,err)
+            return
+        end if
+        
+        !> SORTING: no sorting options are currently supported
+        sort = gees_sort_eigs(.false.)
+        sdim = 0_ilp
+        
+        if (sort /= GEES_NOT) then
+            
+           allocate (bwork(n),source=.false.)
+        
+        else
+            
+           bwork => bwork_dummy
+            
+        end if
+        
+        !> Schur vectors
+        jobvs = gees_vectors(present(z))
+        if (present(z)) then
+            vs => z
+        else
+            allocate (vs(n,n))
+        end if
+        
+        ldvs = size(vs,1,kind=ilp)
+        nvs = size(vs,2,kind=ilp)
+        
+        if (ldvs < n .or. nvs /= n) then
+            err0 = linalg_state(this,LINALG_VALUE_ERROR,'Schur vectors size=', [ldvs,nvs], &
+                                                          'should be n=',n)
+            goto 1
+        end if
+        
+        !> User or self-allocated storage
+        if (present(storage)) then
+            
+            work => storage
+            lwork = size(work,1,kind=ilp)
+            
+        else
+            
+            ! Query optimal workspace
+            call get_schur_z_workspace(a,lwork,err0)
+            if (err0%error()) goto 1
+            allocate (work(lwork))
+            
+        end if
+        
+        !> User or self-allocated eigenvalue storage
+        if (present(eigvals)) then
+            
+            lde = size(eigvals,1,kind=ilp)
+            
+            eigs => eigvals
+            local_eigs = .false.
+            
+        else
+            
+            allocate (eigs(n))
+            local_eigs = .true.
+            lde = n
+            
+        end if
+        
+        allocate (rwork(n))
 
-!        ! Problem size
-!        m = size(a, 1, kind=ilp)
-!        lda = size(a, 1, kind=ilp)
-!
-!        ! Validate dimensions
-!        if (size(a, 1, kind=ilp) /= size(a, 2, kind=ilp)) then
-!            err0 = linalg_state(this, LINALG_VALUE_ERROR, 'Matrix A must be square: a=', [size(a,1), size(a,2)])
-!            call linalg_error_handling(err0, err)
-!            return
-!        end if
-!
-!        ! Set default values
-!        overwrite_a_ = .false._lk
-!        if (present(overwrite_a)) overwrite_a_ = overwrite_a
-!
-!        ! Job type based on sorting request
-!        if (present(sort) .and. sort) then
-!            jobz = 'S'  ! Compute and sort eigenvalues
-!        else
-!            jobz = 'N'  ! Compute Schur decomposition without sorting
-!        end if
-!
-!        ! Prepare storage
-!        allocate(tmat(m, m), source=0.0_dp)
-!        allocate(zmat(m, m), source=0.0_dp)
-!
-!        if (overwrite_a_) then
-!            amat => a
-!        else
-!            allocate(amat(m, m), source=a)
-!        end if
-!
-!        ! Allocate workspace
-!        liwork = -1
-!        if (present(lwork)) then
-!            allocate(work(lwork))
-!        else
-!            allocate(work(1))  ! Temporary workspace for querying size
-!        end if
-!
-!        ! Workspace query
-!        call  zgees  &
-!            (jobz, 'N', nullify(bwork), m, amat, lda, tau, zmat, lda, work, liwork, iwork, info)
-!        call handle_gees_info(info, m, .false._lk, err0)
-!        if (err0%error()) then
-!            call linalg_error_handling(err0, err)
-!            return
-!        end if
-!
-!        ! Update workspace size
-!        if (.not.present(lwork)) then
-!            liwork = ceiling(real(work(1), kind=dp), kind=ilp)
-!            deallocate(work)
-!            allocate(work(liwork))
-!        end if
-!
-!        ! Compute Schur decomposition
-!        call  zgees  &
-!            (jobz, 'N', nullify(bwork), m, amat, lda, tau, zmat, lda, work, liwork, iwork, info)
-!        call handle_gees_info(info, m, present(sort) .and. sort, err0)
-!        if (err0%error()) then
-!            call linalg_error_handling(err0, err)
-!            return
-!        end if
-!
-!        ! Output results
-!        t = amat
-!        z = zmat
+        if (lde < n) then
+            err0 = linalg_state(this,LINALG_VALUE_ERROR,'Insufficient eigenvalue array size=',lde, &
+                                                          'should be >=',n)
+            goto 2
+        end if
+
+        ! Compute Schur decomposition
+        call gees(jobvs,sort,eig_select,nt,t,mt,sdim,eigs, &
+                  vs,ldvs,work,lwork,rwork,bwork,info)
+        call handle_gees_info(info,m,n,m,err0)
+
+2     if (local_eigs) deallocate (eigs)
+        if (.not. present(storage)) deallocate (work)
+1     if (.not. present(z)) deallocate (vs)
+        if (sort /= GEES_NOT) deallocate (bwork)
+        call linalg_error_handling(err0,err)
+        
+        contains
+        
+            ! Dummy select routine: currently, no sorting options are offered
+            pure logical(lk) function eig_select(alpha)
+                complex(dp),intent(in) :: alpha
+                eig_select = .false.
+            end function eig_select
 
     end subroutine stdlib_linalg_z_schur
 
@@ -870,7 +1065,7 @@ module stdlib_linalg_schur
         !> Get Schur workspace
         call gees(jobvs,sort,do_not_select,n,amat,m,sdim,wr_dummy, &
                   vs_dummy,m,work_dummy,lwork,rwork_dummy,bwork_dummy,info)
-        if (info == 0) lwork = int(work_dummy(1),kind=ilp)
+        if (info == 0) lwork = nint(real(work_dummy(1),kind=qp),kind=ilp)
         call handle_gees_info(info,m,n,m,err0)
         call linalg_error_handling(err0,err)
         
@@ -885,97 +1080,136 @@ module stdlib_linalg_schur
     end subroutine get_schur_w_workspace
     
     ! Schur decomposition subroutine
-    pure subroutine stdlib_linalg_w_schur(a,t,z,storage,err)
+    subroutine stdlib_linalg_w_schur(a,t,z,eigvals,storage,err)
         !> Input matrix a[m,m]
         complex(qp),intent(inout),target :: a(:,:)
         !> Schur form of A: upper-triangular or quasi-upper-triangular matrix T
         complex(qp),intent(out),contiguous,target :: t(:,:)
         !> Unitary/orthonormal transformation matrix Z
         complex(qp),optional,intent(out),contiguous,target :: z(:,:)
+        !> [optional] Output eigenvalues that appear on the diagonal of T
+        complex(qp),optional,intent(out),contiguous,target :: eigvals(:)
         !> [optional] Provide pre-allocated workspace, size to be checked with schur_space
-        complex(qp),intent(out),optional,target :: storage(:)
+        complex(qp),optional,intent(inout),target :: storage(:)
         !> [optional] State return flag. On error if not requested, the code will stop
         type(linalg_state),optional,intent(out) :: err
 
         ! Local variables
-!        type(linalg_state) :: err0
-!        integer(ilp) :: m, lda, info, liwork
-!        logical(lk) :: overwrite_a_
-!        logical, pointer :: bwork(:)
-!        integer(ilp), allocatable :: iwork(:)
-!        complex(qp), pointer :: amat(:,:), tau(:), work(:)
-!        complex(qp) :: rwork_dummy(1)  ! Dummy for real/complex cases
-!        complex(qp), allocatable :: tmat(:,:), zmat(:,:)
-!        character :: jobz
+        integer(ilp) :: m,n,mt,nt,ldvs,nvs,lde,lwork,sdim,info
+        logical(lk),target :: bwork_dummy(1),local_eigs
+        logical(lk),pointer :: bwork(:)
+        real(qp),allocatable :: rwork(:)
+        complex(qp),pointer :: vs(:,:),work(:),eigs(:)
+        character :: jobvs,sort
+        type(linalg_state) :: err0
+        
+        ! Problem size
+        m = size(a,1,kind=ilp)
+        n = size(a,2,kind=ilp)
+        mt = size(t,1,kind=ilp)
+        nt = size(t,2,kind=ilp)
+        
+        ! Validate dimensions
+        if (m /= n .or. m <= 0 .or. n <= 0) then
+            err0 = linalg_state(this,LINALG_VALUE_ERROR,'Matrix A must be square: size(a)=', [m,n])
+            call linalg_error_handling(err0,err)
+            return
+        end if
+        if (mt /= nt .or. mt /= n .or. nt /= n) then
+            err0 = linalg_state(this,LINALG_VALUE_ERROR,'Matrix T must be square: size(T)=', [mt,nt], &
+                                                          'should be', [m,n])
+            call linalg_error_handling(err0,err)
+            return
+        end if
+        
+        !> SORTING: no sorting options are currently supported
+        sort = gees_sort_eigs(.false.)
+        sdim = 0_ilp
+        
+        if (sort /= GEES_NOT) then
+            
+           allocate (bwork(n),source=.false.)
+        
+        else
+            
+           bwork => bwork_dummy
+            
+        end if
+        
+        !> Schur vectors
+        jobvs = gees_vectors(present(z))
+        if (present(z)) then
+            vs => z
+        else
+            allocate (vs(n,n))
+        end if
+        
+        ldvs = size(vs,1,kind=ilp)
+        nvs = size(vs,2,kind=ilp)
+        
+        if (ldvs < n .or. nvs /= n) then
+            err0 = linalg_state(this,LINALG_VALUE_ERROR,'Schur vectors size=', [ldvs,nvs], &
+                                                          'should be n=',n)
+            goto 1
+        end if
+        
+        !> User or self-allocated storage
+        if (present(storage)) then
+            
+            work => storage
+            lwork = size(work,1,kind=ilp)
+            
+        else
+            
+            ! Query optimal workspace
+            call get_schur_w_workspace(a,lwork,err0)
+            if (err0%error()) goto 1
+            allocate (work(lwork))
+            
+        end if
+        
+        !> User or self-allocated eigenvalue storage
+        if (present(eigvals)) then
+            
+            lde = size(eigvals,1,kind=ilp)
+            
+            eigs => eigvals
+            local_eigs = .false.
+            
+        else
+            
+            allocate (eigs(n))
+            local_eigs = .true.
+            lde = n
+            
+        end if
+        
+        allocate (rwork(n))
 
-!        ! Problem size
-!        m = size(a, 1, kind=ilp)
-!        lda = size(a, 1, kind=ilp)
-!
-!        ! Validate dimensions
-!        if (size(a, 1, kind=ilp) /= size(a, 2, kind=ilp)) then
-!            err0 = linalg_state(this, LINALG_VALUE_ERROR, 'Matrix A must be square: a=', [size(a,1), size(a,2)])
-!            call linalg_error_handling(err0, err)
-!            return
-!        end if
-!
-!        ! Set default values
-!        overwrite_a_ = .false._lk
-!        if (present(overwrite_a)) overwrite_a_ = overwrite_a
-!
-!        ! Job type based on sorting request
-!        if (present(sort) .and. sort) then
-!            jobz = 'S'  ! Compute and sort eigenvalues
-!        else
-!            jobz = 'N'  ! Compute Schur decomposition without sorting
-!        end if
-!
-!        ! Prepare storage
-!        allocate(tmat(m, m), source=0.0_qp)
-!        allocate(zmat(m, m), source=0.0_qp)
-!
-!        if (overwrite_a_) then
-!            amat => a
-!        else
-!            allocate(amat(m, m), source=a)
-!        end if
-!
-!        ! Allocate workspace
-!        liwork = -1
-!        if (present(lwork)) then
-!            allocate(work(lwork))
-!        else
-!            allocate(work(1))  ! Temporary workspace for querying size
-!        end if
-!
-!        ! Workspace query
-!        call  zgees  &
-!            (jobz, 'N', nullify(bwork), m, amat, lda, tau, zmat, lda, work, liwork, iwork, info)
-!        call handle_gees_info(info, m, .false._lk, err0)
-!        if (err0%error()) then
-!            call linalg_error_handling(err0, err)
-!            return
-!        end if
-!
-!        ! Update workspace size
-!        if (.not.present(lwork)) then
-!            liwork = ceiling(real(work(1), kind=qp), kind=ilp)
-!            deallocate(work)
-!            allocate(work(liwork))
-!        end if
-!
-!        ! Compute Schur decomposition
-!        call  zgees  &
-!            (jobz, 'N', nullify(bwork), m, amat, lda, tau, zmat, lda, work, liwork, iwork, info)
-!        call handle_gees_info(info, m, present(sort) .and. sort, err0)
-!        if (err0%error()) then
-!            call linalg_error_handling(err0, err)
-!            return
-!        end if
-!
-!        ! Output results
-!        t = amat
-!        z = zmat
+        if (lde < n) then
+            err0 = linalg_state(this,LINALG_VALUE_ERROR,'Insufficient eigenvalue array size=',lde, &
+                                                          'should be >=',n)
+            goto 2
+        end if
+
+        ! Compute Schur decomposition
+        call gees(jobvs,sort,eig_select,nt,t,mt,sdim,eigs, &
+                  vs,ldvs,work,lwork,rwork,bwork,info)
+        call handle_gees_info(info,m,n,m,err0)
+
+2     if (local_eigs) deallocate (eigs)
+        if (.not. present(storage)) deallocate (work)
+1     if (.not. present(z)) deallocate (vs)
+        if (sort /= GEES_NOT) deallocate (bwork)
+        call linalg_error_handling(err0,err)
+        
+        contains
+        
+            ! Dummy select routine: currently, no sorting options are offered
+            pure logical(lk) function eig_select(alpha)
+                complex(qp),intent(in) :: alpha
+                eig_select = .false.
+            end function eig_select
 
     end subroutine stdlib_linalg_w_schur
 
