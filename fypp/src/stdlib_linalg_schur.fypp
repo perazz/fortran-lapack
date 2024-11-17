@@ -304,7 +304,7 @@ module stdlib_linalg_schur
         end if  
 
         ! Compute Schur decomposition
-        call gees(jobvs,sort,eig_select,nt,t,mt,sdim,eigs,#{if rt.startswith('r')}#eigi, #{endif}#&
+        call gees(jobvs,sort,eig_select,nt,t,mt,sdim,eigs,#{if rt.startswith('r')}#eigi,#{endif}# &
                   vs,ldvs,work,lwork,#{if rt.startswith('c')}#rwork,#{endif}#bwork,info)
         call handle_gees_info(info,m,n,m,err0)
 

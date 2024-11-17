@@ -246,11 +246,11 @@ module stdlib_linalg_schur
         if (present(z)) then
             vs => z
         else
-            allocate (vs(n,n))
+            allocate(vs(n,n))
         end if
         
         ldvs = size(vs,1,kind=ilp)
-        nvs = size(vs,2,kind=ilp)
+        nvs  = size(vs,2,kind=ilp)
         
         if (ldvs < n .or. nvs /= n) then
             err0 = linalg_state(this,LINALG_VALUE_ERROR,'Schur vectors size=', [ldvs,nvs], &
