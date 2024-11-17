@@ -54,24 +54,24 @@ module test_linalg_schur
         
         ! Test simple API
         call schur(a,t,err=err)
-        error = err%error(); if (error) return
+        error = err%error(); if (error) print err%print(); if (error) return
         
         ! Test output transformation matrix
         call schur(a,t,z,err=err)
-        error = err%error(); if (error) return
+        error = err%error(); if (error) print err%print(); if (error) return
 
         ! Test output eigenvalues
         call schur(a,t,eigvals=eigs,err=err)
-        error = err%error(); if (error) return
+        error = err%error(); if (error) print err%print(); if (error) return
         
         ! Test storage query
         call schur_space(a,lwork,err=err)
-        error = err%error(); if (error) return
+        error = err%error(); if (error) print err%print(); if (error) return
         
         ! Test with user-defined storage
         allocate (storage(lwork))
         call schur(a,t,eigvals=eigs,storage=storage,err=err)
-        error = err%error(); if (error) return
+        error = err%error(); if (error) print err%print(); if (error) return
         
     end subroutine test_schur_api_s
     
@@ -79,21 +79,21 @@ module test_linalg_schur
         logical,intent(out) :: error
 
         integer(ilp),parameter :: n = 3_ilp
-        
+        real(sp),parameter :: rtol = 1.0e-4_sp
+        real(sp),parameter :: eps = sqrt(epsilon(0.0_sp))
         real(sp),dimension(n,n) :: a,t,z
         type(linalg_state) :: err
-        
-        a = transpose(reshape([[2.65896708,1.42440458,-1.92933439], &
-                               [0.,-0.32948354,-0.49063704], &
-                               [0.,1.31178921,-0.32948354]], [n,n]))
-        
+
+        call random_number(a)
+
         ! Run schur
         call schur(a,t,z,err=err)
-        error = err%error(); if (error) return
+        error = err%error(); if (error) print err%print(); if (error) return
         
-        print "(3(1x,g0.12))",transpose(t)
-        print "(3(1x,g0.12))",transpose(z)
-        
+        error = .not. (all(abs(a - matmul(matmul(z,t),transpose(z))) <= max(rtol*abs(z),eps)))
+        if (error) print *, 'invalid matmul real(sp)'
+        if (error) print *, a - matmul(matmul(z,t),transpose(z))
+                
     end subroutine test_schur_s
     
     subroutine test_schur_api_d(error)
@@ -111,24 +111,24 @@ module test_linalg_schur
         
         ! Test simple API
         call schur(a,t,err=err)
-        error = err%error(); if (error) return
+        error = err%error(); if (error) print err%print(); if (error) return
         
         ! Test output transformation matrix
         call schur(a,t,z,err=err)
-        error = err%error(); if (error) return
+        error = err%error(); if (error) print err%print(); if (error) return
 
         ! Test output eigenvalues
         call schur(a,t,eigvals=eigs,err=err)
-        error = err%error(); if (error) return
+        error = err%error(); if (error) print err%print(); if (error) return
         
         ! Test storage query
         call schur_space(a,lwork,err=err)
-        error = err%error(); if (error) return
+        error = err%error(); if (error) print err%print(); if (error) return
         
         ! Test with user-defined storage
         allocate (storage(lwork))
         call schur(a,t,eigvals=eigs,storage=storage,err=err)
-        error = err%error(); if (error) return
+        error = err%error(); if (error) print err%print(); if (error) return
         
     end subroutine test_schur_api_d
     
@@ -136,21 +136,21 @@ module test_linalg_schur
         logical,intent(out) :: error
 
         integer(ilp),parameter :: n = 3_ilp
-        
+        real(dp),parameter :: rtol = 1.0e-4_dp
+        real(dp),parameter :: eps = sqrt(epsilon(0.0_dp))
         real(dp),dimension(n,n) :: a,t,z
         type(linalg_state) :: err
-        
-        a = transpose(reshape([[2.65896708,1.42440458,-1.92933439], &
-                               [0.,-0.32948354,-0.49063704], &
-                               [0.,1.31178921,-0.32948354]], [n,n]))
-        
+
+        call random_number(a)
+
         ! Run schur
         call schur(a,t,z,err=err)
-        error = err%error(); if (error) return
+        error = err%error(); if (error) print err%print(); if (error) return
         
-        print "(3(1x,g0.12))",transpose(t)
-        print "(3(1x,g0.12))",transpose(z)
-        
+        error = .not. (all(abs(a - matmul(matmul(z,t),transpose(z))) <= max(rtol*abs(z),eps)))
+        if (error) print *, 'invalid matmul real(dp)'
+        if (error) print *, a - matmul(matmul(z,t),transpose(z))
+                
     end subroutine test_schur_d
     
     subroutine test_schur_api_q(error)
@@ -168,24 +168,24 @@ module test_linalg_schur
         
         ! Test simple API
         call schur(a,t,err=err)
-        error = err%error(); if (error) return
+        error = err%error(); if (error) print err%print(); if (error) return
         
         ! Test output transformation matrix
         call schur(a,t,z,err=err)
-        error = err%error(); if (error) return
+        error = err%error(); if (error) print err%print(); if (error) return
 
         ! Test output eigenvalues
         call schur(a,t,eigvals=eigs,err=err)
-        error = err%error(); if (error) return
+        error = err%error(); if (error) print err%print(); if (error) return
         
         ! Test storage query
         call schur_space(a,lwork,err=err)
-        error = err%error(); if (error) return
+        error = err%error(); if (error) print err%print(); if (error) return
         
         ! Test with user-defined storage
         allocate (storage(lwork))
         call schur(a,t,eigvals=eigs,storage=storage,err=err)
-        error = err%error(); if (error) return
+        error = err%error(); if (error) print err%print(); if (error) return
         
     end subroutine test_schur_api_q
     
@@ -193,21 +193,21 @@ module test_linalg_schur
         logical,intent(out) :: error
 
         integer(ilp),parameter :: n = 3_ilp
-        
+        real(qp),parameter :: rtol = 1.0e-4_qp
+        real(qp),parameter :: eps = sqrt(epsilon(0.0_qp))
         real(qp),dimension(n,n) :: a,t,z
         type(linalg_state) :: err
-        
-        a = transpose(reshape([[2.65896708,1.42440458,-1.92933439], &
-                               [0.,-0.32948354,-0.49063704], &
-                               [0.,1.31178921,-0.32948354]], [n,n]))
-        
+
+        call random_number(a)
+
         ! Run schur
         call schur(a,t,z,err=err)
-        error = err%error(); if (error) return
+        error = err%error(); if (error) print err%print(); if (error) return
         
-        print "(3(1x,g0.12))",transpose(t)
-        print "(3(1x,g0.12))",transpose(z)
-        
+        error = .not. (all(abs(a - matmul(matmul(z,t),transpose(z))) <= max(rtol*abs(z),eps)))
+        if (error) print *, 'invalid matmul real(qp)'
+        if (error) print *, a - matmul(matmul(z,t),transpose(z))
+                
     end subroutine test_schur_q
     
     subroutine test_schur_api_c(error)
@@ -228,24 +228,24 @@ module test_linalg_schur
         
         ! Test simple API
         call schur(a,t,err=err)
-        error = err%error(); if (error) return
+        error = err%error(); if (error) print err%print(); if (error) return
         
         ! Test output transformation matrix
         call schur(a,t,z,err=err)
-        error = err%error(); if (error) return
+        error = err%error(); if (error) print err%print(); if (error) return
 
         ! Test output eigenvalues
         call schur(a,t,eigvals=eigs,err=err)
-        error = err%error(); if (error) return
+        error = err%error(); if (error) print err%print(); if (error) return
         
         ! Test storage query
         call schur_space(a,lwork,err=err)
-        error = err%error(); if (error) return
+        error = err%error(); if (error) print err%print(); if (error) return
         
         ! Test with user-defined storage
         allocate (storage(lwork))
         call schur(a,t,eigvals=eigs,storage=storage,err=err)
-        error = err%error(); if (error) return
+        error = err%error(); if (error) print err%print(); if (error) return
         
     end subroutine test_schur_api_c
     
@@ -267,24 +267,24 @@ module test_linalg_schur
         
         ! Test simple API
         call schur(a,t,err=err)
-        error = err%error(); if (error) return
+        error = err%error(); if (error) print err%print(); if (error) return
         
         ! Test output transformation matrix
         call schur(a,t,z,err=err)
-        error = err%error(); if (error) return
+        error = err%error(); if (error) print err%print(); if (error) return
 
         ! Test output eigenvalues
         call schur(a,t,eigvals=eigs,err=err)
-        error = err%error(); if (error) return
+        error = err%error(); if (error) print err%print(); if (error) return
         
         ! Test storage query
         call schur_space(a,lwork,err=err)
-        error = err%error(); if (error) return
+        error = err%error(); if (error) print err%print(); if (error) return
         
         ! Test with user-defined storage
         allocate (storage(lwork))
         call schur(a,t,eigvals=eigs,storage=storage,err=err)
-        error = err%error(); if (error) return
+        error = err%error(); if (error) print err%print(); if (error) return
         
     end subroutine test_schur_api_z
     
@@ -306,37 +306,26 @@ module test_linalg_schur
         
         ! Test simple API
         call schur(a,t,err=err)
-        error = err%error(); if (error) return
+        error = err%error(); if (error) print err%print(); if (error) return
         
         ! Test output transformation matrix
         call schur(a,t,z,err=err)
-        error = err%error(); if (error) return
+        error = err%error(); if (error) print err%print(); if (error) return
 
         ! Test output eigenvalues
         call schur(a,t,eigvals=eigs,err=err)
-        error = err%error(); if (error) return
+        error = err%error(); if (error) print err%print(); if (error) return
         
         ! Test storage query
         call schur_space(a,lwork,err=err)
-        error = err%error(); if (error) return
+        error = err%error(); if (error) print err%print(); if (error) return
         
         ! Test with user-defined storage
         allocate (storage(lwork))
         call schur(a,t,eigvals=eigs,storage=storage,err=err)
-        error = err%error(); if (error) return
+        error = err%error(); if (error) print err%print(); if (error) return
         
     end subroutine test_schur_api_w
     
-!import numpy as np
-!from scipy.linalg import schur, eigvals
-!A = np.array([[0, 2, 2], [0, 1, 2], [1, 0, 1]])
-!T, Z = schur(A)
-!T
-!array([
-!Z
-!array([[0.72711591, -0.60156188, 0.33079564],
-!       [0.52839428, 0.79801892, 0.28976765],
-!       [0.43829436, 0.03590414, -0.89811411]])
-
 end module test_linalg_schur
 

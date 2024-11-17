@@ -258,6 +258,8 @@ module stdlib_linalg_schur
             
         else
             vs => vs_dummy
+            ldvs = size(vs,1,kind=ilp)
+            nvs = size(vs,2,kind=ilp)
         end if
         
         !> User or self-allocated storage
@@ -442,6 +444,8 @@ module stdlib_linalg_schur
             
         else
             vs => vs_dummy
+            ldvs = size(vs,1,kind=ilp)
+            nvs = size(vs,2,kind=ilp)
         end if
         
         !> User or self-allocated storage
@@ -626,6 +630,8 @@ module stdlib_linalg_schur
             
         else
             vs => vs_dummy
+            ldvs = size(vs,1,kind=ilp)
+            nvs = size(vs,2,kind=ilp)
         end if
         
         !> User or self-allocated storage
@@ -810,6 +816,8 @@ module stdlib_linalg_schur
             
         else
             vs => vs_dummy
+            ldvs = size(vs,1,kind=ilp)
+            nvs = size(vs,2,kind=ilp)
         end if
         
         !> User or self-allocated storage
@@ -994,6 +1002,8 @@ module stdlib_linalg_schur
             
         else
             vs => vs_dummy
+            ldvs = size(vs,1,kind=ilp)
+            nvs = size(vs,2,kind=ilp)
         end if
         
         !> User or self-allocated storage
@@ -1178,6 +1188,8 @@ module stdlib_linalg_schur
             
         else
             vs => vs_dummy
+            ldvs = size(vs,1,kind=ilp)
+            nvs = size(vs,2,kind=ilp)
         end if
         
         !> User or self-allocated storage

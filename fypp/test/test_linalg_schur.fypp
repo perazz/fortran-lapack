@@ -57,24 +57,24 @@ module test_linalg_schur
         
         ! Test simple API
         call schur(a,t,err=err)
-        error = err%error(); if (error) return
+        error = err%error(); if (error) print err%print(); if (error) return
         
         ! Test output transformation matrix
         call schur(a,t,z,err=err)
-        error = err%error(); if (error) return
+        error = err%error(); if (error) print err%print(); if (error) return
 
         ! Test output eigenvalues
         call schur(a,t,eigvals=eigs,err=err)
-        error = err%error(); if (error) return
+        error = err%error(); if (error) print err%print(); if (error) return
         
         ! Test storage query
         call schur_space(a,lwork,err=err)
-        error = err%error(); if (error) return
+        error = err%error(); if (error) print err%print(); if (error) return
         
         ! Test with user-defined storage
         allocate(storage(lwork))        
         call schur(a,t,eigvals=eigs,storage=storage,err=err)
-        error = err%error(); if (error) return        
+        error = err%error(); if (error) print err%print(); if (error) return        
         
     end subroutine test_schur_api_${ri}$
     
@@ -83,37 +83,36 @@ module test_linalg_schur
         logical,intent(out) :: error
 
         integer(ilp), parameter :: n = 3_ilp
-        
+        real(${rk}$), parameter :: rtol = 1.0e-4_${rk}$
+        real(${rk}$), parameter :: eps  = sqrt(epsilon(0.0_${rk}$))
         ${rt}$, dimension(n,n) :: a,t,z
+        #:if 'complex' in rt
+        real(${rk}$), dimension(n,n) :: a_re,a_im
+        #:endif        
         type(linalg_state) :: err
-        
-        a = transpose(reshape([[ 2.65896708,  1.42440458, -1.92933439],&
-                               [ 0.        , -0.32948354, -0.49063704],&
-                               [ 0.        ,  1.31178921, -0.32948354]],[n,n]))
-        
+
+        #:if 'complex' in rt
+        call random_number(a_re)
+        call random_number(a_im)
+        a = cmplx(a_re,a_im,kind=${rk}$)
+        #:else
+        call random_number(a)
+        #:endif
+
         ! Run schur
         call schur(a,t,z,err=err)
-        error = err%error(); if (error) return
+        error = err%error(); if (error) print err%print(); if (error) return        
         
-        print "(3(1x,g0.12))", transpose(t)
-        print "(3(1x,g0.12))", transpose(z)
-        
+        error = .not.(all(abs(a-matmul(matmul(z,t),transpose(z)))<=max(rtol*abs(z),eps)))
+        if (error) print *, 'invalid matmul ${rt}$'
+        if (error) print *, a-matmul(matmul(z,t),transpose(z))
+                
     end subroutine test_schur_${ri}$
     
     #:endif
     
     #:endfor
 
-!import numpy as np
-!from scipy.linalg import schur, eigvals
-!A = np.array([[0, 2, 2], [0, 1, 2], [1, 0, 1]])
-!T, Z = schur(A)
-!T
-!array([
-!Z
-!array([[0.72711591, -0.60156188, 0.33079564],
-!       [0.52839428, 0.79801892, 0.28976765],
-!       [0.43829436, 0.03590414, -0.89811411]])
 
 
 end module test_linalg_schur
