@@ -164,8 +164,8 @@ module stdlib_linalg_schur
         sdim  = 0_ilp
         
         !> Get Schur workspace 
-        call gees(jobvs,sort,do_not_select,n,amat,m,sdim,wr_dummy,#{if 'real' in rt}#wi_dummy, #{endif}#&
-                  vs_dummy,m,work_dummy,lwork,#{if 'complex' in rt}#rwork_dummy,#{endif}#bwork_dummy,info)
+        call gees(jobvs,sort,do_not_select,n,amat,m,sdim,wr_dummy,#{if rt.startswith('r')}#wi_dummy, #{endif}#&
+                  vs_dummy,m,work_dummy,lwork,#{if rt.startswith('c')}#rwork_dummy,#{endif}#bwork_dummy,info)
         if (info==0) lwork = nint(real(work_dummy(1),kind=${rk}$),kind=ilp)
         call handle_gees_info(info,m,n,m,err0)
         call linalg_error_handling(err0,err)
@@ -173,8 +173,8 @@ module stdlib_linalg_schur
         contains
         
             ! Interface to dummy select routine
-            pure logical(lk) function do_not_select(alpha#{if 'real' in rt}#r,alphai#{endif}#) 
-                ${rt}$, intent(in) :: alpha#{if 'real' in rt}#r,alphai#{endif}# 
+            pure logical(lk) function do_not_select(alpha#{if rt.startswith('r')}#r,alphai#{endif}#) 
+                ${rt}$, intent(in) :: alpha#{if rt.startswith('r')}#r,alphai#{endif}# 
                 do_not_select = .false.
             end function do_not_select 
         
@@ -200,7 +200,7 @@ module stdlib_linalg_schur
         logical(lk), target :: bwork_dummy(1),local_eigs
         logical(lk), pointer :: bwork(:)
         real(${rk}$), allocatable :: rwork(:)
-        ${rt}$, pointer :: vs(:,:),work(:),eigs(:)#{if 'real' in rt}#,eigi(:)#{endif}#
+        ${rt}$, pointer :: vs(:,:),work(:),eigs(:)#{if rt.startswith('r')}#,eigi(:)#{endif}#
         character :: jobvs,sort
         type(linalg_state) :: err0
         
@@ -277,7 +277,7 @@ module stdlib_linalg_schur
             
             lde = size(eigvals, 1, kind=ilp)
             
-            #:if 'complex' in rt
+            #:if rt.startswith('c')
             eigs => eigvals
             local_eigs = .false.
             #:else
@@ -287,13 +287,13 @@ module stdlib_linalg_schur
             
         else
             
-            allocate(eigs(n)#{if 'real' in rt}#,eigi(n)#{endif}#)
+            allocate(eigs(n)#{if rt.startswith('r')}#,eigi(n)#{endif}#)
             local_eigs = .true.
             lde = n
             
         end if
         
-        #:if 'complex' in rt
+        #:if rt.startswith('c')
         allocate(rwork(n))
         #:endif
 
@@ -304,11 +304,11 @@ module stdlib_linalg_schur
         end if  
 
         ! Compute Schur decomposition
-        call gees(jobvs,sort,eig_select,nt,t,mt,sdim,eigs,#{if 'real' in rt}#eigi, #{endif}#&
-                  vs,ldvs,work,lwork,#{if 'complex' in rt}#rwork,#{endif}#bwork,info)
+        call gees(jobvs,sort,eig_select,nt,t,mt,sdim,eigs,#{if rt.startswith('r')}#eigi, #{endif}#&
+                  vs,ldvs,work,lwork,#{if rt.startswith('c')}#rwork,#{endif}#bwork,info)
         call handle_gees_info(info,m,n,m,err0)
 
-      2 if (local_eigs) deallocate(eigs#{if 'real' in rt}#,eigi#{endif}#)
+      2 if (local_eigs) deallocate(eigs#{if rt.startswith('r')}#,eigi#{endif}#)
         if (.not.present(storage)) deallocate(work)
       1 if (.not.present(z)) deallocate(vs)
         if (sort/=GEES_NOT) deallocate(bwork)
@@ -317,8 +317,8 @@ module stdlib_linalg_schur
         contains
         
             ! Dummy select routine: currently, no sorting options are offered
-            pure logical(lk) function eig_select(alpha#{if 'real' in rt}#r,alphai#{endif}#)             
-                #:if 'real' in rt
+            pure logical(lk) function eig_select(alpha#{if rt.startswith('r')}#r,alphai#{endif}#)             
+                #:if rt.startswith('r')
                 ${rt}$, intent(in) :: alphar,alphai
                 complex(${rk}$)    :: alpha
                 alpha = cmplx(alphar,alphai,kind=${rk}$)
