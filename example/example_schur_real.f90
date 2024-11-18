@@ -28,5 +28,8 @@ program example_schur_real
   print *, "Max error in reconstruction:", maxval(abs(matmul(Z, matmul(T, transpose(Z))) - A))
 
   deallocate(A, T, Z)
+
+  stop 0
+
 end program example_schur_real
 
