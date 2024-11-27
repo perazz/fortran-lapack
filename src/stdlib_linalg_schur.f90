@@ -304,11 +304,11 @@ module stdlib_linalg_schur
                   vs,ldvs,work,lwork,bwork,info)
         call handle_gees_info(info,m,n,m,err0)
 
-2     if (local_eigs) then
+2     eigenvalue_output: if (local_eigs) then
            ! Build complex eigenvalues
            eigvals = cmplx(eigs,eigi,kind=sp)
            deallocate (eigs,eigi)
-        end if
+        end if eigenvalue_output
         if (.not. present(storage)) deallocate (work)
 1     if (sort /= GEES_NOT) deallocate (bwork)
         call linalg_error_handling(err0,err)
@@ -494,11 +494,11 @@ module stdlib_linalg_schur
                   vs,ldvs,work,lwork,bwork,info)
         call handle_gees_info(info,m,n,m,err0)
 
-2     if (local_eigs) then
+2     eigenvalue_output: if (local_eigs) then
            ! Build complex eigenvalues
            eigvals = cmplx(eigs,eigi,kind=dp)
            deallocate (eigs,eigi)
-        end if
+        end if eigenvalue_output
         if (.not. present(storage)) deallocate (work)
 1     if (sort /= GEES_NOT) deallocate (bwork)
         call linalg_error_handling(err0,err)
@@ -684,11 +684,11 @@ module stdlib_linalg_schur
                   vs,ldvs,work,lwork,bwork,info)
         call handle_gees_info(info,m,n,m,err0)
 
-2     if (local_eigs) then
+2     eigenvalue_output: if (local_eigs) then
            ! Build complex eigenvalues
            eigvals = cmplx(eigs,eigi,kind=qp)
            deallocate (eigs,eigi)
-        end if
+        end if eigenvalue_output
         if (.not. present(storage)) deallocate (work)
 1     if (sort /= GEES_NOT) deallocate (bwork)
         call linalg_error_handling(err0,err)
@@ -876,9 +876,9 @@ module stdlib_linalg_schur
                   vs,ldvs,work,lwork,rwork,bwork,info)
         call handle_gees_info(info,m,n,m,err0)
 
-2     if (local_eigs) then
+2     eigenvalue_output: if (local_eigs) then
            deallocate (eigs)
-        end if
+        end if eigenvalue_output
         if (.not. present(storage)) deallocate (work)
 1     if (sort /= GEES_NOT) deallocate (bwork)
         call linalg_error_handling(err0,err)
@@ -1064,9 +1064,9 @@ module stdlib_linalg_schur
                   vs,ldvs,work,lwork,rwork,bwork,info)
         call handle_gees_info(info,m,n,m,err0)
 
-2     if (local_eigs) then
+2     eigenvalue_output: if (local_eigs) then
            deallocate (eigs)
-        end if
+        end if eigenvalue_output
         if (.not. present(storage)) deallocate (work)
 1     if (sort /= GEES_NOT) deallocate (bwork)
         call linalg_error_handling(err0,err)
@@ -1252,9 +1252,9 @@ module stdlib_linalg_schur
                   vs,ldvs,work,lwork,rwork,bwork,info)
         call handle_gees_info(info,m,n,m,err0)
 
-2     if (local_eigs) then
+2     eigenvalue_output: if (local_eigs) then
            deallocate (eigs)
-        end if
+        end if eigenvalue_output
         if (.not. present(storage)) deallocate (work)
 1     if (sort /= GEES_NOT) deallocate (bwork)
         call linalg_error_handling(err0,err)
