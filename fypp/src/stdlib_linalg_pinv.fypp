@@ -18,11 +18,11 @@ module stdlib_linalg_pseudoinverse
      public :: operator(.pinv.)
 
      ! Function interface
-     interface pinverse
+     interface pinv
         #:for rk,rt,ri in ALL_KINDS_TYPES
         module procedure stdlib_linalg_pseudoinverse_${ri}$
         #:endfor
-     end interface pinverse
+     end interface pinv
 
      ! Subroutine interface
      interface pseudoinvert

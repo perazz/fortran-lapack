@@ -20,18 +20,24 @@ module test_linalg_pseudoinverse
         if (error) return
         call test_q_eye_pseudoinverse(error)
         if (error) return
-        call test_c_eye_pseudoinverse(error)
+        call test_s_random_pseudoinverse(error)
         if (error) return
-        call test_z_eye_pseudoinverse(error)
+        call test_d_random_pseudoinverse(error)
         if (error) return
-        call test_w_eye_pseudoinverse(error)
+        call test_q_random_pseudoinverse(error)
+        if (error) return
+        call test_c_random_pseudoinverse(error)
+        if (error) return
+        call test_z_random_pseudoinverse(error)
+        if (error) return
+        call test_w_random_pseudoinverse(error)
         if (error) return
 
         call cpu_time(t1)
 
         print 1,1000*(t1 - t0),merge('SUCCESS','ERROR  ',.not. error)
 
-1       format('Inverse matrix tests completed in ',f9.4,' milliseconds, result=',a)
+1       format('Pseudo-Inverse matrix tests completed in ',f9.4,' milliseconds, result=',a)
 
     end subroutine test_pseudoinverse_matrix
 
@@ -42,7 +48,8 @@ module test_linalg_pseudoinverse
         type(linalg_state) :: state
 
         integer(ilp) :: i,j
-        integer(ilp),parameter :: n = 250_ilp
+        integer(ilp),parameter :: n = 15_ilp
+        real(sp),parameter :: tol = sqrt(epsilon(0.0_sp))
 
         real(sp) :: a(n,n),inva(n,n)
 
@@ -51,13 +58,17 @@ module test_linalg_pseudoinverse
         end do
 
         !> Invert function
-        inva = inv(a,err=state)
-        error = state%error() .or. .not. all(abs(a - inva) < tiny(0.0_sp))
+        inva = pinv(a,err=state)
+        error = state%error() .or. .not. all(abs(a - inva) < tol)
         if (error) return
 
         !> Inverse subroutine
-        call invert(a,err=state)
-        error = state%error() .or. .not. all(abs(a - inva) < tiny(0.0_sp))
+        call pseudoinvert(a,inva,err=state)
+        error = state%error() .or. .not. all(abs(a - inva) < tol)
+        
+        !> Operator
+        inva = .pinv.a
+        error = .not. all(abs(a - inva) < tiny(0.0_sp))
 
     end subroutine test_s_eye_pseudoinverse
 
@@ -67,7 +78,8 @@ module test_linalg_pseudoinverse
         type(linalg_state) :: state
 
         integer(ilp) :: i,j
-        integer(ilp),parameter :: n = 250_ilp
+        integer(ilp),parameter :: n = 15_ilp
+        real(dp),parameter :: tol = sqrt(epsilon(0.0_sp))
 
         real(dp) :: a(n,n),inva(n,n)
 
@@ -76,13 +88,17 @@ module test_linalg_pseudoinverse
         end do
 
         !> Invert function
-        inva = inv(a,err=state)
-        error = state%error() .or. .not. all(abs(a - inva) < tiny(0.0_dp))
+        inva = pinv(a,err=state)
+        error = state%error() .or. .not. all(abs(a - inva) < tol)
         if (error) return
 
         !> Inverse subroutine
-        call invert(a,err=state)
-        error = state%error() .or. .not. all(abs(a - inva) < tiny(0.0_dp))
+        call pseudoinvert(a,inva,err=state)
+        error = state%error() .or. .not. all(abs(a - inva) < tol)
+        
+        !> Operator
+        inva = .pinv.a
+        error = .not. all(abs(a - inva) < tiny(0.0_dp))
 
     end subroutine test_d_eye_pseudoinverse
 
@@ -92,7 +108,8 @@ module test_linalg_pseudoinverse
         type(linalg_state) :: state
 
         integer(ilp) :: i,j
-        integer(ilp),parameter :: n = 250_ilp
+        integer(ilp),parameter :: n = 15_ilp
+        real(qp),parameter :: tol = sqrt(epsilon(0.0_qp))
 
         real(qp) :: a(n,n),inva(n,n)
 
@@ -101,181 +118,166 @@ module test_linalg_pseudoinverse
         end do
 
         !> Invert function
-        inva = inv(a,err=state)
-        error = state%error() .or. .not. all(abs(a - inva) < tiny(0.0_qp))
+        inva = pinv(a,err=state)
+        error = state%error() .or. .not. all(abs(a - inva) < tol)
         if (error) return
 
         !> Inverse subroutine
-        call invert(a,err=state)
-        error = state%error() .or. .not. all(abs(a - inva) < tiny(0.0_qp))
+        call pseudoinvert(a,inva,err=state)
+        error = state%error() .or. .not. all(abs(a - inva) < tol)
+        
+        !> Operator
+        inva = .pinv.a
+        error = .not. all(abs(a - inva) < tiny(0.0_qp))
 
     end subroutine test_q_eye_pseudoinverse
 
-    !> Invert identity matrix
-    subroutine test_c_eye_pseudoinverse(error)
+    !> Invert random matrix
+    subroutine test_s_random_pseudoinverse(error)
         logical,intent(out) :: error
 
         type(linalg_state) :: state
 
-        integer(ilp) :: i,j,failed
-        integer(ilp),parameter :: n = 250_ilp
+        integer(ilp) :: failed
+        integer(ilp),parameter :: m = 7,n = 15
+        real(sp),parameter :: tol = sqrt(epsilon(0.0_sp))
+        real(sp) :: a(m,n),inva(n,m)
+        
+        call random_number(a)
+        
+        inva = pinv(a,err=state)
+        error = state%error(); if (error) return
+        
+        failed = count(abs(a - matmul(a,matmul(inva,a))) > tol)
+        print *, 'failed=',failed
+        error = failed > 0; if (error) return
+        
+        failed = count(abs(inva - matmul(inva,matmul(a,inva))) > tol)
+        print *, 'failed=',failed
+        error = failed > 0; if (error) return
 
-        complex(sp) :: a(n,n),copya(n,n),inva(n,n)
+    end subroutine test_s_random_pseudoinverse
 
-        do concurrent(i=1:n,j=1:n)
-          a(i,j) = merge((1.0_sp,1.0_sp), (0.0_sp,0.0_sp),i == j)
-        end do
-        copya = a
-
-        !> The inverse of a complex diagonal matrix has conjg(z_ii)/abs(z_ii)^2 on the diagonal
-        inva = inv(a,err=state)
-
-        failed = 0
-        do i = 1,n
-            do j = 1,n
-                if (.not. is_diagonal_pseudoinverse(a(i,j),inva(i,j),i,j)) failed = failed + 1
-            end do
-        end do
-
-        error = state%error() .or. .not. failed == 0
-        if (error) return
-
-        !> Inverse subroutine
-        call invert(copya,err=state)
-
-        failed = 0
-        do i = 1,n
-            do j = 1,n
-                if (.not. is_diagonal_pseudoinverse(a(i,j),copya(i,j),i,j)) failed = failed + 1
-            end do
-        end do
-
-        error = state%error() .or. .not. failed == 0
-
-        contains
-
-           elemental logical function is_diagonal_pseudoinverse(aij,invaij,i,j)
-               complex(sp),intent(in) :: aij,invaij
-               integer(ilp),intent(in) :: i,j
-               if (i /= j) then
-                  is_diagonal_pseudoinverse = max(abs(aij),abs(invaij)) < tiny(0.0_sp)
-               else
-                  ! Product should return the real identity
-                  is_diagonal_pseudoinverse = abs(aij*invaij - (1.0_sp,0.0_sp)) < tiny(0.0_sp)
-               end if
-           end function is_diagonal_pseudoinverse
-
-    end subroutine test_c_eye_pseudoinverse
-
-    subroutine test_z_eye_pseudoinverse(error)
+    subroutine test_d_random_pseudoinverse(error)
         logical,intent(out) :: error
 
         type(linalg_state) :: state
 
-        integer(ilp) :: i,j,failed
-        integer(ilp),parameter :: n = 250_ilp
+        integer(ilp) :: failed
+        integer(ilp),parameter :: m = 7,n = 15
+        real(dp),parameter :: tol = sqrt(epsilon(0.0_sp))
+        real(dp) :: a(m,n),inva(n,m)
+        
+        call random_number(a)
+        
+        inva = pinv(a,err=state)
+        error = state%error(); if (error) return
+        
+        failed = count(abs(a - matmul(a,matmul(inva,a))) > tol)
+        error = failed > 0; if (error) return
+        
+        failed = count(abs(inva - matmul(inva,matmul(a,inva))) > tol)
+        error = failed > 0; if (error) return
 
-        complex(dp) :: a(n,n),copya(n,n),inva(n,n)
+    end subroutine test_d_random_pseudoinverse
 
-        do concurrent(i=1:n,j=1:n)
-          a(i,j) = merge((1.0_dp,1.0_dp), (0.0_dp,0.0_dp),i == j)
-        end do
-        copya = a
-
-        !> The inverse of a complex diagonal matrix has conjg(z_ii)/abs(z_ii)^2 on the diagonal
-        inva = inv(a,err=state)
-
-        failed = 0
-        do i = 1,n
-            do j = 1,n
-                if (.not. is_diagonal_pseudoinverse(a(i,j),inva(i,j),i,j)) failed = failed + 1
-            end do
-        end do
-
-        error = state%error() .or. .not. failed == 0
-        if (error) return
-
-        !> Inverse subroutine
-        call invert(copya,err=state)
-
-        failed = 0
-        do i = 1,n
-            do j = 1,n
-                if (.not. is_diagonal_pseudoinverse(a(i,j),copya(i,j),i,j)) failed = failed + 1
-            end do
-        end do
-
-        error = state%error() .or. .not. failed == 0
-
-        contains
-
-           elemental logical function is_diagonal_pseudoinverse(aij,invaij,i,j)
-               complex(dp),intent(in) :: aij,invaij
-               integer(ilp),intent(in) :: i,j
-               if (i /= j) then
-                  is_diagonal_pseudoinverse = max(abs(aij),abs(invaij)) < tiny(0.0_dp)
-               else
-                  ! Product should return the real identity
-                  is_diagonal_pseudoinverse = abs(aij*invaij - (1.0_dp,0.0_dp)) < tiny(0.0_dp)
-               end if
-           end function is_diagonal_pseudoinverse
-
-    end subroutine test_z_eye_pseudoinverse
-
-    subroutine test_w_eye_pseudoinverse(error)
+    subroutine test_q_random_pseudoinverse(error)
         logical,intent(out) :: error
 
         type(linalg_state) :: state
 
-        integer(ilp) :: i,j,failed
-        integer(ilp),parameter :: n = 250_ilp
+        integer(ilp) :: failed
+        integer(ilp),parameter :: m = 7,n = 15
+        real(qp),parameter :: tol = sqrt(epsilon(0.0_qp))
+        real(qp) :: a(m,n),inva(n,m)
+        
+        call random_number(a)
+        
+        inva = pinv(a,err=state)
+        error = state%error(); if (error) return
+        
+        failed = count(abs(a - matmul(a,matmul(inva,a))) > tol)
+        error = failed > 0; if (error) return
+        
+        failed = count(abs(inva - matmul(inva,matmul(a,inva))) > tol)
+        error = failed > 0; if (error) return
 
-        complex(qp) :: a(n,n),copya(n,n),inva(n,n)
+    end subroutine test_q_random_pseudoinverse
 
-        do concurrent(i=1:n,j=1:n)
-          a(i,j) = merge((1.0_qp,1.0_qp), (0.0_qp,0.0_qp),i == j)
-        end do
-        copya = a
+    subroutine test_c_random_pseudoinverse(error)
+        logical,intent(out) :: error
 
-        !> The inverse of a complex diagonal matrix has conjg(z_ii)/abs(z_ii)^2 on the diagonal
-        inva = inv(a,err=state)
+        type(linalg_state) :: state
 
-        failed = 0
-        do i = 1,n
-            do j = 1,n
-                if (.not. is_diagonal_pseudoinverse(a(i,j),inva(i,j),i,j)) failed = failed + 1
-            end do
-        end do
+        integer(ilp) :: failed
+        integer(ilp),parameter :: m = 7,n = 15
+        real(sp),parameter :: tol = sqrt(epsilon(0.0_sp))
+        complex(sp) :: a(m,n),inva(n,m)
+        real(sp) :: rea(m,n,2)
+        
+        call random_number(rea)
+        a = cmplx(rea(:,:,1),rea(:,:,2),kind=sp)
+        
+        inva = pinv(a,err=state)
+        error = state%error(); if (error) return
+        
+        failed = count(abs(a - matmul(a,matmul(inva,a))) > tol)
+        error = failed > 0; if (error) return
+        
+        failed = count(abs(inva - matmul(inva,matmul(a,inva))) > tol)
+        error = failed > 0; if (error) return
 
-        error = state%error() .or. .not. failed == 0
-        if (error) return
+    end subroutine test_c_random_pseudoinverse
 
-        !> Inverse subroutine
-        call invert(copya,err=state)
+    subroutine test_z_random_pseudoinverse(error)
+        logical,intent(out) :: error
 
-        failed = 0
-        do i = 1,n
-            do j = 1,n
-                if (.not. is_diagonal_pseudoinverse(a(i,j),copya(i,j),i,j)) failed = failed + 1
-            end do
-        end do
+        type(linalg_state) :: state
 
-        error = state%error() .or. .not. failed == 0
+        integer(ilp) :: failed
+        integer(ilp),parameter :: m = 7,n = 15
+        real(dp),parameter :: tol = sqrt(epsilon(0.0_sp))
+        complex(dp) :: a(m,n),inva(n,m)
+        real(dp) :: rea(m,n,2)
+        
+        call random_number(rea)
+        a = cmplx(rea(:,:,1),rea(:,:,2),kind=dp)
+        
+        inva = pinv(a,err=state)
+        error = state%error(); if (error) return
+        
+        failed = count(abs(a - matmul(a,matmul(inva,a))) > tol)
+        error = failed > 0; if (error) return
+        
+        failed = count(abs(inva - matmul(inva,matmul(a,inva))) > tol)
+        error = failed > 0; if (error) return
 
-        contains
+    end subroutine test_z_random_pseudoinverse
 
-           elemental logical function is_diagonal_pseudoinverse(aij,invaij,i,j)
-               complex(qp),intent(in) :: aij,invaij
-               integer(ilp),intent(in) :: i,j
-               if (i /= j) then
-                  is_diagonal_pseudoinverse = max(abs(aij),abs(invaij)) < tiny(0.0_qp)
-               else
-                  ! Product should return the real identity
-                  is_diagonal_pseudoinverse = abs(aij*invaij - (1.0_qp,0.0_qp)) < tiny(0.0_qp)
-               end if
-           end function is_diagonal_pseudoinverse
+    subroutine test_w_random_pseudoinverse(error)
+        logical,intent(out) :: error
 
-    end subroutine test_w_eye_pseudoinverse
+        type(linalg_state) :: state
+
+        integer(ilp) :: failed
+        integer(ilp),parameter :: m = 7,n = 15
+        real(qp),parameter :: tol = sqrt(epsilon(0.0_qp))
+        complex(qp) :: a(m,n),inva(n,m)
+        real(qp) :: rea(m,n,2)
+        
+        call random_number(rea)
+        a = cmplx(rea(:,:,1),rea(:,:,2),kind=qp)
+        
+        inva = pinv(a,err=state)
+        error = state%error(); if (error) return
+        
+        failed = count(abs(a - matmul(a,matmul(inva,a))) > tol)
+        error = failed > 0; if (error) return
+        
+        failed = count(abs(inva - matmul(inva,matmul(a,inva))) > tol)
+        error = failed > 0; if (error) return
+
+    end subroutine test_w_random_pseudoinverse
 
 end module test_linalg_pseudoinverse
 

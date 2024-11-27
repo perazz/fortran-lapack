@@ -10,31 +10,31 @@ module stdlib_linalg_pseudoinverse
      private
 
      !> Pseudo-inverse: Function interface
-     public :: pinverse
+     public :: pinv
      !> Pseudo-inverse: Subroutine interface (pre-allocated)
-     public :: pinvert
+     public :: pseudoinvert
      !> Operator interface: .pinv.A returns the pseudo-inverse of A
      public :: operator(.pinv.)
 
      ! Function interface
-     interface pinverse
+     interface pinv
         module procedure stdlib_linalg_pseudoinverse_s
         module procedure stdlib_linalg_pseudoinverse_d
         module procedure stdlib_linalg_pseudoinverse_q
         module procedure stdlib_linalg_pseudoinverse_c
         module procedure stdlib_linalg_pseudoinverse_z
         module procedure stdlib_linalg_pseudoinverse_w
-     end interface pinverse
+     end interface pinv
 
      ! Subroutine interface
-     interface pinvert
+     interface pseudoinvert
         module procedure stdlib_linalg_pseudoinvert_s
         module procedure stdlib_linalg_pseudoinvert_d
         module procedure stdlib_linalg_pseudoinvert_q
         module procedure stdlib_linalg_pseudoinvert_c
         module procedure stdlib_linalg_pseudoinvert_z
         module procedure stdlib_linalg_pseudoinvert_w
-     end interface pinvert
+     end interface pseudoinvert
 
      ! Operator interface
      interface operator(.pinv.)
