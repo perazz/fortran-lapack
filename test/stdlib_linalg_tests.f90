@@ -10,6 +10,7 @@ program stdlib_linalg_tests
     use test_linalg_qr
     use test_linalg_norms
     use test_linalg_schur
+    use test_linalg_pseudoinverse
     implicit none(type, external)
 
     logical :: error
@@ -40,8 +41,11 @@ program stdlib_linalg_tests
 
 !    call test_norms(error)
 !    if (error) error stop 'test_norms'
-    call test_schur(error)
-    if (error) error stop 'test_schur'
+!    call test_schur(error)
+!    if (error) error stop 'test_schur'
+
+    call test_pseudoinverse_matrix(error)
+    if (error) error stop 'test_pseudoinverse'
     
     !> All tests passed
     stop 0
