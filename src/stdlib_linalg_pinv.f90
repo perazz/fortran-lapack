@@ -104,12 +104,13 @@ module stdlib_linalg_pseudoinverse
          cutoff = tolerance*maxval(s)
          s = merge(1/s,0.0_sp,s > cutoff)
 
-         ! Get pseudo-inverse: A_pinv = VT^T * (diag(1/s) * U^T)
+         ! Get pseudo-inverse: A_pinv = V * (diag(1/s) * U^H) = V * (U * diag(1/s))^H
          
-         ! 1) compute (diag(1/s) * U^T) in-place without transposing U
+         ! 1) compute (U * diag(1/s)) in-place
          forall (i=1:m,j=1:k) u(i,j) = s(j)*u(i,j)
             
-         ! 2) commutate matmul: A_pinv = VT^T * U^T = (U * VT)^T. This avoids one matrix transpose
+         ! 2) commutate matmul: A_pinv = V^H * (U * diag(1/s))^H = ((U * diag(1/s)) * V^H)^H.
+         !    This avoids one matrix transpose
          pinva = transpose(matmul(u,vt))
 
      end subroutine stdlib_linalg_pseudoinvert_s
@@ -202,12 +203,13 @@ module stdlib_linalg_pseudoinverse
          cutoff = tolerance*maxval(s)
          s = merge(1/s,0.0_dp,s > cutoff)
 
-         ! Get pseudo-inverse: A_pinv = VT^T * (diag(1/s) * U^T)
+         ! Get pseudo-inverse: A_pinv = V * (diag(1/s) * U^H) = V * (U * diag(1/s))^H
          
-         ! 1) compute (diag(1/s) * U^T) in-place without transposing U
+         ! 1) compute (U * diag(1/s)) in-place
          forall (i=1:m,j=1:k) u(i,j) = s(j)*u(i,j)
             
-         ! 2) commutate matmul: A_pinv = VT^T * U^T = (U * VT)^T. This avoids one matrix transpose
+         ! 2) commutate matmul: A_pinv = V^H * (U * diag(1/s))^H = ((U * diag(1/s)) * V^H)^H.
+         !    This avoids one matrix transpose
          pinva = transpose(matmul(u,vt))
 
      end subroutine stdlib_linalg_pseudoinvert_d
@@ -300,12 +302,13 @@ module stdlib_linalg_pseudoinverse
          cutoff = tolerance*maxval(s)
          s = merge(1/s,0.0_qp,s > cutoff)
 
-         ! Get pseudo-inverse: A_pinv = VT^T * (diag(1/s) * U^T)
+         ! Get pseudo-inverse: A_pinv = V * (diag(1/s) * U^H) = V * (U * diag(1/s))^H
          
-         ! 1) compute (diag(1/s) * U^T) in-place without transposing U
+         ! 1) compute (U * diag(1/s)) in-place
          forall (i=1:m,j=1:k) u(i,j) = s(j)*u(i,j)
             
-         ! 2) commutate matmul: A_pinv = VT^T * U^T = (U * VT)^T. This avoids one matrix transpose
+         ! 2) commutate matmul: A_pinv = V^H * (U * diag(1/s))^H = ((U * diag(1/s)) * V^H)^H.
+         !    This avoids one matrix transpose
          pinva = transpose(matmul(u,vt))
 
      end subroutine stdlib_linalg_pseudoinvert_q
@@ -398,13 +401,14 @@ module stdlib_linalg_pseudoinverse
          cutoff = tolerance*maxval(s)
          s = merge(1/s,0.0_sp,s > cutoff)
 
-         ! Get pseudo-inverse: A_pinv = VT^T * (diag(1/s) * U^T)
+         ! Get pseudo-inverse: A_pinv = V * (diag(1/s) * U^H) = V * (U * diag(1/s))^H
          
-         ! 1) compute (diag(1/s) * U^T) in-place without transposing U
+         ! 1) compute (U * diag(1/s)) in-place
          forall (i=1:m,j=1:k) u(i,j) = s(j)*u(i,j)
             
-         ! 2) commutate matmul: A_pinv = VT^T * U^T = (U * VT)^T. This avoids one matrix transpose
-         pinva = transpose(matmul(u,vt))
+         ! 2) commutate matmul: A_pinv = V^H * (U * diag(1/s))^H = ((U * diag(1/s)) * V^H)^H.
+         !    This avoids one matrix transpose
+         pinva = conjg(transpose(matmul(u,vt)))
 
      end subroutine stdlib_linalg_pseudoinvert_c
 
@@ -496,13 +500,14 @@ module stdlib_linalg_pseudoinverse
          cutoff = tolerance*maxval(s)
          s = merge(1/s,0.0_dp,s > cutoff)
 
-         ! Get pseudo-inverse: A_pinv = VT^T * (diag(1/s) * U^T)
+         ! Get pseudo-inverse: A_pinv = V * (diag(1/s) * U^H) = V * (U * diag(1/s))^H
          
-         ! 1) compute (diag(1/s) * U^T) in-place without transposing U
+         ! 1) compute (U * diag(1/s)) in-place
          forall (i=1:m,j=1:k) u(i,j) = s(j)*u(i,j)
             
-         ! 2) commutate matmul: A_pinv = VT^T * U^T = (U * VT)^T. This avoids one matrix transpose
-         pinva = transpose(matmul(u,vt))
+         ! 2) commutate matmul: A_pinv = V^H * (U * diag(1/s))^H = ((U * diag(1/s)) * V^H)^H.
+         !    This avoids one matrix transpose
+         pinva = conjg(transpose(matmul(u,vt)))
 
      end subroutine stdlib_linalg_pseudoinvert_z
 
@@ -594,13 +599,14 @@ module stdlib_linalg_pseudoinverse
          cutoff = tolerance*maxval(s)
          s = merge(1/s,0.0_qp,s > cutoff)
 
-         ! Get pseudo-inverse: A_pinv = VT^T * (diag(1/s) * U^T)
+         ! Get pseudo-inverse: A_pinv = V * (diag(1/s) * U^H) = V * (U * diag(1/s))^H
          
-         ! 1) compute (diag(1/s) * U^T) in-place without transposing U
+         ! 1) compute (U * diag(1/s)) in-place
          forall (i=1:m,j=1:k) u(i,j) = s(j)*u(i,j)
             
-         ! 2) commutate matmul: A_pinv = VT^T * U^T = (U * VT)^T. This avoids one matrix transpose
-         pinva = transpose(matmul(u,vt))
+         ! 2) commutate matmul: A_pinv = V^H * (U * diag(1/s))^H = ((U * diag(1/s)) * V^H)^H.
+         !    This avoids one matrix transpose
+         pinva = conjg(transpose(matmul(u,vt)))
 
      end subroutine stdlib_linalg_pseudoinvert_w
 

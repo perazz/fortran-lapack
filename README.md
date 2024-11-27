@@ -7,8 +7,10 @@ Procedure   | Type | Description | Optional arguments
 `lstsq(A,b)` | function | Solve non-square systems in a least squares sense - one (`b(:)`) or many (`b(:,:)`) | `lstsq(A,b,cond,overwrite_a,rank,err)`: `cond` is optional SVD cutoff; `rank` to return matrix rank, `err` to return state handler
 `det(A)` | function | Determinant of a scalar or square matrix | `det(A,overwrite_a,err=err)`: option to let A be destroyed, return state handler `err`
 `inv(A)` | function | Inverse of a scalar or square matrix | `inv(A,err=err)`: A is not destroyed; return state handler `err`
+`pinv(A)` | function | Moore-Penrose Pseudo-Inverse of a matrix | `pinv(A,rtol,err=err)`: A is not destroyed; optional singular value threshold `rtol`; return state handler `err`
 `invert(A)` | subroutine | In-place inverse of a scalar or square matrix | `call invert(A,err=err)`: A is replaced with $A^{-1}$, return state handler `err`
 `.inv.A` | operator | Inverse of a scalar or square matrix | A is replaced with $A^{-1}$
+`.pinv.A` | operator | Moore-Penrose Pseudo-Inverse | A is replaced with $A^{-1}$
 `svd(A)` | subroutine | Singular value decomposition of $A = U S V^t$ | `call svd(A,s,u,vt,full_matrices=.false.,err=state)`, all optional arguments but `A,s`
 `svdvals(A)` | function | Singular values $S$ from $A = U S V^t$ | `s = svdvals(A)`, real array with same precision as `A`
 `eye(m)` | function | Identity matrix of size `m` | `eye(m,n,mold,err)`: Optional column size `n`, datatype `dtype` (default: real64), error handler

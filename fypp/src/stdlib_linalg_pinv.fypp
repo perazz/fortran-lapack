@@ -98,13 +98,18 @@ module stdlib_linalg_pseudoinverse
          cutoff = tolerance*maxval(s)
          s = merge(1/s,0.0_${rk}$,s>cutoff)
 
-         ! Get pseudo-inverse: A_pinv = VT^T * (diag(1/s) * U^T)
+         ! Get pseudo-inverse: A_pinv = V * (diag(1/s) * U^H) = V * (U * diag(1/s))^H
          
-         ! 1) compute (diag(1/s) * U^T) in-place without transposing U
+         ! 1) compute (U * diag(1/s)) in-place
          forall (i=1:m,j=1:k) u(i,j) = s(j)*u(i,j)
             
-         ! 2) commutate matmul: A_pinv = VT^T * U^T = (U * VT)^T. This avoids one matrix transpose
-         pinva = transpose(matmul(u,vt)) 
+         ! 2) commutate matmul: A_pinv = V^H * (U * diag(1/s))^H = ((U * diag(1/s)) * V^H)^H. 
+         !    This avoids one matrix transpose
+         #:if rt.startswith('complex')
+         pinva = conjg(transpose(matmul(u,vt)))
+         #:else
+         pinva = transpose(matmul(u,vt))
+         #:endif
 
      end subroutine stdlib_linalg_pseudoinvert_${ri}$
 
