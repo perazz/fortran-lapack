@@ -9,16 +9,12 @@ module stdlib_linalg_pseudoinverse
      implicit none(type,external)
      private
 
-     !> Function interface return the matrix inverse
-     public :: pinv
-     !> Subroutine interface: invert matrix inplace
+     !> Pseudo-inverse: Function interface
+     public :: pinverse
+     !> Pseudo-inverse: Subroutine interface (pre-allocated)
      public :: pinvert
-     !> Operator interface: .inv.A returns the matrix inverse of A
+     !> Operator interface: .pinv.A returns the pseudo-inverse of A
      public :: operator(.pinv.)
-
-     ! Numpy: inv(a)
-     ! Scipy: inv(a, overwrite_a=False, check_finite=True)
-     ! IMSL: .i.a
 
      ! Function interface
      interface pinverse
@@ -90,15 +86,16 @@ module stdlib_linalg_pseudoinverse
          
          ! Singular value threshold
          tolerance = max(m,n)*epsilon(0.0_sp)
-         ! User value: fallback to default if <=0
+         
+         ! User threshold: fallback to default if <=0
          if (present(rtol)) then
             if (rtol > 0.0_sp) tolerance = rtol
          end if
          
          allocate (s(k),u(m,k),vt(k,n))
-         call svd(a,s,u,vt,overwrite_a,full_matrices,err0)
+         call svd(a,s,u,vt,overwrite_a=.false.,full_matrices=.false.,err=err0)
          if (err0%error()) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'svd failure -',err0%message)
+            err0 = linalg_state(this,LINALG_ERROR,'svd failure -',err0%message)
             call linalg_error_handling(err0,err)
             return
          end if
@@ -107,13 +104,12 @@ module stdlib_linalg_pseudoinverse
          cutoff = tolerance*maxval(s)
          s = merge(1/s,0.0_sp,s > cutoff)
 
-         ! Get pseudo-inverse: A_pinv = VT^T * diag(1/s) * U^T
+         ! Get pseudo-inverse: A_pinv = VT^T * (diag(1/s) * U^T)
          
-         ! First, compute diag(1/s)*U^T in-place without transposing U
+         ! 1) compute (diag(1/s) * U^T) in-place without transposing U
          forall (i=1:m,j=1:k) u(i,j) = s(j)*u(i,j)
             
-         ! Then commutate matmul: A_pinv = VT^T * U^T = (U * VT)^T.
-         ! This avoids one matrix transpose
+         ! 2) commutate matmul: A_pinv = VT^T * U^T = (U * VT)^T. This avoids one matrix transpose
          pinva = transpose(matmul(u,vt))
 
      end subroutine stdlib_linalg_pseudoinvert_s
@@ -121,26 +117,34 @@ module stdlib_linalg_pseudoinverse
      ! Function interface
      function stdlib_linalg_pseudoinverse_s(a,rtol,err) result(pinva)
          !> Input matrix a[m,n]
-         real(sp),intent(in) :: a(:,:)
+         real(sp),intent(in),target :: a(:,:)
          !> [optional] ....
          real(sp),optional,intent(in) :: rtol
          !> [optional] state return flag. On error if not requested, the code will stop
          type(linalg_state),optional,intent(out) :: err
          !> Matrix pseudo-inverse
          real(sp) :: pinva(size(a,2,kind=ilp),size(a,1,kind=ilp))
-
-         call stdlib_linalg_pseudoinvert_s(inva,rtol,err)
+         
+         ! Use pointer to circumvent svd intent(inout) restriction
+         real(sp),pointer :: ap(:,:)
+         ap => a
+         
+         call stdlib_linalg_pseudoinvert_s(ap,pinva,rtol,err)
 
      end function stdlib_linalg_pseudoinverse_s
 
      ! Inverse matrix operator
      function stdlib_linalg_pinv_s_operator(a) result(pinva)
          !> Input matrix a[m,n]
-         real(sp),intent(in) :: a(:,:)
+         real(sp),intent(in),target :: a(:,:)
          !> Result matrix
          real(sp) :: pinva(size(a,2,kind=ilp),size(a,1,kind=ilp))
 
-         call stdlib_linalg_pseudoinvert_s(a,pinva)
+         ! Use pointer to circumvent svd intent(inout) restriction
+         real(sp),pointer :: ap(:,:)
+         ap => a
+
+         call stdlib_linalg_pseudoinvert_s(ap,pinva)
 
      end function stdlib_linalg_pinv_s_operator
 
@@ -180,15 +184,16 @@ module stdlib_linalg_pseudoinverse
          
          ! Singular value threshold
          tolerance = max(m,n)*epsilon(0.0_dp)
-         ! User value: fallback to default if <=0
+         
+         ! User threshold: fallback to default if <=0
          if (present(rtol)) then
             if (rtol > 0.0_dp) tolerance = rtol
          end if
          
          allocate (s(k),u(m,k),vt(k,n))
-         call svd(a,s,u,vt,overwrite_a,full_matrices,err0)
+         call svd(a,s,u,vt,overwrite_a=.false.,full_matrices=.false.,err=err0)
          if (err0%error()) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'svd failure -',err0%message)
+            err0 = linalg_state(this,LINALG_ERROR,'svd failure -',err0%message)
             call linalg_error_handling(err0,err)
             return
          end if
@@ -197,13 +202,12 @@ module stdlib_linalg_pseudoinverse
          cutoff = tolerance*maxval(s)
          s = merge(1/s,0.0_dp,s > cutoff)
 
-         ! Get pseudo-inverse: A_pinv = VT^T * diag(1/s) * U^T
+         ! Get pseudo-inverse: A_pinv = VT^T * (diag(1/s) * U^T)
          
-         ! First, compute diag(1/s)*U^T in-place without transposing U
+         ! 1) compute (diag(1/s) * U^T) in-place without transposing U
          forall (i=1:m,j=1:k) u(i,j) = s(j)*u(i,j)
             
-         ! Then commutate matmul: A_pinv = VT^T * U^T = (U * VT)^T.
-         ! This avoids one matrix transpose
+         ! 2) commutate matmul: A_pinv = VT^T * U^T = (U * VT)^T. This avoids one matrix transpose
          pinva = transpose(matmul(u,vt))
 
      end subroutine stdlib_linalg_pseudoinvert_d
@@ -211,26 +215,34 @@ module stdlib_linalg_pseudoinverse
      ! Function interface
      function stdlib_linalg_pseudoinverse_d(a,rtol,err) result(pinva)
          !> Input matrix a[m,n]
-         real(dp),intent(in) :: a(:,:)
+         real(dp),intent(in),target :: a(:,:)
          !> [optional] ....
          real(dp),optional,intent(in) :: rtol
          !> [optional] state return flag. On error if not requested, the code will stop
          type(linalg_state),optional,intent(out) :: err
          !> Matrix pseudo-inverse
          real(dp) :: pinva(size(a,2,kind=ilp),size(a,1,kind=ilp))
-
-         call stdlib_linalg_pseudoinvert_d(inva,rtol,err)
+         
+         ! Use pointer to circumvent svd intent(inout) restriction
+         real(dp),pointer :: ap(:,:)
+         ap => a
+         
+         call stdlib_linalg_pseudoinvert_d(ap,pinva,rtol,err)
 
      end function stdlib_linalg_pseudoinverse_d
 
      ! Inverse matrix operator
      function stdlib_linalg_pinv_d_operator(a) result(pinva)
          !> Input matrix a[m,n]
-         real(dp),intent(in) :: a(:,:)
+         real(dp),intent(in),target :: a(:,:)
          !> Result matrix
          real(dp) :: pinva(size(a,2,kind=ilp),size(a,1,kind=ilp))
 
-         call stdlib_linalg_pseudoinvert_d(a,pinva)
+         ! Use pointer to circumvent svd intent(inout) restriction
+         real(dp),pointer :: ap(:,:)
+         ap => a
+
+         call stdlib_linalg_pseudoinvert_d(ap,pinva)
 
      end function stdlib_linalg_pinv_d_operator
 
@@ -270,15 +282,16 @@ module stdlib_linalg_pseudoinverse
          
          ! Singular value threshold
          tolerance = max(m,n)*epsilon(0.0_qp)
-         ! User value: fallback to default if <=0
+         
+         ! User threshold: fallback to default if <=0
          if (present(rtol)) then
             if (rtol > 0.0_qp) tolerance = rtol
          end if
          
          allocate (s(k),u(m,k),vt(k,n))
-         call svd(a,s,u,vt,overwrite_a,full_matrices,err0)
+         call svd(a,s,u,vt,overwrite_a=.false.,full_matrices=.false.,err=err0)
          if (err0%error()) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'svd failure -',err0%message)
+            err0 = linalg_state(this,LINALG_ERROR,'svd failure -',err0%message)
             call linalg_error_handling(err0,err)
             return
          end if
@@ -287,13 +300,12 @@ module stdlib_linalg_pseudoinverse
          cutoff = tolerance*maxval(s)
          s = merge(1/s,0.0_qp,s > cutoff)
 
-         ! Get pseudo-inverse: A_pinv = VT^T * diag(1/s) * U^T
+         ! Get pseudo-inverse: A_pinv = VT^T * (diag(1/s) * U^T)
          
-         ! First, compute diag(1/s)*U^T in-place without transposing U
+         ! 1) compute (diag(1/s) * U^T) in-place without transposing U
          forall (i=1:m,j=1:k) u(i,j) = s(j)*u(i,j)
             
-         ! Then commutate matmul: A_pinv = VT^T * U^T = (U * VT)^T.
-         ! This avoids one matrix transpose
+         ! 2) commutate matmul: A_pinv = VT^T * U^T = (U * VT)^T. This avoids one matrix transpose
          pinva = transpose(matmul(u,vt))
 
      end subroutine stdlib_linalg_pseudoinvert_q
@@ -301,26 +313,34 @@ module stdlib_linalg_pseudoinverse
      ! Function interface
      function stdlib_linalg_pseudoinverse_q(a,rtol,err) result(pinva)
          !> Input matrix a[m,n]
-         real(qp),intent(in) :: a(:,:)
+         real(qp),intent(in),target :: a(:,:)
          !> [optional] ....
          real(qp),optional,intent(in) :: rtol
          !> [optional] state return flag. On error if not requested, the code will stop
          type(linalg_state),optional,intent(out) :: err
          !> Matrix pseudo-inverse
          real(qp) :: pinva(size(a,2,kind=ilp),size(a,1,kind=ilp))
-
-         call stdlib_linalg_pseudoinvert_q(inva,rtol,err)
+         
+         ! Use pointer to circumvent svd intent(inout) restriction
+         real(qp),pointer :: ap(:,:)
+         ap => a
+         
+         call stdlib_linalg_pseudoinvert_q(ap,pinva,rtol,err)
 
      end function stdlib_linalg_pseudoinverse_q
 
      ! Inverse matrix operator
      function stdlib_linalg_pinv_q_operator(a) result(pinva)
          !> Input matrix a[m,n]
-         real(qp),intent(in) :: a(:,:)
+         real(qp),intent(in),target :: a(:,:)
          !> Result matrix
          real(qp) :: pinva(size(a,2,kind=ilp),size(a,1,kind=ilp))
 
-         call stdlib_linalg_pseudoinvert_q(a,pinva)
+         ! Use pointer to circumvent svd intent(inout) restriction
+         real(qp),pointer :: ap(:,:)
+         ap => a
+
+         call stdlib_linalg_pseudoinvert_q(ap,pinva)
 
      end function stdlib_linalg_pinv_q_operator
 
@@ -360,15 +380,16 @@ module stdlib_linalg_pseudoinverse
          
          ! Singular value threshold
          tolerance = max(m,n)*epsilon(0.0_sp)
-         ! User value: fallback to default if <=0
+         
+         ! User threshold: fallback to default if <=0
          if (present(rtol)) then
             if (rtol > 0.0_sp) tolerance = rtol
          end if
          
          allocate (s(k),u(m,k),vt(k,n))
-         call svd(a,s,u,vt,overwrite_a,full_matrices,err0)
+         call svd(a,s,u,vt,overwrite_a=.false.,full_matrices=.false.,err=err0)
          if (err0%error()) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'svd failure -',err0%message)
+            err0 = linalg_state(this,LINALG_ERROR,'svd failure -',err0%message)
             call linalg_error_handling(err0,err)
             return
          end if
@@ -377,13 +398,12 @@ module stdlib_linalg_pseudoinverse
          cutoff = tolerance*maxval(s)
          s = merge(1/s,0.0_sp,s > cutoff)
 
-         ! Get pseudo-inverse: A_pinv = VT^T * diag(1/s) * U^T
+         ! Get pseudo-inverse: A_pinv = VT^T * (diag(1/s) * U^T)
          
-         ! First, compute diag(1/s)*U^T in-place without transposing U
+         ! 1) compute (diag(1/s) * U^T) in-place without transposing U
          forall (i=1:m,j=1:k) u(i,j) = s(j)*u(i,j)
             
-         ! Then commutate matmul: A_pinv = VT^T * U^T = (U * VT)^T.
-         ! This avoids one matrix transpose
+         ! 2) commutate matmul: A_pinv = VT^T * U^T = (U * VT)^T. This avoids one matrix transpose
          pinva = transpose(matmul(u,vt))
 
      end subroutine stdlib_linalg_pseudoinvert_c
@@ -391,26 +411,34 @@ module stdlib_linalg_pseudoinverse
      ! Function interface
      function stdlib_linalg_pseudoinverse_c(a,rtol,err) result(pinva)
          !> Input matrix a[m,n]
-         complex(sp),intent(in) :: a(:,:)
+         complex(sp),intent(in),target :: a(:,:)
          !> [optional] ....
          real(sp),optional,intent(in) :: rtol
          !> [optional] state return flag. On error if not requested, the code will stop
          type(linalg_state),optional,intent(out) :: err
          !> Matrix pseudo-inverse
          complex(sp) :: pinva(size(a,2,kind=ilp),size(a,1,kind=ilp))
-
-         call stdlib_linalg_pseudoinvert_c(inva,rtol,err)
+         
+         ! Use pointer to circumvent svd intent(inout) restriction
+         complex(sp),pointer :: ap(:,:)
+         ap => a
+         
+         call stdlib_linalg_pseudoinvert_c(ap,pinva,rtol,err)
 
      end function stdlib_linalg_pseudoinverse_c
 
      ! Inverse matrix operator
      function stdlib_linalg_pinv_c_operator(a) result(pinva)
          !> Input matrix a[m,n]
-         complex(sp),intent(in) :: a(:,:)
+         complex(sp),intent(in),target :: a(:,:)
          !> Result matrix
          complex(sp) :: pinva(size(a,2,kind=ilp),size(a,1,kind=ilp))
 
-         call stdlib_linalg_pseudoinvert_c(a,pinva)
+         ! Use pointer to circumvent svd intent(inout) restriction
+         complex(sp),pointer :: ap(:,:)
+         ap => a
+
+         call stdlib_linalg_pseudoinvert_c(ap,pinva)
 
      end function stdlib_linalg_pinv_c_operator
 
@@ -450,15 +478,16 @@ module stdlib_linalg_pseudoinverse
          
          ! Singular value threshold
          tolerance = max(m,n)*epsilon(0.0_dp)
-         ! User value: fallback to default if <=0
+         
+         ! User threshold: fallback to default if <=0
          if (present(rtol)) then
             if (rtol > 0.0_dp) tolerance = rtol
          end if
          
          allocate (s(k),u(m,k),vt(k,n))
-         call svd(a,s,u,vt,overwrite_a,full_matrices,err0)
+         call svd(a,s,u,vt,overwrite_a=.false.,full_matrices=.false.,err=err0)
          if (err0%error()) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'svd failure -',err0%message)
+            err0 = linalg_state(this,LINALG_ERROR,'svd failure -',err0%message)
             call linalg_error_handling(err0,err)
             return
          end if
@@ -467,13 +496,12 @@ module stdlib_linalg_pseudoinverse
          cutoff = tolerance*maxval(s)
          s = merge(1/s,0.0_dp,s > cutoff)
 
-         ! Get pseudo-inverse: A_pinv = VT^T * diag(1/s) * U^T
+         ! Get pseudo-inverse: A_pinv = VT^T * (diag(1/s) * U^T)
          
-         ! First, compute diag(1/s)*U^T in-place without transposing U
+         ! 1) compute (diag(1/s) * U^T) in-place without transposing U
          forall (i=1:m,j=1:k) u(i,j) = s(j)*u(i,j)
             
-         ! Then commutate matmul: A_pinv = VT^T * U^T = (U * VT)^T.
-         ! This avoids one matrix transpose
+         ! 2) commutate matmul: A_pinv = VT^T * U^T = (U * VT)^T. This avoids one matrix transpose
          pinva = transpose(matmul(u,vt))
 
      end subroutine stdlib_linalg_pseudoinvert_z
@@ -481,26 +509,34 @@ module stdlib_linalg_pseudoinverse
      ! Function interface
      function stdlib_linalg_pseudoinverse_z(a,rtol,err) result(pinva)
          !> Input matrix a[m,n]
-         complex(dp),intent(in) :: a(:,:)
+         complex(dp),intent(in),target :: a(:,:)
          !> [optional] ....
          real(dp),optional,intent(in) :: rtol
          !> [optional] state return flag. On error if not requested, the code will stop
          type(linalg_state),optional,intent(out) :: err
          !> Matrix pseudo-inverse
          complex(dp) :: pinva(size(a,2,kind=ilp),size(a,1,kind=ilp))
-
-         call stdlib_linalg_pseudoinvert_z(inva,rtol,err)
+         
+         ! Use pointer to circumvent svd intent(inout) restriction
+         complex(dp),pointer :: ap(:,:)
+         ap => a
+         
+         call stdlib_linalg_pseudoinvert_z(ap,pinva,rtol,err)
 
      end function stdlib_linalg_pseudoinverse_z
 
      ! Inverse matrix operator
      function stdlib_linalg_pinv_z_operator(a) result(pinva)
          !> Input matrix a[m,n]
-         complex(dp),intent(in) :: a(:,:)
+         complex(dp),intent(in),target :: a(:,:)
          !> Result matrix
          complex(dp) :: pinva(size(a,2,kind=ilp),size(a,1,kind=ilp))
 
-         call stdlib_linalg_pseudoinvert_z(a,pinva)
+         ! Use pointer to circumvent svd intent(inout) restriction
+         complex(dp),pointer :: ap(:,:)
+         ap => a
+
+         call stdlib_linalg_pseudoinvert_z(ap,pinva)
 
      end function stdlib_linalg_pinv_z_operator
 
@@ -540,15 +576,16 @@ module stdlib_linalg_pseudoinverse
          
          ! Singular value threshold
          tolerance = max(m,n)*epsilon(0.0_qp)
-         ! User value: fallback to default if <=0
+         
+         ! User threshold: fallback to default if <=0
          if (present(rtol)) then
             if (rtol > 0.0_qp) tolerance = rtol
          end if
          
          allocate (s(k),u(m,k),vt(k,n))
-         call svd(a,s,u,vt,overwrite_a,full_matrices,err0)
+         call svd(a,s,u,vt,overwrite_a=.false.,full_matrices=.false.,err=err0)
          if (err0%error()) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'svd failure -',err0%message)
+            err0 = linalg_state(this,LINALG_ERROR,'svd failure -',err0%message)
             call linalg_error_handling(err0,err)
             return
          end if
@@ -557,13 +594,12 @@ module stdlib_linalg_pseudoinverse
          cutoff = tolerance*maxval(s)
          s = merge(1/s,0.0_qp,s > cutoff)
 
-         ! Get pseudo-inverse: A_pinv = VT^T * diag(1/s) * U^T
+         ! Get pseudo-inverse: A_pinv = VT^T * (diag(1/s) * U^T)
          
-         ! First, compute diag(1/s)*U^T in-place without transposing U
+         ! 1) compute (diag(1/s) * U^T) in-place without transposing U
          forall (i=1:m,j=1:k) u(i,j) = s(j)*u(i,j)
             
-         ! Then commutate matmul: A_pinv = VT^T * U^T = (U * VT)^T.
-         ! This avoids one matrix transpose
+         ! 2) commutate matmul: A_pinv = VT^T * U^T = (U * VT)^T. This avoids one matrix transpose
          pinva = transpose(matmul(u,vt))
 
      end subroutine stdlib_linalg_pseudoinvert_w
@@ -571,26 +607,34 @@ module stdlib_linalg_pseudoinverse
      ! Function interface
      function stdlib_linalg_pseudoinverse_w(a,rtol,err) result(pinva)
          !> Input matrix a[m,n]
-         complex(qp),intent(in) :: a(:,:)
+         complex(qp),intent(in),target :: a(:,:)
          !> [optional] ....
          real(qp),optional,intent(in) :: rtol
          !> [optional] state return flag. On error if not requested, the code will stop
          type(linalg_state),optional,intent(out) :: err
          !> Matrix pseudo-inverse
          complex(qp) :: pinva(size(a,2,kind=ilp),size(a,1,kind=ilp))
-
-         call stdlib_linalg_pseudoinvert_w(inva,rtol,err)
+         
+         ! Use pointer to circumvent svd intent(inout) restriction
+         complex(qp),pointer :: ap(:,:)
+         ap => a
+         
+         call stdlib_linalg_pseudoinvert_w(ap,pinva,rtol,err)
 
      end function stdlib_linalg_pseudoinverse_w
 
      ! Inverse matrix operator
      function stdlib_linalg_pinv_w_operator(a) result(pinva)
          !> Input matrix a[m,n]
-         complex(qp),intent(in) :: a(:,:)
+         complex(qp),intent(in),target :: a(:,:)
          !> Result matrix
          complex(qp) :: pinva(size(a,2,kind=ilp),size(a,1,kind=ilp))
 
-         call stdlib_linalg_pseudoinvert_w(a,pinva)
+         ! Use pointer to circumvent svd intent(inout) restriction
+         complex(qp),pointer :: ap(:,:)
+         ap => a
+
+         call stdlib_linalg_pseudoinvert_w(ap,pinva)
 
      end function stdlib_linalg_pinv_w_operator
 
