@@ -1,9 +1,0 @@
-*.mod
-*.smod
-*.o
-*.depend
-*.layout
-assets/lapack_sources
-build/
-project/bin
-project/doxygen/html
