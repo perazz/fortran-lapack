@@ -1,7 +1,7 @@
-module stdlib_linalg_schur
-    use stdlib_linalg_constants
-    use stdlib_linalg_lapack,only:gees
-    use stdlib_linalg_state,only:linalg_state,linalg_error_handling,LINALG_ERROR, &
+module la_linalg_schur
+    use la_linalg_constants
+    use la_linalg_lapack,only:gees
+    use la_linalg_state,only:linalg_state,linalg_error_handling,LINALG_ERROR, &
         LINALG_INTERNAL_ERROR,LINALG_VALUE_ERROR
     implicit none(type,external)
     private
@@ -27,7 +27,7 @@ module stdlib_linalg_schur
     !! version: experimental
     !!
     !! Computes the Schur decomposition of matrix \( A = Z T Z^H \).
-    !! ([Specification](../page/specs/stdlib_linalg.html#schur-compute-the-schur-decomposition-of-a-matrix))
+    !! ([Specification](../page/specs/la_linalg.html#schur-compute-the-schur-decomposition-of-a-matrix))
     !!
     !!### Summary
     !! Compute the Schur decomposition of a `real` or `complex` matrix: \( A = Z T Z^H \), where \( Z \) is
@@ -46,12 +46,12 @@ module stdlib_linalg_schur
     !!@note The solution is based on LAPACK's Schur decomposition routines (`*GEES`). Sorting options
     !! are implemented using LAPACK's eigenvalue sorting mechanism.
     !!
-      module procedure stdlib_linalg_s_schur
-      module procedure stdlib_linalg_d_schur
-      module procedure stdlib_linalg_q_schur
-      module procedure stdlib_linalg_c_schur
-      module procedure stdlib_linalg_z_schur
-      module procedure stdlib_linalg_w_schur
+      module procedure la_linalg_s_schur
+      module procedure la_linalg_d_schur
+      module procedure la_linalg_q_schur
+      module procedure la_linalg_c_schur
+      module procedure la_linalg_z_schur
+      module procedure la_linalg_w_schur
   end interface schur
 
   ! Return the working array space required by the Schur decomposition solver
@@ -59,7 +59,7 @@ module stdlib_linalg_schur
     !! version: experimental
     !!
     !! Computes the working array space required by the Schur decomposition solver
-    !! ([Specification](../page/specs/stdlib_linalg.html#schur-space-compute-internal-working-space-requirements-for-the-schur-decomposition))
+    !! ([Specification](../page/specs/la_linalg.html#schur-space-compute-internal-working-space-requirements-for-the-schur-decomposition))
     !!
     !!### Description
     !!
@@ -182,7 +182,7 @@ module stdlib_linalg_schur
     end subroutine get_schur_s_workspace
     
     ! Schur decomposition subroutine
-    subroutine stdlib_linalg_s_schur(a,t,z,eigvals,storage,err)
+    subroutine la_linalg_s_schur(a,t,z,eigvals,storage,err)
         !> Input matrix a[m,m]
         real(sp),intent(inout),target :: a(:,:)
         !> Schur form of A: upper-triangular or quasi-upper-triangular matrix T
@@ -323,7 +323,7 @@ module stdlib_linalg_schur
                 eig_select = .false.
             end function eig_select
 
-    end subroutine stdlib_linalg_s_schur
+    end subroutine la_linalg_s_schur
 
     subroutine get_schur_d_workspace(a,lwork,err)
         !> Input matrix a[m,m]
@@ -372,7 +372,7 @@ module stdlib_linalg_schur
     end subroutine get_schur_d_workspace
     
     ! Schur decomposition subroutine
-    subroutine stdlib_linalg_d_schur(a,t,z,eigvals,storage,err)
+    subroutine la_linalg_d_schur(a,t,z,eigvals,storage,err)
         !> Input matrix a[m,m]
         real(dp),intent(inout),target :: a(:,:)
         !> Schur form of A: upper-triangular or quasi-upper-triangular matrix T
@@ -513,7 +513,7 @@ module stdlib_linalg_schur
                 eig_select = .false.
             end function eig_select
 
-    end subroutine stdlib_linalg_d_schur
+    end subroutine la_linalg_d_schur
 
     subroutine get_schur_q_workspace(a,lwork,err)
         !> Input matrix a[m,m]
@@ -562,7 +562,7 @@ module stdlib_linalg_schur
     end subroutine get_schur_q_workspace
     
     ! Schur decomposition subroutine
-    subroutine stdlib_linalg_q_schur(a,t,z,eigvals,storage,err)
+    subroutine la_linalg_q_schur(a,t,z,eigvals,storage,err)
         !> Input matrix a[m,m]
         real(qp),intent(inout),target :: a(:,:)
         !> Schur form of A: upper-triangular or quasi-upper-triangular matrix T
@@ -703,7 +703,7 @@ module stdlib_linalg_schur
                 eig_select = .false.
             end function eig_select
 
-    end subroutine stdlib_linalg_q_schur
+    end subroutine la_linalg_q_schur
 
     subroutine get_schur_c_workspace(a,lwork,err)
         !> Input matrix a[m,m]
@@ -752,7 +752,7 @@ module stdlib_linalg_schur
     end subroutine get_schur_c_workspace
     
     ! Schur decomposition subroutine
-    subroutine stdlib_linalg_c_schur(a,t,z,eigvals,storage,err)
+    subroutine la_linalg_c_schur(a,t,z,eigvals,storage,err)
         !> Input matrix a[m,m]
         complex(sp),intent(inout),target :: a(:,:)
         !> Schur form of A: upper-triangular or quasi-upper-triangular matrix T
@@ -891,7 +891,7 @@ module stdlib_linalg_schur
                 eig_select = .false.
             end function eig_select
 
-    end subroutine stdlib_linalg_c_schur
+    end subroutine la_linalg_c_schur
 
     subroutine get_schur_z_workspace(a,lwork,err)
         !> Input matrix a[m,m]
@@ -940,7 +940,7 @@ module stdlib_linalg_schur
     end subroutine get_schur_z_workspace
     
     ! Schur decomposition subroutine
-    subroutine stdlib_linalg_z_schur(a,t,z,eigvals,storage,err)
+    subroutine la_linalg_z_schur(a,t,z,eigvals,storage,err)
         !> Input matrix a[m,m]
         complex(dp),intent(inout),target :: a(:,:)
         !> Schur form of A: upper-triangular or quasi-upper-triangular matrix T
@@ -1079,7 +1079,7 @@ module stdlib_linalg_schur
                 eig_select = .false.
             end function eig_select
 
-    end subroutine stdlib_linalg_z_schur
+    end subroutine la_linalg_z_schur
 
     subroutine get_schur_w_workspace(a,lwork,err)
         !> Input matrix a[m,m]
@@ -1128,7 +1128,7 @@ module stdlib_linalg_schur
     end subroutine get_schur_w_workspace
     
     ! Schur decomposition subroutine
-    subroutine stdlib_linalg_w_schur(a,t,z,eigvals,storage,err)
+    subroutine la_linalg_w_schur(a,t,z,eigvals,storage,err)
         !> Input matrix a[m,m]
         complex(qp),intent(inout),target :: a(:,:)
         !> Schur form of A: upper-triangular or quasi-upper-triangular matrix T
@@ -1267,7 +1267,7 @@ module stdlib_linalg_schur
                 eig_select = .false.
             end function eig_select
 
-    end subroutine stdlib_linalg_w_schur
+    end subroutine la_linalg_w_schur
 
-end module stdlib_linalg_schur
+end module la_linalg_schur
 

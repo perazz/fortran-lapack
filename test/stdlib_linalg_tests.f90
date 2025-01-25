@@ -1,4 +1,4 @@
-program stdlib_linalg_tests
+program la_linalg_tests
     use test_linalg_aux
     use test_linalg_eye
     use test_linalg_solve
@@ -50,4 +50,4 @@ program stdlib_linalg_tests
     !> All tests passed
     stop 0
 
-end program stdlib_linalg_tests
+end program la_linalg_tests

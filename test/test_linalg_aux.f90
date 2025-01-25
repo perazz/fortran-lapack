@@ -1,5 +1,5 @@
 module test_linalg_aux
-    use stdlib_linalg_interface
+    use la_linalg_interface
     implicit none (type,external)
 
     contains

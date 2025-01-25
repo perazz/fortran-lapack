@@ -1,6 +1,6 @@
 ! Test singular value decomposition
 module test_linalg_svd
-    use stdlib_linalg_interface
+    use la_linalg_interface
 
     implicit none(type,external)
 

@@ -1,27 +1,27 @@
-module stdlib_linalg_blas_aux
-     use stdlib_linalg_constants
+module la_linalg_blas_aux
+     use la_linalg_constants
      implicit none(type,external)
      private
 
      public :: sp,dp,qp,lk,ilp
-     public :: stdlib_dcabs1
-     public :: stdlib_icamax
-     public :: stdlib_idamax
-     public :: stdlib_isamax
-     public :: stdlib_izamax
-     public :: stdlib_lsame
-     public :: stdlib_scabs1
-     public :: stdlib_xerbla
-     public :: stdlib_xerbla_array
-     public :: stdlib_qcabs1
-     public :: stdlib_iqamax
-     public :: stdlib_iwamax
+     public :: la_dcabs1
+     public :: la_icamax
+     public :: la_idamax
+     public :: la_isamax
+     public :: la_izamax
+     public :: la_lsame
+     public :: la_scabs1
+     public :: la_xerbla
+     public :: la_xerbla_array
+     public :: la_qcabs1
+     public :: la_iqamax
+     public :: la_iwamax
 
      contains
 
      !> DCABS1: computes |Re(.)| + |Im(.)| of a double complex number
 
-     pure real(dp) function stdlib_dcabs1(z)
+     pure real(dp) function la_dcabs1(z)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -30,13 +30,13 @@ module stdlib_linalg_blas_aux
         ! =====================================================================
            ! Intrinsic Functions
            intrinsic :: abs,real,aimag
-           stdlib_dcabs1 = abs(real(z,KIND=dp)) + abs(aimag(z))
+           la_dcabs1 = abs(real(z,KIND=dp)) + abs(aimag(z))
            return
-     end function stdlib_dcabs1
+     end function la_dcabs1
 
      !> ISAMAX: finds the index of the first element having maximum absolute value.
 
-     pure integer(ilp) function stdlib_isamax(n,sx,incx)
+     pure integer(ilp) function la_isamax(n,sx,incx)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -50,16 +50,16 @@ module stdlib_linalg_blas_aux
            integer(ilp) :: i,ix
            ! Intrinsic Functions
            intrinsic :: abs
-           stdlib_isamax = 0
+           la_isamax = 0
            if (n < 1 .or. incx <= 0) return
-           stdlib_isamax = 1
+           la_isamax = 1
            if (n == 1) return
            if (incx == 1) then
               ! code for increment equal to 1
               smax = abs(sx(1))
               do i = 2,n
                  if (abs(sx(i)) > smax) then
-                    stdlib_isamax = i
+                    la_isamax = i
                     smax = abs(sx(i))
                  end if
               end do
@@ -70,18 +70,18 @@ module stdlib_linalg_blas_aux
               ix = ix + incx
               do i = 2,n
                  if (abs(sx(ix)) > smax) then
-                    stdlib_isamax = i
+                    la_isamax = i
                     smax = abs(sx(ix))
                  end if
                  ix = ix + incx
               end do
            end if
            return
-     end function stdlib_isamax
+     end function la_isamax
 
      !> IZAMAX: finds the index of the first element having maximum |Re(.)| + |Im(.)|
 
-     pure integer(ilp) function stdlib_izamax(n,zx,incx)
+     pure integer(ilp) function la_izamax(n,zx,incx)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -93,39 +93,39 @@ module stdlib_linalg_blas_aux
            ! Local Scalars
            real(dp) :: dmax
            integer(ilp) :: i,ix
-           stdlib_izamax = 0
+           la_izamax = 0
            if (n < 1 .or. incx <= 0) return
-           stdlib_izamax = 1
+           la_izamax = 1
            if (n == 1) return
            if (incx == 1) then
               ! code for increment equal to 1
-              dmax = stdlib_dcabs1(zx(1))
+              dmax = la_dcabs1(zx(1))
               do i = 2,n
-                 if (stdlib_dcabs1(zx(i)) > dmax) then
-                    stdlib_izamax = i
-                    dmax = stdlib_dcabs1(zx(i))
+                 if (la_dcabs1(zx(i)) > dmax) then
+                    la_izamax = i
+                    dmax = la_dcabs1(zx(i))
                  end if
               end do
            else
               ! code for increment not equal to 1
               ix = 1
-              dmax = stdlib_dcabs1(zx(1))
+              dmax = la_dcabs1(zx(1))
               ix = ix + incx
               do i = 2,n
-                 if (stdlib_dcabs1(zx(ix)) > dmax) then
-                    stdlib_izamax = i
-                    dmax = stdlib_dcabs1(zx(ix))
+                 if (la_dcabs1(zx(ix)) > dmax) then
+                    la_izamax = i
+                    dmax = la_dcabs1(zx(ix))
                  end if
                  ix = ix + incx
               end do
            end if
            return
-     end function stdlib_izamax
+     end function la_izamax
 
      !> LSAME: returns .TRUE. if CA is the same letter as CB regardless of
      !> case.
 
-     pure logical(lk) function stdlib_lsame(ca,cb)
+     pure logical(lk) function la_lsame(ca,cb)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -137,8 +137,8 @@ module stdlib_linalg_blas_aux
            ! Local Scalars
            integer(ilp) :: inta,intb,zcode
            ! test if the characters are equal
-           stdlib_lsame = ca == cb
-           if (stdlib_lsame) return
+           la_lsame = ca == cb
+           if (la_lsame) return
            ! now test for equivalence if both characters are alphabetic.
            zcode = ichar('Z')
            ! use 'z' rather than 'a' so that ascii can be detected on prime
@@ -165,13 +165,13 @@ module stdlib_linalg_blas_aux
                if (inta >= 225 .and. inta <= 250) inta = inta - 32
                if (intb >= 225 .and. intb <= 250) intb = intb - 32
            end if
-           stdlib_lsame = inta == intb
+           la_lsame = inta == intb
            ! return
-     end function stdlib_lsame
+     end function la_lsame
 
      !> SCABS1: computes |Re(.)| + |Im(.)| of a complex number
 
-     pure real(sp) function stdlib_scabs1(z)
+     pure real(sp) function la_scabs1(z)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -180,9 +180,9 @@ module stdlib_linalg_blas_aux
         ! =====================================================================
            ! Intrinsic Functions
            intrinsic :: abs,aimag,real
-           stdlib_scabs1 = abs(real(z,KIND=sp)) + abs(aimag(z))
+           la_scabs1 = abs(real(z,KIND=sp)) + abs(aimag(z))
            return
-     end function stdlib_scabs1
+     end function la_scabs1
 
      !> XERBLA:  is an error handler for the LAPACK routines.
      !> It is called by an LAPACK routine if an input parameter has an
@@ -190,7 +190,7 @@ module stdlib_linalg_blas_aux
      !> Installers may consider modifying the STOP statement in order to
      !> call system-specific exception-handling facilities.
 
-     pure subroutine stdlib_xerbla(srname,info)
+     pure subroutine la_xerbla(srname,info)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -203,7 +203,7 @@ module stdlib_linalg_blas_aux
            ! Executable Statements
 9999  format(' ** ON ENTRY TO ',a,' PARAMETER NUMBER ',i2,' HAD ','AN ILLEGAL VALUE')
                 
-     end subroutine stdlib_xerbla
+     end subroutine la_xerbla
 
      !> XERBLA_ARRAY: assists other languages in calling XERBLA, the LAPACK
      !> and BLAS error handler.  Rather than taking a Fortran string argument
@@ -222,7 +222,7 @@ module stdlib_linalg_blas_aux
      !> Providing XERBLA_ARRAY is not necessary for intercepting LAPACK
      !> errors.  XERBLA_ARRAY calls XERBLA.
 
-     pure subroutine stdlib_xerbla_array(srname_array,srname_len,info)
+     pure subroutine la_xerbla_array(srname_array,srname_len,info)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -242,13 +242,13 @@ module stdlib_linalg_blas_aux
            do i = 1,min(srname_len,len(srname))
               srname(i:i) = srname_array(i)
            end do
-           call stdlib_xerbla(srname,info)
+           call la_xerbla(srname,info)
            return
-     end subroutine stdlib_xerbla_array
+     end subroutine la_xerbla_array
 
      !> DCABS1: computes |Re(.)| + |Im(.)| of a double complex number
 
-     pure real(qp) function stdlib_qcabs1(z)
+     pure real(qp) function la_qcabs1(z)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -257,13 +257,13 @@ module stdlib_linalg_blas_aux
         ! =====================================================================
            ! Intrinsic Functions
            intrinsic :: abs,real,aimag
-           stdlib_qcabs1 = abs(real(z,KIND=qp)) + abs(aimag(z))
+           la_qcabs1 = abs(real(z,KIND=qp)) + abs(aimag(z))
            return
-     end function stdlib_qcabs1
+     end function la_qcabs1
 
      !> IDAMAX: finds the index of the first element having maximum absolute value.
 
-     pure integer(ilp) function stdlib_iqamax(n,dx,incx)
+     pure integer(ilp) function la_iqamax(n,dx,incx)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -277,16 +277,16 @@ module stdlib_linalg_blas_aux
            integer(ilp) :: i,ix
            ! Intrinsic Functions
            intrinsic :: abs
-           stdlib_iqamax = 0
+           la_iqamax = 0
            if (n < 1 .or. incx <= 0) return
-           stdlib_iqamax = 1
+           la_iqamax = 1
            if (n == 1) return
            if (incx == 1) then
               ! code for increment equal to 1
               dmax = abs(dx(1))
               do i = 2,n
                  if (abs(dx(i)) > dmax) then
-                    stdlib_iqamax = i
+                    la_iqamax = i
                     dmax = abs(dx(i))
                  end if
               end do
@@ -297,18 +297,18 @@ module stdlib_linalg_blas_aux
               ix = ix + incx
               do i = 2,n
                  if (abs(dx(ix)) > dmax) then
-                    stdlib_iqamax = i
+                    la_iqamax = i
                     dmax = abs(dx(ix))
                  end if
                  ix = ix + incx
               end do
            end if
            return
-     end function stdlib_iqamax
+     end function la_iqamax
 
      !> IZAMAX: finds the index of the first element having maximum |Re(.)| + |Im(.)|
 
-     pure integer(ilp) function stdlib_iwamax(n,zx,incx)
+     pure integer(ilp) function la_iwamax(n,zx,incx)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -320,38 +320,38 @@ module stdlib_linalg_blas_aux
            ! Local Scalars
            real(qp) :: dmax
            integer(ilp) :: i,ix
-           stdlib_iwamax = 0
+           la_iwamax = 0
            if (n < 1 .or. incx <= 0) return
-           stdlib_iwamax = 1
+           la_iwamax = 1
            if (n == 1) return
            if (incx == 1) then
               ! code for increment equal to 1
-              dmax = stdlib_qcabs1(zx(1))
+              dmax = la_qcabs1(zx(1))
               do i = 2,n
-                 if (stdlib_qcabs1(zx(i)) > dmax) then
-                    stdlib_iwamax = i
-                    dmax = stdlib_qcabs1(zx(i))
+                 if (la_qcabs1(zx(i)) > dmax) then
+                    la_iwamax = i
+                    dmax = la_qcabs1(zx(i))
                  end if
               end do
            else
               ! code for increment not equal to 1
               ix = 1
-              dmax = stdlib_qcabs1(zx(1))
+              dmax = la_qcabs1(zx(1))
               ix = ix + incx
               do i = 2,n
-                 if (stdlib_qcabs1(zx(ix)) > dmax) then
-                    stdlib_iwamax = i
-                    dmax = stdlib_qcabs1(zx(ix))
+                 if (la_qcabs1(zx(ix)) > dmax) then
+                    la_iwamax = i
+                    dmax = la_qcabs1(zx(ix))
                  end if
                  ix = ix + incx
               end do
            end if
            return
-     end function stdlib_iwamax
+     end function la_iwamax
 
      !> ICAMAX: finds the index of the first element having maximum |Re(.)| + |Im(.)|
 
-     pure integer(ilp) function stdlib_icamax(n,cx,incx)
+     pure integer(ilp) function la_icamax(n,cx,incx)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -363,38 +363,38 @@ module stdlib_linalg_blas_aux
            ! Local Scalars
            real(sp) :: smax
            integer(ilp) :: i,ix
-           stdlib_icamax = 0
+           la_icamax = 0
            if (n < 1 .or. incx <= 0) return
-           stdlib_icamax = 1
+           la_icamax = 1
            if (n == 1) return
            if (incx == 1) then
               ! code for increment equal to 1
-              smax = stdlib_scabs1(cx(1))
+              smax = la_scabs1(cx(1))
               do i = 2,n
-                 if (stdlib_scabs1(cx(i)) > smax) then
-                    stdlib_icamax = i
-                    smax = stdlib_scabs1(cx(i))
+                 if (la_scabs1(cx(i)) > smax) then
+                    la_icamax = i
+                    smax = la_scabs1(cx(i))
                  end if
               end do
            else
               ! code for increment not equal to 1
               ix = 1
-              smax = stdlib_scabs1(cx(1))
+              smax = la_scabs1(cx(1))
               ix = ix + incx
               do i = 2,n
-                 if (stdlib_scabs1(cx(ix)) > smax) then
-                    stdlib_icamax = i
-                    smax = stdlib_scabs1(cx(ix))
+                 if (la_scabs1(cx(ix)) > smax) then
+                    la_icamax = i
+                    smax = la_scabs1(cx(ix))
                  end if
                  ix = ix + incx
               end do
            end if
            return
-     end function stdlib_icamax
+     end function la_icamax
 
      !> IDAMAX: finds the index of the first element having maximum absolute value.
 
-     pure integer(ilp) function stdlib_idamax(n,dx,incx)
+     pure integer(ilp) function la_idamax(n,dx,incx)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -408,16 +408,16 @@ module stdlib_linalg_blas_aux
            integer(ilp) :: i,ix
            ! Intrinsic Functions
            intrinsic :: abs
-           stdlib_idamax = 0
+           la_idamax = 0
            if (n < 1 .or. incx <= 0) return
-           stdlib_idamax = 1
+           la_idamax = 1
            if (n == 1) return
            if (incx == 1) then
               ! code for increment equal to 1
               dmax = abs(dx(1))
               do i = 2,n
                  if (abs(dx(i)) > dmax) then
-                    stdlib_idamax = i
+                    la_idamax = i
                     dmax = abs(dx(i))
                  end if
               end do
@@ -428,13 +428,13 @@ module stdlib_linalg_blas_aux
               ix = ix + incx
               do i = 2,n
                  if (abs(dx(ix)) > dmax) then
-                    stdlib_idamax = i
+                    la_idamax = i
                     dmax = abs(dx(ix))
                  end if
                  ix = ix + incx
               end do
            end if
            return
-     end function stdlib_idamax
+     end function la_idamax
 
-end module stdlib_linalg_blas_aux
+end module la_linalg_blas_aux

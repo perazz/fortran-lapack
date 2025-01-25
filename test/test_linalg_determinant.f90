@@ -1,6 +1,6 @@
 ! Test matrix determinant
 module test_linalg_determinant
-    use stdlib_linalg_interface
+    use la_linalg_interface
 
     implicit none(type,external)
 

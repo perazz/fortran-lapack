@@ -1,50 +1,50 @@
-module stdlib_linalg_blas_q
-     use stdlib_linalg_constants
-     use stdlib_linalg_blas_aux
-     use stdlib_linalg_blas_s
-     use stdlib_linalg_blas_c
-     use stdlib_linalg_blas_d
-     use stdlib_linalg_blas_z
+module la_linalg_blas_q
+     use la_linalg_constants
+     use la_linalg_blas_aux
+     use la_linalg_blas_s
+     use la_linalg_blas_c
+     use la_linalg_blas_d
+     use la_linalg_blas_z
      implicit none(type,external)
      private
 
      public :: sp,dp,qp,lk,ilp
-     public :: stdlib_qasum
-     public :: stdlib_qaxpy
-     public :: stdlib_qcopy
-     public :: stdlib_qdot
-     public :: stdlib_qgbmv
-     public :: stdlib_qgemm
-     public :: stdlib_qgemv
-     public :: stdlib_qger
-     public :: stdlib_qnrm2
-     public :: stdlib_qrot
-     public :: stdlib_qrotg
-     public :: stdlib_qrotm
-     public :: stdlib_qrotmg
-     public :: stdlib_qsbmv
-     public :: stdlib_qscal
-     public :: stdlib_qsdot
-     public :: stdlib_qspmv
-     public :: stdlib_qspr
-     public :: stdlib_qspr2
-     public :: stdlib_qswap
-     public :: stdlib_qsymm
-     public :: stdlib_qsymv
-     public :: stdlib_qsyr
-     public :: stdlib_qsyr2
-     public :: stdlib_qsyr2k
-     public :: stdlib_qsyrk
-     public :: stdlib_qtbmv
-     public :: stdlib_qtbsv
-     public :: stdlib_qtpmv
-     public :: stdlib_qtpsv
-     public :: stdlib_qtrmm
-     public :: stdlib_qtrmv
-     public :: stdlib_qtrsm
-     public :: stdlib_qtrsv
-     public :: stdlib_qzasum
-     public :: stdlib_qznrm2
+     public :: la_qasum
+     public :: la_qaxpy
+     public :: la_qcopy
+     public :: la_qdot
+     public :: la_qgbmv
+     public :: la_qgemm
+     public :: la_qgemv
+     public :: la_qger
+     public :: la_qnrm2
+     public :: la_qrot
+     public :: la_qrotg
+     public :: la_qrotm
+     public :: la_qrotmg
+     public :: la_qsbmv
+     public :: la_qscal
+     public :: la_qsdot
+     public :: la_qspmv
+     public :: la_qspr
+     public :: la_qspr2
+     public :: la_qswap
+     public :: la_qsymm
+     public :: la_qsymv
+     public :: la_qsyr
+     public :: la_qsyr2
+     public :: la_qsyr2k
+     public :: la_qsyrk
+     public :: la_qtbmv
+     public :: la_qtbsv
+     public :: la_qtpmv
+     public :: la_qtpsv
+     public :: la_qtrmm
+     public :: la_qtrmv
+     public :: la_qtrsm
+     public :: la_qtrsv
+     public :: la_qzasum
+     public :: la_qznrm2
 
      ! 128-bit real constants
      real(qp),parameter,private :: negone = -1.00_qp
@@ -87,7 +87,7 @@ module stdlib_linalg_blas_q
 
      !> DASUM: takes the sum of the absolute values.
 
-     pure real(qp) function stdlib_qasum(n,dx,incx)
+     pure real(qp) function la_qasum(n,dx,incx)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -101,7 +101,7 @@ module stdlib_linalg_blas_q
            integer(ilp) :: i,m,mp1,nincx
            ! Intrinsic Functions
            intrinsic :: abs,mod
-           stdlib_qasum = zero
+           la_qasum = zero
            dtemp = zero
            if (n <= 0 .or. incx <= 0) return
            if (incx == 1) then
@@ -113,7 +113,7 @@ module stdlib_linalg_blas_q
                     dtemp = dtemp + abs(dx(i))
                  end do
                  if (n < 6) then
-                    stdlib_qasum = dtemp
+                    la_qasum = dtemp
                     return
                  end if
               end if
@@ -129,14 +129,14 @@ module stdlib_linalg_blas_q
                  dtemp = dtemp + abs(dx(i))
               end do
            end if
-           stdlib_qasum = dtemp
+           la_qasum = dtemp
            return
-     end function stdlib_qasum
+     end function la_qasum
 
      !> DAXPY: constant times a vector plus a vector.
      !> uses unrolled loops for increments equal to one.
 
-     pure subroutine stdlib_qaxpy(n,da,dx,incx,dy,incy)
+     pure subroutine la_qaxpy(n,da,dx,incx,dy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -184,12 +184,12 @@ module stdlib_linalg_blas_q
               end do
            end if
            return
-     end subroutine stdlib_qaxpy
+     end subroutine la_qaxpy
 
      !> DCOPY: copies a vector, x, to a vector, y.
      !> uses unrolled loops for increments equal to 1.
 
-     pure subroutine stdlib_qcopy(n,dx,incx,dy,incy)
+     pure subroutine la_qcopy(n,dx,incx,dy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -238,12 +238,12 @@ module stdlib_linalg_blas_q
               end do
            end if
            return
-     end subroutine stdlib_qcopy
+     end subroutine la_qcopy
 
      !> DDOT: forms the dot product of two vectors.
      !> uses unrolled loops for increments equal to one.
 
-     pure real(qp) function stdlib_qdot(n,dx,incx,dy,incy)
+     pure real(qp) function la_qdot(n,dx,incx,dy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -257,7 +257,7 @@ module stdlib_linalg_blas_q
            integer(ilp) :: i,ix,iy,m,mp1
            ! Intrinsic Functions
            intrinsic :: mod
-           stdlib_qdot = zero
+           la_qdot = zero
            dtemp = zero
            if (n <= 0) return
            if (incx == 1 .and. incy == 1) then
@@ -269,7 +269,7 @@ module stdlib_linalg_blas_q
                     dtemp = dtemp + dx(i)*dy(i)
                  end do
                  if (n < 5) then
-                    stdlib_qdot = dtemp
+                    la_qdot = dtemp
                  return
                  end if
               end if
@@ -291,16 +291,16 @@ module stdlib_linalg_blas_q
                  iy = iy + incy
               end do
            end if
-           stdlib_qdot = dtemp
+           la_qdot = dtemp
            return
-     end function stdlib_qdot
+     end function la_qdot
 
      !> DGBMV:  performs one of the matrix-vector operations
      !> y := alpha*A*x + beta*y,   or   y := alpha*A**T*x + beta*y,
      !> where alpha and beta are scalars, x and y are vectors and A is an
      !> m by n band matrix, with kl sub-diagonals and ku super-diagonals.
 
-     pure subroutine stdlib_qgbmv(trans,m,n,kl,ku,alpha,a,lda,x,incx,beta,y,incy)
+     pure subroutine la_qgbmv(trans,m,n,kl,ku,alpha,a,lda,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -320,8 +320,8 @@ module stdlib_linalg_blas_q
            intrinsic :: max,min
            ! test the input parameters.
            info = 0
-           if (.not. stdlib_lsame(trans,'N') .and. .not. stdlib_lsame(trans,'T') &
-                     .and. .not. stdlib_lsame(trans,'C')) then
+           if (.not. la_lsame(trans,'N') .and. .not. la_lsame(trans,'T') &
+                     .and. .not. la_lsame(trans,'C')) then
                info = 1
            else if (m < 0) then
                info = 2
@@ -339,14 +339,14 @@ module stdlib_linalg_blas_q
                info = 13
            end if
            if (info /= 0) then
-               call stdlib_xerbla('DGBMV ',info)
+               call la_xerbla('DGBMV ',info)
                return
            end if
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. ((alpha == zero) .and. (beta == one))) return
            ! set  lenx  and  leny, the lengths of the vectors x and y, and set
            ! up the start points in  x  and  y.
-           if (stdlib_lsame(trans,'N')) then
+           if (la_lsame(trans,'N')) then
                lenx = n
                leny = m
            else
@@ -394,7 +394,7 @@ module stdlib_linalg_blas_q
            end if
            if (alpha == zero) return
            kup1 = ku + 1
-           if (stdlib_lsame(trans,'N')) then
+           if (la_lsame(trans,'N')) then
               ! form  y := alpha*a*x + y.
                jx = kx
                if (incy == 1) then
@@ -448,7 +448,7 @@ module stdlib_linalg_blas_q
                end if
            end if
            return
-     end subroutine stdlib_qgbmv
+     end subroutine la_qgbmv
 
      !> DGEMM:  performs one of the matrix-matrix operations
      !> C := alpha*op( A )*op( B ) + beta*C,
@@ -457,7 +457,7 @@ module stdlib_linalg_blas_q
      !> alpha and beta are scalars, and A, B and C are matrices, with op( A )
      !> an m by k matrix,  op( B )  a  k by n matrix and  C an m by n matrix.
 
-     pure subroutine stdlib_qgemm(transa,transb,m,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
+     pure subroutine la_qgemm(transa,transb,m,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -479,8 +479,8 @@ module stdlib_linalg_blas_q
            ! set  nota  and  notb  as  true if  a  and  b  respectively are not
            ! transposed and set  nrowa and nrowb  as the number of rows of  a
            ! and  b  respectively.
-           nota = stdlib_lsame(transa,'N')
-           notb = stdlib_lsame(transb,'N')
+           nota = la_lsame(transa,'N')
+           notb = la_lsame(transb,'N')
            if (nota) then
                nrowa = m
            else
@@ -493,10 +493,10 @@ module stdlib_linalg_blas_q
            end if
            ! test the input parameters.
            info = 0
-           if ((.not. nota) .and. (.not. stdlib_lsame(transa,'C')) .and. (.not. stdlib_lsame(transa, &
+           if ((.not. nota) .and. (.not. la_lsame(transa,'C')) .and. (.not. la_lsame(transa, &
                      'T'))) then
                info = 1
-           else if ((.not. notb) .and. (.not. stdlib_lsame(transb,'C')) .and. (.not. stdlib_lsame( &
+           else if ((.not. notb) .and. (.not. la_lsame(transb,'C')) .and. (.not. la_lsame( &
                      transb,'T'))) then
                info = 2
            else if (m < 0) then
@@ -513,7 +513,7 @@ module stdlib_linalg_blas_q
                info = 13
            end if
            if (info /= 0) then
-               call stdlib_xerbla('DGEMM ',info)
+               call la_xerbla('DGEMM ',info)
                return
            end if
            ! quick return if possible.
@@ -611,14 +611,14 @@ module stdlib_linalg_blas_q
                end if
            end if
            return
-     end subroutine stdlib_qgemm
+     end subroutine la_qgemm
 
      !> DGEMV:  performs one of the matrix-vector operations
      !> y := alpha*A*x + beta*y,   or   y := alpha*A**T*x + beta*y,
      !> where alpha and beta are scalars, x and y are vectors and A is an
      !> m by n matrix.
 
-     pure subroutine stdlib_qgemv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
+     pure subroutine la_qgemv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -638,8 +638,8 @@ module stdlib_linalg_blas_q
            intrinsic :: max
            ! test the input parameters.
            info = 0
-           if (.not. stdlib_lsame(trans,'N') .and. .not. stdlib_lsame(trans,'T') &
-                     .and. .not. stdlib_lsame(trans,'C')) then
+           if (.not. la_lsame(trans,'N') .and. .not. la_lsame(trans,'T') &
+                     .and. .not. la_lsame(trans,'C')) then
                info = 1
            else if (m < 0) then
                info = 2
@@ -653,14 +653,14 @@ module stdlib_linalg_blas_q
                info = 11
            end if
            if (info /= 0) then
-               call stdlib_xerbla('DGEMV ',info)
+               call la_xerbla('DGEMV ',info)
                return
            end if
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. ((alpha == zero) .and. (beta == one))) return
            ! set  lenx  and  leny, the lengths of the vectors x and y, and set
            ! up the start points in  x  and  y.
-           if (stdlib_lsame(trans,'N')) then
+           if (la_lsame(trans,'N')) then
                lenx = n
                leny = m
            else
@@ -707,7 +707,7 @@ module stdlib_linalg_blas_q
                end if
            end if
            if (alpha == zero) return
-           if (stdlib_lsame(trans,'N')) then
+           if (la_lsame(trans,'N')) then
               ! form  y := alpha*a*x + y.
                jx = kx
                if (incy == 1) then
@@ -755,14 +755,14 @@ module stdlib_linalg_blas_q
                end if
            end if
            return
-     end subroutine stdlib_qgemv
+     end subroutine la_qgemv
 
      !> DGER:   performs the rank 1 operation
      !> A := alpha*x*y**T + A,
      !> where alpha is a scalar, x is an m element vector, y is an n element
      !> vector and A is an m by n matrix.
 
-     pure subroutine stdlib_qger(m,n,alpha,x,incx,y,incy,a,lda)
+     pure subroutine la_qger(m,n,alpha,x,incx,y,incy,a,lda)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -793,7 +793,7 @@ module stdlib_linalg_blas_q
                info = 9
            end if
            if (info /= 0) then
-               call stdlib_xerbla('DGER  ',info)
+               call la_xerbla('DGER  ',info)
                return
            end if
            ! quick return if possible.
@@ -834,7 +834,7 @@ module stdlib_linalg_blas_q
                end do
            end if
            return
-     end subroutine stdlib_qger
+     end subroutine la_qger
 
      !> !
      !>
@@ -842,8 +842,8 @@ module stdlib_linalg_blas_q
      !> name, so that
      !> DNRM2 := sqrt( x'*x )
 
-     pure function stdlib_qnrm2(n,x,incx)
-        real(qp) :: stdlib_qnrm2
+     pure function la_qnrm2(n,x,incx)
+        real(qp) :: la_qnrm2
         ! -- reference blas level1 routine (version 3.9.1_qp) --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -861,7 +861,7 @@ module stdlib_linalg_blas_q
      logical(lk) :: notbig
         real(qp) :: abig,amed,asml,ax,scl,sumsq,ymax,ymin
         ! quick return if possible
-        stdlib_qnrm2 = zero
+        la_qnrm2 = zero
         if (n <= 0) return
         scl = one
         sumsq = zero
@@ -922,13 +922,13 @@ module stdlib_linalg_blas_q
            scl = one
            sumsq = amed
         end if
-        stdlib_qnrm2 = scl*sqrt(sumsq)
+        la_qnrm2 = scl*sqrt(sumsq)
         return
-     end function stdlib_qnrm2
+     end function la_qnrm2
 
      !> DROT: applies a plane rotation.
 
-     pure subroutine stdlib_qrot(n,dx,incx,dy,incy,c,s)
+     pure subroutine la_qrot(n,dx,incx,dy,incy,c,s)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -965,7 +965,7 @@ module stdlib_linalg_blas_q
               end do
            end if
            return
-     end subroutine stdlib_qrot
+     end subroutine la_qrot
 
      !> !
      !>
@@ -984,7 +984,7 @@ module stdlib_linalg_blas_q
      !> If |z| < 1, set c = sqrt(1 - z**2) and s = z.
      !> If |z| > 1, set c = 1/z and s = sqrt( 1 - c**2).
 
-     pure subroutine stdlib_qrotg(a,b,c,s)
+     pure subroutine la_qrotg(a,b,c,s)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -1028,7 +1028,7 @@ module stdlib_linalg_blas_q
            b = z
         end if
         return
-     end subroutine stdlib_qrotg
+     end subroutine la_qrotg
 
      !> APPLY THE MODIFIED GIVENS TRANSFORMATION, H, TO THE 2 BY N MATRIX
      !> (DX**T) , WHERE **T INDICATES TRANSPOSE. THE ELEMENTS OF DX ARE IN
@@ -1042,7 +1042,7 @@ module stdlib_linalg_blas_q
      !> (DH21  DH22),   (DH21  1._qp),   (-1._qp DH22),   (0._qp  1._qp).
      !> SEE DROTMG FOR A DESCRIPTION OF DATA STORAGE IN DPARAM.
 
-     pure subroutine stdlib_qrotm(n,dx,incx,dy,incy,dparam)
+     pure subroutine la_qrotm(n,dx,incx,dy,incy,dparam)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -1135,7 +1135,7 @@ module stdlib_linalg_blas_q
               end if
            end if
            return
-     end subroutine stdlib_qrotm
+     end subroutine la_qrotm
 
      !> CONSTRUCT THE MODIFIED GIVENS TRANSFORMATION MATRIX H WHICH ZEROS
      !> THE SECOND COMPONENT OF THE 2-VECTOR  (SQRT(DD1)*DX1,SQRT(DD2)    DY2)**T.
@@ -1151,7 +1151,7 @@ module stdlib_linalg_blas_q
      !> INEXACT.  THIS IS OK AS THEY ARE ONLY USED FOR TESTING THE SIZE
      !> OF DD1 AND DD2.  ALL ACTUAL SCALING OF DATA IS DONE USING GAM.
 
-     pure subroutine stdlib_qrotmg(dd1,dd2,dx1,dy1,dparam)
+     pure subroutine la_qrotmg(dd1,dd2,dx1,dy1,dparam)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -1301,14 +1301,14 @@ module stdlib_linalg_blas_q
            end if
            dparam(1) = dflag
            return
-     end subroutine stdlib_qrotmg
+     end subroutine la_qrotmg
 
      !> DSBMV:  performs the matrix-vector  operation
      !> y := alpha*A*x + beta*y,
      !> where alpha and beta are scalars, x and y are n element vectors and
      !> A is an n by n symmetric band matrix, with k super-diagonals.
 
-     pure subroutine stdlib_qsbmv(uplo,n,k,alpha,a,lda,x,incx,beta,y,incy)
+     pure subroutine la_qsbmv(uplo,n,k,alpha,a,lda,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -1328,7 +1328,7 @@ module stdlib_linalg_blas_q
            intrinsic :: max,min
            ! test the input parameters.
            info = 0
-           if (.not. stdlib_lsame(uplo,'U') .and. .not. stdlib_lsame(uplo,'L')) then
+           if (.not. la_lsame(uplo,'U') .and. .not. la_lsame(uplo,'L')) then
                info = 1
            else if (n < 0) then
                info = 2
@@ -1342,7 +1342,7 @@ module stdlib_linalg_blas_q
                info = 11
            end if
            if (info /= 0) then
-               call stdlib_xerbla('DSBMV ',info)
+               call la_xerbla('DSBMV ',info)
                return
            end if
            ! quick return if possible.
@@ -1388,7 +1388,7 @@ module stdlib_linalg_blas_q
                end if
            end if
            if (alpha == zero) return
-           if (stdlib_lsame(uplo,'U')) then
+           if (la_lsame(uplo,'U')) then
               ! form  y  when upper triangle of a is stored.
                kplus1 = k + 1
                if ((incx == 1) .and. (incy == 1)) then
@@ -1463,12 +1463,12 @@ module stdlib_linalg_blas_q
                end if
            end if
            return
-     end subroutine stdlib_qsbmv
+     end subroutine la_qsbmv
 
      !> DSCAL: scales a vector by a constant.
      !> uses unrolled loops for increment equal to 1.
 
-     pure subroutine stdlib_qscal(n,da,dx,incx)
+     pure subroutine la_qscal(n,da,dx,incx)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -1509,7 +1509,7 @@ module stdlib_linalg_blas_q
               end do
            end if
            return
-     end subroutine stdlib_qscal
+     end subroutine la_qscal
 
      !> Compute the inner product of two vectors with extended
      !> precision accumulation and result.
@@ -1518,7 +1518,7 @@ module stdlib_linalg_blas_q
      !> where LX = 1 if INCX >= 0, else LX = 1+(1-N)*INCX, and LY is
      !> defined in a similar way using INCY.
 
-     pure real(qp) function stdlib_qsdot(n,sx,incx,sy,incy)
+     pure real(qp) function la_qsdot(n,sx,incx,sy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -1535,13 +1535,13 @@ module stdlib_linalg_blas_q
            integer(ilp) :: i,kx,ky,ns
            ! Intrinsic Functions
            intrinsic :: real
-           stdlib_qsdot = zero
+           la_qsdot = zero
            if (n <= 0) return
            if (incx == incy .and. incx > 0) then
            ! code for equal, positive, non-unit increments.
               ns = n*incx
               do i = 1,ns,incx
-                 stdlib_qsdot = stdlib_qsdot + real(sx(i),KIND=qp)*real(sy(i),KIND=qp)
+                 la_qsdot = la_qsdot + real(sx(i),KIND=qp)*real(sy(i),KIND=qp)
               end do
            else
            ! code for unequal or nonpositive increments.
@@ -1550,20 +1550,20 @@ module stdlib_linalg_blas_q
               if (incx < 0) kx = 1 + (1 - n)*incx
               if (incy < 0) ky = 1 + (1 - n)*incy
               do i = 1,n
-                 stdlib_qsdot = stdlib_qsdot + real(sx(kx),KIND=qp)*real(sy(ky),KIND=qp)
+                 la_qsdot = la_qsdot + real(sx(kx),KIND=qp)*real(sy(ky),KIND=qp)
                  kx = kx + incx
                  ky = ky + incy
               end do
            end if
            return
-     end function stdlib_qsdot
+     end function la_qsdot
 
      !> DSPMV:  performs the matrix-vector operation
      !> y := alpha*A*x + beta*y,
      !> where alpha and beta are scalars, x and y are n element vectors and
      !> A is an n by n symmetric matrix, supplied in packed form.
 
-     pure subroutine stdlib_qspmv(uplo,n,alpha,ap,x,incx,beta,y,incy)
+     pure subroutine la_qspmv(uplo,n,alpha,ap,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -1581,7 +1581,7 @@ module stdlib_linalg_blas_q
            integer(ilp) :: i,info,ix,iy,j,jx,jy,k,kk,kx,ky
            ! test the input parameters.
            info = 0
-           if (.not. stdlib_lsame(uplo,'U') .and. .not. stdlib_lsame(uplo,'L')) then
+           if (.not. la_lsame(uplo,'U') .and. .not. la_lsame(uplo,'L')) then
                info = 1
            else if (n < 0) then
                info = 2
@@ -1591,7 +1591,7 @@ module stdlib_linalg_blas_q
                info = 9
            end if
            if (info /= 0) then
-               call stdlib_xerbla('DSPMV ',info)
+               call la_xerbla('DSPMV ',info)
                return
            end if
            ! quick return if possible.
@@ -1638,7 +1638,7 @@ module stdlib_linalg_blas_q
            end if
            if (alpha == zero) return
            kk = 1
-           if (stdlib_lsame(uplo,'U')) then
+           if (la_lsame(uplo,'U')) then
               ! form  y  when ap contains the upper triangle.
                if ((incx == 1) .and. (incy == 1)) then
                    do j = 1,n
@@ -1712,14 +1712,14 @@ module stdlib_linalg_blas_q
                end if
            end if
            return
-     end subroutine stdlib_qspmv
+     end subroutine la_qspmv
 
      !> DSPR:    performs the symmetric rank 1 operation
      !> A := alpha*x*x**T + A,
      !> where alpha is a real scalar, x is an n element vector and A is an
      !> n by n symmetric matrix, supplied in packed form.
 
-     pure subroutine stdlib_qspr(uplo,n,alpha,x,incx,ap)
+     pure subroutine la_qspr(uplo,n,alpha,x,incx,ap)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -1737,7 +1737,7 @@ module stdlib_linalg_blas_q
            integer(ilp) :: i,info,ix,j,jx,k,kk,kx
            ! test the input parameters.
            info = 0
-           if (.not. stdlib_lsame(uplo,'U') .and. .not. stdlib_lsame(uplo,'L')) then
+           if (.not. la_lsame(uplo,'U') .and. .not. la_lsame(uplo,'L')) then
                info = 1
            else if (n < 0) then
                info = 2
@@ -1745,7 +1745,7 @@ module stdlib_linalg_blas_q
                info = 5
            end if
            if (info /= 0) then
-               call stdlib_xerbla('DSPR  ',info)
+               call la_xerbla('DSPR  ',info)
                return
            end if
            ! quick return if possible.
@@ -1759,7 +1759,7 @@ module stdlib_linalg_blas_q
            ! start the operations. in this version the elements of the array ap
            ! are accessed sequentially with one pass through ap.
            kk = 1
-           if (stdlib_lsame(uplo,'U')) then
+           if (la_lsame(uplo,'U')) then
               ! form  a  when upper triangle is stored in ap.
                if (incx == 1) then
                    do j = 1,n
@@ -1819,14 +1819,14 @@ module stdlib_linalg_blas_q
                end if
            end if
            return
-     end subroutine stdlib_qspr
+     end subroutine la_qspr
 
      !> DSPR2:  performs the symmetric rank 2 operation
      !> A := alpha*x*y**T + alpha*y*x**T + A,
      !> where alpha is a scalar, x and y are n element vectors and A is an
      !> n by n symmetric matrix, supplied in packed form.
 
-     pure subroutine stdlib_qspr2(uplo,n,alpha,x,incx,y,incy,ap)
+     pure subroutine la_qspr2(uplo,n,alpha,x,incx,y,incy,ap)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -1844,7 +1844,7 @@ module stdlib_linalg_blas_q
            integer(ilp) :: i,info,ix,iy,j,jx,jy,k,kk,kx,ky
            ! test the input parameters.
            info = 0
-           if (.not. stdlib_lsame(uplo,'U') .and. .not. stdlib_lsame(uplo,'L')) then
+           if (.not. la_lsame(uplo,'U') .and. .not. la_lsame(uplo,'L')) then
                info = 1
            else if (n < 0) then
                info = 2
@@ -1854,7 +1854,7 @@ module stdlib_linalg_blas_q
                info = 7
            end if
            if (info /= 0) then
-               call stdlib_xerbla('DSPR2 ',info)
+               call la_xerbla('DSPR2 ',info)
                return
            end if
            ! quick return if possible.
@@ -1878,7 +1878,7 @@ module stdlib_linalg_blas_q
            ! start the operations. in this version the elements of the array ap
            ! are accessed sequentially with one pass through ap.
            kk = 1
-           if (stdlib_lsame(uplo,'U')) then
+           if (la_lsame(uplo,'U')) then
               ! form  a  when upper triangle is stored in ap.
                if ((incx == 1) .and. (incy == 1)) then
                    do j = 1,n
@@ -1946,12 +1946,12 @@ module stdlib_linalg_blas_q
                end if
            end if
            return
-     end subroutine stdlib_qspr2
+     end subroutine la_qspr2
 
      !> DSWAP: interchanges two vectors.
      !> uses unrolled loops for increments equal to 1.
 
-     pure subroutine stdlib_qswap(n,dx,incx,dy,incy)
+     pure subroutine la_qswap(n,dx,incx,dy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -2006,7 +2006,7 @@ module stdlib_linalg_blas_q
               end do
            end if
            return
-     end subroutine stdlib_qswap
+     end subroutine la_qswap
 
      !> DSYMM:  performs one of the matrix-matrix operations
      !> C := alpha*A*B + beta*C,
@@ -2015,7 +2015,7 @@ module stdlib_linalg_blas_q
      !> where alpha and beta are scalars,  A is a symmetric matrix and  B and
      !> C are  m by n matrices.
 
-     pure subroutine stdlib_qsymm(side,uplo,m,n,alpha,a,lda,b,ldb,beta,c,ldc)
+     pure subroutine la_qsymm(side,uplo,m,n,alpha,a,lda,b,ldb,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -2035,17 +2035,17 @@ module stdlib_linalg_blas_q
            logical(lk) :: upper
            
            ! set nrowa as the number of rows of a.
-           if (stdlib_lsame(side,'L')) then
+           if (la_lsame(side,'L')) then
                nrowa = m
            else
                nrowa = n
            end if
-           upper = stdlib_lsame(uplo,'U')
+           upper = la_lsame(uplo,'U')
            ! test the input parameters.
            info = 0
-           if ((.not. stdlib_lsame(side,'L')) .and. (.not. stdlib_lsame(side,'R'))) then
+           if ((.not. la_lsame(side,'L')) .and. (.not. la_lsame(side,'R'))) then
                info = 1
-           else if ((.not. upper) .and. (.not. stdlib_lsame(uplo,'L'))) then
+           else if ((.not. upper) .and. (.not. la_lsame(uplo,'L'))) then
                info = 2
            else if (m < 0) then
                info = 3
@@ -2059,7 +2059,7 @@ module stdlib_linalg_blas_q
                info = 12
            end if
            if (info /= 0) then
-               call stdlib_xerbla('DSYMM ',info)
+               call la_xerbla('DSYMM ',info)
                return
            end if
            ! quick return if possible.
@@ -2082,7 +2082,7 @@ module stdlib_linalg_blas_q
                return
            end if
            ! start the operations.
-           if (stdlib_lsame(side,'L')) then
+           if (la_lsame(side,'L')) then
               ! form  c := alpha*a*b + beta*c.
                if (upper) then
                    do j = 1,n
@@ -2153,14 +2153,14 @@ module stdlib_linalg_blas_q
                end do loop_170
            end if
            return
-     end subroutine stdlib_qsymm
+     end subroutine la_qsymm
 
      !> DSYMV:  performs the matrix-vector  operation
      !> y := alpha*A*x + beta*y,
      !> where alpha and beta are scalars, x and y are n element vectors and
      !> A is an n by n symmetric matrix.
 
-     pure subroutine stdlib_qsymv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
+     pure subroutine la_qsymv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -2180,7 +2180,7 @@ module stdlib_linalg_blas_q
            intrinsic :: max
            ! test the input parameters.
            info = 0
-           if (.not. stdlib_lsame(uplo,'U') .and. .not. stdlib_lsame(uplo,'L')) then
+           if (.not. la_lsame(uplo,'U') .and. .not. la_lsame(uplo,'L')) then
                info = 1
            else if (n < 0) then
                info = 2
@@ -2192,7 +2192,7 @@ module stdlib_linalg_blas_q
                info = 10
            end if
            if (info /= 0) then
-               call stdlib_xerbla('DSYMV ',info)
+               call la_xerbla('DSYMV ',info)
                return
            end if
            ! quick return if possible.
@@ -2239,7 +2239,7 @@ module stdlib_linalg_blas_q
                end if
            end if
            if (alpha == zero) return
-           if (stdlib_lsame(uplo,'U')) then
+           if (la_lsame(uplo,'U')) then
               ! form  y  when a is stored in upper triangle.
                if ((incx == 1) .and. (incy == 1)) then
                    do j = 1,n
@@ -2305,14 +2305,14 @@ module stdlib_linalg_blas_q
                end if
            end if
            return
-     end subroutine stdlib_qsymv
+     end subroutine la_qsymv
 
      !> DSYR:   performs the symmetric rank 1 operation
      !> A := alpha*x*x**T + A,
      !> where alpha is a real scalar, x is an n element vector and A is an
      !> n by n symmetric matrix.
 
-     pure subroutine stdlib_qsyr(uplo,n,alpha,x,incx,a,lda)
+     pure subroutine la_qsyr(uplo,n,alpha,x,incx,a,lda)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -2332,7 +2332,7 @@ module stdlib_linalg_blas_q
            intrinsic :: max
            ! test the input parameters.
            info = 0
-           if (.not. stdlib_lsame(uplo,'U') .and. .not. stdlib_lsame(uplo,'L')) then
+           if (.not. la_lsame(uplo,'U') .and. .not. la_lsame(uplo,'L')) then
                info = 1
            else if (n < 0) then
                info = 2
@@ -2342,7 +2342,7 @@ module stdlib_linalg_blas_q
                info = 7
            end if
            if (info /= 0) then
-               call stdlib_xerbla('DSYR  ',info)
+               call la_xerbla('DSYR  ',info)
                return
            end if
            ! quick return if possible.
@@ -2356,7 +2356,7 @@ module stdlib_linalg_blas_q
            ! start the operations. in this version the elements of a are
            ! accessed sequentially with one pass through the triangular part
            ! of a.
-           if (stdlib_lsame(uplo,'U')) then
+           if (la_lsame(uplo,'U')) then
               ! form  a  when a is stored in upper triangle.
                if (incx == 1) then
                    do j = 1,n
@@ -2408,14 +2408,14 @@ module stdlib_linalg_blas_q
                end if
            end if
            return
-     end subroutine stdlib_qsyr
+     end subroutine la_qsyr
 
      !> DSYR2:  performs the symmetric rank 2 operation
      !> A := alpha*x*y**T + alpha*y*x**T + A,
      !> where alpha is a scalar, x and y are n element vectors and A is an n
      !> by n symmetric matrix.
 
-     pure subroutine stdlib_qsyr2(uplo,n,alpha,x,incx,y,incy,a,lda)
+     pure subroutine la_qsyr2(uplo,n,alpha,x,incx,y,incy,a,lda)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -2435,7 +2435,7 @@ module stdlib_linalg_blas_q
            intrinsic :: max
            ! test the input parameters.
            info = 0
-           if (.not. stdlib_lsame(uplo,'U') .and. .not. stdlib_lsame(uplo,'L')) then
+           if (.not. la_lsame(uplo,'U') .and. .not. la_lsame(uplo,'L')) then
                info = 1
            else if (n < 0) then
                info = 2
@@ -2447,7 +2447,7 @@ module stdlib_linalg_blas_q
                info = 9
            end if
            if (info /= 0) then
-               call stdlib_xerbla('DSYR2 ',info)
+               call la_xerbla('DSYR2 ',info)
                return
            end if
            ! quick return if possible.
@@ -2471,7 +2471,7 @@ module stdlib_linalg_blas_q
            ! start the operations. in this version the elements of a are
            ! accessed sequentially with one pass through the triangular part
            ! of a.
-           if (stdlib_lsame(uplo,'U')) then
+           if (la_lsame(uplo,'U')) then
               ! form  a  when a is stored in the upper triangle.
                if ((incx == 1) .and. (incy == 1)) then
                    do j = 1,n
@@ -2531,7 +2531,7 @@ module stdlib_linalg_blas_q
                end if
            end if
            return
-     end subroutine stdlib_qsyr2
+     end subroutine la_qsyr2
 
      !> DSYR2K:  performs one of the symmetric rank 2k operations
      !> C := alpha*A*B**T + alpha*B*A**T + beta*C,
@@ -2541,7 +2541,7 @@ module stdlib_linalg_blas_q
      !> and  A and B  are  n by k  matrices  in the  first  case  and  k by n
      !> matrices in the second case.
 
-     pure subroutine stdlib_qsyr2k(uplo,trans,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
+     pure subroutine la_qsyr2k(uplo,trans,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -2561,17 +2561,17 @@ module stdlib_linalg_blas_q
            logical(lk) :: upper
            
            ! test the input parameters.
-           if (stdlib_lsame(trans,'N')) then
+           if (la_lsame(trans,'N')) then
                nrowa = n
            else
                nrowa = k
            end if
-           upper = stdlib_lsame(uplo,'U')
+           upper = la_lsame(uplo,'U')
            info = 0
-           if ((.not. upper) .and. (.not. stdlib_lsame(uplo,'L'))) then
+           if ((.not. upper) .and. (.not. la_lsame(uplo,'L'))) then
                info = 1
-           else if ((.not. stdlib_lsame(trans,'N')) .and. (.not. stdlib_lsame(trans,'T')) .and. ( &
-                     .not. stdlib_lsame(trans,'C'))) then
+           else if ((.not. la_lsame(trans,'N')) .and. (.not. la_lsame(trans,'T')) .and. ( &
+                     .not. la_lsame(trans,'C'))) then
                info = 2
            else if (n < 0) then
                info = 3
@@ -2585,7 +2585,7 @@ module stdlib_linalg_blas_q
                info = 12
            end if
            if (info /= 0) then
-               call stdlib_xerbla('DSYR2K',info)
+               call la_xerbla('DSYR2K',info)
                return
            end if
            ! quick return if possible.
@@ -2624,7 +2624,7 @@ module stdlib_linalg_blas_q
                return
            end if
            ! start the operations.
-           if (stdlib_lsame(trans,'N')) then
+           if (la_lsame(trans,'N')) then
               ! form  c := alpha*a*b**t + alpha*b*a**t + c.
                if (upper) then
                    do j = 1,n
@@ -2706,7 +2706,7 @@ module stdlib_linalg_blas_q
                end if
            end if
            return
-     end subroutine stdlib_qsyr2k
+     end subroutine la_qsyr2k
 
      !> DSYRK:  performs one of the symmetric rank k operations
      !> C := alpha*A*A**T + beta*C,
@@ -2716,7 +2716,7 @@ module stdlib_linalg_blas_q
      !> and  A  is an  n by k  matrix in the first case and a  k by n  matrix
      !> in the second case.
 
-     pure subroutine stdlib_qsyrk(uplo,trans,n,k,alpha,a,lda,beta,c,ldc)
+     pure subroutine la_qsyrk(uplo,trans,n,k,alpha,a,lda,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -2736,17 +2736,17 @@ module stdlib_linalg_blas_q
            logical(lk) :: upper
            
            ! test the input parameters.
-           if (stdlib_lsame(trans,'N')) then
+           if (la_lsame(trans,'N')) then
                nrowa = n
            else
                nrowa = k
            end if
-           upper = stdlib_lsame(uplo,'U')
+           upper = la_lsame(uplo,'U')
            info = 0
-           if ((.not. upper) .and. (.not. stdlib_lsame(uplo,'L'))) then
+           if ((.not. upper) .and. (.not. la_lsame(uplo,'L'))) then
                info = 1
-           else if ((.not. stdlib_lsame(trans,'N')) .and. (.not. stdlib_lsame(trans,'T')) .and. ( &
-                     .not. stdlib_lsame(trans,'C'))) then
+           else if ((.not. la_lsame(trans,'N')) .and. (.not. la_lsame(trans,'T')) .and. ( &
+                     .not. la_lsame(trans,'C'))) then
                info = 2
            else if (n < 0) then
                info = 3
@@ -2758,7 +2758,7 @@ module stdlib_linalg_blas_q
                info = 10
            end if
            if (info /= 0) then
-               call stdlib_xerbla('DSYRK ',info)
+               call la_xerbla('DSYRK ',info)
                return
            end if
            ! quick return if possible.
@@ -2797,7 +2797,7 @@ module stdlib_linalg_blas_q
                return
            end if
            ! start the operations.
-           if (stdlib_lsame(trans,'N')) then
+           if (la_lsame(trans,'N')) then
               ! form  c := alpha*a*a**t + beta*c.
                if (upper) then
                    do j = 1,n
@@ -2873,14 +2873,14 @@ module stdlib_linalg_blas_q
                end if
            end if
            return
-     end subroutine stdlib_qsyrk
+     end subroutine la_qsyrk
 
      !> DTBMV:  performs one of the matrix-vector operations
      !> x := A*x,   or   x := A**T*x,
      !> where x is an n element vector and  A is an n by n unit, or non-unit,
      !> upper or lower triangular band matrix, with ( k + 1 ) diagonals.
 
-     pure subroutine stdlib_qtbmv(uplo,trans,diag,n,k,a,lda,x,incx)
+     pure subroutine la_qtbmv(uplo,trans,diag,n,k,a,lda,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -2900,12 +2900,12 @@ module stdlib_linalg_blas_q
            intrinsic :: max,min
            ! test the input parameters.
            info = 0
-           if (.not. stdlib_lsame(uplo,'U') .and. .not. stdlib_lsame(uplo,'L')) then
+           if (.not. la_lsame(uplo,'U') .and. .not. la_lsame(uplo,'L')) then
                info = 1
-           else if (.not. stdlib_lsame(trans,'N') .and. .not. stdlib_lsame(trans,'T') &
-                     .and. .not. stdlib_lsame(trans,'C')) then
+           else if (.not. la_lsame(trans,'N') .and. .not. la_lsame(trans,'T') &
+                     .and. .not. la_lsame(trans,'C')) then
                info = 2
-           else if (.not. stdlib_lsame(diag,'U') .and. .not. stdlib_lsame(diag,'N')) then
+           else if (.not. la_lsame(diag,'U') .and. .not. la_lsame(diag,'N')) then
                info = 3
            else if (n < 0) then
                info = 4
@@ -2917,12 +2917,12 @@ module stdlib_linalg_blas_q
                info = 9
            end if
            if (info /= 0) then
-               call stdlib_xerbla('DTBMV ',info)
+               call la_xerbla('DTBMV ',info)
                return
            end if
            ! quick return if possible.
            if (n == 0) return
-           nounit = stdlib_lsame(diag,'N')
+           nounit = la_lsame(diag,'N')
            ! set up the start point in x if the increment is not unity. this
            ! will be  ( n - 1 )*incx   too small for descending loops.
            if (incx <= 0) then
@@ -2932,9 +2932,9 @@ module stdlib_linalg_blas_q
            end if
            ! start the operations. in this version the elements of a are
            ! accessed sequentially with one pass through a.
-           if (stdlib_lsame(trans,'N')) then
+           if (la_lsame(trans,'N')) then
                ! form  x := a*x.
-               if (stdlib_lsame(uplo,'U')) then
+               if (la_lsame(uplo,'U')) then
                    kplus1 = k + 1
                    if (incx == 1) then
                        do j = 1,n
@@ -2997,7 +2997,7 @@ module stdlib_linalg_blas_q
                end if
            else
               ! form  x := a**t*x.
-               if (stdlib_lsame(uplo,'U')) then
+               if (la_lsame(uplo,'U')) then
                    kplus1 = k + 1
                    if (incx == 1) then
                        do j = n,1,-1
@@ -3056,7 +3056,7 @@ module stdlib_linalg_blas_q
                end if
            end if
            return
-     end subroutine stdlib_qtbmv
+     end subroutine la_qtbmv
 
      !> DTBSV:  solves one of the systems of equations
      !> A*x = b,   or   A**T*x = b,
@@ -3066,7 +3066,7 @@ module stdlib_linalg_blas_q
      !> No test for singularity or near-singularity is included in this
      !> routine. Such tests must be performed before calling this routine.
 
-     pure subroutine stdlib_qtbsv(uplo,trans,diag,n,k,a,lda,x,incx)
+     pure subroutine la_qtbsv(uplo,trans,diag,n,k,a,lda,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -3086,12 +3086,12 @@ module stdlib_linalg_blas_q
            intrinsic :: max,min
            ! test the input parameters.
            info = 0
-           if (.not. stdlib_lsame(uplo,'U') .and. .not. stdlib_lsame(uplo,'L')) then
+           if (.not. la_lsame(uplo,'U') .and. .not. la_lsame(uplo,'L')) then
                info = 1
-           else if (.not. stdlib_lsame(trans,'N') .and. .not. stdlib_lsame(trans,'T') &
-                     .and. .not. stdlib_lsame(trans,'C')) then
+           else if (.not. la_lsame(trans,'N') .and. .not. la_lsame(trans,'T') &
+                     .and. .not. la_lsame(trans,'C')) then
                info = 2
-           else if (.not. stdlib_lsame(diag,'U') .and. .not. stdlib_lsame(diag,'N')) then
+           else if (.not. la_lsame(diag,'U') .and. .not. la_lsame(diag,'N')) then
                info = 3
            else if (n < 0) then
                info = 4
@@ -3103,12 +3103,12 @@ module stdlib_linalg_blas_q
                info = 9
            end if
            if (info /= 0) then
-               call stdlib_xerbla('DTBSV ',info)
+               call la_xerbla('DTBSV ',info)
                return
            end if
            ! quick return if possible.
            if (n == 0) return
-           nounit = stdlib_lsame(diag,'N')
+           nounit = la_lsame(diag,'N')
            ! set up the start point in x if the increment is not unity. this
            ! will be  ( n - 1 )*incx  too small for descending loops.
            if (incx <= 0) then
@@ -3118,9 +3118,9 @@ module stdlib_linalg_blas_q
            end if
            ! start the operations. in this version the elements of a are
            ! accessed by sequentially with one pass through a.
-           if (stdlib_lsame(trans,'N')) then
+           if (la_lsame(trans,'N')) then
               ! form  x := inv( a )*x.
-               if (stdlib_lsame(uplo,'U')) then
+               if (la_lsame(uplo,'U')) then
                    kplus1 = k + 1
                    if (incx == 1) then
                        do j = n,1,-1
@@ -3183,7 +3183,7 @@ module stdlib_linalg_blas_q
                end if
            else
               ! form  x := inv( a**t)*x.
-               if (stdlib_lsame(uplo,'U')) then
+               if (la_lsame(uplo,'U')) then
                    kplus1 = k + 1
                    if (incx == 1) then
                        do j = 1,n
@@ -3242,14 +3242,14 @@ module stdlib_linalg_blas_q
                end if
            end if
            return
-     end subroutine stdlib_qtbsv
+     end subroutine la_qtbsv
 
      !> DTPMV:  performs one of the matrix-vector operations
      !> x := A*x,   or   x := A**T*x,
      !> where x is an n element vector and  A is an n by n unit, or non-unit,
      !> upper or lower triangular matrix, supplied in packed form.
 
-     pure subroutine stdlib_qtpmv(uplo,trans,diag,n,ap,x,incx)
+     pure subroutine la_qtpmv(uplo,trans,diag,n,ap,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -3267,12 +3267,12 @@ module stdlib_linalg_blas_q
            logical(lk) :: nounit
            ! test the input parameters.
            info = 0
-           if (.not. stdlib_lsame(uplo,'U') .and. .not. stdlib_lsame(uplo,'L')) then
+           if (.not. la_lsame(uplo,'U') .and. .not. la_lsame(uplo,'L')) then
                info = 1
-           else if (.not. stdlib_lsame(trans,'N') .and. .not. stdlib_lsame(trans,'T') &
-                     .and. .not. stdlib_lsame(trans,'C')) then
+           else if (.not. la_lsame(trans,'N') .and. .not. la_lsame(trans,'T') &
+                     .and. .not. la_lsame(trans,'C')) then
                info = 2
-           else if (.not. stdlib_lsame(diag,'U') .and. .not. stdlib_lsame(diag,'N')) then
+           else if (.not. la_lsame(diag,'U') .and. .not. la_lsame(diag,'N')) then
                info = 3
            else if (n < 0) then
                info = 4
@@ -3280,12 +3280,12 @@ module stdlib_linalg_blas_q
                info = 7
            end if
            if (info /= 0) then
-               call stdlib_xerbla('DTPMV ',info)
+               call la_xerbla('DTPMV ',info)
                return
            end if
            ! quick return if possible.
            if (n == 0) return
-           nounit = stdlib_lsame(diag,'N')
+           nounit = la_lsame(diag,'N')
            ! set up the start point in x if the increment is not unity. this
            ! will be  ( n - 1 )*incx  too small for descending loops.
            if (incx <= 0) then
@@ -3295,9 +3295,9 @@ module stdlib_linalg_blas_q
            end if
            ! start the operations. in this version the elements of ap are
            ! accessed sequentially with one pass through ap.
-           if (stdlib_lsame(trans,'N')) then
+           if (la_lsame(trans,'N')) then
               ! form  x:= a*x.
-               if (stdlib_lsame(uplo,'U')) then
+               if (la_lsame(uplo,'U')) then
                    kk = 1
                    if (incx == 1) then
                        do j = 1,n
@@ -3363,7 +3363,7 @@ module stdlib_linalg_blas_q
                end if
            else
               ! form  x := a**t*x.
-               if (stdlib_lsame(uplo,'U')) then
+               if (la_lsame(uplo,'U')) then
                    kk = (n*(n + 1))/2
                    if (incx == 1) then
                        do j = n,1,-1
@@ -3424,7 +3424,7 @@ module stdlib_linalg_blas_q
                end if
            end if
            return
-     end subroutine stdlib_qtpmv
+     end subroutine la_qtpmv
 
      !> DTPSV:  solves one of the systems of equations
      !> A*x = b,   or   A**T*x = b,
@@ -3433,7 +3433,7 @@ module stdlib_linalg_blas_q
      !> No test for singularity or near-singularity is included in this
      !> routine. Such tests must be performed before calling this routine.
 
-     pure subroutine stdlib_qtpsv(uplo,trans,diag,n,ap,x,incx)
+     pure subroutine la_qtpsv(uplo,trans,diag,n,ap,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -3451,12 +3451,12 @@ module stdlib_linalg_blas_q
            logical(lk) :: nounit
            ! test the input parameters.
            info = 0
-           if (.not. stdlib_lsame(uplo,'U') .and. .not. stdlib_lsame(uplo,'L')) then
+           if (.not. la_lsame(uplo,'U') .and. .not. la_lsame(uplo,'L')) then
                info = 1
-           else if (.not. stdlib_lsame(trans,'N') .and. .not. stdlib_lsame(trans,'T') &
-                     .and. .not. stdlib_lsame(trans,'C')) then
+           else if (.not. la_lsame(trans,'N') .and. .not. la_lsame(trans,'T') &
+                     .and. .not. la_lsame(trans,'C')) then
                info = 2
-           else if (.not. stdlib_lsame(diag,'U') .and. .not. stdlib_lsame(diag,'N')) then
+           else if (.not. la_lsame(diag,'U') .and. .not. la_lsame(diag,'N')) then
                info = 3
            else if (n < 0) then
                info = 4
@@ -3464,12 +3464,12 @@ module stdlib_linalg_blas_q
                info = 7
            end if
            if (info /= 0) then
-               call stdlib_xerbla('DTPSV ',info)
+               call la_xerbla('DTPSV ',info)
                return
            end if
            ! quick return if possible.
            if (n == 0) return
-           nounit = stdlib_lsame(diag,'N')
+           nounit = la_lsame(diag,'N')
            ! set up the start point in x if the increment is not unity. this
            ! will be  ( n - 1 )*incx  too small for descending loops.
            if (incx <= 0) then
@@ -3479,9 +3479,9 @@ module stdlib_linalg_blas_q
            end if
            ! start the operations. in this version the elements of ap are
            ! accessed sequentially with one pass through ap.
-           if (stdlib_lsame(trans,'N')) then
+           if (la_lsame(trans,'N')) then
               ! form  x := inv( a )*x.
-               if (stdlib_lsame(uplo,'U')) then
+               if (la_lsame(uplo,'U')) then
                    kk = (n*(n + 1))/2
                    if (incx == 1) then
                        do j = n,1,-1
@@ -3546,7 +3546,7 @@ module stdlib_linalg_blas_q
                end if
            else
               ! form  x := inv( a**t )*x.
-               if (stdlib_lsame(uplo,'U')) then
+               if (la_lsame(uplo,'U')) then
                    kk = 1
                    if (incx == 1) then
                        do j = 1,n
@@ -3608,7 +3608,7 @@ module stdlib_linalg_blas_q
                end if
            end if
            return
-     end subroutine stdlib_qtpsv
+     end subroutine la_qtpsv
 
      !> DTRMM:  performs one of the matrix-matrix operations
      !> B := alpha*op( A )*B,   or   B := alpha*B*op( A ),
@@ -3616,7 +3616,7 @@ module stdlib_linalg_blas_q
      !> non-unit,  upper or lower triangular matrix  and  op( A )  is one  of
      !> op( A ) = A   or   op( A ) = A**T.
 
-     pure subroutine stdlib_qtrmm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
+     pure subroutine la_qtrmm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -3636,23 +3636,23 @@ module stdlib_linalg_blas_q
            logical(lk) :: lside,nounit,upper
            
            ! test the input parameters.
-           lside = stdlib_lsame(side,'L')
+           lside = la_lsame(side,'L')
            if (lside) then
                nrowa = m
            else
                nrowa = n
            end if
-           nounit = stdlib_lsame(diag,'N')
-           upper = stdlib_lsame(uplo,'U')
+           nounit = la_lsame(diag,'N')
+           upper = la_lsame(uplo,'U')
            info = 0
-           if ((.not. lside) .and. (.not. stdlib_lsame(side,'R'))) then
+           if ((.not. lside) .and. (.not. la_lsame(side,'R'))) then
                info = 1
-           else if ((.not. upper) .and. (.not. stdlib_lsame(uplo,'L'))) then
+           else if ((.not. upper) .and. (.not. la_lsame(uplo,'L'))) then
                info = 2
-           else if ((.not. stdlib_lsame(transa,'N')) .and. (.not. stdlib_lsame(transa,'T')) .and. ( &
-                     .not. stdlib_lsame(transa,'C'))) then
+           else if ((.not. la_lsame(transa,'N')) .and. (.not. la_lsame(transa,'T')) .and. ( &
+                     .not. la_lsame(transa,'C'))) then
                info = 3
-           else if ((.not. stdlib_lsame(diag,'U')) .and. (.not. stdlib_lsame(diag,'N'))) &
+           else if ((.not. la_lsame(diag,'U')) .and. (.not. la_lsame(diag,'N'))) &
                      then
                info = 4
            else if (m < 0) then
@@ -3665,7 +3665,7 @@ module stdlib_linalg_blas_q
                info = 11
            end if
            if (info /= 0) then
-               call stdlib_xerbla('DTRMM ',info)
+               call la_xerbla('DTRMM ',info)
                return
            end if
            ! quick return if possible.
@@ -3681,7 +3681,7 @@ module stdlib_linalg_blas_q
            end if
            ! start the operations.
            if (lside) then
-               if (stdlib_lsame(transa,'N')) then
+               if (la_lsame(transa,'N')) then
                  ! form  b := alpha*a*b.
                    if (upper) then
                        do j = 1,n
@@ -3737,7 +3737,7 @@ module stdlib_linalg_blas_q
                    end if
                end if
            else
-               if (stdlib_lsame(transa,'N')) then
+               if (la_lsame(transa,'N')) then
                  ! form  b := alpha*b*a.
                    if (upper) then
                        do j = n,1,-1
@@ -3814,14 +3814,14 @@ module stdlib_linalg_blas_q
                end if
            end if
            return
-     end subroutine stdlib_qtrmm
+     end subroutine la_qtrmm
 
      !> DTRMV:  performs one of the matrix-vector operations
      !> x := A*x,   or   x := A**T*x,
      !> where x is an n element vector and  A is an n by n unit, or non-unit,
      !> upper or lower triangular matrix.
 
-     pure subroutine stdlib_qtrmv(uplo,trans,diag,n,a,lda,x,incx)
+     pure subroutine la_qtrmv(uplo,trans,diag,n,a,lda,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -3841,12 +3841,12 @@ module stdlib_linalg_blas_q
            intrinsic :: max
            ! test the input parameters.
            info = 0
-           if (.not. stdlib_lsame(uplo,'U') .and. .not. stdlib_lsame(uplo,'L')) then
+           if (.not. la_lsame(uplo,'U') .and. .not. la_lsame(uplo,'L')) then
                info = 1
-           else if (.not. stdlib_lsame(trans,'N') .and. .not. stdlib_lsame(trans,'T') &
-                     .and. .not. stdlib_lsame(trans,'C')) then
+           else if (.not. la_lsame(trans,'N') .and. .not. la_lsame(trans,'T') &
+                     .and. .not. la_lsame(trans,'C')) then
                info = 2
-           else if (.not. stdlib_lsame(diag,'U') .and. .not. stdlib_lsame(diag,'N')) then
+           else if (.not. la_lsame(diag,'U') .and. .not. la_lsame(diag,'N')) then
                info = 3
            else if (n < 0) then
                info = 4
@@ -3856,12 +3856,12 @@ module stdlib_linalg_blas_q
                info = 8
            end if
            if (info /= 0) then
-               call stdlib_xerbla('DTRMV ',info)
+               call la_xerbla('DTRMV ',info)
                return
            end if
            ! quick return if possible.
            if (n == 0) return
-           nounit = stdlib_lsame(diag,'N')
+           nounit = la_lsame(diag,'N')
            ! set up the start point in x if the increment is not unity. this
            ! will be  ( n - 1 )*incx  too small for descending loops.
            if (incx <= 0) then
@@ -3871,9 +3871,9 @@ module stdlib_linalg_blas_q
            end if
            ! start the operations. in this version the elements of a are
            ! accessed sequentially with one pass through a.
-           if (stdlib_lsame(trans,'N')) then
+           if (la_lsame(trans,'N')) then
               ! form  x := a*x.
-               if (stdlib_lsame(uplo,'U')) then
+               if (la_lsame(uplo,'U')) then
                    if (incx == 1) then
                        do j = 1,n
                            if (x(j) /= zero) then
@@ -3929,7 +3929,7 @@ module stdlib_linalg_blas_q
                end if
            else
               ! form  x := a**t*x.
-               if (stdlib_lsame(uplo,'U')) then
+               if (la_lsame(uplo,'U')) then
                    if (incx == 1) then
                        do j = n,1,-1
                            temp = x(j)
@@ -3980,7 +3980,7 @@ module stdlib_linalg_blas_q
                end if
            end if
            return
-     end subroutine stdlib_qtrmv
+     end subroutine la_qtrmv
 
      !> DTRSM:  solves one of the matrix equations
      !> op( A )*X = alpha*B,   or   X*op( A ) = alpha*B,
@@ -3989,7 +3989,7 @@ module stdlib_linalg_blas_q
      !> op( A ) = A   or   op( A ) = A**T.
      !> The matrix X is overwritten on B.
 
-     pure subroutine stdlib_qtrsm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
+     pure subroutine la_qtrsm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -4009,23 +4009,23 @@ module stdlib_linalg_blas_q
            logical(lk) :: lside,nounit,upper
            
            ! test the input parameters.
-           lside = stdlib_lsame(side,'L')
+           lside = la_lsame(side,'L')
            if (lside) then
                nrowa = m
            else
                nrowa = n
            end if
-           nounit = stdlib_lsame(diag,'N')
-           upper = stdlib_lsame(uplo,'U')
+           nounit = la_lsame(diag,'N')
+           upper = la_lsame(uplo,'U')
            info = 0
-           if ((.not. lside) .and. (.not. stdlib_lsame(side,'R'))) then
+           if ((.not. lside) .and. (.not. la_lsame(side,'R'))) then
                info = 1
-           else if ((.not. upper) .and. (.not. stdlib_lsame(uplo,'L'))) then
+           else if ((.not. upper) .and. (.not. la_lsame(uplo,'L'))) then
                info = 2
-           else if ((.not. stdlib_lsame(transa,'N')) .and. (.not. stdlib_lsame(transa,'T')) .and. ( &
-                     .not. stdlib_lsame(transa,'C'))) then
+           else if ((.not. la_lsame(transa,'N')) .and. (.not. la_lsame(transa,'T')) .and. ( &
+                     .not. la_lsame(transa,'C'))) then
                info = 3
-           else if ((.not. stdlib_lsame(diag,'U')) .and. (.not. stdlib_lsame(diag,'N'))) &
+           else if ((.not. la_lsame(diag,'U')) .and. (.not. la_lsame(diag,'N'))) &
                      then
                info = 4
            else if (m < 0) then
@@ -4038,7 +4038,7 @@ module stdlib_linalg_blas_q
                info = 11
            end if
            if (info /= 0) then
-               call stdlib_xerbla('DTRSM ',info)
+               call la_xerbla('DTRSM ',info)
                return
            end if
            ! quick return if possible.
@@ -4054,7 +4054,7 @@ module stdlib_linalg_blas_q
            end if
            ! start the operations.
            if (lside) then
-               if (stdlib_lsame(transa,'N')) then
+               if (la_lsame(transa,'N')) then
                  ! form  b := alpha*inv( a )*b.
                    if (upper) then
                        do j = 1,n
@@ -4116,7 +4116,7 @@ module stdlib_linalg_blas_q
                    end if
                end if
            else
-               if (stdlib_lsame(transa,'N')) then
+               if (la_lsame(transa,'N')) then
                  ! form  b := alpha*b*inv( a ).
                    if (upper) then
                        do j = 1,n
@@ -4211,7 +4211,7 @@ module stdlib_linalg_blas_q
                end if
            end if
            return
-     end subroutine stdlib_qtrsm
+     end subroutine la_qtrsm
 
      !> DTRSV:  solves one of the systems of equations
      !> A*x = b,   or   A**T*x = b,
@@ -4220,7 +4220,7 @@ module stdlib_linalg_blas_q
      !> No test for singularity or near-singularity is included in this
      !> routine. Such tests must be performed before calling this routine.
 
-     pure subroutine stdlib_qtrsv(uplo,trans,diag,n,a,lda,x,incx)
+     pure subroutine la_qtrsv(uplo,trans,diag,n,a,lda,x,incx)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -4240,12 +4240,12 @@ module stdlib_linalg_blas_q
            intrinsic :: max
            ! test the input parameters.
            info = 0
-           if (.not. stdlib_lsame(uplo,'U') .and. .not. stdlib_lsame(uplo,'L')) then
+           if (.not. la_lsame(uplo,'U') .and. .not. la_lsame(uplo,'L')) then
                info = 1
-           else if (.not. stdlib_lsame(trans,'N') .and. .not. stdlib_lsame(trans,'T') &
-                     .and. .not. stdlib_lsame(trans,'C')) then
+           else if (.not. la_lsame(trans,'N') .and. .not. la_lsame(trans,'T') &
+                     .and. .not. la_lsame(trans,'C')) then
                info = 2
-           else if (.not. stdlib_lsame(diag,'U') .and. .not. stdlib_lsame(diag,'N')) then
+           else if (.not. la_lsame(diag,'U') .and. .not. la_lsame(diag,'N')) then
                info = 3
            else if (n < 0) then
                info = 4
@@ -4255,12 +4255,12 @@ module stdlib_linalg_blas_q
                info = 8
            end if
            if (info /= 0) then
-               call stdlib_xerbla('DTRSV ',info)
+               call la_xerbla('DTRSV ',info)
                return
            end if
            ! quick return if possible.
            if (n == 0) return
-           nounit = stdlib_lsame(diag,'N')
+           nounit = la_lsame(diag,'N')
            ! set up the start point in x if the increment is not unity. this
            ! will be  ( n - 1 )*incx  too small for descending loops.
            if (incx <= 0) then
@@ -4270,9 +4270,9 @@ module stdlib_linalg_blas_q
            end if
            ! start the operations. in this version the elements of a are
            ! accessed sequentially with one pass through a.
-           if (stdlib_lsame(trans,'N')) then
+           if (la_lsame(trans,'N')) then
               ! form  x := inv( a )*x.
-               if (stdlib_lsame(uplo,'U')) then
+               if (la_lsame(uplo,'U')) then
                    if (incx == 1) then
                        do j = n,1,-1
                            if (x(j) /= zero) then
@@ -4327,7 +4327,7 @@ module stdlib_linalg_blas_q
                end if
            else
               ! form  x := inv( a**t )*x.
-               if (stdlib_lsame(uplo,'U')) then
+               if (la_lsame(uplo,'U')) then
                    if (incx == 1) then
                        do j = 1,n
                            temp = x(j)
@@ -4379,12 +4379,12 @@ module stdlib_linalg_blas_q
                end if
            end if
            return
-     end subroutine stdlib_qtrsv
+     end subroutine la_qtrsv
 
      !> DZASUM: takes the sum of the (|Re(.)| + |Im(.)|)'s of a complex vector and
      !> returns a quad precision result.
 
-     pure real(qp) function stdlib_qzasum(n,zx,incx)
+     pure real(qp) function la_qzasum(n,zx,incx)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -4396,24 +4396,24 @@ module stdlib_linalg_blas_q
            ! Local Scalars
            real(qp) :: stemp
            integer(ilp) :: i,nincx
-           stdlib_qzasum = zero
+           la_qzasum = zero
            stemp = zero
            if (n <= 0 .or. incx <= 0) return
            if (incx == 1) then
               ! code for increment equal to 1
               do i = 1,n
-                 stemp = stemp + stdlib_qcabs1(zx(i))
+                 stemp = stemp + la_qcabs1(zx(i))
               end do
            else
               ! code for increment not equal to 1
               nincx = n*incx
               do i = 1,nincx,incx
-                 stemp = stemp + stdlib_qcabs1(zx(i))
+                 stemp = stemp + la_qcabs1(zx(i))
               end do
            end if
-           stdlib_qzasum = stemp
+           la_qzasum = stemp
            return
-     end function stdlib_qzasum
+     end function la_qzasum
 
      !> !
      !>
@@ -4421,8 +4421,8 @@ module stdlib_linalg_blas_q
      !> name, so that
      !> DZNRM2 := sqrt( x**H*x )
 
-     pure function stdlib_qznrm2(n,x,incx)
-        real(qp) :: stdlib_qznrm2
+     pure function la_qznrm2(n,x,incx)
+        real(qp) :: la_qznrm2
         ! -- reference blas level1 routine (version 3.9.1_qp) --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -4440,7 +4440,7 @@ module stdlib_linalg_blas_q
      logical(lk) :: notbig
         real(qp) :: abig,amed,asml,ax,scl,sumsq,ymax,ymin
         ! quick return if possible
-        stdlib_qznrm2 = zero
+        la_qznrm2 = zero
         if (n <= 0) return
         scl = one
         sumsq = zero
@@ -4510,8 +4510,8 @@ module stdlib_linalg_blas_q
            scl = one
            sumsq = amed
         end if
-        stdlib_qznrm2 = scl*sqrt(sumsq)
+        la_qznrm2 = scl*sqrt(sumsq)
         return
-     end function stdlib_qznrm2
+     end function la_qznrm2
 
-end module stdlib_linalg_blas_q
+end module la_linalg_blas_q

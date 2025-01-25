@@ -1,8 +1,8 @@
-module stdlib_linalg_eig
-     use stdlib_linalg_constants
-     use stdlib_linalg_blas
-     use stdlib_linalg_lapack
-     use stdlib_linalg_state
+module la_linalg_eig
+     use la_linalg_constants
+     use la_linalg_blas
+     use la_linalg_lapack
+     use la_linalg_state
      use iso_fortran_env,only:real32,real64,real128,int8,int16,int32,int64,stderr => error_unit
      implicit none(type,external)
      private
@@ -25,51 +25,51 @@ module stdlib_linalg_eig
      ! Scipy: eigh(a, b=None, *, lower=True, eigvals_only=False, overwrite_a=False, overwrite_b=False, turbo=<object object>, eigvals=<object object>, type=1, check_finite=True, subset_by_index=None, subset_by_value=None, driver=None)
 
      interface eig
-        module procedure stdlib_linalg_eig_s
-        module procedure stdlib_linalg_eig_d
-        module procedure stdlib_linalg_eig_q
-        module procedure stdlib_linalg_eig_c
-        module procedure stdlib_linalg_eig_z
-        module procedure stdlib_linalg_eig_w
+        module procedure la_linalg_eig_s
+        module procedure la_linalg_eig_d
+        module procedure la_linalg_eig_q
+        module procedure la_linalg_eig_c
+        module procedure la_linalg_eig_z
+        module procedure la_linalg_eig_w
      end interface eig
 
      interface eigvals
-        module procedure stdlib_linalg_eigvals_s
-        module procedure stdlib_linalg_eigvals_noerr_s
-        module procedure stdlib_linalg_eigvals_d
-        module procedure stdlib_linalg_eigvals_noerr_d
-        module procedure stdlib_linalg_eigvals_q
-        module procedure stdlib_linalg_eigvals_noerr_q
-        module procedure stdlib_linalg_eigvals_c
-        module procedure stdlib_linalg_eigvals_noerr_c
-        module procedure stdlib_linalg_eigvals_z
-        module procedure stdlib_linalg_eigvals_noerr_z
-        module procedure stdlib_linalg_eigvals_w
-        module procedure stdlib_linalg_eigvals_noerr_w
+        module procedure la_linalg_eigvals_s
+        module procedure la_linalg_eigvals_noerr_s
+        module procedure la_linalg_eigvals_d
+        module procedure la_linalg_eigvals_noerr_d
+        module procedure la_linalg_eigvals_q
+        module procedure la_linalg_eigvals_noerr_q
+        module procedure la_linalg_eigvals_c
+        module procedure la_linalg_eigvals_noerr_c
+        module procedure la_linalg_eigvals_z
+        module procedure la_linalg_eigvals_noerr_z
+        module procedure la_linalg_eigvals_w
+        module procedure la_linalg_eigvals_noerr_w
      end interface eigvals
      
      interface eigh
-        module procedure stdlib_linalg_eigh_s
-        module procedure stdlib_linalg_eigh_d
-        module procedure stdlib_linalg_eigh_q
-        module procedure stdlib_linalg_eigh_c
-        module procedure stdlib_linalg_eigh_z
-        module procedure stdlib_linalg_eigh_w
+        module procedure la_linalg_eigh_s
+        module procedure la_linalg_eigh_d
+        module procedure la_linalg_eigh_q
+        module procedure la_linalg_eigh_c
+        module procedure la_linalg_eigh_z
+        module procedure la_linalg_eigh_w
      end interface eigh
      
      interface eigvalsh
-        module procedure stdlib_linalg_eigvalsh_s
-        module procedure stdlib_linalg_eigvalsh_noerr_s
-        module procedure stdlib_linalg_eigvalsh_d
-        module procedure stdlib_linalg_eigvalsh_noerr_d
-        module procedure stdlib_linalg_eigvalsh_q
-        module procedure stdlib_linalg_eigvalsh_noerr_q
-        module procedure stdlib_linalg_eigvalsh_c
-        module procedure stdlib_linalg_eigvalsh_noerr_c
-        module procedure stdlib_linalg_eigvalsh_z
-        module procedure stdlib_linalg_eigvalsh_noerr_z
-        module procedure stdlib_linalg_eigvalsh_w
-        module procedure stdlib_linalg_eigvalsh_noerr_w
+        module procedure la_linalg_eigvalsh_s
+        module procedure la_linalg_eigvalsh_noerr_s
+        module procedure la_linalg_eigvalsh_d
+        module procedure la_linalg_eigvalsh_noerr_d
+        module procedure la_linalg_eigvalsh_q
+        module procedure la_linalg_eigvalsh_noerr_q
+        module procedure la_linalg_eigvalsh_c
+        module procedure la_linalg_eigvalsh_noerr_c
+        module procedure la_linalg_eigvalsh_z
+        module procedure la_linalg_eigvalsh_noerr_z
+        module procedure la_linalg_eigvalsh_w
+        module procedure la_linalg_eigvalsh_noerr_w
      end interface eigvalsh
 
      character(*),parameter :: this = 'eigenvalues'
@@ -155,7 +155,7 @@ module stdlib_linalg_eig
      end subroutine heev_info
 
      !> Return an array of eigenvalues of matrix A.
-     function stdlib_linalg_eigvals_s(a,err) result(lambda)
+     function la_linalg_eigvals_s(a,err) result(lambda)
          !> Input matrix A[m,n]
          real(sp),intent(in),target :: a(:,:)
          !> [optional] state return flag. On error if not requested, the code will stop
@@ -178,12 +178,12 @@ module stdlib_linalg_eig
          allocate (lambda(k))
 
          !> Compute eigenvalues only
-         call stdlib_linalg_eig_s(amat,lambda,overwrite_a=.false.,err=err)
+         call la_linalg_eig_s(amat,lambda,overwrite_a=.false.,err=err)
 
-     end function stdlib_linalg_eigvals_s
+     end function la_linalg_eigvals_s
 
      !> Return an array of eigenvalues of matrix A.
-     function stdlib_linalg_eigvals_noerr_s(a) result(lambda)
+     function la_linalg_eigvals_noerr_s(a) result(lambda)
          !> Input matrix A[m,n]
          real(sp),intent(in),target :: a(:,:)
          !> Array of singular values
@@ -204,13 +204,13 @@ module stdlib_linalg_eig
          allocate (lambda(k))
 
          !> Compute eigenvalues only
-         call stdlib_linalg_eig_s(amat,lambda,overwrite_a=.false.)
+         call la_linalg_eig_s(amat,lambda,overwrite_a=.false.)
 
-     end function stdlib_linalg_eigvals_noerr_s
+     end function la_linalg_eigvals_noerr_s
 
      !> Eigendecomposition of matrix A returning an array `lambda` of eigenvalues,
      !> and optionally right or left eigenvectors.
-     subroutine stdlib_linalg_eig_s(a,lambda,right,left,overwrite_a,err)
+     subroutine la_linalg_eig_s(a,lambda,right,left,overwrite_a,err)
          !> Input matrix A[m,n]
          real(sp),intent(inout),target :: a(:,:)
          !> Array of eigenvalues
@@ -347,10 +347,10 @@ module stdlib_linalg_eig
          if (present(left)) deallocate (umat)
 1        call linalg_error_handling(err0,err)
 
-     end subroutine stdlib_linalg_eig_s
+     end subroutine la_linalg_eig_s
      
      !> Return an array of eigenvalues of real symmetric / complex hermitian A
-     function stdlib_linalg_eigvalsh_s(a,upper_a,err) result(lambda)
+     function la_linalg_eigvalsh_s(a,upper_a,err) result(lambda)
          !> Input matrix A[m,n]
          real(sp),intent(in),target :: a(:,:)
          !> [optional] Should the upper/lower half of A be used? Default: lower
@@ -374,12 +374,12 @@ module stdlib_linalg_eig
          allocate (lambda(k))
 
          !> Compute eigenvalues only
-         call stdlib_linalg_eigh_s(amat,lambda,upper_a=upper_a,overwrite_a=.false.,err=err)
+         call la_linalg_eigh_s(amat,lambda,upper_a=upper_a,overwrite_a=.false.,err=err)
          
-     end function stdlib_linalg_eigvalsh_s
+     end function la_linalg_eigvalsh_s
      
      !> Return an array of eigenvalues of real symmetric / complex hermitian A
-     function stdlib_linalg_eigvalsh_noerr_s(a,upper_a) result(lambda)
+     function la_linalg_eigvalsh_noerr_s(a,upper_a) result(lambda)
          !> Input matrix A[m,n]
          real(sp),intent(in),target :: a(:,:)
          !> [optional] Should the upper/lower half of A be used? Default: lower
@@ -401,13 +401,13 @@ module stdlib_linalg_eig
          allocate (lambda(k))
 
          !> Compute eigenvalues only
-         call stdlib_linalg_eigh_s(amat,lambda,upper_a=upper_a,overwrite_a=.false.)
+         call la_linalg_eigh_s(amat,lambda,upper_a=upper_a,overwrite_a=.false.)
 
-     end function stdlib_linalg_eigvalsh_noerr_s
+     end function la_linalg_eigvalsh_noerr_s
 
      !> Eigendecomposition of a real symmetric or complex Hermitian matrix A returning an array `lambda`
      !> of eigenvalues, and optionally right or left eigenvectors.
-     subroutine stdlib_linalg_eigh_s(a,lambda,vectors,upper_a,overwrite_a,err)
+     subroutine la_linalg_eigh_s(a,lambda,vectors,upper_a,overwrite_a,err)
          !> Input matrix A[m,n]
          real(sp),intent(inout),target :: a(:,:)
          !> Array of eigenvalues
@@ -514,10 +514,10 @@ module stdlib_linalg_eig
          if (copy_a) deallocate (amat)
 1        call linalg_error_handling(err0,err)
 
-     end subroutine stdlib_linalg_eigh_s
+     end subroutine la_linalg_eigh_s
      
      !> Return an array of eigenvalues of matrix A.
-     function stdlib_linalg_eigvals_d(a,err) result(lambda)
+     function la_linalg_eigvals_d(a,err) result(lambda)
          !> Input matrix A[m,n]
          real(dp),intent(in),target :: a(:,:)
          !> [optional] state return flag. On error if not requested, the code will stop
@@ -540,12 +540,12 @@ module stdlib_linalg_eig
          allocate (lambda(k))
 
          !> Compute eigenvalues only
-         call stdlib_linalg_eig_d(amat,lambda,overwrite_a=.false.,err=err)
+         call la_linalg_eig_d(amat,lambda,overwrite_a=.false.,err=err)
 
-     end function stdlib_linalg_eigvals_d
+     end function la_linalg_eigvals_d
 
      !> Return an array of eigenvalues of matrix A.
-     function stdlib_linalg_eigvals_noerr_d(a) result(lambda)
+     function la_linalg_eigvals_noerr_d(a) result(lambda)
          !> Input matrix A[m,n]
          real(dp),intent(in),target :: a(:,:)
          !> Array of singular values
@@ -566,13 +566,13 @@ module stdlib_linalg_eig
          allocate (lambda(k))
 
          !> Compute eigenvalues only
-         call stdlib_linalg_eig_d(amat,lambda,overwrite_a=.false.)
+         call la_linalg_eig_d(amat,lambda,overwrite_a=.false.)
 
-     end function stdlib_linalg_eigvals_noerr_d
+     end function la_linalg_eigvals_noerr_d
 
      !> Eigendecomposition of matrix A returning an array `lambda` of eigenvalues,
      !> and optionally right or left eigenvectors.
-     subroutine stdlib_linalg_eig_d(a,lambda,right,left,overwrite_a,err)
+     subroutine la_linalg_eig_d(a,lambda,right,left,overwrite_a,err)
          !> Input matrix A[m,n]
          real(dp),intent(inout),target :: a(:,:)
          !> Array of eigenvalues
@@ -709,10 +709,10 @@ module stdlib_linalg_eig
          if (present(left)) deallocate (umat)
 1        call linalg_error_handling(err0,err)
 
-     end subroutine stdlib_linalg_eig_d
+     end subroutine la_linalg_eig_d
      
      !> Return an array of eigenvalues of real symmetric / complex hermitian A
-     function stdlib_linalg_eigvalsh_d(a,upper_a,err) result(lambda)
+     function la_linalg_eigvalsh_d(a,upper_a,err) result(lambda)
          !> Input matrix A[m,n]
          real(dp),intent(in),target :: a(:,:)
          !> [optional] Should the upper/lower half of A be used? Default: lower
@@ -736,12 +736,12 @@ module stdlib_linalg_eig
          allocate (lambda(k))
 
          !> Compute eigenvalues only
-         call stdlib_linalg_eigh_d(amat,lambda,upper_a=upper_a,overwrite_a=.false.,err=err)
+         call la_linalg_eigh_d(amat,lambda,upper_a=upper_a,overwrite_a=.false.,err=err)
          
-     end function stdlib_linalg_eigvalsh_d
+     end function la_linalg_eigvalsh_d
      
      !> Return an array of eigenvalues of real symmetric / complex hermitian A
-     function stdlib_linalg_eigvalsh_noerr_d(a,upper_a) result(lambda)
+     function la_linalg_eigvalsh_noerr_d(a,upper_a) result(lambda)
          !> Input matrix A[m,n]
          real(dp),intent(in),target :: a(:,:)
          !> [optional] Should the upper/lower half of A be used? Default: lower
@@ -763,13 +763,13 @@ module stdlib_linalg_eig
          allocate (lambda(k))
 
          !> Compute eigenvalues only
-         call stdlib_linalg_eigh_d(amat,lambda,upper_a=upper_a,overwrite_a=.false.)
+         call la_linalg_eigh_d(amat,lambda,upper_a=upper_a,overwrite_a=.false.)
 
-     end function stdlib_linalg_eigvalsh_noerr_d
+     end function la_linalg_eigvalsh_noerr_d
 
      !> Eigendecomposition of a real symmetric or complex Hermitian matrix A returning an array `lambda`
      !> of eigenvalues, and optionally right or left eigenvectors.
-     subroutine stdlib_linalg_eigh_d(a,lambda,vectors,upper_a,overwrite_a,err)
+     subroutine la_linalg_eigh_d(a,lambda,vectors,upper_a,overwrite_a,err)
          !> Input matrix A[m,n]
          real(dp),intent(inout),target :: a(:,:)
          !> Array of eigenvalues
@@ -876,10 +876,10 @@ module stdlib_linalg_eig
          if (copy_a) deallocate (amat)
 1        call linalg_error_handling(err0,err)
 
-     end subroutine stdlib_linalg_eigh_d
+     end subroutine la_linalg_eigh_d
      
      !> Return an array of eigenvalues of matrix A.
-     function stdlib_linalg_eigvals_q(a,err) result(lambda)
+     function la_linalg_eigvals_q(a,err) result(lambda)
          !> Input matrix A[m,n]
          real(qp),intent(in),target :: a(:,:)
          !> [optional] state return flag. On error if not requested, the code will stop
@@ -902,12 +902,12 @@ module stdlib_linalg_eig
          allocate (lambda(k))
 
          !> Compute eigenvalues only
-         call stdlib_linalg_eig_q(amat,lambda,overwrite_a=.false.,err=err)
+         call la_linalg_eig_q(amat,lambda,overwrite_a=.false.,err=err)
 
-     end function stdlib_linalg_eigvals_q
+     end function la_linalg_eigvals_q
 
      !> Return an array of eigenvalues of matrix A.
-     function stdlib_linalg_eigvals_noerr_q(a) result(lambda)
+     function la_linalg_eigvals_noerr_q(a) result(lambda)
          !> Input matrix A[m,n]
          real(qp),intent(in),target :: a(:,:)
          !> Array of singular values
@@ -928,13 +928,13 @@ module stdlib_linalg_eig
          allocate (lambda(k))
 
          !> Compute eigenvalues only
-         call stdlib_linalg_eig_q(amat,lambda,overwrite_a=.false.)
+         call la_linalg_eig_q(amat,lambda,overwrite_a=.false.)
 
-     end function stdlib_linalg_eigvals_noerr_q
+     end function la_linalg_eigvals_noerr_q
 
      !> Eigendecomposition of matrix A returning an array `lambda` of eigenvalues,
      !> and optionally right or left eigenvectors.
-     subroutine stdlib_linalg_eig_q(a,lambda,right,left,overwrite_a,err)
+     subroutine la_linalg_eig_q(a,lambda,right,left,overwrite_a,err)
          !> Input matrix A[m,n]
          real(qp),intent(inout),target :: a(:,:)
          !> Array of eigenvalues
@@ -1071,10 +1071,10 @@ module stdlib_linalg_eig
          if (present(left)) deallocate (umat)
 1        call linalg_error_handling(err0,err)
 
-     end subroutine stdlib_linalg_eig_q
+     end subroutine la_linalg_eig_q
      
      !> Return an array of eigenvalues of real symmetric / complex hermitian A
-     function stdlib_linalg_eigvalsh_q(a,upper_a,err) result(lambda)
+     function la_linalg_eigvalsh_q(a,upper_a,err) result(lambda)
          !> Input matrix A[m,n]
          real(qp),intent(in),target :: a(:,:)
          !> [optional] Should the upper/lower half of A be used? Default: lower
@@ -1098,12 +1098,12 @@ module stdlib_linalg_eig
          allocate (lambda(k))
 
          !> Compute eigenvalues only
-         call stdlib_linalg_eigh_q(amat,lambda,upper_a=upper_a,overwrite_a=.false.,err=err)
+         call la_linalg_eigh_q(amat,lambda,upper_a=upper_a,overwrite_a=.false.,err=err)
          
-     end function stdlib_linalg_eigvalsh_q
+     end function la_linalg_eigvalsh_q
      
      !> Return an array of eigenvalues of real symmetric / complex hermitian A
-     function stdlib_linalg_eigvalsh_noerr_q(a,upper_a) result(lambda)
+     function la_linalg_eigvalsh_noerr_q(a,upper_a) result(lambda)
          !> Input matrix A[m,n]
          real(qp),intent(in),target :: a(:,:)
          !> [optional] Should the upper/lower half of A be used? Default: lower
@@ -1125,13 +1125,13 @@ module stdlib_linalg_eig
          allocate (lambda(k))
 
          !> Compute eigenvalues only
-         call stdlib_linalg_eigh_q(amat,lambda,upper_a=upper_a,overwrite_a=.false.)
+         call la_linalg_eigh_q(amat,lambda,upper_a=upper_a,overwrite_a=.false.)
 
-     end function stdlib_linalg_eigvalsh_noerr_q
+     end function la_linalg_eigvalsh_noerr_q
 
      !> Eigendecomposition of a real symmetric or complex Hermitian matrix A returning an array `lambda`
      !> of eigenvalues, and optionally right or left eigenvectors.
-     subroutine stdlib_linalg_eigh_q(a,lambda,vectors,upper_a,overwrite_a,err)
+     subroutine la_linalg_eigh_q(a,lambda,vectors,upper_a,overwrite_a,err)
          !> Input matrix A[m,n]
          real(qp),intent(inout),target :: a(:,:)
          !> Array of eigenvalues
@@ -1238,10 +1238,10 @@ module stdlib_linalg_eig
          if (copy_a) deallocate (amat)
 1        call linalg_error_handling(err0,err)
 
-     end subroutine stdlib_linalg_eigh_q
+     end subroutine la_linalg_eigh_q
      
      !> Return an array of eigenvalues of matrix A.
-     function stdlib_linalg_eigvals_c(a,err) result(lambda)
+     function la_linalg_eigvals_c(a,err) result(lambda)
          !> Input matrix A[m,n]
          complex(sp),intent(in),target :: a(:,:)
          !> [optional] state return flag. On error if not requested, the code will stop
@@ -1264,12 +1264,12 @@ module stdlib_linalg_eig
          allocate (lambda(k))
 
          !> Compute eigenvalues only
-         call stdlib_linalg_eig_c(amat,lambda,overwrite_a=.false.,err=err)
+         call la_linalg_eig_c(amat,lambda,overwrite_a=.false.,err=err)
 
-     end function stdlib_linalg_eigvals_c
+     end function la_linalg_eigvals_c
 
      !> Return an array of eigenvalues of matrix A.
-     function stdlib_linalg_eigvals_noerr_c(a) result(lambda)
+     function la_linalg_eigvals_noerr_c(a) result(lambda)
          !> Input matrix A[m,n]
          complex(sp),intent(in),target :: a(:,:)
          !> Array of singular values
@@ -1290,13 +1290,13 @@ module stdlib_linalg_eig
          allocate (lambda(k))
 
          !> Compute eigenvalues only
-         call stdlib_linalg_eig_c(amat,lambda,overwrite_a=.false.)
+         call la_linalg_eig_c(amat,lambda,overwrite_a=.false.)
 
-     end function stdlib_linalg_eigvals_noerr_c
+     end function la_linalg_eigvals_noerr_c
 
      !> Eigendecomposition of matrix A returning an array `lambda` of eigenvalues,
      !> and optionally right or left eigenvectors.
-     subroutine stdlib_linalg_eig_c(a,lambda,right,left,overwrite_a,err)
+     subroutine la_linalg_eig_c(a,lambda,right,left,overwrite_a,err)
          !> Input matrix A[m,n]
          complex(sp),intent(inout),target :: a(:,:)
          !> Array of eigenvalues
@@ -1422,10 +1422,10 @@ module stdlib_linalg_eig
 2        if (copy_a) deallocate (amat)
 1        call linalg_error_handling(err0,err)
 
-     end subroutine stdlib_linalg_eig_c
+     end subroutine la_linalg_eig_c
      
      !> Return an array of eigenvalues of real symmetric / complex hermitian A
-     function stdlib_linalg_eigvalsh_c(a,upper_a,err) result(lambda)
+     function la_linalg_eigvalsh_c(a,upper_a,err) result(lambda)
          !> Input matrix A[m,n]
          complex(sp),intent(in),target :: a(:,:)
          !> [optional] Should the upper/lower half of A be used? Default: lower
@@ -1449,12 +1449,12 @@ module stdlib_linalg_eig
          allocate (lambda(k))
 
          !> Compute eigenvalues only
-         call stdlib_linalg_eigh_c(amat,lambda,upper_a=upper_a,overwrite_a=.false.,err=err)
+         call la_linalg_eigh_c(amat,lambda,upper_a=upper_a,overwrite_a=.false.,err=err)
          
-     end function stdlib_linalg_eigvalsh_c
+     end function la_linalg_eigvalsh_c
      
      !> Return an array of eigenvalues of real symmetric / complex hermitian A
-     function stdlib_linalg_eigvalsh_noerr_c(a,upper_a) result(lambda)
+     function la_linalg_eigvalsh_noerr_c(a,upper_a) result(lambda)
          !> Input matrix A[m,n]
          complex(sp),intent(in),target :: a(:,:)
          !> [optional] Should the upper/lower half of A be used? Default: lower
@@ -1476,13 +1476,13 @@ module stdlib_linalg_eig
          allocate (lambda(k))
 
          !> Compute eigenvalues only
-         call stdlib_linalg_eigh_c(amat,lambda,upper_a=upper_a,overwrite_a=.false.)
+         call la_linalg_eigh_c(amat,lambda,upper_a=upper_a,overwrite_a=.false.)
 
-     end function stdlib_linalg_eigvalsh_noerr_c
+     end function la_linalg_eigvalsh_noerr_c
 
      !> Eigendecomposition of a real symmetric or complex Hermitian matrix A returning an array `lambda`
      !> of eigenvalues, and optionally right or left eigenvectors.
-     subroutine stdlib_linalg_eigh_c(a,lambda,vectors,upper_a,overwrite_a,err)
+     subroutine la_linalg_eigh_c(a,lambda,vectors,upper_a,overwrite_a,err)
          !> Input matrix A[m,n]
          complex(sp),intent(inout),target :: a(:,:)
          !> Array of eigenvalues
@@ -1590,10 +1590,10 @@ module stdlib_linalg_eig
          if (copy_a) deallocate (amat)
 1        call linalg_error_handling(err0,err)
 
-     end subroutine stdlib_linalg_eigh_c
+     end subroutine la_linalg_eigh_c
      
      !> Return an array of eigenvalues of matrix A.
-     function stdlib_linalg_eigvals_z(a,err) result(lambda)
+     function la_linalg_eigvals_z(a,err) result(lambda)
          !> Input matrix A[m,n]
          complex(dp),intent(in),target :: a(:,:)
          !> [optional] state return flag. On error if not requested, the code will stop
@@ -1616,12 +1616,12 @@ module stdlib_linalg_eig
          allocate (lambda(k))
 
          !> Compute eigenvalues only
-         call stdlib_linalg_eig_z(amat,lambda,overwrite_a=.false.,err=err)
+         call la_linalg_eig_z(amat,lambda,overwrite_a=.false.,err=err)
 
-     end function stdlib_linalg_eigvals_z
+     end function la_linalg_eigvals_z
 
      !> Return an array of eigenvalues of matrix A.
-     function stdlib_linalg_eigvals_noerr_z(a) result(lambda)
+     function la_linalg_eigvals_noerr_z(a) result(lambda)
          !> Input matrix A[m,n]
          complex(dp),intent(in),target :: a(:,:)
          !> Array of singular values
@@ -1642,13 +1642,13 @@ module stdlib_linalg_eig
          allocate (lambda(k))
 
          !> Compute eigenvalues only
-         call stdlib_linalg_eig_z(amat,lambda,overwrite_a=.false.)
+         call la_linalg_eig_z(amat,lambda,overwrite_a=.false.)
 
-     end function stdlib_linalg_eigvals_noerr_z
+     end function la_linalg_eigvals_noerr_z
 
      !> Eigendecomposition of matrix A returning an array `lambda` of eigenvalues,
      !> and optionally right or left eigenvectors.
-     subroutine stdlib_linalg_eig_z(a,lambda,right,left,overwrite_a,err)
+     subroutine la_linalg_eig_z(a,lambda,right,left,overwrite_a,err)
          !> Input matrix A[m,n]
          complex(dp),intent(inout),target :: a(:,:)
          !> Array of eigenvalues
@@ -1774,10 +1774,10 @@ module stdlib_linalg_eig
 2        if (copy_a) deallocate (amat)
 1        call linalg_error_handling(err0,err)
 
-     end subroutine stdlib_linalg_eig_z
+     end subroutine la_linalg_eig_z
      
      !> Return an array of eigenvalues of real symmetric / complex hermitian A
-     function stdlib_linalg_eigvalsh_z(a,upper_a,err) result(lambda)
+     function la_linalg_eigvalsh_z(a,upper_a,err) result(lambda)
          !> Input matrix A[m,n]
          complex(dp),intent(in),target :: a(:,:)
          !> [optional] Should the upper/lower half of A be used? Default: lower
@@ -1801,12 +1801,12 @@ module stdlib_linalg_eig
          allocate (lambda(k))
 
          !> Compute eigenvalues only
-         call stdlib_linalg_eigh_z(amat,lambda,upper_a=upper_a,overwrite_a=.false.,err=err)
+         call la_linalg_eigh_z(amat,lambda,upper_a=upper_a,overwrite_a=.false.,err=err)
          
-     end function stdlib_linalg_eigvalsh_z
+     end function la_linalg_eigvalsh_z
      
      !> Return an array of eigenvalues of real symmetric / complex hermitian A
-     function stdlib_linalg_eigvalsh_noerr_z(a,upper_a) result(lambda)
+     function la_linalg_eigvalsh_noerr_z(a,upper_a) result(lambda)
          !> Input matrix A[m,n]
          complex(dp),intent(in),target :: a(:,:)
          !> [optional] Should the upper/lower half of A be used? Default: lower
@@ -1828,13 +1828,13 @@ module stdlib_linalg_eig
          allocate (lambda(k))
 
          !> Compute eigenvalues only
-         call stdlib_linalg_eigh_z(amat,lambda,upper_a=upper_a,overwrite_a=.false.)
+         call la_linalg_eigh_z(amat,lambda,upper_a=upper_a,overwrite_a=.false.)
 
-     end function stdlib_linalg_eigvalsh_noerr_z
+     end function la_linalg_eigvalsh_noerr_z
 
      !> Eigendecomposition of a real symmetric or complex Hermitian matrix A returning an array `lambda`
      !> of eigenvalues, and optionally right or left eigenvectors.
-     subroutine stdlib_linalg_eigh_z(a,lambda,vectors,upper_a,overwrite_a,err)
+     subroutine la_linalg_eigh_z(a,lambda,vectors,upper_a,overwrite_a,err)
          !> Input matrix A[m,n]
          complex(dp),intent(inout),target :: a(:,:)
          !> Array of eigenvalues
@@ -1942,10 +1942,10 @@ module stdlib_linalg_eig
          if (copy_a) deallocate (amat)
 1        call linalg_error_handling(err0,err)
 
-     end subroutine stdlib_linalg_eigh_z
+     end subroutine la_linalg_eigh_z
      
      !> Return an array of eigenvalues of matrix A.
-     function stdlib_linalg_eigvals_w(a,err) result(lambda)
+     function la_linalg_eigvals_w(a,err) result(lambda)
          !> Input matrix A[m,n]
          complex(qp),intent(in),target :: a(:,:)
          !> [optional] state return flag. On error if not requested, the code will stop
@@ -1968,12 +1968,12 @@ module stdlib_linalg_eig
          allocate (lambda(k))
 
          !> Compute eigenvalues only
-         call stdlib_linalg_eig_w(amat,lambda,overwrite_a=.false.,err=err)
+         call la_linalg_eig_w(amat,lambda,overwrite_a=.false.,err=err)
 
-     end function stdlib_linalg_eigvals_w
+     end function la_linalg_eigvals_w
 
      !> Return an array of eigenvalues of matrix A.
-     function stdlib_linalg_eigvals_noerr_w(a) result(lambda)
+     function la_linalg_eigvals_noerr_w(a) result(lambda)
          !> Input matrix A[m,n]
          complex(qp),intent(in),target :: a(:,:)
          !> Array of singular values
@@ -1994,13 +1994,13 @@ module stdlib_linalg_eig
          allocate (lambda(k))
 
          !> Compute eigenvalues only
-         call stdlib_linalg_eig_w(amat,lambda,overwrite_a=.false.)
+         call la_linalg_eig_w(amat,lambda,overwrite_a=.false.)
 
-     end function stdlib_linalg_eigvals_noerr_w
+     end function la_linalg_eigvals_noerr_w
 
      !> Eigendecomposition of matrix A returning an array `lambda` of eigenvalues,
      !> and optionally right or left eigenvectors.
-     subroutine stdlib_linalg_eig_w(a,lambda,right,left,overwrite_a,err)
+     subroutine la_linalg_eig_w(a,lambda,right,left,overwrite_a,err)
          !> Input matrix A[m,n]
          complex(qp),intent(inout),target :: a(:,:)
          !> Array of eigenvalues
@@ -2126,10 +2126,10 @@ module stdlib_linalg_eig
 2        if (copy_a) deallocate (amat)
 1        call linalg_error_handling(err0,err)
 
-     end subroutine stdlib_linalg_eig_w
+     end subroutine la_linalg_eig_w
      
      !> Return an array of eigenvalues of real symmetric / complex hermitian A
-     function stdlib_linalg_eigvalsh_w(a,upper_a,err) result(lambda)
+     function la_linalg_eigvalsh_w(a,upper_a,err) result(lambda)
          !> Input matrix A[m,n]
          complex(qp),intent(in),target :: a(:,:)
          !> [optional] Should the upper/lower half of A be used? Default: lower
@@ -2153,12 +2153,12 @@ module stdlib_linalg_eig
          allocate (lambda(k))
 
          !> Compute eigenvalues only
-         call stdlib_linalg_eigh_w(amat,lambda,upper_a=upper_a,overwrite_a=.false.,err=err)
+         call la_linalg_eigh_w(amat,lambda,upper_a=upper_a,overwrite_a=.false.,err=err)
          
-     end function stdlib_linalg_eigvalsh_w
+     end function la_linalg_eigvalsh_w
      
      !> Return an array of eigenvalues of real symmetric / complex hermitian A
-     function stdlib_linalg_eigvalsh_noerr_w(a,upper_a) result(lambda)
+     function la_linalg_eigvalsh_noerr_w(a,upper_a) result(lambda)
          !> Input matrix A[m,n]
          complex(qp),intent(in),target :: a(:,:)
          !> [optional] Should the upper/lower half of A be used? Default: lower
@@ -2180,13 +2180,13 @@ module stdlib_linalg_eig
          allocate (lambda(k))
 
          !> Compute eigenvalues only
-         call stdlib_linalg_eigh_w(amat,lambda,upper_a=upper_a,overwrite_a=.false.)
+         call la_linalg_eigh_w(amat,lambda,upper_a=upper_a,overwrite_a=.false.)
 
-     end function stdlib_linalg_eigvalsh_noerr_w
+     end function la_linalg_eigvalsh_noerr_w
 
      !> Eigendecomposition of a real symmetric or complex Hermitian matrix A returning an array `lambda`
      !> of eigenvalues, and optionally right or left eigenvectors.
-     subroutine stdlib_linalg_eigh_w(a,lambda,vectors,upper_a,overwrite_a,err)
+     subroutine la_linalg_eigh_w(a,lambda,vectors,upper_a,overwrite_a,err)
          !> Input matrix A[m,n]
          complex(qp),intent(inout),target :: a(:,:)
          !> Array of eigenvalues
@@ -2294,7 +2294,7 @@ module stdlib_linalg_eig
          if (copy_a) deallocate (amat)
 1        call linalg_error_handling(err0,err)
 
-     end subroutine stdlib_linalg_eigh_w
+     end subroutine la_linalg_eigh_w
      
      !> GEEV for real matrices returns complex eigenvalues in real arrays.
      !> Convert them to complex here, following the GEEV logic.
@@ -2393,4 +2393,4 @@ module stdlib_linalg_eig
         
      end subroutine assign_real_eigenvectors_qp
 
-end module stdlib_linalg_eig
+end module la_linalg_eig

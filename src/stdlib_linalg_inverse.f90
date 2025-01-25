@@ -1,9 +1,9 @@
 ! Compute matrix inverse
-module stdlib_linalg_inverse
-     use stdlib_linalg_constants
-     use stdlib_linalg_blas
-     use stdlib_linalg_lapack
-     use stdlib_linalg_state
+module la_linalg_inverse
+     use la_linalg_constants
+     use la_linalg_blas
+     use la_linalg_lapack
+     use la_linalg_state
      use iso_fortran_env,only:real32,real64,real128,int8,int16,int32,int64,stderr => error_unit
      implicit none(type,external)
      private
@@ -21,38 +21,38 @@ module stdlib_linalg_inverse
 
      ! Function interface
      interface inv
-        module procedure stdlib_linalg_inverse_s
-        module procedure stdlib_linalg_inverse_d
-        module procedure stdlib_linalg_inverse_q
-        module procedure stdlib_linalg_inverse_c
-        module procedure stdlib_linalg_inverse_z
-        module procedure stdlib_linalg_inverse_w
+        module procedure la_linalg_inverse_s
+        module procedure la_linalg_inverse_d
+        module procedure la_linalg_inverse_q
+        module procedure la_linalg_inverse_c
+        module procedure la_linalg_inverse_z
+        module procedure la_linalg_inverse_w
      end interface inv
 
      ! Subroutine interface: in-place factorization
      interface invert
-        module procedure stdlib_linalg_invert_s
-        module procedure stdlib_linalg_invert_d
-        module procedure stdlib_linalg_invert_q
-        module procedure stdlib_linalg_invert_c
-        module procedure stdlib_linalg_invert_z
-        module procedure stdlib_linalg_invert_w
+        module procedure la_linalg_invert_s
+        module procedure la_linalg_invert_d
+        module procedure la_linalg_invert_q
+        module procedure la_linalg_invert_c
+        module procedure la_linalg_invert_z
+        module procedure la_linalg_invert_w
      end interface invert
 
      ! Operator interface
      interface operator(.inv.)
-        module procedure stdlib_linalg_inverse_s_operator
-        module procedure stdlib_linalg_inverse_d_operator
-        module procedure stdlib_linalg_inverse_q_operator
-        module procedure stdlib_linalg_inverse_c_operator
-        module procedure stdlib_linalg_inverse_z_operator
-        module procedure stdlib_linalg_inverse_w_operator
+        module procedure la_linalg_inverse_s_operator
+        module procedure la_linalg_inverse_d_operator
+        module procedure la_linalg_inverse_q_operator
+        module procedure la_linalg_inverse_c_operator
+        module procedure la_linalg_inverse_z_operator
+        module procedure la_linalg_inverse_w_operator
      end interface operator(.inv.)
 
      contains
 
      ! Compute the in-place square matrix inverse of a
-     subroutine stdlib_linalg_invert_s(a,err)
+     subroutine la_linalg_invert_s(a,err)
          !> Input matrix a[n,n]
          real(sp),intent(inout) :: a(:,:)
          !> [optional] state return flag. On error if not requested, the code will stop
@@ -84,7 +84,7 @@ module stdlib_linalg_inverse
          if (info == 0) then
 
             ! Get optimal worksize (returned in work(1)) (apply 2% safety parameter)
-            nb = stdlib_ilaenv(1,'sgetri',' ',n,-1,-1,-1)
+            nb = la_ilaenv(1,'sgetri',' ',n,-1,-1,-1)
             lwork = nint(1.02*n*nb,kind=ilp)
 
             allocate (work(lwork))
@@ -109,10 +109,10 @@ module stdlib_linalg_inverse
          ! Process output and return
 1        call linalg_error_handling(err0,err)
 
-     end subroutine stdlib_linalg_invert_s
+     end subroutine la_linalg_invert_s
 
      ! Invert matrix in place
-     function stdlib_linalg_inverse_s(a,err) result(inva)
+     function la_linalg_inverse_s(a,err) result(inva)
          !> Input matrix a[n,n]
          real(sp),intent(in) :: a(:,:)
          !> Output matrix inverse
@@ -124,12 +124,12 @@ module stdlib_linalg_inverse
          allocate (inva,source=a)
 
          !> Compute matrix inverse
-         call stdlib_linalg_invert_s(inva,err)
+         call la_linalg_invert_s(inva,err)
 
-     end function stdlib_linalg_inverse_s
+     end function la_linalg_inverse_s
 
      ! Inverse matrix operator
-     function stdlib_linalg_inverse_s_operator(a) result(inva)
+     function la_linalg_inverse_s_operator(a) result(inva)
          !> Input matrix a[n,n]
          real(sp),intent(in) :: a(:,:)
          !> Result matrix
@@ -137,7 +137,7 @@ module stdlib_linalg_inverse
 
          type(linalg_state) :: err
 
-         inva = stdlib_linalg_inverse_s(a,err)
+         inva = la_linalg_inverse_s(a,err)
 
          ! On error, return an empty matrix
          if (err%error()) then
@@ -145,10 +145,10 @@ module stdlib_linalg_inverse
             allocate (inva(0,0))
          end if
 
-     end function stdlib_linalg_inverse_s_operator
+     end function la_linalg_inverse_s_operator
 
      ! Compute the in-place square matrix inverse of a
-     subroutine stdlib_linalg_invert_d(a,err)
+     subroutine la_linalg_invert_d(a,err)
          !> Input matrix a[n,n]
          real(dp),intent(inout) :: a(:,:)
          !> [optional] state return flag. On error if not requested, the code will stop
@@ -180,7 +180,7 @@ module stdlib_linalg_inverse
          if (info == 0) then
 
             ! Get optimal worksize (returned in work(1)) (apply 2% safety parameter)
-            nb = stdlib_ilaenv(1,'dgetri',' ',n,-1,-1,-1)
+            nb = la_ilaenv(1,'dgetri',' ',n,-1,-1,-1)
             lwork = nint(1.02*n*nb,kind=ilp)
 
             allocate (work(lwork))
@@ -205,10 +205,10 @@ module stdlib_linalg_inverse
          ! Process output and return
 1        call linalg_error_handling(err0,err)
 
-     end subroutine stdlib_linalg_invert_d
+     end subroutine la_linalg_invert_d
 
      ! Invert matrix in place
-     function stdlib_linalg_inverse_d(a,err) result(inva)
+     function la_linalg_inverse_d(a,err) result(inva)
          !> Input matrix a[n,n]
          real(dp),intent(in) :: a(:,:)
          !> Output matrix inverse
@@ -220,12 +220,12 @@ module stdlib_linalg_inverse
          allocate (inva,source=a)
 
          !> Compute matrix inverse
-         call stdlib_linalg_invert_d(inva,err)
+         call la_linalg_invert_d(inva,err)
 
-     end function stdlib_linalg_inverse_d
+     end function la_linalg_inverse_d
 
      ! Inverse matrix operator
-     function stdlib_linalg_inverse_d_operator(a) result(inva)
+     function la_linalg_inverse_d_operator(a) result(inva)
          !> Input matrix a[n,n]
          real(dp),intent(in) :: a(:,:)
          !> Result matrix
@@ -233,7 +233,7 @@ module stdlib_linalg_inverse
 
          type(linalg_state) :: err
 
-         inva = stdlib_linalg_inverse_d(a,err)
+         inva = la_linalg_inverse_d(a,err)
 
          ! On error, return an empty matrix
          if (err%error()) then
@@ -241,10 +241,10 @@ module stdlib_linalg_inverse
             allocate (inva(0,0))
          end if
 
-     end function stdlib_linalg_inverse_d_operator
+     end function la_linalg_inverse_d_operator
 
      ! Compute the in-place square matrix inverse of a
-     subroutine stdlib_linalg_invert_q(a,err)
+     subroutine la_linalg_invert_q(a,err)
          !> Input matrix a[n,n]
          real(qp),intent(inout) :: a(:,:)
          !> [optional] state return flag. On error if not requested, the code will stop
@@ -276,7 +276,7 @@ module stdlib_linalg_inverse
          if (info == 0) then
 
             ! Get optimal worksize (returned in work(1)) (apply 2% safety parameter)
-            nb = stdlib_ilaenv(1,'qgetri',' ',n,-1,-1,-1)
+            nb = la_ilaenv(1,'qgetri',' ',n,-1,-1,-1)
             lwork = nint(1.02*n*nb,kind=ilp)
 
             allocate (work(lwork))
@@ -301,10 +301,10 @@ module stdlib_linalg_inverse
          ! Process output and return
 1        call linalg_error_handling(err0,err)
 
-     end subroutine stdlib_linalg_invert_q
+     end subroutine la_linalg_invert_q
 
      ! Invert matrix in place
-     function stdlib_linalg_inverse_q(a,err) result(inva)
+     function la_linalg_inverse_q(a,err) result(inva)
          !> Input matrix a[n,n]
          real(qp),intent(in) :: a(:,:)
          !> Output matrix inverse
@@ -316,12 +316,12 @@ module stdlib_linalg_inverse
          allocate (inva,source=a)
 
          !> Compute matrix inverse
-         call stdlib_linalg_invert_q(inva,err)
+         call la_linalg_invert_q(inva,err)
 
-     end function stdlib_linalg_inverse_q
+     end function la_linalg_inverse_q
 
      ! Inverse matrix operator
-     function stdlib_linalg_inverse_q_operator(a) result(inva)
+     function la_linalg_inverse_q_operator(a) result(inva)
          !> Input matrix a[n,n]
          real(qp),intent(in) :: a(:,:)
          !> Result matrix
@@ -329,7 +329,7 @@ module stdlib_linalg_inverse
 
          type(linalg_state) :: err
 
-         inva = stdlib_linalg_inverse_q(a,err)
+         inva = la_linalg_inverse_q(a,err)
 
          ! On error, return an empty matrix
          if (err%error()) then
@@ -337,10 +337,10 @@ module stdlib_linalg_inverse
             allocate (inva(0,0))
          end if
 
-     end function stdlib_linalg_inverse_q_operator
+     end function la_linalg_inverse_q_operator
 
      ! Compute the in-place square matrix inverse of a
-     subroutine stdlib_linalg_invert_c(a,err)
+     subroutine la_linalg_invert_c(a,err)
          !> Input matrix a[n,n]
          complex(sp),intent(inout) :: a(:,:)
          !> [optional] state return flag. On error if not requested, the code will stop
@@ -372,7 +372,7 @@ module stdlib_linalg_inverse
          if (info == 0) then
 
             ! Get optimal worksize (returned in work(1)) (apply 2% safety parameter)
-            nb = stdlib_ilaenv(1,'cgetri',' ',n,-1,-1,-1)
+            nb = la_ilaenv(1,'cgetri',' ',n,-1,-1,-1)
             lwork = nint(1.02*n*nb,kind=ilp)
 
             allocate (work(lwork))
@@ -397,10 +397,10 @@ module stdlib_linalg_inverse
          ! Process output and return
 1        call linalg_error_handling(err0,err)
 
-     end subroutine stdlib_linalg_invert_c
+     end subroutine la_linalg_invert_c
 
      ! Invert matrix in place
-     function stdlib_linalg_inverse_c(a,err) result(inva)
+     function la_linalg_inverse_c(a,err) result(inva)
          !> Input matrix a[n,n]
          complex(sp),intent(in) :: a(:,:)
          !> Output matrix inverse
@@ -412,12 +412,12 @@ module stdlib_linalg_inverse
          allocate (inva,source=a)
 
          !> Compute matrix inverse
-         call stdlib_linalg_invert_c(inva,err)
+         call la_linalg_invert_c(inva,err)
 
-     end function stdlib_linalg_inverse_c
+     end function la_linalg_inverse_c
 
      ! Inverse matrix operator
-     function stdlib_linalg_inverse_c_operator(a) result(inva)
+     function la_linalg_inverse_c_operator(a) result(inva)
          !> Input matrix a[n,n]
          complex(sp),intent(in) :: a(:,:)
          !> Result matrix
@@ -425,7 +425,7 @@ module stdlib_linalg_inverse
 
          type(linalg_state) :: err
 
-         inva = stdlib_linalg_inverse_c(a,err)
+         inva = la_linalg_inverse_c(a,err)
 
          ! On error, return an empty matrix
          if (err%error()) then
@@ -433,10 +433,10 @@ module stdlib_linalg_inverse
             allocate (inva(0,0))
          end if
 
-     end function stdlib_linalg_inverse_c_operator
+     end function la_linalg_inverse_c_operator
 
      ! Compute the in-place square matrix inverse of a
-     subroutine stdlib_linalg_invert_z(a,err)
+     subroutine la_linalg_invert_z(a,err)
          !> Input matrix a[n,n]
          complex(dp),intent(inout) :: a(:,:)
          !> [optional] state return flag. On error if not requested, the code will stop
@@ -468,7 +468,7 @@ module stdlib_linalg_inverse
          if (info == 0) then
 
             ! Get optimal worksize (returned in work(1)) (apply 2% safety parameter)
-            nb = stdlib_ilaenv(1,'zgetri',' ',n,-1,-1,-1)
+            nb = la_ilaenv(1,'zgetri',' ',n,-1,-1,-1)
             lwork = nint(1.02*n*nb,kind=ilp)
 
             allocate (work(lwork))
@@ -493,10 +493,10 @@ module stdlib_linalg_inverse
          ! Process output and return
 1        call linalg_error_handling(err0,err)
 
-     end subroutine stdlib_linalg_invert_z
+     end subroutine la_linalg_invert_z
 
      ! Invert matrix in place
-     function stdlib_linalg_inverse_z(a,err) result(inva)
+     function la_linalg_inverse_z(a,err) result(inva)
          !> Input matrix a[n,n]
          complex(dp),intent(in) :: a(:,:)
          !> Output matrix inverse
@@ -508,12 +508,12 @@ module stdlib_linalg_inverse
          allocate (inva,source=a)
 
          !> Compute matrix inverse
-         call stdlib_linalg_invert_z(inva,err)
+         call la_linalg_invert_z(inva,err)
 
-     end function stdlib_linalg_inverse_z
+     end function la_linalg_inverse_z
 
      ! Inverse matrix operator
-     function stdlib_linalg_inverse_z_operator(a) result(inva)
+     function la_linalg_inverse_z_operator(a) result(inva)
          !> Input matrix a[n,n]
          complex(dp),intent(in) :: a(:,:)
          !> Result matrix
@@ -521,7 +521,7 @@ module stdlib_linalg_inverse
 
          type(linalg_state) :: err
 
-         inva = stdlib_linalg_inverse_z(a,err)
+         inva = la_linalg_inverse_z(a,err)
 
          ! On error, return an empty matrix
          if (err%error()) then
@@ -529,10 +529,10 @@ module stdlib_linalg_inverse
             allocate (inva(0,0))
          end if
 
-     end function stdlib_linalg_inverse_z_operator
+     end function la_linalg_inverse_z_operator
 
      ! Compute the in-place square matrix inverse of a
-     subroutine stdlib_linalg_invert_w(a,err)
+     subroutine la_linalg_invert_w(a,err)
          !> Input matrix a[n,n]
          complex(qp),intent(inout) :: a(:,:)
          !> [optional] state return flag. On error if not requested, the code will stop
@@ -564,7 +564,7 @@ module stdlib_linalg_inverse
          if (info == 0) then
 
             ! Get optimal worksize (returned in work(1)) (apply 2% safety parameter)
-            nb = stdlib_ilaenv(1,'wgetri',' ',n,-1,-1,-1)
+            nb = la_ilaenv(1,'wgetri',' ',n,-1,-1,-1)
             lwork = nint(1.02*n*nb,kind=ilp)
 
             allocate (work(lwork))
@@ -589,10 +589,10 @@ module stdlib_linalg_inverse
          ! Process output and return
 1        call linalg_error_handling(err0,err)
 
-     end subroutine stdlib_linalg_invert_w
+     end subroutine la_linalg_invert_w
 
      ! Invert matrix in place
-     function stdlib_linalg_inverse_w(a,err) result(inva)
+     function la_linalg_inverse_w(a,err) result(inva)
          !> Input matrix a[n,n]
          complex(qp),intent(in) :: a(:,:)
          !> Output matrix inverse
@@ -604,12 +604,12 @@ module stdlib_linalg_inverse
          allocate (inva,source=a)
 
          !> Compute matrix inverse
-         call stdlib_linalg_invert_w(inva,err)
+         call la_linalg_invert_w(inva,err)
 
-     end function stdlib_linalg_inverse_w
+     end function la_linalg_inverse_w
 
      ! Inverse matrix operator
-     function stdlib_linalg_inverse_w_operator(a) result(inva)
+     function la_linalg_inverse_w_operator(a) result(inva)
          !> Input matrix a[n,n]
          complex(qp),intent(in) :: a(:,:)
          !> Result matrix
@@ -617,7 +617,7 @@ module stdlib_linalg_inverse
 
          type(linalg_state) :: err
 
-         inva = stdlib_linalg_inverse_w(a,err)
+         inva = la_linalg_inverse_w(a,err)
 
          ! On error, return an empty matrix
          if (err%error()) then
@@ -625,6 +625,6 @@ module stdlib_linalg_inverse
             allocate (inva(0,0))
          end if
 
-     end function stdlib_linalg_inverse_w_operator
+     end function la_linalg_inverse_w_operator
 
-end module stdlib_linalg_inverse
+end module la_linalg_inverse

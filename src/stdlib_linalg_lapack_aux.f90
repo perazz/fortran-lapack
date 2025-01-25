@@ -1,119 +1,119 @@
-module stdlib_linalg_lapack_aux
-     use stdlib_linalg_constants
-     use stdlib_linalg_blas
+module la_linalg_lapack_aux
+     use la_linalg_constants
+     use la_linalg_blas
      implicit none(type,external)
      private
 
      public :: sp,dp,qp,lk,ilp
-     public :: stdlib_chla_transtype
-     public :: stdlib_droundup_lwork
-     public :: stdlib_icmax1
-     public :: stdlib_ieeeck
-     public :: stdlib_ilaclc
-     public :: stdlib_ilaclr
-     public :: stdlib_iladiag
-     public :: stdlib_iladlc
-     public :: stdlib_iladlr
-     public :: stdlib_ilaenv
-     public :: stdlib_ilaenv2stage
-     public :: stdlib_ilaprec
-     public :: stdlib_ilaslc
-     public :: stdlib_ilaslr
-     public :: stdlib_ilatrans
-     public :: stdlib_ilauplo
-     public :: stdlib_ilazlc
-     public :: stdlib_ilazlr
-     public :: stdlib_iparam2stage
-     public :: stdlib_iparmq
-     public :: stdlib_izmax1
-     public :: stdlib_lsamen
-     public :: stdlib_sroundup_lwork
-     public :: stdlib_xerbla
-     public :: stdlib_xerbla_array
-     public :: stdlib_qroundup_lwork
-     public :: stdlib_ilaqiag
-     public :: stdlib_ilaqlc
-     public :: stdlib_ilaqlr
-     public :: stdlib_ilawlc
-     public :: stdlib_ilawlr
-     public :: stdlib_iwmax1
-     public :: stdlib_selctg_s
-     public :: stdlib_select_s
-     public :: stdlib_selctg_d
-     public :: stdlib_select_d
-     public :: stdlib_selctg_q
-     public :: stdlib_select_q
-     public :: stdlib_selctg_c
-     public :: stdlib_select_c
-     public :: stdlib_selctg_z
-     public :: stdlib_select_z
-     public :: stdlib_selctg_w
-     public :: stdlib_select_w
+     public :: la_chla_transtype
+     public :: la_droundup_lwork
+     public :: la_icmax1
+     public :: la_ieeeck
+     public :: la_ilaclc
+     public :: la_ilaclr
+     public :: la_iladiag
+     public :: la_iladlc
+     public :: la_iladlr
+     public :: la_ilaenv
+     public :: la_ilaenv2stage
+     public :: la_ilaprec
+     public :: la_ilaslc
+     public :: la_ilaslr
+     public :: la_ilatrans
+     public :: la_ilauplo
+     public :: la_ilazlc
+     public :: la_ilazlr
+     public :: la_iparam2stage
+     public :: la_iparmq
+     public :: la_izmax1
+     public :: la_lsamen
+     public :: la_sroundup_lwork
+     public :: la_xerbla
+     public :: la_xerbla_array
+     public :: la_qroundup_lwork
+     public :: la_ilaqiag
+     public :: la_ilaqlc
+     public :: la_ilaqlr
+     public :: la_ilawlc
+     public :: la_ilawlr
+     public :: la_iwmax1
+     public :: la_selctg_s
+     public :: la_select_s
+     public :: la_selctg_d
+     public :: la_select_d
+     public :: la_selctg_q
+     public :: la_select_q
+     public :: la_selctg_c
+     public :: la_select_c
+     public :: la_selctg_z
+     public :: la_select_z
+     public :: la_selctg_w
+     public :: la_select_w
 
      ! SELCTG is a LOGICAL FUNCTION of three DOUBLE PRECISION arguments
      ! used to select eigenvalues to sort to the top left of the Schur form.
      ! An eigenvalue (ALPHAR(j)+ALPHAI(j))/BETA(j) is selected if SELCTG is true, i.e.,
      abstract interface
-        pure logical(lk) function stdlib_selctg_s(alphar,alphai,beta)
+        pure logical(lk) function la_selctg_s(alphar,alphai,beta)
             import sp,dp,qp,lk
             implicit none
             real(sp),intent(in) :: alphar,alphai,beta
-        end function stdlib_selctg_s
-        pure logical(lk) function stdlib_select_s(alphar,alphai)
+        end function la_selctg_s
+        pure logical(lk) function la_select_s(alphar,alphai)
             import sp,dp,qp,lk
             implicit none
             real(sp),intent(in) :: alphar,alphai
-        end function stdlib_select_s
-        pure logical(lk) function stdlib_selctg_d(alphar,alphai,beta)
+        end function la_select_s
+        pure logical(lk) function la_selctg_d(alphar,alphai,beta)
             import sp,dp,qp,lk
             implicit none
             real(dp),intent(in) :: alphar,alphai,beta
-        end function stdlib_selctg_d
-        pure logical(lk) function stdlib_select_d(alphar,alphai)
+        end function la_selctg_d
+        pure logical(lk) function la_select_d(alphar,alphai)
             import sp,dp,qp,lk
             implicit none
             real(dp),intent(in) :: alphar,alphai
-        end function stdlib_select_d
-        pure logical(lk) function stdlib_selctg_q(alphar,alphai,beta)
+        end function la_select_d
+        pure logical(lk) function la_selctg_q(alphar,alphai,beta)
             import sp,dp,qp,lk
             implicit none
             real(qp),intent(in) :: alphar,alphai,beta
-        end function stdlib_selctg_q
-        pure logical(lk) function stdlib_select_q(alphar,alphai)
+        end function la_selctg_q
+        pure logical(lk) function la_select_q(alphar,alphai)
             import sp,dp,qp,lk
             implicit none
             real(qp),intent(in) :: alphar,alphai
-        end function stdlib_select_q
-        pure logical(lk) function stdlib_selctg_c(alpha,beta)
+        end function la_select_q
+        pure logical(lk) function la_selctg_c(alpha,beta)
             import sp,dp,qp,lk
             implicit none
             complex(sp),intent(in) :: alpha,beta
-        end function stdlib_selctg_c
-        pure logical(lk) function stdlib_select_c(alpha)
+        end function la_selctg_c
+        pure logical(lk) function la_select_c(alpha)
             import sp,dp,qp,lk
             implicit none
             complex(sp),intent(in) :: alpha
-        end function stdlib_select_c
-        pure logical(lk) function stdlib_selctg_z(alpha,beta)
+        end function la_select_c
+        pure logical(lk) function la_selctg_z(alpha,beta)
             import sp,dp,qp,lk
             implicit none
             complex(dp),intent(in) :: alpha,beta
-        end function stdlib_selctg_z
-        pure logical(lk) function stdlib_select_z(alpha)
+        end function la_selctg_z
+        pure logical(lk) function la_select_z(alpha)
             import sp,dp,qp,lk
             implicit none
             complex(dp),intent(in) :: alpha
-        end function stdlib_select_z
-        pure logical(lk) function stdlib_selctg_w(alpha,beta)
+        end function la_select_z
+        pure logical(lk) function la_selctg_w(alpha,beta)
             import sp,dp,qp,lk
             implicit none
             complex(qp),intent(in) :: alpha,beta
-        end function stdlib_selctg_w
-        pure logical(lk) function stdlib_select_w(alpha)
+        end function la_selctg_w
+        pure logical(lk) function la_select_w(alpha)
             import sp,dp,qp,lk
             implicit none
             complex(qp),intent(in) :: alpha
-        end function stdlib_select_w
+        end function la_select_w
      end interface
 
      contains
@@ -125,7 +125,7 @@ module stdlib_linalg_lapack_aux
      !> Otherwise CHLA_TRANSTYPE returns the constant value corresponding to
      !> TRANS.
 
-     pure character function stdlib_chla_transtype(trans)
+     pure character function la_chla_transtype(trans)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -139,16 +139,16 @@ module stdlib_linalg_lapack_aux
            
            ! Executable Statements
            if (trans == blas_no_trans) then
-              stdlib_chla_transtype = 'N'
+              la_chla_transtype = 'N'
            else if (trans == blas_trans) then
-              stdlib_chla_transtype = 'T'
+              la_chla_transtype = 'T'
            else if (trans == blas_conj_trans) then
-              stdlib_chla_transtype = 'C'
+              la_chla_transtype = 'C'
            else
-              stdlib_chla_transtype = 'X'
+              la_chla_transtype = 'X'
            end if
            return
-     end function stdlib_chla_transtype
+     end function la_chla_transtype
 
      !> DROUNDUP_LWORK: deals with a subtle bug with returning LWORK as a Float.
      !> This routine guarantees it is rounded up instead of down by
@@ -161,7 +161,7 @@ module stdlib_linalg_lapack_aux
      !> DROUNDUP_LWORK >= LWORK.
      !> DROUNDUP_LWORK is guaranteed to have zero decimal part.
 
-     pure real(dp) function stdlib_droundup_lwork(lwork)
+     pure real(dp) function la_droundup_lwork(lwork)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -171,20 +171,20 @@ module stdlib_linalg_lapack_aux
            ! Intrinsic Functions
            intrinsic :: epsilon,real,int
            ! Executable Statements
-           stdlib_droundup_lwork = real(lwork,KIND=dp)
-           if (int(stdlib_droundup_lwork,KIND=ilp) < lwork) then
+           la_droundup_lwork = real(lwork,KIND=dp)
+           if (int(la_droundup_lwork,KIND=ilp) < lwork) then
                ! force round up of lwork
-               stdlib_droundup_lwork = stdlib_droundup_lwork*(1.0e+0_dp + epsilon(0.0e+0_dp))
+               la_droundup_lwork = la_droundup_lwork*(1.0e+0_dp + epsilon(0.0e+0_dp))
                          
            end if
            return
-     end function stdlib_droundup_lwork
+     end function la_droundup_lwork
 
      !> ICMAX1: finds the index of the first vector element of maximum absolute value.
      !> Based on ICAMAX from Level 1 BLAS.
      !> The change is to use the 'genuine' absolute value.
 
-     pure integer(ilp) function stdlib_icmax1(n,cx,incx)
+     pure integer(ilp) function la_icmax1(n,cx,incx)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -199,16 +199,16 @@ module stdlib_linalg_lapack_aux
            ! Intrinsic Functions
            intrinsic :: abs
            ! Executable Statements
-           stdlib_icmax1 = 0
+           la_icmax1 = 0
            if (n < 1 .or. incx <= 0) return
-           stdlib_icmax1 = 1
+           la_icmax1 = 1
            if (n == 1) return
            if (incx == 1) then
               ! code for increment equal to 1
               smax = abs(cx(1))
               do i = 2,n
                  if (abs(cx(i)) > smax) then
-                    stdlib_icmax1 = i
+                    la_icmax1 = i
                     smax = abs(cx(i))
                  end if
               end do
@@ -219,19 +219,19 @@ module stdlib_linalg_lapack_aux
               ix = ix + incx
               do i = 2,n
                  if (abs(cx(ix)) > smax) then
-                    stdlib_icmax1 = i
+                    la_icmax1 = i
                     smax = abs(cx(ix))
                  end if
                  ix = ix + incx
               end do
            end if
            return
-     end function stdlib_icmax1
+     end function la_icmax1
 
      !> IEEECK: is called from the ILAENV to verify that Infinity and
      !> possibly NaN arithmetic is safe (i.e. will not trap).
 
-     pure integer(ilp) function stdlib_ieeeck(ispec,zero,one)
+     pure integer(ilp) function la_ieeeck(ispec,zero,one)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -242,45 +242,45 @@ module stdlib_linalg_lapack_aux
            ! Local Scalars
            real(sp) :: nan1,nan2,nan3,nan4,nan5,nan6,neginf,negzro,newzro,posinf
            ! Executable Statements
-           stdlib_ieeeck = 1
+           la_ieeeck = 1
            posinf = one/zero
            if (posinf <= one) then
-              stdlib_ieeeck = 0
+              la_ieeeck = 0
               return
            end if
            neginf = -one/zero
            if (neginf >= zero) then
-              stdlib_ieeeck = 0
+              la_ieeeck = 0
               return
            end if
            negzro = one/(neginf + one)
            if (negzro /= zero) then
-              stdlib_ieeeck = 0
+              la_ieeeck = 0
               return
            end if
            neginf = one/negzro
            if (neginf >= zero) then
-              stdlib_ieeeck = 0
+              la_ieeeck = 0
               return
            end if
            newzro = negzro + zero
            if (newzro /= zero) then
-              stdlib_ieeeck = 0
+              la_ieeeck = 0
               return
            end if
            posinf = one/newzro
            if (posinf <= one) then
-              stdlib_ieeeck = 0
+              la_ieeeck = 0
               return
            end if
            neginf = neginf*posinf
            if (neginf >= zero) then
-              stdlib_ieeeck = 0
+              la_ieeeck = 0
               return
            end if
            posinf = posinf*posinf
            if (posinf <= one) then
-              stdlib_ieeeck = 0
+              la_ieeeck = 0
               return
            end if
            ! return if we were only asked to check infinity arithmetic
@@ -292,35 +292,35 @@ module stdlib_linalg_lapack_aux
            nan5 = neginf*negzro
            nan6 = nan5*zero
            if (nan1 == nan1) then
-              stdlib_ieeeck = 0
+              la_ieeeck = 0
               return
            end if
            if (nan2 == nan2) then
-              stdlib_ieeeck = 0
+              la_ieeeck = 0
               return
            end if
            if (nan3 == nan3) then
-              stdlib_ieeeck = 0
+              la_ieeeck = 0
               return
            end if
            if (nan4 == nan4) then
-              stdlib_ieeeck = 0
+              la_ieeeck = 0
               return
            end if
            if (nan5 == nan5) then
-              stdlib_ieeeck = 0
+              la_ieeeck = 0
               return
            end if
            if (nan6 == nan6) then
-              stdlib_ieeeck = 0
+              la_ieeeck = 0
               return
            end if
            return
-     end function stdlib_ieeeck
+     end function la_ieeeck
 
      !> ILACLC: scans A for its last non-zero column.
 
-     pure integer(ilp) function stdlib_ilaclc(m,n,a,lda)
+     pure integer(ilp) function la_ilaclc(m,n,a,lda)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -337,23 +337,23 @@ module stdlib_linalg_lapack_aux
            ! Executable Statements
            ! quick test for the common case where one corner is non-zero.
            if (n == 0) then
-              stdlib_ilaclc = n
+              la_ilaclc = n
            else if (a(1,n) /= zero .or. a(m,n) /= zero) then
-              stdlib_ilaclc = n
+              la_ilaclc = n
            else
            ! now scan each column from the end, returning with the first non-zero.
-              do stdlib_ilaclc = n,1,-1
+              do la_ilaclc = n,1,-1
                  do i = 1,m
-                    if (a(i,stdlib_ilaclc) /= zero) return
+                    if (a(i,la_ilaclc) /= zero) return
                  end do
               end do
            end if
            return
-     end function stdlib_ilaclc
+     end function la_ilaclc
 
      !> ILACLR: scans A for its last non-zero row.
 
-     pure integer(ilp) function stdlib_ilaclr(m,n,a,lda)
+     pure integer(ilp) function la_ilaclr(m,n,a,lda)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -370,22 +370,22 @@ module stdlib_linalg_lapack_aux
            ! Executable Statements
            ! quick test for the common case where one corner is non-zero.
            if (m == 0) then
-              stdlib_ilaclr = m
+              la_ilaclr = m
            else if (a(m,1) /= zero .or. a(m,n) /= zero) then
-              stdlib_ilaclr = m
+              la_ilaclr = m
            else
            ! scan up each column tracking the last zero row seen.
-              stdlib_ilaclr = 0
+              la_ilaclr = 0
               do j = 1,n
                  i = m
                  do while ((a(max(i,1),j) == zero) .and. (i >= 1))
                     i = i - 1
                  end do
-                 stdlib_ilaclr = max(stdlib_ilaclr,i)
+                 la_ilaclr = max(la_ilaclr,i)
               end do
            end if
            return
-     end function stdlib_ilaclr
+     end function la_ilaclr
 
      !> This subroutine translated from a character string specifying if a
      !> matrix has unit diagonal or not to the relevant BLAST-specified
@@ -394,7 +394,7 @@ module stdlib_linalg_lapack_aux
      !> character indicating a unit or non-unit diagonal.  Otherwise ILADIAG
      !> returns the constant value corresponding to DIAG.
 
-     integer(ilp) function stdlib_iladiag(diag)
+     integer(ilp) function la_iladiag(diag)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -406,19 +406,19 @@ module stdlib_linalg_lapack_aux
            integer(ilp),parameter :: blas_unit_diag = 132
            
            ! Executable Statements
-           if (stdlib_lsame(diag,'N')) then
-              stdlib_iladiag = blas_non_unit_diag
-           else if (stdlib_lsame(diag,'U')) then
-              stdlib_iladiag = blas_unit_diag
+           if (la_lsame(diag,'N')) then
+              la_iladiag = blas_non_unit_diag
+           else if (la_lsame(diag,'U')) then
+              la_iladiag = blas_unit_diag
            else
-              stdlib_iladiag = -1
+              la_iladiag = -1
            end if
            return
-     end function stdlib_iladiag
+     end function la_iladiag
 
      !> ILADLC: scans A for its last non-zero column.
 
-     pure integer(ilp) function stdlib_iladlc(m,n,a,lda)
+     pure integer(ilp) function la_iladlc(m,n,a,lda)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -435,23 +435,23 @@ module stdlib_linalg_lapack_aux
            ! Executable Statements
            ! quick test for the common case where one corner is non-zero.
            if (n == 0) then
-              stdlib_iladlc = n
+              la_iladlc = n
            else if (a(1,n) /= zero .or. a(m,n) /= zero) then
-              stdlib_iladlc = n
+              la_iladlc = n
            else
            ! now scan each column from the end, returning with the first non-zero.
-              do stdlib_iladlc = n,1,-1
+              do la_iladlc = n,1,-1
                  do i = 1,m
-                    if (a(i,stdlib_iladlc) /= zero) return
+                    if (a(i,la_iladlc) /= zero) return
                  end do
               end do
            end if
            return
-     end function stdlib_iladlc
+     end function la_iladlc
 
      !> ILADLR: scans A for its last non-zero row.
 
-     pure integer(ilp) function stdlib_iladlr(m,n,a,lda)
+     pure integer(ilp) function la_iladlr(m,n,a,lda)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -468,22 +468,22 @@ module stdlib_linalg_lapack_aux
            ! Executable Statements
            ! quick test for the common case where one corner is non-zero.
            if (m == 0) then
-              stdlib_iladlr = m
+              la_iladlr = m
            else if (a(m,1) /= zero .or. a(m,n) /= zero) then
-              stdlib_iladlr = m
+              la_iladlr = m
            else
            ! scan up each column tracking the last zero row seen.
-              stdlib_iladlr = 0
+              la_iladlr = 0
               do j = 1,n
                  i = m
                  do while ((a(max(i,1),j) == zero) .and. (i >= 1))
                     i = i - 1
                  end do
-                 stdlib_iladlr = max(stdlib_iladlr,i)
+                 la_iladlr = max(la_iladlr,i)
               end do
            end if
            return
-     end function stdlib_iladlr
+     end function la_iladlr
 
      !> This subroutine translated from a character string specifying an
      !> intermediate precision to the relevant BLAST-specified integer
@@ -492,7 +492,7 @@ module stdlib_linalg_lapack_aux
      !> character indicating a supported intermediate precision.  Otherwise
      !> ILAPREC returns the constant value corresponding to PREC.
 
-     integer(ilp) function stdlib_ilaprec(prec)
+     integer(ilp) function la_ilaprec(prec)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -506,23 +506,23 @@ module stdlib_linalg_lapack_aux
            integer(ilp),parameter :: blas_prec_extra = 214
            
            ! Executable Statements
-           if (stdlib_lsame(prec,'S')) then
-              stdlib_ilaprec = blas_prec_single
-           else if (stdlib_lsame(prec,'D')) then
-              stdlib_ilaprec = blas_prec_double
-           else if (stdlib_lsame(prec,'I')) then
-              stdlib_ilaprec = blas_prec_indigenous
-           else if (stdlib_lsame(prec,'X') .or. stdlib_lsame(prec,'E')) then
-              stdlib_ilaprec = blas_prec_extra
+           if (la_lsame(prec,'S')) then
+              la_ilaprec = blas_prec_single
+           else if (la_lsame(prec,'D')) then
+              la_ilaprec = blas_prec_double
+           else if (la_lsame(prec,'I')) then
+              la_ilaprec = blas_prec_indigenous
+           else if (la_lsame(prec,'X') .or. la_lsame(prec,'E')) then
+              la_ilaprec = blas_prec_extra
            else
-              stdlib_ilaprec = -1
+              la_ilaprec = -1
            end if
            return
-     end function stdlib_ilaprec
+     end function la_ilaprec
 
      !> ILASLC: scans A for its last non-zero column.
 
-     pure integer(ilp) function stdlib_ilaslc(m,n,a,lda)
+     pure integer(ilp) function la_ilaslc(m,n,a,lda)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -539,23 +539,23 @@ module stdlib_linalg_lapack_aux
            ! Executable Statements
            ! quick test for the common case where one corner is non-zero.
            if (n == 0) then
-              stdlib_ilaslc = n
+              la_ilaslc = n
            else if (a(1,n) /= zero .or. a(m,n) /= zero) then
-              stdlib_ilaslc = n
+              la_ilaslc = n
            else
            ! now scan each column from the end, returning with the first non-zero.
-              do stdlib_ilaslc = n,1,-1
+              do la_ilaslc = n,1,-1
                  do i = 1,m
-                    if (a(i,stdlib_ilaslc) /= zero) return
+                    if (a(i,la_ilaslc) /= zero) return
                  end do
               end do
            end if
            return
-     end function stdlib_ilaslc
+     end function la_ilaslc
 
      !> ILASLR: scans A for its last non-zero row.
 
-     pure integer(ilp) function stdlib_ilaslr(m,n,a,lda)
+     pure integer(ilp) function la_ilaslr(m,n,a,lda)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -572,22 +572,22 @@ module stdlib_linalg_lapack_aux
            ! Executable Statements
            ! quick test for the common case where one corner is non-zero.
            if (m == 0) then
-              stdlib_ilaslr = m
+              la_ilaslr = m
            elseif (a(m,1) /= zero .or. a(m,n) /= zero) then
-              stdlib_ilaslr = m
+              la_ilaslr = m
            else
            ! scan up each column tracking the last zero row seen.
-              stdlib_ilaslr = 0
+              la_ilaslr = 0
               do j = 1,n
                  i = m
                  do while ((a(max(i,1),j) == zero) .and. (i >= 1))
                     i = i - 1
                  end do
-                 stdlib_ilaslr = max(stdlib_ilaslr,i)
+                 la_ilaslr = max(la_ilaslr,i)
               end do
            end if
            return
-     end function stdlib_ilaslr
+     end function la_ilaslr
 
      !> This subroutine translates from a character string specifying a
      !> transposition operation to the relevant BLAST-specified integer
@@ -596,7 +596,7 @@ module stdlib_linalg_lapack_aux
      !> a character indicating a transposition operator.  Otherwise ILATRANS
      !> returns the constant value corresponding to TRANS.
 
-     integer(ilp) function stdlib_ilatrans(trans)
+     integer(ilp) function la_ilatrans(trans)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -609,17 +609,17 @@ module stdlib_linalg_lapack_aux
            integer(ilp),parameter :: blas_conj_trans = 113
            
            ! Executable Statements
-           if (stdlib_lsame(trans,'N')) then
-              stdlib_ilatrans = blas_no_trans
-           else if (stdlib_lsame(trans,'T')) then
-              stdlib_ilatrans = blas_trans
-           else if (stdlib_lsame(trans,'C')) then
-              stdlib_ilatrans = blas_conj_trans
+           if (la_lsame(trans,'N')) then
+              la_ilatrans = blas_no_trans
+           else if (la_lsame(trans,'T')) then
+              la_ilatrans = blas_trans
+           else if (la_lsame(trans,'C')) then
+              la_ilatrans = blas_conj_trans
            else
-              stdlib_ilatrans = -1
+              la_ilatrans = -1
            end if
            return
-     end function stdlib_ilatrans
+     end function la_ilatrans
 
      !> This subroutine translated from a character string specifying a
      !> upper- or lower-triangular matrix to the relevant BLAST-specified
@@ -628,7 +628,7 @@ module stdlib_linalg_lapack_aux
      !> a character indicating an upper- or lower-triangular matrix.
      !> Otherwise ILAUPLO returns the constant value corresponding to UPLO.
 
-     integer(ilp) function stdlib_ilauplo(uplo)
+     integer(ilp) function la_ilauplo(uplo)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -640,19 +640,19 @@ module stdlib_linalg_lapack_aux
            integer(ilp),parameter :: blas_lower = 122
            
            ! Executable Statements
-           if (stdlib_lsame(uplo,'U')) then
-              stdlib_ilauplo = blas_upper
-           else if (stdlib_lsame(uplo,'L')) then
-              stdlib_ilauplo = blas_lower
+           if (la_lsame(uplo,'U')) then
+              la_ilauplo = blas_upper
+           else if (la_lsame(uplo,'L')) then
+              la_ilauplo = blas_lower
            else
-              stdlib_ilauplo = -1
+              la_ilauplo = -1
            end if
            return
-     end function stdlib_ilauplo
+     end function la_ilauplo
 
      !> ILAZLC: scans A for its last non-zero column.
 
-     pure integer(ilp) function stdlib_ilazlc(m,n,a,lda)
+     pure integer(ilp) function la_ilazlc(m,n,a,lda)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -669,23 +669,23 @@ module stdlib_linalg_lapack_aux
            ! Executable Statements
            ! quick test for the common case where one corner is non-zero.
            if (n == 0) then
-              stdlib_ilazlc = n
+              la_ilazlc = n
            else if (a(1,n) /= zero .or. a(m,n) /= zero) then
-              stdlib_ilazlc = n
+              la_ilazlc = n
            else
            ! now scan each column from the end, returning with the first non-zero.
-              do stdlib_ilazlc = n,1,-1
+              do la_ilazlc = n,1,-1
                  do i = 1,m
-                    if (a(i,stdlib_ilazlc) /= zero) return
+                    if (a(i,la_ilazlc) /= zero) return
                  end do
               end do
            end if
            return
-     end function stdlib_ilazlc
+     end function la_ilazlc
 
      !> ILAZLR: scans A for its last non-zero row.
 
-     pure integer(ilp) function stdlib_ilazlr(m,n,a,lda)
+     pure integer(ilp) function la_ilazlr(m,n,a,lda)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -702,29 +702,29 @@ module stdlib_linalg_lapack_aux
            ! Executable Statements
            ! quick test for the common case where one corner is non-zero.
            if (m == 0) then
-              stdlib_ilazlr = m
+              la_ilazlr = m
            else if (a(m,1) /= zero .or. a(m,n) /= zero) then
-              stdlib_ilazlr = m
+              la_ilazlr = m
            else
            ! scan up each column tracking the last zero row seen.
-              stdlib_ilazlr = 0
+              la_ilazlr = 0
               do j = 1,n
                  i = m
                  do while ((a(max(i,1),j) == zero) .and. (i >= 1))
                     i = i - 1
                  end do
-                 stdlib_ilazlr = max(stdlib_ilazlr,i)
+                 la_ilazlr = max(la_ilazlr,i)
               end do
            end if
            return
-     end function stdlib_ilazlr
+     end function la_ilazlr
 
      !> This program sets problem and machine dependent parameters
      !> useful for xHSEQR and related subroutines for eigenvalue
      !> problems. It is called whenever
      !> IPARMQ: is called with 12 <= ISPEC <= 16
 
-     pure integer(ilp) function stdlib_iparmq(ispec,name,opts,n,ilo,ihi,lwork)
+     pure integer(ilp) function la_iparmq(ispec,name,opts,n,ilo,ihi,lwork)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -771,21 +771,21 @@ module stdlib_linalg_lapack_aux
               ! ===== matrices of order smaller than nmin get sent
               ! .     to xlahqr, the classic double shift algorithm.
               ! .     this must be at least 11. ====
-              stdlib_iparmq = nmin
+              la_iparmq = nmin
            else if (ispec == inibl) then
               ! ==== inibl: skip a multi-shift qr iteration and
               ! .    whenever aggressive early deflation finds
               ! .    at least (nibble*(window size)/100) deflations. ====
-              stdlib_iparmq = nibble
+              la_iparmq = nibble
            else if (ispec == ishfts) then
               ! ==== nshfts: the number of simultaneous shifts =====
-              stdlib_iparmq = ns
+              la_iparmq = ns
            else if (ispec == inwin) then
               ! ==== nw: deflation window size.  ====
               if (nh <= knwswp) then
-                 stdlib_iparmq = ns
+                 la_iparmq = ns
               else
-                 stdlib_iparmq = 3*ns/2
+                 la_iparmq = 3*ns/2
               end if
            else if (ispec == iacc22) then
               ! ==== iacc22: whether to accumulate reflections
@@ -795,7 +795,7 @@ module stdlib_linalg_lapack_aux
               ! .     by making this choice dependent also upon the
               ! .     nh=ihi-ilo+1.
               ! convert name to upper case if the first character is lower case.
-              stdlib_iparmq = 0
+              la_iparmq = 0
               subnam = name
               ic = ichar(subnam(1:1))
               iz = ichar('Z')
@@ -830,30 +830,30 @@ module stdlib_linalg_lapack_aux
                  end if
               end if
               if (subnam(2:6) == 'GGHRD' .or. subnam(2:6) == 'GGHD3') then
-                 stdlib_iparmq = 1
-                 if (nh >= k22min) stdlib_iparmq = 2
+                 la_iparmq = 1
+                 if (nh >= k22min) la_iparmq = 2
               else if (subnam(4:6) == 'EXC') then
-                 if (nh >= kacmin) stdlib_iparmq = 1
-                 if (nh >= k22min) stdlib_iparmq = 2
+                 if (nh >= kacmin) la_iparmq = 1
+                 if (nh >= k22min) la_iparmq = 2
               else if (subnam(2:6) == 'HSEQR' .or. subnam(2:5) == 'LAQR') then
-                 if (ns >= kacmin) stdlib_iparmq = 1
-                 if (ns >= k22min) stdlib_iparmq = 2
+                 if (ns >= kacmin) la_iparmq = 1
+                 if (ns >= k22min) la_iparmq = 2
               end if
            else if (ispec == icost) then
               ! === relative cost of near-the-diagonal chase vs
                   ! blas updates ===
-              stdlib_iparmq = rcost
+              la_iparmq = rcost
            else
               ! ===== invalid value of ispec =====
-              stdlib_iparmq = -1
+              la_iparmq = -1
            end if
-     end function stdlib_iparmq
+     end function la_iparmq
 
      !> IZMAX1: finds the index of the first vector element of maximum absolute value.
      !> Based on IZAMAX from Level 1 BLAS.
      !> The change is to use the 'genuine' absolute value.
 
-     pure integer(ilp) function stdlib_izmax1(n,zx,incx)
+     pure integer(ilp) function la_izmax1(n,zx,incx)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -868,16 +868,16 @@ module stdlib_linalg_lapack_aux
            ! Intrinsic Functions
            intrinsic :: abs
            ! Executable Statements
-           stdlib_izmax1 = 0
+           la_izmax1 = 0
            if (n < 1 .or. incx <= 0) return
-           stdlib_izmax1 = 1
+           la_izmax1 = 1
            if (n == 1) return
            if (incx == 1) then
               ! code for increment equal to 1
               dmax = abs(zx(1))
               do i = 2,n
                  if (abs(zx(i)) > dmax) then
-                    stdlib_izmax1 = i
+                    la_izmax1 = i
                     dmax = abs(zx(i))
                  end if
               end do
@@ -888,14 +888,14 @@ module stdlib_linalg_lapack_aux
               ix = ix + incx
               do i = 2,n
                  if (abs(zx(ix)) > dmax) then
-                    stdlib_izmax1 = i
+                    la_izmax1 = i
                     dmax = abs(zx(ix))
                  end if
                  ix = ix + incx
               end do
            end if
            return
-     end function stdlib_izmax1
+     end function la_izmax1
 
      !> LSAMEN:  tests if the first N letters of CA are the same as the
      !> first N letters of CB, regardless of case.
@@ -903,7 +903,7 @@ module stdlib_linalg_lapack_aux
      !> and .FALSE. otherwise.  LSAMEN also returns .FALSE. if LEN( CA )
      !> or LEN( CB ) is less than N.
 
-     pure logical(lk) function stdlib_lsamen(n,ca,cb)
+     pure logical(lk) function la_lsamen(n,ca,cb)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -916,17 +916,17 @@ module stdlib_linalg_lapack_aux
            ! Intrinsic Functions
            intrinsic :: len
            ! Executable Statements
-           stdlib_lsamen = .false.
+           la_lsamen = .false.
            if (len(ca) < n .or. len(cb) < n) go to 20
            ! do for each character in the two strings.
            do i = 1,n
-              ! test if the characters are equal using stdlib_lsame.
-              if (.not. stdlib_lsame(ca(i:i),cb(i:i))) go to 20
+              ! test if the characters are equal using la_lsame.
+              if (.not. la_lsame(ca(i:i),cb(i:i))) go to 20
            end do
-           stdlib_lsamen = .true.
+           la_lsamen = .true.
 20         continue
            return
-     end function stdlib_lsamen
+     end function la_lsamen
 
      !> SROUNDUP_LWORK: deals with a subtle bug with returning LWORK as a Float.
      !> This routine guarantees it is rounded up instead of down by
@@ -939,7 +939,7 @@ module stdlib_linalg_lapack_aux
      !> SROUNDUP_LWORK >= LWORK.
      !> SROUNDUP_LWORK is guaranteed to have zero decimal part.
 
-     pure real(sp) function stdlib_sroundup_lwork(lwork)
+     pure real(sp) function la_sroundup_lwork(lwork)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -949,14 +949,14 @@ module stdlib_linalg_lapack_aux
            ! Intrinsic Functions
            intrinsic :: epsilon,real,int
            ! Executable Statements
-           stdlib_sroundup_lwork = real(lwork,KIND=sp)
-           if (int(stdlib_sroundup_lwork,KIND=ilp) < lwork) then
+           la_sroundup_lwork = real(lwork,KIND=sp)
+           if (int(la_sroundup_lwork,KIND=ilp) < lwork) then
                ! force round up of lwork
-               stdlib_sroundup_lwork = stdlib_sroundup_lwork*(1.0e+0_sp + epsilon(0.0e+0_sp))
+               la_sroundup_lwork = la_sroundup_lwork*(1.0e+0_sp + epsilon(0.0e+0_sp))
                          
            end if
            return
-     end function stdlib_sroundup_lwork
+     end function la_sroundup_lwork
 
      !> DROUNDUP_LWORK: deals with a subtle bug with returning LWORK as a Float.
      !> This routine guarantees it is rounded up instead of down by
@@ -969,7 +969,7 @@ module stdlib_linalg_lapack_aux
      !> DROUNDUP_LWORK >= LWORK.
      !> DROUNDUP_LWORK is guaranteed to have zero decimal part.
 
-     pure real(qp) function stdlib_qroundup_lwork(lwork)
+     pure real(qp) function la_qroundup_lwork(lwork)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -979,14 +979,14 @@ module stdlib_linalg_lapack_aux
            ! Intrinsic Functions
            intrinsic :: epsilon,real,int
            ! Executable Statements
-           stdlib_qroundup_lwork = real(lwork,KIND=qp)
-           if (int(stdlib_qroundup_lwork,KIND=ilp) < lwork) then
+           la_qroundup_lwork = real(lwork,KIND=qp)
+           if (int(la_qroundup_lwork,KIND=ilp) < lwork) then
                ! force round up of lwork
-               stdlib_qroundup_lwork = stdlib_qroundup_lwork*(1.0e+0_qp + epsilon(0.0e+0_qp))
+               la_qroundup_lwork = la_qroundup_lwork*(1.0e+0_qp + epsilon(0.0e+0_qp))
                          
            end if
            return
-     end function stdlib_qroundup_lwork
+     end function la_qroundup_lwork
 
      !> This subroutine translated from a character string specifying if a
      !> matrix has unit diagonal or not to the relevant BLAST-specified
@@ -995,7 +995,7 @@ module stdlib_linalg_lapack_aux
      !> character indicating a unit or non-unit diagonal.  Otherwise ILADIAG
      !> returns the constant value corresponding to DIAG.
 
-     integer(ilp) function stdlib_ilaqiag(diag)
+     integer(ilp) function la_ilaqiag(diag)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -1007,19 +1007,19 @@ module stdlib_linalg_lapack_aux
            integer(ilp),parameter :: blas_unit_qiag = 132
            
            ! Executable Statements
-           if (stdlib_lsame(diag,'N')) then
-              stdlib_ilaqiag = blas_non_unit_qiag
-           else if (stdlib_lsame(diag,'U')) then
-              stdlib_ilaqiag = blas_unit_qiag
+           if (la_lsame(diag,'N')) then
+              la_ilaqiag = blas_non_unit_qiag
+           else if (la_lsame(diag,'U')) then
+              la_ilaqiag = blas_unit_qiag
            else
-              stdlib_ilaqiag = -1
+              la_ilaqiag = -1
            end if
            return
-     end function stdlib_ilaqiag
+     end function la_ilaqiag
 
      !> ILADLC: scans A for its last non-zero column.
 
-     pure integer(ilp) function stdlib_ilaqlc(m,n,a,lda)
+     pure integer(ilp) function la_ilaqlc(m,n,a,lda)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -1036,23 +1036,23 @@ module stdlib_linalg_lapack_aux
            ! Executable Statements
            ! quick test for the common case where one corner is non-zero.
            if (n == 0) then
-              stdlib_ilaqlc = n
+              la_ilaqlc = n
            else if (a(1,n) /= zero .or. a(m,n) /= zero) then
-              stdlib_ilaqlc = n
+              la_ilaqlc = n
            else
            ! now scan each column from the end, returning with the first non-zero.
-              do stdlib_ilaqlc = n,1,-1
+              do la_ilaqlc = n,1,-1
                  do i = 1,m
-                    if (a(i,stdlib_ilaqlc) /= zero) return
+                    if (a(i,la_ilaqlc) /= zero) return
                  end do
               end do
            end if
            return
-     end function stdlib_ilaqlc
+     end function la_ilaqlc
 
      !> ILADLR: scans A for its last non-zero row.
 
-     pure integer(ilp) function stdlib_ilaqlr(m,n,a,lda)
+     pure integer(ilp) function la_ilaqlr(m,n,a,lda)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -1069,26 +1069,26 @@ module stdlib_linalg_lapack_aux
            ! Executable Statements
            ! quick test for the common case where one corner is non-zero.
            if (m == 0) then
-              stdlib_ilaqlr = m
+              la_ilaqlr = m
            else if (a(m,1) /= zero .or. a(m,n) /= zero) then
-              stdlib_ilaqlr = m
+              la_ilaqlr = m
            else
            ! scan up each column tracking the last zero row seen.
-              stdlib_ilaqlr = 0
+              la_ilaqlr = 0
               do j = 1,n
                  i = m
                  do while ((a(max(i,1),j) == zero) .and. (i >= 1))
                     i = i - 1
                  end do
-                 stdlib_ilaqlr = max(stdlib_ilaqlr,i)
+                 la_ilaqlr = max(la_ilaqlr,i)
               end do
            end if
            return
-     end function stdlib_ilaqlr
+     end function la_ilaqlr
 
      !> ILAZLC: scans A for its last non-zero column.
 
-     pure integer(ilp) function stdlib_ilawlc(m,n,a,lda)
+     pure integer(ilp) function la_ilawlc(m,n,a,lda)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -1105,23 +1105,23 @@ module stdlib_linalg_lapack_aux
            ! Executable Statements
            ! quick test for the common case where one corner is non-zero.
            if (n == 0) then
-              stdlib_ilawlc = n
+              la_ilawlc = n
            else if (a(1,n) /= zero .or. a(m,n) /= zero) then
-              stdlib_ilawlc = n
+              la_ilawlc = n
            else
            ! now scan each column from the end, returning with the first non-zero.
-              do stdlib_ilawlc = n,1,-1
+              do la_ilawlc = n,1,-1
                  do i = 1,m
-                    if (a(i,stdlib_ilawlc) /= zero) return
+                    if (a(i,la_ilawlc) /= zero) return
                  end do
               end do
            end if
            return
-     end function stdlib_ilawlc
+     end function la_ilawlc
 
      !> ILAZLR: scans A for its last non-zero row.
 
-     pure integer(ilp) function stdlib_ilawlr(m,n,a,lda)
+     pure integer(ilp) function la_ilawlr(m,n,a,lda)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -1138,28 +1138,28 @@ module stdlib_linalg_lapack_aux
            ! Executable Statements
            ! quick test for the common case where one corner is non-zero.
            if (m == 0) then
-              stdlib_ilawlr = m
+              la_ilawlr = m
            else if (a(m,1) /= zero .or. a(m,n) /= zero) then
-              stdlib_ilawlr = m
+              la_ilawlr = m
            else
            ! scan up each column tracking the last zero row seen.
-              stdlib_ilawlr = 0
+              la_ilawlr = 0
               do j = 1,n
                  i = m
                  do while ((a(max(i,1),j) == zero) .and. (i >= 1))
                     i = i - 1
                  end do
-                 stdlib_ilawlr = max(stdlib_ilawlr,i)
+                 la_ilawlr = max(la_ilawlr,i)
               end do
            end if
            return
-     end function stdlib_ilawlr
+     end function la_ilawlr
 
      !> IZMAX1: finds the index of the first vector element of maximum absolute value.
      !> Based on IZAMAX from Level 1 BLAS.
      !> The change is to use the 'genuine' absolute value.
 
-     pure integer(ilp) function stdlib_iwmax1(n,zx,incx)
+     pure integer(ilp) function la_iwmax1(n,zx,incx)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -1174,16 +1174,16 @@ module stdlib_linalg_lapack_aux
            ! Intrinsic Functions
            intrinsic :: abs
            ! Executable Statements
-           stdlib_iwmax1 = 0
+           la_iwmax1 = 0
            if (n < 1 .or. incx <= 0) return
-           stdlib_iwmax1 = 1
+           la_iwmax1 = 1
            if (n == 1) return
            if (incx == 1) then
               ! code for increment equal to 1
               dmax = abs(zx(1))
               do i = 2,n
                  if (abs(zx(i)) > dmax) then
-                    stdlib_iwmax1 = i
+                    la_iwmax1 = i
                     dmax = abs(zx(i))
                  end if
               end do
@@ -1194,14 +1194,14 @@ module stdlib_linalg_lapack_aux
               ix = ix + incx
               do i = 2,n
                  if (abs(zx(ix)) > dmax) then
-                    stdlib_iwmax1 = i
+                    la_iwmax1 = i
                     dmax = abs(zx(ix))
                  end if
                  ix = ix + incx
               end do
            end if
            return
-     end function stdlib_iwmax1
+     end function la_iwmax1
 
      !> ILAENV: is called from the LAPACK routines to choose problem-dependent
      !> parameters for the local environment.  See ISPEC for a description of
@@ -1217,7 +1217,7 @@ module stdlib_linalg_lapack_aux
      !> This routine will not function correctly if it is converted to all
      !> lower case.  Converting it to all upper case is allowed.
 
-     pure integer(ilp) function stdlib_ilaenv(ispec,name,opts,n1,n2,n3,n4)
+     pure integer(ilp) function la_ilaenv(ispec,name,opts,n1,n2,n3,n4)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -1235,11 +1235,11 @@ module stdlib_linalg_lapack_aux
            go to(10,10,10,80,90,100,110,120,130,140,150,160,160,160,160,160,160) &
                      ispec
            ! invalid value for ispec
-           stdlib_ilaenv = -1
+           la_ilaenv = -1
            return
 10         continue
            ! convert name to upper case if the first character is lower case.
-           stdlib_ilaenv = 1
+           la_ilaenv = 1
            subnam = name
            ic = ichar(subnam(1:1))
            iz = ichar('Z')
@@ -1505,7 +1505,7 @@ module stdlib_linalg_lapack_aux
                  end if
               end if
            end if
-           stdlib_ilaenv = nb
+           la_ilaenv = nb
            return
 60         continue
            ! ispec = 2:  minimum block size
@@ -1580,7 +1580,7 @@ module stdlib_linalg_lapack_aux
                  nbmin = 2
               end if
            end if
-           stdlib_ilaenv = nbmin
+           la_ilaenv = nbmin
            return
 70         continue
            ! ispec = 3:  crossover point
@@ -1633,55 +1633,55 @@ module stdlib_linalg_lapack_aux
                  nx = 128
               end if
            end if
-           stdlib_ilaenv = nx
+           la_ilaenv = nx
            return
 80         continue
            ! ispec = 4:  number of shifts (used by xhseqr)
-           stdlib_ilaenv = 6
+           la_ilaenv = 6
            return
 90         continue
            ! ispec = 5:  minimum column dimension (not used)
-           stdlib_ilaenv = 2
+           la_ilaenv = 2
            return
 100        continue
            ! ispec = 6:  crossover point for svd (used by xgelss and xgesvd)
-           stdlib_ilaenv = int(real(min(n1,n2),KIND=dp)*1.6e0,KIND=ilp)
+           la_ilaenv = int(real(min(n1,n2),KIND=dp)*1.6e0,KIND=ilp)
            return
 110        continue
            ! ispec = 7:  number of processors (not used)
-           stdlib_ilaenv = 1
+           la_ilaenv = 1
            return
 120        continue
            ! ispec = 8:  crossover point for multishift (used by xhseqr)
-           stdlib_ilaenv = 50
+           la_ilaenv = 50
            return
 130        continue
            ! ispec = 9:  maximum size of the subproblems at the bottom of the
                        ! computation tree in the divide-and-conquer algorithm
                        ! (used by xgelsd and xgesdd)
-           stdlib_ilaenv = 25
+           la_ilaenv = 25
            return
 140        continue
            ! ispec = 10: ieee and infinity nan arithmetic can be trusted not to trap
-           ! stdlib_ilaenv = 0
-           stdlib_ilaenv = 1
-           if (stdlib_ilaenv == 1) then
-              stdlib_ilaenv = stdlib_ieeeck(1,0.0,1.0)
+           ! la_ilaenv = 0
+           la_ilaenv = 1
+           if (la_ilaenv == 1) then
+              la_ilaenv = la_ieeeck(1,0.0,1.0)
            end if
            return
 150        continue
            ! ispec = 11: ieee infinity arithmetic can be trusted not to trap
-           ! stdlib_ilaenv = 0
-           stdlib_ilaenv = 1
-           if (stdlib_ilaenv == 1) then
-              stdlib_ilaenv = stdlib_ieeeck(0,0.0,1.0)
+           ! la_ilaenv = 0
+           la_ilaenv = 1
+           if (la_ilaenv == 1) then
+              la_ilaenv = la_ieeeck(0,0.0,1.0)
            end if
            return
 160        continue
            ! 12 <= ispec <= 17: xhseqr or related subroutines.
-           stdlib_ilaenv = stdlib_iparmq(ispec,name,opts,n1,n2,n3,n4)
+           la_ilaenv = la_iparmq(ispec,name,opts,n1,n2,n3,n4)
            return
-     end function stdlib_ilaenv
+     end function la_ilaenv
 
      !> This program sets problem and machine dependent parameters
      !> useful for xHETRD_2STAGE, xHETRD_HE2HB, xHETRD_HB2ST,
@@ -1691,7 +1691,7 @@ module stdlib_linalg_lapack_aux
      !> It is called whenever ILAENV2STAGE is called with 1 <= ISPEC <= 5
      !> with a direct conversion ISPEC + 16.
 
-     pure integer(ilp) function stdlib_iparam2stage(ispec,name,opts,ni,nbi,ibi,nxi)
+     pure integer(ilp) function la_iparam2stage(ispec,name,opts,ni,nbi,ibi,nxi)
 #if defined(_OPENMP)
 #endif
         ! -- lapack auxiliary routine --
@@ -1711,7 +1711,7 @@ module stdlib_linalg_lapack_aux
            ! Executable Statements
            ! invalid value for ispec
            if ((ispec < 17) .or. (ispec > 21)) then
-               stdlib_iparam2stage = -1
+               la_iparam2stage = -1
                return
            end if
            ! get the number of threads
@@ -1724,7 +1724,7 @@ module stdlib_linalg_lapack_aux
             ! write(*,*) 'iparam voici nthreads ispec ',nthreads, ispec
            if (ispec /= 19) then
               ! convert name to upper case if the first character is lower case.
-              stdlib_iparam2stage = -1
+              la_iparam2stage = -1
               subnam = name
               ic = ichar(subnam(1:1))
               iz = ichar('Z')
@@ -1765,7 +1765,7 @@ module stdlib_linalg_lapack_aux
               cprec = prec == 'C' .or. prec == 'Z'
               ! invalid value for precision
               if (.not. (rprec .or. cprec)) then
-                  stdlib_iparam2stage = -1
+                  la_iparam2stage = -1
                   return
               end if
            end if
@@ -1800,8 +1800,8 @@ module stdlib_linalg_lapack_aux
                     ib = 16
                  end if
               end if
-              if (ispec == 17) stdlib_iparam2stage = kd
-              if (ispec == 18) stdlib_iparam2stage = ib
+              if (ispec == 17) la_iparam2stage = kd
+              if (ispec == 18) la_iparam2stage = ib
            else if (ispec == 19) then
            ! ispec = 19:
            ! lhous length of the houselholder representation
@@ -1815,9 +1815,9 @@ module stdlib_linalg_lapack_aux
                  lhous = max(1,4*ni) + ibi
               end if
               if (lhous >= 0) then
-                 stdlib_iparam2stage = lhous
+                 la_iparam2stage = lhous
               else
-                 stdlib_iparam2stage = -1
+                 la_iparam2stage = -1
               end if
            else if (ispec == 20) then
            ! ispec = 20: (21 for future use)
@@ -1836,9 +1836,9 @@ module stdlib_linalg_lapack_aux
               lwork = -1
               subnam(1:1) = prec
               subnam(2:6) = 'GEQRF'
-              qroptnb = stdlib_ilaenv(1,subnam,' ',ni,nbi,-1,-1)
+              qroptnb = la_ilaenv(1,subnam,' ',ni,nbi,-1,-1)
               subnam(2:6) = 'GELQF'
-              lqoptnb = stdlib_ilaenv(1,subnam,' ',nbi,ni,-1,-1)
+              lqoptnb = la_ilaenv(1,subnam,' ',nbi,ni,-1,-1)
               ! could be qr or lq for trd and the max for brd
               factoptnb = max(qroptnb,lqoptnb)
               if (algo == 'TRD') then
@@ -1862,15 +1862,15 @@ module stdlib_linalg_lapack_aux
               end if
               lwork = max(1,lwork)
               if (lwork > 0) then
-                 stdlib_iparam2stage = lwork
+                 la_iparam2stage = lwork
               else
-                 stdlib_iparam2stage = -1
+                 la_iparam2stage = -1
               end if
            else if (ispec == 21) then
            ! ispec = 21 for future use
-              stdlib_iparam2stage = nxi
+              la_iparam2stage = nxi
            end if
-     end function stdlib_iparam2stage
+     end function la_iparam2stage
 
      !> ILAENV2STAGE: is called from the LAPACK routines to choose problem-dependent
      !> parameters for the local environment.  See ISPEC for a description of
@@ -1890,7 +1890,7 @@ module stdlib_linalg_lapack_aux
      !> This routine will not function correctly if it is converted to all
      !> lower case.  Converting it to all upper case is allowed.
 
-     pure integer(ilp) function stdlib_ilaenv2stage(ispec,name,opts,n1,n2,n3,n4)
+     pure integer(ilp) function la_ilaenv2stage(ispec,name,opts,n1,n2,n3,n4)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -1904,13 +1904,13 @@ module stdlib_linalg_lapack_aux
            ! Executable Statements
            go to(10,10,10,10,10) ispec
            ! invalid value for ispec
-           stdlib_ilaenv2stage = -1
+           la_ilaenv2stage = -1
            return
 10         continue
            ! 2stage eigenvalues and svd or related subroutines.
            iispec = 16 + ispec
-           stdlib_ilaenv2stage = stdlib_iparam2stage(iispec,name,opts,n1,n2,n3,n4)
+           la_ilaenv2stage = la_iparam2stage(iispec,name,opts,n1,n2,n3,n4)
            return
-     end function stdlib_ilaenv2stage
+     end function la_ilaenv2stage
 
-end module stdlib_linalg_lapack_aux
+end module la_linalg_lapack_aux

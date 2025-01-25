@@ -1,48 +1,48 @@
-module stdlib_linalg_blas_z
-     use stdlib_linalg_constants
-     use stdlib_linalg_blas_aux
-     use stdlib_linalg_blas_s
-     use stdlib_linalg_blas_c
-     use stdlib_linalg_blas_d
+module la_linalg_blas_z
+     use la_linalg_constants
+     use la_linalg_blas_aux
+     use la_linalg_blas_s
+     use la_linalg_blas_c
+     use la_linalg_blas_d
      implicit none(type,external)
      private
 
      public :: sp,dp,qp,lk,ilp
-     public :: stdlib_zaxpy
-     public :: stdlib_zcopy
-     public :: stdlib_zdotc
-     public :: stdlib_zdotu
-     public :: stdlib_zdrot
-     public :: stdlib_zdscal
-     public :: stdlib_zgbmv
-     public :: stdlib_zgemm
-     public :: stdlib_zgemv
-     public :: stdlib_zgerc
-     public :: stdlib_zgeru
-     public :: stdlib_zhbmv
-     public :: stdlib_zhemm
-     public :: stdlib_zhemv
-     public :: stdlib_zher
-     public :: stdlib_zher2
-     public :: stdlib_zher2k
-     public :: stdlib_zherk
-     public :: stdlib_zhpmv
-     public :: stdlib_zhpr
-     public :: stdlib_zhpr2
-     public :: stdlib_zrotg
-     public :: stdlib_zscal
-     public :: stdlib_zswap
-     public :: stdlib_zsymm
-     public :: stdlib_zsyr2k
-     public :: stdlib_zsyrk
-     public :: stdlib_ztbmv
-     public :: stdlib_ztbsv
-     public :: stdlib_ztpmv
-     public :: stdlib_ztpsv
-     public :: stdlib_ztrmm
-     public :: stdlib_ztrmv
-     public :: stdlib_ztrsm
-     public :: stdlib_ztrsv
+     public :: la_zaxpy
+     public :: la_zcopy
+     public :: la_zdotc
+     public :: la_zdotu
+     public :: la_zdrot
+     public :: la_zdscal
+     public :: la_zgbmv
+     public :: la_zgemm
+     public :: la_zgemv
+     public :: la_zgerc
+     public :: la_zgeru
+     public :: la_zhbmv
+     public :: la_zhemm
+     public :: la_zhemv
+     public :: la_zher
+     public :: la_zher2
+     public :: la_zher2k
+     public :: la_zherk
+     public :: la_zhpmv
+     public :: la_zhpr
+     public :: la_zhpr2
+     public :: la_zrotg
+     public :: la_zscal
+     public :: la_zswap
+     public :: la_zsymm
+     public :: la_zsyr2k
+     public :: la_zsyrk
+     public :: la_ztbmv
+     public :: la_ztbsv
+     public :: la_ztpmv
+     public :: la_ztpsv
+     public :: la_ztrmm
+     public :: la_ztrmv
+     public :: la_ztrsm
+     public :: la_ztrsv
 
      ! 64-bit real constants
      real(dp),parameter,private :: negone = -1.00_dp
@@ -85,7 +85,7 @@ module stdlib_linalg_blas_z
 
      !> ZAXPY: constant times a vector plus a vector.
 
-     pure subroutine stdlib_zaxpy(n,za,zx,incx,zy,incy)
+     pure subroutine la_zaxpy(n,za,zx,incx,zy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -99,7 +99,7 @@ module stdlib_linalg_blas_z
            ! Local Scalars
            integer(ilp) :: i,ix,iy
            if (n <= 0) return
-           if (stdlib_dcabs1(za) == 0.0_dp) return
+           if (la_dcabs1(za) == 0.0_dp) return
            if (incx == 1 .and. incy == 1) then
               ! code for both increments equal to 1
               do i = 1,n
@@ -119,11 +119,11 @@ module stdlib_linalg_blas_z
               end do
            end if
            return
-     end subroutine stdlib_zaxpy
+     end subroutine la_zaxpy
 
      !> ZCOPY: copies a vector, x, to a vector, y.
 
-     pure subroutine stdlib_zcopy(n,zx,incx,zy,incy)
+     pure subroutine la_zcopy(n,zx,incx,zy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -155,12 +155,12 @@ module stdlib_linalg_blas_z
               end do
            end if
            return
-     end subroutine stdlib_zcopy
+     end subroutine la_zcopy
 
      !> ZDOTC: forms the dot product of two complex vectors
      !> ZDOTC = X^H * Y
 
-     pure complex(dp) function stdlib_zdotc(n,zx,incx,zy,incy)
+     pure complex(dp) function la_zdotc(n,zx,incx,zy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -175,7 +175,7 @@ module stdlib_linalg_blas_z
            ! Intrinsic Functions
            intrinsic :: conjg
            ztemp = (0.0_dp,0.0_dp)
-           stdlib_zdotc = (0.0_dp,0.0_dp)
+           la_zdotc = (0.0_dp,0.0_dp)
            if (n <= 0) return
            if (incx == 1 .and. incy == 1) then
               ! code for both increments equal to 1
@@ -195,14 +195,14 @@ module stdlib_linalg_blas_z
                  iy = iy + incy
               end do
            end if
-           stdlib_zdotc = ztemp
+           la_zdotc = ztemp
            return
-     end function stdlib_zdotc
+     end function la_zdotc
 
      !> ZDOTU: forms the dot product of two complex vectors
      !> ZDOTU = X^T * Y
 
-     pure complex(dp) function stdlib_zdotu(n,zx,incx,zy,incy)
+     pure complex(dp) function la_zdotu(n,zx,incx,zy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -215,7 +215,7 @@ module stdlib_linalg_blas_z
            complex(dp) :: ztemp
            integer(ilp) :: i,ix,iy
            ztemp = (0.0_dp,0.0_dp)
-           stdlib_zdotu = (0.0_dp,0.0_dp)
+           la_zdotu = (0.0_dp,0.0_dp)
            if (n <= 0) return
            if (incx == 1 .and. incy == 1) then
               ! code for both increments equal to 1
@@ -235,15 +235,15 @@ module stdlib_linalg_blas_z
                  iy = iy + incy
               end do
            end if
-           stdlib_zdotu = ztemp
+           la_zdotu = ztemp
            return
-     end function stdlib_zdotu
+     end function la_zdotu
 
      !> Applies a plane rotation, where the cos and sin (c and s) are real
      !> and the vectors cx and cy are complex.
      !> jack dongarra, linpack, 3/11/78.
 
-     pure subroutine stdlib_zdrot(n,zx,incx,zy,incy,c,s)
+     pure subroutine la_zdrot(n,zx,incx,zy,incy,c,s)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -281,11 +281,11 @@ module stdlib_linalg_blas_z
               end do
            end if
            return
-     end subroutine stdlib_zdrot
+     end subroutine la_zdrot
 
      !> ZDSCAL: scales a vector by a constant.
 
-     pure subroutine stdlib_zdscal(n,da,zx,incx)
+     pure subroutine la_zdscal(n,da,zx,incx)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -313,7 +313,7 @@ module stdlib_linalg_blas_z
               end do
            end if
            return
-     end subroutine stdlib_zdscal
+     end subroutine la_zdscal
 
      !> ZGBMV:  performs one of the matrix-vector operations
      !> y := alpha*A*x + beta*y,   or   y := alpha*A**T*x + beta*y,   or
@@ -321,7 +321,7 @@ module stdlib_linalg_blas_z
      !> where alpha and beta are scalars, x and y are vectors and A is an
      !> m by n band matrix, with kl sub-diagonals and ku super-diagonals.
 
-     pure subroutine stdlib_zgbmv(trans,m,n,kl,ku,alpha,a,lda,x,incx,beta,y,incy)
+     pure subroutine la_zgbmv(trans,m,n,kl,ku,alpha,a,lda,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -342,8 +342,8 @@ module stdlib_linalg_blas_z
            intrinsic :: conjg,max,min
            ! test the input parameters.
            info = 0
-           if (.not. stdlib_lsame(trans,'N') .and. .not. stdlib_lsame(trans,'T') &
-                     .and. .not. stdlib_lsame(trans,'C')) then
+           if (.not. la_lsame(trans,'N') .and. .not. la_lsame(trans,'T') &
+                     .and. .not. la_lsame(trans,'C')) then
                info = 1
            else if (m < 0) then
                info = 2
@@ -361,15 +361,15 @@ module stdlib_linalg_blas_z
                info = 13
            end if
            if (info /= 0) then
-               call stdlib_xerbla('ZGBMV ',info)
+               call la_xerbla('ZGBMV ',info)
                return
            end if
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. ((alpha == czero) .and. (beta == cone))) return
-           noconj = stdlib_lsame(trans,'T')
+           noconj = la_lsame(trans,'T')
            ! set  lenx  and  leny, the lengths of the vectors x and y, and set
            ! up the start points in  x  and  y.
-           if (stdlib_lsame(trans,'N')) then
+           if (la_lsame(trans,'N')) then
                lenx = n
                leny = m
            else
@@ -417,7 +417,7 @@ module stdlib_linalg_blas_z
            end if
            if (alpha == czero) return
            kup1 = ku + 1
-           if (stdlib_lsame(trans,'N')) then
+           if (la_lsame(trans,'N')) then
               ! form  y := alpha*a*x + y.
                jx = kx
                if (incy == 1) then
@@ -484,7 +484,7 @@ module stdlib_linalg_blas_z
                end if
            end if
            return
-     end subroutine stdlib_zgbmv
+     end subroutine la_zgbmv
 
      !> ZGEMM:  performs one of the matrix-matrix operations
      !> C := alpha*op( A )*op( B ) + beta*C,
@@ -493,7 +493,7 @@ module stdlib_linalg_blas_z
      !> alpha and beta are scalars, and A, B and C are matrices, with op( A )
      !> an m by k matrix,  op( B )  a  k by n matrix and  C an m by n matrix.
 
-     pure subroutine stdlib_zgemm(transa,transb,m,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
+     pure subroutine la_zgemm(transa,transb,m,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -516,10 +516,10 @@ module stdlib_linalg_blas_z
            ! conjugated or transposed, set  conja and conjb  as true if  a  and
            ! b  respectively are to be  transposed but  not conjugated  and set
            ! nrowa and nrowb  as the number of rows  of  a  and  b  respectively.
-           nota = stdlib_lsame(transa,'N')
-           notb = stdlib_lsame(transb,'N')
-           conja = stdlib_lsame(transa,'C')
-           conjb = stdlib_lsame(transb,'C')
+           nota = la_lsame(transa,'N')
+           notb = la_lsame(transb,'N')
+           conja = la_lsame(transa,'C')
+           conjb = la_lsame(transb,'C')
            if (nota) then
                nrowa = m
            else
@@ -532,9 +532,9 @@ module stdlib_linalg_blas_z
            end if
            ! test the input parameters.
            info = 0
-           if ((.not. nota) .and. (.not. conja) .and. (.not. stdlib_lsame(transa,'T'))) then
+           if ((.not. nota) .and. (.not. conja) .and. (.not. la_lsame(transa,'T'))) then
                info = 1
-           else if ((.not. notb) .and. (.not. conjb) .and. (.not. stdlib_lsame(transb,'T'))) &
+           else if ((.not. notb) .and. (.not. conjb) .and. (.not. la_lsame(transb,'T'))) &
                      then
                info = 2
            else if (m < 0) then
@@ -551,7 +551,7 @@ module stdlib_linalg_blas_z
                info = 13
            end if
            if (info /= 0) then
-               call stdlib_xerbla('ZGEMM ',info)
+               call la_xerbla('ZGEMM ',info)
                return
            end if
            ! quick return if possible.
@@ -732,7 +732,7 @@ module stdlib_linalg_blas_z
                end if
            end if
            return
-     end subroutine stdlib_zgemm
+     end subroutine la_zgemm
 
      !> ZGEMV:  performs one of the matrix-vector operations
      !> y := alpha*A*x + beta*y,   or   y := alpha*A**T*x + beta*y,   or
@@ -740,7 +740,7 @@ module stdlib_linalg_blas_z
      !> where alpha and beta are scalars, x and y are vectors and A is an
      !> m by n matrix.
 
-     pure subroutine stdlib_zgemv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
+     pure subroutine la_zgemv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -761,8 +761,8 @@ module stdlib_linalg_blas_z
            intrinsic :: conjg,max
            ! test the input parameters.
            info = 0
-           if (.not. stdlib_lsame(trans,'N') .and. .not. stdlib_lsame(trans,'T') &
-                     .and. .not. stdlib_lsame(trans,'C')) then
+           if (.not. la_lsame(trans,'N') .and. .not. la_lsame(trans,'T') &
+                     .and. .not. la_lsame(trans,'C')) then
                info = 1
            else if (m < 0) then
                info = 2
@@ -776,15 +776,15 @@ module stdlib_linalg_blas_z
                info = 11
            end if
            if (info /= 0) then
-               call stdlib_xerbla('ZGEMV ',info)
+               call la_xerbla('ZGEMV ',info)
                return
            end if
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. ((alpha == czero) .and. (beta == cone))) return
-           noconj = stdlib_lsame(trans,'T')
+           noconj = la_lsame(trans,'T')
            ! set  lenx  and  leny, the lengths of the vectors x and y, and set
            ! up the start points in  x  and  y.
-           if (stdlib_lsame(trans,'N')) then
+           if (la_lsame(trans,'N')) then
                lenx = n
                leny = m
            else
@@ -831,7 +831,7 @@ module stdlib_linalg_blas_z
                end if
            end if
            if (alpha == czero) return
-           if (stdlib_lsame(trans,'N')) then
+           if (la_lsame(trans,'N')) then
               ! form  y := alpha*a*x + y.
                jx = kx
                if (incy == 1) then
@@ -892,14 +892,14 @@ module stdlib_linalg_blas_z
                end if
            end if
            return
-     end subroutine stdlib_zgemv
+     end subroutine la_zgemv
 
      !> ZGERC:  performs the rank 1 operation
      !> A := alpha*x*y**H + A,
      !> where alpha is a scalar, x is an m element vector, y is an n element
      !> vector and A is an m by n matrix.
 
-     pure subroutine stdlib_zgerc(m,n,alpha,x,incx,y,incy,a,lda)
+     pure subroutine la_zgerc(m,n,alpha,x,incx,y,incy,a,lda)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -930,7 +930,7 @@ module stdlib_linalg_blas_z
                info = 9
            end if
            if (info /= 0) then
-               call stdlib_xerbla('ZGERC ',info)
+               call la_xerbla('ZGERC ',info)
                return
            end if
            ! quick return if possible.
@@ -971,14 +971,14 @@ module stdlib_linalg_blas_z
                end do
            end if
            return
-     end subroutine stdlib_zgerc
+     end subroutine la_zgerc
 
      !> ZGERU:  performs the rank 1 operation
      !> A := alpha*x*y**T + A,
      !> where alpha is a scalar, x is an m element vector, y is an n element
      !> vector and A is an m by n matrix.
 
-     pure subroutine stdlib_zgeru(m,n,alpha,x,incx,y,incy,a,lda)
+     pure subroutine la_zgeru(m,n,alpha,x,incx,y,incy,a,lda)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -1009,7 +1009,7 @@ module stdlib_linalg_blas_z
                info = 9
            end if
            if (info /= 0) then
-               call stdlib_xerbla('ZGERU ',info)
+               call la_xerbla('ZGERU ',info)
                return
            end if
            ! quick return if possible.
@@ -1050,14 +1050,14 @@ module stdlib_linalg_blas_z
                end do
            end if
            return
-     end subroutine stdlib_zgeru
+     end subroutine la_zgeru
 
      !> ZHBMV:  performs the matrix-vector  operation
      !> y := alpha*A*x + beta*y,
      !> where alpha and beta are scalars, x and y are n element vectors and
      !> A is an n by n hermitian band matrix, with k super-diagonals.
 
-     pure subroutine stdlib_zhbmv(uplo,n,k,alpha,a,lda,x,incx,beta,y,incy)
+     pure subroutine la_zhbmv(uplo,n,k,alpha,a,lda,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -1077,7 +1077,7 @@ module stdlib_linalg_blas_z
            intrinsic :: real,conjg,max,min
            ! test the input parameters.
            info = 0
-           if (.not. stdlib_lsame(uplo,'U') .and. .not. stdlib_lsame(uplo,'L')) then
+           if (.not. la_lsame(uplo,'U') .and. .not. la_lsame(uplo,'L')) then
                info = 1
            else if (n < 0) then
                info = 2
@@ -1091,7 +1091,7 @@ module stdlib_linalg_blas_z
                info = 11
            end if
            if (info /= 0) then
-               call stdlib_xerbla('ZHBMV ',info)
+               call la_xerbla('ZHBMV ',info)
                return
            end if
            ! quick return if possible.
@@ -1137,7 +1137,7 @@ module stdlib_linalg_blas_z
                end if
            end if
            if (alpha == czero) return
-           if (stdlib_lsame(uplo,'U')) then
+           if (la_lsame(uplo,'U')) then
               ! form  y  when upper triangle of a is stored.
                kplus1 = k + 1
                if ((incx == 1) .and. (incy == 1)) then
@@ -1212,7 +1212,7 @@ module stdlib_linalg_blas_z
                end if
            end if
            return
-     end subroutine stdlib_zhbmv
+     end subroutine la_zhbmv
 
      !> ZHEMM:  performs one of the matrix-matrix operations
      !> C := alpha*A*B + beta*C,
@@ -1221,7 +1221,7 @@ module stdlib_linalg_blas_z
      !> where alpha and beta are scalars, A is an hermitian matrix and  B and
      !> C are m by n matrices.
 
-     pure subroutine stdlib_zhemm(side,uplo,m,n,alpha,a,lda,b,ldb,beta,c,ldc)
+     pure subroutine la_zhemm(side,uplo,m,n,alpha,a,lda,b,ldb,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -1241,17 +1241,17 @@ module stdlib_linalg_blas_z
            logical(lk) :: upper
            
            ! set nrowa as the number of rows of a.
-           if (stdlib_lsame(side,'L')) then
+           if (la_lsame(side,'L')) then
                nrowa = m
            else
                nrowa = n
            end if
-           upper = stdlib_lsame(uplo,'U')
+           upper = la_lsame(uplo,'U')
            ! test the input parameters.
            info = 0
-           if ((.not. stdlib_lsame(side,'L')) .and. (.not. stdlib_lsame(side,'R'))) then
+           if ((.not. la_lsame(side,'L')) .and. (.not. la_lsame(side,'R'))) then
                info = 1
-           else if ((.not. upper) .and. (.not. stdlib_lsame(uplo,'L'))) then
+           else if ((.not. upper) .and. (.not. la_lsame(uplo,'L'))) then
                info = 2
            else if (m < 0) then
                info = 3
@@ -1265,7 +1265,7 @@ module stdlib_linalg_blas_z
                info = 12
            end if
            if (info /= 0) then
-               call stdlib_xerbla('ZHEMM ',info)
+               call la_xerbla('ZHEMM ',info)
                return
            end if
            ! quick return if possible.
@@ -1288,7 +1288,7 @@ module stdlib_linalg_blas_z
                return
            end if
            ! start the operations.
-           if (stdlib_lsame(side,'L')) then
+           if (la_lsame(side,'L')) then
               ! form  c := alpha*a*b + beta*c.
                if (upper) then
                    do j = 1,n
@@ -1361,14 +1361,14 @@ module stdlib_linalg_blas_z
                end do loop_170
            end if
            return
-     end subroutine stdlib_zhemm
+     end subroutine la_zhemm
 
      !> ZHEMV:  performs the matrix-vector  operation
      !> y := alpha*A*x + beta*y,
      !> where alpha and beta are scalars, x and y are n element vectors and
      !> A is an n by n hermitian matrix.
 
-     pure subroutine stdlib_zhemv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
+     pure subroutine la_zhemv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -1388,7 +1388,7 @@ module stdlib_linalg_blas_z
            intrinsic :: real,conjg,max
            ! test the input parameters.
            info = 0
-           if (.not. stdlib_lsame(uplo,'U') .and. .not. stdlib_lsame(uplo,'L')) then
+           if (.not. la_lsame(uplo,'U') .and. .not. la_lsame(uplo,'L')) then
                info = 1
            else if (n < 0) then
                info = 2
@@ -1400,7 +1400,7 @@ module stdlib_linalg_blas_z
                info = 10
            end if
            if (info /= 0) then
-               call stdlib_xerbla('ZHEMV ',info)
+               call la_xerbla('ZHEMV ',info)
                return
            end if
            ! quick return if possible.
@@ -1447,7 +1447,7 @@ module stdlib_linalg_blas_z
                end if
            end if
            if (alpha == czero) return
-           if (stdlib_lsame(uplo,'U')) then
+           if (la_lsame(uplo,'U')) then
               ! form  y  when a is stored in upper triangle.
                if ((incx == 1) .and. (incy == 1)) then
                    do j = 1,n
@@ -1513,14 +1513,14 @@ module stdlib_linalg_blas_z
                end if
            end if
            return
-     end subroutine stdlib_zhemv
+     end subroutine la_zhemv
 
      !> ZHER:   performs the hermitian rank 1 operation
      !> A := alpha*x*x**H + A,
      !> where alpha is a real scalar, x is an n element vector and A is an
      !> n by n hermitian matrix.
 
-     pure subroutine stdlib_zher(uplo,n,alpha,x,incx,a,lda)
+     pure subroutine la_zher(uplo,n,alpha,x,incx,a,lda)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -1540,7 +1540,7 @@ module stdlib_linalg_blas_z
            intrinsic :: real,conjg,max
            ! test the input parameters.
            info = 0
-           if (.not. stdlib_lsame(uplo,'U') .and. .not. stdlib_lsame(uplo,'L')) then
+           if (.not. la_lsame(uplo,'U') .and. .not. la_lsame(uplo,'L')) then
                info = 1
            else if (n < 0) then
                info = 2
@@ -1550,7 +1550,7 @@ module stdlib_linalg_blas_z
                info = 7
            end if
            if (info /= 0) then
-               call stdlib_xerbla('ZHER  ',info)
+               call la_xerbla('ZHER  ',info)
                return
            end if
            ! quick return if possible.
@@ -1564,7 +1564,7 @@ module stdlib_linalg_blas_z
            ! start the operations. in this version the elements of a are
            ! accessed sequentially with cone pass through the triangular part
            ! of a.
-           if (stdlib_lsame(uplo,'U')) then
+           if (la_lsame(uplo,'U')) then
               ! form  a  when a is stored in upper triangle.
                if (incx == 1) then
                    do j = 1,n
@@ -1628,14 +1628,14 @@ module stdlib_linalg_blas_z
                end if
            end if
            return
-     end subroutine stdlib_zher
+     end subroutine la_zher
 
      !> ZHER2:  performs the hermitian rank 2 operation
      !> A := alpha*x*y**H + conjg( alpha )*y*x**H + A,
      !> where alpha is a scalar, x and y are n element vectors and A is an n
      !> by n hermitian matrix.
 
-     pure subroutine stdlib_zher2(uplo,n,alpha,x,incx,y,incy,a,lda)
+     pure subroutine la_zher2(uplo,n,alpha,x,incx,y,incy,a,lda)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -1655,7 +1655,7 @@ module stdlib_linalg_blas_z
            intrinsic :: real,conjg,max
            ! test the input parameters.
            info = 0
-           if (.not. stdlib_lsame(uplo,'U') .and. .not. stdlib_lsame(uplo,'L')) then
+           if (.not. la_lsame(uplo,'U') .and. .not. la_lsame(uplo,'L')) then
                info = 1
            else if (n < 0) then
                info = 2
@@ -1667,7 +1667,7 @@ module stdlib_linalg_blas_z
                info = 9
            end if
            if (info /= 0) then
-               call stdlib_xerbla('ZHER2 ',info)
+               call la_xerbla('ZHER2 ',info)
                return
            end if
            ! quick return if possible.
@@ -1691,7 +1691,7 @@ module stdlib_linalg_blas_z
            ! start the operations. in this version the elements of a are
            ! accessed sequentially with cone pass through the triangular part
            ! of a.
-           if (stdlib_lsame(uplo,'U')) then
+           if (la_lsame(uplo,'U')) then
               ! form  a  when a is stored in the upper triangle.
                if ((incx == 1) .and. (incy == 1)) then
                    do j = 1,n
@@ -1767,7 +1767,7 @@ module stdlib_linalg_blas_z
                end if
            end if
            return
-     end subroutine stdlib_zher2
+     end subroutine la_zher2
 
      !> ZHER2K:  performs one of the hermitian rank 2k operations
      !> C := alpha*A*B**H + conjg( alpha )*B*A**H + beta*C,
@@ -1777,7 +1777,7 @@ module stdlib_linalg_blas_z
      !> hermitian matrix and  A and B  are  n by k matrices in the first case
      !> and  k by n  matrices in the second case.
 
-     pure subroutine stdlib_zher2k(uplo,trans,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
+     pure subroutine la_zher2k(uplo,trans,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -1798,16 +1798,16 @@ module stdlib_linalg_blas_z
            logical(lk) :: upper
            
            ! test the input parameters.
-           if (stdlib_lsame(trans,'N')) then
+           if (la_lsame(trans,'N')) then
                nrowa = n
            else
                nrowa = k
            end if
-           upper = stdlib_lsame(uplo,'U')
+           upper = la_lsame(uplo,'U')
            info = 0
-           if ((.not. upper) .and. (.not. stdlib_lsame(uplo,'L'))) then
+           if ((.not. upper) .and. (.not. la_lsame(uplo,'L'))) then
                info = 1
-           else if ((.not. stdlib_lsame(trans,'N')) .and. (.not. stdlib_lsame(trans,'C'))) &
+           else if ((.not. la_lsame(trans,'N')) .and. (.not. la_lsame(trans,'C'))) &
                      then
                info = 2
            else if (n < 0) then
@@ -1822,7 +1822,7 @@ module stdlib_linalg_blas_z
                info = 12
            end if
            if (info /= 0) then
-               call stdlib_xerbla('ZHER2K',info)
+               call la_xerbla('ZHER2K',info)
                return
            end if
            ! quick return if possible.
@@ -1863,7 +1863,7 @@ module stdlib_linalg_blas_z
                return
            end if
            ! start the operations.
-           if (stdlib_lsame(trans,'N')) then
+           if (la_lsame(trans,'N')) then
               ! form  c := alpha*a*b**h + conjg( alpha )*b*a**h +
                          ! c.
                if (upper) then
@@ -1975,7 +1975,7 @@ module stdlib_linalg_blas_z
                end if
            end if
            return
-     end subroutine stdlib_zher2k
+     end subroutine la_zher2k
 
      !> ZHERK:  performs one of the hermitian rank k operations
      !> C := alpha*A*A**H + beta*C,
@@ -1985,7 +1985,7 @@ module stdlib_linalg_blas_z
      !> matrix and  A  is an  n by k  matrix in the  first case and a  k by n
      !> matrix in the second case.
 
-     pure subroutine stdlib_zherk(uplo,trans,n,k,alpha,a,lda,beta,c,ldc)
+     pure subroutine la_zherk(uplo,trans,n,k,alpha,a,lda,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -2006,16 +2006,16 @@ module stdlib_linalg_blas_z
            logical(lk) :: upper
            
            ! test the input parameters.
-           if (stdlib_lsame(trans,'N')) then
+           if (la_lsame(trans,'N')) then
                nrowa = n
            else
                nrowa = k
            end if
-           upper = stdlib_lsame(uplo,'U')
+           upper = la_lsame(uplo,'U')
            info = 0
-           if ((.not. upper) .and. (.not. stdlib_lsame(uplo,'L'))) then
+           if ((.not. upper) .and. (.not. la_lsame(uplo,'L'))) then
                info = 1
-           else if ((.not. stdlib_lsame(trans,'N')) .and. (.not. stdlib_lsame(trans,'C'))) &
+           else if ((.not. la_lsame(trans,'N')) .and. (.not. la_lsame(trans,'C'))) &
                      then
                info = 2
            else if (n < 0) then
@@ -2028,7 +2028,7 @@ module stdlib_linalg_blas_z
                info = 10
            end if
            if (info /= 0) then
-               call stdlib_xerbla('ZHERK ',info)
+               call la_xerbla('ZHERK ',info)
                return
            end if
            ! quick return if possible.
@@ -2069,7 +2069,7 @@ module stdlib_linalg_blas_z
                return
            end if
            ! start the operations.
-           if (stdlib_lsame(trans,'N')) then
+           if (la_lsame(trans,'N')) then
               ! form  c := alpha*a*a**h + beta*c.
                if (upper) then
                    do j = 1,n
@@ -2171,14 +2171,14 @@ module stdlib_linalg_blas_z
                end if
            end if
            return
-     end subroutine stdlib_zherk
+     end subroutine la_zherk
 
      !> ZHPMV:  performs the matrix-vector operation
      !> y := alpha*A*x + beta*y,
      !> where alpha and beta are scalars, x and y are n element vectors and
      !> A is an n by n hermitian matrix, supplied in packed form.
 
-     pure subroutine stdlib_zhpmv(uplo,n,alpha,ap,x,incx,beta,y,incy)
+     pure subroutine la_zhpmv(uplo,n,alpha,ap,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -2198,7 +2198,7 @@ module stdlib_linalg_blas_z
            intrinsic :: real,conjg
            ! test the input parameters.
            info = 0
-           if (.not. stdlib_lsame(uplo,'U') .and. .not. stdlib_lsame(uplo,'L')) then
+           if (.not. la_lsame(uplo,'U') .and. .not. la_lsame(uplo,'L')) then
                info = 1
            else if (n < 0) then
                info = 2
@@ -2208,7 +2208,7 @@ module stdlib_linalg_blas_z
                info = 9
            end if
            if (info /= 0) then
-               call stdlib_xerbla('ZHPMV ',info)
+               call la_xerbla('ZHPMV ',info)
                return
            end if
            ! quick return if possible.
@@ -2255,7 +2255,7 @@ module stdlib_linalg_blas_z
            end if
            if (alpha == czero) return
            kk = 1
-           if (stdlib_lsame(uplo,'U')) then
+           if (la_lsame(uplo,'U')) then
               ! form  y  when ap contains the upper triangle.
                if ((incx == 1) .and. (incy == 1)) then
                    do j = 1,n
@@ -2329,14 +2329,14 @@ module stdlib_linalg_blas_z
                end if
            end if
            return
-     end subroutine stdlib_zhpmv
+     end subroutine la_zhpmv
 
      !> ZHPR:    performs the hermitian rank 1 operation
      !> A := alpha*x*x**H + A,
      !> where alpha is a real scalar, x is an n element vector and A is an
      !> n by n hermitian matrix, supplied in packed form.
 
-     pure subroutine stdlib_zhpr(uplo,n,alpha,x,incx,ap)
+     pure subroutine la_zhpr(uplo,n,alpha,x,incx,ap)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -2356,7 +2356,7 @@ module stdlib_linalg_blas_z
            intrinsic :: real,conjg
            ! test the input parameters.
            info = 0
-           if (.not. stdlib_lsame(uplo,'U') .and. .not. stdlib_lsame(uplo,'L')) then
+           if (.not. la_lsame(uplo,'U') .and. .not. la_lsame(uplo,'L')) then
                info = 1
            else if (n < 0) then
                info = 2
@@ -2364,7 +2364,7 @@ module stdlib_linalg_blas_z
                info = 5
            end if
            if (info /= 0) then
-               call stdlib_xerbla('ZHPR  ',info)
+               call la_xerbla('ZHPR  ',info)
                return
            end if
            ! quick return if possible.
@@ -2378,7 +2378,7 @@ module stdlib_linalg_blas_z
            ! start the operations. in this version the elements of the array ap
            ! are accessed sequentially with cone pass through ap.
            kk = 1
-           if (stdlib_lsame(uplo,'U')) then
+           if (la_lsame(uplo,'U')) then
               ! form  a  when upper triangle is stored in ap.
                if (incx == 1) then
                    do j = 1,n
@@ -2451,14 +2451,14 @@ module stdlib_linalg_blas_z
                end if
            end if
            return
-     end subroutine stdlib_zhpr
+     end subroutine la_zhpr
 
      !> ZHPR2:  performs the hermitian rank 2 operation
      !> A := alpha*x*y**H + conjg( alpha )*y*x**H + A,
      !> where alpha is a scalar, x and y are n element vectors and A is an
      !> n by n hermitian matrix, supplied in packed form.
 
-     pure subroutine stdlib_zhpr2(uplo,n,alpha,x,incx,y,incy,ap)
+     pure subroutine la_zhpr2(uplo,n,alpha,x,incx,y,incy,ap)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -2478,7 +2478,7 @@ module stdlib_linalg_blas_z
            intrinsic :: real,conjg
            ! test the input parameters.
            info = 0
-           if (.not. stdlib_lsame(uplo,'U') .and. .not. stdlib_lsame(uplo,'L')) then
+           if (.not. la_lsame(uplo,'U') .and. .not. la_lsame(uplo,'L')) then
                info = 1
            else if (n < 0) then
                info = 2
@@ -2488,7 +2488,7 @@ module stdlib_linalg_blas_z
                info = 7
            end if
            if (info /= 0) then
-               call stdlib_xerbla('ZHPR2 ',info)
+               call la_xerbla('ZHPR2 ',info)
                return
            end if
            ! quick return if possible.
@@ -2512,7 +2512,7 @@ module stdlib_linalg_blas_z
            ! start the operations. in this version the elements of the array ap
            ! are accessed sequentially with cone pass through ap.
            kk = 1
-           if (stdlib_lsame(uplo,'U')) then
+           if (la_lsame(uplo,'U')) then
               ! form  a  when upper triangle is stored in ap.
                if ((incx == 1) .and. (incy == 1)) then
                    do j = 1,n
@@ -2596,7 +2596,7 @@ module stdlib_linalg_blas_z
                end if
            end if
            return
-     end subroutine stdlib_zhpr2
+     end subroutine la_zhpr2
 
      !> !
      !>
@@ -2614,7 +2614,7 @@ module stdlib_linalg_blas_z
      !> sign of c and s will be different from those computed by DROTG
      !> if the signs of a and b are not the same.
 
-     pure subroutine stdlib_zrotg(a,b,c,s)
+     pure subroutine la_zrotg(a,b,c,s)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -2713,11 +2713,11 @@ module stdlib_linalg_blas_z
         end if
         a = r
         return
-     end subroutine stdlib_zrotg
+     end subroutine la_zrotg
 
      !> ZSCAL: scales a vector by a constant.
 
-     pure subroutine stdlib_zscal(n,za,zx,incx)
+     pure subroutine la_zscal(n,za,zx,incx)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -2743,11 +2743,11 @@ module stdlib_linalg_blas_z
               end do
            end if
            return
-     end subroutine stdlib_zscal
+     end subroutine la_zscal
 
      !> ZSWAP: interchanges two vectors.
 
-     pure subroutine stdlib_zswap(n,zx,incx,zy,incy)
+     pure subroutine la_zswap(n,zx,incx,zy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -2783,7 +2783,7 @@ module stdlib_linalg_blas_z
               end do
            end if
            return
-     end subroutine stdlib_zswap
+     end subroutine la_zswap
 
      !> ZSYMM:  performs one of the matrix-matrix operations
      !> C := alpha*A*B + beta*C,
@@ -2792,7 +2792,7 @@ module stdlib_linalg_blas_z
      !> where  alpha and beta are scalars, A is a symmetric matrix and  B and
      !> C are m by n matrices.
 
-     pure subroutine stdlib_zsymm(side,uplo,m,n,alpha,a,lda,b,ldb,beta,c,ldc)
+     pure subroutine la_zsymm(side,uplo,m,n,alpha,a,lda,b,ldb,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -2812,17 +2812,17 @@ module stdlib_linalg_blas_z
            logical(lk) :: upper
            
            ! set nrowa as the number of rows of a.
-           if (stdlib_lsame(side,'L')) then
+           if (la_lsame(side,'L')) then
                nrowa = m
            else
                nrowa = n
            end if
-           upper = stdlib_lsame(uplo,'U')
+           upper = la_lsame(uplo,'U')
            ! test the input parameters.
            info = 0
-           if ((.not. stdlib_lsame(side,'L')) .and. (.not. stdlib_lsame(side,'R'))) then
+           if ((.not. la_lsame(side,'L')) .and. (.not. la_lsame(side,'R'))) then
                info = 1
-           else if ((.not. upper) .and. (.not. stdlib_lsame(uplo,'L'))) then
+           else if ((.not. upper) .and. (.not. la_lsame(uplo,'L'))) then
                info = 2
            else if (m < 0) then
                info = 3
@@ -2836,7 +2836,7 @@ module stdlib_linalg_blas_z
                info = 12
            end if
            if (info /= 0) then
-               call stdlib_xerbla('ZSYMM ',info)
+               call la_xerbla('ZSYMM ',info)
                return
            end if
            ! quick return if possible.
@@ -2859,7 +2859,7 @@ module stdlib_linalg_blas_z
                return
            end if
            ! start the operations.
-           if (stdlib_lsame(side,'L')) then
+           if (la_lsame(side,'L')) then
               ! form  c := alpha*a*b + beta*c.
                if (upper) then
                    do j = 1,n
@@ -2930,7 +2930,7 @@ module stdlib_linalg_blas_z
                end do loop_170
            end if
            return
-     end subroutine stdlib_zsymm
+     end subroutine la_zsymm
 
      !> ZSYR2K:  performs one of the symmetric rank 2k operations
      !> C := alpha*A*B**T + alpha*B*A**T + beta*C,
@@ -2940,7 +2940,7 @@ module stdlib_linalg_blas_z
      !> and  A and B  are  n by k  matrices  in the  first  case  and  k by n
      !> matrices in the second case.
 
-     pure subroutine stdlib_zsyr2k(uplo,trans,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
+     pure subroutine la_zsyr2k(uplo,trans,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -2960,16 +2960,16 @@ module stdlib_linalg_blas_z
            logical(lk) :: upper
            
            ! test the input parameters.
-           if (stdlib_lsame(trans,'N')) then
+           if (la_lsame(trans,'N')) then
                nrowa = n
            else
                nrowa = k
            end if
-           upper = stdlib_lsame(uplo,'U')
+           upper = la_lsame(uplo,'U')
            info = 0
-           if ((.not. upper) .and. (.not. stdlib_lsame(uplo,'L'))) then
+           if ((.not. upper) .and. (.not. la_lsame(uplo,'L'))) then
                info = 1
-           else if ((.not. stdlib_lsame(trans,'N')) .and. (.not. stdlib_lsame(trans,'T'))) &
+           else if ((.not. la_lsame(trans,'N')) .and. (.not. la_lsame(trans,'T'))) &
                      then
                info = 2
            else if (n < 0) then
@@ -2984,7 +2984,7 @@ module stdlib_linalg_blas_z
                info = 12
            end if
            if (info /= 0) then
-               call stdlib_xerbla('ZSYR2K',info)
+               call la_xerbla('ZSYR2K',info)
                return
            end if
            ! quick return if possible.
@@ -3023,7 +3023,7 @@ module stdlib_linalg_blas_z
                return
            end if
            ! start the operations.
-           if (stdlib_lsame(trans,'N')) then
+           if (la_lsame(trans,'N')) then
               ! form  c := alpha*a*b**t + alpha*b*a**t + c.
                if (upper) then
                    do j = 1,n
@@ -3105,7 +3105,7 @@ module stdlib_linalg_blas_z
                end if
            end if
            return
-     end subroutine stdlib_zsyr2k
+     end subroutine la_zsyr2k
 
      !> ZSYRK:  performs one of the symmetric rank k operations
      !> C := alpha*A*A**T + beta*C,
@@ -3115,7 +3115,7 @@ module stdlib_linalg_blas_z
      !> and  A  is an  n by k  matrix in the first case and a  k by n  matrix
      !> in the second case.
 
-     pure subroutine stdlib_zsyrk(uplo,trans,n,k,alpha,a,lda,beta,c,ldc)
+     pure subroutine la_zsyrk(uplo,trans,n,k,alpha,a,lda,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -3135,16 +3135,16 @@ module stdlib_linalg_blas_z
            logical(lk) :: upper
            
            ! test the input parameters.
-           if (stdlib_lsame(trans,'N')) then
+           if (la_lsame(trans,'N')) then
                nrowa = n
            else
                nrowa = k
            end if
-           upper = stdlib_lsame(uplo,'U')
+           upper = la_lsame(uplo,'U')
            info = 0
-           if ((.not. upper) .and. (.not. stdlib_lsame(uplo,'L'))) then
+           if ((.not. upper) .and. (.not. la_lsame(uplo,'L'))) then
                info = 1
-           else if ((.not. stdlib_lsame(trans,'N')) .and. (.not. stdlib_lsame(trans,'T'))) &
+           else if ((.not. la_lsame(trans,'N')) .and. (.not. la_lsame(trans,'T'))) &
                      then
                info = 2
            else if (n < 0) then
@@ -3157,7 +3157,7 @@ module stdlib_linalg_blas_z
                info = 10
            end if
            if (info /= 0) then
-               call stdlib_xerbla('ZSYRK ',info)
+               call la_xerbla('ZSYRK ',info)
                return
            end if
            ! quick return if possible.
@@ -3196,7 +3196,7 @@ module stdlib_linalg_blas_z
                return
            end if
            ! start the operations.
-           if (stdlib_lsame(trans,'N')) then
+           if (la_lsame(trans,'N')) then
               ! form  c := alpha*a*a**t + beta*c.
                if (upper) then
                    do j = 1,n
@@ -3272,14 +3272,14 @@ module stdlib_linalg_blas_z
                end if
            end if
            return
-     end subroutine stdlib_zsyrk
+     end subroutine la_zsyrk
 
      !> ZTBMV:  performs one of the matrix-vector operations
      !> x := A*x,   or   x := A**T*x,   or   x := A**H*x,
      !> where x is an n element vector and  A is an n by n unit, or non-unit,
      !> upper or lower triangular band matrix, with ( k + 1 ) diagonals.
 
-     pure subroutine stdlib_ztbmv(uplo,trans,diag,n,k,a,lda,x,incx)
+     pure subroutine la_ztbmv(uplo,trans,diag,n,k,a,lda,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -3299,12 +3299,12 @@ module stdlib_linalg_blas_z
            intrinsic :: conjg,max,min
            ! test the input parameters.
            info = 0
-           if (.not. stdlib_lsame(uplo,'U') .and. .not. stdlib_lsame(uplo,'L')) then
+           if (.not. la_lsame(uplo,'U') .and. .not. la_lsame(uplo,'L')) then
                info = 1
-           else if (.not. stdlib_lsame(trans,'N') .and. .not. stdlib_lsame(trans,'T') &
-                     .and. .not. stdlib_lsame(trans,'C')) then
+           else if (.not. la_lsame(trans,'N') .and. .not. la_lsame(trans,'T') &
+                     .and. .not. la_lsame(trans,'C')) then
                info = 2
-           else if (.not. stdlib_lsame(diag,'U') .and. .not. stdlib_lsame(diag,'N')) then
+           else if (.not. la_lsame(diag,'U') .and. .not. la_lsame(diag,'N')) then
                info = 3
            else if (n < 0) then
                info = 4
@@ -3316,13 +3316,13 @@ module stdlib_linalg_blas_z
                info = 9
            end if
            if (info /= 0) then
-               call stdlib_xerbla('ZTBMV ',info)
+               call la_xerbla('ZTBMV ',info)
                return
            end if
            ! quick return if possible.
            if (n == 0) return
-           noconj = stdlib_lsame(trans,'T')
-           nounit = stdlib_lsame(diag,'N')
+           noconj = la_lsame(trans,'T')
+           nounit = la_lsame(diag,'N')
            ! set up the start point in x if the increment is not unity. this
            ! will be  ( n - 1 )*incx   too small for descending loops.
            if (incx <= 0) then
@@ -3332,9 +3332,9 @@ module stdlib_linalg_blas_z
            end if
            ! start the operations. in this version the elements of a are
            ! accessed sequentially with cone pass through a.
-           if (stdlib_lsame(trans,'N')) then
+           if (la_lsame(trans,'N')) then
                ! form  x := a*x.
-               if (stdlib_lsame(uplo,'U')) then
+               if (la_lsame(uplo,'U')) then
                    kplus1 = k + 1
                    if (incx == 1) then
                        do j = 1,n
@@ -3397,7 +3397,7 @@ module stdlib_linalg_blas_z
                end if
            else
               ! form  x := a**t*x  or  x := a**h*x.
-               if (stdlib_lsame(uplo,'U')) then
+               if (la_lsame(uplo,'U')) then
                    kplus1 = k + 1
                    if (incx == 1) then
                        do j = n,1,-1
@@ -3486,7 +3486,7 @@ module stdlib_linalg_blas_z
                end if
            end if
            return
-     end subroutine stdlib_ztbmv
+     end subroutine la_ztbmv
 
      !> ZTBSV:  solves one of the systems of equations
      !> A*x = b,   or   A**T*x = b,   or   A**H*x = b,
@@ -3496,7 +3496,7 @@ module stdlib_linalg_blas_z
      !> No test for singularity or near-singularity is included in this
      !> routine. Such tests must be performed before calling this routine.
 
-     pure subroutine stdlib_ztbsv(uplo,trans,diag,n,k,a,lda,x,incx)
+     pure subroutine la_ztbsv(uplo,trans,diag,n,k,a,lda,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -3516,12 +3516,12 @@ module stdlib_linalg_blas_z
            intrinsic :: conjg,max,min
            ! test the input parameters.
            info = 0
-           if (.not. stdlib_lsame(uplo,'U') .and. .not. stdlib_lsame(uplo,'L')) then
+           if (.not. la_lsame(uplo,'U') .and. .not. la_lsame(uplo,'L')) then
                info = 1
-           else if (.not. stdlib_lsame(trans,'N') .and. .not. stdlib_lsame(trans,'T') &
-                     .and. .not. stdlib_lsame(trans,'C')) then
+           else if (.not. la_lsame(trans,'N') .and. .not. la_lsame(trans,'T') &
+                     .and. .not. la_lsame(trans,'C')) then
                info = 2
-           else if (.not. stdlib_lsame(diag,'U') .and. .not. stdlib_lsame(diag,'N')) then
+           else if (.not. la_lsame(diag,'U') .and. .not. la_lsame(diag,'N')) then
                info = 3
            else if (n < 0) then
                info = 4
@@ -3533,13 +3533,13 @@ module stdlib_linalg_blas_z
                info = 9
            end if
            if (info /= 0) then
-               call stdlib_xerbla('ZTBSV ',info)
+               call la_xerbla('ZTBSV ',info)
                return
            end if
            ! quick return if possible.
            if (n == 0) return
-           noconj = stdlib_lsame(trans,'T')
-           nounit = stdlib_lsame(diag,'N')
+           noconj = la_lsame(trans,'T')
+           nounit = la_lsame(diag,'N')
            ! set up the start point in x if the increment is not unity. this
            ! will be  ( n - 1 )*incx  too small for descending loops.
            if (incx <= 0) then
@@ -3549,9 +3549,9 @@ module stdlib_linalg_blas_z
            end if
            ! start the operations. in this version the elements of a are
            ! accessed by sequentially with cone pass through a.
-           if (stdlib_lsame(trans,'N')) then
+           if (la_lsame(trans,'N')) then
               ! form  x := inv( a )*x.
-               if (stdlib_lsame(uplo,'U')) then
+               if (la_lsame(uplo,'U')) then
                    kplus1 = k + 1
                    if (incx == 1) then
                        do j = n,1,-1
@@ -3614,7 +3614,7 @@ module stdlib_linalg_blas_z
                end if
            else
               ! form  x := inv( a**t )*x  or  x := inv( a**h )*x.
-               if (stdlib_lsame(uplo,'U')) then
+               if (la_lsame(uplo,'U')) then
                    kplus1 = k + 1
                    if (incx == 1) then
                        do j = 1,n
@@ -3703,14 +3703,14 @@ module stdlib_linalg_blas_z
                end if
            end if
            return
-     end subroutine stdlib_ztbsv
+     end subroutine la_ztbsv
 
      !> ZTPMV:  performs one of the matrix-vector operations
      !> x := A*x,   or   x := A**T*x,   or   x := A**H*x,
      !> where x is an n element vector and  A is an n by n unit, or non-unit,
      !> upper or lower triangular matrix, supplied in packed form.
 
-     pure subroutine stdlib_ztpmv(uplo,trans,diag,n,ap,x,incx)
+     pure subroutine la_ztpmv(uplo,trans,diag,n,ap,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -3730,12 +3730,12 @@ module stdlib_linalg_blas_z
            intrinsic :: conjg
            ! test the input parameters.
            info = 0
-           if (.not. stdlib_lsame(uplo,'U') .and. .not. stdlib_lsame(uplo,'L')) then
+           if (.not. la_lsame(uplo,'U') .and. .not. la_lsame(uplo,'L')) then
                info = 1
-           else if (.not. stdlib_lsame(trans,'N') .and. .not. stdlib_lsame(trans,'T') &
-                     .and. .not. stdlib_lsame(trans,'C')) then
+           else if (.not. la_lsame(trans,'N') .and. .not. la_lsame(trans,'T') &
+                     .and. .not. la_lsame(trans,'C')) then
                info = 2
-           else if (.not. stdlib_lsame(diag,'U') .and. .not. stdlib_lsame(diag,'N')) then
+           else if (.not. la_lsame(diag,'U') .and. .not. la_lsame(diag,'N')) then
                info = 3
            else if (n < 0) then
                info = 4
@@ -3743,13 +3743,13 @@ module stdlib_linalg_blas_z
                info = 7
            end if
            if (info /= 0) then
-               call stdlib_xerbla('ZTPMV ',info)
+               call la_xerbla('ZTPMV ',info)
                return
            end if
            ! quick return if possible.
            if (n == 0) return
-           noconj = stdlib_lsame(trans,'T')
-           nounit = stdlib_lsame(diag,'N')
+           noconj = la_lsame(trans,'T')
+           nounit = la_lsame(diag,'N')
            ! set up the start point in x if the increment is not unity. this
            ! will be  ( n - 1 )*incx  too small for descending loops.
            if (incx <= 0) then
@@ -3759,9 +3759,9 @@ module stdlib_linalg_blas_z
            end if
            ! start the operations. in this version the elements of ap are
            ! accessed sequentially with cone pass through ap.
-           if (stdlib_lsame(trans,'N')) then
+           if (la_lsame(trans,'N')) then
               ! form  x:= a*x.
-               if (stdlib_lsame(uplo,'U')) then
+               if (la_lsame(uplo,'U')) then
                    kk = 1
                    if (incx == 1) then
                        do j = 1,n
@@ -3827,7 +3827,7 @@ module stdlib_linalg_blas_z
                end if
            else
               ! form  x := a**t*x  or  x := a**h*x.
-               if (stdlib_lsame(uplo,'U')) then
+               if (la_lsame(uplo,'U')) then
                    kk = (n*(n + 1))/2
                    if (incx == 1) then
                        do j = n,1,-1
@@ -3920,7 +3920,7 @@ module stdlib_linalg_blas_z
                end if
            end if
            return
-     end subroutine stdlib_ztpmv
+     end subroutine la_ztpmv
 
      !> ZTPSV:  solves one of the systems of equations
      !> A*x = b,   or   A**T*x = b,   or   A**H*x = b,
@@ -3929,7 +3929,7 @@ module stdlib_linalg_blas_z
      !> No test for singularity or near-singularity is included in this
      !> routine. Such tests must be performed before calling this routine.
 
-     pure subroutine stdlib_ztpsv(uplo,trans,diag,n,ap,x,incx)
+     pure subroutine la_ztpsv(uplo,trans,diag,n,ap,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -3949,12 +3949,12 @@ module stdlib_linalg_blas_z
            intrinsic :: conjg
            ! test the input parameters.
            info = 0
-           if (.not. stdlib_lsame(uplo,'U') .and. .not. stdlib_lsame(uplo,'L')) then
+           if (.not. la_lsame(uplo,'U') .and. .not. la_lsame(uplo,'L')) then
                info = 1
-           else if (.not. stdlib_lsame(trans,'N') .and. .not. stdlib_lsame(trans,'T') &
-                     .and. .not. stdlib_lsame(trans,'C')) then
+           else if (.not. la_lsame(trans,'N') .and. .not. la_lsame(trans,'T') &
+                     .and. .not. la_lsame(trans,'C')) then
                info = 2
-           else if (.not. stdlib_lsame(diag,'U') .and. .not. stdlib_lsame(diag,'N')) then
+           else if (.not. la_lsame(diag,'U') .and. .not. la_lsame(diag,'N')) then
                info = 3
            else if (n < 0) then
                info = 4
@@ -3962,13 +3962,13 @@ module stdlib_linalg_blas_z
                info = 7
            end if
            if (info /= 0) then
-               call stdlib_xerbla('ZTPSV ',info)
+               call la_xerbla('ZTPSV ',info)
                return
            end if
            ! quick return if possible.
            if (n == 0) return
-           noconj = stdlib_lsame(trans,'T')
-           nounit = stdlib_lsame(diag,'N')
+           noconj = la_lsame(trans,'T')
+           nounit = la_lsame(diag,'N')
            ! set up the start point in x if the increment is not unity. this
            ! will be  ( n - 1 )*incx  too small for descending loops.
            if (incx <= 0) then
@@ -3978,9 +3978,9 @@ module stdlib_linalg_blas_z
            end if
            ! start the operations. in this version the elements of ap are
            ! accessed sequentially with cone pass through ap.
-           if (stdlib_lsame(trans,'N')) then
+           if (la_lsame(trans,'N')) then
               ! form  x := inv( a )*x.
-               if (stdlib_lsame(uplo,'U')) then
+               if (la_lsame(uplo,'U')) then
                    kk = (n*(n + 1))/2
                    if (incx == 1) then
                        do j = n,1,-1
@@ -4045,7 +4045,7 @@ module stdlib_linalg_blas_z
                end if
            else
               ! form  x := inv( a**t )*x  or  x := inv( a**h )*x.
-               if (stdlib_lsame(uplo,'U')) then
+               if (la_lsame(uplo,'U')) then
                    kk = 1
                    if (incx == 1) then
                        do j = 1,n
@@ -4139,7 +4139,7 @@ module stdlib_linalg_blas_z
                end if
            end if
            return
-     end subroutine stdlib_ztpsv
+     end subroutine la_ztpsv
 
      !> ZTRMM:  performs one of the matrix-matrix operations
      !> B := alpha*op( A )*B,   or   B := alpha*B*op( A )
@@ -4147,7 +4147,7 @@ module stdlib_linalg_blas_z
      !> non-unit,  upper or lower triangular matrix  and  op( A )  is one  of
      !> op( A ) = A   or   op( A ) = A**T   or   op( A ) = A**H.
 
-     pure subroutine stdlib_ztrmm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
+     pure subroutine la_ztrmm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -4167,24 +4167,24 @@ module stdlib_linalg_blas_z
            logical(lk) :: lside,noconj,nounit,upper
            
            ! test the input parameters.
-           lside = stdlib_lsame(side,'L')
+           lside = la_lsame(side,'L')
            if (lside) then
                nrowa = m
            else
                nrowa = n
            end if
-           noconj = stdlib_lsame(transa,'T')
-           nounit = stdlib_lsame(diag,'N')
-           upper = stdlib_lsame(uplo,'U')
+           noconj = la_lsame(transa,'T')
+           nounit = la_lsame(diag,'N')
+           upper = la_lsame(uplo,'U')
            info = 0
-           if ((.not. lside) .and. (.not. stdlib_lsame(side,'R'))) then
+           if ((.not. lside) .and. (.not. la_lsame(side,'R'))) then
                info = 1
-           else if ((.not. upper) .and. (.not. stdlib_lsame(uplo,'L'))) then
+           else if ((.not. upper) .and. (.not. la_lsame(uplo,'L'))) then
                info = 2
-           else if ((.not. stdlib_lsame(transa,'N')) .and. (.not. stdlib_lsame(transa,'T')) .and. ( &
-                     .not. stdlib_lsame(transa,'C'))) then
+           else if ((.not. la_lsame(transa,'N')) .and. (.not. la_lsame(transa,'T')) .and. ( &
+                     .not. la_lsame(transa,'C'))) then
                info = 3
-           else if ((.not. stdlib_lsame(diag,'U')) .and. (.not. stdlib_lsame(diag,'N'))) &
+           else if ((.not. la_lsame(diag,'U')) .and. (.not. la_lsame(diag,'N'))) &
                      then
                info = 4
            else if (m < 0) then
@@ -4197,7 +4197,7 @@ module stdlib_linalg_blas_z
                info = 11
            end if
            if (info /= 0) then
-               call stdlib_xerbla('ZTRMM ',info)
+               call la_xerbla('ZTRMM ',info)
                return
            end if
            ! quick return if possible.
@@ -4213,7 +4213,7 @@ module stdlib_linalg_blas_z
            end if
            ! start the operations.
            if (lside) then
-               if (stdlib_lsame(transa,'N')) then
+               if (la_lsame(transa,'N')) then
                  ! form  b := alpha*a*b.
                    if (upper) then
                        do j = 1,n
@@ -4283,7 +4283,7 @@ module stdlib_linalg_blas_z
                    end if
                end if
            else
-               if (stdlib_lsame(transa,'N')) then
+               if (la_lsame(transa,'N')) then
                  ! form  b := alpha*b*a.
                    if (upper) then
                        do j = n,1,-1
@@ -4380,14 +4380,14 @@ module stdlib_linalg_blas_z
                end if
            end if
            return
-     end subroutine stdlib_ztrmm
+     end subroutine la_ztrmm
 
      !> ZTRMV:  performs one of the matrix-vector operations
      !> x := A*x,   or   x := A**T*x,   or   x := A**H*x,
      !> where x is an n element vector and  A is an n by n unit, or non-unit,
      !> upper or lower triangular matrix.
 
-     pure subroutine stdlib_ztrmv(uplo,trans,diag,n,a,lda,x,incx)
+     pure subroutine la_ztrmv(uplo,trans,diag,n,a,lda,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -4407,12 +4407,12 @@ module stdlib_linalg_blas_z
            intrinsic :: conjg,max
            ! test the input parameters.
            info = 0
-           if (.not. stdlib_lsame(uplo,'U') .and. .not. stdlib_lsame(uplo,'L')) then
+           if (.not. la_lsame(uplo,'U') .and. .not. la_lsame(uplo,'L')) then
                info = 1
-           else if (.not. stdlib_lsame(trans,'N') .and. .not. stdlib_lsame(trans,'T') &
-                     .and. .not. stdlib_lsame(trans,'C')) then
+           else if (.not. la_lsame(trans,'N') .and. .not. la_lsame(trans,'T') &
+                     .and. .not. la_lsame(trans,'C')) then
                info = 2
-           else if (.not. stdlib_lsame(diag,'U') .and. .not. stdlib_lsame(diag,'N')) then
+           else if (.not. la_lsame(diag,'U') .and. .not. la_lsame(diag,'N')) then
                info = 3
            else if (n < 0) then
                info = 4
@@ -4422,13 +4422,13 @@ module stdlib_linalg_blas_z
                info = 8
            end if
            if (info /= 0) then
-               call stdlib_xerbla('ZTRMV ',info)
+               call la_xerbla('ZTRMV ',info)
                return
            end if
            ! quick return if possible.
            if (n == 0) return
-           noconj = stdlib_lsame(trans,'T')
-           nounit = stdlib_lsame(diag,'N')
+           noconj = la_lsame(trans,'T')
+           nounit = la_lsame(diag,'N')
            ! set up the start point in x if the increment is not unity. this
            ! will be  ( n - 1 )*incx  too small for descending loops.
            if (incx <= 0) then
@@ -4438,9 +4438,9 @@ module stdlib_linalg_blas_z
            end if
            ! start the operations. in this version the elements of a are
            ! accessed sequentially with cone pass through a.
-           if (stdlib_lsame(trans,'N')) then
+           if (la_lsame(trans,'N')) then
               ! form  x := a*x.
-               if (stdlib_lsame(uplo,'U')) then
+               if (la_lsame(uplo,'U')) then
                    if (incx == 1) then
                        do j = 1,n
                            if (x(j) /= czero) then
@@ -4496,7 +4496,7 @@ module stdlib_linalg_blas_z
                end if
            else
               ! form  x := a**t*x  or  x := a**h*x.
-               if (stdlib_lsame(uplo,'U')) then
+               if (la_lsame(uplo,'U')) then
                    if (incx == 1) then
                        do j = n,1,-1
                            temp = x(j)
@@ -4577,7 +4577,7 @@ module stdlib_linalg_blas_z
                end if
            end if
            return
-     end subroutine stdlib_ztrmv
+     end subroutine la_ztrmv
 
      !> ZTRSM:  solves one of the matrix equations
      !> op( A )*X = alpha*B,   or   X*op( A ) = alpha*B,
@@ -4586,7 +4586,7 @@ module stdlib_linalg_blas_z
      !> op( A ) = A   or   op( A ) = A**T   or   op( A ) = A**H.
      !> The matrix X is overwritten on B.
 
-     pure subroutine stdlib_ztrsm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
+     pure subroutine la_ztrsm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -4606,24 +4606,24 @@ module stdlib_linalg_blas_z
            logical(lk) :: lside,noconj,nounit,upper
            
            ! test the input parameters.
-           lside = stdlib_lsame(side,'L')
+           lside = la_lsame(side,'L')
            if (lside) then
                nrowa = m
            else
                nrowa = n
            end if
-           noconj = stdlib_lsame(transa,'T')
-           nounit = stdlib_lsame(diag,'N')
-           upper = stdlib_lsame(uplo,'U')
+           noconj = la_lsame(transa,'T')
+           nounit = la_lsame(diag,'N')
+           upper = la_lsame(uplo,'U')
            info = 0
-           if ((.not. lside) .and. (.not. stdlib_lsame(side,'R'))) then
+           if ((.not. lside) .and. (.not. la_lsame(side,'R'))) then
                info = 1
-           else if ((.not. upper) .and. (.not. stdlib_lsame(uplo,'L'))) then
+           else if ((.not. upper) .and. (.not. la_lsame(uplo,'L'))) then
                info = 2
-           else if ((.not. stdlib_lsame(transa,'N')) .and. (.not. stdlib_lsame(transa,'T')) .and. ( &
-                     .not. stdlib_lsame(transa,'C'))) then
+           else if ((.not. la_lsame(transa,'N')) .and. (.not. la_lsame(transa,'T')) .and. ( &
+                     .not. la_lsame(transa,'C'))) then
                info = 3
-           else if ((.not. stdlib_lsame(diag,'U')) .and. (.not. stdlib_lsame(diag,'N'))) &
+           else if ((.not. la_lsame(diag,'U')) .and. (.not. la_lsame(diag,'N'))) &
                      then
                info = 4
            else if (m < 0) then
@@ -4636,7 +4636,7 @@ module stdlib_linalg_blas_z
                info = 11
            end if
            if (info /= 0) then
-               call stdlib_xerbla('ZTRSM ',info)
+               call la_xerbla('ZTRSM ',info)
                return
            end if
            ! quick return if possible.
@@ -4652,7 +4652,7 @@ module stdlib_linalg_blas_z
            end if
            ! start the operations.
            if (lside) then
-               if (stdlib_lsame(transa,'N')) then
+               if (la_lsame(transa,'N')) then
                  ! form  b := alpha*inv( a )*b.
                    if (upper) then
                        do j = 1,n
@@ -4729,7 +4729,7 @@ module stdlib_linalg_blas_z
                    end if
                end if
            else
-               if (stdlib_lsame(transa,'N')) then
+               if (la_lsame(transa,'N')) then
                  ! form  b := alpha*b*inv( a ).
                    if (upper) then
                        do j = 1,n
@@ -4841,7 +4841,7 @@ module stdlib_linalg_blas_z
                end if
            end if
            return
-     end subroutine stdlib_ztrsm
+     end subroutine la_ztrsm
 
      !> ZTRSV:  solves one of the systems of equations
      !> A*x = b,   or   A**T*x = b,   or   A**H*x = b,
@@ -4850,7 +4850,7 @@ module stdlib_linalg_blas_z
      !> No test for singularity or near-singularity is included in this
      !> routine. Such tests must be performed before calling this routine.
 
-     pure subroutine stdlib_ztrsv(uplo,trans,diag,n,a,lda,x,incx)
+     pure subroutine la_ztrsv(uplo,trans,diag,n,a,lda,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -4870,12 +4870,12 @@ module stdlib_linalg_blas_z
            intrinsic :: conjg,max
            ! test the input parameters.
            info = 0
-           if (.not. stdlib_lsame(uplo,'U') .and. .not. stdlib_lsame(uplo,'L')) then
+           if (.not. la_lsame(uplo,'U') .and. .not. la_lsame(uplo,'L')) then
                info = 1
-           else if (.not. stdlib_lsame(trans,'N') .and. .not. stdlib_lsame(trans,'T') &
-                     .and. .not. stdlib_lsame(trans,'C')) then
+           else if (.not. la_lsame(trans,'N') .and. .not. la_lsame(trans,'T') &
+                     .and. .not. la_lsame(trans,'C')) then
                info = 2
-           else if (.not. stdlib_lsame(diag,'U') .and. .not. stdlib_lsame(diag,'N')) then
+           else if (.not. la_lsame(diag,'U') .and. .not. la_lsame(diag,'N')) then
                info = 3
            else if (n < 0) then
                info = 4
@@ -4885,13 +4885,13 @@ module stdlib_linalg_blas_z
                info = 8
            end if
            if (info /= 0) then
-               call stdlib_xerbla('ZTRSV ',info)
+               call la_xerbla('ZTRSV ',info)
                return
            end if
            ! quick return if possible.
            if (n == 0) return
-           noconj = stdlib_lsame(trans,'T')
-           nounit = stdlib_lsame(diag,'N')
+           noconj = la_lsame(trans,'T')
+           nounit = la_lsame(diag,'N')
            ! set up the start point in x if the increment is not unity. this
            ! will be  ( n - 1 )*incx  too small for descending loops.
            if (incx <= 0) then
@@ -4901,9 +4901,9 @@ module stdlib_linalg_blas_z
            end if
            ! start the operations. in this version the elements of a are
            ! accessed sequentially with cone pass through a.
-           if (stdlib_lsame(trans,'N')) then
+           if (la_lsame(trans,'N')) then
               ! form  x := inv( a )*x.
-               if (stdlib_lsame(uplo,'U')) then
+               if (la_lsame(uplo,'U')) then
                    if (incx == 1) then
                        do j = n,1,-1
                            if (x(j) /= czero) then
@@ -4958,7 +4958,7 @@ module stdlib_linalg_blas_z
                end if
            else
               ! form  x := inv( a**t )*x  or  x := inv( a**h )*x.
-               if (stdlib_lsame(uplo,'U')) then
+               if (la_lsame(uplo,'U')) then
                    if (incx == 1) then
                        do j = 1,n
                            temp = x(j)
@@ -5040,6 +5040,6 @@ module stdlib_linalg_blas_z
                end if
            end if
            return
-     end subroutine stdlib_ztrsv
+     end subroutine la_ztrsv
 
-end module stdlib_linalg_blas_z
+end module la_linalg_blas_z

@@ -1,8 +1,8 @@
-module stdlib_linalg_determinant
-     use stdlib_linalg_constants
-     use stdlib_linalg_blas
-     use stdlib_linalg_lapack
-     use stdlib_linalg_state
+module la_linalg_determinant
+     use la_linalg_constants
+     use la_linalg_blas
+     use la_linalg_lapack
+     use la_linalg_state
      use iso_fortran_env,only:real32,real64,real128,int8,int16,int32,int64,stderr => error_unit
      implicit none(type,external)
      private
@@ -17,18 +17,18 @@ module stdlib_linalg_determinant
      ! IMSL: DET(a)
 
      interface det
-        module procedure stdlib_linalg_sdeterminant
-        module procedure stdlib_linalg_ddeterminant
-        module procedure stdlib_linalg_qdeterminant
-        module procedure stdlib_linalg_cdeterminant
-        module procedure stdlib_linalg_zdeterminant
-        module procedure stdlib_linalg_wdeterminant
+        module procedure la_linalg_sdeterminant
+        module procedure la_linalg_ddeterminant
+        module procedure la_linalg_qdeterminant
+        module procedure la_linalg_cdeterminant
+        module procedure la_linalg_zdeterminant
+        module procedure la_linalg_wdeterminant
      end interface det
 
      contains
 
      ! Compute determinant of a square matrix A
-     function stdlib_linalg_sdeterminant(a,overwrite_a,err) result(det)
+     function la_linalg_sdeterminant(a,overwrite_a,err) result(det)
          !> Input matrix a[m,n]
          real(sp),intent(inout),target :: a(:,:)
          !> [optional] Can A data be overwritten and destroyed?
@@ -117,10 +117,10 @@ module stdlib_linalg_determinant
          ! Process output and return
 1        call linalg_error_handling(err0,err)
 
-     end function stdlib_linalg_sdeterminant
+     end function la_linalg_sdeterminant
 
      ! Compute determinant of a square matrix A
-     function stdlib_linalg_ddeterminant(a,overwrite_a,err) result(det)
+     function la_linalg_ddeterminant(a,overwrite_a,err) result(det)
          !> Input matrix a[m,n]
          real(dp),intent(inout),target :: a(:,:)
          !> [optional] Can A data be overwritten and destroyed?
@@ -209,10 +209,10 @@ module stdlib_linalg_determinant
          ! Process output and return
 1        call linalg_error_handling(err0,err)
 
-     end function stdlib_linalg_ddeterminant
+     end function la_linalg_ddeterminant
 
      ! Compute determinant of a square matrix A
-     function stdlib_linalg_qdeterminant(a,overwrite_a,err) result(det)
+     function la_linalg_qdeterminant(a,overwrite_a,err) result(det)
          !> Input matrix a[m,n]
          real(qp),intent(inout),target :: a(:,:)
          !> [optional] Can A data be overwritten and destroyed?
@@ -301,10 +301,10 @@ module stdlib_linalg_determinant
          ! Process output and return
 1        call linalg_error_handling(err0,err)
 
-     end function stdlib_linalg_qdeterminant
+     end function la_linalg_qdeterminant
 
      ! Compute determinant of a square matrix A
-     function stdlib_linalg_cdeterminant(a,overwrite_a,err) result(det)
+     function la_linalg_cdeterminant(a,overwrite_a,err) result(det)
          !> Input matrix a[m,n]
          complex(sp),intent(inout),target :: a(:,:)
          !> [optional] Can A data be overwritten and destroyed?
@@ -393,10 +393,10 @@ module stdlib_linalg_determinant
          ! Process output and return
 1        call linalg_error_handling(err0,err)
 
-     end function stdlib_linalg_cdeterminant
+     end function la_linalg_cdeterminant
 
      ! Compute determinant of a square matrix A
-     function stdlib_linalg_zdeterminant(a,overwrite_a,err) result(det)
+     function la_linalg_zdeterminant(a,overwrite_a,err) result(det)
          !> Input matrix a[m,n]
          complex(dp),intent(inout),target :: a(:,:)
          !> [optional] Can A data be overwritten and destroyed?
@@ -485,10 +485,10 @@ module stdlib_linalg_determinant
          ! Process output and return
 1        call linalg_error_handling(err0,err)
 
-     end function stdlib_linalg_zdeterminant
+     end function la_linalg_zdeterminant
 
      ! Compute determinant of a square matrix A
-     function stdlib_linalg_wdeterminant(a,overwrite_a,err) result(det)
+     function la_linalg_wdeterminant(a,overwrite_a,err) result(det)
          !> Input matrix a[m,n]
          complex(qp),intent(inout),target :: a(:,:)
          !> [optional] Can A data be overwritten and destroyed?
@@ -577,6 +577,6 @@ module stdlib_linalg_determinant
          ! Process output and return
 1        call linalg_error_handling(err0,err)
 
-     end function stdlib_linalg_wdeterminant
+     end function la_linalg_wdeterminant
 
-end module stdlib_linalg_determinant
+end module la_linalg_determinant
