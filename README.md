@@ -1,6 +1,10 @@
-# *** WORK IN PROGRESS ***
+# fortran-lapack
+This package provides precision-agnostic, high-level linear algebra APIs for `real` and `complex` arguments in Modern Fortran. The APIs are similar to NumPy/SciPy operations, and leverage a Modern Fortran implementation of the [Reference-LAPACK](http://github.com/reference-LAPACK) library.
 
 # Current API
+
+[The documentation site](https://perazz.github.io/fortran-lapack/index.html) contains full documentation for the library.
+
 Procedure   | Type | Description | Optional arguments
 ---        | ---         | --- | ---
 `solve(A,b)` | function | Solve linear systems - one (`b(:)`) or many (`b(:,:)`) | `solve(A,b,overwrite_a,err)`: option to let A be destroyed, return state handler `err`
@@ -25,10 +29,9 @@ Procedure   | Type | Description | Optional arguments
 
 All procedures work with all types (`real`, `complex`) and kinds (32, 64, 128-bit floats).
 
-# fortran-lapack
-This package contains a Modern Fortran implementation of the [Reference-LAPACK](http://github.com/reference-LAPACK) library.
-The reference Fortran-77 library is automatically downloaded from its master repository, and processed to create Modern Fortran modules with full explicit typing features. 
-Release 3.10.1 is currently targeted. Function interfaces are unchanged from the original implementation, and allow future extension to handle its usage through external implementations.
+# BLAS, LAPACK
+Modern Fortran modules with full explicit typing features are available as modules `la_blas` and `la_lapack`. 
+The reference Fortran-77 library, forked from Release 3.10.1, was automatically processed and modernized.
 The following refactorings are applied: 
 - All datatypes and accuracy constants standardized into a module (`stdlib`-compatible names)
 - Both libraries available for 32, 64 and 128-bit floats
@@ -54,13 +57,32 @@ To add fortran-lapack to your project, simply add it as a dependency:
 [dependencies]
 fortran-lapack = { git="https://github.com/perazz/fortran-lapack.git" }
 ```
+
+`fortran-lapack` is compatible with the LAPACK API. If high-performance external BLAS/LAPACK libraries are available, it is sufficient to define macros
+
+```
+[dependencies]
+fortran-lapack = { git="https://github.com/perazz/fortran-lapack.git", preprocess.cpp.macros=["LA_EXTERNAL_BLAS", "LA_EXTERNAL_LAPACK"] }
+```
+
 # Extension to external BLAS/LAPACK libraries
 
-This task is in progress. The names of all procedures have been prefixed not to pollute the original BLAS/LAPACK namespace, so that handling of external libraries can be accomplished via a preprocessor flag. For example:
+Generic interfaces to most BLAS/LAPACK functions are exposed to modules `la_blas` and `la_lapack`. These interfaces drop the initial letter to wrap a precision-agnostic version. For example, `axpy` is a precision-agnostic interface to `saxpy`, `daxpy`, `caxpy`, `zaxpy`, `qaxpy`, `waxpy`. 
+The naming convention is: 
+
+Type     | 32-bit | 64-bit | 128-bit
+---      | ---    | ---    | --- 
+real     | `s`    | `d`    | `q`
+complex  | `c`    | `z`    | `w`
+
+All public interfaces in `la_blas` and `la_lapack` allow seamless linking against external libraries via a simple pre-processor flag. 
+When an external library is available, just define macros `LA_EXTERNAL_BLAS` and `LA_EXTERNAL_LAPACK`. The kind-agnostic interface
+will just point to the external function. All such interfaces follow this template:  
 
 ```fortran  
-#ifdef EXTERNAL_BLAS
-interface 
+interface axpy
+#ifdef LA_EXTERNAL_BLAS
+    ! Use external library
     pure subroutine saxpy(n, a, x, incx, y, incy)
       import :: ik, sp
       integer, parameter :: wp = sp
@@ -71,12 +93,11 @@ interface
       real(wp), intent(inout) :: y(*)
       integer(ik), intent(in) :: incy
     end subroutine saxpy
-end interface
 #else
-interface saxpy
-    module procedure stdlib_saxpy
-end interface
+    ! Use internal implementation
+    module procedure la_saxpy
 #endif
+end interface
 ```
 
 # Licensing
@@ -86,4 +107,4 @@ The license used for the software is the [modified BSD license](https://www.netl
 According to the original license, we changed the name of the routines and commented the changes made to the original.
 
 # Acknowledgments
-The development of this package is supported by the [Sovereign Tech Fund](https://www.sovereigntechfund.de).
+Part of this work was supported by the [Sovereign Tech Fund](https://www.sovereigntechfund.de).
