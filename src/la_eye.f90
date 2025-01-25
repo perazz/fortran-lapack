@@ -8,17 +8,21 @@ module la_eye
      implicit none(type,external)
      private
 
-     !> Function interface
+     !> Constructs the identity matrix.
+     !! This interface provides procedures to generate an identity matrix of a given size.
+     !! The resulting matrix has 1s on the diagonal and 0s elsewhere.
      public :: eye
+     
      public :: diag
 
-     ! Numpy: eye(N, M=None, k=0, dtype=<class 'float'>, order='C', *, device=None, like=None)
-     ! Numpy: identity(n, dtype=None, *, like=None) --> square matrices only
-     ! Scipy: eye(m, n=None, k=0, dtype=<class 'float'>, format=None) --> sparse only
-     ! IMSL:  EYE(N)
-
-     ! Identity interface
      interface eye
+        !> Procedure for creating an identity matrix.
+        !! - **Inputs:**
+        !!   - `m` (integer): Number of rows.
+        !!   - `n` (integer, optional): Number of columns. Defaults to `m` if not provided.
+        !!   - `mold` (datatype, optional): Data type used to define the matrix elements. Defaults to `real(real64)`.
+        !! - **Outputs:**
+        !!   - Identity matrix of specified size and type.
         module procedure la_eye_s
         module procedure la_eye_d
         module procedure la_eye_q
@@ -63,13 +67,15 @@ module la_eye
 
      contains
 
-     ! Return diagonal eye matrix of size N
+     !> Function to construct an identity matrix of size `m x n`.
+     !! This function returns a diagonal identity matrix, with the diagonal elements
+     !! equal to 1 and all other elements set to 0.
      pure function la_eye_s(m,n,mold) result(eye)
-         !> Number of rows
+         !> Number of rows of the identity matrix.
          integer(ilp),intent(in) :: m
-         !> Number of columns (optional)
+         !> Number of columns of the identity matrix (optional).
          integer(ilp),optional,intent(in) :: n
-         !> Datatype. Used to define the return type. Defaults to real(real64)
+         !> Data type, used to define the return type. Defaults to `real(real64)`.
          real(sp),intent(in) :: mold
          !> Return matrix
          real(sp),allocatable :: eye(:,:)
@@ -110,13 +116,15 @@ module la_eye
 
      end function la_eye_s
 
-     ! Return diagonal eye matrix of size N
+     !> Function to construct an identity matrix of size `m x n`.
+     !! This function returns a diagonal identity matrix, with the diagonal elements
+     !! equal to 1 and all other elements set to 0.
      pure function la_eye_d(m,n,mold) result(eye)
-         !> Number of rows
+         !> Number of rows of the identity matrix.
          integer(ilp),intent(in) :: m
-         !> Number of columns (optional)
+         !> Number of columns of the identity matrix (optional).
          integer(ilp),optional,intent(in) :: n
-         !> Datatype. Used to define the return type. Defaults to real(real64)
+         !> Data type, used to define the return type. Defaults to `real(real64)`.
          real(dp),optional,intent(in) :: mold
          !> Return matrix
          real(dp),allocatable :: eye(:,:)
@@ -157,13 +165,15 @@ module la_eye
 
      end function la_eye_d
 
-     ! Return diagonal eye matrix of size N
+     !> Function to construct an identity matrix of size `m x n`.
+     !! This function returns a diagonal identity matrix, with the diagonal elements
+     !! equal to 1 and all other elements set to 0.
      pure function la_eye_q(m,n,mold) result(eye)
-         !> Number of rows
+         !> Number of rows of the identity matrix.
          integer(ilp),intent(in) :: m
-         !> Number of columns (optional)
+         !> Number of columns of the identity matrix (optional).
          integer(ilp),optional,intent(in) :: n
-         !> Datatype. Used to define the return type. Defaults to real(real64)
+         !> Data type, used to define the return type. Defaults to `real(real64)`.
          real(qp),intent(in) :: mold
          !> Return matrix
          real(qp),allocatable :: eye(:,:)
@@ -204,13 +214,15 @@ module la_eye
 
      end function la_eye_q
 
-     ! Return diagonal eye matrix of size N
+     !> Function to construct an identity matrix of size `m x n`.
+     !! This function returns a diagonal identity matrix, with the diagonal elements
+     !! equal to 1 and all other elements set to 0.
      pure function la_eye_c(m,n,mold) result(eye)
-         !> Number of rows
+         !> Number of rows of the identity matrix.
          integer(ilp),intent(in) :: m
-         !> Number of columns (optional)
+         !> Number of columns of the identity matrix (optional).
          integer(ilp),optional,intent(in) :: n
-         !> Datatype. Used to define the return type. Defaults to real(real64)
+         !> Data type, used to define the return type. Defaults to `real(real64)`.
          complex(sp),intent(in) :: mold
          !> Return matrix
          complex(sp),allocatable :: eye(:,:)
@@ -251,13 +263,15 @@ module la_eye
 
      end function la_eye_c
 
-     ! Return diagonal eye matrix of size N
+     !> Function to construct an identity matrix of size `m x n`.
+     !! This function returns a diagonal identity matrix, with the diagonal elements
+     !! equal to 1 and all other elements set to 0.
      pure function la_eye_z(m,n,mold) result(eye)
-         !> Number of rows
+         !> Number of rows of the identity matrix.
          integer(ilp),intent(in) :: m
-         !> Number of columns (optional)
+         !> Number of columns of the identity matrix (optional).
          integer(ilp),optional,intent(in) :: n
-         !> Datatype. Used to define the return type. Defaults to real(real64)
+         !> Data type, used to define the return type. Defaults to `real(real64)`.
          complex(dp),intent(in) :: mold
          !> Return matrix
          complex(dp),allocatable :: eye(:,:)
@@ -298,13 +312,15 @@ module la_eye
 
      end function la_eye_z
 
-     ! Return diagonal eye matrix of size N
+     !> Function to construct an identity matrix of size `m x n`.
+     !! This function returns a diagonal identity matrix, with the diagonal elements
+     !! equal to 1 and all other elements set to 0.
      pure function la_eye_w(m,n,mold) result(eye)
-         !> Number of rows
+         !> Number of rows of the identity matrix.
          integer(ilp),intent(in) :: m
-         !> Number of columns (optional)
+         !> Number of columns of the identity matrix (optional).
          integer(ilp),optional,intent(in) :: n
-         !> Datatype. Used to define the return type. Defaults to real(real64)
+         !> Data type, used to define the return type. Defaults to `real(real64)`.
          complex(qp),intent(in) :: mold
          !> Return matrix
          complex(qp),allocatable :: eye(:,:)
@@ -849,13 +865,15 @@ module la_eye
 
      end function la_diag_w_from_array
 
-     ! Return diagonal eye matrix of size N
+     !> Function to construct an identity matrix of size `m x n`.
+     !! This function returns a diagonal identity matrix, with the diagonal elements
+     !! equal to 1 and all other elements set to 0.
      function la_eye_s_errhandle(m,n,mold,err) result(eye)
-         !> Number of rows
+         !> Number of rows of the identity matrix.
          integer(ilp),intent(in) :: m
-         !> Number of columns (optional)
+         !> Number of columns of the identity matrix (optional).
          integer(ilp),optional,intent(in) :: n
-         !> Datatype. Used to define the return type. Defaults to real(real64)
+         !> Data type, used to define the return type. Defaults to `real(real64)`.
          real(sp),intent(in) :: mold
          !> [optional] state return flag. On error if not requested, the code will stop
          type(la_state),intent(out) :: err
@@ -898,13 +916,15 @@ module la_eye
 
      end function la_eye_s_errhandle
 
-     ! Return diagonal eye matrix of size N
+     !> Function to construct an identity matrix of size `m x n`.
+     !! This function returns a diagonal identity matrix, with the diagonal elements
+     !! equal to 1 and all other elements set to 0.
      function la_eye_d_errhandle(m,n,mold,err) result(eye)
-         !> Number of rows
+         !> Number of rows of the identity matrix.
          integer(ilp),intent(in) :: m
-         !> Number of columns (optional)
+         !> Number of columns of the identity matrix (optional).
          integer(ilp),optional,intent(in) :: n
-         !> Datatype. Used to define the return type. Defaults to real(real64)
+         !> Data type, used to define the return type. Defaults to `real(real64)`.
          real(dp),optional,intent(in) :: mold
          !> [optional] state return flag. On error if not requested, the code will stop
          type(la_state),intent(out) :: err
@@ -947,13 +967,15 @@ module la_eye
 
      end function la_eye_d_errhandle
 
-     ! Return diagonal eye matrix of size N
+     !> Function to construct an identity matrix of size `m x n`.
+     !! This function returns a diagonal identity matrix, with the diagonal elements
+     !! equal to 1 and all other elements set to 0.
      function la_eye_q_errhandle(m,n,mold,err) result(eye)
-         !> Number of rows
+         !> Number of rows of the identity matrix.
          integer(ilp),intent(in) :: m
-         !> Number of columns (optional)
+         !> Number of columns of the identity matrix (optional).
          integer(ilp),optional,intent(in) :: n
-         !> Datatype. Used to define the return type. Defaults to real(real64)
+         !> Data type, used to define the return type. Defaults to `real(real64)`.
          real(qp),intent(in) :: mold
          !> [optional] state return flag. On error if not requested, the code will stop
          type(la_state),intent(out) :: err
@@ -996,13 +1018,15 @@ module la_eye
 
      end function la_eye_q_errhandle
 
-     ! Return diagonal eye matrix of size N
+     !> Function to construct an identity matrix of size `m x n`.
+     !! This function returns a diagonal identity matrix, with the diagonal elements
+     !! equal to 1 and all other elements set to 0.
      function la_eye_c_errhandle(m,n,mold,err) result(eye)
-         !> Number of rows
+         !> Number of rows of the identity matrix.
          integer(ilp),intent(in) :: m
-         !> Number of columns (optional)
+         !> Number of columns of the identity matrix (optional).
          integer(ilp),optional,intent(in) :: n
-         !> Datatype. Used to define the return type. Defaults to real(real64)
+         !> Data type, used to define the return type. Defaults to `real(real64)`.
          complex(sp),intent(in) :: mold
          !> [optional] state return flag. On error if not requested, the code will stop
          type(la_state),intent(out) :: err
@@ -1045,13 +1069,15 @@ module la_eye
 
      end function la_eye_c_errhandle
 
-     ! Return diagonal eye matrix of size N
+     !> Function to construct an identity matrix of size `m x n`.
+     !! This function returns a diagonal identity matrix, with the diagonal elements
+     !! equal to 1 and all other elements set to 0.
      function la_eye_z_errhandle(m,n,mold,err) result(eye)
-         !> Number of rows
+         !> Number of rows of the identity matrix.
          integer(ilp),intent(in) :: m
-         !> Number of columns (optional)
+         !> Number of columns of the identity matrix (optional).
          integer(ilp),optional,intent(in) :: n
-         !> Datatype. Used to define the return type. Defaults to real(real64)
+         !> Data type, used to define the return type. Defaults to `real(real64)`.
          complex(dp),intent(in) :: mold
          !> [optional] state return flag. On error if not requested, the code will stop
          type(la_state),intent(out) :: err
@@ -1094,13 +1120,15 @@ module la_eye
 
      end function la_eye_z_errhandle
 
-     ! Return diagonal eye matrix of size N
+     !> Function to construct an identity matrix of size `m x n`.
+     !! This function returns a diagonal identity matrix, with the diagonal elements
+     !! equal to 1 and all other elements set to 0.
      function la_eye_w_errhandle(m,n,mold,err) result(eye)
-         !> Number of rows
+         !> Number of rows of the identity matrix.
          integer(ilp),intent(in) :: m
-         !> Number of columns (optional)
+         !> Number of columns of the identity matrix (optional).
          integer(ilp),optional,intent(in) :: n
-         !> Datatype. Used to define the return type. Defaults to real(real64)
+         !> Data type, used to define the return type. Defaults to `real(real64)`.
          complex(qp),intent(in) :: mold
          !> [optional] state return flag. On error if not requested, the code will stop
          type(la_state),intent(out) :: err

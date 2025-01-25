@@ -9,17 +9,21 @@ module la_eye
      implicit none(type,external)
      private
 
-     !> Function interface
+     !> Constructs the identity matrix.
+     !! This interface provides procedures to generate an identity matrix of a given size.
+     !! The resulting matrix has 1s on the diagonal and 0s elsewhere.
      public :: eye
+     
      public :: diag
 
-     ! Numpy: eye(N, M=None, k=0, dtype=<class 'float'>, order='C', *, device=None, like=None)
-     ! Numpy: identity(n, dtype=None, *, like=None) --> square matrices only
-     ! Scipy: eye(m, n=None, k=0, dtype=<class 'float'>, format=None) --> sparse only
-     ! IMSL:  EYE(N)
-
-     ! Identity interface
      interface eye
+        !> Procedure for creating an identity matrix.
+        !! - **Inputs:**
+        !!   - `m` (integer): Number of rows.
+        !!   - `n` (integer, optional): Number of columns. Defaults to `m` if not provided.
+        !!   - `mold` (datatype, optional): Data type used to define the matrix elements. Defaults to `real(real64)`.
+        !! - **Outputs:**
+        !!   - Identity matrix of specified size and type.
         #:for epref,esuf,earg,epresent in FUNCTION_INTERFACES
         #:for rk,rt,ri in ALL_KINDS_TYPES
         module procedure la_eye_${ri}$${esuf}$
@@ -41,13 +45,15 @@ module la_eye
 
      #:for epref,esuf,earg,epresent in FUNCTION_INTERFACES
      #:for rk,rt,ri in ALL_KINDS_TYPES
-     ! Return diagonal eye matrix of size N
-     ${epref}$function la_eye_${ri}$${esuf}$(m,n,mold${earg}$) result(eye)
-         !> Number of rows
+     !> Function to construct an identity matrix of size `m x n`.
+     !! This function returns a diagonal identity matrix, with the diagonal elements
+     !! equal to 1 and all other elements set to 0.
+     ${epref}$function la_eye_${ri}$${esuf}$(m, n, mold${earg}$) result(eye)
+         !> Number of rows of the identity matrix.
          integer(ilp), intent(in) :: m
-         !> Number of columns (optional)
+         !> Number of columns of the identity matrix (optional).
          integer(ilp), optional, intent(in) :: n
-         !> Datatype. Used to define the return type. Defaults to real(real64)
+         !> Data type, used to define the return type. Defaults to `real(real64)`.         
          #:if rt=='real(dp)'
          ${rt}$, optional, intent(in) :: mold
          #:else
