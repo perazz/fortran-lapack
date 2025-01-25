@@ -107,7 +107,7 @@ module la_qr
          call geqrf(m,n,a,m,tau_dummy,work_dummy,lwork_qr,info)
          call handle_geqrf_info(info,m,n,lwork_qr,err0)
          if (err0%error()) then
-            call linalg_error_handling(err0,err)
+            call err0%handle(err)
             return
          end if
          lwork_qr = ceiling(real(work_dummy(1),kind=sp),kind=ilp)
@@ -118,7 +118,7 @@ module la_qr
               (m,n,k,a,m,tau_dummy,work_dummy,lwork_ord,info)
          call handle_orgqr_info(info,m,n,k,lwork_ord,err0)
          if (err0%error()) then
-            call linalg_error_handling(err0,err)
+            call err0%handle(err)
             return
          end if
          lwork_ord = ceiling(real(work_dummy(1),kind=sp),kind=ilp)
@@ -166,7 +166,7 @@ module la_qr
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a(m,n)=', [m,n], &
                                                                       ' q(m,m)=', [q1,q2], &
                                                                       ' r(m,n)=', [r1,r2])
-            call linalg_error_handling(err0,err)
+            call err0%handle(err)
             return
          end if
          
@@ -222,7 +222,7 @@ module la_qr
              end if
              if (.not. size(work,kind=ilp) >= lwork) then
                  err0 = la_state(this,LINALG_ERROR,'insufficient workspace: should be at least ',lwork)
-                 call linalg_error_handling(err0,err)
+                 call err0%handle(err)
                  return
              end if
              
@@ -262,7 +262,7 @@ module la_qr
          if (.not. (use_q_matrix .or. overwrite_a_)) deallocate (amat)
 
          ! Process output and return
-         call linalg_error_handling(err0,err)
+         call err0%handle(err)
 
      end subroutine la_s_qr
 
@@ -291,7 +291,7 @@ module la_qr
          call geqrf(m,n,a,m,tau_dummy,work_dummy,lwork_qr,info)
          call handle_geqrf_info(info,m,n,lwork_qr,err0)
          if (err0%error()) then
-            call linalg_error_handling(err0,err)
+            call err0%handle(err)
             return
          end if
          lwork_qr = ceiling(real(work_dummy(1),kind=dp),kind=ilp)
@@ -302,7 +302,7 @@ module la_qr
               (m,n,k,a,m,tau_dummy,work_dummy,lwork_ord,info)
          call handle_orgqr_info(info,m,n,k,lwork_ord,err0)
          if (err0%error()) then
-            call linalg_error_handling(err0,err)
+            call err0%handle(err)
             return
          end if
          lwork_ord = ceiling(real(work_dummy(1),kind=dp),kind=ilp)
@@ -350,7 +350,7 @@ module la_qr
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a(m,n)=', [m,n], &
                                                                       ' q(m,m)=', [q1,q2], &
                                                                       ' r(m,n)=', [r1,r2])
-            call linalg_error_handling(err0,err)
+            call err0%handle(err)
             return
          end if
          
@@ -406,7 +406,7 @@ module la_qr
              end if
              if (.not. size(work,kind=ilp) >= lwork) then
                  err0 = la_state(this,LINALG_ERROR,'insufficient workspace: should be at least ',lwork)
-                 call linalg_error_handling(err0,err)
+                 call err0%handle(err)
                  return
              end if
              
@@ -446,7 +446,7 @@ module la_qr
          if (.not. (use_q_matrix .or. overwrite_a_)) deallocate (amat)
 
          ! Process output and return
-         call linalg_error_handling(err0,err)
+         call err0%handle(err)
 
      end subroutine la_d_qr
 
@@ -475,7 +475,7 @@ module la_qr
          call geqrf(m,n,a,m,tau_dummy,work_dummy,lwork_qr,info)
          call handle_geqrf_info(info,m,n,lwork_qr,err0)
          if (err0%error()) then
-            call linalg_error_handling(err0,err)
+            call err0%handle(err)
             return
          end if
          lwork_qr = ceiling(real(work_dummy(1),kind=qp),kind=ilp)
@@ -486,7 +486,7 @@ module la_qr
               (m,n,k,a,m,tau_dummy,work_dummy,lwork_ord,info)
          call handle_orgqr_info(info,m,n,k,lwork_ord,err0)
          if (err0%error()) then
-            call linalg_error_handling(err0,err)
+            call err0%handle(err)
             return
          end if
          lwork_ord = ceiling(real(work_dummy(1),kind=qp),kind=ilp)
@@ -534,7 +534,7 @@ module la_qr
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a(m,n)=', [m,n], &
                                                                       ' q(m,m)=', [q1,q2], &
                                                                       ' r(m,n)=', [r1,r2])
-            call linalg_error_handling(err0,err)
+            call err0%handle(err)
             return
          end if
          
@@ -590,7 +590,7 @@ module la_qr
              end if
              if (.not. size(work,kind=ilp) >= lwork) then
                  err0 = la_state(this,LINALG_ERROR,'insufficient workspace: should be at least ',lwork)
-                 call linalg_error_handling(err0,err)
+                 call err0%handle(err)
                  return
              end if
              
@@ -630,7 +630,7 @@ module la_qr
          if (.not. (use_q_matrix .or. overwrite_a_)) deallocate (amat)
 
          ! Process output and return
-         call linalg_error_handling(err0,err)
+         call err0%handle(err)
 
      end subroutine la_q_qr
 
@@ -659,7 +659,7 @@ module la_qr
          call geqrf(m,n,a,m,tau_dummy,work_dummy,lwork_qr,info)
          call handle_geqrf_info(info,m,n,lwork_qr,err0)
          if (err0%error()) then
-            call linalg_error_handling(err0,err)
+            call err0%handle(err)
             return
          end if
          lwork_qr = ceiling(real(work_dummy(1),kind=sp),kind=ilp)
@@ -670,7 +670,7 @@ module la_qr
               (m,n,k,a,m,tau_dummy,work_dummy,lwork_ord,info)
          call handle_orgqr_info(info,m,n,k,lwork_ord,err0)
          if (err0%error()) then
-            call linalg_error_handling(err0,err)
+            call err0%handle(err)
             return
          end if
          lwork_ord = ceiling(real(work_dummy(1),kind=sp),kind=ilp)
@@ -718,7 +718,7 @@ module la_qr
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a(m,n)=', [m,n], &
                                                                       ' q(m,m)=', [q1,q2], &
                                                                       ' r(m,n)=', [r1,r2])
-            call linalg_error_handling(err0,err)
+            call err0%handle(err)
             return
          end if
          
@@ -774,7 +774,7 @@ module la_qr
              end if
              if (.not. size(work,kind=ilp) >= lwork) then
                  err0 = la_state(this,LINALG_ERROR,'insufficient workspace: should be at least ',lwork)
-                 call linalg_error_handling(err0,err)
+                 call err0%handle(err)
                  return
              end if
              
@@ -814,7 +814,7 @@ module la_qr
          if (.not. (use_q_matrix .or. overwrite_a_)) deallocate (amat)
 
          ! Process output and return
-         call linalg_error_handling(err0,err)
+         call err0%handle(err)
 
      end subroutine la_c_qr
 
@@ -843,7 +843,7 @@ module la_qr
          call geqrf(m,n,a,m,tau_dummy,work_dummy,lwork_qr,info)
          call handle_geqrf_info(info,m,n,lwork_qr,err0)
          if (err0%error()) then
-            call linalg_error_handling(err0,err)
+            call err0%handle(err)
             return
          end if
          lwork_qr = ceiling(real(work_dummy(1),kind=dp),kind=ilp)
@@ -854,7 +854,7 @@ module la_qr
               (m,n,k,a,m,tau_dummy,work_dummy,lwork_ord,info)
          call handle_orgqr_info(info,m,n,k,lwork_ord,err0)
          if (err0%error()) then
-            call linalg_error_handling(err0,err)
+            call err0%handle(err)
             return
          end if
          lwork_ord = ceiling(real(work_dummy(1),kind=dp),kind=ilp)
@@ -902,7 +902,7 @@ module la_qr
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a(m,n)=', [m,n], &
                                                                       ' q(m,m)=', [q1,q2], &
                                                                       ' r(m,n)=', [r1,r2])
-            call linalg_error_handling(err0,err)
+            call err0%handle(err)
             return
          end if
          
@@ -958,7 +958,7 @@ module la_qr
              end if
              if (.not. size(work,kind=ilp) >= lwork) then
                  err0 = la_state(this,LINALG_ERROR,'insufficient workspace: should be at least ',lwork)
-                 call linalg_error_handling(err0,err)
+                 call err0%handle(err)
                  return
              end if
              
@@ -998,7 +998,7 @@ module la_qr
          if (.not. (use_q_matrix .or. overwrite_a_)) deallocate (amat)
 
          ! Process output and return
-         call linalg_error_handling(err0,err)
+         call err0%handle(err)
 
      end subroutine la_z_qr
 
@@ -1027,7 +1027,7 @@ module la_qr
          call geqrf(m,n,a,m,tau_dummy,work_dummy,lwork_qr,info)
          call handle_geqrf_info(info,m,n,lwork_qr,err0)
          if (err0%error()) then
-            call linalg_error_handling(err0,err)
+            call err0%handle(err)
             return
          end if
          lwork_qr = ceiling(real(work_dummy(1),kind=qp),kind=ilp)
@@ -1038,7 +1038,7 @@ module la_qr
               (m,n,k,a,m,tau_dummy,work_dummy,lwork_ord,info)
          call handle_orgqr_info(info,m,n,k,lwork_ord,err0)
          if (err0%error()) then
-            call linalg_error_handling(err0,err)
+            call err0%handle(err)
             return
          end if
          lwork_ord = ceiling(real(work_dummy(1),kind=qp),kind=ilp)
@@ -1086,7 +1086,7 @@ module la_qr
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a(m,n)=', [m,n], &
                                                                       ' q(m,m)=', [q1,q2], &
                                                                       ' r(m,n)=', [r1,r2])
-            call linalg_error_handling(err0,err)
+            call err0%handle(err)
             return
          end if
          
@@ -1142,7 +1142,7 @@ module la_qr
              end if
              if (.not. size(work,kind=ilp) >= lwork) then
                  err0 = la_state(this,LINALG_ERROR,'insufficient workspace: should be at least ',lwork)
-                 call linalg_error_handling(err0,err)
+                 call err0%handle(err)
                  return
              end if
              
@@ -1182,7 +1182,7 @@ module la_qr
          if (.not. (use_q_matrix .or. overwrite_a_)) deallocate (amat)
 
          ! Process output and return
-         call linalg_error_handling(err0,err)
+         call err0%handle(err)
 
      end subroutine la_w_qr
 

@@ -145,13 +145,15 @@ module la_svd
 
          if (.not. k > 0) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or matrix size: a=[',m,',',n,']')
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          if (.not. size(s,kind=ilp) >= k) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'singular value array has insufficient size:', &
                                                         ' s=[',size(s,kind=ilp),'], k=',k)
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          ! Integer storage
@@ -261,7 +263,7 @@ module la_svd
          if (copy_a) deallocate (amat)
          if (alloc_u) deallocate (umat)
          if (alloc_vt) deallocate (vtmat)
-1        call linalg_error_handling(err0,err)
+         call err0%handle(err)
 
      end subroutine la_svd_s
 
@@ -330,13 +332,15 @@ module la_svd
 
          if (.not. k > 0) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or matrix size: a=[',m,',',n,']')
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          if (.not. size(s,kind=ilp) >= k) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'singular value array has insufficient size:', &
                                                         ' s=[',size(s,kind=ilp),'], k=',k)
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          ! Integer storage
@@ -446,7 +450,7 @@ module la_svd
          if (copy_a) deallocate (amat)
          if (alloc_u) deallocate (umat)
          if (alloc_vt) deallocate (vtmat)
-1        call linalg_error_handling(err0,err)
+         call err0%handle(err)
 
      end subroutine la_svd_d
 
@@ -515,13 +519,15 @@ module la_svd
 
          if (.not. k > 0) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or matrix size: a=[',m,',',n,']')
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          if (.not. size(s,kind=ilp) >= k) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'singular value array has insufficient size:', &
                                                         ' s=[',size(s,kind=ilp),'], k=',k)
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          ! Integer storage
@@ -631,7 +637,7 @@ module la_svd
          if (copy_a) deallocate (amat)
          if (alloc_u) deallocate (umat)
          if (alloc_vt) deallocate (vtmat)
-1        call linalg_error_handling(err0,err)
+         call err0%handle(err)
 
      end subroutine la_svd_q
 
@@ -700,13 +706,15 @@ module la_svd
 
          if (.not. k > 0) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or matrix size: a=[',m,',',n,']')
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          if (.not. size(s,kind=ilp) >= k) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'singular value array has insufficient size:', &
                                                         ' s=[',size(s,kind=ilp),'], k=',k)
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          ! Integer storage
@@ -822,7 +830,7 @@ module la_svd
          if (copy_a) deallocate (amat)
          if (alloc_u) deallocate (umat)
          if (alloc_vt) deallocate (vtmat)
-1        call linalg_error_handling(err0,err)
+         call err0%handle(err)
 
      end subroutine la_svd_c
 
@@ -891,13 +899,15 @@ module la_svd
 
          if (.not. k > 0) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or matrix size: a=[',m,',',n,']')
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          if (.not. size(s,kind=ilp) >= k) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'singular value array has insufficient size:', &
                                                         ' s=[',size(s,kind=ilp),'], k=',k)
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          ! Integer storage
@@ -1013,7 +1023,7 @@ module la_svd
          if (copy_a) deallocate (amat)
          if (alloc_u) deallocate (umat)
          if (alloc_vt) deallocate (vtmat)
-1        call linalg_error_handling(err0,err)
+         call err0%handle(err)
 
      end subroutine la_svd_z
 
@@ -1082,13 +1092,15 @@ module la_svd
 
          if (.not. k > 0) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or matrix size: a=[',m,',',n,']')
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          if (.not. size(s,kind=ilp) >= k) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'singular value array has insufficient size:', &
                                                         ' s=[',size(s,kind=ilp),'], k=',k)
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          ! Integer storage
@@ -1204,7 +1216,7 @@ module la_svd
          if (copy_a) deallocate (amat)
          if (alloc_u) deallocate (umat)
          if (alloc_vt) deallocate (vtmat)
-1        call linalg_error_handling(err0,err)
+         call err0%handle(err)
 
      end subroutine la_svd_w
 

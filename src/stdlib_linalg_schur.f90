@@ -1,8 +1,7 @@
 module la_schur
     use la_constants
     use la_lapack,only:gees
-    use la_state_type,only:la_state,linalg_error_handling,LINALG_ERROR, &
-        LINALG_INTERNAL_ERROR,LINALG_VALUE_ERROR
+    use la_state_type,only:la_state,LINALG_ERROR,LINALG_INTERNAL_ERROR,LINALG_VALUE_ERROR
     implicit none(type,external)
     private
     
@@ -175,7 +174,7 @@ module la_schur
                   vs_dummy,m,work_dummy,lwork,bwork_dummy,info)
         if (info == 0) lwork = nint(real(work_dummy(1),kind=sp),kind=ilp)
         call handle_gees_info(info,m,n,m,err0)
-        call linalg_error_handling(err0,err)
+        call err0%handle(err)
         
         contains
         
@@ -224,13 +223,13 @@ module la_schur
         ! Validate dimensions
         if (m /= n .or. m <= 0 .or. n <= 0) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Matrix A must be square: size(a)=', [m,n])
-            call linalg_error_handling(err0,err)
+            call err0%handle(err)
             return
         end if
         if (mt /= nt .or. mt /= n .or. nt /= n) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Matrix T must be square: size(T)=', [mt,nt], &
                                                           'should be', [m,n])
-            call linalg_error_handling(err0,err)
+            call err0%handle(err)
             return
         end if
         
@@ -252,7 +251,7 @@ module la_schur
             if (ldvs < n .or. nvs /= n) then
                 err0 = la_state(this,LINALG_VALUE_ERROR,'Schur vectors size=', [ldvs,nvs], &
                                                               'should be n=',n)
-                call linalg_error_handling(err0,err)
+                call err0%handle(err)
                 return
             end if
             
@@ -274,7 +273,7 @@ module la_schur
             call get_schur_s_workspace(a,lwork,err0)
             
             if (err0%error()) then
-                call linalg_error_handling(err0,err)
+                call err0%handle(err)
                 return
             else
                 allocate (work(lwork))
@@ -337,7 +336,7 @@ module la_schur
         end if eigenvalue_output
         if (.not. present(storage)) deallocate (work)
         if (sort /= GEES_NOT) deallocate (bwork)
-        call linalg_error_handling(err0,err)
+        call err0%handle(err)
         
         contains
         
@@ -389,7 +388,7 @@ module la_schur
         ! Return real components only
         eigvals(:n) = real(ceigvals,kind=sp)
           
-        call linalg_error_handling(err0,err)
+        call err0%handle(err)
         
     end subroutine la_real_eig_s_schur
 
@@ -427,7 +426,7 @@ module la_schur
                   vs_dummy,m,work_dummy,lwork,bwork_dummy,info)
         if (info == 0) lwork = nint(real(work_dummy(1),kind=dp),kind=ilp)
         call handle_gees_info(info,m,n,m,err0)
-        call linalg_error_handling(err0,err)
+        call err0%handle(err)
         
         contains
         
@@ -476,13 +475,13 @@ module la_schur
         ! Validate dimensions
         if (m /= n .or. m <= 0 .or. n <= 0) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Matrix A must be square: size(a)=', [m,n])
-            call linalg_error_handling(err0,err)
+            call err0%handle(err)
             return
         end if
         if (mt /= nt .or. mt /= n .or. nt /= n) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Matrix T must be square: size(T)=', [mt,nt], &
                                                           'should be', [m,n])
-            call linalg_error_handling(err0,err)
+            call err0%handle(err)
             return
         end if
         
@@ -504,7 +503,7 @@ module la_schur
             if (ldvs < n .or. nvs /= n) then
                 err0 = la_state(this,LINALG_VALUE_ERROR,'Schur vectors size=', [ldvs,nvs], &
                                                               'should be n=',n)
-                call linalg_error_handling(err0,err)
+                call err0%handle(err)
                 return
             end if
             
@@ -526,7 +525,7 @@ module la_schur
             call get_schur_d_workspace(a,lwork,err0)
             
             if (err0%error()) then
-                call linalg_error_handling(err0,err)
+                call err0%handle(err)
                 return
             else
                 allocate (work(lwork))
@@ -589,7 +588,7 @@ module la_schur
         end if eigenvalue_output
         if (.not. present(storage)) deallocate (work)
         if (sort /= GEES_NOT) deallocate (bwork)
-        call linalg_error_handling(err0,err)
+        call err0%handle(err)
         
         contains
         
@@ -641,7 +640,7 @@ module la_schur
         ! Return real components only
         eigvals(:n) = real(ceigvals,kind=dp)
           
-        call linalg_error_handling(err0,err)
+        call err0%handle(err)
         
     end subroutine la_real_eig_d_schur
 
@@ -679,7 +678,7 @@ module la_schur
                   vs_dummy,m,work_dummy,lwork,bwork_dummy,info)
         if (info == 0) lwork = nint(real(work_dummy(1),kind=qp),kind=ilp)
         call handle_gees_info(info,m,n,m,err0)
-        call linalg_error_handling(err0,err)
+        call err0%handle(err)
         
         contains
         
@@ -728,13 +727,13 @@ module la_schur
         ! Validate dimensions
         if (m /= n .or. m <= 0 .or. n <= 0) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Matrix A must be square: size(a)=', [m,n])
-            call linalg_error_handling(err0,err)
+            call err0%handle(err)
             return
         end if
         if (mt /= nt .or. mt /= n .or. nt /= n) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Matrix T must be square: size(T)=', [mt,nt], &
                                                           'should be', [m,n])
-            call linalg_error_handling(err0,err)
+            call err0%handle(err)
             return
         end if
         
@@ -756,7 +755,7 @@ module la_schur
             if (ldvs < n .or. nvs /= n) then
                 err0 = la_state(this,LINALG_VALUE_ERROR,'Schur vectors size=', [ldvs,nvs], &
                                                               'should be n=',n)
-                call linalg_error_handling(err0,err)
+                call err0%handle(err)
                 return
             end if
             
@@ -778,7 +777,7 @@ module la_schur
             call get_schur_q_workspace(a,lwork,err0)
             
             if (err0%error()) then
-                call linalg_error_handling(err0,err)
+                call err0%handle(err)
                 return
             else
                 allocate (work(lwork))
@@ -841,7 +840,7 @@ module la_schur
         end if eigenvalue_output
         if (.not. present(storage)) deallocate (work)
         if (sort /= GEES_NOT) deallocate (bwork)
-        call linalg_error_handling(err0,err)
+        call err0%handle(err)
         
         contains
         
@@ -893,7 +892,7 @@ module la_schur
         ! Return real components only
         eigvals(:n) = real(ceigvals,kind=qp)
           
-        call linalg_error_handling(err0,err)
+        call err0%handle(err)
         
     end subroutine la_real_eig_q_schur
 
@@ -931,7 +930,7 @@ module la_schur
                   vs_dummy,m,work_dummy,lwork,rwork_dummy,bwork_dummy,info)
         if (info == 0) lwork = nint(real(work_dummy(1),kind=sp),kind=ilp)
         call handle_gees_info(info,m,n,m,err0)
-        call linalg_error_handling(err0,err)
+        call err0%handle(err)
         
         contains
         
@@ -980,13 +979,13 @@ module la_schur
         ! Validate dimensions
         if (m /= n .or. m <= 0 .or. n <= 0) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Matrix A must be square: size(a)=', [m,n])
-            call linalg_error_handling(err0,err)
+            call err0%handle(err)
             return
         end if
         if (mt /= nt .or. mt /= n .or. nt /= n) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Matrix T must be square: size(T)=', [mt,nt], &
                                                           'should be', [m,n])
-            call linalg_error_handling(err0,err)
+            call err0%handle(err)
             return
         end if
         
@@ -1008,7 +1007,7 @@ module la_schur
             if (ldvs < n .or. nvs /= n) then
                 err0 = la_state(this,LINALG_VALUE_ERROR,'Schur vectors size=', [ldvs,nvs], &
                                                               'should be n=',n)
-                call linalg_error_handling(err0,err)
+                call err0%handle(err)
                 return
             end if
             
@@ -1030,7 +1029,7 @@ module la_schur
             call get_schur_c_workspace(a,lwork,err0)
             
             if (err0%error()) then
-                call linalg_error_handling(err0,err)
+                call err0%handle(err)
                 return
             else
                 allocate (work(lwork))
@@ -1093,7 +1092,7 @@ module la_schur
         end if eigenvalue_output
         if (.not. present(storage)) deallocate (work)
         if (sort /= GEES_NOT) deallocate (bwork)
-        call linalg_error_handling(err0,err)
+        call err0%handle(err)
         
         contains
         
@@ -1143,7 +1142,7 @@ module la_schur
         ! Return real components only
         eigvals(:n) = real(ceigvals,kind=sp)
           
-        call linalg_error_handling(err0,err)
+        call err0%handle(err)
         
     end subroutine la_real_eig_c_schur
 
@@ -1181,7 +1180,7 @@ module la_schur
                   vs_dummy,m,work_dummy,lwork,rwork_dummy,bwork_dummy,info)
         if (info == 0) lwork = nint(real(work_dummy(1),kind=dp),kind=ilp)
         call handle_gees_info(info,m,n,m,err0)
-        call linalg_error_handling(err0,err)
+        call err0%handle(err)
         
         contains
         
@@ -1230,13 +1229,13 @@ module la_schur
         ! Validate dimensions
         if (m /= n .or. m <= 0 .or. n <= 0) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Matrix A must be square: size(a)=', [m,n])
-            call linalg_error_handling(err0,err)
+            call err0%handle(err)
             return
         end if
         if (mt /= nt .or. mt /= n .or. nt /= n) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Matrix T must be square: size(T)=', [mt,nt], &
                                                           'should be', [m,n])
-            call linalg_error_handling(err0,err)
+            call err0%handle(err)
             return
         end if
         
@@ -1258,7 +1257,7 @@ module la_schur
             if (ldvs < n .or. nvs /= n) then
                 err0 = la_state(this,LINALG_VALUE_ERROR,'Schur vectors size=', [ldvs,nvs], &
                                                               'should be n=',n)
-                call linalg_error_handling(err0,err)
+                call err0%handle(err)
                 return
             end if
             
@@ -1280,7 +1279,7 @@ module la_schur
             call get_schur_z_workspace(a,lwork,err0)
             
             if (err0%error()) then
-                call linalg_error_handling(err0,err)
+                call err0%handle(err)
                 return
             else
                 allocate (work(lwork))
@@ -1343,7 +1342,7 @@ module la_schur
         end if eigenvalue_output
         if (.not. present(storage)) deallocate (work)
         if (sort /= GEES_NOT) deallocate (bwork)
-        call linalg_error_handling(err0,err)
+        call err0%handle(err)
         
         contains
         
@@ -1393,7 +1392,7 @@ module la_schur
         ! Return real components only
         eigvals(:n) = real(ceigvals,kind=dp)
           
-        call linalg_error_handling(err0,err)
+        call err0%handle(err)
         
     end subroutine la_real_eig_z_schur
 
@@ -1431,7 +1430,7 @@ module la_schur
                   vs_dummy,m,work_dummy,lwork,rwork_dummy,bwork_dummy,info)
         if (info == 0) lwork = nint(real(work_dummy(1),kind=qp),kind=ilp)
         call handle_gees_info(info,m,n,m,err0)
-        call linalg_error_handling(err0,err)
+        call err0%handle(err)
         
         contains
         
@@ -1480,13 +1479,13 @@ module la_schur
         ! Validate dimensions
         if (m /= n .or. m <= 0 .or. n <= 0) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Matrix A must be square: size(a)=', [m,n])
-            call linalg_error_handling(err0,err)
+            call err0%handle(err)
             return
         end if
         if (mt /= nt .or. mt /= n .or. nt /= n) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Matrix T must be square: size(T)=', [mt,nt], &
                                                           'should be', [m,n])
-            call linalg_error_handling(err0,err)
+            call err0%handle(err)
             return
         end if
         
@@ -1508,7 +1507,7 @@ module la_schur
             if (ldvs < n .or. nvs /= n) then
                 err0 = la_state(this,LINALG_VALUE_ERROR,'Schur vectors size=', [ldvs,nvs], &
                                                               'should be n=',n)
-                call linalg_error_handling(err0,err)
+                call err0%handle(err)
                 return
             end if
             
@@ -1530,7 +1529,7 @@ module la_schur
             call get_schur_w_workspace(a,lwork,err0)
             
             if (err0%error()) then
-                call linalg_error_handling(err0,err)
+                call err0%handle(err)
                 return
             else
                 allocate (work(lwork))
@@ -1593,7 +1592,7 @@ module la_schur
         end if eigenvalue_output
         if (.not. present(storage)) deallocate (work)
         if (sort /= GEES_NOT) deallocate (bwork)
-        call linalg_error_handling(err0,err)
+        call err0%handle(err)
         
         contains
         
@@ -1643,7 +1642,7 @@ module la_schur
         ! Return real components only
         eigvals(:n) = real(ceigvals,kind=qp)
           
-        call linalg_error_handling(err0,err)
+        call err0%handle(err)
         
     end subroutine la_real_eig_w_schur
 

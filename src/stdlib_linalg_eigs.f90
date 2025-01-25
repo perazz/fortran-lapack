@@ -244,13 +244,15 @@ module la_eig
          if (.not. (k > 0 .and. m == n)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or matrix size a=', [m,n], &
                                                         ', must be square.')
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          if (.not. neig >= k) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'eigenvalue array has insufficient size:', &
                                                         ' lambda=',neig,', n=',n)
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          ! Can A be overwritten? By default, do not overwrite
@@ -345,7 +347,7 @@ module la_eig
 2        if (copy_a) deallocate (amat)
          if (present(right)) deallocate (vmat)
          if (present(left)) deallocate (umat)
-1        call linalg_error_handling(err0,err)
+         call err0%handle(err)
 
      end subroutine la_eig_s
      
@@ -440,13 +442,15 @@ module la_eig
          if (.not. (k > 0 .and. m == n)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or matrix size a=', [m,n], &
                                                         ', must be square.')
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          if (.not. neig >= k) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'eigenvalue array has insufficient size:', &
                                                         ' lambda=',neig,' must be >= n=',n)
-            goto 1
+            call err0%handle(err)
+            return
          end if
         
          ! Check if input A can be overwritten
@@ -472,7 +476,8 @@ module la_eig
                err0 = la_state(this,LINALG_VALUE_ERROR, &
                                         'eigenvector matrix has insufficient size: ', &
                                         shape(vectors),', with n=',n)
-               goto 1
+               call err0%handle(err)
+               return
             end if
             
             ! The input matrix will be overwritten by the vectors.
@@ -512,7 +517,7 @@ module la_eig
          
          ! Finalize storage and process output flag
          if (copy_a) deallocate (amat)
-1        call linalg_error_handling(err0,err)
+         call err0%handle(err)
 
      end subroutine la_eigh_s
      
@@ -606,13 +611,15 @@ module la_eig
          if (.not. (k > 0 .and. m == n)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or matrix size a=', [m,n], &
                                                         ', must be square.')
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          if (.not. neig >= k) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'eigenvalue array has insufficient size:', &
                                                         ' lambda=',neig,', n=',n)
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          ! Can A be overwritten? By default, do not overwrite
@@ -707,7 +714,7 @@ module la_eig
 2        if (copy_a) deallocate (amat)
          if (present(right)) deallocate (vmat)
          if (present(left)) deallocate (umat)
-1        call linalg_error_handling(err0,err)
+         call err0%handle(err)
 
      end subroutine la_eig_d
      
@@ -802,13 +809,15 @@ module la_eig
          if (.not. (k > 0 .and. m == n)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or matrix size a=', [m,n], &
                                                         ', must be square.')
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          if (.not. neig >= k) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'eigenvalue array has insufficient size:', &
                                                         ' lambda=',neig,' must be >= n=',n)
-            goto 1
+            call err0%handle(err)
+            return
          end if
         
          ! Check if input A can be overwritten
@@ -834,7 +843,8 @@ module la_eig
                err0 = la_state(this,LINALG_VALUE_ERROR, &
                                         'eigenvector matrix has insufficient size: ', &
                                         shape(vectors),', with n=',n)
-               goto 1
+               call err0%handle(err)
+               return
             end if
             
             ! The input matrix will be overwritten by the vectors.
@@ -874,7 +884,7 @@ module la_eig
          
          ! Finalize storage and process output flag
          if (copy_a) deallocate (amat)
-1        call linalg_error_handling(err0,err)
+         call err0%handle(err)
 
      end subroutine la_eigh_d
      
@@ -968,13 +978,15 @@ module la_eig
          if (.not. (k > 0 .and. m == n)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or matrix size a=', [m,n], &
                                                         ', must be square.')
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          if (.not. neig >= k) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'eigenvalue array has insufficient size:', &
                                                         ' lambda=',neig,', n=',n)
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          ! Can A be overwritten? By default, do not overwrite
@@ -1069,7 +1081,7 @@ module la_eig
 2        if (copy_a) deallocate (amat)
          if (present(right)) deallocate (vmat)
          if (present(left)) deallocate (umat)
-1        call linalg_error_handling(err0,err)
+         call err0%handle(err)
 
      end subroutine la_eig_q
      
@@ -1164,13 +1176,15 @@ module la_eig
          if (.not. (k > 0 .and. m == n)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or matrix size a=', [m,n], &
                                                         ', must be square.')
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          if (.not. neig >= k) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'eigenvalue array has insufficient size:', &
                                                         ' lambda=',neig,' must be >= n=',n)
-            goto 1
+            call err0%handle(err)
+            return
          end if
         
          ! Check if input A can be overwritten
@@ -1196,7 +1210,8 @@ module la_eig
                err0 = la_state(this,LINALG_VALUE_ERROR, &
                                         'eigenvector matrix has insufficient size: ', &
                                         shape(vectors),', with n=',n)
-               goto 1
+               call err0%handle(err)
+               return
             end if
             
             ! The input matrix will be overwritten by the vectors.
@@ -1236,7 +1251,7 @@ module la_eig
          
          ! Finalize storage and process output flag
          if (copy_a) deallocate (amat)
-1        call linalg_error_handling(err0,err)
+         call err0%handle(err)
 
      end subroutine la_eigh_q
      
@@ -1330,13 +1345,15 @@ module la_eig
          if (.not. (k > 0 .and. m == n)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or matrix size a=', [m,n], &
                                                         ', must be square.')
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          if (.not. neig >= k) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'eigenvalue array has insufficient size:', &
                                                         ' lambda=',neig,', n=',n)
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          ! Can A be overwritten? By default, do not overwrite
@@ -1420,7 +1437,7 @@ module la_eig
          ! Finalize storage and process output flag
          
 2        if (copy_a) deallocate (amat)
-1        call linalg_error_handling(err0,err)
+         call err0%handle(err)
 
      end subroutine la_eig_c
      
@@ -1515,13 +1532,15 @@ module la_eig
          if (.not. (k > 0 .and. m == n)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or matrix size a=', [m,n], &
                                                         ', must be square.')
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          if (.not. neig >= k) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'eigenvalue array has insufficient size:', &
                                                         ' lambda=',neig,' must be >= n=',n)
-            goto 1
+            call err0%handle(err)
+            return
          end if
         
          ! Check if input A can be overwritten
@@ -1547,7 +1566,8 @@ module la_eig
                err0 = la_state(this,LINALG_VALUE_ERROR, &
                                         'eigenvector matrix has insufficient size: ', &
                                         shape(vectors),', with n=',n)
-               goto 1
+               call err0%handle(err)
+               return
             end if
             
             ! The input matrix will be overwritten by the vectors.
@@ -1588,7 +1608,7 @@ module la_eig
          
          ! Finalize storage and process output flag
          if (copy_a) deallocate (amat)
-1        call linalg_error_handling(err0,err)
+         call err0%handle(err)
 
      end subroutine la_eigh_c
      
@@ -1682,13 +1702,15 @@ module la_eig
          if (.not. (k > 0 .and. m == n)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or matrix size a=', [m,n], &
                                                         ', must be square.')
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          if (.not. neig >= k) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'eigenvalue array has insufficient size:', &
                                                         ' lambda=',neig,', n=',n)
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          ! Can A be overwritten? By default, do not overwrite
@@ -1772,7 +1794,7 @@ module la_eig
          ! Finalize storage and process output flag
          
 2        if (copy_a) deallocate (amat)
-1        call linalg_error_handling(err0,err)
+         call err0%handle(err)
 
      end subroutine la_eig_z
      
@@ -1867,13 +1889,15 @@ module la_eig
          if (.not. (k > 0 .and. m == n)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or matrix size a=', [m,n], &
                                                         ', must be square.')
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          if (.not. neig >= k) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'eigenvalue array has insufficient size:', &
                                                         ' lambda=',neig,' must be >= n=',n)
-            goto 1
+            call err0%handle(err)
+            return
          end if
         
          ! Check if input A can be overwritten
@@ -1899,7 +1923,8 @@ module la_eig
                err0 = la_state(this,LINALG_VALUE_ERROR, &
                                         'eigenvector matrix has insufficient size: ', &
                                         shape(vectors),', with n=',n)
-               goto 1
+               call err0%handle(err)
+               return
             end if
             
             ! The input matrix will be overwritten by the vectors.
@@ -1940,7 +1965,7 @@ module la_eig
          
          ! Finalize storage and process output flag
          if (copy_a) deallocate (amat)
-1        call linalg_error_handling(err0,err)
+         call err0%handle(err)
 
      end subroutine la_eigh_z
      
@@ -2034,13 +2059,15 @@ module la_eig
          if (.not. (k > 0 .and. m == n)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or matrix size a=', [m,n], &
                                                         ', must be square.')
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          if (.not. neig >= k) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'eigenvalue array has insufficient size:', &
                                                         ' lambda=',neig,', n=',n)
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          ! Can A be overwritten? By default, do not overwrite
@@ -2124,7 +2151,7 @@ module la_eig
          ! Finalize storage and process output flag
          
 2        if (copy_a) deallocate (amat)
-1        call linalg_error_handling(err0,err)
+         call err0%handle(err)
 
      end subroutine la_eig_w
      
@@ -2219,13 +2246,15 @@ module la_eig
          if (.not. (k > 0 .and. m == n)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or matrix size a=', [m,n], &
                                                         ', must be square.')
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          if (.not. neig >= k) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'eigenvalue array has insufficient size:', &
                                                         ' lambda=',neig,' must be >= n=',n)
-            goto 1
+            call err0%handle(err)
+            return
          end if
         
          ! Check if input A can be overwritten
@@ -2251,7 +2280,8 @@ module la_eig
                err0 = la_state(this,LINALG_VALUE_ERROR, &
                                         'eigenvector matrix has insufficient size: ', &
                                         shape(vectors),', with n=',n)
-               goto 1
+               call err0%handle(err)
+               return
             end if
             
             ! The input matrix will be overwritten by the vectors.
@@ -2292,7 +2322,7 @@ module la_eig
          
          ! Finalize storage and process output flag
          if (copy_a) deallocate (amat)
-1        call linalg_error_handling(err0,err)
+         call err0%handle(err)
 
      end subroutine la_eigh_w
      

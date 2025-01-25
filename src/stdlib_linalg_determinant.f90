@@ -52,7 +52,8 @@ module la_determinant
          if (m /= n .or. .not. min(m,n) >= 0) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or non-square matrix: a=[',m,',',n,']')
             det = 0.0_sp
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          ! Can A be overwritten? By default, do not overwrite
@@ -115,7 +116,7 @@ module la_determinant
          end select
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+         call err0%handle(err)
 
      end function la_sdeterminant
 
@@ -144,7 +145,8 @@ module la_determinant
          if (m /= n .or. .not. min(m,n) >= 0) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or non-square matrix: a=[',m,',',n,']')
             det = 0.0_dp
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          ! Can A be overwritten? By default, do not overwrite
@@ -207,7 +209,7 @@ module la_determinant
          end select
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+         call err0%handle(err)
 
      end function la_ddeterminant
 
@@ -236,7 +238,8 @@ module la_determinant
          if (m /= n .or. .not. min(m,n) >= 0) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or non-square matrix: a=[',m,',',n,']')
             det = 0.0_qp
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          ! Can A be overwritten? By default, do not overwrite
@@ -299,7 +302,7 @@ module la_determinant
          end select
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+         call err0%handle(err)
 
      end function la_qdeterminant
 
@@ -328,7 +331,8 @@ module la_determinant
          if (m /= n .or. .not. min(m,n) >= 0) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or non-square matrix: a=[',m,',',n,']')
             det = 0.0_sp
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          ! Can A be overwritten? By default, do not overwrite
@@ -391,7 +395,7 @@ module la_determinant
          end select
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+         call err0%handle(err)
 
      end function la_cdeterminant
 
@@ -420,7 +424,8 @@ module la_determinant
          if (m /= n .or. .not. min(m,n) >= 0) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or non-square matrix: a=[',m,',',n,']')
             det = 0.0_dp
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          ! Can A be overwritten? By default, do not overwrite
@@ -483,7 +488,7 @@ module la_determinant
          end select
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+         call err0%handle(err)
 
      end function la_zdeterminant
 
@@ -512,7 +517,8 @@ module la_determinant
          if (m /= n .or. .not. min(m,n) >= 0) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or non-square matrix: a=[',m,',',n,']')
             det = 0.0_qp
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          ! Can A be overwritten? By default, do not overwrite
@@ -575,7 +581,7 @@ module la_determinant
          end select
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+         call err0%handle(err)
 
      end function la_wdeterminant
 

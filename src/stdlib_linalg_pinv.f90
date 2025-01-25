@@ -74,13 +74,13 @@ module la_pseudoinverse
          k = min(m,n)
          if (m < 1 .or. n < 1) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size: a=', [m,n])
-            call linalg_error_handling(err0,err)
+            call err0%handle(err)
             return
          end if
          
          if (any(shape(pinva,kind=ilp) /= [n,m])) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid pinv size:',shape(pinva),'should be', [n,m])
-            call linalg_error_handling(err0,err)
+            call err0%handle(err)
             return
          end if
          
@@ -96,7 +96,7 @@ module la_pseudoinverse
          call svd(a,s,u,vt,overwrite_a=.false.,full_matrices=.false.,err=err0)
          if (err0%error()) then
             err0 = la_state(this,LINALG_ERROR,'svd failure -',err0%message)
-            call linalg_error_handling(err0,err)
+            call err0%handle(err)
             return
          end if
          
@@ -173,13 +173,13 @@ module la_pseudoinverse
          k = min(m,n)
          if (m < 1 .or. n < 1) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size: a=', [m,n])
-            call linalg_error_handling(err0,err)
+            call err0%handle(err)
             return
          end if
          
          if (any(shape(pinva,kind=ilp) /= [n,m])) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid pinv size:',shape(pinva),'should be', [n,m])
-            call linalg_error_handling(err0,err)
+            call err0%handle(err)
             return
          end if
          
@@ -195,7 +195,7 @@ module la_pseudoinverse
          call svd(a,s,u,vt,overwrite_a=.false.,full_matrices=.false.,err=err0)
          if (err0%error()) then
             err0 = la_state(this,LINALG_ERROR,'svd failure -',err0%message)
-            call linalg_error_handling(err0,err)
+            call err0%handle(err)
             return
          end if
          
@@ -272,13 +272,13 @@ module la_pseudoinverse
          k = min(m,n)
          if (m < 1 .or. n < 1) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size: a=', [m,n])
-            call linalg_error_handling(err0,err)
+            call err0%handle(err)
             return
          end if
          
          if (any(shape(pinva,kind=ilp) /= [n,m])) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid pinv size:',shape(pinva),'should be', [n,m])
-            call linalg_error_handling(err0,err)
+            call err0%handle(err)
             return
          end if
          
@@ -294,7 +294,7 @@ module la_pseudoinverse
          call svd(a,s,u,vt,overwrite_a=.false.,full_matrices=.false.,err=err0)
          if (err0%error()) then
             err0 = la_state(this,LINALG_ERROR,'svd failure -',err0%message)
-            call linalg_error_handling(err0,err)
+            call err0%handle(err)
             return
          end if
          
@@ -371,13 +371,13 @@ module la_pseudoinverse
          k = min(m,n)
          if (m < 1 .or. n < 1) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size: a=', [m,n])
-            call linalg_error_handling(err0,err)
+            call err0%handle(err)
             return
          end if
          
          if (any(shape(pinva,kind=ilp) /= [n,m])) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid pinv size:',shape(pinva),'should be', [n,m])
-            call linalg_error_handling(err0,err)
+            call err0%handle(err)
             return
          end if
          
@@ -393,7 +393,7 @@ module la_pseudoinverse
          call svd(a,s,u,vt,overwrite_a=.false.,full_matrices=.false.,err=err0)
          if (err0%error()) then
             err0 = la_state(this,LINALG_ERROR,'svd failure -',err0%message)
-            call linalg_error_handling(err0,err)
+            call err0%handle(err)
             return
          end if
          
@@ -470,13 +470,13 @@ module la_pseudoinverse
          k = min(m,n)
          if (m < 1 .or. n < 1) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size: a=', [m,n])
-            call linalg_error_handling(err0,err)
+            call err0%handle(err)
             return
          end if
          
          if (any(shape(pinva,kind=ilp) /= [n,m])) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid pinv size:',shape(pinva),'should be', [n,m])
-            call linalg_error_handling(err0,err)
+            call err0%handle(err)
             return
          end if
          
@@ -492,7 +492,7 @@ module la_pseudoinverse
          call svd(a,s,u,vt,overwrite_a=.false.,full_matrices=.false.,err=err0)
          if (err0%error()) then
             err0 = la_state(this,LINALG_ERROR,'svd failure -',err0%message)
-            call linalg_error_handling(err0,err)
+            call err0%handle(err)
             return
          end if
          
@@ -569,13 +569,13 @@ module la_pseudoinverse
          k = min(m,n)
          if (m < 1 .or. n < 1) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size: a=', [m,n])
-            call linalg_error_handling(err0,err)
+            call err0%handle(err)
             return
          end if
          
          if (any(shape(pinva,kind=ilp) /= [n,m])) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid pinv size:',shape(pinva),'should be', [n,m])
-            call linalg_error_handling(err0,err)
+            call err0%handle(err)
             return
          end if
          
@@ -591,7 +591,7 @@ module la_pseudoinverse
          call svd(a,s,u,vt,overwrite_a=.false.,full_matrices=.false.,err=err0)
          if (err0%error()) then
             err0 = la_state(this,LINALG_ERROR,'svd failure -',err0%message)
-            call linalg_error_handling(err0,err)
+            call err0%handle(err)
             return
          end if
          

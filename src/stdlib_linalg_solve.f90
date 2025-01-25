@@ -86,7 +86,8 @@ module la_solve
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
                                                                        'b=[',ldb,',',nrhs,']')
             allocate (x(0))
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          ! Can A be overwritten? By default, do not overwrite
@@ -119,7 +120,7 @@ module la_solve
          if (copy_a) deallocate (amat)
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+         call err0%handle(err)
 
      end function la_ssolve_one
 
@@ -153,7 +154,8 @@ module la_solve
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
                                                                        'b=[',ldb,',',nrhs,']')
             allocate (x(0))
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          ! Can A be overwritten? By default, do not overwrite
@@ -186,7 +188,7 @@ module la_solve
          if (copy_a) deallocate (amat)
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+         call err0%handle(err)
 
      end function la_dsolve_one
 
@@ -220,7 +222,8 @@ module la_solve
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
                                                                        'b=[',ldb,',',nrhs,']')
             allocate (x(0))
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          ! Can A be overwritten? By default, do not overwrite
@@ -253,7 +256,7 @@ module la_solve
          if (copy_a) deallocate (amat)
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+         call err0%handle(err)
 
      end function la_qsolve_one
 
@@ -287,7 +290,8 @@ module la_solve
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
                                                                        'b=[',ldb,',',nrhs,']')
             allocate (x(0))
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          ! Can A be overwritten? By default, do not overwrite
@@ -320,7 +324,7 @@ module la_solve
          if (copy_a) deallocate (amat)
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+         call err0%handle(err)
 
      end function la_csolve_one
 
@@ -354,7 +358,8 @@ module la_solve
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
                                                                        'b=[',ldb,',',nrhs,']')
             allocate (x(0))
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          ! Can A be overwritten? By default, do not overwrite
@@ -387,7 +392,7 @@ module la_solve
          if (copy_a) deallocate (amat)
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+         call err0%handle(err)
 
      end function la_zsolve_one
 
@@ -421,7 +426,8 @@ module la_solve
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
                                                                        'b=[',ldb,',',nrhs,']')
             allocate (x(0))
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          ! Can A be overwritten? By default, do not overwrite
@@ -454,7 +460,7 @@ module la_solve
          if (copy_a) deallocate (amat)
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+         call err0%handle(err)
 
      end function la_wsolve_one
 
@@ -488,7 +494,8 @@ module la_solve
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
                                                                        'b=[',ldb,',',nrhs,']')
             allocate (x(0,0))
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          ! Can A be overwritten? By default, do not overwrite
@@ -521,7 +528,7 @@ module la_solve
          if (copy_a) deallocate (amat)
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+         call err0%handle(err)
 
      end function la_ssolve_multiple
 
@@ -555,7 +562,8 @@ module la_solve
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
                                                                        'b=[',ldb,',',nrhs,']')
             allocate (x(0,0))
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          ! Can A be overwritten? By default, do not overwrite
@@ -588,7 +596,7 @@ module la_solve
          if (copy_a) deallocate (amat)
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+         call err0%handle(err)
 
      end function la_dsolve_multiple
 
@@ -622,7 +630,8 @@ module la_solve
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
                                                                        'b=[',ldb,',',nrhs,']')
             allocate (x(0,0))
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          ! Can A be overwritten? By default, do not overwrite
@@ -655,7 +664,7 @@ module la_solve
          if (copy_a) deallocate (amat)
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+         call err0%handle(err)
 
      end function la_qsolve_multiple
 
@@ -689,7 +698,8 @@ module la_solve
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
                                                                        'b=[',ldb,',',nrhs,']')
             allocate (x(0,0))
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          ! Can A be overwritten? By default, do not overwrite
@@ -722,7 +732,7 @@ module la_solve
          if (copy_a) deallocate (amat)
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+         call err0%handle(err)
 
      end function la_csolve_multiple
 
@@ -756,7 +766,8 @@ module la_solve
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
                                                                        'b=[',ldb,',',nrhs,']')
             allocate (x(0,0))
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          ! Can A be overwritten? By default, do not overwrite
@@ -789,7 +800,7 @@ module la_solve
          if (copy_a) deallocate (amat)
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+         call err0%handle(err)
 
      end function la_zsolve_multiple
 
@@ -823,7 +834,8 @@ module la_solve
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
                                                                        'b=[',ldb,',',nrhs,']')
             allocate (x(0,0))
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          ! Can A be overwritten? By default, do not overwrite
@@ -856,7 +868,7 @@ module la_solve
          if (copy_a) deallocate (amat)
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+         call err0%handle(err)
 
      end function la_wsolve_multiple
 

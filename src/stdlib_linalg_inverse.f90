@@ -71,7 +71,8 @@ module la_inverse
 
          if (lda < 1 .or. n < 1 .or. lda /= n) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size: a=[',lda,',',n,']')
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          ! Pivot indices
@@ -107,7 +108,7 @@ module la_inverse
          end select
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+         call err0%handle(err)
 
      end subroutine la_invert_s
 
@@ -167,7 +168,8 @@ module la_inverse
 
          if (lda < 1 .or. n < 1 .or. lda /= n) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size: a=[',lda,',',n,']')
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          ! Pivot indices
@@ -203,7 +205,7 @@ module la_inverse
          end select
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+         call err0%handle(err)
 
      end subroutine la_invert_d
 
@@ -263,7 +265,8 @@ module la_inverse
 
          if (lda < 1 .or. n < 1 .or. lda /= n) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size: a=[',lda,',',n,']')
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          ! Pivot indices
@@ -299,7 +302,7 @@ module la_inverse
          end select
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+         call err0%handle(err)
 
      end subroutine la_invert_q
 
@@ -359,7 +362,8 @@ module la_inverse
 
          if (lda < 1 .or. n < 1 .or. lda /= n) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size: a=[',lda,',',n,']')
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          ! Pivot indices
@@ -395,7 +399,7 @@ module la_inverse
          end select
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+         call err0%handle(err)
 
      end subroutine la_invert_c
 
@@ -455,7 +459,8 @@ module la_inverse
 
          if (lda < 1 .or. n < 1 .or. lda /= n) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size: a=[',lda,',',n,']')
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          ! Pivot indices
@@ -491,7 +496,7 @@ module la_inverse
          end select
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+         call err0%handle(err)
 
      end subroutine la_invert_z
 
@@ -551,7 +556,8 @@ module la_inverse
 
          if (lda < 1 .or. n < 1 .or. lda /= n) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size: a=[',lda,',',n,']')
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          ! Pivot indices
@@ -587,7 +593,7 @@ module la_inverse
          end select
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+         call err0%handle(err)
 
      end subroutine la_invert_w
 

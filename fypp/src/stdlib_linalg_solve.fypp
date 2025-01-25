@@ -85,7 +85,8 @@ module la_solve
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],',&
                                                                        'b=[',ldb,',',nrhs,']')
             allocate(x(${nde}$))
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          ! Can A be overwritten? By default, do not overwrite
@@ -118,7 +119,7 @@ module la_solve
          if (copy_a) deallocate(amat)
 
          ! Process output and return
-         1 call linalg_error_handling(err0,err)
+         call err0%handle(err)
 
      end function la_${ri}$solve${ndsuf}$
 

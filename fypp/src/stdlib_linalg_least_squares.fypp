@@ -177,7 +177,7 @@ module la_least_squares
          if (.not.copy_a) deallocate(amat)
 
          ! Process output and return
-         1 call linalg_error_handling(err0,err)
+         1 call err0%handle(err)
          if (present(rank)) rank = arank
 
      end function la_${ri}$lstsq${ndsuf}$

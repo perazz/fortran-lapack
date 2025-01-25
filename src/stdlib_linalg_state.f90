@@ -6,7 +6,6 @@ module la_state_type
 
      !> Public interfaces
      public :: la_state
-     public :: linalg_error_handling
      public :: operator(==),operator(/=)
      public :: operator(<),operator(<=)
      public :: operator(>),operator(>=)
@@ -39,6 +38,9 @@ module la_state_type
 
             !> Cleanup
             procedure :: destroy => state_destroy
+            
+            !> Error handling
+            procedure :: handle => linalg_error_handling
 
             !> Print error message
             procedure :: print => state_print
@@ -100,7 +102,7 @@ module la_state_type
 
      !> Flow control: on output flag present, return it; otherwise, halt on error
      pure subroutine linalg_error_handling(ierr,ierr_out)
-         type(la_state),intent(in) :: ierr
+         class(la_state),intent(in) :: ierr
          type(la_state),optional,intent(out) :: ierr_out
 
          character(len=:),allocatable :: err_msg

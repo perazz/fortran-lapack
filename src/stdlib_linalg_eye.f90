@@ -90,7 +90,8 @@ module la_eye
          if (.not. min(m,cols) >= 0) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid eye size: eye[',m,',',n,']')
             allocate (eye(0,0))
-            goto 1
+            call err0%handle()
+            return
          end if
 
          ! Allocate array
@@ -105,7 +106,7 @@ module la_eye
          end do
 
          ! Process output and return
-1        call linalg_error_handling(err0)
+1        call err0%handle()
 
      end function la_eye_s
 
@@ -136,7 +137,8 @@ module la_eye
          if (.not. min(m,cols) >= 0) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid eye size: eye[',m,',',n,']')
             allocate (eye(0,0))
-            goto 1
+            call err0%handle()
+            return
          end if
 
          ! Allocate array
@@ -151,7 +153,7 @@ module la_eye
          end do
 
          ! Process output and return
-1        call linalg_error_handling(err0)
+1        call err0%handle()
 
      end function la_eye_d
 
@@ -182,7 +184,8 @@ module la_eye
          if (.not. min(m,cols) >= 0) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid eye size: eye[',m,',',n,']')
             allocate (eye(0,0))
-            goto 1
+            call err0%handle()
+            return
          end if
 
          ! Allocate array
@@ -197,7 +200,7 @@ module la_eye
          end do
 
          ! Process output and return
-1        call linalg_error_handling(err0)
+1        call err0%handle()
 
      end function la_eye_q
 
@@ -228,7 +231,8 @@ module la_eye
          if (.not. min(m,cols) >= 0) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid eye size: eye[',m,',',n,']')
             allocate (eye(0,0))
-            goto 1
+            call err0%handle()
+            return
          end if
 
          ! Allocate array
@@ -243,7 +247,7 @@ module la_eye
          end do
 
          ! Process output and return
-1        call linalg_error_handling(err0)
+1        call err0%handle()
 
      end function la_eye_c
 
@@ -274,7 +278,8 @@ module la_eye
          if (.not. min(m,cols) >= 0) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid eye size: eye[',m,',',n,']')
             allocate (eye(0,0))
-            goto 1
+            call err0%handle()
+            return
          end if
 
          ! Allocate array
@@ -289,7 +294,7 @@ module la_eye
          end do
 
          ! Process output and return
-1        call linalg_error_handling(err0)
+1        call err0%handle()
 
      end function la_eye_z
 
@@ -320,7 +325,8 @@ module la_eye
          if (.not. min(m,cols) >= 0) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid eye size: eye[',m,',',n,']')
             allocate (eye(0,0))
-            goto 1
+            call err0%handle()
+            return
          end if
 
          ! Allocate array
@@ -335,7 +341,7 @@ module la_eye
          end do
 
          ! Process output and return
-1        call linalg_error_handling(err0)
+1        call err0%handle()
 
      end function la_eye_w
 
@@ -357,7 +363,8 @@ module la_eye
          if (.not. n >= 0) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid diagonal size: diag[',n,',',n,']')
             allocate (diag(0,0))
-            goto 1
+            call err0%handle()
+            return
          end if
 
          ! Allocate array
@@ -376,7 +383,7 @@ module la_eye
          end do
 
          ! Process output and return
-1        call linalg_error_handling(err0)
+1        call err0%handle()
 
      end function la_diag_s_from_scalar
 
@@ -398,7 +405,8 @@ module la_eye
          if (.not. n >= 0) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid input array size: diag[',n,',',n,']')
             allocate (diag(0,0))
-            goto 1
+            call err0%handle()
+            return
          end if
 
          ! Allocate array
@@ -417,7 +425,7 @@ module la_eye
          end do
 
          ! Process output and return
-1        call linalg_error_handling(err0)
+         call err0%handle()
 
      end function la_diag_s_from_array
 
@@ -439,7 +447,8 @@ module la_eye
          if (.not. n >= 0) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid diagonal size: diag[',n,',',n,']')
             allocate (diag(0,0))
-            goto 1
+            call err0%handle()
+            return
          end if
 
          ! Allocate array
@@ -458,7 +467,7 @@ module la_eye
          end do
 
          ! Process output and return
-1        call linalg_error_handling(err0)
+1        call err0%handle()
 
      end function la_diag_d_from_scalar
 
@@ -480,7 +489,8 @@ module la_eye
          if (.not. n >= 0) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid input array size: diag[',n,',',n,']')
             allocate (diag(0,0))
-            goto 1
+            call err0%handle()
+            return
          end if
 
          ! Allocate array
@@ -499,7 +509,7 @@ module la_eye
          end do
 
          ! Process output and return
-1        call linalg_error_handling(err0)
+         call err0%handle()
 
      end function la_diag_d_from_array
 
@@ -521,7 +531,8 @@ module la_eye
          if (.not. n >= 0) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid diagonal size: diag[',n,',',n,']')
             allocate (diag(0,0))
-            goto 1
+            call err0%handle()
+            return
          end if
 
          ! Allocate array
@@ -540,7 +551,7 @@ module la_eye
          end do
 
          ! Process output and return
-1        call linalg_error_handling(err0)
+1        call err0%handle()
 
      end function la_diag_q_from_scalar
 
@@ -562,7 +573,8 @@ module la_eye
          if (.not. n >= 0) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid input array size: diag[',n,',',n,']')
             allocate (diag(0,0))
-            goto 1
+            call err0%handle()
+            return
          end if
 
          ! Allocate array
@@ -581,7 +593,7 @@ module la_eye
          end do
 
          ! Process output and return
-1        call linalg_error_handling(err0)
+         call err0%handle()
 
      end function la_diag_q_from_array
 
@@ -603,7 +615,8 @@ module la_eye
          if (.not. n >= 0) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid diagonal size: diag[',n,',',n,']')
             allocate (diag(0,0))
-            goto 1
+            call err0%handle()
+            return
          end if
 
          ! Allocate array
@@ -622,7 +635,7 @@ module la_eye
          end do
 
          ! Process output and return
-1        call linalg_error_handling(err0)
+1        call err0%handle()
 
      end function la_diag_c_from_scalar
 
@@ -644,7 +657,8 @@ module la_eye
          if (.not. n >= 0) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid input array size: diag[',n,',',n,']')
             allocate (diag(0,0))
-            goto 1
+            call err0%handle()
+            return
          end if
 
          ! Allocate array
@@ -663,7 +677,7 @@ module la_eye
          end do
 
          ! Process output and return
-1        call linalg_error_handling(err0)
+         call err0%handle()
 
      end function la_diag_c_from_array
 
@@ -685,7 +699,8 @@ module la_eye
          if (.not. n >= 0) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid diagonal size: diag[',n,',',n,']')
             allocate (diag(0,0))
-            goto 1
+            call err0%handle()
+            return
          end if
 
          ! Allocate array
@@ -704,7 +719,7 @@ module la_eye
          end do
 
          ! Process output and return
-1        call linalg_error_handling(err0)
+1        call err0%handle()
 
      end function la_diag_z_from_scalar
 
@@ -726,7 +741,8 @@ module la_eye
          if (.not. n >= 0) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid input array size: diag[',n,',',n,']')
             allocate (diag(0,0))
-            goto 1
+            call err0%handle()
+            return
          end if
 
          ! Allocate array
@@ -745,7 +761,7 @@ module la_eye
          end do
 
          ! Process output and return
-1        call linalg_error_handling(err0)
+         call err0%handle()
 
      end function la_diag_z_from_array
 
@@ -767,7 +783,8 @@ module la_eye
          if (.not. n >= 0) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid diagonal size: diag[',n,',',n,']')
             allocate (diag(0,0))
-            goto 1
+            call err0%handle()
+            return
          end if
 
          ! Allocate array
@@ -786,7 +803,7 @@ module la_eye
          end do
 
          ! Process output and return
-1        call linalg_error_handling(err0)
+1        call err0%handle()
 
      end function la_diag_w_from_scalar
 
@@ -808,7 +825,8 @@ module la_eye
          if (.not. n >= 0) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid input array size: diag[',n,',',n,']')
             allocate (diag(0,0))
-            goto 1
+            call err0%handle()
+            return
          end if
 
          ! Allocate array
@@ -827,7 +845,7 @@ module la_eye
          end do
 
          ! Process output and return
-1        call linalg_error_handling(err0)
+         call err0%handle()
 
      end function la_diag_w_from_array
 
@@ -860,7 +878,8 @@ module la_eye
          if (.not. min(m,cols) >= 0) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid eye size: eye[',m,',',n,']')
             allocate (eye(0,0))
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          ! Allocate array
@@ -875,7 +894,7 @@ module la_eye
          end do
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+1        call err0%handle(err)
 
      end function la_eye_s_errhandle
 
@@ -908,7 +927,8 @@ module la_eye
          if (.not. min(m,cols) >= 0) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid eye size: eye[',m,',',n,']')
             allocate (eye(0,0))
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          ! Allocate array
@@ -923,7 +943,7 @@ module la_eye
          end do
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+1        call err0%handle(err)
 
      end function la_eye_d_errhandle
 
@@ -956,7 +976,8 @@ module la_eye
          if (.not. min(m,cols) >= 0) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid eye size: eye[',m,',',n,']')
             allocate (eye(0,0))
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          ! Allocate array
@@ -971,7 +992,7 @@ module la_eye
          end do
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+1        call err0%handle(err)
 
      end function la_eye_q_errhandle
 
@@ -1004,7 +1025,8 @@ module la_eye
          if (.not. min(m,cols) >= 0) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid eye size: eye[',m,',',n,']')
             allocate (eye(0,0))
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          ! Allocate array
@@ -1019,7 +1041,7 @@ module la_eye
          end do
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+1        call err0%handle(err)
 
      end function la_eye_c_errhandle
 
@@ -1052,7 +1074,8 @@ module la_eye
          if (.not. min(m,cols) >= 0) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid eye size: eye[',m,',',n,']')
             allocate (eye(0,0))
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          ! Allocate array
@@ -1067,7 +1090,7 @@ module la_eye
          end do
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+1        call err0%handle(err)
 
      end function la_eye_z_errhandle
 
@@ -1100,7 +1123,8 @@ module la_eye
          if (.not. min(m,cols) >= 0) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid eye size: eye[',m,',',n,']')
             allocate (eye(0,0))
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          ! Allocate array
@@ -1115,7 +1139,7 @@ module la_eye
          end do
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+1        call err0%handle(err)
 
      end function la_eye_w_errhandle
 
@@ -1139,7 +1163,8 @@ module la_eye
          if (.not. n >= 0) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid diagonal size: diag[',n,',',n,']')
             allocate (diag(0,0))
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          ! Allocate array
@@ -1158,7 +1183,7 @@ module la_eye
          end do
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+1        call err0%handle(err)
 
      end function la_diag_s_errhandle_from_scalar
 
@@ -1182,7 +1207,8 @@ module la_eye
          if (.not. n >= 0) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid input array size: diag[',n,',',n,']')
             allocate (diag(0,0))
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          ! Allocate array
@@ -1201,7 +1227,7 @@ module la_eye
          end do
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+         call err0%handle(err)
 
      end function la_diag_s_errhandle_from_array
 
@@ -1225,7 +1251,8 @@ module la_eye
          if (.not. n >= 0) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid diagonal size: diag[',n,',',n,']')
             allocate (diag(0,0))
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          ! Allocate array
@@ -1244,7 +1271,7 @@ module la_eye
          end do
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+1        call err0%handle(err)
 
      end function la_diag_d_errhandle_from_scalar
 
@@ -1268,7 +1295,8 @@ module la_eye
          if (.not. n >= 0) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid input array size: diag[',n,',',n,']')
             allocate (diag(0,0))
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          ! Allocate array
@@ -1287,7 +1315,7 @@ module la_eye
          end do
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+         call err0%handle(err)
 
      end function la_diag_d_errhandle_from_array
 
@@ -1311,7 +1339,8 @@ module la_eye
          if (.not. n >= 0) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid diagonal size: diag[',n,',',n,']')
             allocate (diag(0,0))
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          ! Allocate array
@@ -1330,7 +1359,7 @@ module la_eye
          end do
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+1        call err0%handle(err)
 
      end function la_diag_q_errhandle_from_scalar
 
@@ -1354,7 +1383,8 @@ module la_eye
          if (.not. n >= 0) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid input array size: diag[',n,',',n,']')
             allocate (diag(0,0))
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          ! Allocate array
@@ -1373,7 +1403,7 @@ module la_eye
          end do
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+         call err0%handle(err)
 
      end function la_diag_q_errhandle_from_array
 
@@ -1397,7 +1427,8 @@ module la_eye
          if (.not. n >= 0) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid diagonal size: diag[',n,',',n,']')
             allocate (diag(0,0))
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          ! Allocate array
@@ -1416,7 +1447,7 @@ module la_eye
          end do
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+1        call err0%handle(err)
 
      end function la_diag_c_errhandle_from_scalar
 
@@ -1440,7 +1471,8 @@ module la_eye
          if (.not. n >= 0) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid input array size: diag[',n,',',n,']')
             allocate (diag(0,0))
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          ! Allocate array
@@ -1459,7 +1491,7 @@ module la_eye
          end do
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+         call err0%handle(err)
 
      end function la_diag_c_errhandle_from_array
 
@@ -1483,7 +1515,8 @@ module la_eye
          if (.not. n >= 0) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid diagonal size: diag[',n,',',n,']')
             allocate (diag(0,0))
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          ! Allocate array
@@ -1502,7 +1535,7 @@ module la_eye
          end do
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+1        call err0%handle(err)
 
      end function la_diag_z_errhandle_from_scalar
 
@@ -1526,7 +1559,8 @@ module la_eye
          if (.not. n >= 0) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid input array size: diag[',n,',',n,']')
             allocate (diag(0,0))
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          ! Allocate array
@@ -1545,7 +1579,7 @@ module la_eye
          end do
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+         call err0%handle(err)
 
      end function la_diag_z_errhandle_from_array
 
@@ -1569,7 +1603,8 @@ module la_eye
          if (.not. n >= 0) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid diagonal size: diag[',n,',',n,']')
             allocate (diag(0,0))
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          ! Allocate array
@@ -1588,7 +1623,7 @@ module la_eye
          end do
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+1        call err0%handle(err)
 
      end function la_diag_w_errhandle_from_scalar
 
@@ -1612,7 +1647,8 @@ module la_eye
          if (.not. n >= 0) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid input array size: diag[',n,',',n,']')
             allocate (diag(0,0))
-            goto 1
+            call err0%handle(err)
+            return
          end if
 
          ! Allocate array
@@ -1631,7 +1667,7 @@ module la_eye
          end do
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+         call err0%handle(err)
 
      end function la_diag_w_errhandle_from_array
 
