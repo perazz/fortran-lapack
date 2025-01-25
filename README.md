@@ -2,6 +2,9 @@
 This package provides precision-agnostic, high-level linear algebra APIs for `real` and `complex` arguments in Modern Fortran. The APIs are similar to NumPy/SciPy operations, and leverage a Modern Fortran implementation of the [Reference-LAPACK](http://github.com/reference-LAPACK) library.
 
 # Current API
+
+[The documentation site](https://perazz.github.io/fortran-lapack/index.html) contains full documentation for the library.
+
 Procedure   | Type | Description | Optional arguments
 ---        | ---         | --- | ---
 `solve(A,b)` | function | Solve linear systems - one (`b(:)`) or many (`b(:,:)`) | `solve(A,b,overwrite_a,err)`: option to let A be destroyed, return state handler `err`
