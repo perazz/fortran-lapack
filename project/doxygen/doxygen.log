@@ -1,3 +1,0 @@
-warning: source '../../src' is not a readable file or directory... skipping.
-warning: No files to be processed, please check your settings, in particular INPUT, FILE_PATTERNS, and RECURSIVE
-error: Style sheet 'doxygen-awesome.css' specified by HTML_EXTRA_STYLESHEET does not exist!

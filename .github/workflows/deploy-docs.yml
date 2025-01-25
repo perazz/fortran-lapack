@@ -21,13 +21,17 @@ jobs:
 
       # Step 3: Generate Doxygen documentation
       - name: Generate Doxygen Documentation
-        run: doxygen ./project/doxygen/Doxyfile
+        run: cd project/doxygen && doxygen 
 
-      # Step 4: Deploy to `gh-pages` branch
+      # Step 4: Ensure no Jekyll is present  
+      - name: Create .nojekyll file
+        run: echo "" > ./project/doxygen/html/.nojekyll
+
+      # Step 5: Deploy to `gh-pages` branch
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
-          publish_dir: ./html
+          publish_dir: ./project/doxygen/html
 
