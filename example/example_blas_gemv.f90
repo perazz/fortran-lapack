@@ -1,6 +1,5 @@
 program example_gemv
-  use la_eye, only: eye
-  use la_blas, only: sp,gemv
+  use linear_algebra, only: eye,sp,gemv
   implicit none(type,external)
   real(sp) :: A(2, 2), B(2)
   B = [1.0,2.0]

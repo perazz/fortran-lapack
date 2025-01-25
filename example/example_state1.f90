@@ -1,5 +1,5 @@
 program example_state1
-  use linear_algebra
+  use linear_algebra, only: la_state, LINALG_VALUE_ERROR, operator(==)
   implicit none
   type(la_state) :: err
 
