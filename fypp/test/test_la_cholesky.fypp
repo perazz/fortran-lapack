@@ -1,0 +1,83 @@
+#:include "common.fypp"
+! Test Cholesky factorization 
+module test_linalg_cholesky
+    use linear_algebra
+    implicit none (type,external)
+    private
+    
+    public :: test_cholesky_factorization 
+
+    contains
+
+    !> Cholesky factorization tests
+    subroutine test_cholesky_factorization(tests)
+        !> Collection of tests
+        logical, intent(out) :: error
+
+        real :: t0,t1
+
+        call cpu_time(t0)
+        
+        #:for rk,rt,ri in ALL_KINDS_TYPES
+        call test_cholesky_${ri}$(error)
+        if (error) return        
+        #:endfor
+
+        call cpu_time(t1)
+
+        print 1, 1000*(t1-t0), merge('SUCCESS','ERROR  ',.not.error)
+
+        1 format('Cholesky factorization tests completed in ',f9.4,' milliseconds, result=',a)
+
+    end subroutine test_cholesky_factorization
+
+    !> Cholesky factorization of a random matrix
+    #:for rk,rt,ri in ALL_KINDS_TYPES
+    subroutine test_cholesky_${ri}$(error)
+        logical, intent(out) :: error
+
+        integer(ilp), parameter :: n   = 3_ilp
+        real(${rk}$), parameter :: tol = 100*sqrt(epsilon(0.0_${rk}$))
+        ${rt}$ :: a(n,n), l(n,n)
+        type(la_state) :: state
+        
+        ! Set real matrix
+        a(1,:) = [6, 15, 55]
+        a(2,:) = [15, 55, 225]
+        a(3,:) = [55, 225, 979]
+        
+        ! Set result (lower factor) 
+        l(1,:) = [ 2.4495_${rk}$,  0.0000_${rk}$, 0.0000_${rk}$]
+        l(2,:) = [ 6.1237_${rk}$,  4.1833_${rk}$, 0.0000_${rk}$]
+        l(3,:) = [22.4537_${rk}$, 20.9165_${rk}$, 6.1101_${rk}$]
+        
+        ! 1) Cholesky factorization with full matrices
+        call cholesky(a, l, other_zeroed=.true., err=state)
+        
+        error = .not.state%ok()
+        if (error) then 
+            print *, 'cholesky (subr) :: '//state%print()
+            return
+        endif
+        
+        error = .not.all(abs(a-matmul(l,transpose(l)))<tol)
+        if (error) then
+            print *, 'cholesky (subr) :: data converged'
+            return
+        endif
+        
+        ! 2) Function interface 
+        l = chol(a, other_zeroed=.true.)
+        
+        error = .not.all(abs(a-matmul(l,transpose(l)))<tol)
+        if (error) then 
+            print *, 'cholesky (function) :: data converged'
+            return
+        endif
+        
+    end subroutine test_cholesky_${ri}$
+
+    #:endfor
+
+
+end module test_linalg_cholesky

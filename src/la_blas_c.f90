@@ -120,7 +120,6 @@ module la_blas_c
      end subroutine la_caxpy
 
      !> CCOPY: copies a vector x to a vector y.
-
      pure subroutine la_ccopy(n,cx,incx,cy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --

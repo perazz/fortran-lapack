@@ -1,6 +1,7 @@
 module linear_algebra
      use la_blas
      use la_constants
+     use la_cholesky, only: chol, cholesky
      use la_determinant
      use la_eye, only: eye, diag
      use la_inverse
