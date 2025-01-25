@@ -51,6 +51,10 @@ var annotated_dup =
       [ "trsm", "interfacela__blas_1_1trsm.html", "interfacela__blas_1_1trsm" ],
       [ "trsv", "interfacela__blas_1_1trsv.html", "interfacela__blas_1_1trsv" ]
     ] ],
+    [ "la_cholesky", "namespacela__cholesky.html", [
+      [ "chol", "interfacela__cholesky_1_1chol.html", "interfacela__cholesky_1_1chol" ],
+      [ "cholesky", "interfacela__cholesky_1_1cholesky.html", "interfacela__cholesky_1_1cholesky" ]
+    ] ],
     [ "la_determinant", "namespacela__determinant.html", [
       [ "det", "interfacela__determinant_1_1det.html", "interfacela__determinant_1_1det" ]
     ] ],

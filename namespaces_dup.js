@@ -1,6 +1,7 @@
 var namespaces_dup =
 [
     [ "la_blas", "namespacela__blas.html", "namespacela__blas" ],
+    [ "la_cholesky", "namespacela__cholesky.html", "namespacela__cholesky" ],
     [ "la_constants", "namespacela__constants.html", [
       [ "dp", "namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52", null ],
       [ "ilp", "namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f", null ],

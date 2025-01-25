@@ -8,7 +8,7 @@ var dir_68267d1309a1af8e8297ef4c3efbcdba =
     [ "la_blas_s.f90", "la__blas__s_8f90.html", null ],
     [ "la_blas_w.f90", "la__blas__w_8f90.html", null ],
     [ "la_blas_z.f90", "la__blas__z_8f90.html", null ],
-    [ "la_cholesky.f90", "la__cholesky_8f90.html", null ],
+    [ "la_cholesky.f90", "la__cholesky_8f90.html", "la__cholesky_8f90" ],
     [ "la_constants.f90", "la__constants_8f90.html", "la__constants_8f90" ],
     [ "la_determinant.f90", "la__determinant_8f90.html", "la__determinant_8f90" ],
     [ "la_eigs.f90", "la__eigs_8f90.html", "la__eigs_8f90" ],
