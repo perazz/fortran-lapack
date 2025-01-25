@@ -14,7 +14,7 @@
 #! All kinds to be considered during templating
 #:set ALL_KINDS_TYPES  = list(zip(REAL_KINDS+REAL_KINDS,REAL_TYPES+CMPL_TYPES,REAL_INITIALS+CMPL_INITIALS))
 
-#:set MAXRANK = 15
+#:set MAXRANK = 7
 
 #:set RANK_SUFFIX      = ["_one","_multiple"]
 #:set RANK_SYMBOL      = [":",":,:"]
