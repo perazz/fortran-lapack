@@ -1,7 +1,7 @@
 module la_schur
     use la_constants
     use la_lapack,only:gees
-    use la_state,only:linalg_state,linalg_error_handling,LINALG_ERROR, &
+    use la_state_type,only:la_state,linalg_error_handling,LINALG_ERROR, &
         LINALG_INTERNAL_ERROR,LINALG_VALUE_ERROR
     implicit none(type,external)
     private
@@ -102,7 +102,7 @@ module la_schur
     !> Wrapper function to handle GEES error codes
     elemental subroutine handle_gees_info(info,m,n,ldvs,err)
         integer(ilp),intent(in) :: info,m,n,ldvs
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
 
         ! Process GEES output
         select case (info)
@@ -110,32 +110,32 @@ module la_schur
             ! Success
         case (-1_ilp)
             ! Vector not wanted, but task is wrong
-            err = linalg_state(this,LINALG_INTERNAL_ERROR,'Invalid Schur vector task request')
+            err = la_state(this,LINALG_INTERNAL_ERROR,'Invalid Schur vector task request')
         case (-2_ilp)
             ! Vector not wanted, but task is wrong
-            err = linalg_state(this,LINALG_INTERNAL_ERROR,'Invalid sorting task request')
+            err = la_state(this,LINALG_INTERNAL_ERROR,'Invalid sorting task request')
         case (-4_ilp,-6_ilp)
             ! Vector not wanted, but task is wrong
-            err = linalg_state(this,LINALG_VALUE_ERROR,'Invalid/non-square input matrix size:', [m,n])
+            err = la_state(this,LINALG_VALUE_ERROR,'Invalid/non-square input matrix size:', [m,n])
         case (-11_ilp)
-            err = linalg_state(this,LINALG_VALUE_ERROR,'Schur vector matrix has insufficient size', [ldvs,n])
+            err = la_state(this,LINALG_VALUE_ERROR,'Schur vector matrix has insufficient size', [ldvs,n])
         case (-13_ilp)
-            err = linalg_state(this,LINALG_INTERNAL_ERROR,'Insufficient working storage size')
+            err = la_state(this,LINALG_INTERNAL_ERROR,'Insufficient working storage size')
         case (1_ilp:)
             
             if (info == n + 2) then
-                err = linalg_state(this,LINALG_ERROR,'Ill-conditioned problem: could not sort eigenvalues')
+                err = la_state(this,LINALG_ERROR,'Ill-conditioned problem: could not sort eigenvalues')
             elseif (info == n + 1) then
-                err = linalg_state(this,LINALG_ERROR,'Some selected eigenvalues lost property due to sorting')
+                err = la_state(this,LINALG_ERROR,'Some selected eigenvalues lost property due to sorting')
             elseif (info == n) then
-                err = linalg_state(this,LINALG_ERROR,'Convergence failure: no converged eigenvalues')
+                err = la_state(this,LINALG_ERROR,'Convergence failure: no converged eigenvalues')
             else
-                err = linalg_state(this,LINALG_ERROR,'Convergence failure; converged range is', [info,n])
+                err = la_state(this,LINALG_ERROR,'Convergence failure; converged range is', [info,n])
             end if
             
         case default
             
-            err = linalg_state(this,LINALG_INTERNAL_ERROR,'GEES catastrophic error: info=',info)
+            err = la_state(this,LINALG_INTERNAL_ERROR,'GEES catastrophic error: info=',info)
 
         end select
         
@@ -147,7 +147,7 @@ module la_schur
         !> Minimum workspace size for the decomposition operation
         integer(ilp),intent(out) :: lwork
         !> State return flag. Returns an error if the query failed
-        type(linalg_state),optional,intent(out) :: err
+        type(la_state),optional,intent(out) :: err
         
         integer(ilp) :: m,n,sdim,info
         character :: jobvs,sort
@@ -155,7 +155,7 @@ module la_schur
         real(sp),pointer :: amat(:,:)
         real(sp) :: rwork_dummy(1)
         real(sp) :: wr_dummy(1),wi_dummy(1),vs_dummy(1,1),work_dummy(1)
-        type(linalg_state) :: err0
+        type(la_state) :: err0
         
         !> Initialize problem
         lwork = -1_ilp
@@ -202,7 +202,7 @@ module la_schur
         !> [optional] Can A data be overwritten and destroyed?
         logical(lk),optional,intent(in) :: overwrite_a
         !> [optional] State return flag. On error if not requested, the code will stop
-        type(linalg_state),optional,intent(out) :: err
+        type(la_state),optional,intent(out) :: err
 
         ! Local variables
         integer(ilp) :: m,n,mt,nt,ldvs,nvs,lde,lwork,sdim,info
@@ -213,7 +213,7 @@ module la_schur
         real(sp),target :: vs_dummy(1,1)
         real(sp),pointer :: vs(:,:),work(:),eigs(:),eigi(:)
         character :: jobvs,sort
-        type(linalg_state_type) :: err0
+        type(la_state) :: err0
         
         ! Problem size
         m = size(a,1,kind=ilp)
@@ -223,12 +223,12 @@ module la_schur
         
         ! Validate dimensions
         if (m /= n .or. m <= 0 .or. n <= 0) then
-            err0 = linalg_state_type(this,LINALG_VALUE_ERROR,'Matrix A must be square: size(a)=', [m,n])
+            err0 = la_state(this,LINALG_VALUE_ERROR,'Matrix A must be square: size(a)=', [m,n])
             call linalg_error_handling(err0,err)
             return
         end if
         if (mt /= nt .or. mt /= n .or. nt /= n) then
-            err0 = linalg_state_type(this,LINALG_VALUE_ERROR,'Matrix T must be square: size(T)=', [mt,nt], &
+            err0 = la_state(this,LINALG_VALUE_ERROR,'Matrix T must be square: size(T)=', [mt,nt], &
                                                           'should be', [m,n])
             call linalg_error_handling(err0,err)
             return
@@ -250,7 +250,7 @@ module la_schur
             nvs = size(vs,2,kind=ilp)
             
             if (ldvs < n .or. nvs /= n) then
-                err0 = linalg_state_type(this,LINALG_VALUE_ERROR,'Schur vectors size=', [ldvs,nvs], &
+                err0 = la_state(this,LINALG_VALUE_ERROR,'Schur vectors size=', [ldvs,nvs], &
                                                               'should be n=',n)
                 call linalg_error_handling(err0,err)
                 return
@@ -317,7 +317,7 @@ module la_schur
         
         if (lde < n) then
             
-            err0 = linalg_state_type(this,LINALG_VALUE_ERROR, &
+            err0 = la_state(this,LINALG_VALUE_ERROR, &
                                            'Insufficient eigenvalue array size=',lde, &
                                            'should be >=',n)
         
@@ -366,9 +366,9 @@ module la_schur
         !> [optional] Can A data be overwritten and destroyed?
         logical(lk),optional,intent(in) :: overwrite_a
         !> [optional] State return flag. On error if not requested, the code will stop
-        type(linalg_state),optional,intent(out) :: err
+        type(la_state),optional,intent(out) :: err
         
-        type(linalg_state) :: err0
+        type(la_state) :: err0
         integer(ilp) :: n
         complex(sp),allocatable :: ceigvals(:)
         real(sp),parameter :: rtol = epsilon(0.0_sp)
@@ -382,7 +382,7 @@ module la_schur
           
         ! Check that no eigenvalues have meaningful imaginary part
         if (err0%ok() .and. any(aimag(ceigvals) > atol + rtol*abs(abs(ceigvals)))) then
-           err0 = linalg_state(this,LINALG_VALUE_ERROR, &
+           err0 = la_state(this,LINALG_VALUE_ERROR, &
                               'complex eigenvalues detected: max(imag(lambda))=',maxval(aimag(ceigvals)))
         end if
           
@@ -399,7 +399,7 @@ module la_schur
         !> Minimum workspace size for the decomposition operation
         integer(ilp),intent(out) :: lwork
         !> State return flag. Returns an error if the query failed
-        type(linalg_state),optional,intent(out) :: err
+        type(la_state),optional,intent(out) :: err
         
         integer(ilp) :: m,n,sdim,info
         character :: jobvs,sort
@@ -407,7 +407,7 @@ module la_schur
         real(dp),pointer :: amat(:,:)
         real(dp) :: rwork_dummy(1)
         real(dp) :: wr_dummy(1),wi_dummy(1),vs_dummy(1,1),work_dummy(1)
-        type(linalg_state) :: err0
+        type(la_state) :: err0
         
         !> Initialize problem
         lwork = -1_ilp
@@ -454,7 +454,7 @@ module la_schur
         !> [optional] Can A data be overwritten and destroyed?
         logical(lk),optional,intent(in) :: overwrite_a
         !> [optional] State return flag. On error if not requested, the code will stop
-        type(linalg_state),optional,intent(out) :: err
+        type(la_state),optional,intent(out) :: err
 
         ! Local variables
         integer(ilp) :: m,n,mt,nt,ldvs,nvs,lde,lwork,sdim,info
@@ -465,7 +465,7 @@ module la_schur
         real(dp),target :: vs_dummy(1,1)
         real(dp),pointer :: vs(:,:),work(:),eigs(:),eigi(:)
         character :: jobvs,sort
-        type(linalg_state_type) :: err0
+        type(la_state) :: err0
         
         ! Problem size
         m = size(a,1,kind=ilp)
@@ -475,12 +475,12 @@ module la_schur
         
         ! Validate dimensions
         if (m /= n .or. m <= 0 .or. n <= 0) then
-            err0 = linalg_state_type(this,LINALG_VALUE_ERROR,'Matrix A must be square: size(a)=', [m,n])
+            err0 = la_state(this,LINALG_VALUE_ERROR,'Matrix A must be square: size(a)=', [m,n])
             call linalg_error_handling(err0,err)
             return
         end if
         if (mt /= nt .or. mt /= n .or. nt /= n) then
-            err0 = linalg_state_type(this,LINALG_VALUE_ERROR,'Matrix T must be square: size(T)=', [mt,nt], &
+            err0 = la_state(this,LINALG_VALUE_ERROR,'Matrix T must be square: size(T)=', [mt,nt], &
                                                           'should be', [m,n])
             call linalg_error_handling(err0,err)
             return
@@ -502,7 +502,7 @@ module la_schur
             nvs = size(vs,2,kind=ilp)
             
             if (ldvs < n .or. nvs /= n) then
-                err0 = linalg_state_type(this,LINALG_VALUE_ERROR,'Schur vectors size=', [ldvs,nvs], &
+                err0 = la_state(this,LINALG_VALUE_ERROR,'Schur vectors size=', [ldvs,nvs], &
                                                               'should be n=',n)
                 call linalg_error_handling(err0,err)
                 return
@@ -569,7 +569,7 @@ module la_schur
         
         if (lde < n) then
             
-            err0 = linalg_state_type(this,LINALG_VALUE_ERROR, &
+            err0 = la_state(this,LINALG_VALUE_ERROR, &
                                            'Insufficient eigenvalue array size=',lde, &
                                            'should be >=',n)
         
@@ -618,9 +618,9 @@ module la_schur
         !> [optional] Can A data be overwritten and destroyed?
         logical(lk),optional,intent(in) :: overwrite_a
         !> [optional] State return flag. On error if not requested, the code will stop
-        type(linalg_state),optional,intent(out) :: err
+        type(la_state),optional,intent(out) :: err
         
-        type(linalg_state) :: err0
+        type(la_state) :: err0
         integer(ilp) :: n
         complex(dp),allocatable :: ceigvals(:)
         real(dp),parameter :: rtol = epsilon(0.0_dp)
@@ -634,7 +634,7 @@ module la_schur
           
         ! Check that no eigenvalues have meaningful imaginary part
         if (err0%ok() .and. any(aimag(ceigvals) > atol + rtol*abs(abs(ceigvals)))) then
-           err0 = linalg_state(this,LINALG_VALUE_ERROR, &
+           err0 = la_state(this,LINALG_VALUE_ERROR, &
                               'complex eigenvalues detected: max(imag(lambda))=',maxval(aimag(ceigvals)))
         end if
           
@@ -651,7 +651,7 @@ module la_schur
         !> Minimum workspace size for the decomposition operation
         integer(ilp),intent(out) :: lwork
         !> State return flag. Returns an error if the query failed
-        type(linalg_state),optional,intent(out) :: err
+        type(la_state),optional,intent(out) :: err
         
         integer(ilp) :: m,n,sdim,info
         character :: jobvs,sort
@@ -659,7 +659,7 @@ module la_schur
         real(qp),pointer :: amat(:,:)
         real(qp) :: rwork_dummy(1)
         real(qp) :: wr_dummy(1),wi_dummy(1),vs_dummy(1,1),work_dummy(1)
-        type(linalg_state) :: err0
+        type(la_state) :: err0
         
         !> Initialize problem
         lwork = -1_ilp
@@ -706,7 +706,7 @@ module la_schur
         !> [optional] Can A data be overwritten and destroyed?
         logical(lk),optional,intent(in) :: overwrite_a
         !> [optional] State return flag. On error if not requested, the code will stop
-        type(linalg_state),optional,intent(out) :: err
+        type(la_state),optional,intent(out) :: err
 
         ! Local variables
         integer(ilp) :: m,n,mt,nt,ldvs,nvs,lde,lwork,sdim,info
@@ -717,7 +717,7 @@ module la_schur
         real(qp),target :: vs_dummy(1,1)
         real(qp),pointer :: vs(:,:),work(:),eigs(:),eigi(:)
         character :: jobvs,sort
-        type(linalg_state_type) :: err0
+        type(la_state) :: err0
         
         ! Problem size
         m = size(a,1,kind=ilp)
@@ -727,12 +727,12 @@ module la_schur
         
         ! Validate dimensions
         if (m /= n .or. m <= 0 .or. n <= 0) then
-            err0 = linalg_state_type(this,LINALG_VALUE_ERROR,'Matrix A must be square: size(a)=', [m,n])
+            err0 = la_state(this,LINALG_VALUE_ERROR,'Matrix A must be square: size(a)=', [m,n])
             call linalg_error_handling(err0,err)
             return
         end if
         if (mt /= nt .or. mt /= n .or. nt /= n) then
-            err0 = linalg_state_type(this,LINALG_VALUE_ERROR,'Matrix T must be square: size(T)=', [mt,nt], &
+            err0 = la_state(this,LINALG_VALUE_ERROR,'Matrix T must be square: size(T)=', [mt,nt], &
                                                           'should be', [m,n])
             call linalg_error_handling(err0,err)
             return
@@ -754,7 +754,7 @@ module la_schur
             nvs = size(vs,2,kind=ilp)
             
             if (ldvs < n .or. nvs /= n) then
-                err0 = linalg_state_type(this,LINALG_VALUE_ERROR,'Schur vectors size=', [ldvs,nvs], &
+                err0 = la_state(this,LINALG_VALUE_ERROR,'Schur vectors size=', [ldvs,nvs], &
                                                               'should be n=',n)
                 call linalg_error_handling(err0,err)
                 return
@@ -821,7 +821,7 @@ module la_schur
         
         if (lde < n) then
             
-            err0 = linalg_state_type(this,LINALG_VALUE_ERROR, &
+            err0 = la_state(this,LINALG_VALUE_ERROR, &
                                            'Insufficient eigenvalue array size=',lde, &
                                            'should be >=',n)
         
@@ -870,9 +870,9 @@ module la_schur
         !> [optional] Can A data be overwritten and destroyed?
         logical(lk),optional,intent(in) :: overwrite_a
         !> [optional] State return flag. On error if not requested, the code will stop
-        type(linalg_state),optional,intent(out) :: err
+        type(la_state),optional,intent(out) :: err
         
-        type(linalg_state) :: err0
+        type(la_state) :: err0
         integer(ilp) :: n
         complex(qp),allocatable :: ceigvals(:)
         real(qp),parameter :: rtol = epsilon(0.0_qp)
@@ -886,7 +886,7 @@ module la_schur
           
         ! Check that no eigenvalues have meaningful imaginary part
         if (err0%ok() .and. any(aimag(ceigvals) > atol + rtol*abs(abs(ceigvals)))) then
-           err0 = linalg_state(this,LINALG_VALUE_ERROR, &
+           err0 = la_state(this,LINALG_VALUE_ERROR, &
                               'complex eigenvalues detected: max(imag(lambda))=',maxval(aimag(ceigvals)))
         end if
           
@@ -903,7 +903,7 @@ module la_schur
         !> Minimum workspace size for the decomposition operation
         integer(ilp),intent(out) :: lwork
         !> State return flag. Returns an error if the query failed
-        type(linalg_state),optional,intent(out) :: err
+        type(la_state),optional,intent(out) :: err
         
         integer(ilp) :: m,n,sdim,info
         character :: jobvs,sort
@@ -911,7 +911,7 @@ module la_schur
         complex(sp),pointer :: amat(:,:)
         real(sp) :: rwork_dummy(1)
         complex(sp) :: wr_dummy(1),wi_dummy(1),vs_dummy(1,1),work_dummy(1)
-        type(linalg_state) :: err0
+        type(la_state) :: err0
         
         !> Initialize problem
         lwork = -1_ilp
@@ -958,7 +958,7 @@ module la_schur
         !> [optional] Can A data be overwritten and destroyed?
         logical(lk),optional,intent(in) :: overwrite_a
         !> [optional] State return flag. On error if not requested, the code will stop
-        type(linalg_state),optional,intent(out) :: err
+        type(la_state),optional,intent(out) :: err
 
         ! Local variables
         integer(ilp) :: m,n,mt,nt,ldvs,nvs,lde,lwork,sdim,info
@@ -969,7 +969,7 @@ module la_schur
         complex(sp),target :: vs_dummy(1,1)
         complex(sp),pointer :: vs(:,:),work(:),eigs(:)
         character :: jobvs,sort
-        type(linalg_state_type) :: err0
+        type(la_state) :: err0
         
         ! Problem size
         m = size(a,1,kind=ilp)
@@ -979,12 +979,12 @@ module la_schur
         
         ! Validate dimensions
         if (m /= n .or. m <= 0 .or. n <= 0) then
-            err0 = linalg_state_type(this,LINALG_VALUE_ERROR,'Matrix A must be square: size(a)=', [m,n])
+            err0 = la_state(this,LINALG_VALUE_ERROR,'Matrix A must be square: size(a)=', [m,n])
             call linalg_error_handling(err0,err)
             return
         end if
         if (mt /= nt .or. mt /= n .or. nt /= n) then
-            err0 = linalg_state_type(this,LINALG_VALUE_ERROR,'Matrix T must be square: size(T)=', [mt,nt], &
+            err0 = la_state(this,LINALG_VALUE_ERROR,'Matrix T must be square: size(T)=', [mt,nt], &
                                                           'should be', [m,n])
             call linalg_error_handling(err0,err)
             return
@@ -1006,7 +1006,7 @@ module la_schur
             nvs = size(vs,2,kind=ilp)
             
             if (ldvs < n .or. nvs /= n) then
-                err0 = linalg_state_type(this,LINALG_VALUE_ERROR,'Schur vectors size=', [ldvs,nvs], &
+                err0 = la_state(this,LINALG_VALUE_ERROR,'Schur vectors size=', [ldvs,nvs], &
                                                               'should be n=',n)
                 call linalg_error_handling(err0,err)
                 return
@@ -1075,7 +1075,7 @@ module la_schur
 
         if (lde < n) then
             
-            err0 = linalg_state_type(this,LINALG_VALUE_ERROR, &
+            err0 = la_state(this,LINALG_VALUE_ERROR, &
                                            'Insufficient eigenvalue array size=',lde, &
                                            'should be >=',n)
         
@@ -1120,9 +1120,9 @@ module la_schur
         !> [optional] Can A data be overwritten and destroyed?
         logical(lk),optional,intent(in) :: overwrite_a
         !> [optional] State return flag. On error if not requested, the code will stop
-        type(linalg_state),optional,intent(out) :: err
+        type(la_state),optional,intent(out) :: err
         
-        type(linalg_state) :: err0
+        type(la_state) :: err0
         integer(ilp) :: n
         complex(sp),allocatable :: ceigvals(:)
         real(sp),parameter :: rtol = epsilon(0.0_sp)
@@ -1136,7 +1136,7 @@ module la_schur
           
         ! Check that no eigenvalues have meaningful imaginary part
         if (err0%ok() .and. any(aimag(ceigvals) > atol + rtol*abs(abs(ceigvals)))) then
-           err0 = linalg_state(this,LINALG_VALUE_ERROR, &
+           err0 = la_state(this,LINALG_VALUE_ERROR, &
                               'complex eigenvalues detected: max(imag(lambda))=',maxval(aimag(ceigvals)))
         end if
           
@@ -1153,7 +1153,7 @@ module la_schur
         !> Minimum workspace size for the decomposition operation
         integer(ilp),intent(out) :: lwork
         !> State return flag. Returns an error if the query failed
-        type(linalg_state),optional,intent(out) :: err
+        type(la_state),optional,intent(out) :: err
         
         integer(ilp) :: m,n,sdim,info
         character :: jobvs,sort
@@ -1161,7 +1161,7 @@ module la_schur
         complex(dp),pointer :: amat(:,:)
         real(dp) :: rwork_dummy(1)
         complex(dp) :: wr_dummy(1),wi_dummy(1),vs_dummy(1,1),work_dummy(1)
-        type(linalg_state) :: err0
+        type(la_state) :: err0
         
         !> Initialize problem
         lwork = -1_ilp
@@ -1208,7 +1208,7 @@ module la_schur
         !> [optional] Can A data be overwritten and destroyed?
         logical(lk),optional,intent(in) :: overwrite_a
         !> [optional] State return flag. On error if not requested, the code will stop
-        type(linalg_state),optional,intent(out) :: err
+        type(la_state),optional,intent(out) :: err
 
         ! Local variables
         integer(ilp) :: m,n,mt,nt,ldvs,nvs,lde,lwork,sdim,info
@@ -1219,7 +1219,7 @@ module la_schur
         complex(dp),target :: vs_dummy(1,1)
         complex(dp),pointer :: vs(:,:),work(:),eigs(:)
         character :: jobvs,sort
-        type(linalg_state_type) :: err0
+        type(la_state) :: err0
         
         ! Problem size
         m = size(a,1,kind=ilp)
@@ -1229,12 +1229,12 @@ module la_schur
         
         ! Validate dimensions
         if (m /= n .or. m <= 0 .or. n <= 0) then
-            err0 = linalg_state_type(this,LINALG_VALUE_ERROR,'Matrix A must be square: size(a)=', [m,n])
+            err0 = la_state(this,LINALG_VALUE_ERROR,'Matrix A must be square: size(a)=', [m,n])
             call linalg_error_handling(err0,err)
             return
         end if
         if (mt /= nt .or. mt /= n .or. nt /= n) then
-            err0 = linalg_state_type(this,LINALG_VALUE_ERROR,'Matrix T must be square: size(T)=', [mt,nt], &
+            err0 = la_state(this,LINALG_VALUE_ERROR,'Matrix T must be square: size(T)=', [mt,nt], &
                                                           'should be', [m,n])
             call linalg_error_handling(err0,err)
             return
@@ -1256,7 +1256,7 @@ module la_schur
             nvs = size(vs,2,kind=ilp)
             
             if (ldvs < n .or. nvs /= n) then
-                err0 = linalg_state_type(this,LINALG_VALUE_ERROR,'Schur vectors size=', [ldvs,nvs], &
+                err0 = la_state(this,LINALG_VALUE_ERROR,'Schur vectors size=', [ldvs,nvs], &
                                                               'should be n=',n)
                 call linalg_error_handling(err0,err)
                 return
@@ -1325,7 +1325,7 @@ module la_schur
 
         if (lde < n) then
             
-            err0 = linalg_state_type(this,LINALG_VALUE_ERROR, &
+            err0 = la_state(this,LINALG_VALUE_ERROR, &
                                            'Insufficient eigenvalue array size=',lde, &
                                            'should be >=',n)
         
@@ -1370,9 +1370,9 @@ module la_schur
         !> [optional] Can A data be overwritten and destroyed?
         logical(lk),optional,intent(in) :: overwrite_a
         !> [optional] State return flag. On error if not requested, the code will stop
-        type(linalg_state),optional,intent(out) :: err
+        type(la_state),optional,intent(out) :: err
         
-        type(linalg_state) :: err0
+        type(la_state) :: err0
         integer(ilp) :: n
         complex(dp),allocatable :: ceigvals(:)
         real(dp),parameter :: rtol = epsilon(0.0_dp)
@@ -1386,7 +1386,7 @@ module la_schur
           
         ! Check that no eigenvalues have meaningful imaginary part
         if (err0%ok() .and. any(aimag(ceigvals) > atol + rtol*abs(abs(ceigvals)))) then
-           err0 = linalg_state(this,LINALG_VALUE_ERROR, &
+           err0 = la_state(this,LINALG_VALUE_ERROR, &
                               'complex eigenvalues detected: max(imag(lambda))=',maxval(aimag(ceigvals)))
         end if
           
@@ -1403,7 +1403,7 @@ module la_schur
         !> Minimum workspace size for the decomposition operation
         integer(ilp),intent(out) :: lwork
         !> State return flag. Returns an error if the query failed
-        type(linalg_state),optional,intent(out) :: err
+        type(la_state),optional,intent(out) :: err
         
         integer(ilp) :: m,n,sdim,info
         character :: jobvs,sort
@@ -1411,7 +1411,7 @@ module la_schur
         complex(qp),pointer :: amat(:,:)
         real(qp) :: rwork_dummy(1)
         complex(qp) :: wr_dummy(1),wi_dummy(1),vs_dummy(1,1),work_dummy(1)
-        type(linalg_state) :: err0
+        type(la_state) :: err0
         
         !> Initialize problem
         lwork = -1_ilp
@@ -1458,7 +1458,7 @@ module la_schur
         !> [optional] Can A data be overwritten and destroyed?
         logical(lk),optional,intent(in) :: overwrite_a
         !> [optional] State return flag. On error if not requested, the code will stop
-        type(linalg_state),optional,intent(out) :: err
+        type(la_state),optional,intent(out) :: err
 
         ! Local variables
         integer(ilp) :: m,n,mt,nt,ldvs,nvs,lde,lwork,sdim,info
@@ -1469,7 +1469,7 @@ module la_schur
         complex(qp),target :: vs_dummy(1,1)
         complex(qp),pointer :: vs(:,:),work(:),eigs(:)
         character :: jobvs,sort
-        type(linalg_state_type) :: err0
+        type(la_state) :: err0
         
         ! Problem size
         m = size(a,1,kind=ilp)
@@ -1479,12 +1479,12 @@ module la_schur
         
         ! Validate dimensions
         if (m /= n .or. m <= 0 .or. n <= 0) then
-            err0 = linalg_state_type(this,LINALG_VALUE_ERROR,'Matrix A must be square: size(a)=', [m,n])
+            err0 = la_state(this,LINALG_VALUE_ERROR,'Matrix A must be square: size(a)=', [m,n])
             call linalg_error_handling(err0,err)
             return
         end if
         if (mt /= nt .or. mt /= n .or. nt /= n) then
-            err0 = linalg_state_type(this,LINALG_VALUE_ERROR,'Matrix T must be square: size(T)=', [mt,nt], &
+            err0 = la_state(this,LINALG_VALUE_ERROR,'Matrix T must be square: size(T)=', [mt,nt], &
                                                           'should be', [m,n])
             call linalg_error_handling(err0,err)
             return
@@ -1506,7 +1506,7 @@ module la_schur
             nvs = size(vs,2,kind=ilp)
             
             if (ldvs < n .or. nvs /= n) then
-                err0 = linalg_state_type(this,LINALG_VALUE_ERROR,'Schur vectors size=', [ldvs,nvs], &
+                err0 = la_state(this,LINALG_VALUE_ERROR,'Schur vectors size=', [ldvs,nvs], &
                                                               'should be n=',n)
                 call linalg_error_handling(err0,err)
                 return
@@ -1575,7 +1575,7 @@ module la_schur
 
         if (lde < n) then
             
-            err0 = linalg_state_type(this,LINALG_VALUE_ERROR, &
+            err0 = la_state(this,LINALG_VALUE_ERROR, &
                                            'Insufficient eigenvalue array size=',lde, &
                                            'should be >=',n)
         
@@ -1620,9 +1620,9 @@ module la_schur
         !> [optional] Can A data be overwritten and destroyed?
         logical(lk),optional,intent(in) :: overwrite_a
         !> [optional] State return flag. On error if not requested, the code will stop
-        type(linalg_state),optional,intent(out) :: err
+        type(la_state),optional,intent(out) :: err
         
-        type(linalg_state) :: err0
+        type(la_state) :: err0
         integer(ilp) :: n
         complex(qp),allocatable :: ceigvals(:)
         real(qp),parameter :: rtol = epsilon(0.0_qp)
@@ -1636,7 +1636,7 @@ module la_schur
           
         ! Check that no eigenvalues have meaningful imaginary part
         if (err0%ok() .and. any(aimag(ceigvals) > atol + rtol*abs(abs(ceigvals)))) then
-           err0 = linalg_state(this,LINALG_VALUE_ERROR, &
+           err0 = la_state(this,LINALG_VALUE_ERROR, &
                               'complex eigenvalues detected: max(imag(lambda))=',maxval(aimag(ceigvals)))
         end if
           

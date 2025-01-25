@@ -1,7 +1,5 @@
 module test_linalg_solve
-    use la_constants
-    use la_state
-    use la_solve
+    use linear_algebra
 
     implicit none(type,external)
 
@@ -41,7 +39,7 @@ module test_linalg_solve
     subroutine test_ssolve(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         real(sp) :: A(3,3) = transpose(reshape([real(sp) :: 1,3,3, &
                                                             1,3,4, &
@@ -63,7 +61,7 @@ module test_linalg_solve
     subroutine test_dsolve(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         real(dp) :: A(3,3) = transpose(reshape([real(dp) :: 1,3,3, &
                                                             1,3,4, &
@@ -85,7 +83,7 @@ module test_linalg_solve
     subroutine test_qsolve(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         real(qp) :: A(3,3) = transpose(reshape([real(qp) :: 1,3,3, &
                                                             1,3,4, &
@@ -109,7 +107,7 @@ module test_linalg_solve
     subroutine test_ssolve_multiple(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         real(sp) :: A(3,3) = transpose(reshape([real(sp) :: 1,-1,2, &
                                                             0,1,1, &
@@ -135,7 +133,7 @@ module test_linalg_solve
     subroutine test_dsolve_multiple(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         real(dp) :: A(3,3) = transpose(reshape([real(dp) :: 1,-1,2, &
                                                             0,1,1, &
@@ -161,7 +159,7 @@ module test_linalg_solve
     subroutine test_qsolve_multiple(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         real(qp) :: A(3,3) = transpose(reshape([real(qp) :: 1,-1,2, &
                                                             0,1,1, &
@@ -191,7 +189,7 @@ module test_linalg_solve
     subroutine test_csolve(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         complex(sp) :: A(5,5),b(5),res(5),x(5)
         integer(ilp) :: i
@@ -223,7 +221,7 @@ module test_linalg_solve
     subroutine test_zsolve(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         complex(dp) :: A(5,5),b(5),res(5),x(5)
         integer(ilp) :: i
@@ -255,7 +253,7 @@ module test_linalg_solve
     subroutine test_wsolve(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         complex(qp) :: A(5,5),b(5),res(5),x(5)
         integer(ilp) :: i
@@ -290,7 +288,7 @@ module test_linalg_solve
     subroutine test_2x2_csolve(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         complex(sp) :: A(2,2),b(2),res(2),x(2)
         integer(ilp) :: i
@@ -317,7 +315,7 @@ module test_linalg_solve
     subroutine test_2x2_zsolve(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         complex(dp) :: A(2,2),b(2),res(2),x(2)
         integer(ilp) :: i
@@ -344,7 +342,7 @@ module test_linalg_solve
     subroutine test_2x2_wsolve(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         complex(qp) :: A(2,2),b(2),res(2),x(2)
         integer(ilp) :: i

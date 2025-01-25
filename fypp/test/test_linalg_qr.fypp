@@ -1,7 +1,7 @@
 #:include "common.fypp"
 ! Test QR factorization 
 module test_linalg_qr
-    use la_interface
+    use linear_algebra
 
     implicit none (type,external)
 
@@ -41,7 +41,7 @@ module test_linalg_qr
         real(${rk}$) :: rea(m,n),ima(m,n)
         integer(ilp) :: lwork
         ${rt}$, allocatable :: work(:)
-        type(linalg_state) :: err
+        type(la_state) :: err
         
         call random_number(rea)
         #:if rt.startswith('complex')

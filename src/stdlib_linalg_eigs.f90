@@ -2,7 +2,7 @@ module la_eig
      use la_constants
      use la_blas
      use la_lapack
-     use la_state
+     use la_state_type
      use iso_fortran_env,only:real32,real64,real128,int8,int16,int32,int64,stderr => error_unit
      implicit none(type,external)
      private
@@ -95,7 +95,7 @@ module la_eig
      !> Process GEEV output flags
      elemental subroutine geev_info(err,info,m,n)
         !> Error handler
-        type(linalg_state),intent(inout) :: err
+        type(la_state),intent(inout) :: err
         !> geev return flag
         integer(ilp),intent(in) :: info
         !> Input matrix size
@@ -106,21 +106,21 @@ module la_eig
                ! Success!
                err%state = LINALG_SUCCESS
            case (-1)
-               err = linalg_state(this,LINALG_INTERNAL_ERROR,'Invalid task ID: left eigenvectors.')
+               err = la_state(this,LINALG_INTERNAL_ERROR,'Invalid task ID: left eigenvectors.')
            case (-2)
-               err = linalg_state(this,LINALG_INTERNAL_ERROR,'Invalid task ID: right eigenvectors.')
+               err = la_state(this,LINALG_INTERNAL_ERROR,'Invalid task ID: right eigenvectors.')
            case (-5,-3)
-               err = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix size: a=', [m,n])
+               err = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size: a=', [m,n])
            case (-9)
-               err = linalg_state(this,LINALG_VALUE_ERROR,'insufficient left vector matrix size.')
+               err = la_state(this,LINALG_VALUE_ERROR,'insufficient left vector matrix size.')
            case (-11)
-               err = linalg_state(this,LINALG_VALUE_ERROR,'insufficient right vector matrix size.')
+               err = la_state(this,LINALG_VALUE_ERROR,'insufficient right vector matrix size.')
            case (-13)
-               err = linalg_state(this,LINALG_INTERNAL_ERROR,'Insufficient work array size.')
+               err = la_state(this,LINALG_INTERNAL_ERROR,'Insufficient work array size.')
            case (1:)
-               err = linalg_state(this,LINALG_ERROR,'Eigenvalue computation did not converge.')
+               err = la_state(this,LINALG_ERROR,'Eigenvalue computation did not converge.')
            case default
-               err = linalg_state(this,LINALG_INTERNAL_ERROR,'Unknown error returned by geev.')
+               err = la_state(this,LINALG_INTERNAL_ERROR,'Unknown error returned by geev.')
         end select
 
      end subroutine geev_info
@@ -128,7 +128,7 @@ module la_eig
      !> Process SYEV/HEEV output flags
      elemental subroutine heev_info(err,info,m,n)
         !> Error handler
-        type(linalg_state),intent(inout) :: err
+        type(la_state),intent(inout) :: err
         !> geev return flag
         integer(ilp),intent(in) :: info
         !> Input matrix size
@@ -139,17 +139,17 @@ module la_eig
                ! Success!
                err%state = LINALG_SUCCESS
            case (-1)
-               err = linalg_state(this,LINALG_INTERNAL_ERROR,'Invalid eigenvector request.')
+               err = la_state(this,LINALG_INTERNAL_ERROR,'Invalid eigenvector request.')
            case (-2)
-               err = linalg_state(this,LINALG_INTERNAL_ERROR,'Invalid triangular section request.')
+               err = la_state(this,LINALG_INTERNAL_ERROR,'Invalid triangular section request.')
            case (-5,-3)
-               err = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix size: a=', [m,n])
+               err = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size: a=', [m,n])
            case (-8)
-               err = linalg_state(this,LINALG_INTERNAL_ERROR,'insufficient workspace size.')
+               err = la_state(this,LINALG_INTERNAL_ERROR,'insufficient workspace size.')
            case (1:)
-               err = linalg_state(this,LINALG_ERROR,'Eigenvalue computation did not converge.')
+               err = la_state(this,LINALG_ERROR,'Eigenvalue computation did not converge.')
            case default
-               err = linalg_state(this,LINALG_INTERNAL_ERROR,'Unknown error returned by syev/heev.')
+               err = la_state(this,LINALG_INTERNAL_ERROR,'Unknown error returned by syev/heev.')
         end select
 
      end subroutine heev_info
@@ -159,7 +159,7 @@ module la_eig
          !> Input matrix A[m,n]
          real(sp),intent(in),target :: a(:,:)
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),intent(out) :: err
+         type(la_state),intent(out) :: err
          !> Array of singular values
          complex(sp),allocatable :: lambda(:)
 
@@ -222,10 +222,10 @@ module la_eig
          !> [optional] Can A data be overwritten and destroyed?
          logical(lk),optional,intent(in) :: overwrite_a
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
 
          !> Local variables
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          integer(ilp) :: m,n,lda,ldu,ldv,info,k,lwork,lrwork,neig
          logical(lk) :: copy_a
          character :: task_u,task_v
@@ -242,13 +242,13 @@ module la_eig
          lda = m
 
          if (.not. (k > 0 .and. m == n)) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid or matrix size a=', [m,n], &
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or matrix size a=', [m,n], &
                                                         ', must be square.')
             goto 1
          end if
 
          if (.not. neig >= k) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'eigenvalue array has insufficient size:', &
+            err0 = la_state(this,LINALG_VALUE_ERROR,'eigenvalue array has insufficient size:', &
                                                         ' lambda=',neig,', n=',n)
             goto 1
          end if
@@ -276,7 +276,7 @@ module la_eig
             allocate (vmat(n,n))
             
             if (size(vmat,2,kind=ilp) < n) then
-               err0 = linalg_state(this,LINALG_VALUE_ERROR, &
+               err0 = la_state(this,LINALG_VALUE_ERROR, &
                                         'right eigenvector matrix has insufficient size: ', &
                                         shape(vmat),', with n=',n)
                goto 2
@@ -291,7 +291,7 @@ module la_eig
             allocate (umat(n,n))
             
             if (size(umat,2,kind=ilp) < n) then
-               err0 = linalg_state(this,LINALG_VALUE_ERROR, &
+               err0 = la_state(this,LINALG_VALUE_ERROR, &
                                         'left eigenvector matrix has insufficient size: ', &
                                         shape(umat),', with n=',n)
                goto 2
@@ -356,7 +356,7 @@ module la_eig
          !> [optional] Should the upper/lower half of A be used? Default: lower
          logical(lk),optional,intent(in) :: upper_a
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),intent(out) :: err
+         type(la_state),intent(out) :: err
          !> Array of singular values
          real(sp),allocatable :: lambda(:)
          
@@ -419,10 +419,10 @@ module la_eig
          !> [optional] Should the upper/lower half of A be used? Default: lower
          logical(lk),optional,intent(in) :: upper_a
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
 
          !> Local variables
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          integer(ilp) :: m,n,lda,info,k,lwork,neig
          logical(lk) :: copy_a
          character :: triangle,task
@@ -438,13 +438,13 @@ module la_eig
          neig = size(lambda,kind=ilp)
 
          if (.not. (k > 0 .and. m == n)) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid or matrix size a=', [m,n], &
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or matrix size a=', [m,n], &
                                                         ', must be square.')
             goto 1
          end if
 
          if (.not. neig >= k) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'eigenvalue array has insufficient size:', &
+            err0 = la_state(this,LINALG_VALUE_ERROR,'eigenvalue array has insufficient size:', &
                                                         ' lambda=',neig,' must be >= n=',n)
             goto 1
          end if
@@ -469,7 +469,7 @@ module la_eig
             
             ! Check size
             if (any(shape(vectors,kind=ilp) < n)) then
-               err0 = linalg_state(this,LINALG_VALUE_ERROR, &
+               err0 = la_state(this,LINALG_VALUE_ERROR, &
                                         'eigenvector matrix has insufficient size: ', &
                                         shape(vectors),', with n=',n)
                goto 1
@@ -521,7 +521,7 @@ module la_eig
          !> Input matrix A[m,n]
          real(dp),intent(in),target :: a(:,:)
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),intent(out) :: err
+         type(la_state),intent(out) :: err
          !> Array of singular values
          complex(dp),allocatable :: lambda(:)
 
@@ -584,10 +584,10 @@ module la_eig
          !> [optional] Can A data be overwritten and destroyed?
          logical(lk),optional,intent(in) :: overwrite_a
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
 
          !> Local variables
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          integer(ilp) :: m,n,lda,ldu,ldv,info,k,lwork,lrwork,neig
          logical(lk) :: copy_a
          character :: task_u,task_v
@@ -604,13 +604,13 @@ module la_eig
          lda = m
 
          if (.not. (k > 0 .and. m == n)) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid or matrix size a=', [m,n], &
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or matrix size a=', [m,n], &
                                                         ', must be square.')
             goto 1
          end if
 
          if (.not. neig >= k) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'eigenvalue array has insufficient size:', &
+            err0 = la_state(this,LINALG_VALUE_ERROR,'eigenvalue array has insufficient size:', &
                                                         ' lambda=',neig,', n=',n)
             goto 1
          end if
@@ -638,7 +638,7 @@ module la_eig
             allocate (vmat(n,n))
             
             if (size(vmat,2,kind=ilp) < n) then
-               err0 = linalg_state(this,LINALG_VALUE_ERROR, &
+               err0 = la_state(this,LINALG_VALUE_ERROR, &
                                         'right eigenvector matrix has insufficient size: ', &
                                         shape(vmat),', with n=',n)
                goto 2
@@ -653,7 +653,7 @@ module la_eig
             allocate (umat(n,n))
             
             if (size(umat,2,kind=ilp) < n) then
-               err0 = linalg_state(this,LINALG_VALUE_ERROR, &
+               err0 = la_state(this,LINALG_VALUE_ERROR, &
                                         'left eigenvector matrix has insufficient size: ', &
                                         shape(umat),', with n=',n)
                goto 2
@@ -718,7 +718,7 @@ module la_eig
          !> [optional] Should the upper/lower half of A be used? Default: lower
          logical(lk),optional,intent(in) :: upper_a
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),intent(out) :: err
+         type(la_state),intent(out) :: err
          !> Array of singular values
          real(dp),allocatable :: lambda(:)
          
@@ -781,10 +781,10 @@ module la_eig
          !> [optional] Should the upper/lower half of A be used? Default: lower
          logical(lk),optional,intent(in) :: upper_a
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
 
          !> Local variables
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          integer(ilp) :: m,n,lda,info,k,lwork,neig
          logical(lk) :: copy_a
          character :: triangle,task
@@ -800,13 +800,13 @@ module la_eig
          neig = size(lambda,kind=ilp)
 
          if (.not. (k > 0 .and. m == n)) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid or matrix size a=', [m,n], &
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or matrix size a=', [m,n], &
                                                         ', must be square.')
             goto 1
          end if
 
          if (.not. neig >= k) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'eigenvalue array has insufficient size:', &
+            err0 = la_state(this,LINALG_VALUE_ERROR,'eigenvalue array has insufficient size:', &
                                                         ' lambda=',neig,' must be >= n=',n)
             goto 1
          end if
@@ -831,7 +831,7 @@ module la_eig
             
             ! Check size
             if (any(shape(vectors,kind=ilp) < n)) then
-               err0 = linalg_state(this,LINALG_VALUE_ERROR, &
+               err0 = la_state(this,LINALG_VALUE_ERROR, &
                                         'eigenvector matrix has insufficient size: ', &
                                         shape(vectors),', with n=',n)
                goto 1
@@ -883,7 +883,7 @@ module la_eig
          !> Input matrix A[m,n]
          real(qp),intent(in),target :: a(:,:)
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),intent(out) :: err
+         type(la_state),intent(out) :: err
          !> Array of singular values
          complex(qp),allocatable :: lambda(:)
 
@@ -946,10 +946,10 @@ module la_eig
          !> [optional] Can A data be overwritten and destroyed?
          logical(lk),optional,intent(in) :: overwrite_a
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
 
          !> Local variables
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          integer(ilp) :: m,n,lda,ldu,ldv,info,k,lwork,lrwork,neig
          logical(lk) :: copy_a
          character :: task_u,task_v
@@ -966,13 +966,13 @@ module la_eig
          lda = m
 
          if (.not. (k > 0 .and. m == n)) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid or matrix size a=', [m,n], &
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or matrix size a=', [m,n], &
                                                         ', must be square.')
             goto 1
          end if
 
          if (.not. neig >= k) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'eigenvalue array has insufficient size:', &
+            err0 = la_state(this,LINALG_VALUE_ERROR,'eigenvalue array has insufficient size:', &
                                                         ' lambda=',neig,', n=',n)
             goto 1
          end if
@@ -1000,7 +1000,7 @@ module la_eig
             allocate (vmat(n,n))
             
             if (size(vmat,2,kind=ilp) < n) then
-               err0 = linalg_state(this,LINALG_VALUE_ERROR, &
+               err0 = la_state(this,LINALG_VALUE_ERROR, &
                                         'right eigenvector matrix has insufficient size: ', &
                                         shape(vmat),', with n=',n)
                goto 2
@@ -1015,7 +1015,7 @@ module la_eig
             allocate (umat(n,n))
             
             if (size(umat,2,kind=ilp) < n) then
-               err0 = linalg_state(this,LINALG_VALUE_ERROR, &
+               err0 = la_state(this,LINALG_VALUE_ERROR, &
                                         'left eigenvector matrix has insufficient size: ', &
                                         shape(umat),', with n=',n)
                goto 2
@@ -1080,7 +1080,7 @@ module la_eig
          !> [optional] Should the upper/lower half of A be used? Default: lower
          logical(lk),optional,intent(in) :: upper_a
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),intent(out) :: err
+         type(la_state),intent(out) :: err
          !> Array of singular values
          real(qp),allocatable :: lambda(:)
          
@@ -1143,10 +1143,10 @@ module la_eig
          !> [optional] Should the upper/lower half of A be used? Default: lower
          logical(lk),optional,intent(in) :: upper_a
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
 
          !> Local variables
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          integer(ilp) :: m,n,lda,info,k,lwork,neig
          logical(lk) :: copy_a
          character :: triangle,task
@@ -1162,13 +1162,13 @@ module la_eig
          neig = size(lambda,kind=ilp)
 
          if (.not. (k > 0 .and. m == n)) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid or matrix size a=', [m,n], &
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or matrix size a=', [m,n], &
                                                         ', must be square.')
             goto 1
          end if
 
          if (.not. neig >= k) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'eigenvalue array has insufficient size:', &
+            err0 = la_state(this,LINALG_VALUE_ERROR,'eigenvalue array has insufficient size:', &
                                                         ' lambda=',neig,' must be >= n=',n)
             goto 1
          end if
@@ -1193,7 +1193,7 @@ module la_eig
             
             ! Check size
             if (any(shape(vectors,kind=ilp) < n)) then
-               err0 = linalg_state(this,LINALG_VALUE_ERROR, &
+               err0 = la_state(this,LINALG_VALUE_ERROR, &
                                         'eigenvector matrix has insufficient size: ', &
                                         shape(vectors),', with n=',n)
                goto 1
@@ -1245,7 +1245,7 @@ module la_eig
          !> Input matrix A[m,n]
          complex(sp),intent(in),target :: a(:,:)
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),intent(out) :: err
+         type(la_state),intent(out) :: err
          !> Array of singular values
          complex(sp),allocatable :: lambda(:)
 
@@ -1308,10 +1308,10 @@ module la_eig
          !> [optional] Can A data be overwritten and destroyed?
          logical(lk),optional,intent(in) :: overwrite_a
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
 
          !> Local variables
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          integer(ilp) :: m,n,lda,ldu,ldv,info,k,lwork,lrwork,neig
          logical(lk) :: copy_a
          character :: task_u,task_v
@@ -1328,13 +1328,13 @@ module la_eig
          lda = m
 
          if (.not. (k > 0 .and. m == n)) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid or matrix size a=', [m,n], &
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or matrix size a=', [m,n], &
                                                         ', must be square.')
             goto 1
          end if
 
          if (.not. neig >= k) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'eigenvalue array has insufficient size:', &
+            err0 = la_state(this,LINALG_VALUE_ERROR,'eigenvalue array has insufficient size:', &
                                                         ' lambda=',neig,', n=',n)
             goto 1
          end if
@@ -1362,7 +1362,7 @@ module la_eig
             vmat => right
             
             if (size(vmat,2,kind=ilp) < n) then
-               err0 = linalg_state(this,LINALG_VALUE_ERROR, &
+               err0 = la_state(this,LINALG_VALUE_ERROR, &
                                         'right eigenvector matrix has insufficient size: ', &
                                         shape(vmat),', with n=',n)
                goto 2
@@ -1377,7 +1377,7 @@ module la_eig
             umat => left
             
             if (size(umat,2,kind=ilp) < n) then
-               err0 = linalg_state(this,LINALG_VALUE_ERROR, &
+               err0 = la_state(this,LINALG_VALUE_ERROR, &
                                         'left eigenvector matrix has insufficient size: ', &
                                         shape(umat),', with n=',n)
                goto 2
@@ -1431,7 +1431,7 @@ module la_eig
          !> [optional] Should the upper/lower half of A be used? Default: lower
          logical(lk),optional,intent(in) :: upper_a
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),intent(out) :: err
+         type(la_state),intent(out) :: err
          !> Array of singular values
          real(sp),allocatable :: lambda(:)
          
@@ -1494,10 +1494,10 @@ module la_eig
          !> [optional] Should the upper/lower half of A be used? Default: lower
          logical(lk),optional,intent(in) :: upper_a
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
 
          !> Local variables
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          integer(ilp) :: m,n,lda,info,k,lwork,neig
          logical(lk) :: copy_a
          character :: triangle,task
@@ -1513,13 +1513,13 @@ module la_eig
          neig = size(lambda,kind=ilp)
 
          if (.not. (k > 0 .and. m == n)) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid or matrix size a=', [m,n], &
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or matrix size a=', [m,n], &
                                                         ', must be square.')
             goto 1
          end if
 
          if (.not. neig >= k) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'eigenvalue array has insufficient size:', &
+            err0 = la_state(this,LINALG_VALUE_ERROR,'eigenvalue array has insufficient size:', &
                                                         ' lambda=',neig,' must be >= n=',n)
             goto 1
          end if
@@ -1544,7 +1544,7 @@ module la_eig
             
             ! Check size
             if (any(shape(vectors,kind=ilp) < n)) then
-               err0 = linalg_state(this,LINALG_VALUE_ERROR, &
+               err0 = la_state(this,LINALG_VALUE_ERROR, &
                                         'eigenvector matrix has insufficient size: ', &
                                         shape(vectors),', with n=',n)
                goto 1
@@ -1597,7 +1597,7 @@ module la_eig
          !> Input matrix A[m,n]
          complex(dp),intent(in),target :: a(:,:)
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),intent(out) :: err
+         type(la_state),intent(out) :: err
          !> Array of singular values
          complex(dp),allocatable :: lambda(:)
 
@@ -1660,10 +1660,10 @@ module la_eig
          !> [optional] Can A data be overwritten and destroyed?
          logical(lk),optional,intent(in) :: overwrite_a
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
 
          !> Local variables
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          integer(ilp) :: m,n,lda,ldu,ldv,info,k,lwork,lrwork,neig
          logical(lk) :: copy_a
          character :: task_u,task_v
@@ -1680,13 +1680,13 @@ module la_eig
          lda = m
 
          if (.not. (k > 0 .and. m == n)) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid or matrix size a=', [m,n], &
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or matrix size a=', [m,n], &
                                                         ', must be square.')
             goto 1
          end if
 
          if (.not. neig >= k) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'eigenvalue array has insufficient size:', &
+            err0 = la_state(this,LINALG_VALUE_ERROR,'eigenvalue array has insufficient size:', &
                                                         ' lambda=',neig,', n=',n)
             goto 1
          end if
@@ -1714,7 +1714,7 @@ module la_eig
             vmat => right
             
             if (size(vmat,2,kind=ilp) < n) then
-               err0 = linalg_state(this,LINALG_VALUE_ERROR, &
+               err0 = la_state(this,LINALG_VALUE_ERROR, &
                                         'right eigenvector matrix has insufficient size: ', &
                                         shape(vmat),', with n=',n)
                goto 2
@@ -1729,7 +1729,7 @@ module la_eig
             umat => left
             
             if (size(umat,2,kind=ilp) < n) then
-               err0 = linalg_state(this,LINALG_VALUE_ERROR, &
+               err0 = la_state(this,LINALG_VALUE_ERROR, &
                                         'left eigenvector matrix has insufficient size: ', &
                                         shape(umat),', with n=',n)
                goto 2
@@ -1783,7 +1783,7 @@ module la_eig
          !> [optional] Should the upper/lower half of A be used? Default: lower
          logical(lk),optional,intent(in) :: upper_a
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),intent(out) :: err
+         type(la_state),intent(out) :: err
          !> Array of singular values
          real(dp),allocatable :: lambda(:)
          
@@ -1846,10 +1846,10 @@ module la_eig
          !> [optional] Should the upper/lower half of A be used? Default: lower
          logical(lk),optional,intent(in) :: upper_a
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
 
          !> Local variables
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          integer(ilp) :: m,n,lda,info,k,lwork,neig
          logical(lk) :: copy_a
          character :: triangle,task
@@ -1865,13 +1865,13 @@ module la_eig
          neig = size(lambda,kind=ilp)
 
          if (.not. (k > 0 .and. m == n)) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid or matrix size a=', [m,n], &
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or matrix size a=', [m,n], &
                                                         ', must be square.')
             goto 1
          end if
 
          if (.not. neig >= k) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'eigenvalue array has insufficient size:', &
+            err0 = la_state(this,LINALG_VALUE_ERROR,'eigenvalue array has insufficient size:', &
                                                         ' lambda=',neig,' must be >= n=',n)
             goto 1
          end if
@@ -1896,7 +1896,7 @@ module la_eig
             
             ! Check size
             if (any(shape(vectors,kind=ilp) < n)) then
-               err0 = linalg_state(this,LINALG_VALUE_ERROR, &
+               err0 = la_state(this,LINALG_VALUE_ERROR, &
                                         'eigenvector matrix has insufficient size: ', &
                                         shape(vectors),', with n=',n)
                goto 1
@@ -1949,7 +1949,7 @@ module la_eig
          !> Input matrix A[m,n]
          complex(qp),intent(in),target :: a(:,:)
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),intent(out) :: err
+         type(la_state),intent(out) :: err
          !> Array of singular values
          complex(qp),allocatable :: lambda(:)
 
@@ -2012,10 +2012,10 @@ module la_eig
          !> [optional] Can A data be overwritten and destroyed?
          logical(lk),optional,intent(in) :: overwrite_a
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
 
          !> Local variables
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          integer(ilp) :: m,n,lda,ldu,ldv,info,k,lwork,lrwork,neig
          logical(lk) :: copy_a
          character :: task_u,task_v
@@ -2032,13 +2032,13 @@ module la_eig
          lda = m
 
          if (.not. (k > 0 .and. m == n)) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid or matrix size a=', [m,n], &
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or matrix size a=', [m,n], &
                                                         ', must be square.')
             goto 1
          end if
 
          if (.not. neig >= k) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'eigenvalue array has insufficient size:', &
+            err0 = la_state(this,LINALG_VALUE_ERROR,'eigenvalue array has insufficient size:', &
                                                         ' lambda=',neig,', n=',n)
             goto 1
          end if
@@ -2066,7 +2066,7 @@ module la_eig
             vmat => right
             
             if (size(vmat,2,kind=ilp) < n) then
-               err0 = linalg_state(this,LINALG_VALUE_ERROR, &
+               err0 = la_state(this,LINALG_VALUE_ERROR, &
                                         'right eigenvector matrix has insufficient size: ', &
                                         shape(vmat),', with n=',n)
                goto 2
@@ -2081,7 +2081,7 @@ module la_eig
             umat => left
             
             if (size(umat,2,kind=ilp) < n) then
-               err0 = linalg_state(this,LINALG_VALUE_ERROR, &
+               err0 = la_state(this,LINALG_VALUE_ERROR, &
                                         'left eigenvector matrix has insufficient size: ', &
                                         shape(umat),', with n=',n)
                goto 2
@@ -2135,7 +2135,7 @@ module la_eig
          !> [optional] Should the upper/lower half of A be used? Default: lower
          logical(lk),optional,intent(in) :: upper_a
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),intent(out) :: err
+         type(la_state),intent(out) :: err
          !> Array of singular values
          real(qp),allocatable :: lambda(:)
          
@@ -2198,10 +2198,10 @@ module la_eig
          !> [optional] Should the upper/lower half of A be used? Default: lower
          logical(lk),optional,intent(in) :: upper_a
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
 
          !> Local variables
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          integer(ilp) :: m,n,lda,info,k,lwork,neig
          logical(lk) :: copy_a
          character :: triangle,task
@@ -2217,13 +2217,13 @@ module la_eig
          neig = size(lambda,kind=ilp)
 
          if (.not. (k > 0 .and. m == n)) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid or matrix size a=', [m,n], &
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or matrix size a=', [m,n], &
                                                         ', must be square.')
             goto 1
          end if
 
          if (.not. neig >= k) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'eigenvalue array has insufficient size:', &
+            err0 = la_state(this,LINALG_VALUE_ERROR,'eigenvalue array has insufficient size:', &
                                                         ' lambda=',neig,' must be >= n=',n)
             goto 1
          end if
@@ -2248,7 +2248,7 @@ module la_eig
             
             ! Check size
             if (any(shape(vectors,kind=ilp) < n)) then
-               err0 = linalg_state(this,LINALG_VALUE_ERROR, &
+               err0 = la_state(this,LINALG_VALUE_ERROR, &
                                         'eigenvector matrix has insufficient size: ', &
                                         shape(vectors),', with n=',n)
                goto 1

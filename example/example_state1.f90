@@ -1,10 +1,10 @@
 program example_state1
-  use la_state
+  use linear_algebra, only: la_state
   implicit none
-  type(linalg_state) :: err
+  type(la_state) :: err
 
   ! Create a state flag
-  err = linalg_state(LINALG_VALUE_ERROR,'just an example with scalar ', &
+  err = la_state(LINALG_VALUE_ERROR,'just an example with scalar ', &
   &                  'integer=',1,'real=',2.0,'complex=',(3.0,1.0),'and array ',[1,2,3],'inputs')
 
   ! Print flag

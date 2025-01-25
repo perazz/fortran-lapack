@@ -2,7 +2,7 @@ module la_solve
      use la_constants
      use la_blas
      use la_lapack
-     use la_state
+     use la_state_type
      use iso_fortran_env,only:real32,real64,real128,int8,int16,int32,int64,stderr => error_unit
      implicit none(type,external)
      private
@@ -34,24 +34,24 @@ module la_solve
      
      elemental subroutine handle_gesv_info(info,lda,n,nrhs,err)
          integer(ilp),intent(in) :: info,lda,n,nrhs
-         type(linalg_state),intent(out) :: err
+         type(la_state),intent(out) :: err
 
          ! Process output
          select case (info)
             case (0)
                 ! Success
             case (-1)
-                err = linalg_state(this,LINALG_VALUE_ERROR,'invalid problem size n=',n)
+                err = la_state(this,LINALG_VALUE_ERROR,'invalid problem size n=',n)
             case (-2)
-                err = linalg_state(this,LINALG_VALUE_ERROR,'invalid rhs size n=',nrhs)
+                err = la_state(this,LINALG_VALUE_ERROR,'invalid rhs size n=',nrhs)
             case (-4)
-                err = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix size a=', [lda,n])
+                err = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size a=', [lda,n])
             case (-7)
-                err = linalg_state(this,LINALG_ERROR,'invalid matrix size a=', [lda,n])
+                err = la_state(this,LINALG_ERROR,'invalid matrix size a=', [lda,n])
             case (1:)
-                err = linalg_state(this,LINALG_ERROR,'singular matrix')
+                err = la_state(this,LINALG_ERROR,'singular matrix')
             case default
-                err = linalg_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
+                err = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
          end select
 
      end subroutine handle_gesv_info
@@ -65,12 +65,12 @@ module la_solve
          !> [optional] Can A data be overwritten and destroyed?
          logical(lk),optional,intent(in) :: overwrite_a
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
          !> Result array/matrix x[n] or x[n,nrhs]
          real(sp),allocatable,target :: x(:)
 
          !> Local variables
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          integer(ilp) :: lda,n,ldb,nrhs,info
          integer(ilp),allocatable :: ipiv(:)
          logical(lk) :: copy_a
@@ -83,7 +83,7 @@ module la_solve
          nrhs = size(b,kind=ilp)/ldb
 
          if (lda < 1 .or. n < 1 .or. ldb < 1 .or. lda /= n .or. ldb /= n) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
                                                                        'b=[',ldb,',',nrhs,']')
             allocate (x(0))
             goto 1
@@ -132,12 +132,12 @@ module la_solve
          !> [optional] Can A data be overwritten and destroyed?
          logical(lk),optional,intent(in) :: overwrite_a
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
          !> Result array/matrix x[n] or x[n,nrhs]
          real(dp),allocatable,target :: x(:)
 
          !> Local variables
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          integer(ilp) :: lda,n,ldb,nrhs,info
          integer(ilp),allocatable :: ipiv(:)
          logical(lk) :: copy_a
@@ -150,7 +150,7 @@ module la_solve
          nrhs = size(b,kind=ilp)/ldb
 
          if (lda < 1 .or. n < 1 .or. ldb < 1 .or. lda /= n .or. ldb /= n) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
                                                                        'b=[',ldb,',',nrhs,']')
             allocate (x(0))
             goto 1
@@ -199,12 +199,12 @@ module la_solve
          !> [optional] Can A data be overwritten and destroyed?
          logical(lk),optional,intent(in) :: overwrite_a
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
          !> Result array/matrix x[n] or x[n,nrhs]
          real(qp),allocatable,target :: x(:)
 
          !> Local variables
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          integer(ilp) :: lda,n,ldb,nrhs,info
          integer(ilp),allocatable :: ipiv(:)
          logical(lk) :: copy_a
@@ -217,7 +217,7 @@ module la_solve
          nrhs = size(b,kind=ilp)/ldb
 
          if (lda < 1 .or. n < 1 .or. ldb < 1 .or. lda /= n .or. ldb /= n) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
                                                                        'b=[',ldb,',',nrhs,']')
             allocate (x(0))
             goto 1
@@ -266,12 +266,12 @@ module la_solve
          !> [optional] Can A data be overwritten and destroyed?
          logical(lk),optional,intent(in) :: overwrite_a
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
          !> Result array/matrix x[n] or x[n,nrhs]
          complex(sp),allocatable,target :: x(:)
 
          !> Local variables
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          integer(ilp) :: lda,n,ldb,nrhs,info
          integer(ilp),allocatable :: ipiv(:)
          logical(lk) :: copy_a
@@ -284,7 +284,7 @@ module la_solve
          nrhs = size(b,kind=ilp)/ldb
 
          if (lda < 1 .or. n < 1 .or. ldb < 1 .or. lda /= n .or. ldb /= n) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
                                                                        'b=[',ldb,',',nrhs,']')
             allocate (x(0))
             goto 1
@@ -333,12 +333,12 @@ module la_solve
          !> [optional] Can A data be overwritten and destroyed?
          logical(lk),optional,intent(in) :: overwrite_a
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
          !> Result array/matrix x[n] or x[n,nrhs]
          complex(dp),allocatable,target :: x(:)
 
          !> Local variables
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          integer(ilp) :: lda,n,ldb,nrhs,info
          integer(ilp),allocatable :: ipiv(:)
          logical(lk) :: copy_a
@@ -351,7 +351,7 @@ module la_solve
          nrhs = size(b,kind=ilp)/ldb
 
          if (lda < 1 .or. n < 1 .or. ldb < 1 .or. lda /= n .or. ldb /= n) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
                                                                        'b=[',ldb,',',nrhs,']')
             allocate (x(0))
             goto 1
@@ -400,12 +400,12 @@ module la_solve
          !> [optional] Can A data be overwritten and destroyed?
          logical(lk),optional,intent(in) :: overwrite_a
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
          !> Result array/matrix x[n] or x[n,nrhs]
          complex(qp),allocatable,target :: x(:)
 
          !> Local variables
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          integer(ilp) :: lda,n,ldb,nrhs,info
          integer(ilp),allocatable :: ipiv(:)
          logical(lk) :: copy_a
@@ -418,7 +418,7 @@ module la_solve
          nrhs = size(b,kind=ilp)/ldb
 
          if (lda < 1 .or. n < 1 .or. ldb < 1 .or. lda /= n .or. ldb /= n) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
                                                                        'b=[',ldb,',',nrhs,']')
             allocate (x(0))
             goto 1
@@ -467,12 +467,12 @@ module la_solve
          !> [optional] Can A data be overwritten and destroyed?
          logical(lk),optional,intent(in) :: overwrite_a
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
          !> Result array/matrix x[n] or x[n,nrhs]
          real(sp),allocatable,target :: x(:,:)
 
          !> Local variables
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          integer(ilp) :: lda,n,ldb,nrhs,info
          integer(ilp),allocatable :: ipiv(:)
          logical(lk) :: copy_a
@@ -485,7 +485,7 @@ module la_solve
          nrhs = size(b,kind=ilp)/ldb
 
          if (lda < 1 .or. n < 1 .or. ldb < 1 .or. lda /= n .or. ldb /= n) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
                                                                        'b=[',ldb,',',nrhs,']')
             allocate (x(0,0))
             goto 1
@@ -534,12 +534,12 @@ module la_solve
          !> [optional] Can A data be overwritten and destroyed?
          logical(lk),optional,intent(in) :: overwrite_a
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
          !> Result array/matrix x[n] or x[n,nrhs]
          real(dp),allocatable,target :: x(:,:)
 
          !> Local variables
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          integer(ilp) :: lda,n,ldb,nrhs,info
          integer(ilp),allocatable :: ipiv(:)
          logical(lk) :: copy_a
@@ -552,7 +552,7 @@ module la_solve
          nrhs = size(b,kind=ilp)/ldb
 
          if (lda < 1 .or. n < 1 .or. ldb < 1 .or. lda /= n .or. ldb /= n) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
                                                                        'b=[',ldb,',',nrhs,']')
             allocate (x(0,0))
             goto 1
@@ -601,12 +601,12 @@ module la_solve
          !> [optional] Can A data be overwritten and destroyed?
          logical(lk),optional,intent(in) :: overwrite_a
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
          !> Result array/matrix x[n] or x[n,nrhs]
          real(qp),allocatable,target :: x(:,:)
 
          !> Local variables
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          integer(ilp) :: lda,n,ldb,nrhs,info
          integer(ilp),allocatable :: ipiv(:)
          logical(lk) :: copy_a
@@ -619,7 +619,7 @@ module la_solve
          nrhs = size(b,kind=ilp)/ldb
 
          if (lda < 1 .or. n < 1 .or. ldb < 1 .or. lda /= n .or. ldb /= n) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
                                                                        'b=[',ldb,',',nrhs,']')
             allocate (x(0,0))
             goto 1
@@ -668,12 +668,12 @@ module la_solve
          !> [optional] Can A data be overwritten and destroyed?
          logical(lk),optional,intent(in) :: overwrite_a
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
          !> Result array/matrix x[n] or x[n,nrhs]
          complex(sp),allocatable,target :: x(:,:)
 
          !> Local variables
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          integer(ilp) :: lda,n,ldb,nrhs,info
          integer(ilp),allocatable :: ipiv(:)
          logical(lk) :: copy_a
@@ -686,7 +686,7 @@ module la_solve
          nrhs = size(b,kind=ilp)/ldb
 
          if (lda < 1 .or. n < 1 .or. ldb < 1 .or. lda /= n .or. ldb /= n) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
                                                                        'b=[',ldb,',',nrhs,']')
             allocate (x(0,0))
             goto 1
@@ -735,12 +735,12 @@ module la_solve
          !> [optional] Can A data be overwritten and destroyed?
          logical(lk),optional,intent(in) :: overwrite_a
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
          !> Result array/matrix x[n] or x[n,nrhs]
          complex(dp),allocatable,target :: x(:,:)
 
          !> Local variables
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          integer(ilp) :: lda,n,ldb,nrhs,info
          integer(ilp),allocatable :: ipiv(:)
          logical(lk) :: copy_a
@@ -753,7 +753,7 @@ module la_solve
          nrhs = size(b,kind=ilp)/ldb
 
          if (lda < 1 .or. n < 1 .or. ldb < 1 .or. lda /= n .or. ldb /= n) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
                                                                        'b=[',ldb,',',nrhs,']')
             allocate (x(0,0))
             goto 1
@@ -802,12 +802,12 @@ module la_solve
          !> [optional] Can A data be overwritten and destroyed?
          logical(lk),optional,intent(in) :: overwrite_a
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
          !> Result array/matrix x[n] or x[n,nrhs]
          complex(qp),allocatable,target :: x(:,:)
 
          !> Local variables
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          integer(ilp) :: lda,n,ldb,nrhs,info
          integer(ilp),allocatable :: ipiv(:)
          logical(lk) :: copy_a
@@ -820,7 +820,7 @@ module la_solve
          nrhs = size(b,kind=ilp)/ldb
 
          if (lda < 1 .or. n < 1 .or. ldb < 1 .or. lda /= n .or. ldb /= n) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
                                                                        'b=[',ldb,',',nrhs,']')
             allocate (x(0,0))
             goto 1

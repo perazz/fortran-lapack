@@ -1,7 +1,7 @@
 #:include "common.fypp"
 ! Test eigendecomposition
 module test_linalg_eig
-    use la_interface
+    use linear_algebra
 
     implicit none (type,external)
 
@@ -52,7 +52,7 @@ module test_linalg_eig
         real(${rk}$), parameter :: tol     = sqrt(epsilon(zero))
 
         !> Local variables
-        type(linalg_state) :: state
+        type(la_state) :: state
         ${rt}$ :: A(3,3),B(2,2)
         complex(${rk}$) :: lambda(3),Bvec(2,2),Bres(2,2)
 
@@ -100,7 +100,7 @@ module test_linalg_eig
         
         !> Local variables
         real(${rk}$) :: Amat(4,4),lambda(4),vect(4,4),Av(4,4),lv(4,4)
-        type(linalg_state) :: state
+        type(la_state) :: state
         
         Amat = A
         
@@ -144,7 +144,7 @@ module test_linalg_eig
         ${ct}$, parameter :: czero = (0.0_${ck}$,0.0_${ck}$)
 
         !> Local vaciables
-        type(linalg_state) :: state
+        type(la_state) :: state
         ${ct}$ :: A(2,2),lambda(2),Avec(2,2),Ares(2,2),lres(2)
 
         !> Matcix with real eigenvalues

@@ -1,6 +1,6 @@
 ! Test QR factorization
 module test_linalg_qr
-    use la_interface
+    use linear_algebra
 
     implicit none(type,external)
 
@@ -47,7 +47,7 @@ module test_linalg_qr
         real(sp) :: rea(m,n),ima(m,n)
         integer(ilp) :: lwork
         real(sp),allocatable :: work(:)
-        type(linalg_state) :: err
+        type(la_state) :: err
         
         call random_number(rea)
         a = rea
@@ -112,7 +112,7 @@ module test_linalg_qr
         real(dp) :: rea(m,n),ima(m,n)
         integer(ilp) :: lwork
         real(dp),allocatable :: work(:)
-        type(linalg_state) :: err
+        type(la_state) :: err
         
         call random_number(rea)
         a = rea
@@ -177,7 +177,7 @@ module test_linalg_qr
         real(qp) :: rea(m,n),ima(m,n)
         integer(ilp) :: lwork
         real(qp),allocatable :: work(:)
-        type(linalg_state) :: err
+        type(la_state) :: err
         
         call random_number(rea)
         a = rea
@@ -242,7 +242,7 @@ module test_linalg_qr
         real(sp) :: rea(m,n),ima(m,n)
         integer(ilp) :: lwork
         complex(sp),allocatable :: work(:)
-        type(linalg_state) :: err
+        type(la_state) :: err
         
         call random_number(rea)
         call random_number(ima)
@@ -308,7 +308,7 @@ module test_linalg_qr
         real(dp) :: rea(m,n),ima(m,n)
         integer(ilp) :: lwork
         complex(dp),allocatable :: work(:)
-        type(linalg_state) :: err
+        type(la_state) :: err
         
         call random_number(rea)
         call random_number(ima)
@@ -374,7 +374,7 @@ module test_linalg_qr
         real(qp) :: rea(m,n),ima(m,n)
         integer(ilp) :: lwork
         complex(qp),allocatable :: work(:)
-        type(linalg_state) :: err
+        type(la_state) :: err
         
         call random_number(rea)
         call random_number(ima)

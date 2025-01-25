@@ -1,8 +1,5 @@
 module test_linalg_least_squares
-    use la_constants
-    use la_state
-    use la_least_squares
-
+    use linear_algebra
     implicit none(type,external)
 
     contains
@@ -26,7 +23,7 @@ module test_linalg_least_squares
     subroutine test_slstsq_one(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
         integer(ilp) :: rank
 
         !> Example scattered data
@@ -51,7 +48,7 @@ module test_linalg_least_squares
     subroutine test_dlstsq_one(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
         integer(ilp) :: rank
 
         !> Example scattered data
@@ -76,7 +73,7 @@ module test_linalg_least_squares
     subroutine test_qlstsq_one(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
         integer(ilp) :: rank
 
         !> Example scattered data

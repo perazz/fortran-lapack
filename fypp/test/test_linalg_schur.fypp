@@ -1,7 +1,7 @@
 #:include "common.fypp"
 ! Test Schur form
 module test_linalg_schur
-    use la_interface
+    use linear_algebra
 
     implicit none (type,external)
 
@@ -45,7 +45,7 @@ module test_linalg_schur
         #:if 'complex' in rt
         real(${rk}$) :: rea(n,n),ima(n,n)
         #:endif
-        type(linalg_state) :: err
+        type(la_state) :: err
         
         #:if 'complex' in rt
         call random_number(rea)
@@ -89,7 +89,7 @@ module test_linalg_schur
         #:if 'complex' in rt
         real(${rk}$), dimension(n,n) :: a_re,a_im
         #:endif        
-        type(linalg_state) :: err
+        type(la_state) :: err
 
         #:if 'complex' in rt
         call random_number(a_re)

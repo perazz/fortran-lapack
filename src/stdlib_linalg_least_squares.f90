@@ -2,7 +2,7 @@ module la_least_squares
      use la_constants
      use la_blas
      use la_lapack
-     use la_state
+     use la_state_type
      use iso_fortran_env,only:real32,real64,real128,int8,int16,int32,int64,stderr => error_unit
      implicit none(type,external)
      private
@@ -236,12 +236,12 @@ module la_least_squares
          !> [optional] Return rank of A
          integer(ilp),optional,intent(out) :: rank
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
          !> Result array/matrix x[n] or x[n,nrhs]
          real(sp),allocatable,target :: x(:)
 
          !> Local variables
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          integer(ilp) :: m,n,lda,ldb,nrhs,info,mnmin,mnmax,arank,lrwork,liwork,lcwork
          integer(ilp),allocatable :: iwork(:)
          logical(lk) :: copy_a
@@ -261,7 +261,7 @@ module la_least_squares
          mnmax = max(m,n)
 
          if (lda < 1 .or. n < 1 .or. ldb < 1 .or. ldb /= m) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
                                                                        'b=[',ldb,',',nrhs,']')
             allocate (x(0))
             arank = 0
@@ -314,11 +314,11 @@ module la_least_squares
             case (0)
                 ! Success
             case (:-1)
-                err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid problem size a=[',lda,',',n,'], b[',ldb,',',nrhs,']')
+                err0 = la_state(this,LINALG_VALUE_ERROR,'invalid problem size a=[',lda,',',n,'], b[',ldb,',',nrhs,']')
             case (1:)
-                err0 = linalg_state(this,LINALG_ERROR,'SVD did not converge.')
+                err0 = la_state(this,LINALG_ERROR,'SVD did not converge.')
             case default
-                err0 = linalg_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
+                err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
          end select
 
          if (.not. copy_a) deallocate (amat)
@@ -342,12 +342,12 @@ module la_least_squares
          !> [optional] Return rank of A
          integer(ilp),optional,intent(out) :: rank
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
          !> Result array/matrix x[n] or x[n,nrhs]
          real(dp),allocatable,target :: x(:)
 
          !> Local variables
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          integer(ilp) :: m,n,lda,ldb,nrhs,info,mnmin,mnmax,arank,lrwork,liwork,lcwork
          integer(ilp),allocatable :: iwork(:)
          logical(lk) :: copy_a
@@ -367,7 +367,7 @@ module la_least_squares
          mnmax = max(m,n)
 
          if (lda < 1 .or. n < 1 .or. ldb < 1 .or. ldb /= m) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
                                                                        'b=[',ldb,',',nrhs,']')
             allocate (x(0))
             arank = 0
@@ -420,11 +420,11 @@ module la_least_squares
             case (0)
                 ! Success
             case (:-1)
-                err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid problem size a=[',lda,',',n,'], b[',ldb,',',nrhs,']')
+                err0 = la_state(this,LINALG_VALUE_ERROR,'invalid problem size a=[',lda,',',n,'], b[',ldb,',',nrhs,']')
             case (1:)
-                err0 = linalg_state(this,LINALG_ERROR,'SVD did not converge.')
+                err0 = la_state(this,LINALG_ERROR,'SVD did not converge.')
             case default
-                err0 = linalg_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
+                err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
          end select
 
          if (.not. copy_a) deallocate (amat)
@@ -448,12 +448,12 @@ module la_least_squares
          !> [optional] Return rank of A
          integer(ilp),optional,intent(out) :: rank
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
          !> Result array/matrix x[n] or x[n,nrhs]
          real(qp),allocatable,target :: x(:)
 
          !> Local variables
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          integer(ilp) :: m,n,lda,ldb,nrhs,info,mnmin,mnmax,arank,lrwork,liwork,lcwork
          integer(ilp),allocatable :: iwork(:)
          logical(lk) :: copy_a
@@ -473,7 +473,7 @@ module la_least_squares
          mnmax = max(m,n)
 
          if (lda < 1 .or. n < 1 .or. ldb < 1 .or. ldb /= m) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
                                                                        'b=[',ldb,',',nrhs,']')
             allocate (x(0))
             arank = 0
@@ -526,11 +526,11 @@ module la_least_squares
             case (0)
                 ! Success
             case (:-1)
-                err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid problem size a=[',lda,',',n,'], b[',ldb,',',nrhs,']')
+                err0 = la_state(this,LINALG_VALUE_ERROR,'invalid problem size a=[',lda,',',n,'], b[',ldb,',',nrhs,']')
             case (1:)
-                err0 = linalg_state(this,LINALG_ERROR,'SVD did not converge.')
+                err0 = la_state(this,LINALG_ERROR,'SVD did not converge.')
             case default
-                err0 = linalg_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
+                err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
          end select
 
          if (.not. copy_a) deallocate (amat)
@@ -554,12 +554,12 @@ module la_least_squares
          !> [optional] Return rank of A
          integer(ilp),optional,intent(out) :: rank
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
          !> Result array/matrix x[n] or x[n,nrhs]
          complex(sp),allocatable,target :: x(:)
 
          !> Local variables
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          integer(ilp) :: m,n,lda,ldb,nrhs,info,mnmin,mnmax,arank,lrwork,liwork,lcwork
          integer(ilp),allocatable :: iwork(:)
          logical(lk) :: copy_a
@@ -579,7 +579,7 @@ module la_least_squares
          mnmax = max(m,n)
 
          if (lda < 1 .or. n < 1 .or. ldb < 1 .or. ldb /= m) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
                                                                        'b=[',ldb,',',nrhs,']')
             allocate (x(0))
             arank = 0
@@ -632,11 +632,11 @@ module la_least_squares
             case (0)
                 ! Success
             case (:-1)
-                err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid problem size a=[',lda,',',n,'], b[',ldb,',',nrhs,']')
+                err0 = la_state(this,LINALG_VALUE_ERROR,'invalid problem size a=[',lda,',',n,'], b[',ldb,',',nrhs,']')
             case (1:)
-                err0 = linalg_state(this,LINALG_ERROR,'SVD did not converge.')
+                err0 = la_state(this,LINALG_ERROR,'SVD did not converge.')
             case default
-                err0 = linalg_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
+                err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
          end select
 
          if (.not. copy_a) deallocate (amat)
@@ -660,12 +660,12 @@ module la_least_squares
          !> [optional] Return rank of A
          integer(ilp),optional,intent(out) :: rank
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
          !> Result array/matrix x[n] or x[n,nrhs]
          complex(dp),allocatable,target :: x(:)
 
          !> Local variables
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          integer(ilp) :: m,n,lda,ldb,nrhs,info,mnmin,mnmax,arank,lrwork,liwork,lcwork
          integer(ilp),allocatable :: iwork(:)
          logical(lk) :: copy_a
@@ -685,7 +685,7 @@ module la_least_squares
          mnmax = max(m,n)
 
          if (lda < 1 .or. n < 1 .or. ldb < 1 .or. ldb /= m) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
                                                                        'b=[',ldb,',',nrhs,']')
             allocate (x(0))
             arank = 0
@@ -738,11 +738,11 @@ module la_least_squares
             case (0)
                 ! Success
             case (:-1)
-                err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid problem size a=[',lda,',',n,'], b[',ldb,',',nrhs,']')
+                err0 = la_state(this,LINALG_VALUE_ERROR,'invalid problem size a=[',lda,',',n,'], b[',ldb,',',nrhs,']')
             case (1:)
-                err0 = linalg_state(this,LINALG_ERROR,'SVD did not converge.')
+                err0 = la_state(this,LINALG_ERROR,'SVD did not converge.')
             case default
-                err0 = linalg_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
+                err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
          end select
 
          if (.not. copy_a) deallocate (amat)
@@ -766,12 +766,12 @@ module la_least_squares
          !> [optional] Return rank of A
          integer(ilp),optional,intent(out) :: rank
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
          !> Result array/matrix x[n] or x[n,nrhs]
          complex(qp),allocatable,target :: x(:)
 
          !> Local variables
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          integer(ilp) :: m,n,lda,ldb,nrhs,info,mnmin,mnmax,arank,lrwork,liwork,lcwork
          integer(ilp),allocatable :: iwork(:)
          logical(lk) :: copy_a
@@ -791,7 +791,7 @@ module la_least_squares
          mnmax = max(m,n)
 
          if (lda < 1 .or. n < 1 .or. ldb < 1 .or. ldb /= m) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
                                                                        'b=[',ldb,',',nrhs,']')
             allocate (x(0))
             arank = 0
@@ -844,11 +844,11 @@ module la_least_squares
             case (0)
                 ! Success
             case (:-1)
-                err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid problem size a=[',lda,',',n,'], b[',ldb,',',nrhs,']')
+                err0 = la_state(this,LINALG_VALUE_ERROR,'invalid problem size a=[',lda,',',n,'], b[',ldb,',',nrhs,']')
             case (1:)
-                err0 = linalg_state(this,LINALG_ERROR,'SVD did not converge.')
+                err0 = la_state(this,LINALG_ERROR,'SVD did not converge.')
             case default
-                err0 = linalg_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
+                err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
          end select
 
          if (.not. copy_a) deallocate (amat)
@@ -872,12 +872,12 @@ module la_least_squares
          !> [optional] Return rank of A
          integer(ilp),optional,intent(out) :: rank
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
          !> Result array/matrix x[n] or x[n,nrhs]
          real(sp),allocatable,target :: x(:,:)
 
          !> Local variables
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          integer(ilp) :: m,n,lda,ldb,nrhs,info,mnmin,mnmax,arank,lrwork,liwork,lcwork
          integer(ilp),allocatable :: iwork(:)
          logical(lk) :: copy_a
@@ -897,7 +897,7 @@ module la_least_squares
          mnmax = max(m,n)
 
          if (lda < 1 .or. n < 1 .or. ldb < 1 .or. ldb /= m) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
                                                                        'b=[',ldb,',',nrhs,']')
             allocate (x(0,0))
             arank = 0
@@ -950,11 +950,11 @@ module la_least_squares
             case (0)
                 ! Success
             case (:-1)
-                err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid problem size a=[',lda,',',n,'], b[',ldb,',',nrhs,']')
+                err0 = la_state(this,LINALG_VALUE_ERROR,'invalid problem size a=[',lda,',',n,'], b[',ldb,',',nrhs,']')
             case (1:)
-                err0 = linalg_state(this,LINALG_ERROR,'SVD did not converge.')
+                err0 = la_state(this,LINALG_ERROR,'SVD did not converge.')
             case default
-                err0 = linalg_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
+                err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
          end select
 
          if (.not. copy_a) deallocate (amat)
@@ -978,12 +978,12 @@ module la_least_squares
          !> [optional] Return rank of A
          integer(ilp),optional,intent(out) :: rank
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
          !> Result array/matrix x[n] or x[n,nrhs]
          real(dp),allocatable,target :: x(:,:)
 
          !> Local variables
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          integer(ilp) :: m,n,lda,ldb,nrhs,info,mnmin,mnmax,arank,lrwork,liwork,lcwork
          integer(ilp),allocatable :: iwork(:)
          logical(lk) :: copy_a
@@ -1003,7 +1003,7 @@ module la_least_squares
          mnmax = max(m,n)
 
          if (lda < 1 .or. n < 1 .or. ldb < 1 .or. ldb /= m) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
                                                                        'b=[',ldb,',',nrhs,']')
             allocate (x(0,0))
             arank = 0
@@ -1056,11 +1056,11 @@ module la_least_squares
             case (0)
                 ! Success
             case (:-1)
-                err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid problem size a=[',lda,',',n,'], b[',ldb,',',nrhs,']')
+                err0 = la_state(this,LINALG_VALUE_ERROR,'invalid problem size a=[',lda,',',n,'], b[',ldb,',',nrhs,']')
             case (1:)
-                err0 = linalg_state(this,LINALG_ERROR,'SVD did not converge.')
+                err0 = la_state(this,LINALG_ERROR,'SVD did not converge.')
             case default
-                err0 = linalg_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
+                err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
          end select
 
          if (.not. copy_a) deallocate (amat)
@@ -1084,12 +1084,12 @@ module la_least_squares
          !> [optional] Return rank of A
          integer(ilp),optional,intent(out) :: rank
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
          !> Result array/matrix x[n] or x[n,nrhs]
          real(qp),allocatable,target :: x(:,:)
 
          !> Local variables
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          integer(ilp) :: m,n,lda,ldb,nrhs,info,mnmin,mnmax,arank,lrwork,liwork,lcwork
          integer(ilp),allocatable :: iwork(:)
          logical(lk) :: copy_a
@@ -1109,7 +1109,7 @@ module la_least_squares
          mnmax = max(m,n)
 
          if (lda < 1 .or. n < 1 .or. ldb < 1 .or. ldb /= m) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
                                                                        'b=[',ldb,',',nrhs,']')
             allocate (x(0,0))
             arank = 0
@@ -1162,11 +1162,11 @@ module la_least_squares
             case (0)
                 ! Success
             case (:-1)
-                err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid problem size a=[',lda,',',n,'], b[',ldb,',',nrhs,']')
+                err0 = la_state(this,LINALG_VALUE_ERROR,'invalid problem size a=[',lda,',',n,'], b[',ldb,',',nrhs,']')
             case (1:)
-                err0 = linalg_state(this,LINALG_ERROR,'SVD did not converge.')
+                err0 = la_state(this,LINALG_ERROR,'SVD did not converge.')
             case default
-                err0 = linalg_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
+                err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
          end select
 
          if (.not. copy_a) deallocate (amat)
@@ -1190,12 +1190,12 @@ module la_least_squares
          !> [optional] Return rank of A
          integer(ilp),optional,intent(out) :: rank
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
          !> Result array/matrix x[n] or x[n,nrhs]
          complex(sp),allocatable,target :: x(:,:)
 
          !> Local variables
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          integer(ilp) :: m,n,lda,ldb,nrhs,info,mnmin,mnmax,arank,lrwork,liwork,lcwork
          integer(ilp),allocatable :: iwork(:)
          logical(lk) :: copy_a
@@ -1215,7 +1215,7 @@ module la_least_squares
          mnmax = max(m,n)
 
          if (lda < 1 .or. n < 1 .or. ldb < 1 .or. ldb /= m) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
                                                                        'b=[',ldb,',',nrhs,']')
             allocate (x(0,0))
             arank = 0
@@ -1268,11 +1268,11 @@ module la_least_squares
             case (0)
                 ! Success
             case (:-1)
-                err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid problem size a=[',lda,',',n,'], b[',ldb,',',nrhs,']')
+                err0 = la_state(this,LINALG_VALUE_ERROR,'invalid problem size a=[',lda,',',n,'], b[',ldb,',',nrhs,']')
             case (1:)
-                err0 = linalg_state(this,LINALG_ERROR,'SVD did not converge.')
+                err0 = la_state(this,LINALG_ERROR,'SVD did not converge.')
             case default
-                err0 = linalg_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
+                err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
          end select
 
          if (.not. copy_a) deallocate (amat)
@@ -1296,12 +1296,12 @@ module la_least_squares
          !> [optional] Return rank of A
          integer(ilp),optional,intent(out) :: rank
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
          !> Result array/matrix x[n] or x[n,nrhs]
          complex(dp),allocatable,target :: x(:,:)
 
          !> Local variables
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          integer(ilp) :: m,n,lda,ldb,nrhs,info,mnmin,mnmax,arank,lrwork,liwork,lcwork
          integer(ilp),allocatable :: iwork(:)
          logical(lk) :: copy_a
@@ -1321,7 +1321,7 @@ module la_least_squares
          mnmax = max(m,n)
 
          if (lda < 1 .or. n < 1 .or. ldb < 1 .or. ldb /= m) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
                                                                        'b=[',ldb,',',nrhs,']')
             allocate (x(0,0))
             arank = 0
@@ -1374,11 +1374,11 @@ module la_least_squares
             case (0)
                 ! Success
             case (:-1)
-                err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid problem size a=[',lda,',',n,'], b[',ldb,',',nrhs,']')
+                err0 = la_state(this,LINALG_VALUE_ERROR,'invalid problem size a=[',lda,',',n,'], b[',ldb,',',nrhs,']')
             case (1:)
-                err0 = linalg_state(this,LINALG_ERROR,'SVD did not converge.')
+                err0 = la_state(this,LINALG_ERROR,'SVD did not converge.')
             case default
-                err0 = linalg_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
+                err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
          end select
 
          if (.not. copy_a) deallocate (amat)
@@ -1402,12 +1402,12 @@ module la_least_squares
          !> [optional] Return rank of A
          integer(ilp),optional,intent(out) :: rank
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
          !> Result array/matrix x[n] or x[n,nrhs]
          complex(qp),allocatable,target :: x(:,:)
 
          !> Local variables
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          integer(ilp) :: m,n,lda,ldb,nrhs,info,mnmin,mnmax,arank,lrwork,liwork,lcwork
          integer(ilp),allocatable :: iwork(:)
          logical(lk) :: copy_a
@@ -1427,7 +1427,7 @@ module la_least_squares
          mnmax = max(m,n)
 
          if (lda < 1 .or. n < 1 .or. ldb < 1 .or. ldb /= m) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
                                                                        'b=[',ldb,',',nrhs,']')
             allocate (x(0,0))
             arank = 0
@@ -1480,11 +1480,11 @@ module la_least_squares
             case (0)
                 ! Success
             case (:-1)
-                err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid problem size a=[',lda,',',n,'], b[',ldb,',',nrhs,']')
+                err0 = la_state(this,LINALG_VALUE_ERROR,'invalid problem size a=[',lda,',',n,'], b[',ldb,',',nrhs,']')
             case (1:)
-                err0 = linalg_state(this,LINALG_ERROR,'SVD did not converge.')
+                err0 = la_state(this,LINALG_ERROR,'SVD did not converge.')
             case default
-                err0 = linalg_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
+                err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
          end select
 
          if (.not. copy_a) deallocate (amat)

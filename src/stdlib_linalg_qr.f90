@@ -2,7 +2,7 @@ module la_qr
      use la_constants
      use la_blas
      use la_lapack
-     use la_state
+     use la_state_type
      use iso_fortran_env,only:real32,real64,real128,int8,int16,int32,int64,stderr => error_unit
      implicit none(type,external)
      private
@@ -38,46 +38,46 @@ module la_qr
      
      elemental subroutine handle_orgqr_info(info,m,n,k,lwork,err)
          integer(ilp),intent(in) :: info,m,n,k,lwork
-         type(linalg_state),intent(out) :: err
+         type(la_state),intent(out) :: err
 
          ! Process output
          select case (info)
             case (0)
                 ! Success
             case (-1)
-                err = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix size m=',m)
+                err = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size m=',m)
             case (-2)
-                err = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix size n=',n)
+                err = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size n=',n)
             case (-4)
-                err = linalg_state(this,LINALG_VALUE_ERROR,'invalid k=min(m,n)=',k)
+                err = la_state(this,LINALG_VALUE_ERROR,'invalid k=min(m,n)=',k)
             case (-5)
-                err = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix size a=', [m,n])
+                err = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size a=', [m,n])
             case (-8)
-                err = linalg_state(this,LINALG_ERROR,'invalid input for lwork=',lwork)
+                err = la_state(this,LINALG_ERROR,'invalid input for lwork=',lwork)
             case default
-                err = linalg_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
+                err = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
          end select
 
      end subroutine handle_orgqr_info
      
      elemental subroutine handle_geqrf_info(info,m,n,lwork,err)
          integer(ilp),intent(in) :: info,m,n,lwork
-         type(linalg_state),intent(out) :: err
+         type(la_state),intent(out) :: err
 
          ! Process output
          select case (info)
             case (0)
                 ! Success
             case (-1)
-                err = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix size m=',m)
+                err = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size m=',m)
             case (-2)
-                err = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix size n=',n)
+                err = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size n=',n)
             case (-4)
-                err = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix size a=', [m,n])
+                err = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size a=', [m,n])
             case (-7)
-                err = linalg_state(this,LINALG_ERROR,'invalid input for lwork=',lwork)
+                err = la_state(this,LINALG_ERROR,'invalid input for lwork=',lwork)
             case default
-                err = linalg_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
+                err = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
          end select
 
      end subroutine handle_geqrf_info
@@ -89,11 +89,11 @@ module la_qr
          !> Minimum workspace size for both operations
          integer(ilp),intent(out) :: lwork
          !> State return flag. Returns an error if the query failed
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
          
          integer(ilp) :: m,n,k,info,lwork_qr,lwork_ord
          real(sp) :: work_dummy(1),tau_dummy(1)
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          
          lwork = -1_ilp
          
@@ -141,10 +141,10 @@ module la_qr
          !> [optional] Provide pre-allocated workspace, size to be checked with qr_space
          real(sp),intent(inout),optional,target :: storage(:)
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
 
          !> Local variables
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          integer(ilp) :: i,j,m,n,k,q1,q2,r1,r2,lda,lwork,info
          logical(lk) :: overwrite_a_,use_q_matrix,reduced
          real(sp) :: r11
@@ -163,7 +163,7 @@ module la_qr
 
          ! Check sizes
          if (m < 1 .or. n < 1 .or. q1 < m .or. q2 < k .or. r1 < k .or. r2 < n) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a(m,n)=', [m,n], &
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a(m,n)=', [m,n], &
                                                                       ' q(m,m)=', [q1,q2], &
                                                                       ' r(m,n)=', [r1,r2])
             call linalg_error_handling(err0,err)
@@ -221,7 +221,7 @@ module la_qr
                 allocate (work(lwork))
              end if
              if (.not. size(work,kind=ilp) >= lwork) then
-                 err0 = linalg_state(this,LINALG_ERROR,'insufficient workspace: should be at least ',lwork)
+                 err0 = la_state(this,LINALG_ERROR,'insufficient workspace: should be at least ',lwork)
                  call linalg_error_handling(err0,err)
                  return
              end if
@@ -273,11 +273,11 @@ module la_qr
          !> Minimum workspace size for both operations
          integer(ilp),intent(out) :: lwork
          !> State return flag. Returns an error if the query failed
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
          
          integer(ilp) :: m,n,k,info,lwork_qr,lwork_ord
          real(dp) :: work_dummy(1),tau_dummy(1)
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          
          lwork = -1_ilp
          
@@ -325,10 +325,10 @@ module la_qr
          !> [optional] Provide pre-allocated workspace, size to be checked with qr_space
          real(dp),intent(inout),optional,target :: storage(:)
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
 
          !> Local variables
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          integer(ilp) :: i,j,m,n,k,q1,q2,r1,r2,lda,lwork,info
          logical(lk) :: overwrite_a_,use_q_matrix,reduced
          real(dp) :: r11
@@ -347,7 +347,7 @@ module la_qr
 
          ! Check sizes
          if (m < 1 .or. n < 1 .or. q1 < m .or. q2 < k .or. r1 < k .or. r2 < n) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a(m,n)=', [m,n], &
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a(m,n)=', [m,n], &
                                                                       ' q(m,m)=', [q1,q2], &
                                                                       ' r(m,n)=', [r1,r2])
             call linalg_error_handling(err0,err)
@@ -405,7 +405,7 @@ module la_qr
                 allocate (work(lwork))
              end if
              if (.not. size(work,kind=ilp) >= lwork) then
-                 err0 = linalg_state(this,LINALG_ERROR,'insufficient workspace: should be at least ',lwork)
+                 err0 = la_state(this,LINALG_ERROR,'insufficient workspace: should be at least ',lwork)
                  call linalg_error_handling(err0,err)
                  return
              end if
@@ -457,11 +457,11 @@ module la_qr
          !> Minimum workspace size for both operations
          integer(ilp),intent(out) :: lwork
          !> State return flag. Returns an error if the query failed
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
          
          integer(ilp) :: m,n,k,info,lwork_qr,lwork_ord
          real(qp) :: work_dummy(1),tau_dummy(1)
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          
          lwork = -1_ilp
          
@@ -509,10 +509,10 @@ module la_qr
          !> [optional] Provide pre-allocated workspace, size to be checked with qr_space
          real(qp),intent(inout),optional,target :: storage(:)
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
 
          !> Local variables
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          integer(ilp) :: i,j,m,n,k,q1,q2,r1,r2,lda,lwork,info
          logical(lk) :: overwrite_a_,use_q_matrix,reduced
          real(qp) :: r11
@@ -531,7 +531,7 @@ module la_qr
 
          ! Check sizes
          if (m < 1 .or. n < 1 .or. q1 < m .or. q2 < k .or. r1 < k .or. r2 < n) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a(m,n)=', [m,n], &
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a(m,n)=', [m,n], &
                                                                       ' q(m,m)=', [q1,q2], &
                                                                       ' r(m,n)=', [r1,r2])
             call linalg_error_handling(err0,err)
@@ -589,7 +589,7 @@ module la_qr
                 allocate (work(lwork))
              end if
              if (.not. size(work,kind=ilp) >= lwork) then
-                 err0 = linalg_state(this,LINALG_ERROR,'insufficient workspace: should be at least ',lwork)
+                 err0 = la_state(this,LINALG_ERROR,'insufficient workspace: should be at least ',lwork)
                  call linalg_error_handling(err0,err)
                  return
              end if
@@ -641,11 +641,11 @@ module la_qr
          !> Minimum workspace size for both operations
          integer(ilp),intent(out) :: lwork
          !> State return flag. Returns an error if the query failed
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
          
          integer(ilp) :: m,n,k,info,lwork_qr,lwork_ord
          complex(sp) :: work_dummy(1),tau_dummy(1)
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          
          lwork = -1_ilp
          
@@ -693,10 +693,10 @@ module la_qr
          !> [optional] Provide pre-allocated workspace, size to be checked with qr_space
          complex(sp),intent(inout),optional,target :: storage(:)
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
 
          !> Local variables
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          integer(ilp) :: i,j,m,n,k,q1,q2,r1,r2,lda,lwork,info
          logical(lk) :: overwrite_a_,use_q_matrix,reduced
          complex(sp) :: r11
@@ -715,7 +715,7 @@ module la_qr
 
          ! Check sizes
          if (m < 1 .or. n < 1 .or. q1 < m .or. q2 < k .or. r1 < k .or. r2 < n) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a(m,n)=', [m,n], &
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a(m,n)=', [m,n], &
                                                                       ' q(m,m)=', [q1,q2], &
                                                                       ' r(m,n)=', [r1,r2])
             call linalg_error_handling(err0,err)
@@ -773,7 +773,7 @@ module la_qr
                 allocate (work(lwork))
              end if
              if (.not. size(work,kind=ilp) >= lwork) then
-                 err0 = linalg_state(this,LINALG_ERROR,'insufficient workspace: should be at least ',lwork)
+                 err0 = la_state(this,LINALG_ERROR,'insufficient workspace: should be at least ',lwork)
                  call linalg_error_handling(err0,err)
                  return
              end if
@@ -825,11 +825,11 @@ module la_qr
          !> Minimum workspace size for both operations
          integer(ilp),intent(out) :: lwork
          !> State return flag. Returns an error if the query failed
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
          
          integer(ilp) :: m,n,k,info,lwork_qr,lwork_ord
          complex(dp) :: work_dummy(1),tau_dummy(1)
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          
          lwork = -1_ilp
          
@@ -877,10 +877,10 @@ module la_qr
          !> [optional] Provide pre-allocated workspace, size to be checked with qr_space
          complex(dp),intent(inout),optional,target :: storage(:)
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
 
          !> Local variables
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          integer(ilp) :: i,j,m,n,k,q1,q2,r1,r2,lda,lwork,info
          logical(lk) :: overwrite_a_,use_q_matrix,reduced
          complex(dp) :: r11
@@ -899,7 +899,7 @@ module la_qr
 
          ! Check sizes
          if (m < 1 .or. n < 1 .or. q1 < m .or. q2 < k .or. r1 < k .or. r2 < n) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a(m,n)=', [m,n], &
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a(m,n)=', [m,n], &
                                                                       ' q(m,m)=', [q1,q2], &
                                                                       ' r(m,n)=', [r1,r2])
             call linalg_error_handling(err0,err)
@@ -957,7 +957,7 @@ module la_qr
                 allocate (work(lwork))
              end if
              if (.not. size(work,kind=ilp) >= lwork) then
-                 err0 = linalg_state(this,LINALG_ERROR,'insufficient workspace: should be at least ',lwork)
+                 err0 = la_state(this,LINALG_ERROR,'insufficient workspace: should be at least ',lwork)
                  call linalg_error_handling(err0,err)
                  return
              end if
@@ -1009,11 +1009,11 @@ module la_qr
          !> Minimum workspace size for both operations
          integer(ilp),intent(out) :: lwork
          !> State return flag. Returns an error if the query failed
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
          
          integer(ilp) :: m,n,k,info,lwork_qr,lwork_ord
          complex(qp) :: work_dummy(1),tau_dummy(1)
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          
          lwork = -1_ilp
          
@@ -1061,10 +1061,10 @@ module la_qr
          !> [optional] Provide pre-allocated workspace, size to be checked with qr_space
          complex(qp),intent(inout),optional,target :: storage(:)
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
 
          !> Local variables
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          integer(ilp) :: i,j,m,n,k,q1,q2,r1,r2,lda,lwork,info
          logical(lk) :: overwrite_a_,use_q_matrix,reduced
          complex(qp) :: r11
@@ -1083,7 +1083,7 @@ module la_qr
 
          ! Check sizes
          if (m < 1 .or. n < 1 .or. q1 < m .or. q2 < k .or. r1 < k .or. r2 < n) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a(m,n)=', [m,n], &
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a(m,n)=', [m,n], &
                                                                       ' q(m,m)=', [q1,q2], &
                                                                       ' r(m,n)=', [r1,r2])
             call linalg_error_handling(err0,err)
@@ -1141,7 +1141,7 @@ module la_qr
                 allocate (work(lwork))
              end if
              if (.not. size(work,kind=ilp) >= lwork) then
-                 err0 = linalg_state(this,LINALG_ERROR,'insufficient workspace: should be at least ',lwork)
+                 err0 = la_state(this,LINALG_ERROR,'insufficient workspace: should be at least ',lwork)
                  call linalg_error_handling(err0,err)
                  return
              end if

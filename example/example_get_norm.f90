@@ -1,11 +1,11 @@
 ! Vector norm: demonstrate usage of the function interface
 program example_get_norm
-  use la_interface, only: get_norm, linalg_state
+  use linear_algebra, only: get_norm, la_state
   implicit none
   
   real :: a(3,3),nrm,nrmd(3)
   integer :: j
-  type(linalg_state) :: err
+  type(la_state) :: err
     
   ! a = [   -3.00000000   0.00000000   3.00000000
   !         -2.00000000   1.00000000   4.00000000

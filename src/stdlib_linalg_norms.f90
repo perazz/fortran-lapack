@@ -4,7 +4,7 @@ module la_norms
      use la_constants
      use la_blas,only:nrm2
      use la_lapack,only:lange
-     use la_state
+     use la_state_type
      use iso_fortran_env,only:real32,real64,real128,int8,int16,int32,int64,stderr => error_unit
      implicit none(type,external)
      private
@@ -1313,7 +1313,7 @@ module la_norms
         !> Return value: norm type
         integer(ilp),intent(out) :: norm_type
         !> State return flag
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         
         select case (order)
            case (1_ilp)
@@ -1329,7 +1329,7 @@ module la_norms
            
            case default
                norm_type = NORM_ONE
-               err = linalg_state(this,LINALG_ERROR,'Input norm type ',order,' is not recognized.')
+               err = la_state(this,LINALG_ERROR,'Input norm type ',order,' is not recognized.')
         end select
         
      end subroutine parse_norm_type_integer
@@ -1340,7 +1340,7 @@ module la_norms
         !> Return value: norm type
         integer(ilp),intent(out) :: norm_type
         !> State return flag
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         
         integer(ilp) :: int_order,read_err
         
@@ -1358,7 +1358,7 @@ module la_norms
               if (read_err /= 0) then
                  ! Cannot read as an integer
                  norm_type = NORM_ONE
-                 err = linalg_state(this,LINALG_ERROR,'Input norm type ',order,' is not recognized.')
+                 err = la_state(this,LINALG_ERROR,'Input norm type ',order,' is not recognized.')
               else
                  call parse_norm_type_integer(int_order,norm_type,err)
               end if
@@ -1374,7 +1374,7 @@ module la_norms
         !> LANGE task
         character,intent(out) :: lange_task
         !> Error flag
-        type(linalg_state),intent(inout) :: err
+        type(la_state),intent(inout) :: err
         
         select case (norm_type)
            case (NORM_INF)
@@ -1384,7 +1384,7 @@ module la_norms
            case (NORM_TWO)
               lange_task = LANGE_NORM_TWO
            case default
-              err = linalg_state(this,LINALG_VALUE_ERROR,'Order ',norm_type,' is not a valid matrix norm input.')
+              err = la_state(this,LINALG_VALUE_ERROR,'Order ',norm_type,' is not a valid matrix norm input.')
         end select
      end subroutine lange_task_request
                
@@ -1412,7 +1412,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm
                 
@@ -1429,9 +1429,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -1444,7 +1444,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -1469,7 +1469,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -1495,7 +1495,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm
                 
@@ -1512,9 +1512,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -1527,7 +1527,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -1552,7 +1552,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -1578,7 +1578,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm
                 
@@ -1595,9 +1595,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -1610,7 +1610,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -1635,7 +1635,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -1661,7 +1661,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm
                 
@@ -1678,9 +1678,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -1693,7 +1693,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -1718,7 +1718,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -1744,7 +1744,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm
                 
@@ -1761,9 +1761,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -1776,7 +1776,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -1801,7 +1801,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -1827,7 +1827,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm
                 
@@ -1844,9 +1844,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -1859,7 +1859,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -1884,7 +1884,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -1910,7 +1910,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm
                 
@@ -1927,9 +1927,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -1942,7 +1942,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -1967,7 +1967,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -1993,7 +1993,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm
                 
@@ -2010,9 +2010,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -2025,7 +2025,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -2050,7 +2050,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -2076,7 +2076,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm
                 
@@ -2093,9 +2093,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -2108,7 +2108,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -2133,7 +2133,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -2159,7 +2159,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm
                 
@@ -2176,9 +2176,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -2191,7 +2191,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -2216,7 +2216,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -2242,7 +2242,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm
                 
@@ -2259,9 +2259,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -2274,7 +2274,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -2299,7 +2299,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -2325,7 +2325,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm
                 
@@ -2342,9 +2342,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -2357,7 +2357,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -2382,7 +2382,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -2408,7 +2408,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm
                 
@@ -2425,9 +2425,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -2440,7 +2440,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -2465,7 +2465,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -2491,7 +2491,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm
                 
@@ -2508,9 +2508,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -2523,7 +2523,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -2548,7 +2548,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -2574,7 +2574,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm
                 
@@ -2591,9 +2591,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -2606,7 +2606,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -2631,7 +2631,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -2665,7 +2665,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim))
         
@@ -2685,9 +2685,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -2698,14 +2698,14 @@ module la_norms
         nrm = 0.0_sp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 2) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -2731,7 +2731,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -2761,7 +2761,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim))
         
@@ -2781,9 +2781,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -2794,14 +2794,14 @@ module la_norms
         nrm = 0.0_sp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 3) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -2827,7 +2827,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -2858,7 +2858,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim))
@@ -2880,9 +2880,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -2893,14 +2893,14 @@ module la_norms
         nrm = 0.0_sp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 4) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -2926,7 +2926,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -2957,7 +2957,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim))
@@ -2979,9 +2979,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -2992,14 +2992,14 @@ module la_norms
         nrm = 0.0_sp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 5) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -3025,7 +3025,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -3056,7 +3056,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim))
@@ -3079,9 +3079,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -3092,14 +3092,14 @@ module la_norms
         nrm = 0.0_sp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 6) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -3125,7 +3125,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -3157,7 +3157,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -3181,9 +3181,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -3194,14 +3194,14 @@ module la_norms
         nrm = 0.0_sp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 7) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -3227,7 +3227,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -3259,7 +3259,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -3283,9 +3283,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -3296,14 +3296,14 @@ module la_norms
         nrm = 0.0_sp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 8) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -3329,7 +3329,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -3362,7 +3362,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -3388,9 +3388,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -3401,14 +3401,14 @@ module la_norms
         nrm = 0.0_sp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 9) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -3434,7 +3434,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -3467,7 +3467,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -3493,9 +3493,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -3506,14 +3506,14 @@ module la_norms
         nrm = 0.0_sp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 10) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -3539,7 +3539,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -3572,7 +3572,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -3599,9 +3599,9 @@ module la_norms
         character(len=*),intent(in) :: order
 !> Order of the matrix norm being computed.
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -3612,14 +3612,14 @@ module la_norms
         nrm = 0.0_sp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 11) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -3645,7 +3645,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -3679,7 +3679,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -3707,9 +3707,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -3720,14 +3720,14 @@ module la_norms
         nrm = 0.0_sp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 12) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -3753,7 +3753,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -3787,7 +3787,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -3815,9 +3815,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -3828,14 +3828,14 @@ module la_norms
         nrm = 0.0_sp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 13) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -3861,7 +3861,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -3896,7 +3896,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -3926,9 +3926,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -3939,14 +3939,14 @@ module la_norms
         nrm = 0.0_sp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 14) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -3972,7 +3972,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -4007,7 +4007,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -4037,9 +4037,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -4050,14 +4050,14 @@ module la_norms
         nrm = 0.0_sp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 15) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -4083,7 +4083,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -4102,9 +4102,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: m,n,norm_request
         character :: lange_task
         real(sp),target :: work1(1)
@@ -4117,7 +4117,7 @@ module la_norms
         nrm = 0.0_sp
         
         if (m <= 0 .or. n <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=', [m,n])
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=', [m,n])
             call linalg_error_handling(err_,err)
             return
         end if
@@ -4154,9 +4154,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(3) :: s,spack,perm
         integer(ilp),dimension(3),parameter :: dim_range = [(m,m=1_ilp,3_ilp)]
@@ -4177,7 +4177,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 3)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',3,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',3,' matrix norm has invalid dim=',dims)
             allocate (nrm(0))
             call linalg_error_handling(err_,err)
             return
@@ -4253,9 +4253,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(4) :: s,spack,perm
         integer(ilp),dimension(4),parameter :: dim_range = [(m,m=1_ilp,4_ilp)]
@@ -4276,7 +4276,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 4)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',4,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',4,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0))
             call linalg_error_handling(err_,err)
             return
@@ -4353,9 +4353,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(5) :: s,spack,perm
         integer(ilp),dimension(5),parameter :: dim_range = [(m,m=1_ilp,5_ilp)]
@@ -4376,7 +4376,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 5)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',5,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',5,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -4454,9 +4454,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(6) :: s,spack,perm
         integer(ilp),dimension(6),parameter :: dim_range = [(m,m=1_ilp,6_ilp)]
@@ -4477,7 +4477,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 6)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',6,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',6,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -4556,9 +4556,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(7) :: s,spack,perm
         integer(ilp),dimension(7),parameter :: dim_range = [(m,m=1_ilp,7_ilp)]
@@ -4579,7 +4579,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 7)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',7,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',7,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -4659,9 +4659,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(8) :: s,spack,perm
         integer(ilp),dimension(8),parameter :: dim_range = [(m,m=1_ilp,8_ilp)]
@@ -4682,7 +4682,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 8)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',8,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',8,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -4763,9 +4763,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(9) :: s,spack,perm
         integer(ilp),dimension(9),parameter :: dim_range = [(m,m=1_ilp,9_ilp)]
@@ -4786,7 +4786,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 9)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',9,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',9,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -4868,9 +4868,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(10) :: s,spack,perm
         integer(ilp),dimension(10),parameter :: dim_range = [(m,m=1_ilp,10_ilp)]
@@ -4891,7 +4891,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 10)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',10,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',10,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -4976,9 +4976,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(11) :: s,spack,perm
         integer(ilp),dimension(11),parameter :: dim_range = [(m,m=1_ilp,11_ilp)]
@@ -4999,7 +4999,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 11)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',11,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',11,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -5085,9 +5085,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(12) :: s,spack,perm
         integer(ilp),dimension(12),parameter :: dim_range = [(m,m=1_ilp,12_ilp)]
@@ -5108,7 +5108,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 12)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',12,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',12,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -5195,9 +5195,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(13) :: s,spack,perm
         integer(ilp),dimension(13),parameter :: dim_range = [(m,m=1_ilp,13_ilp)]
@@ -5218,7 +5218,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 13)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',13,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',13,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -5306,9 +5306,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(14) :: s,spack,perm
         integer(ilp),dimension(14),parameter :: dim_range = [(m,m=1_ilp,14_ilp)]
@@ -5329,7 +5329,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 14)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',14,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',14,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -5418,9 +5418,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(15) :: s,spack,perm
         integer(ilp),dimension(15),parameter :: dim_range = [(m,m=1_ilp,15_ilp)]
@@ -5441,7 +5441,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 15)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',15,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',15,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -5544,7 +5544,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm
                 
@@ -5561,9 +5561,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -5576,7 +5576,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -5601,7 +5601,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -5627,7 +5627,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm
                 
@@ -5644,9 +5644,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -5659,7 +5659,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -5684,7 +5684,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -5710,7 +5710,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm
                 
@@ -5727,9 +5727,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -5742,7 +5742,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -5767,7 +5767,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -5793,7 +5793,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm
                 
@@ -5810,9 +5810,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -5825,7 +5825,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -5850,7 +5850,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -5876,7 +5876,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm
                 
@@ -5893,9 +5893,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -5908,7 +5908,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -5933,7 +5933,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -5959,7 +5959,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm
                 
@@ -5976,9 +5976,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -5991,7 +5991,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -6016,7 +6016,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -6042,7 +6042,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm
                 
@@ -6059,9 +6059,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -6074,7 +6074,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -6099,7 +6099,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -6125,7 +6125,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm
                 
@@ -6142,9 +6142,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -6157,7 +6157,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -6182,7 +6182,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -6208,7 +6208,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm
                 
@@ -6225,9 +6225,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -6240,7 +6240,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -6265,7 +6265,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -6291,7 +6291,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm
                 
@@ -6308,9 +6308,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -6323,7 +6323,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -6348,7 +6348,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -6374,7 +6374,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm
                 
@@ -6391,9 +6391,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -6406,7 +6406,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -6431,7 +6431,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -6457,7 +6457,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm
                 
@@ -6474,9 +6474,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -6489,7 +6489,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -6514,7 +6514,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -6540,7 +6540,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm
                 
@@ -6557,9 +6557,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -6572,7 +6572,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -6597,7 +6597,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -6623,7 +6623,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm
                 
@@ -6640,9 +6640,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -6655,7 +6655,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -6680,7 +6680,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -6706,7 +6706,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm
                 
@@ -6723,9 +6723,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -6738,7 +6738,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -6763,7 +6763,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -6797,7 +6797,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim))
         
@@ -6817,9 +6817,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -6830,14 +6830,14 @@ module la_norms
         nrm = 0.0_sp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 2) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -6863,7 +6863,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -6893,7 +6893,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim))
         
@@ -6913,9 +6913,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -6926,14 +6926,14 @@ module la_norms
         nrm = 0.0_sp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 3) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -6959,7 +6959,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -6990,7 +6990,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim))
@@ -7012,9 +7012,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -7025,14 +7025,14 @@ module la_norms
         nrm = 0.0_sp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 4) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -7058,7 +7058,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -7089,7 +7089,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim))
@@ -7111,9 +7111,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -7124,14 +7124,14 @@ module la_norms
         nrm = 0.0_sp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 5) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -7157,7 +7157,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -7188,7 +7188,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim))
@@ -7211,9 +7211,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -7224,14 +7224,14 @@ module la_norms
         nrm = 0.0_sp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 6) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -7257,7 +7257,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -7289,7 +7289,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -7313,9 +7313,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -7326,14 +7326,14 @@ module la_norms
         nrm = 0.0_sp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 7) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -7359,7 +7359,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -7391,7 +7391,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -7415,9 +7415,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -7428,14 +7428,14 @@ module la_norms
         nrm = 0.0_sp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 8) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -7461,7 +7461,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -7494,7 +7494,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -7520,9 +7520,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -7533,14 +7533,14 @@ module la_norms
         nrm = 0.0_sp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 9) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -7566,7 +7566,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -7599,7 +7599,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -7625,9 +7625,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -7638,14 +7638,14 @@ module la_norms
         nrm = 0.0_sp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 10) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -7671,7 +7671,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -7704,7 +7704,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -7731,9 +7731,9 @@ module la_norms
         integer(ilp),intent(in) :: order
 !> Order of the matrix norm being computed.
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -7744,14 +7744,14 @@ module la_norms
         nrm = 0.0_sp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 11) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -7777,7 +7777,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -7811,7 +7811,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -7839,9 +7839,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -7852,14 +7852,14 @@ module la_norms
         nrm = 0.0_sp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 12) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -7885,7 +7885,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -7919,7 +7919,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -7947,9 +7947,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -7960,14 +7960,14 @@ module la_norms
         nrm = 0.0_sp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 13) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -7993,7 +7993,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -8028,7 +8028,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -8058,9 +8058,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -8071,14 +8071,14 @@ module la_norms
         nrm = 0.0_sp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 14) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -8104,7 +8104,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -8139,7 +8139,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -8169,9 +8169,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -8182,14 +8182,14 @@ module la_norms
         nrm = 0.0_sp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 15) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -8215,7 +8215,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -8234,9 +8234,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: m,n,norm_request
         character :: lange_task
         real(sp),target :: work1(1)
@@ -8249,7 +8249,7 @@ module la_norms
         nrm = 0.0_sp
         
         if (m <= 0 .or. n <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=', [m,n])
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=', [m,n])
             call linalg_error_handling(err_,err)
             return
         end if
@@ -8286,9 +8286,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(3) :: s,spack,perm
         integer(ilp),dimension(3),parameter :: dim_range = [(m,m=1_ilp,3_ilp)]
@@ -8309,7 +8309,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 3)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',3,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',3,' matrix norm has invalid dim=',dims)
             allocate (nrm(0))
             call linalg_error_handling(err_,err)
             return
@@ -8385,9 +8385,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(4) :: s,spack,perm
         integer(ilp),dimension(4),parameter :: dim_range = [(m,m=1_ilp,4_ilp)]
@@ -8408,7 +8408,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 4)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',4,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',4,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0))
             call linalg_error_handling(err_,err)
             return
@@ -8485,9 +8485,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(5) :: s,spack,perm
         integer(ilp),dimension(5),parameter :: dim_range = [(m,m=1_ilp,5_ilp)]
@@ -8508,7 +8508,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 5)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',5,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',5,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -8586,9 +8586,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(6) :: s,spack,perm
         integer(ilp),dimension(6),parameter :: dim_range = [(m,m=1_ilp,6_ilp)]
@@ -8609,7 +8609,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 6)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',6,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',6,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -8688,9 +8688,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(7) :: s,spack,perm
         integer(ilp),dimension(7),parameter :: dim_range = [(m,m=1_ilp,7_ilp)]
@@ -8711,7 +8711,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 7)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',7,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',7,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -8791,9 +8791,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(8) :: s,spack,perm
         integer(ilp),dimension(8),parameter :: dim_range = [(m,m=1_ilp,8_ilp)]
@@ -8814,7 +8814,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 8)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',8,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',8,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -8895,9 +8895,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(9) :: s,spack,perm
         integer(ilp),dimension(9),parameter :: dim_range = [(m,m=1_ilp,9_ilp)]
@@ -8918,7 +8918,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 9)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',9,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',9,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -9000,9 +9000,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(10) :: s,spack,perm
         integer(ilp),dimension(10),parameter :: dim_range = [(m,m=1_ilp,10_ilp)]
@@ -9023,7 +9023,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 10)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',10,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',10,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -9108,9 +9108,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(11) :: s,spack,perm
         integer(ilp),dimension(11),parameter :: dim_range = [(m,m=1_ilp,11_ilp)]
@@ -9131,7 +9131,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 11)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',11,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',11,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -9217,9 +9217,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(12) :: s,spack,perm
         integer(ilp),dimension(12),parameter :: dim_range = [(m,m=1_ilp,12_ilp)]
@@ -9240,7 +9240,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 12)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',12,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',12,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -9327,9 +9327,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(13) :: s,spack,perm
         integer(ilp),dimension(13),parameter :: dim_range = [(m,m=1_ilp,13_ilp)]
@@ -9350,7 +9350,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 13)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',13,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',13,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -9438,9 +9438,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(14) :: s,spack,perm
         integer(ilp),dimension(14),parameter :: dim_range = [(m,m=1_ilp,14_ilp)]
@@ -9461,7 +9461,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 14)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',14,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',14,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -9550,9 +9550,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(15) :: s,spack,perm
         integer(ilp),dimension(15),parameter :: dim_range = [(m,m=1_ilp,15_ilp)]
@@ -9573,7 +9573,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 15)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',15,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',15,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -9676,7 +9676,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm
                 
@@ -9693,9 +9693,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -9708,7 +9708,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -9733,7 +9733,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -9759,7 +9759,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm
                 
@@ -9776,9 +9776,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -9791,7 +9791,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -9816,7 +9816,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -9842,7 +9842,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm
                 
@@ -9859,9 +9859,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -9874,7 +9874,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -9899,7 +9899,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -9925,7 +9925,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm
                 
@@ -9942,9 +9942,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -9957,7 +9957,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -9982,7 +9982,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -10008,7 +10008,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm
                 
@@ -10025,9 +10025,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -10040,7 +10040,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -10065,7 +10065,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -10091,7 +10091,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm
                 
@@ -10108,9 +10108,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -10123,7 +10123,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -10148,7 +10148,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -10174,7 +10174,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm
                 
@@ -10191,9 +10191,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -10206,7 +10206,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -10231,7 +10231,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -10257,7 +10257,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm
                 
@@ -10274,9 +10274,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -10289,7 +10289,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -10314,7 +10314,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -10340,7 +10340,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm
                 
@@ -10357,9 +10357,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -10372,7 +10372,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -10397,7 +10397,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -10423,7 +10423,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm
                 
@@ -10440,9 +10440,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -10455,7 +10455,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -10480,7 +10480,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -10506,7 +10506,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm
                 
@@ -10523,9 +10523,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -10538,7 +10538,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -10563,7 +10563,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -10589,7 +10589,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm
                 
@@ -10606,9 +10606,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -10621,7 +10621,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -10646,7 +10646,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -10672,7 +10672,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm
                 
@@ -10689,9 +10689,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -10704,7 +10704,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -10729,7 +10729,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -10755,7 +10755,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm
                 
@@ -10772,9 +10772,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -10787,7 +10787,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -10812,7 +10812,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -10838,7 +10838,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm
                 
@@ -10855,9 +10855,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -10870,7 +10870,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -10895,7 +10895,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -10929,7 +10929,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim))
         
@@ -10949,9 +10949,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -10962,14 +10962,14 @@ module la_norms
         nrm = 0.0_dp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 2) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -10995,7 +10995,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -11025,7 +11025,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim))
         
@@ -11045,9 +11045,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -11058,14 +11058,14 @@ module la_norms
         nrm = 0.0_dp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 3) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -11091,7 +11091,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -11122,7 +11122,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim))
@@ -11144,9 +11144,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -11157,14 +11157,14 @@ module la_norms
         nrm = 0.0_dp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 4) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -11190,7 +11190,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -11221,7 +11221,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim))
@@ -11243,9 +11243,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -11256,14 +11256,14 @@ module la_norms
         nrm = 0.0_dp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 5) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -11289,7 +11289,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -11320,7 +11320,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim))
@@ -11343,9 +11343,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -11356,14 +11356,14 @@ module la_norms
         nrm = 0.0_dp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 6) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -11389,7 +11389,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -11421,7 +11421,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -11445,9 +11445,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -11458,14 +11458,14 @@ module la_norms
         nrm = 0.0_dp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 7) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -11491,7 +11491,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -11523,7 +11523,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -11547,9 +11547,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -11560,14 +11560,14 @@ module la_norms
         nrm = 0.0_dp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 8) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -11593,7 +11593,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -11626,7 +11626,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -11652,9 +11652,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -11665,14 +11665,14 @@ module la_norms
         nrm = 0.0_dp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 9) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -11698,7 +11698,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -11731,7 +11731,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -11757,9 +11757,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -11770,14 +11770,14 @@ module la_norms
         nrm = 0.0_dp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 10) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -11803,7 +11803,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -11836,7 +11836,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -11863,9 +11863,9 @@ module la_norms
         character(len=*),intent(in) :: order
 !> Order of the matrix norm being computed.
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -11876,14 +11876,14 @@ module la_norms
         nrm = 0.0_dp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 11) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -11909,7 +11909,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -11943,7 +11943,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -11971,9 +11971,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -11984,14 +11984,14 @@ module la_norms
         nrm = 0.0_dp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 12) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -12017,7 +12017,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -12051,7 +12051,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -12079,9 +12079,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -12092,14 +12092,14 @@ module la_norms
         nrm = 0.0_dp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 13) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -12125,7 +12125,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -12160,7 +12160,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -12190,9 +12190,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -12203,14 +12203,14 @@ module la_norms
         nrm = 0.0_dp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 14) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -12236,7 +12236,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -12271,7 +12271,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -12301,9 +12301,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -12314,14 +12314,14 @@ module la_norms
         nrm = 0.0_dp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 15) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -12347,7 +12347,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -12366,9 +12366,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: m,n,norm_request
         character :: lange_task
         real(dp),target :: work1(1)
@@ -12381,7 +12381,7 @@ module la_norms
         nrm = 0.0_dp
         
         if (m <= 0 .or. n <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=', [m,n])
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=', [m,n])
             call linalg_error_handling(err_,err)
             return
         end if
@@ -12418,9 +12418,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(3) :: s,spack,perm
         integer(ilp),dimension(3),parameter :: dim_range = [(m,m=1_ilp,3_ilp)]
@@ -12441,7 +12441,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 3)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',3,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',3,' matrix norm has invalid dim=',dims)
             allocate (nrm(0))
             call linalg_error_handling(err_,err)
             return
@@ -12517,9 +12517,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(4) :: s,spack,perm
         integer(ilp),dimension(4),parameter :: dim_range = [(m,m=1_ilp,4_ilp)]
@@ -12540,7 +12540,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 4)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',4,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',4,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0))
             call linalg_error_handling(err_,err)
             return
@@ -12617,9 +12617,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(5) :: s,spack,perm
         integer(ilp),dimension(5),parameter :: dim_range = [(m,m=1_ilp,5_ilp)]
@@ -12640,7 +12640,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 5)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',5,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',5,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -12718,9 +12718,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(6) :: s,spack,perm
         integer(ilp),dimension(6),parameter :: dim_range = [(m,m=1_ilp,6_ilp)]
@@ -12741,7 +12741,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 6)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',6,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',6,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -12820,9 +12820,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(7) :: s,spack,perm
         integer(ilp),dimension(7),parameter :: dim_range = [(m,m=1_ilp,7_ilp)]
@@ -12843,7 +12843,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 7)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',7,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',7,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -12923,9 +12923,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(8) :: s,spack,perm
         integer(ilp),dimension(8),parameter :: dim_range = [(m,m=1_ilp,8_ilp)]
@@ -12946,7 +12946,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 8)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',8,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',8,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -13027,9 +13027,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(9) :: s,spack,perm
         integer(ilp),dimension(9),parameter :: dim_range = [(m,m=1_ilp,9_ilp)]
@@ -13050,7 +13050,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 9)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',9,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',9,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -13132,9 +13132,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(10) :: s,spack,perm
         integer(ilp),dimension(10),parameter :: dim_range = [(m,m=1_ilp,10_ilp)]
@@ -13155,7 +13155,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 10)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',10,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',10,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -13240,9 +13240,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(11) :: s,spack,perm
         integer(ilp),dimension(11),parameter :: dim_range = [(m,m=1_ilp,11_ilp)]
@@ -13263,7 +13263,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 11)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',11,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',11,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -13349,9 +13349,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(12) :: s,spack,perm
         integer(ilp),dimension(12),parameter :: dim_range = [(m,m=1_ilp,12_ilp)]
@@ -13372,7 +13372,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 12)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',12,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',12,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -13459,9 +13459,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(13) :: s,spack,perm
         integer(ilp),dimension(13),parameter :: dim_range = [(m,m=1_ilp,13_ilp)]
@@ -13482,7 +13482,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 13)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',13,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',13,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -13570,9 +13570,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(14) :: s,spack,perm
         integer(ilp),dimension(14),parameter :: dim_range = [(m,m=1_ilp,14_ilp)]
@@ -13593,7 +13593,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 14)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',14,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',14,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -13682,9 +13682,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(15) :: s,spack,perm
         integer(ilp),dimension(15),parameter :: dim_range = [(m,m=1_ilp,15_ilp)]
@@ -13705,7 +13705,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 15)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',15,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',15,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -13808,7 +13808,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm
                 
@@ -13825,9 +13825,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -13840,7 +13840,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -13865,7 +13865,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -13891,7 +13891,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm
                 
@@ -13908,9 +13908,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -13923,7 +13923,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -13948,7 +13948,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -13974,7 +13974,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm
                 
@@ -13991,9 +13991,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -14006,7 +14006,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -14031,7 +14031,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -14057,7 +14057,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm
                 
@@ -14074,9 +14074,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -14089,7 +14089,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -14114,7 +14114,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -14140,7 +14140,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm
                 
@@ -14157,9 +14157,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -14172,7 +14172,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -14197,7 +14197,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -14223,7 +14223,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm
                 
@@ -14240,9 +14240,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -14255,7 +14255,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -14280,7 +14280,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -14306,7 +14306,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm
                 
@@ -14323,9 +14323,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -14338,7 +14338,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -14363,7 +14363,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -14389,7 +14389,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm
                 
@@ -14406,9 +14406,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -14421,7 +14421,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -14446,7 +14446,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -14472,7 +14472,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm
                 
@@ -14489,9 +14489,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -14504,7 +14504,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -14529,7 +14529,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -14555,7 +14555,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm
                 
@@ -14572,9 +14572,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -14587,7 +14587,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -14612,7 +14612,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -14638,7 +14638,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm
                 
@@ -14655,9 +14655,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -14670,7 +14670,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -14695,7 +14695,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -14721,7 +14721,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm
                 
@@ -14738,9 +14738,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -14753,7 +14753,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -14778,7 +14778,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -14804,7 +14804,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm
                 
@@ -14821,9 +14821,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -14836,7 +14836,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -14861,7 +14861,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -14887,7 +14887,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm
                 
@@ -14904,9 +14904,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -14919,7 +14919,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -14944,7 +14944,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -14970,7 +14970,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm
                 
@@ -14987,9 +14987,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -15002,7 +15002,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -15027,7 +15027,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -15061,7 +15061,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim))
         
@@ -15081,9 +15081,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -15094,14 +15094,14 @@ module la_norms
         nrm = 0.0_dp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 2) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -15127,7 +15127,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -15157,7 +15157,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim))
         
@@ -15177,9 +15177,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -15190,14 +15190,14 @@ module la_norms
         nrm = 0.0_dp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 3) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -15223,7 +15223,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -15254,7 +15254,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim))
@@ -15276,9 +15276,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -15289,14 +15289,14 @@ module la_norms
         nrm = 0.0_dp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 4) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -15322,7 +15322,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -15353,7 +15353,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim))
@@ -15375,9 +15375,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -15388,14 +15388,14 @@ module la_norms
         nrm = 0.0_dp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 5) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -15421,7 +15421,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -15452,7 +15452,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim))
@@ -15475,9 +15475,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -15488,14 +15488,14 @@ module la_norms
         nrm = 0.0_dp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 6) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -15521,7 +15521,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -15553,7 +15553,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -15577,9 +15577,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -15590,14 +15590,14 @@ module la_norms
         nrm = 0.0_dp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 7) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -15623,7 +15623,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -15655,7 +15655,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -15679,9 +15679,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -15692,14 +15692,14 @@ module la_norms
         nrm = 0.0_dp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 8) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -15725,7 +15725,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -15758,7 +15758,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -15784,9 +15784,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -15797,14 +15797,14 @@ module la_norms
         nrm = 0.0_dp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 9) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -15830,7 +15830,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -15863,7 +15863,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -15889,9 +15889,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -15902,14 +15902,14 @@ module la_norms
         nrm = 0.0_dp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 10) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -15935,7 +15935,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -15968,7 +15968,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -15995,9 +15995,9 @@ module la_norms
         integer(ilp),intent(in) :: order
 !> Order of the matrix norm being computed.
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -16008,14 +16008,14 @@ module la_norms
         nrm = 0.0_dp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 11) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -16041,7 +16041,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -16075,7 +16075,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -16103,9 +16103,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -16116,14 +16116,14 @@ module la_norms
         nrm = 0.0_dp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 12) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -16149,7 +16149,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -16183,7 +16183,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -16211,9 +16211,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -16224,14 +16224,14 @@ module la_norms
         nrm = 0.0_dp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 13) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -16257,7 +16257,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -16292,7 +16292,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -16322,9 +16322,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -16335,14 +16335,14 @@ module la_norms
         nrm = 0.0_dp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 14) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -16368,7 +16368,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -16403,7 +16403,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -16433,9 +16433,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -16446,14 +16446,14 @@ module la_norms
         nrm = 0.0_dp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 15) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -16479,7 +16479,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -16498,9 +16498,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: m,n,norm_request
         character :: lange_task
         real(dp),target :: work1(1)
@@ -16513,7 +16513,7 @@ module la_norms
         nrm = 0.0_dp
         
         if (m <= 0 .or. n <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=', [m,n])
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=', [m,n])
             call linalg_error_handling(err_,err)
             return
         end if
@@ -16550,9 +16550,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(3) :: s,spack,perm
         integer(ilp),dimension(3),parameter :: dim_range = [(m,m=1_ilp,3_ilp)]
@@ -16573,7 +16573,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 3)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',3,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',3,' matrix norm has invalid dim=',dims)
             allocate (nrm(0))
             call linalg_error_handling(err_,err)
             return
@@ -16649,9 +16649,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(4) :: s,spack,perm
         integer(ilp),dimension(4),parameter :: dim_range = [(m,m=1_ilp,4_ilp)]
@@ -16672,7 +16672,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 4)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',4,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',4,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0))
             call linalg_error_handling(err_,err)
             return
@@ -16749,9 +16749,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(5) :: s,spack,perm
         integer(ilp),dimension(5),parameter :: dim_range = [(m,m=1_ilp,5_ilp)]
@@ -16772,7 +16772,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 5)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',5,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',5,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -16850,9 +16850,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(6) :: s,spack,perm
         integer(ilp),dimension(6),parameter :: dim_range = [(m,m=1_ilp,6_ilp)]
@@ -16873,7 +16873,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 6)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',6,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',6,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -16952,9 +16952,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(7) :: s,spack,perm
         integer(ilp),dimension(7),parameter :: dim_range = [(m,m=1_ilp,7_ilp)]
@@ -16975,7 +16975,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 7)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',7,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',7,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -17055,9 +17055,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(8) :: s,spack,perm
         integer(ilp),dimension(8),parameter :: dim_range = [(m,m=1_ilp,8_ilp)]
@@ -17078,7 +17078,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 8)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',8,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',8,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -17159,9 +17159,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(9) :: s,spack,perm
         integer(ilp),dimension(9),parameter :: dim_range = [(m,m=1_ilp,9_ilp)]
@@ -17182,7 +17182,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 9)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',9,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',9,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -17264,9 +17264,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(10) :: s,spack,perm
         integer(ilp),dimension(10),parameter :: dim_range = [(m,m=1_ilp,10_ilp)]
@@ -17287,7 +17287,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 10)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',10,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',10,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -17372,9 +17372,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(11) :: s,spack,perm
         integer(ilp),dimension(11),parameter :: dim_range = [(m,m=1_ilp,11_ilp)]
@@ -17395,7 +17395,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 11)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',11,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',11,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -17481,9 +17481,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(12) :: s,spack,perm
         integer(ilp),dimension(12),parameter :: dim_range = [(m,m=1_ilp,12_ilp)]
@@ -17504,7 +17504,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 12)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',12,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',12,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -17591,9 +17591,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(13) :: s,spack,perm
         integer(ilp),dimension(13),parameter :: dim_range = [(m,m=1_ilp,13_ilp)]
@@ -17614,7 +17614,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 13)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',13,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',13,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -17702,9 +17702,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(14) :: s,spack,perm
         integer(ilp),dimension(14),parameter :: dim_range = [(m,m=1_ilp,14_ilp)]
@@ -17725,7 +17725,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 14)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',14,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',14,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -17814,9 +17814,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(15) :: s,spack,perm
         integer(ilp),dimension(15),parameter :: dim_range = [(m,m=1_ilp,15_ilp)]
@@ -17837,7 +17837,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 15)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',15,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',15,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -17940,7 +17940,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm
                 
@@ -17957,9 +17957,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -17972,7 +17972,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -17997,7 +17997,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -18023,7 +18023,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm
                 
@@ -18040,9 +18040,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -18055,7 +18055,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -18080,7 +18080,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -18106,7 +18106,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm
                 
@@ -18123,9 +18123,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -18138,7 +18138,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -18163,7 +18163,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -18189,7 +18189,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm
                 
@@ -18206,9 +18206,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -18221,7 +18221,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -18246,7 +18246,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -18272,7 +18272,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm
                 
@@ -18289,9 +18289,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -18304,7 +18304,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -18329,7 +18329,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -18355,7 +18355,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm
                 
@@ -18372,9 +18372,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -18387,7 +18387,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -18412,7 +18412,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -18438,7 +18438,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm
                 
@@ -18455,9 +18455,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -18470,7 +18470,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -18495,7 +18495,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -18521,7 +18521,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm
                 
@@ -18538,9 +18538,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -18553,7 +18553,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -18578,7 +18578,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -18604,7 +18604,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm
                 
@@ -18621,9 +18621,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -18636,7 +18636,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -18661,7 +18661,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -18687,7 +18687,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm
                 
@@ -18704,9 +18704,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -18719,7 +18719,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -18744,7 +18744,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -18770,7 +18770,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm
                 
@@ -18787,9 +18787,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -18802,7 +18802,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -18827,7 +18827,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -18853,7 +18853,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm
                 
@@ -18870,9 +18870,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -18885,7 +18885,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -18910,7 +18910,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -18936,7 +18936,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm
                 
@@ -18953,9 +18953,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -18968,7 +18968,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -18993,7 +18993,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -19019,7 +19019,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm
                 
@@ -19036,9 +19036,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -19051,7 +19051,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -19076,7 +19076,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -19102,7 +19102,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm
                 
@@ -19119,9 +19119,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -19134,7 +19134,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -19159,7 +19159,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -19193,7 +19193,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim))
         
@@ -19213,9 +19213,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -19226,14 +19226,14 @@ module la_norms
         nrm = 0.0_qp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 2) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -19259,7 +19259,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -19289,7 +19289,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim))
         
@@ -19309,9 +19309,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -19322,14 +19322,14 @@ module la_norms
         nrm = 0.0_qp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 3) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -19355,7 +19355,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -19386,7 +19386,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim))
@@ -19408,9 +19408,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -19421,14 +19421,14 @@ module la_norms
         nrm = 0.0_qp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 4) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -19454,7 +19454,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -19485,7 +19485,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim))
@@ -19507,9 +19507,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -19520,14 +19520,14 @@ module la_norms
         nrm = 0.0_qp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 5) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -19553,7 +19553,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -19584,7 +19584,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim))
@@ -19607,9 +19607,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -19620,14 +19620,14 @@ module la_norms
         nrm = 0.0_qp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 6) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -19653,7 +19653,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -19685,7 +19685,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -19709,9 +19709,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -19722,14 +19722,14 @@ module la_norms
         nrm = 0.0_qp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 7) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -19755,7 +19755,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -19787,7 +19787,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -19811,9 +19811,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -19824,14 +19824,14 @@ module la_norms
         nrm = 0.0_qp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 8) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -19857,7 +19857,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -19890,7 +19890,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -19916,9 +19916,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -19929,14 +19929,14 @@ module la_norms
         nrm = 0.0_qp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 9) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -19962,7 +19962,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -19995,7 +19995,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -20021,9 +20021,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -20034,14 +20034,14 @@ module la_norms
         nrm = 0.0_qp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 10) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -20067,7 +20067,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -20100,7 +20100,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -20127,9 +20127,9 @@ module la_norms
         character(len=*),intent(in) :: order
 !> Order of the matrix norm being computed.
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -20140,14 +20140,14 @@ module la_norms
         nrm = 0.0_qp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 11) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -20173,7 +20173,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -20207,7 +20207,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -20235,9 +20235,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -20248,14 +20248,14 @@ module la_norms
         nrm = 0.0_qp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 12) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -20281,7 +20281,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -20315,7 +20315,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -20343,9 +20343,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -20356,14 +20356,14 @@ module la_norms
         nrm = 0.0_qp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 13) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -20389,7 +20389,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -20424,7 +20424,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -20454,9 +20454,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -20467,14 +20467,14 @@ module la_norms
         nrm = 0.0_qp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 14) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -20500,7 +20500,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -20535,7 +20535,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -20565,9 +20565,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -20578,14 +20578,14 @@ module la_norms
         nrm = 0.0_qp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 15) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -20611,7 +20611,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -20630,9 +20630,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: m,n,norm_request
         character :: lange_task
         real(qp),target :: work1(1)
@@ -20645,7 +20645,7 @@ module la_norms
         nrm = 0.0_qp
         
         if (m <= 0 .or. n <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=', [m,n])
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=', [m,n])
             call linalg_error_handling(err_,err)
             return
         end if
@@ -20682,9 +20682,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(3) :: s,spack,perm
         integer(ilp),dimension(3),parameter :: dim_range = [(m,m=1_ilp,3_ilp)]
@@ -20705,7 +20705,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 3)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',3,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',3,' matrix norm has invalid dim=',dims)
             allocate (nrm(0))
             call linalg_error_handling(err_,err)
             return
@@ -20781,9 +20781,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(4) :: s,spack,perm
         integer(ilp),dimension(4),parameter :: dim_range = [(m,m=1_ilp,4_ilp)]
@@ -20804,7 +20804,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 4)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',4,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',4,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0))
             call linalg_error_handling(err_,err)
             return
@@ -20881,9 +20881,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(5) :: s,spack,perm
         integer(ilp),dimension(5),parameter :: dim_range = [(m,m=1_ilp,5_ilp)]
@@ -20904,7 +20904,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 5)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',5,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',5,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -20982,9 +20982,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(6) :: s,spack,perm
         integer(ilp),dimension(6),parameter :: dim_range = [(m,m=1_ilp,6_ilp)]
@@ -21005,7 +21005,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 6)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',6,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',6,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -21084,9 +21084,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(7) :: s,spack,perm
         integer(ilp),dimension(7),parameter :: dim_range = [(m,m=1_ilp,7_ilp)]
@@ -21107,7 +21107,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 7)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',7,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',7,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -21187,9 +21187,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(8) :: s,spack,perm
         integer(ilp),dimension(8),parameter :: dim_range = [(m,m=1_ilp,8_ilp)]
@@ -21210,7 +21210,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 8)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',8,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',8,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -21291,9 +21291,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(9) :: s,spack,perm
         integer(ilp),dimension(9),parameter :: dim_range = [(m,m=1_ilp,9_ilp)]
@@ -21314,7 +21314,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 9)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',9,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',9,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -21396,9 +21396,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(10) :: s,spack,perm
         integer(ilp),dimension(10),parameter :: dim_range = [(m,m=1_ilp,10_ilp)]
@@ -21419,7 +21419,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 10)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',10,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',10,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -21504,9 +21504,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(11) :: s,spack,perm
         integer(ilp),dimension(11),parameter :: dim_range = [(m,m=1_ilp,11_ilp)]
@@ -21527,7 +21527,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 11)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',11,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',11,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -21613,9 +21613,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(12) :: s,spack,perm
         integer(ilp),dimension(12),parameter :: dim_range = [(m,m=1_ilp,12_ilp)]
@@ -21636,7 +21636,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 12)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',12,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',12,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -21723,9 +21723,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(13) :: s,spack,perm
         integer(ilp),dimension(13),parameter :: dim_range = [(m,m=1_ilp,13_ilp)]
@@ -21746,7 +21746,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 13)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',13,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',13,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -21834,9 +21834,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(14) :: s,spack,perm
         integer(ilp),dimension(14),parameter :: dim_range = [(m,m=1_ilp,14_ilp)]
@@ -21857,7 +21857,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 14)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',14,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',14,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -21946,9 +21946,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(15) :: s,spack,perm
         integer(ilp),dimension(15),parameter :: dim_range = [(m,m=1_ilp,15_ilp)]
@@ -21969,7 +21969,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 15)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',15,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',15,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -22072,7 +22072,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm
                 
@@ -22089,9 +22089,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -22104,7 +22104,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -22129,7 +22129,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -22155,7 +22155,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm
                 
@@ -22172,9 +22172,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -22187,7 +22187,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -22212,7 +22212,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -22238,7 +22238,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm
                 
@@ -22255,9 +22255,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -22270,7 +22270,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -22295,7 +22295,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -22321,7 +22321,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm
                 
@@ -22338,9 +22338,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -22353,7 +22353,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -22378,7 +22378,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -22404,7 +22404,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm
                 
@@ -22421,9 +22421,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -22436,7 +22436,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -22461,7 +22461,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -22487,7 +22487,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm
                 
@@ -22504,9 +22504,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -22519,7 +22519,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -22544,7 +22544,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -22570,7 +22570,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm
                 
@@ -22587,9 +22587,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -22602,7 +22602,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -22627,7 +22627,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -22653,7 +22653,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm
                 
@@ -22670,9 +22670,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -22685,7 +22685,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -22710,7 +22710,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -22736,7 +22736,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm
                 
@@ -22753,9 +22753,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -22768,7 +22768,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -22793,7 +22793,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -22819,7 +22819,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm
                 
@@ -22836,9 +22836,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -22851,7 +22851,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -22876,7 +22876,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -22902,7 +22902,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm
                 
@@ -22919,9 +22919,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -22934,7 +22934,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -22959,7 +22959,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -22985,7 +22985,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm
                 
@@ -23002,9 +23002,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -23017,7 +23017,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -23042,7 +23042,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -23068,7 +23068,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm
                 
@@ -23085,9 +23085,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -23100,7 +23100,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -23125,7 +23125,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -23151,7 +23151,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm
                 
@@ -23168,9 +23168,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -23183,7 +23183,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -23208,7 +23208,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -23234,7 +23234,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm
                 
@@ -23251,9 +23251,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -23266,7 +23266,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -23291,7 +23291,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -23325,7 +23325,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim))
         
@@ -23345,9 +23345,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -23358,14 +23358,14 @@ module la_norms
         nrm = 0.0_qp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 2) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -23391,7 +23391,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -23421,7 +23421,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim))
         
@@ -23441,9 +23441,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -23454,14 +23454,14 @@ module la_norms
         nrm = 0.0_qp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 3) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -23487,7 +23487,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -23518,7 +23518,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim))
@@ -23540,9 +23540,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -23553,14 +23553,14 @@ module la_norms
         nrm = 0.0_qp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 4) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -23586,7 +23586,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -23617,7 +23617,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim))
@@ -23639,9 +23639,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -23652,14 +23652,14 @@ module la_norms
         nrm = 0.0_qp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 5) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -23685,7 +23685,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -23716,7 +23716,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim))
@@ -23739,9 +23739,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -23752,14 +23752,14 @@ module la_norms
         nrm = 0.0_qp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 6) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -23785,7 +23785,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -23817,7 +23817,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -23841,9 +23841,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -23854,14 +23854,14 @@ module la_norms
         nrm = 0.0_qp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 7) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -23887,7 +23887,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -23919,7 +23919,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -23943,9 +23943,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -23956,14 +23956,14 @@ module la_norms
         nrm = 0.0_qp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 8) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -23989,7 +23989,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -24022,7 +24022,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -24048,9 +24048,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -24061,14 +24061,14 @@ module la_norms
         nrm = 0.0_qp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 9) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -24094,7 +24094,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -24127,7 +24127,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -24153,9 +24153,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -24166,14 +24166,14 @@ module la_norms
         nrm = 0.0_qp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 10) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -24199,7 +24199,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -24232,7 +24232,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -24259,9 +24259,9 @@ module la_norms
         integer(ilp),intent(in) :: order
 !> Order of the matrix norm being computed.
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -24272,14 +24272,14 @@ module la_norms
         nrm = 0.0_qp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 11) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -24305,7 +24305,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -24339,7 +24339,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -24367,9 +24367,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -24380,14 +24380,14 @@ module la_norms
         nrm = 0.0_qp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 12) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -24413,7 +24413,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -24447,7 +24447,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -24475,9 +24475,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -24488,14 +24488,14 @@ module la_norms
         nrm = 0.0_qp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 13) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -24521,7 +24521,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -24556,7 +24556,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -24586,9 +24586,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -24599,14 +24599,14 @@ module la_norms
         nrm = 0.0_qp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 14) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -24632,7 +24632,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -24667,7 +24667,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -24697,9 +24697,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -24710,14 +24710,14 @@ module la_norms
         nrm = 0.0_qp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 15) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -24743,7 +24743,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -24762,9 +24762,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: m,n,norm_request
         character :: lange_task
         real(qp),target :: work1(1)
@@ -24777,7 +24777,7 @@ module la_norms
         nrm = 0.0_qp
         
         if (m <= 0 .or. n <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=', [m,n])
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=', [m,n])
             call linalg_error_handling(err_,err)
             return
         end if
@@ -24814,9 +24814,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(3) :: s,spack,perm
         integer(ilp),dimension(3),parameter :: dim_range = [(m,m=1_ilp,3_ilp)]
@@ -24837,7 +24837,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 3)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',3,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',3,' matrix norm has invalid dim=',dims)
             allocate (nrm(0))
             call linalg_error_handling(err_,err)
             return
@@ -24913,9 +24913,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(4) :: s,spack,perm
         integer(ilp),dimension(4),parameter :: dim_range = [(m,m=1_ilp,4_ilp)]
@@ -24936,7 +24936,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 4)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',4,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',4,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0))
             call linalg_error_handling(err_,err)
             return
@@ -25013,9 +25013,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(5) :: s,spack,perm
         integer(ilp),dimension(5),parameter :: dim_range = [(m,m=1_ilp,5_ilp)]
@@ -25036,7 +25036,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 5)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',5,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',5,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -25114,9 +25114,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(6) :: s,spack,perm
         integer(ilp),dimension(6),parameter :: dim_range = [(m,m=1_ilp,6_ilp)]
@@ -25137,7 +25137,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 6)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',6,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',6,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -25216,9 +25216,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(7) :: s,spack,perm
         integer(ilp),dimension(7),parameter :: dim_range = [(m,m=1_ilp,7_ilp)]
@@ -25239,7 +25239,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 7)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',7,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',7,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -25319,9 +25319,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(8) :: s,spack,perm
         integer(ilp),dimension(8),parameter :: dim_range = [(m,m=1_ilp,8_ilp)]
@@ -25342,7 +25342,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 8)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',8,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',8,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -25423,9 +25423,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(9) :: s,spack,perm
         integer(ilp),dimension(9),parameter :: dim_range = [(m,m=1_ilp,9_ilp)]
@@ -25446,7 +25446,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 9)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',9,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',9,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -25528,9 +25528,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(10) :: s,spack,perm
         integer(ilp),dimension(10),parameter :: dim_range = [(m,m=1_ilp,10_ilp)]
@@ -25551,7 +25551,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 10)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',10,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',10,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -25636,9 +25636,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(11) :: s,spack,perm
         integer(ilp),dimension(11),parameter :: dim_range = [(m,m=1_ilp,11_ilp)]
@@ -25659,7 +25659,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 11)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',11,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',11,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -25745,9 +25745,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(12) :: s,spack,perm
         integer(ilp),dimension(12),parameter :: dim_range = [(m,m=1_ilp,12_ilp)]
@@ -25768,7 +25768,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 12)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',12,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',12,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -25855,9 +25855,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(13) :: s,spack,perm
         integer(ilp),dimension(13),parameter :: dim_range = [(m,m=1_ilp,13_ilp)]
@@ -25878,7 +25878,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 13)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',13,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',13,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -25966,9 +25966,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(14) :: s,spack,perm
         integer(ilp),dimension(14),parameter :: dim_range = [(m,m=1_ilp,14_ilp)]
@@ -25989,7 +25989,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 14)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',14,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',14,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -26078,9 +26078,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(15) :: s,spack,perm
         integer(ilp),dimension(15),parameter :: dim_range = [(m,m=1_ilp,15_ilp)]
@@ -26101,7 +26101,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 15)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',15,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',15,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -26204,7 +26204,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm
                 
@@ -26221,9 +26221,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -26236,7 +26236,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -26261,7 +26261,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -26287,7 +26287,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm
                 
@@ -26304,9 +26304,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -26319,7 +26319,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -26344,7 +26344,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -26370,7 +26370,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm
                 
@@ -26387,9 +26387,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -26402,7 +26402,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -26427,7 +26427,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -26453,7 +26453,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm
                 
@@ -26470,9 +26470,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -26485,7 +26485,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -26510,7 +26510,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -26536,7 +26536,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm
                 
@@ -26553,9 +26553,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -26568,7 +26568,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -26593,7 +26593,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -26619,7 +26619,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm
                 
@@ -26636,9 +26636,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -26651,7 +26651,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -26676,7 +26676,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -26702,7 +26702,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm
                 
@@ -26719,9 +26719,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -26734,7 +26734,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -26759,7 +26759,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -26785,7 +26785,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm
                 
@@ -26802,9 +26802,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -26817,7 +26817,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -26842,7 +26842,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -26868,7 +26868,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm
                 
@@ -26885,9 +26885,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -26900,7 +26900,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -26925,7 +26925,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -26951,7 +26951,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm
                 
@@ -26968,9 +26968,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -26983,7 +26983,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -27008,7 +27008,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -27034,7 +27034,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm
                 
@@ -27051,9 +27051,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -27066,7 +27066,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -27091,7 +27091,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -27117,7 +27117,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm
                 
@@ -27134,9 +27134,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -27149,7 +27149,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -27174,7 +27174,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -27200,7 +27200,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm
                 
@@ -27217,9 +27217,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -27232,7 +27232,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -27257,7 +27257,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -27283,7 +27283,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm
                 
@@ -27300,9 +27300,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -27315,7 +27315,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -27340,7 +27340,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -27366,7 +27366,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm
                 
@@ -27383,9 +27383,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -27398,7 +27398,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -27423,7 +27423,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -27457,7 +27457,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim))
         
@@ -27477,9 +27477,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -27490,14 +27490,14 @@ module la_norms
         nrm = 0.0_sp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 2) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -27523,7 +27523,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -27553,7 +27553,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim))
         
@@ -27573,9 +27573,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -27586,14 +27586,14 @@ module la_norms
         nrm = 0.0_sp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 3) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -27619,7 +27619,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -27650,7 +27650,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim))
@@ -27672,9 +27672,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -27685,14 +27685,14 @@ module la_norms
         nrm = 0.0_sp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 4) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -27718,7 +27718,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -27749,7 +27749,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim))
@@ -27771,9 +27771,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -27784,14 +27784,14 @@ module la_norms
         nrm = 0.0_sp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 5) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -27817,7 +27817,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -27848,7 +27848,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim))
@@ -27871,9 +27871,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -27884,14 +27884,14 @@ module la_norms
         nrm = 0.0_sp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 6) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -27917,7 +27917,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -27949,7 +27949,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -27973,9 +27973,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -27986,14 +27986,14 @@ module la_norms
         nrm = 0.0_sp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 7) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -28019,7 +28019,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -28051,7 +28051,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -28075,9 +28075,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -28088,14 +28088,14 @@ module la_norms
         nrm = 0.0_sp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 8) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -28121,7 +28121,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -28154,7 +28154,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -28180,9 +28180,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -28193,14 +28193,14 @@ module la_norms
         nrm = 0.0_sp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 9) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -28226,7 +28226,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -28259,7 +28259,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -28285,9 +28285,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -28298,14 +28298,14 @@ module la_norms
         nrm = 0.0_sp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 10) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -28331,7 +28331,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -28364,7 +28364,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -28391,9 +28391,9 @@ module la_norms
         character(len=*),intent(in) :: order
 !> Order of the matrix norm being computed.
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -28404,14 +28404,14 @@ module la_norms
         nrm = 0.0_sp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 11) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -28437,7 +28437,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -28471,7 +28471,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -28499,9 +28499,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -28512,14 +28512,14 @@ module la_norms
         nrm = 0.0_sp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 12) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -28545,7 +28545,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -28579,7 +28579,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -28607,9 +28607,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -28620,14 +28620,14 @@ module la_norms
         nrm = 0.0_sp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 13) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -28653,7 +28653,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -28688,7 +28688,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -28718,9 +28718,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -28731,14 +28731,14 @@ module la_norms
         nrm = 0.0_sp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 14) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -28764,7 +28764,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -28799,7 +28799,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -28829,9 +28829,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -28842,14 +28842,14 @@ module la_norms
         nrm = 0.0_sp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 15) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -28875,7 +28875,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -28894,9 +28894,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: m,n,norm_request
         character :: lange_task
         real(sp),target :: work1(1)
@@ -28909,7 +28909,7 @@ module la_norms
         nrm = 0.0_sp
         
         if (m <= 0 .or. n <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=', [m,n])
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=', [m,n])
             call linalg_error_handling(err_,err)
             return
         end if
@@ -28946,9 +28946,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(3) :: s,spack,perm
         integer(ilp),dimension(3),parameter :: dim_range = [(m,m=1_ilp,3_ilp)]
@@ -28969,7 +28969,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 3)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',3,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',3,' matrix norm has invalid dim=',dims)
             allocate (nrm(0))
             call linalg_error_handling(err_,err)
             return
@@ -29045,9 +29045,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(4) :: s,spack,perm
         integer(ilp),dimension(4),parameter :: dim_range = [(m,m=1_ilp,4_ilp)]
@@ -29068,7 +29068,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 4)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',4,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',4,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0))
             call linalg_error_handling(err_,err)
             return
@@ -29145,9 +29145,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(5) :: s,spack,perm
         integer(ilp),dimension(5),parameter :: dim_range = [(m,m=1_ilp,5_ilp)]
@@ -29168,7 +29168,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 5)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',5,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',5,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -29246,9 +29246,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(6) :: s,spack,perm
         integer(ilp),dimension(6),parameter :: dim_range = [(m,m=1_ilp,6_ilp)]
@@ -29269,7 +29269,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 6)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',6,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',6,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -29348,9 +29348,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(7) :: s,spack,perm
         integer(ilp),dimension(7),parameter :: dim_range = [(m,m=1_ilp,7_ilp)]
@@ -29371,7 +29371,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 7)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',7,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',7,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -29451,9 +29451,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(8) :: s,spack,perm
         integer(ilp),dimension(8),parameter :: dim_range = [(m,m=1_ilp,8_ilp)]
@@ -29474,7 +29474,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 8)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',8,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',8,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -29555,9 +29555,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(9) :: s,spack,perm
         integer(ilp),dimension(9),parameter :: dim_range = [(m,m=1_ilp,9_ilp)]
@@ -29578,7 +29578,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 9)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',9,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',9,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -29660,9 +29660,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(10) :: s,spack,perm
         integer(ilp),dimension(10),parameter :: dim_range = [(m,m=1_ilp,10_ilp)]
@@ -29683,7 +29683,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 10)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',10,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',10,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -29768,9 +29768,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(11) :: s,spack,perm
         integer(ilp),dimension(11),parameter :: dim_range = [(m,m=1_ilp,11_ilp)]
@@ -29791,7 +29791,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 11)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',11,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',11,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -29877,9 +29877,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(12) :: s,spack,perm
         integer(ilp),dimension(12),parameter :: dim_range = [(m,m=1_ilp,12_ilp)]
@@ -29900,7 +29900,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 12)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',12,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',12,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -29987,9 +29987,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(13) :: s,spack,perm
         integer(ilp),dimension(13),parameter :: dim_range = [(m,m=1_ilp,13_ilp)]
@@ -30010,7 +30010,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 13)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',13,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',13,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -30098,9 +30098,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(14) :: s,spack,perm
         integer(ilp),dimension(14),parameter :: dim_range = [(m,m=1_ilp,14_ilp)]
@@ -30121,7 +30121,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 14)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',14,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',14,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -30210,9 +30210,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(15) :: s,spack,perm
         integer(ilp),dimension(15),parameter :: dim_range = [(m,m=1_ilp,15_ilp)]
@@ -30233,7 +30233,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 15)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',15,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',15,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -30336,7 +30336,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm
                 
@@ -30353,9 +30353,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -30368,7 +30368,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -30393,7 +30393,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -30419,7 +30419,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm
                 
@@ -30436,9 +30436,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -30451,7 +30451,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -30476,7 +30476,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -30502,7 +30502,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm
                 
@@ -30519,9 +30519,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -30534,7 +30534,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -30559,7 +30559,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -30585,7 +30585,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm
                 
@@ -30602,9 +30602,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -30617,7 +30617,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -30642,7 +30642,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -30668,7 +30668,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm
                 
@@ -30685,9 +30685,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -30700,7 +30700,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -30725,7 +30725,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -30751,7 +30751,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm
                 
@@ -30768,9 +30768,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -30783,7 +30783,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -30808,7 +30808,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -30834,7 +30834,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm
                 
@@ -30851,9 +30851,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -30866,7 +30866,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -30891,7 +30891,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -30917,7 +30917,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm
                 
@@ -30934,9 +30934,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -30949,7 +30949,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -30974,7 +30974,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -31000,7 +31000,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm
                 
@@ -31017,9 +31017,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -31032,7 +31032,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -31057,7 +31057,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -31083,7 +31083,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm
                 
@@ -31100,9 +31100,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -31115,7 +31115,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -31140,7 +31140,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -31166,7 +31166,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm
                 
@@ -31183,9 +31183,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -31198,7 +31198,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -31223,7 +31223,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -31249,7 +31249,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm
                 
@@ -31266,9 +31266,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -31281,7 +31281,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -31306,7 +31306,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -31332,7 +31332,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm
                 
@@ -31349,9 +31349,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -31364,7 +31364,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -31389,7 +31389,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -31415,7 +31415,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm
                 
@@ -31432,9 +31432,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -31447,7 +31447,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -31472,7 +31472,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -31498,7 +31498,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm
                 
@@ -31515,9 +31515,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -31530,7 +31530,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -31555,7 +31555,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -31589,7 +31589,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim))
         
@@ -31609,9 +31609,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -31622,14 +31622,14 @@ module la_norms
         nrm = 0.0_sp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 2) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -31655,7 +31655,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -31685,7 +31685,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim))
         
@@ -31705,9 +31705,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -31718,14 +31718,14 @@ module la_norms
         nrm = 0.0_sp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 3) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -31751,7 +31751,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -31782,7 +31782,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim))
@@ -31804,9 +31804,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -31817,14 +31817,14 @@ module la_norms
         nrm = 0.0_sp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 4) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -31850,7 +31850,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -31881,7 +31881,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim))
@@ -31903,9 +31903,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -31916,14 +31916,14 @@ module la_norms
         nrm = 0.0_sp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 5) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -31949,7 +31949,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -31980,7 +31980,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim))
@@ -32003,9 +32003,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -32016,14 +32016,14 @@ module la_norms
         nrm = 0.0_sp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 6) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -32049,7 +32049,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -32081,7 +32081,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -32105,9 +32105,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -32118,14 +32118,14 @@ module la_norms
         nrm = 0.0_sp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 7) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -32151,7 +32151,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -32183,7 +32183,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -32207,9 +32207,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -32220,14 +32220,14 @@ module la_norms
         nrm = 0.0_sp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 8) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -32253,7 +32253,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -32286,7 +32286,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -32312,9 +32312,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -32325,14 +32325,14 @@ module la_norms
         nrm = 0.0_sp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 9) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -32358,7 +32358,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -32391,7 +32391,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -32417,9 +32417,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -32430,14 +32430,14 @@ module la_norms
         nrm = 0.0_sp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 10) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -32463,7 +32463,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -32496,7 +32496,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -32523,9 +32523,9 @@ module la_norms
         integer(ilp),intent(in) :: order
 !> Order of the matrix norm being computed.
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -32536,14 +32536,14 @@ module la_norms
         nrm = 0.0_sp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 11) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -32569,7 +32569,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -32603,7 +32603,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -32631,9 +32631,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -32644,14 +32644,14 @@ module la_norms
         nrm = 0.0_sp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 12) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -32677,7 +32677,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -32711,7 +32711,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -32739,9 +32739,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -32752,14 +32752,14 @@ module la_norms
         nrm = 0.0_sp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 13) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -32785,7 +32785,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -32820,7 +32820,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -32850,9 +32850,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -32863,14 +32863,14 @@ module la_norms
         nrm = 0.0_sp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 14) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -32896,7 +32896,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -32931,7 +32931,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(sp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -32961,9 +32961,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(sp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -32974,14 +32974,14 @@ module la_norms
         nrm = 0.0_sp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 15) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -33007,7 +33007,7 @@ module la_norms
                 rorder = 1.0_sp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -33026,9 +33026,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: m,n,norm_request
         character :: lange_task
         real(sp),target :: work1(1)
@@ -33041,7 +33041,7 @@ module la_norms
         nrm = 0.0_sp
         
         if (m <= 0 .or. n <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=', [m,n])
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=', [m,n])
             call linalg_error_handling(err_,err)
             return
         end if
@@ -33078,9 +33078,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(3) :: s,spack,perm
         integer(ilp),dimension(3),parameter :: dim_range = [(m,m=1_ilp,3_ilp)]
@@ -33101,7 +33101,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 3)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',3,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',3,' matrix norm has invalid dim=',dims)
             allocate (nrm(0))
             call linalg_error_handling(err_,err)
             return
@@ -33177,9 +33177,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(4) :: s,spack,perm
         integer(ilp),dimension(4),parameter :: dim_range = [(m,m=1_ilp,4_ilp)]
@@ -33200,7 +33200,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 4)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',4,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',4,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0))
             call linalg_error_handling(err_,err)
             return
@@ -33277,9 +33277,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(5) :: s,spack,perm
         integer(ilp),dimension(5),parameter :: dim_range = [(m,m=1_ilp,5_ilp)]
@@ -33300,7 +33300,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 5)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',5,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',5,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -33378,9 +33378,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(6) :: s,spack,perm
         integer(ilp),dimension(6),parameter :: dim_range = [(m,m=1_ilp,6_ilp)]
@@ -33401,7 +33401,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 6)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',6,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',6,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -33480,9 +33480,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(7) :: s,spack,perm
         integer(ilp),dimension(7),parameter :: dim_range = [(m,m=1_ilp,7_ilp)]
@@ -33503,7 +33503,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 7)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',7,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',7,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -33583,9 +33583,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(8) :: s,spack,perm
         integer(ilp),dimension(8),parameter :: dim_range = [(m,m=1_ilp,8_ilp)]
@@ -33606,7 +33606,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 8)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',8,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',8,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -33687,9 +33687,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(9) :: s,spack,perm
         integer(ilp),dimension(9),parameter :: dim_range = [(m,m=1_ilp,9_ilp)]
@@ -33710,7 +33710,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 9)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',9,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',9,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -33792,9 +33792,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(10) :: s,spack,perm
         integer(ilp),dimension(10),parameter :: dim_range = [(m,m=1_ilp,10_ilp)]
@@ -33815,7 +33815,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 10)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',10,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',10,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -33900,9 +33900,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(11) :: s,spack,perm
         integer(ilp),dimension(11),parameter :: dim_range = [(m,m=1_ilp,11_ilp)]
@@ -33923,7 +33923,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 11)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',11,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',11,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -34009,9 +34009,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(12) :: s,spack,perm
         integer(ilp),dimension(12),parameter :: dim_range = [(m,m=1_ilp,12_ilp)]
@@ -34032,7 +34032,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 12)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',12,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',12,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -34119,9 +34119,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(13) :: s,spack,perm
         integer(ilp),dimension(13),parameter :: dim_range = [(m,m=1_ilp,13_ilp)]
@@ -34142,7 +34142,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 13)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',13,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',13,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -34230,9 +34230,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(14) :: s,spack,perm
         integer(ilp),dimension(14),parameter :: dim_range = [(m,m=1_ilp,14_ilp)]
@@ -34253,7 +34253,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 14)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',14,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',14,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -34342,9 +34342,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(15) :: s,spack,perm
         integer(ilp),dimension(15),parameter :: dim_range = [(m,m=1_ilp,15_ilp)]
@@ -34365,7 +34365,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 15)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',15,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',15,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -34468,7 +34468,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm
                 
@@ -34485,9 +34485,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -34500,7 +34500,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -34525,7 +34525,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -34551,7 +34551,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm
                 
@@ -34568,9 +34568,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -34583,7 +34583,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -34608,7 +34608,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -34634,7 +34634,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm
                 
@@ -34651,9 +34651,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -34666,7 +34666,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -34691,7 +34691,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -34717,7 +34717,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm
                 
@@ -34734,9 +34734,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -34749,7 +34749,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -34774,7 +34774,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -34800,7 +34800,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm
                 
@@ -34817,9 +34817,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -34832,7 +34832,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -34857,7 +34857,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -34883,7 +34883,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm
                 
@@ -34900,9 +34900,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -34915,7 +34915,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -34940,7 +34940,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -34966,7 +34966,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm
                 
@@ -34983,9 +34983,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -34998,7 +34998,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -35023,7 +35023,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -35049,7 +35049,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm
                 
@@ -35066,9 +35066,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -35081,7 +35081,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -35106,7 +35106,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -35132,7 +35132,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm
                 
@@ -35149,9 +35149,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -35164,7 +35164,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -35189,7 +35189,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -35215,7 +35215,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm
                 
@@ -35232,9 +35232,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -35247,7 +35247,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -35272,7 +35272,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -35298,7 +35298,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm
                 
@@ -35315,9 +35315,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -35330,7 +35330,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -35355,7 +35355,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -35381,7 +35381,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm
                 
@@ -35398,9 +35398,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -35413,7 +35413,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -35438,7 +35438,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -35464,7 +35464,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm
                 
@@ -35481,9 +35481,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -35496,7 +35496,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -35521,7 +35521,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -35547,7 +35547,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm
                 
@@ -35564,9 +35564,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -35579,7 +35579,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -35604,7 +35604,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -35630,7 +35630,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm
                 
@@ -35647,9 +35647,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -35662,7 +35662,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -35687,7 +35687,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -35721,7 +35721,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim))
         
@@ -35741,9 +35741,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -35754,14 +35754,14 @@ module la_norms
         nrm = 0.0_dp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 2) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -35787,7 +35787,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -35817,7 +35817,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim))
         
@@ -35837,9 +35837,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -35850,14 +35850,14 @@ module la_norms
         nrm = 0.0_dp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 3) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -35883,7 +35883,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -35914,7 +35914,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim))
@@ -35936,9 +35936,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -35949,14 +35949,14 @@ module la_norms
         nrm = 0.0_dp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 4) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -35982,7 +35982,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -36013,7 +36013,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim))
@@ -36035,9 +36035,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -36048,14 +36048,14 @@ module la_norms
         nrm = 0.0_dp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 5) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -36081,7 +36081,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -36112,7 +36112,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim))
@@ -36135,9 +36135,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -36148,14 +36148,14 @@ module la_norms
         nrm = 0.0_dp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 6) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -36181,7 +36181,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -36213,7 +36213,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -36237,9 +36237,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -36250,14 +36250,14 @@ module la_norms
         nrm = 0.0_dp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 7) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -36283,7 +36283,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -36315,7 +36315,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -36339,9 +36339,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -36352,14 +36352,14 @@ module la_norms
         nrm = 0.0_dp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 8) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -36385,7 +36385,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -36418,7 +36418,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -36444,9 +36444,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -36457,14 +36457,14 @@ module la_norms
         nrm = 0.0_dp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 9) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -36490,7 +36490,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -36523,7 +36523,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -36549,9 +36549,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -36562,14 +36562,14 @@ module la_norms
         nrm = 0.0_dp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 10) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -36595,7 +36595,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -36628,7 +36628,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -36655,9 +36655,9 @@ module la_norms
         character(len=*),intent(in) :: order
 !> Order of the matrix norm being computed.
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -36668,14 +36668,14 @@ module la_norms
         nrm = 0.0_dp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 11) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -36701,7 +36701,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -36735,7 +36735,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -36763,9 +36763,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -36776,14 +36776,14 @@ module la_norms
         nrm = 0.0_dp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 12) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -36809,7 +36809,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -36843,7 +36843,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -36871,9 +36871,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -36884,14 +36884,14 @@ module la_norms
         nrm = 0.0_dp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 13) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -36917,7 +36917,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -36952,7 +36952,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -36982,9 +36982,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -36995,14 +36995,14 @@ module la_norms
         nrm = 0.0_dp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 14) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -37028,7 +37028,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -37063,7 +37063,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -37093,9 +37093,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -37106,14 +37106,14 @@ module la_norms
         nrm = 0.0_dp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 15) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -37139,7 +37139,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -37158,9 +37158,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: m,n,norm_request
         character :: lange_task
         real(dp),target :: work1(1)
@@ -37173,7 +37173,7 @@ module la_norms
         nrm = 0.0_dp
         
         if (m <= 0 .or. n <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=', [m,n])
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=', [m,n])
             call linalg_error_handling(err_,err)
             return
         end if
@@ -37210,9 +37210,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(3) :: s,spack,perm
         integer(ilp),dimension(3),parameter :: dim_range = [(m,m=1_ilp,3_ilp)]
@@ -37233,7 +37233,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 3)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',3,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',3,' matrix norm has invalid dim=',dims)
             allocate (nrm(0))
             call linalg_error_handling(err_,err)
             return
@@ -37309,9 +37309,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(4) :: s,spack,perm
         integer(ilp),dimension(4),parameter :: dim_range = [(m,m=1_ilp,4_ilp)]
@@ -37332,7 +37332,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 4)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',4,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',4,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0))
             call linalg_error_handling(err_,err)
             return
@@ -37409,9 +37409,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(5) :: s,spack,perm
         integer(ilp),dimension(5),parameter :: dim_range = [(m,m=1_ilp,5_ilp)]
@@ -37432,7 +37432,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 5)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',5,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',5,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -37510,9 +37510,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(6) :: s,spack,perm
         integer(ilp),dimension(6),parameter :: dim_range = [(m,m=1_ilp,6_ilp)]
@@ -37533,7 +37533,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 6)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',6,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',6,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -37612,9 +37612,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(7) :: s,spack,perm
         integer(ilp),dimension(7),parameter :: dim_range = [(m,m=1_ilp,7_ilp)]
@@ -37635,7 +37635,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 7)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',7,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',7,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -37715,9 +37715,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(8) :: s,spack,perm
         integer(ilp),dimension(8),parameter :: dim_range = [(m,m=1_ilp,8_ilp)]
@@ -37738,7 +37738,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 8)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',8,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',8,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -37819,9 +37819,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(9) :: s,spack,perm
         integer(ilp),dimension(9),parameter :: dim_range = [(m,m=1_ilp,9_ilp)]
@@ -37842,7 +37842,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 9)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',9,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',9,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -37924,9 +37924,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(10) :: s,spack,perm
         integer(ilp),dimension(10),parameter :: dim_range = [(m,m=1_ilp,10_ilp)]
@@ -37947,7 +37947,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 10)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',10,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',10,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -38032,9 +38032,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(11) :: s,spack,perm
         integer(ilp),dimension(11),parameter :: dim_range = [(m,m=1_ilp,11_ilp)]
@@ -38055,7 +38055,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 11)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',11,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',11,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -38141,9 +38141,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(12) :: s,spack,perm
         integer(ilp),dimension(12),parameter :: dim_range = [(m,m=1_ilp,12_ilp)]
@@ -38164,7 +38164,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 12)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',12,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',12,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -38251,9 +38251,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(13) :: s,spack,perm
         integer(ilp),dimension(13),parameter :: dim_range = [(m,m=1_ilp,13_ilp)]
@@ -38274,7 +38274,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 13)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',13,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',13,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -38362,9 +38362,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(14) :: s,spack,perm
         integer(ilp),dimension(14),parameter :: dim_range = [(m,m=1_ilp,14_ilp)]
@@ -38385,7 +38385,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 14)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',14,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',14,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -38474,9 +38474,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(15) :: s,spack,perm
         integer(ilp),dimension(15),parameter :: dim_range = [(m,m=1_ilp,15_ilp)]
@@ -38497,7 +38497,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 15)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',15,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',15,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -38600,7 +38600,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm
                 
@@ -38617,9 +38617,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -38632,7 +38632,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -38657,7 +38657,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -38683,7 +38683,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm
                 
@@ -38700,9 +38700,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -38715,7 +38715,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -38740,7 +38740,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -38766,7 +38766,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm
                 
@@ -38783,9 +38783,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -38798,7 +38798,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -38823,7 +38823,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -38849,7 +38849,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm
                 
@@ -38866,9 +38866,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -38881,7 +38881,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -38906,7 +38906,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -38932,7 +38932,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm
                 
@@ -38949,9 +38949,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -38964,7 +38964,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -38989,7 +38989,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -39015,7 +39015,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm
                 
@@ -39032,9 +39032,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -39047,7 +39047,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -39072,7 +39072,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -39098,7 +39098,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm
                 
@@ -39115,9 +39115,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -39130,7 +39130,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -39155,7 +39155,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -39181,7 +39181,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm
                 
@@ -39198,9 +39198,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -39213,7 +39213,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -39238,7 +39238,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -39264,7 +39264,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm
                 
@@ -39281,9 +39281,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -39296,7 +39296,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -39321,7 +39321,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -39347,7 +39347,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm
                 
@@ -39364,9 +39364,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -39379,7 +39379,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -39404,7 +39404,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -39430,7 +39430,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm
                 
@@ -39447,9 +39447,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -39462,7 +39462,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -39487,7 +39487,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -39513,7 +39513,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm
                 
@@ -39530,9 +39530,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -39545,7 +39545,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -39570,7 +39570,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -39596,7 +39596,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm
                 
@@ -39613,9 +39613,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -39628,7 +39628,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -39653,7 +39653,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -39679,7 +39679,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm
                 
@@ -39696,9 +39696,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -39711,7 +39711,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -39736,7 +39736,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -39762,7 +39762,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm
                 
@@ -39779,9 +39779,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -39794,7 +39794,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -39819,7 +39819,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -39853,7 +39853,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim))
         
@@ -39873,9 +39873,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -39886,14 +39886,14 @@ module la_norms
         nrm = 0.0_dp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 2) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -39919,7 +39919,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -39949,7 +39949,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim))
         
@@ -39969,9 +39969,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -39982,14 +39982,14 @@ module la_norms
         nrm = 0.0_dp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 3) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -40015,7 +40015,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -40046,7 +40046,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim))
@@ -40068,9 +40068,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -40081,14 +40081,14 @@ module la_norms
         nrm = 0.0_dp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 4) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -40114,7 +40114,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -40145,7 +40145,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim))
@@ -40167,9 +40167,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -40180,14 +40180,14 @@ module la_norms
         nrm = 0.0_dp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 5) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -40213,7 +40213,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -40244,7 +40244,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim))
@@ -40267,9 +40267,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -40280,14 +40280,14 @@ module la_norms
         nrm = 0.0_dp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 6) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -40313,7 +40313,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -40345,7 +40345,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -40369,9 +40369,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -40382,14 +40382,14 @@ module la_norms
         nrm = 0.0_dp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 7) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -40415,7 +40415,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -40447,7 +40447,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -40471,9 +40471,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -40484,14 +40484,14 @@ module la_norms
         nrm = 0.0_dp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 8) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -40517,7 +40517,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -40550,7 +40550,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -40576,9 +40576,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -40589,14 +40589,14 @@ module la_norms
         nrm = 0.0_dp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 9) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -40622,7 +40622,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -40655,7 +40655,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -40681,9 +40681,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -40694,14 +40694,14 @@ module la_norms
         nrm = 0.0_dp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 10) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -40727,7 +40727,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -40760,7 +40760,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -40787,9 +40787,9 @@ module la_norms
         integer(ilp),intent(in) :: order
 !> Order of the matrix norm being computed.
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -40800,14 +40800,14 @@ module la_norms
         nrm = 0.0_dp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 11) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -40833,7 +40833,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -40867,7 +40867,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -40895,9 +40895,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -40908,14 +40908,14 @@ module la_norms
         nrm = 0.0_dp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 12) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -40941,7 +40941,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -40975,7 +40975,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -41003,9 +41003,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -41016,14 +41016,14 @@ module la_norms
         nrm = 0.0_dp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 13) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -41049,7 +41049,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -41084,7 +41084,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -41114,9 +41114,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -41127,14 +41127,14 @@ module la_norms
         nrm = 0.0_dp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 14) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -41160,7 +41160,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -41195,7 +41195,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(dp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -41225,9 +41225,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(dp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -41238,14 +41238,14 @@ module la_norms
         nrm = 0.0_dp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 15) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -41271,7 +41271,7 @@ module la_norms
                 rorder = 1.0_dp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -41290,9 +41290,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: m,n,norm_request
         character :: lange_task
         real(dp),target :: work1(1)
@@ -41305,7 +41305,7 @@ module la_norms
         nrm = 0.0_dp
         
         if (m <= 0 .or. n <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=', [m,n])
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=', [m,n])
             call linalg_error_handling(err_,err)
             return
         end if
@@ -41342,9 +41342,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(3) :: s,spack,perm
         integer(ilp),dimension(3),parameter :: dim_range = [(m,m=1_ilp,3_ilp)]
@@ -41365,7 +41365,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 3)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',3,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',3,' matrix norm has invalid dim=',dims)
             allocate (nrm(0))
             call linalg_error_handling(err_,err)
             return
@@ -41441,9 +41441,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(4) :: s,spack,perm
         integer(ilp),dimension(4),parameter :: dim_range = [(m,m=1_ilp,4_ilp)]
@@ -41464,7 +41464,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 4)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',4,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',4,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0))
             call linalg_error_handling(err_,err)
             return
@@ -41541,9 +41541,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(5) :: s,spack,perm
         integer(ilp),dimension(5),parameter :: dim_range = [(m,m=1_ilp,5_ilp)]
@@ -41564,7 +41564,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 5)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',5,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',5,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -41642,9 +41642,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(6) :: s,spack,perm
         integer(ilp),dimension(6),parameter :: dim_range = [(m,m=1_ilp,6_ilp)]
@@ -41665,7 +41665,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 6)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',6,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',6,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -41744,9 +41744,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(7) :: s,spack,perm
         integer(ilp),dimension(7),parameter :: dim_range = [(m,m=1_ilp,7_ilp)]
@@ -41767,7 +41767,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 7)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',7,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',7,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -41847,9 +41847,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(8) :: s,spack,perm
         integer(ilp),dimension(8),parameter :: dim_range = [(m,m=1_ilp,8_ilp)]
@@ -41870,7 +41870,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 8)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',8,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',8,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -41951,9 +41951,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(9) :: s,spack,perm
         integer(ilp),dimension(9),parameter :: dim_range = [(m,m=1_ilp,9_ilp)]
@@ -41974,7 +41974,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 9)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',9,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',9,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -42056,9 +42056,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(10) :: s,spack,perm
         integer(ilp),dimension(10),parameter :: dim_range = [(m,m=1_ilp,10_ilp)]
@@ -42079,7 +42079,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 10)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',10,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',10,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -42164,9 +42164,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(11) :: s,spack,perm
         integer(ilp),dimension(11),parameter :: dim_range = [(m,m=1_ilp,11_ilp)]
@@ -42187,7 +42187,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 11)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',11,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',11,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -42273,9 +42273,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(12) :: s,spack,perm
         integer(ilp),dimension(12),parameter :: dim_range = [(m,m=1_ilp,12_ilp)]
@@ -42296,7 +42296,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 12)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',12,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',12,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -42383,9 +42383,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(13) :: s,spack,perm
         integer(ilp),dimension(13),parameter :: dim_range = [(m,m=1_ilp,13_ilp)]
@@ -42406,7 +42406,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 13)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',13,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',13,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -42494,9 +42494,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(14) :: s,spack,perm
         integer(ilp),dimension(14),parameter :: dim_range = [(m,m=1_ilp,14_ilp)]
@@ -42517,7 +42517,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 14)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',14,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',14,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -42606,9 +42606,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(15) :: s,spack,perm
         integer(ilp),dimension(15),parameter :: dim_range = [(m,m=1_ilp,15_ilp)]
@@ -42629,7 +42629,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 15)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',15,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',15,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -42732,7 +42732,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm
                 
@@ -42749,9 +42749,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -42764,7 +42764,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -42789,7 +42789,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -42815,7 +42815,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm
                 
@@ -42832,9 +42832,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -42847,7 +42847,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -42872,7 +42872,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -42898,7 +42898,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm
                 
@@ -42915,9 +42915,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -42930,7 +42930,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -42955,7 +42955,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -42981,7 +42981,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm
                 
@@ -42998,9 +42998,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -43013,7 +43013,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -43038,7 +43038,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -43064,7 +43064,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm
                 
@@ -43081,9 +43081,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -43096,7 +43096,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -43121,7 +43121,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -43147,7 +43147,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm
                 
@@ -43164,9 +43164,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -43179,7 +43179,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -43204,7 +43204,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -43230,7 +43230,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm
                 
@@ -43247,9 +43247,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -43262,7 +43262,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -43287,7 +43287,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -43313,7 +43313,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm
                 
@@ -43330,9 +43330,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -43345,7 +43345,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -43370,7 +43370,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -43396,7 +43396,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm
                 
@@ -43413,9 +43413,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -43428,7 +43428,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -43453,7 +43453,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -43479,7 +43479,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm
                 
@@ -43496,9 +43496,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -43511,7 +43511,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -43536,7 +43536,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -43562,7 +43562,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm
                 
@@ -43579,9 +43579,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -43594,7 +43594,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -43619,7 +43619,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -43645,7 +43645,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm
                 
@@ -43662,9 +43662,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -43677,7 +43677,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -43702,7 +43702,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -43728,7 +43728,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm
                 
@@ -43745,9 +43745,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -43760,7 +43760,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -43785,7 +43785,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -43811,7 +43811,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm
                 
@@ -43828,9 +43828,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -43843,7 +43843,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -43868,7 +43868,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -43894,7 +43894,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm
                 
@@ -43911,9 +43911,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -43926,7 +43926,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -43951,7 +43951,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -43985,7 +43985,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim))
         
@@ -44005,9 +44005,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -44018,14 +44018,14 @@ module la_norms
         nrm = 0.0_qp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 2) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -44051,7 +44051,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -44081,7 +44081,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim))
         
@@ -44101,9 +44101,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -44114,14 +44114,14 @@ module la_norms
         nrm = 0.0_qp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 3) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -44147,7 +44147,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -44178,7 +44178,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim))
@@ -44200,9 +44200,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -44213,14 +44213,14 @@ module la_norms
         nrm = 0.0_qp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 4) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -44246,7 +44246,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -44277,7 +44277,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim))
@@ -44299,9 +44299,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -44312,14 +44312,14 @@ module la_norms
         nrm = 0.0_qp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 5) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -44345,7 +44345,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -44376,7 +44376,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim))
@@ -44399,9 +44399,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -44412,14 +44412,14 @@ module la_norms
         nrm = 0.0_qp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 6) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -44445,7 +44445,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -44477,7 +44477,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -44501,9 +44501,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -44514,14 +44514,14 @@ module la_norms
         nrm = 0.0_qp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 7) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -44547,7 +44547,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -44579,7 +44579,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -44603,9 +44603,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -44616,14 +44616,14 @@ module la_norms
         nrm = 0.0_qp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 8) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -44649,7 +44649,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -44682,7 +44682,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -44708,9 +44708,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -44721,14 +44721,14 @@ module la_norms
         nrm = 0.0_qp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 9) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -44754,7 +44754,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -44787,7 +44787,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -44813,9 +44813,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -44826,14 +44826,14 @@ module la_norms
         nrm = 0.0_qp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 10) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -44859,7 +44859,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -44892,7 +44892,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -44919,9 +44919,9 @@ module la_norms
         character(len=*),intent(in) :: order
 !> Order of the matrix norm being computed.
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -44932,14 +44932,14 @@ module la_norms
         nrm = 0.0_qp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 11) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -44965,7 +44965,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -44999,7 +44999,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -45027,9 +45027,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -45040,14 +45040,14 @@ module la_norms
         nrm = 0.0_qp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 12) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -45073,7 +45073,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -45107,7 +45107,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -45135,9 +45135,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -45148,14 +45148,14 @@ module la_norms
         nrm = 0.0_qp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 13) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -45181,7 +45181,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -45216,7 +45216,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -45246,9 +45246,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -45259,14 +45259,14 @@ module la_norms
         nrm = 0.0_qp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 14) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -45292,7 +45292,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -45327,7 +45327,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -45357,9 +45357,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -45370,14 +45370,14 @@ module la_norms
         nrm = 0.0_qp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 15) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -45403,7 +45403,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -45422,9 +45422,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: m,n,norm_request
         character :: lange_task
         real(qp),target :: work1(1)
@@ -45437,7 +45437,7 @@ module la_norms
         nrm = 0.0_qp
         
         if (m <= 0 .or. n <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=', [m,n])
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=', [m,n])
             call linalg_error_handling(err_,err)
             return
         end if
@@ -45474,9 +45474,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(3) :: s,spack,perm
         integer(ilp),dimension(3),parameter :: dim_range = [(m,m=1_ilp,3_ilp)]
@@ -45497,7 +45497,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 3)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',3,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',3,' matrix norm has invalid dim=',dims)
             allocate (nrm(0))
             call linalg_error_handling(err_,err)
             return
@@ -45573,9 +45573,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(4) :: s,spack,perm
         integer(ilp),dimension(4),parameter :: dim_range = [(m,m=1_ilp,4_ilp)]
@@ -45596,7 +45596,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 4)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',4,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',4,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0))
             call linalg_error_handling(err_,err)
             return
@@ -45673,9 +45673,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(5) :: s,spack,perm
         integer(ilp),dimension(5),parameter :: dim_range = [(m,m=1_ilp,5_ilp)]
@@ -45696,7 +45696,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 5)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',5,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',5,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -45774,9 +45774,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(6) :: s,spack,perm
         integer(ilp),dimension(6),parameter :: dim_range = [(m,m=1_ilp,6_ilp)]
@@ -45797,7 +45797,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 6)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',6,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',6,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -45876,9 +45876,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(7) :: s,spack,perm
         integer(ilp),dimension(7),parameter :: dim_range = [(m,m=1_ilp,7_ilp)]
@@ -45899,7 +45899,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 7)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',7,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',7,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -45979,9 +45979,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(8) :: s,spack,perm
         integer(ilp),dimension(8),parameter :: dim_range = [(m,m=1_ilp,8_ilp)]
@@ -46002,7 +46002,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 8)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',8,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',8,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -46083,9 +46083,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(9) :: s,spack,perm
         integer(ilp),dimension(9),parameter :: dim_range = [(m,m=1_ilp,9_ilp)]
@@ -46106,7 +46106,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 9)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',9,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',9,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -46188,9 +46188,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(10) :: s,spack,perm
         integer(ilp),dimension(10),parameter :: dim_range = [(m,m=1_ilp,10_ilp)]
@@ -46211,7 +46211,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 10)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',10,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',10,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -46296,9 +46296,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(11) :: s,spack,perm
         integer(ilp),dimension(11),parameter :: dim_range = [(m,m=1_ilp,11_ilp)]
@@ -46319,7 +46319,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 11)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',11,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',11,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -46405,9 +46405,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(12) :: s,spack,perm
         integer(ilp),dimension(12),parameter :: dim_range = [(m,m=1_ilp,12_ilp)]
@@ -46428,7 +46428,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 12)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',12,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',12,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -46515,9 +46515,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(13) :: s,spack,perm
         integer(ilp),dimension(13),parameter :: dim_range = [(m,m=1_ilp,13_ilp)]
@@ -46538,7 +46538,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 13)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',13,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',13,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -46626,9 +46626,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(14) :: s,spack,perm
         integer(ilp),dimension(14),parameter :: dim_range = [(m,m=1_ilp,14_ilp)]
@@ -46649,7 +46649,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 14)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',14,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',14,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -46738,9 +46738,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(15) :: s,spack,perm
         integer(ilp),dimension(15),parameter :: dim_range = [(m,m=1_ilp,15_ilp)]
@@ -46761,7 +46761,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 15)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',15,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',15,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -46864,7 +46864,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm
                 
@@ -46881,9 +46881,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -46896,7 +46896,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -46921,7 +46921,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -46947,7 +46947,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm
                 
@@ -46964,9 +46964,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -46979,7 +46979,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -47004,7 +47004,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -47030,7 +47030,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm
                 
@@ -47047,9 +47047,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -47062,7 +47062,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -47087,7 +47087,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -47113,7 +47113,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm
                 
@@ -47130,9 +47130,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -47145,7 +47145,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -47170,7 +47170,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -47196,7 +47196,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm
                 
@@ -47213,9 +47213,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -47228,7 +47228,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -47253,7 +47253,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -47279,7 +47279,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm
                 
@@ -47296,9 +47296,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -47311,7 +47311,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -47336,7 +47336,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -47362,7 +47362,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm
                 
@@ -47379,9 +47379,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -47394,7 +47394,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -47419,7 +47419,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -47445,7 +47445,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm
                 
@@ -47462,9 +47462,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -47477,7 +47477,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -47502,7 +47502,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -47528,7 +47528,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm
                 
@@ -47545,9 +47545,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -47560,7 +47560,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -47585,7 +47585,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -47611,7 +47611,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm
                 
@@ -47628,9 +47628,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -47643,7 +47643,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -47668,7 +47668,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -47694,7 +47694,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm
                 
@@ -47711,9 +47711,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -47726,7 +47726,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -47751,7 +47751,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -47777,7 +47777,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm
                 
@@ -47794,9 +47794,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -47809,7 +47809,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -47834,7 +47834,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -47860,7 +47860,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm
                 
@@ -47877,9 +47877,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -47892,7 +47892,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -47917,7 +47917,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -47943,7 +47943,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm
                 
@@ -47960,9 +47960,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -47975,7 +47975,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -48000,7 +48000,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -48026,7 +48026,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm
                 
@@ -48043,9 +48043,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs,sum,sqrt,norm2,maxval,minval,conjg
         integer(ilp) :: sze,norm_request
@@ -48058,7 +48058,7 @@ module la_norms
         
         ! Check matrix size
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -48083,7 +48083,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -48117,7 +48117,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim))
         
@@ -48137,9 +48137,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -48150,14 +48150,14 @@ module la_norms
         nrm = 0.0_qp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 2) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -48183,7 +48183,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -48213,7 +48213,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim))
         
@@ -48233,9 +48233,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -48246,14 +48246,14 @@ module la_norms
         nrm = 0.0_qp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 3) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -48279,7 +48279,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -48310,7 +48310,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim))
@@ -48332,9 +48332,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -48345,14 +48345,14 @@ module la_norms
         nrm = 0.0_qp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 4) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -48378,7 +48378,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -48409,7 +48409,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim))
@@ -48431,9 +48431,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -48444,14 +48444,14 @@ module la_norms
         nrm = 0.0_qp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 5) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -48477,7 +48477,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -48508,7 +48508,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim))
@@ -48531,9 +48531,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -48544,14 +48544,14 @@ module la_norms
         nrm = 0.0_qp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 6) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -48577,7 +48577,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -48609,7 +48609,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -48633,9 +48633,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -48646,14 +48646,14 @@ module la_norms
         nrm = 0.0_qp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 7) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -48679,7 +48679,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -48711,7 +48711,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -48735,9 +48735,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -48748,14 +48748,14 @@ module la_norms
         nrm = 0.0_qp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 8) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -48781,7 +48781,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -48814,7 +48814,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -48840,9 +48840,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -48853,14 +48853,14 @@ module la_norms
         nrm = 0.0_qp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 9) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -48886,7 +48886,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -48919,7 +48919,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -48945,9 +48945,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -48958,14 +48958,14 @@ module la_norms
         nrm = 0.0_qp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 10) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -48991,7 +48991,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -49024,7 +49024,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -49051,9 +49051,9 @@ module la_norms
         integer(ilp),intent(in) :: order
 !> Order of the matrix norm being computed.
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -49064,14 +49064,14 @@ module la_norms
         nrm = 0.0_qp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 11) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -49097,7 +49097,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -49131,7 +49131,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -49159,9 +49159,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -49172,14 +49172,14 @@ module la_norms
         nrm = 0.0_qp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 12) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -49205,7 +49205,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -49239,7 +49239,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -49267,9 +49267,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -49280,14 +49280,14 @@ module la_norms
         nrm = 0.0_qp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 13) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -49313,7 +49313,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -49348,7 +49348,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -49378,9 +49378,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -49391,14 +49391,14 @@ module la_norms
         nrm = 0.0_qp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 14) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -49424,7 +49424,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -49459,7 +49459,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp),intent(in) :: dim
         !> Output state return flag.
-        type(linalg_state),intent(out) :: err
+        type(la_state),intent(out) :: err
         !> Norm of the matrix.
         real(qp) :: nrm(merge(size(a,1),size(a,2),mask=1 < dim),merge(size(a,2),size(a,3),mask=2 < dim),merge(size(a,3),&
             & size(a,4),mask=3 < dim),merge(size(a,4),size(a,5),mask=4 < dim),merge(size(a,5),size(a,6),mask=5 < dim),&
@@ -49489,9 +49489,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(qp) :: rorder
         intrinsic :: sum,abs,sqrt,conjg,norm2,maxval,minval
@@ -49502,14 +49502,14 @@ module la_norms
         nrm = 0.0_qp
         
         if (sze <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim < 1 .or. dim > 15) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -49535,7 +49535,7 @@ module la_norms
                 rorder = 1.0_qp/norm_request
                 nrm = sum(abs(a)**norm_request,dim=dim)**rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -49554,9 +49554,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: m,n,norm_request
         character :: lange_task
         real(qp),target :: work1(1)
@@ -49569,7 +49569,7 @@ module la_norms
         nrm = 0.0_qp
         
         if (m <= 0 .or. n <= 0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=', [m,n])
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=', [m,n])
             call linalg_error_handling(err_,err)
             return
         end if
@@ -49606,9 +49606,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(3) :: s,spack,perm
         integer(ilp),dimension(3),parameter :: dim_range = [(m,m=1_ilp,3_ilp)]
@@ -49629,7 +49629,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 3)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',3,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',3,' matrix norm has invalid dim=',dims)
             allocate (nrm(0))
             call linalg_error_handling(err_,err)
             return
@@ -49705,9 +49705,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(4) :: s,spack,perm
         integer(ilp),dimension(4),parameter :: dim_range = [(m,m=1_ilp,4_ilp)]
@@ -49728,7 +49728,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 4)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',4,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',4,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0))
             call linalg_error_handling(err_,err)
             return
@@ -49805,9 +49805,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(5) :: s,spack,perm
         integer(ilp),dimension(5),parameter :: dim_range = [(m,m=1_ilp,5_ilp)]
@@ -49828,7 +49828,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 5)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',5,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',5,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -49906,9 +49906,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(6) :: s,spack,perm
         integer(ilp),dimension(6),parameter :: dim_range = [(m,m=1_ilp,6_ilp)]
@@ -49929,7 +49929,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 6)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',6,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',6,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -50008,9 +50008,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(7) :: s,spack,perm
         integer(ilp),dimension(7),parameter :: dim_range = [(m,m=1_ilp,7_ilp)]
@@ -50031,7 +50031,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 7)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',7,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',7,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -50111,9 +50111,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(8) :: s,spack,perm
         integer(ilp),dimension(8),parameter :: dim_range = [(m,m=1_ilp,8_ilp)]
@@ -50134,7 +50134,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 8)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',8,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',8,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -50215,9 +50215,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(9) :: s,spack,perm
         integer(ilp),dimension(9),parameter :: dim_range = [(m,m=1_ilp,9_ilp)]
@@ -50238,7 +50238,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 9)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',9,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',9,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -50320,9 +50320,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(10) :: s,spack,perm
         integer(ilp),dimension(10),parameter :: dim_range = [(m,m=1_ilp,10_ilp)]
@@ -50343,7 +50343,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 10)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',10,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',10,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -50428,9 +50428,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(11) :: s,spack,perm
         integer(ilp),dimension(11),parameter :: dim_range = [(m,m=1_ilp,11_ilp)]
@@ -50451,7 +50451,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 11)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',11,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',11,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -50537,9 +50537,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(12) :: s,spack,perm
         integer(ilp),dimension(12),parameter :: dim_range = [(m,m=1_ilp,12_ilp)]
@@ -50560,7 +50560,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 12)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',12,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',12,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -50647,9 +50647,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(13) :: s,spack,perm
         integer(ilp),dimension(13),parameter :: dim_range = [(m,m=1_ilp,13_ilp)]
@@ -50670,7 +50670,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 13)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',13,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',13,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -50758,9 +50758,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(14) :: s,spack,perm
         integer(ilp),dimension(14),parameter :: dim_range = [(m,m=1_ilp,14_ilp)]
@@ -50781,7 +50781,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 14)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',14,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',14,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return
@@ -50870,9 +50870,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp),optional,intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state),intent(out),optional :: err
+        type(la_state),intent(out),optional :: err
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp),dimension(15) :: s,spack,perm
         integer(ilp),dimension(15),parameter :: dim_range = [(m,m=1_ilp,15_ilp)]
@@ -50893,7 +50893,7 @@ module la_norms
         nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 15)) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',15,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',15,' matrix norm has invalid dim=',dims)
             allocate (nrm(0,0,0,0,0,0,0,0,0,0,0,0,0))
             call linalg_error_handling(err_,err)
             return

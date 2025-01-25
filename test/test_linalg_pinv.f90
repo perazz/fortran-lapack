@@ -1,6 +1,6 @@
 ! Test inverse matrix
 module test_linalg_pseudoinverse
-    use la_interface
+    use linear_algebra
 
     implicit none(type,external)
 
@@ -86,7 +86,7 @@ module test_linalg_pseudoinverse
     subroutine test_s_eye_pseudoinverse(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp) :: i,j
         integer(ilp),parameter :: n = 15_ilp
@@ -116,7 +116,7 @@ module test_linalg_pseudoinverse
     subroutine test_d_eye_pseudoinverse(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp) :: i,j
         integer(ilp),parameter :: n = 15_ilp
@@ -146,7 +146,7 @@ module test_linalg_pseudoinverse
     subroutine test_q_eye_pseudoinverse(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp) :: i,j
         integer(ilp),parameter :: n = 15_ilp
@@ -177,7 +177,7 @@ module test_linalg_pseudoinverse
     subroutine test_s_square_pseudoinverse(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp) :: failed
         integer(ilp),parameter :: n = 10
@@ -201,7 +201,7 @@ module test_linalg_pseudoinverse
     subroutine test_s_tall_pseudoinverse(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp) :: failed
         integer(ilp),parameter :: m = 20,n = 10
@@ -225,7 +225,7 @@ module test_linalg_pseudoinverse
     subroutine test_s_wide_pseudoinverse(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp) :: failed
         integer(ilp),parameter :: m = 10,n = 20
@@ -249,7 +249,7 @@ module test_linalg_pseudoinverse
     subroutine test_s_singular_pseudoinverse(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp) :: failed
         integer(ilp),parameter :: n = 10
@@ -275,7 +275,7 @@ module test_linalg_pseudoinverse
     subroutine test_d_square_pseudoinverse(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp) :: failed
         integer(ilp),parameter :: n = 10
@@ -299,7 +299,7 @@ module test_linalg_pseudoinverse
     subroutine test_d_tall_pseudoinverse(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp) :: failed
         integer(ilp),parameter :: m = 20,n = 10
@@ -323,7 +323,7 @@ module test_linalg_pseudoinverse
     subroutine test_d_wide_pseudoinverse(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp) :: failed
         integer(ilp),parameter :: m = 10,n = 20
@@ -347,7 +347,7 @@ module test_linalg_pseudoinverse
     subroutine test_d_singular_pseudoinverse(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp) :: failed
         integer(ilp),parameter :: n = 10
@@ -373,7 +373,7 @@ module test_linalg_pseudoinverse
     subroutine test_q_square_pseudoinverse(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp) :: failed
         integer(ilp),parameter :: n = 10
@@ -397,7 +397,7 @@ module test_linalg_pseudoinverse
     subroutine test_q_tall_pseudoinverse(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp) :: failed
         integer(ilp),parameter :: m = 20,n = 10
@@ -421,7 +421,7 @@ module test_linalg_pseudoinverse
     subroutine test_q_wide_pseudoinverse(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp) :: failed
         integer(ilp),parameter :: m = 10,n = 20
@@ -445,7 +445,7 @@ module test_linalg_pseudoinverse
     subroutine test_q_singular_pseudoinverse(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp) :: failed
         integer(ilp),parameter :: n = 10
@@ -471,7 +471,7 @@ module test_linalg_pseudoinverse
     subroutine test_c_square_pseudoinverse(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp) :: failed
         integer(ilp),parameter :: n = 10
@@ -497,7 +497,7 @@ module test_linalg_pseudoinverse
     subroutine test_c_tall_pseudoinverse(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp) :: failed
         integer(ilp),parameter :: m = 20,n = 10
@@ -523,7 +523,7 @@ module test_linalg_pseudoinverse
     subroutine test_c_wide_pseudoinverse(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp) :: failed
         integer(ilp),parameter :: m = 10,n = 20
@@ -549,7 +549,7 @@ module test_linalg_pseudoinverse
     subroutine test_c_singular_pseudoinverse(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp) :: failed
         integer(ilp),parameter :: n = 10
@@ -577,7 +577,7 @@ module test_linalg_pseudoinverse
     subroutine test_z_square_pseudoinverse(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp) :: failed
         integer(ilp),parameter :: n = 10
@@ -603,7 +603,7 @@ module test_linalg_pseudoinverse
     subroutine test_z_tall_pseudoinverse(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp) :: failed
         integer(ilp),parameter :: m = 20,n = 10
@@ -629,7 +629,7 @@ module test_linalg_pseudoinverse
     subroutine test_z_wide_pseudoinverse(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp) :: failed
         integer(ilp),parameter :: m = 10,n = 20
@@ -655,7 +655,7 @@ module test_linalg_pseudoinverse
     subroutine test_z_singular_pseudoinverse(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp) :: failed
         integer(ilp),parameter :: n = 10
@@ -683,7 +683,7 @@ module test_linalg_pseudoinverse
     subroutine test_w_square_pseudoinverse(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp) :: failed
         integer(ilp),parameter :: n = 10
@@ -709,7 +709,7 @@ module test_linalg_pseudoinverse
     subroutine test_w_tall_pseudoinverse(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp) :: failed
         integer(ilp),parameter :: m = 20,n = 10
@@ -735,7 +735,7 @@ module test_linalg_pseudoinverse
     subroutine test_w_wide_pseudoinverse(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp) :: failed
         integer(ilp),parameter :: m = 10,n = 20
@@ -761,7 +761,7 @@ module test_linalg_pseudoinverse
     subroutine test_w_singular_pseudoinverse(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp) :: failed
         integer(ilp),parameter :: n = 10

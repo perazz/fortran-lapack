@@ -1,11 +1,11 @@
-module la_state
+module la_state_type
      use la_constants,only:ilp,lk
      use iso_fortran_env,only:real32,real64,real128,int8,int16,int32,int64,stderr => error_unit
      implicit none(type,external)
      private
 
      !> Public interfaces
-     public :: linalg_state
+     public :: la_state
      public :: linalg_error_handling
      public :: operator(==),operator(/=)
      public :: operator(<),operator(<=)
@@ -21,10 +21,10 @@ module la_state
      integer(ilp),parameter :: MSG_LENGTH  = 512_ilp
      integer(ilp),parameter :: NAME_LENGTH =  32_ilp
 
-     !> `linalg_state` defines a state return type for a
+     !> `la_state` defines a state return type for a
      !> linear algebra routine. State contains a status flag, a comment, and a
      !> procedure specifier that can be used to mark where the error happened
-     type,public :: linalg_state
+     type,public :: la_state
 
          !> The current exit state
          integer(ilp) :: state = LINALG_SUCCESS
@@ -48,7 +48,7 @@ module la_state
             procedure :: ok    => state_is_ok
             procedure :: error => state_is_error
 
-     end type linalg_state
+     end type la_state
 
      !> Comparison operators
      interface operator(==)
@@ -76,10 +76,10 @@ module la_state
          module procedure flag_ge_state
      end interface
 
-     interface linalg_state
+     interface la_state
          module procedure new_state
          module procedure new_state_nowhere
-     end interface linalg_state
+     end interface la_state
 
      contains
 
@@ -100,8 +100,8 @@ module la_state
 
      !> Flow control: on output flag present, return it; otherwise, halt on error
      pure subroutine linalg_error_handling(ierr,ierr_out)
-         type(linalg_state),intent(in) :: ierr
-         type(linalg_state),optional,intent(out) :: ierr_out
+         type(la_state),intent(in) :: ierr
+         type(la_state),optional,intent(out) :: ierr_out
 
          character(len=:),allocatable :: err_msg
 
@@ -117,7 +117,7 @@ module la_state
 
      !> Formatted message
      pure function state_message(this) result(msg)
-         class(linalg_state),intent(in) :: this
+         class(la_state),intent(in) :: this
          character(len=:),allocatable :: msg
 
          if (this%state == LINALG_SUCCESS) then
@@ -130,7 +130,7 @@ module la_state
 
      !> Produce a nice error string
      pure function state_print(this) result(msg)
-         class(linalg_state),intent(in) :: this
+         class(la_state),intent(in) :: this
          character(len=:),allocatable :: msg
 
          if (len_trim(this%where_at) > 0) then
@@ -145,7 +145,7 @@ module la_state
 
      !> Cleanup object
      elemental subroutine state_destroy(this)
-        class(linalg_state),intent(inout) :: this
+        class(la_state),intent(inout) :: this
 
         this%state = LINALG_SUCCESS
         this%message = repeat(' ',len(this%message))
@@ -155,80 +155,80 @@ module la_state
 
      !> Check if the current state is successful
      elemental logical(lk) function state_is_ok(this)
-        class(linalg_state),intent(in) :: this
+        class(la_state),intent(in) :: this
         state_is_ok = this%state == LINALG_SUCCESS
      end function state_is_ok
 
      !> Check if the current state is an error state
      elemental logical(lk) function state_is_error(this)
-        class(linalg_state),intent(in) :: this
+        class(la_state),intent(in) :: this
         state_is_error = this%state /= LINALG_SUCCESS
      end function state_is_error
 
      !> Compare an error flag with an integer
      elemental logical(lk) function state_eq_flag(err,flag)
-        type(linalg_state),intent(in) :: err
+        type(la_state),intent(in) :: err
         integer,intent(in) :: flag
         state_eq_flag = err%state == flag
      end function state_eq_flag
      elemental logical(lk) function flag_eq_state(flag,err)
         integer,intent(in) :: flag
-        type(linalg_state),intent(in) :: err
+        type(la_state),intent(in) :: err
         flag_eq_state = err%state == flag
      end function flag_eq_state
      elemental logical(lk) function state_neq_flag(err,flag)
-        type(linalg_state),intent(in) :: err
+        type(la_state),intent(in) :: err
         integer,intent(in) :: flag
         state_neq_flag = .not. state_eq_flag(err,flag)
      end function state_neq_flag
      elemental logical(lk) function flag_neq_state(flag,err)
         integer,intent(in) :: flag
-        type(linalg_state),intent(in) :: err
+        type(la_state),intent(in) :: err
         flag_neq_state = .not. state_eq_flag(err,flag)
      end function flag_neq_state
      elemental logical(lk) function state_lt_flag(err,flag)
-        type(linalg_state),intent(in) :: err
+        type(la_state),intent(in) :: err
         integer,intent(in) :: flag
         state_lt_flag = err%state < flag
      end function state_lt_flag
      elemental logical(lk) function state_le_flag(err,flag)
-        type(linalg_state),intent(in) :: err
+        type(la_state),intent(in) :: err
         integer,intent(in) :: flag
         state_le_flag = err%state <= flag
      end function state_le_flag
      elemental logical(lk) function flag_lt_state(flag,err)
         integer,intent(in) :: flag
-        type(linalg_state),intent(in) :: err
+        type(la_state),intent(in) :: err
         flag_lt_state = err%state < flag
      end function flag_lt_state
      elemental logical(lk) function flag_le_state(flag,err)
         integer,intent(in) :: flag
-        type(linalg_state),intent(in) :: err
+        type(la_state),intent(in) :: err
         flag_le_state = err%state <= flag
      end function flag_le_state
      elemental logical(lk) function state_gt_flag(err,flag)
-        type(linalg_state),intent(in) :: err
+        type(la_state),intent(in) :: err
         integer,intent(in) :: flag
         state_gt_flag = err%state > flag
      end function state_gt_flag
      elemental logical(lk) function state_ge_flag(err,flag)
-        type(linalg_state),intent(in) :: err
+        type(la_state),intent(in) :: err
         integer,intent(in) :: flag
         state_ge_flag = err%state >= flag
      end function state_ge_flag
      elemental logical(lk) function flag_gt_state(flag,err)
         integer,intent(in) :: flag
-        type(linalg_state),intent(in) :: err
+        type(la_state),intent(in) :: err
         flag_gt_state = err%state > flag
      end function flag_gt_state
      elemental logical(lk) function flag_ge_state(flag,err)
         integer,intent(in) :: flag
-        type(linalg_state),intent(in) :: err
+        type(la_state),intent(in) :: err
         flag_ge_state = err%state >= flag
      end function flag_ge_state
 
     !> Error creation message, with location location
-    pure type(linalg_state) function new_state(where_at,flag,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10, &
+    pure type(la_state) function new_state(where_at,flag,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10, &
                                                a11,a12,a13,a14,a15,a16,a17,a18,a19,a20) 
 
        !> Location
@@ -251,7 +251,7 @@ module la_state
     end function new_state
     
     !> Error creation message, from N input variables (numeric or strings)
-    pure type(linalg_state) function new_state_nowhere(flag,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10, &
+    pure type(la_state) function new_state_nowhere(flag,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10, &
                                                        a11,a12,a13,a14,a15,a16,a17,a18,a19,a20) &
                                                        result(new_state)
 
@@ -537,4 +537,4 @@ module la_state
 
     end subroutine appendv
 
-end module la_state
+end module la_state_type

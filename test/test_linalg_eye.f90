@@ -1,5 +1,5 @@
 module test_linalg_eye
-    use la_interface
+    use linear_algebra
 
     implicit none(type,external)
 
@@ -50,7 +50,7 @@ module test_linalg_eye
     subroutine test_s_eye_allocation(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp) :: i
 
@@ -87,7 +87,7 @@ module test_linalg_eye
     subroutine test_s_diag_scalar(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp) :: i
 
@@ -120,7 +120,7 @@ module test_linalg_eye
     subroutine test_s_diag_array(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp) :: i
 
@@ -147,7 +147,7 @@ module test_linalg_eye
     subroutine test_d_eye_allocation(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp) :: i
 
@@ -184,7 +184,7 @@ module test_linalg_eye
     subroutine test_d_diag_scalar(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp) :: i
 
@@ -217,7 +217,7 @@ module test_linalg_eye
     subroutine test_d_diag_array(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp) :: i
 
@@ -244,7 +244,7 @@ module test_linalg_eye
     subroutine test_q_eye_allocation(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp) :: i
 
@@ -281,7 +281,7 @@ module test_linalg_eye
     subroutine test_q_diag_scalar(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp) :: i
 
@@ -314,7 +314,7 @@ module test_linalg_eye
     subroutine test_q_diag_array(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp) :: i
 
@@ -341,7 +341,7 @@ module test_linalg_eye
     subroutine test_c_eye_allocation(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp) :: i
 
@@ -378,7 +378,7 @@ module test_linalg_eye
     subroutine test_c_diag_scalar(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp) :: i
 
@@ -411,7 +411,7 @@ module test_linalg_eye
     subroutine test_c_diag_array(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp) :: i
 
@@ -438,7 +438,7 @@ module test_linalg_eye
     subroutine test_z_eye_allocation(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp) :: i
 
@@ -475,7 +475,7 @@ module test_linalg_eye
     subroutine test_z_diag_scalar(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp) :: i
 
@@ -508,7 +508,7 @@ module test_linalg_eye
     subroutine test_z_diag_array(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp) :: i
 
@@ -535,7 +535,7 @@ module test_linalg_eye
     subroutine test_w_eye_allocation(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp) :: i
 
@@ -572,7 +572,7 @@ module test_linalg_eye
     subroutine test_w_diag_scalar(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp) :: i
 
@@ -605,7 +605,7 @@ module test_linalg_eye
     subroutine test_w_diag_array(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp) :: i
 

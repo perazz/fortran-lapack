@@ -110,7 +110,7 @@ module la_norms
      use la_constants
      use la_blas, only: nrm2
      use la_lapack, only: lange
-     use la_state
+     use la_state_type
      use iso_fortran_env,only:real32,real64,real128,int8,int16,int32,int64,stderr => error_unit
      implicit none(type,external)
      private
@@ -194,7 +194,7 @@ module la_norms
         !> Return value: norm type
         integer(ilp), intent(out) :: norm_type
         !> State return flag
-        type(linalg_state), intent(out) :: err
+        type(la_state), intent(out) :: err
         
         select case (order)
            case (1_ilp)
@@ -210,7 +210,7 @@ module la_norms
            
            case default
                norm_type = NORM_ONE
-               err = linalg_state(this,LINALG_ERROR,'Input norm type ',order,' is not recognized.')
+               err = la_state(this,LINALG_ERROR,'Input norm type ',order,' is not recognized.')
         end select    
         
      end subroutine parse_norm_type_integer
@@ -221,7 +221,7 @@ module la_norms
         !> Return value: norm type
         integer(ilp), intent(out) :: norm_type
         !> State return flag
-        type(linalg_state), intent(out) :: err
+        type(la_state), intent(out) :: err
         
         integer(ilp) :: int_order,read_err
         
@@ -239,7 +239,7 @@ module la_norms
               if (read_err/=0) then 
                  ! Cannot read as an integer
                  norm_type = NORM_ONE
-                 err = linalg_state(this,LINALG_ERROR,'Input norm type ',order,' is not recognized.')                 
+                 err = la_state(this,LINALG_ERROR,'Input norm type ',order,' is not recognized.')                 
               else
                  call parse_norm_type_integer(int_order,norm_type,err)
               endif  
@@ -255,7 +255,7 @@ module la_norms
         !> LANGE task
         character, intent(out) :: lange_task
         !> Error flag
-        type(linalg_state), intent(inout) :: err
+        type(la_state), intent(inout) :: err
         
         select case (norm_type)
            case (NORM_INF)
@@ -265,7 +265,7 @@ module la_norms
            case (NORM_TWO)
               lange_task = LANGE_NORM_TWO
            case default 
-              err = linalg_state(this,LINALG_VALUE_ERROR,'Order ',norm_type,' is not a valid matrix norm input.')
+              err = la_state(this,LINALG_VALUE_ERROR,'Order ',norm_type,' is not a valid matrix norm input.')
         end select
      end subroutine lange_task_request
                
@@ -298,7 +298,7 @@ module la_norms
         !> Order of the matrix norm being computed.
         ${it}$, intent(in) :: order
         !> Output state return flag. 
-        type(linalg_state), intent(out) :: err                         
+        type(la_state), intent(out) :: err                         
         !> Norm of the matrix.
         real(${rk}$) :: nrm                 
                 
@@ -315,9 +315,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         ${it}$, intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state), intent(out), optional :: err         
+        type(la_state), intent(out), optional :: err         
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         
         intrinsic :: abs, sum, sqrt, norm2, maxval, minval, conjg
         integer(ilp) :: sze,norm_request
@@ -330,7 +330,7 @@ module la_norms
         
         ! Check matrix size
         if (sze<=0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
@@ -359,7 +359,7 @@ module la_norms
                 rorder = 1.0_${rk}$ / norm_request
                 nrm = sum( abs(a) ** norm_request ) ** rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)
         end select
         
@@ -397,7 +397,7 @@ module la_norms
         !> Dimension to collapse by computing the norm w.r.t other dimensions
         integer(ilp), intent(in) :: dim
         !> Output state return flag. 
-        type(linalg_state), intent(out) :: err                                 
+        type(la_state), intent(out) :: err                                 
         !> Norm of the matrix.
         real(${rk}$) :: nrm${reduced_shape('a', rank, 'dim')}$     
         
@@ -417,9 +417,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         ${it}$, intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state), intent(out), optional :: err           
+        type(la_state), intent(out), optional :: err           
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: sze,norm_request
         real(${rk}$) :: rorder
         intrinsic :: sum, abs, sqrt, conjg, norm2, maxval, minval
@@ -430,14 +430,14 @@ module la_norms
         nrm = 0.0_${rk}$
         
         if (sze<=0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
         end if
 
         ! Check dimension choice
         if (dim<1 .or. dim>${rank}$) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
+            err_ = la_state(this,LINALG_VALUE_ERROR,'dimension ',dim, &
                                 'is out of rank for shape(a)=',shape(a,kind=ilp))
             call linalg_error_handling(err_,err)
             return
@@ -467,7 +467,7 @@ module la_norms
                 rorder = 1.0_${rk}$ / norm_request
                 nrm = sum( abs(a) ** norm_request , dim = dim ) ** rorder
             case default
-                err_ = linalg_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
+                err_ = la_state(this,LINALG_INTERNAL_ERROR,'invalid norm type after checking')
                 call linalg_error_handling(err_,err)            
         end select
         
@@ -488,9 +488,9 @@ module la_norms
         !> Order of the matrix norm being computed.
         ${it}$, intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state), intent(out), optional :: err           
+        type(la_state), intent(out), optional :: err           
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: m,n,norm_request
         character :: lange_task
         real(${rk}$), target :: work1(1)
@@ -503,7 +503,7 @@ module la_norms
         nrm = 0.0_${rk}$
         
         if (m<=0 .or. n<=0) then
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',[m,n])
+            err_ = la_state(this,LINALG_VALUE_ERROR,'invalid matrix shape: a=',[m,n])
             call linalg_error_handling(err_,err)
             return
         end if
@@ -542,9 +542,9 @@ module la_norms
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
         integer(ilp), optional, intent(in) :: dim(2)
         !> [optional] state return flag. On error if not requested, the code will stop
-        type(linalg_state), intent(out), optional :: err  
+        type(la_state), intent(out), optional :: err  
         
-        type(linalg_state) :: err_
+        type(la_state) :: err_
         integer(ilp) :: j,m,n,lda,dims(2),norm_request
         integer(ilp), dimension(${rank}$) :: s,spack,perm
         integer(ilp), dimension(${rank}$), parameter :: dim_range = [(m,m=1_ilp,${rank}$_ilp)]
@@ -565,7 +565,7 @@ module la_norms
         nullify(apack)
 
         if (dims(1)==dims(2) .or. .not.all(dims>0 .and. dims<=${rank}$)) then 
-            err_ = linalg_state(this,LINALG_VALUE_ERROR,'Rank-',${rank}$,' matrix norm has invalid dim=',dims)
+            err_ = la_state(this,LINALG_VALUE_ERROR,'Rank-',${rank}$,' matrix norm has invalid dim=',dims)
             allocate(nrm${emptyranksuffix(rank-2)}$)
             call linalg_error_handling(err_,err)
             return

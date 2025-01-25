@@ -1,6 +1,6 @@
 ! Test matrix determinant
 module test_linalg_determinant
-    use la_interface
+    use linear_algebra
 
     implicit none(type,external)
 
@@ -64,7 +64,7 @@ module test_linalg_determinant
     subroutine test_s_eye_determinant(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp) :: i
         integer(ilp),parameter :: n = 128_ilp
@@ -84,7 +84,7 @@ module test_linalg_determinant
     subroutine test_s_eye_multiple(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp),parameter :: n = 10_ilp
         real(sp),parameter :: coef = 0.0001_sp
@@ -107,7 +107,7 @@ module test_linalg_determinant
     subroutine test_d_eye_determinant(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp) :: i
         integer(ilp),parameter :: n = 128_ilp
@@ -127,7 +127,7 @@ module test_linalg_determinant
     subroutine test_d_eye_multiple(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp),parameter :: n = 10_ilp
         real(dp),parameter :: coef = 0.0001_dp
@@ -150,7 +150,7 @@ module test_linalg_determinant
     subroutine test_q_eye_determinant(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp) :: i
         integer(ilp),parameter :: n = 128_ilp
@@ -170,7 +170,7 @@ module test_linalg_determinant
     subroutine test_q_eye_multiple(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp),parameter :: n = 10_ilp
         real(qp),parameter :: coef = 0.0001_qp
@@ -193,7 +193,7 @@ module test_linalg_determinant
     subroutine test_c_eye_determinant(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp) :: i
         integer(ilp),parameter :: n = 128_ilp
@@ -213,7 +213,7 @@ module test_linalg_determinant
     subroutine test_c_eye_multiple(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp),parameter :: n = 10_ilp
         real(sp),parameter :: coef = 0.0001_sp
@@ -236,7 +236,7 @@ module test_linalg_determinant
     subroutine test_z_eye_determinant(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp) :: i
         integer(ilp),parameter :: n = 128_ilp
@@ -256,7 +256,7 @@ module test_linalg_determinant
     subroutine test_z_eye_multiple(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp),parameter :: n = 10_ilp
         real(dp),parameter :: coef = 0.0001_dp
@@ -279,7 +279,7 @@ module test_linalg_determinant
     subroutine test_w_eye_determinant(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp) :: i
         integer(ilp),parameter :: n = 128_ilp
@@ -299,7 +299,7 @@ module test_linalg_determinant
     subroutine test_w_eye_multiple(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp),parameter :: n = 10_ilp
         real(qp),parameter :: coef = 0.0001_qp
@@ -323,7 +323,7 @@ module test_linalg_determinant
     subroutine test_c_complex_determinant(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp) :: i,j,n
         integer(ilp),parameter :: nmax = 10_ilp
@@ -358,7 +358,7 @@ module test_linalg_determinant
     subroutine test_z_complex_determinant(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp) :: i,j,n
         integer(ilp),parameter :: nmax = 10_ilp
@@ -393,7 +393,7 @@ module test_linalg_determinant
     subroutine test_w_complex_determinant(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp) :: i,j,n
         integer(ilp),parameter :: nmax = 10_ilp

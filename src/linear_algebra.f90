@@ -1,4 +1,4 @@
-module la_interface
+module linear_algebra
      use la_blas
      use la_constants
      use la_determinant
@@ -7,7 +7,7 @@ module la_interface
      use la_lapack
      use la_least_squares
      use la_solve
-     use la_state
+     use la_state_type
      use la_svd
      use la_eig
      use la_qr
@@ -17,4 +17,4 @@ module la_interface
      implicit none(type,external)
      public
 
-end module la_interface
+end module linear_algebra

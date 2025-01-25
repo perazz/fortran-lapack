@@ -3,7 +3,7 @@ module la_inverse
      use la_constants
      use la_blas
      use la_lapack
-     use la_state
+     use la_state_type
      use iso_fortran_env,only:real32,real64,real128,int8,int16,int32,int64,stderr => error_unit
      implicit none(type,external)
      private
@@ -56,10 +56,10 @@ module la_inverse
          !> Input matrix a[n,n]
          real(sp),intent(inout) :: a(:,:)
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
 
          !> Local variables
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          integer(ilp) :: lda,n,info,nb,lwork
          integer(ilp),allocatable :: ipiv(:)
          real(sp),allocatable :: work(:)
@@ -70,7 +70,7 @@ module la_inverse
          n = size(a,2,kind=ilp)
 
          if (lda < 1 .or. n < 1 .or. lda /= n) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix size: a=[',lda,',',n,']')
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size: a=[',lda,',',n,']')
             goto 1
          end if
 
@@ -98,12 +98,12 @@ module la_inverse
             case (0)
                 ! Success
             case (:-1)
-                err0 = linalg_state(this,LINALG_ERROR,'invalid matrix size a=[',lda,',',n,']')
+                err0 = la_state(this,LINALG_ERROR,'invalid matrix size a=[',lda,',',n,']')
             case (1:)
                 ! Matrix is singular
-                err0 = linalg_state(this,LINALG_ERROR,'singular matrix')
+                err0 = la_state(this,LINALG_ERROR,'singular matrix')
             case default
-                err0 = linalg_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
+                err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
          end select
 
          ! Process output and return
@@ -118,7 +118,7 @@ module la_inverse
          !> Output matrix inverse
          real(sp),allocatable :: inva(:,:)
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
 
          !> Allocate with copy
          allocate (inva,source=a)
@@ -135,7 +135,7 @@ module la_inverse
          !> Result matrix
          real(sp),allocatable :: inva(:,:)
 
-         type(linalg_state) :: err
+         type(la_state) :: err
 
          inva = la_inverse_s(a,err)
 
@@ -152,10 +152,10 @@ module la_inverse
          !> Input matrix a[n,n]
          real(dp),intent(inout) :: a(:,:)
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
 
          !> Local variables
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          integer(ilp) :: lda,n,info,nb,lwork
          integer(ilp),allocatable :: ipiv(:)
          real(dp),allocatable :: work(:)
@@ -166,7 +166,7 @@ module la_inverse
          n = size(a,2,kind=ilp)
 
          if (lda < 1 .or. n < 1 .or. lda /= n) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix size: a=[',lda,',',n,']')
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size: a=[',lda,',',n,']')
             goto 1
          end if
 
@@ -194,12 +194,12 @@ module la_inverse
             case (0)
                 ! Success
             case (:-1)
-                err0 = linalg_state(this,LINALG_ERROR,'invalid matrix size a=[',lda,',',n,']')
+                err0 = la_state(this,LINALG_ERROR,'invalid matrix size a=[',lda,',',n,']')
             case (1:)
                 ! Matrix is singular
-                err0 = linalg_state(this,LINALG_ERROR,'singular matrix')
+                err0 = la_state(this,LINALG_ERROR,'singular matrix')
             case default
-                err0 = linalg_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
+                err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
          end select
 
          ! Process output and return
@@ -214,7 +214,7 @@ module la_inverse
          !> Output matrix inverse
          real(dp),allocatable :: inva(:,:)
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
 
          !> Allocate with copy
          allocate (inva,source=a)
@@ -231,7 +231,7 @@ module la_inverse
          !> Result matrix
          real(dp),allocatable :: inva(:,:)
 
-         type(linalg_state) :: err
+         type(la_state) :: err
 
          inva = la_inverse_d(a,err)
 
@@ -248,10 +248,10 @@ module la_inverse
          !> Input matrix a[n,n]
          real(qp),intent(inout) :: a(:,:)
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
 
          !> Local variables
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          integer(ilp) :: lda,n,info,nb,lwork
          integer(ilp),allocatable :: ipiv(:)
          real(qp),allocatable :: work(:)
@@ -262,7 +262,7 @@ module la_inverse
          n = size(a,2,kind=ilp)
 
          if (lda < 1 .or. n < 1 .or. lda /= n) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix size: a=[',lda,',',n,']')
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size: a=[',lda,',',n,']')
             goto 1
          end if
 
@@ -290,12 +290,12 @@ module la_inverse
             case (0)
                 ! Success
             case (:-1)
-                err0 = linalg_state(this,LINALG_ERROR,'invalid matrix size a=[',lda,',',n,']')
+                err0 = la_state(this,LINALG_ERROR,'invalid matrix size a=[',lda,',',n,']')
             case (1:)
                 ! Matrix is singular
-                err0 = linalg_state(this,LINALG_ERROR,'singular matrix')
+                err0 = la_state(this,LINALG_ERROR,'singular matrix')
             case default
-                err0 = linalg_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
+                err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
          end select
 
          ! Process output and return
@@ -310,7 +310,7 @@ module la_inverse
          !> Output matrix inverse
          real(qp),allocatable :: inva(:,:)
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
 
          !> Allocate with copy
          allocate (inva,source=a)
@@ -327,7 +327,7 @@ module la_inverse
          !> Result matrix
          real(qp),allocatable :: inva(:,:)
 
-         type(linalg_state) :: err
+         type(la_state) :: err
 
          inva = la_inverse_q(a,err)
 
@@ -344,10 +344,10 @@ module la_inverse
          !> Input matrix a[n,n]
          complex(sp),intent(inout) :: a(:,:)
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
 
          !> Local variables
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          integer(ilp) :: lda,n,info,nb,lwork
          integer(ilp),allocatable :: ipiv(:)
          complex(sp),allocatable :: work(:)
@@ -358,7 +358,7 @@ module la_inverse
          n = size(a,2,kind=ilp)
 
          if (lda < 1 .or. n < 1 .or. lda /= n) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix size: a=[',lda,',',n,']')
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size: a=[',lda,',',n,']')
             goto 1
          end if
 
@@ -386,12 +386,12 @@ module la_inverse
             case (0)
                 ! Success
             case (:-1)
-                err0 = linalg_state(this,LINALG_ERROR,'invalid matrix size a=[',lda,',',n,']')
+                err0 = la_state(this,LINALG_ERROR,'invalid matrix size a=[',lda,',',n,']')
             case (1:)
                 ! Matrix is singular
-                err0 = linalg_state(this,LINALG_ERROR,'singular matrix')
+                err0 = la_state(this,LINALG_ERROR,'singular matrix')
             case default
-                err0 = linalg_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
+                err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
          end select
 
          ! Process output and return
@@ -406,7 +406,7 @@ module la_inverse
          !> Output matrix inverse
          complex(sp),allocatable :: inva(:,:)
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
 
          !> Allocate with copy
          allocate (inva,source=a)
@@ -423,7 +423,7 @@ module la_inverse
          !> Result matrix
          complex(sp),allocatable :: inva(:,:)
 
-         type(linalg_state) :: err
+         type(la_state) :: err
 
          inva = la_inverse_c(a,err)
 
@@ -440,10 +440,10 @@ module la_inverse
          !> Input matrix a[n,n]
          complex(dp),intent(inout) :: a(:,:)
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
 
          !> Local variables
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          integer(ilp) :: lda,n,info,nb,lwork
          integer(ilp),allocatable :: ipiv(:)
          complex(dp),allocatable :: work(:)
@@ -454,7 +454,7 @@ module la_inverse
          n = size(a,2,kind=ilp)
 
          if (lda < 1 .or. n < 1 .or. lda /= n) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix size: a=[',lda,',',n,']')
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size: a=[',lda,',',n,']')
             goto 1
          end if
 
@@ -482,12 +482,12 @@ module la_inverse
             case (0)
                 ! Success
             case (:-1)
-                err0 = linalg_state(this,LINALG_ERROR,'invalid matrix size a=[',lda,',',n,']')
+                err0 = la_state(this,LINALG_ERROR,'invalid matrix size a=[',lda,',',n,']')
             case (1:)
                 ! Matrix is singular
-                err0 = linalg_state(this,LINALG_ERROR,'singular matrix')
+                err0 = la_state(this,LINALG_ERROR,'singular matrix')
             case default
-                err0 = linalg_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
+                err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
          end select
 
          ! Process output and return
@@ -502,7 +502,7 @@ module la_inverse
          !> Output matrix inverse
          complex(dp),allocatable :: inva(:,:)
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
 
          !> Allocate with copy
          allocate (inva,source=a)
@@ -519,7 +519,7 @@ module la_inverse
          !> Result matrix
          complex(dp),allocatable :: inva(:,:)
 
-         type(linalg_state) :: err
+         type(la_state) :: err
 
          inva = la_inverse_z(a,err)
 
@@ -536,10 +536,10 @@ module la_inverse
          !> Input matrix a[n,n]
          complex(qp),intent(inout) :: a(:,:)
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
 
          !> Local variables
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          integer(ilp) :: lda,n,info,nb,lwork
          integer(ilp),allocatable :: ipiv(:)
          complex(qp),allocatable :: work(:)
@@ -550,7 +550,7 @@ module la_inverse
          n = size(a,2,kind=ilp)
 
          if (lda < 1 .or. n < 1 .or. lda /= n) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix size: a=[',lda,',',n,']')
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size: a=[',lda,',',n,']')
             goto 1
          end if
 
@@ -578,12 +578,12 @@ module la_inverse
             case (0)
                 ! Success
             case (:-1)
-                err0 = linalg_state(this,LINALG_ERROR,'invalid matrix size a=[',lda,',',n,']')
+                err0 = la_state(this,LINALG_ERROR,'invalid matrix size a=[',lda,',',n,']')
             case (1:)
                 ! Matrix is singular
-                err0 = linalg_state(this,LINALG_ERROR,'singular matrix')
+                err0 = la_state(this,LINALG_ERROR,'singular matrix')
             case default
-                err0 = linalg_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
+                err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
          end select
 
          ! Process output and return
@@ -598,7 +598,7 @@ module la_inverse
          !> Output matrix inverse
          complex(qp),allocatable :: inva(:,:)
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
 
          !> Allocate with copy
          allocate (inva,source=a)
@@ -615,7 +615,7 @@ module la_inverse
          !> Result matrix
          complex(qp),allocatable :: inva(:,:)
 
-         type(linalg_state) :: err
+         type(la_state) :: err
 
          inva = la_inverse_w(a,err)
 

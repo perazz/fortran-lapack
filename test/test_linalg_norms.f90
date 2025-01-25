@@ -1,7 +1,7 @@
 
 ! Test matrix norms
 module test_linalg_norms
-    use la_interface
+    use linear_algebra
 
     implicit none(type,external)
 

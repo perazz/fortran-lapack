@@ -4,7 +4,7 @@ module la_eye
      use la_constants
      use la_blas
      use la_lapack
-     use la_state
+     use la_state_type
      use iso_fortran_env,only:real32,real64,real128,int8,int16,int32,int64,stderr => error_unit
      implicit none(type,external)
      private
@@ -55,14 +55,14 @@ module la_eye
          #:endif
          #:if epresent
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state), intent(out) :: err
+         type(la_state), intent(out) :: err
          #:endif
          !> Return matrix
          ${rt}$, allocatable :: eye(:,:)
 
          !> Local variables
          integer(ilp) :: i,j,cols
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          character(*), parameter :: this = 'eye'
 
          !> Determine number of columns
@@ -74,7 +74,7 @@ module la_eye
 
          !> Check size
          if (.not.min(m,cols)>=0) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid eye size: eye[',m,',',n,']')
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid eye size: eye[',m,',',n,']')
             allocate(eye(0,0))
             goto 1
          end if
@@ -106,19 +106,19 @@ module la_eye
          ${rt}$, intent(in) :: source
          #:if epresent
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state), intent(out) :: err
+         type(la_state), intent(out) :: err
          #:endif
          !> Return matrix
          ${rt}$, allocatable :: diag(:,:)
 
          !> Local variables
          integer(ilp) :: i,j
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          character(*), parameter :: this = 'diag::scalar'
 
          !> Check size
          if (.not.n>=0) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid diagonal size: diag[',n,',',n,']')
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid diagonal size: diag[',n,',',n,']')
             allocate(diag(0,0))
             goto 1
          end if
@@ -149,21 +149,21 @@ module la_eye
          ${rt}$, intent(in) :: source(:)
          #:if epresent
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state), intent(out) :: err
+         type(la_state), intent(out) :: err
          #:endif
          !> Return matrix
          ${rt}$, allocatable :: diag(:,:)
 
          !> Local variables
          integer(ilp) :: i,j,n
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          character(*), parameter :: this = 'diag::array'
 
          n = size(source, kind=ilp)
 
          !> Check size
          if (.not.n>=0) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid input array size: diag[',n,',',n,']')
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid input array size: diag[',n,',',n,']')
             allocate(diag(0,0))
             goto 1
          end if

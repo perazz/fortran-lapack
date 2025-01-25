@@ -3,7 +3,7 @@ module la_pseudoinverse
      use la_constants
      use la_blas
      use la_lapack
-     use la_state
+     use la_state_type
      use la_svd,only:svd
      use iso_fortran_env,only:real32,real64,real128,int8,int16,int32,int64,stderr => error_unit
      implicit none(type,external)
@@ -59,13 +59,13 @@ module la_pseudoinverse
          !> [optional] ....
          real(sp),optional,intent(in) :: rtol
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
 
          ! Local variables
          real(sp) :: tolerance,cutoff
          real(sp),allocatable :: s(:)
          real(sp),allocatable :: u(:,:),vt(:,:)
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          integer(ilp) :: m,n,k,i,j
          
          ! Problem size
@@ -73,13 +73,13 @@ module la_pseudoinverse
          n = size(a,2,kind=ilp)
          k = min(m,n)
          if (m < 1 .or. n < 1) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix size: a=', [m,n])
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size: a=', [m,n])
             call linalg_error_handling(err0,err)
             return
          end if
          
          if (any(shape(pinva,kind=ilp) /= [n,m])) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid pinv size:',shape(pinva),'should be', [n,m])
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid pinv size:',shape(pinva),'should be', [n,m])
             call linalg_error_handling(err0,err)
             return
          end if
@@ -95,7 +95,7 @@ module la_pseudoinverse
          allocate (s(k),u(m,k),vt(k,n))
          call svd(a,s,u,vt,overwrite_a=.false.,full_matrices=.false.,err=err0)
          if (err0%error()) then
-            err0 = linalg_state(this,LINALG_ERROR,'svd failure -',err0%message)
+            err0 = la_state(this,LINALG_ERROR,'svd failure -',err0%message)
             call linalg_error_handling(err0,err)
             return
          end if
@@ -122,7 +122,7 @@ module la_pseudoinverse
          !> [optional] ....
          real(sp),optional,intent(in) :: rtol
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
          !> Matrix pseudo-inverse
          real(sp) :: pinva(size(a,2,kind=ilp),size(a,1,kind=ilp))
          
@@ -158,13 +158,13 @@ module la_pseudoinverse
          !> [optional] ....
          real(dp),optional,intent(in) :: rtol
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
 
          ! Local variables
          real(dp) :: tolerance,cutoff
          real(dp),allocatable :: s(:)
          real(dp),allocatable :: u(:,:),vt(:,:)
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          integer(ilp) :: m,n,k,i,j
          
          ! Problem size
@@ -172,13 +172,13 @@ module la_pseudoinverse
          n = size(a,2,kind=ilp)
          k = min(m,n)
          if (m < 1 .or. n < 1) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix size: a=', [m,n])
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size: a=', [m,n])
             call linalg_error_handling(err0,err)
             return
          end if
          
          if (any(shape(pinva,kind=ilp) /= [n,m])) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid pinv size:',shape(pinva),'should be', [n,m])
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid pinv size:',shape(pinva),'should be', [n,m])
             call linalg_error_handling(err0,err)
             return
          end if
@@ -194,7 +194,7 @@ module la_pseudoinverse
          allocate (s(k),u(m,k),vt(k,n))
          call svd(a,s,u,vt,overwrite_a=.false.,full_matrices=.false.,err=err0)
          if (err0%error()) then
-            err0 = linalg_state(this,LINALG_ERROR,'svd failure -',err0%message)
+            err0 = la_state(this,LINALG_ERROR,'svd failure -',err0%message)
             call linalg_error_handling(err0,err)
             return
          end if
@@ -221,7 +221,7 @@ module la_pseudoinverse
          !> [optional] ....
          real(dp),optional,intent(in) :: rtol
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
          !> Matrix pseudo-inverse
          real(dp) :: pinva(size(a,2,kind=ilp),size(a,1,kind=ilp))
          
@@ -257,13 +257,13 @@ module la_pseudoinverse
          !> [optional] ....
          real(qp),optional,intent(in) :: rtol
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
 
          ! Local variables
          real(qp) :: tolerance,cutoff
          real(qp),allocatable :: s(:)
          real(qp),allocatable :: u(:,:),vt(:,:)
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          integer(ilp) :: m,n,k,i,j
          
          ! Problem size
@@ -271,13 +271,13 @@ module la_pseudoinverse
          n = size(a,2,kind=ilp)
          k = min(m,n)
          if (m < 1 .or. n < 1) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix size: a=', [m,n])
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size: a=', [m,n])
             call linalg_error_handling(err0,err)
             return
          end if
          
          if (any(shape(pinva,kind=ilp) /= [n,m])) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid pinv size:',shape(pinva),'should be', [n,m])
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid pinv size:',shape(pinva),'should be', [n,m])
             call linalg_error_handling(err0,err)
             return
          end if
@@ -293,7 +293,7 @@ module la_pseudoinverse
          allocate (s(k),u(m,k),vt(k,n))
          call svd(a,s,u,vt,overwrite_a=.false.,full_matrices=.false.,err=err0)
          if (err0%error()) then
-            err0 = linalg_state(this,LINALG_ERROR,'svd failure -',err0%message)
+            err0 = la_state(this,LINALG_ERROR,'svd failure -',err0%message)
             call linalg_error_handling(err0,err)
             return
          end if
@@ -320,7 +320,7 @@ module la_pseudoinverse
          !> [optional] ....
          real(qp),optional,intent(in) :: rtol
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
          !> Matrix pseudo-inverse
          real(qp) :: pinva(size(a,2,kind=ilp),size(a,1,kind=ilp))
          
@@ -356,13 +356,13 @@ module la_pseudoinverse
          !> [optional] ....
          real(sp),optional,intent(in) :: rtol
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
 
          ! Local variables
          real(sp) :: tolerance,cutoff
          real(sp),allocatable :: s(:)
          complex(sp),allocatable :: u(:,:),vt(:,:)
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          integer(ilp) :: m,n,k,i,j
          
          ! Problem size
@@ -370,13 +370,13 @@ module la_pseudoinverse
          n = size(a,2,kind=ilp)
          k = min(m,n)
          if (m < 1 .or. n < 1) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix size: a=', [m,n])
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size: a=', [m,n])
             call linalg_error_handling(err0,err)
             return
          end if
          
          if (any(shape(pinva,kind=ilp) /= [n,m])) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid pinv size:',shape(pinva),'should be', [n,m])
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid pinv size:',shape(pinva),'should be', [n,m])
             call linalg_error_handling(err0,err)
             return
          end if
@@ -392,7 +392,7 @@ module la_pseudoinverse
          allocate (s(k),u(m,k),vt(k,n))
          call svd(a,s,u,vt,overwrite_a=.false.,full_matrices=.false.,err=err0)
          if (err0%error()) then
-            err0 = linalg_state(this,LINALG_ERROR,'svd failure -',err0%message)
+            err0 = la_state(this,LINALG_ERROR,'svd failure -',err0%message)
             call linalg_error_handling(err0,err)
             return
          end if
@@ -419,7 +419,7 @@ module la_pseudoinverse
          !> [optional] ....
          real(sp),optional,intent(in) :: rtol
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
          !> Matrix pseudo-inverse
          complex(sp) :: pinva(size(a,2,kind=ilp),size(a,1,kind=ilp))
          
@@ -455,13 +455,13 @@ module la_pseudoinverse
          !> [optional] ....
          real(dp),optional,intent(in) :: rtol
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
 
          ! Local variables
          real(dp) :: tolerance,cutoff
          real(dp),allocatable :: s(:)
          complex(dp),allocatable :: u(:,:),vt(:,:)
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          integer(ilp) :: m,n,k,i,j
          
          ! Problem size
@@ -469,13 +469,13 @@ module la_pseudoinverse
          n = size(a,2,kind=ilp)
          k = min(m,n)
          if (m < 1 .or. n < 1) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix size: a=', [m,n])
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size: a=', [m,n])
             call linalg_error_handling(err0,err)
             return
          end if
          
          if (any(shape(pinva,kind=ilp) /= [n,m])) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid pinv size:',shape(pinva),'should be', [n,m])
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid pinv size:',shape(pinva),'should be', [n,m])
             call linalg_error_handling(err0,err)
             return
          end if
@@ -491,7 +491,7 @@ module la_pseudoinverse
          allocate (s(k),u(m,k),vt(k,n))
          call svd(a,s,u,vt,overwrite_a=.false.,full_matrices=.false.,err=err0)
          if (err0%error()) then
-            err0 = linalg_state(this,LINALG_ERROR,'svd failure -',err0%message)
+            err0 = la_state(this,LINALG_ERROR,'svd failure -',err0%message)
             call linalg_error_handling(err0,err)
             return
          end if
@@ -518,7 +518,7 @@ module la_pseudoinverse
          !> [optional] ....
          real(dp),optional,intent(in) :: rtol
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
          !> Matrix pseudo-inverse
          complex(dp) :: pinva(size(a,2,kind=ilp),size(a,1,kind=ilp))
          
@@ -554,13 +554,13 @@ module la_pseudoinverse
          !> [optional] ....
          real(qp),optional,intent(in) :: rtol
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
 
          ! Local variables
          real(qp) :: tolerance,cutoff
          real(qp),allocatable :: s(:)
          complex(qp),allocatable :: u(:,:),vt(:,:)
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          integer(ilp) :: m,n,k,i,j
          
          ! Problem size
@@ -568,13 +568,13 @@ module la_pseudoinverse
          n = size(a,2,kind=ilp)
          k = min(m,n)
          if (m < 1 .or. n < 1) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix size: a=', [m,n])
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size: a=', [m,n])
             call linalg_error_handling(err0,err)
             return
          end if
          
          if (any(shape(pinva,kind=ilp) /= [n,m])) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid pinv size:',shape(pinva),'should be', [n,m])
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid pinv size:',shape(pinva),'should be', [n,m])
             call linalg_error_handling(err0,err)
             return
          end if
@@ -590,7 +590,7 @@ module la_pseudoinverse
          allocate (s(k),u(m,k),vt(k,n))
          call svd(a,s,u,vt,overwrite_a=.false.,full_matrices=.false.,err=err0)
          if (err0%error()) then
-            err0 = linalg_state(this,LINALG_ERROR,'svd failure -',err0%message)
+            err0 = la_state(this,LINALG_ERROR,'svd failure -',err0%message)
             call linalg_error_handling(err0,err)
             return
          end if
@@ -617,7 +617,7 @@ module la_pseudoinverse
          !> [optional] ....
          real(qp),optional,intent(in) :: rtol
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
          !> Matrix pseudo-inverse
          complex(qp) :: pinva(size(a,2,kind=ilp),size(a,1,kind=ilp))
          

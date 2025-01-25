@@ -2,7 +2,7 @@ module la_svd
      use la_constants
      use la_blas
      use la_lapack
-     use la_state
+     use la_state_type
      use iso_fortran_env,only:real32,real64,real128,int8,int16,int32,int64,stderr => error_unit
      implicit none(type,external)
      private
@@ -52,7 +52,7 @@ module la_svd
      !> Process GESDD output flag
      elemental subroutine gesdd_info(err,info,m,n)
         !> Error handler
-        type(linalg_state),intent(inout) :: err
+        type(la_state),intent(inout) :: err
         !> GESDD return flag
         integer(ilp),intent(in) :: info
         !> Input matrix size
@@ -63,19 +63,19 @@ module la_svd
                ! Success!
                err%state = LINALG_SUCCESS
            case (-1)
-               err = linalg_state(this,LINALG_INTERNAL_ERROR,'Invalid task ID on input to GESDD.')
+               err = la_state(this,LINALG_INTERNAL_ERROR,'Invalid task ID on input to GESDD.')
            case (-5,-3:-2)
-               err = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix size: a=[',m,',',n,']')
+               err = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size: a=[',m,',',n,']')
            case (-8)
-               err = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix U size, with a=[',m,',',n,']')
+               err = la_state(this,LINALG_VALUE_ERROR,'invalid matrix U size, with a=[',m,',',n,']')
            case (-10)
-               err = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix V size, with a=[',m,',',n,']')
+               err = la_state(this,LINALG_VALUE_ERROR,'invalid matrix V size, with a=[',m,',',n,']')
            case (-4)
-               err = linalg_state(this,LINALG_VALUE_ERROR,'A contains invalid/NaN values.')
+               err = la_state(this,LINALG_VALUE_ERROR,'A contains invalid/NaN values.')
            case (1:)
-               err = linalg_state(this,LINALG_ERROR,'SVD computation did not converge.')
+               err = la_state(this,LINALG_ERROR,'SVD computation did not converge.')
            case default
-               err = linalg_state(this,LINALG_INTERNAL_ERROR,'Unknown error returned by GESDD.')
+               err = la_state(this,LINALG_INTERNAL_ERROR,'Unknown error returned by GESDD.')
         end select
 
      end subroutine gesdd_info
@@ -85,7 +85,7 @@ module la_svd
          !> Input matrix A[m,n]
          real(sp),intent(in),target :: a(:,:)
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
          !> Array of singular values
          real(sp),allocatable :: s(:)
 
@@ -124,10 +124,10 @@ module la_svd
          !> they are shape(u)==[m,k] and shape(vh)==[k,n] with k=min(m,n)
          logical(lk),optional,intent(in) :: full_matrices
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
 
          !> Local variables
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          integer(ilp) :: m,n,lda,ldu,ldvt,info,k,lwork,liwork,lrwork
          integer(ilp),allocatable :: iwork(:)
          logical(lk) :: copy_a,full_storage,compute_uv,alloc_u,alloc_vt,can_overwrite_a
@@ -144,12 +144,12 @@ module la_svd
          lda = m
 
          if (.not. k > 0) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid or matrix size: a=[',m,',',n,']')
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or matrix size: a=[',m,',',n,']')
             goto 1
          end if
 
          if (.not. size(s,kind=ilp) >= k) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'singular value array has insufficient size:', &
+            err0 = la_state(this,LINALG_VALUE_ERROR,'singular value array has insufficient size:', &
                                                         ' s=[',size(s,kind=ilp),'], k=',k)
             goto 1
          end if
@@ -270,7 +270,7 @@ module la_svd
          !> Input matrix A[m,n]
          real(dp),intent(in),target :: a(:,:)
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
          !> Array of singular values
          real(dp),allocatable :: s(:)
 
@@ -309,10 +309,10 @@ module la_svd
          !> they are shape(u)==[m,k] and shape(vh)==[k,n] with k=min(m,n)
          logical(lk),optional,intent(in) :: full_matrices
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
 
          !> Local variables
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          integer(ilp) :: m,n,lda,ldu,ldvt,info,k,lwork,liwork,lrwork
          integer(ilp),allocatable :: iwork(:)
          logical(lk) :: copy_a,full_storage,compute_uv,alloc_u,alloc_vt,can_overwrite_a
@@ -329,12 +329,12 @@ module la_svd
          lda = m
 
          if (.not. k > 0) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid or matrix size: a=[',m,',',n,']')
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or matrix size: a=[',m,',',n,']')
             goto 1
          end if
 
          if (.not. size(s,kind=ilp) >= k) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'singular value array has insufficient size:', &
+            err0 = la_state(this,LINALG_VALUE_ERROR,'singular value array has insufficient size:', &
                                                         ' s=[',size(s,kind=ilp),'], k=',k)
             goto 1
          end if
@@ -455,7 +455,7 @@ module la_svd
          !> Input matrix A[m,n]
          real(qp),intent(in),target :: a(:,:)
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
          !> Array of singular values
          real(qp),allocatable :: s(:)
 
@@ -494,10 +494,10 @@ module la_svd
          !> they are shape(u)==[m,k] and shape(vh)==[k,n] with k=min(m,n)
          logical(lk),optional,intent(in) :: full_matrices
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
 
          !> Local variables
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          integer(ilp) :: m,n,lda,ldu,ldvt,info,k,lwork,liwork,lrwork
          integer(ilp),allocatable :: iwork(:)
          logical(lk) :: copy_a,full_storage,compute_uv,alloc_u,alloc_vt,can_overwrite_a
@@ -514,12 +514,12 @@ module la_svd
          lda = m
 
          if (.not. k > 0) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid or matrix size: a=[',m,',',n,']')
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or matrix size: a=[',m,',',n,']')
             goto 1
          end if
 
          if (.not. size(s,kind=ilp) >= k) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'singular value array has insufficient size:', &
+            err0 = la_state(this,LINALG_VALUE_ERROR,'singular value array has insufficient size:', &
                                                         ' s=[',size(s,kind=ilp),'], k=',k)
             goto 1
          end if
@@ -640,7 +640,7 @@ module la_svd
          !> Input matrix A[m,n]
          complex(sp),intent(in),target :: a(:,:)
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
          !> Array of singular values
          real(sp),allocatable :: s(:)
 
@@ -679,10 +679,10 @@ module la_svd
          !> they are shape(u)==[m,k] and shape(vh)==[k,n] with k=min(m,n)
          logical(lk),optional,intent(in) :: full_matrices
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
 
          !> Local variables
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          integer(ilp) :: m,n,lda,ldu,ldvt,info,k,lwork,liwork,lrwork
          integer(ilp),allocatable :: iwork(:)
          logical(lk) :: copy_a,full_storage,compute_uv,alloc_u,alloc_vt,can_overwrite_a
@@ -699,12 +699,12 @@ module la_svd
          lda = m
 
          if (.not. k > 0) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid or matrix size: a=[',m,',',n,']')
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or matrix size: a=[',m,',',n,']')
             goto 1
          end if
 
          if (.not. size(s,kind=ilp) >= k) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'singular value array has insufficient size:', &
+            err0 = la_state(this,LINALG_VALUE_ERROR,'singular value array has insufficient size:', &
                                                         ' s=[',size(s,kind=ilp),'], k=',k)
             goto 1
          end if
@@ -831,7 +831,7 @@ module la_svd
          !> Input matrix A[m,n]
          complex(dp),intent(in),target :: a(:,:)
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
          !> Array of singular values
          real(dp),allocatable :: s(:)
 
@@ -870,10 +870,10 @@ module la_svd
          !> they are shape(u)==[m,k] and shape(vh)==[k,n] with k=min(m,n)
          logical(lk),optional,intent(in) :: full_matrices
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
 
          !> Local variables
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          integer(ilp) :: m,n,lda,ldu,ldvt,info,k,lwork,liwork,lrwork
          integer(ilp),allocatable :: iwork(:)
          logical(lk) :: copy_a,full_storage,compute_uv,alloc_u,alloc_vt,can_overwrite_a
@@ -890,12 +890,12 @@ module la_svd
          lda = m
 
          if (.not. k > 0) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid or matrix size: a=[',m,',',n,']')
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or matrix size: a=[',m,',',n,']')
             goto 1
          end if
 
          if (.not. size(s,kind=ilp) >= k) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'singular value array has insufficient size:', &
+            err0 = la_state(this,LINALG_VALUE_ERROR,'singular value array has insufficient size:', &
                                                         ' s=[',size(s,kind=ilp),'], k=',k)
             goto 1
          end if
@@ -1022,7 +1022,7 @@ module la_svd
          !> Input matrix A[m,n]
          complex(qp),intent(in),target :: a(:,:)
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
          !> Array of singular values
          real(qp),allocatable :: s(:)
 
@@ -1061,10 +1061,10 @@ module la_svd
          !> they are shape(u)==[m,k] and shape(vh)==[k,n] with k=min(m,n)
          logical(lk),optional,intent(in) :: full_matrices
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
 
          !> Local variables
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          integer(ilp) :: m,n,lda,ldu,ldvt,info,k,lwork,liwork,lrwork
          integer(ilp),allocatable :: iwork(:)
          logical(lk) :: copy_a,full_storage,compute_uv,alloc_u,alloc_vt,can_overwrite_a
@@ -1081,12 +1081,12 @@ module la_svd
          lda = m
 
          if (.not. k > 0) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid or matrix size: a=[',m,',',n,']')
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or matrix size: a=[',m,',',n,']')
             goto 1
          end if
 
          if (.not. size(s,kind=ilp) >= k) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'singular value array has insufficient size:', &
+            err0 = la_state(this,LINALG_VALUE_ERROR,'singular value array has insufficient size:', &
                                                         ' s=[',size(s,kind=ilp),'], k=',k)
             goto 1
          end if

@@ -1,9 +1,6 @@
 #:include "common.fypp"
 module test_linalg_least_squares
-    use la_constants
-    use la_state
-    use la_least_squares
-
+    use linear_algebra
     implicit none (type,external)
 
     contains
@@ -26,7 +23,7 @@ module test_linalg_least_squares
     subroutine test_${ri}$lstsq_one(error)
         logical, intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
         integer(ilp) :: rank
 
         !> Example scattered data

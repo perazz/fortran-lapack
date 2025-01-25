@@ -1,7 +1,7 @@
 #:include "common.fypp"
 ! Test inverse matrix
 module test_linalg_pseudoinverse
-    use la_interface
+    use linear_algebra
 
     implicit none (type,external)
 
@@ -44,7 +44,7 @@ module test_linalg_pseudoinverse
     subroutine test_${ri}$_eye_pseudoinverse(error)
         logical, intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp) :: i,j
         integer(ilp), parameter :: n = 15_ilp
@@ -79,7 +79,7 @@ module test_linalg_pseudoinverse
     subroutine test_${ci}$_square_pseudoinverse(error)
         logical, intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp) :: failed
         integer(ilp), parameter :: n = 10
@@ -110,7 +110,7 @@ module test_linalg_pseudoinverse
     subroutine test_${ci}$_tall_pseudoinverse(error)
         logical, intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp) :: failed
         integer(ilp), parameter :: m = 20, n = 10
@@ -141,7 +141,7 @@ module test_linalg_pseudoinverse
     subroutine test_${ci}$_wide_pseudoinverse(error)
         logical, intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp) :: failed
         integer(ilp), parameter :: m = 10, n = 20
@@ -172,7 +172,7 @@ module test_linalg_pseudoinverse
     subroutine test_${ci}$_singular_pseudoinverse(error)
         logical, intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp) :: failed
         integer(ilp), parameter :: n = 10

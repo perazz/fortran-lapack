@@ -1,5 +1,5 @@
 program main
-  use la_interface
+  use linear_algebra
   implicit none
 
   print *, "hello from project fortran-lapack"

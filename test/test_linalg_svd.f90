@@ -1,6 +1,6 @@
 ! Test singular value decomposition
 module test_linalg_svd
-    use la_interface
+    use linear_algebra
 
     implicit none(type,external)
 
@@ -55,7 +55,7 @@ module test_linalg_svd
                                                       0.0_sp,4*rsqrt18,-third], [3,3])
 
         !> Local variables
-        type(linalg_state) :: state
+        type(la_state) :: state
         real(sp) :: A(2,3),s(2),u(2,2),vt(3,3)
 
         !> Initialize matrix
@@ -150,7 +150,7 @@ module test_linalg_svd
                                                       0.0_dp,4*rsqrt18,-third], [3,3])
 
         !> Local variables
-        type(linalg_state) :: state
+        type(la_state) :: state
         real(dp) :: A(2,3),s(2),u(2,2),vt(3,3)
 
         !> Initialize matrix
@@ -245,7 +245,7 @@ module test_linalg_svd
                                                       0.0_qp,4*rsqrt18,-third], [3,3])
 
         !> Local variables
-        type(linalg_state) :: state
+        type(la_state) :: state
         real(qp) :: A(2,3),s(2),u(2,2),vt(3,3)
 
         !> Initialize matrix
@@ -342,7 +342,7 @@ module test_linalg_svd
         complex(sp),parameter :: vt_sol(2,2) = reshape([cone,czero,czero,cone], [2,2])
 
         !> Local variables
-        type(linalg_state) :: state
+        type(la_state) :: state
         complex(sp) :: A(2,2),u(2,2),vt(2,2)
         real(sp) :: s(2)
 
@@ -388,7 +388,7 @@ module test_linalg_svd
         complex(dp),parameter :: vt_sol(2,2) = reshape([cone,czero,czero,cone], [2,2])
 
         !> Local variables
-        type(linalg_state) :: state
+        type(la_state) :: state
         complex(dp) :: A(2,2),u(2,2),vt(2,2)
         real(dp) :: s(2)
 
@@ -434,7 +434,7 @@ module test_linalg_svd
         complex(qp),parameter :: vt_sol(2,2) = reshape([cone,czero,czero,cone], [2,2])
 
         !> Local variables
-        type(linalg_state) :: state
+        type(la_state) :: state
         complex(qp) :: A(2,2),u(2,2),vt(2,2)
         real(qp) :: s(2)
 

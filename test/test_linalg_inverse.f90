@@ -1,6 +1,6 @@
 ! Test inverse matrix
 module test_linalg_inverse
-    use la_interface
+    use linear_algebra
 
     implicit none(type,external)
 
@@ -39,7 +39,7 @@ module test_linalg_inverse
     subroutine test_s_eye_inverse(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp) :: i,j
         integer(ilp),parameter :: n = 250_ilp
@@ -64,7 +64,7 @@ module test_linalg_inverse
     subroutine test_d_eye_inverse(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp) :: i,j
         integer(ilp),parameter :: n = 250_ilp
@@ -89,7 +89,7 @@ module test_linalg_inverse
     subroutine test_q_eye_inverse(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp) :: i,j
         integer(ilp),parameter :: n = 250_ilp
@@ -115,7 +115,7 @@ module test_linalg_inverse
     subroutine test_c_eye_inverse(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp) :: i,j,failed
         integer(ilp),parameter :: n = 250_ilp
@@ -170,7 +170,7 @@ module test_linalg_inverse
     subroutine test_z_eye_inverse(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp) :: i,j,failed
         integer(ilp),parameter :: n = 250_ilp
@@ -225,7 +225,7 @@ module test_linalg_inverse
     subroutine test_w_eye_inverse(error)
         logical,intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp) :: i,j,failed
         integer(ilp),parameter :: n = 250_ilp

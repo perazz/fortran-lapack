@@ -2,7 +2,7 @@ module la_determinant
      use la_constants
      use la_blas
      use la_lapack
-     use la_state
+     use la_state_type
      use iso_fortran_env,only:real32,real64,real128,int8,int16,int32,int64,stderr => error_unit
      implicit none(type,external)
      private
@@ -34,12 +34,12 @@ module la_determinant
          !> [optional] Can A data be overwritten and destroyed?
          logical(lk),optional,intent(in) :: overwrite_a
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
          !> Result: matrix determinant
          real(sp) :: det
 
          !> Local variables
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          integer(ilp) :: m,n,info,perm,k
          integer(ilp),allocatable :: ipiv(:)
          logical(lk) :: copy_a
@@ -50,7 +50,7 @@ module la_determinant
          n = size(a,2,kind=ilp)
 
          if (m /= n .or. .not. min(m,n) >= 0) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid or non-square matrix: a=[',m,',',n,']')
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or non-square matrix: a=[',m,',',n,']')
             det = 0.0_sp
             goto 1
          end if
@@ -103,11 +103,11 @@ module la_determinant
                        if (mod(perm,2) /= 0) det = -det
 
                    case (:-1)
-                       err0 = linalg_state(this,LINALG_ERROR,'invalid matrix size a=[',m,',',n,']')
+                       err0 = la_state(this,LINALG_ERROR,'invalid matrix size a=[',m,',',n,']')
                    case (1:)
-                       err0 = linalg_state(this,LINALG_ERROR,'singular matrix')
+                       err0 = la_state(this,LINALG_ERROR,'singular matrix')
                    case default
-                       err0 = linalg_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
+                       err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
                 end select
 
                 if (copy_a) deallocate (amat)
@@ -126,12 +126,12 @@ module la_determinant
          !> [optional] Can A data be overwritten and destroyed?
          logical(lk),optional,intent(in) :: overwrite_a
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
          !> Result: matrix determinant
          real(dp) :: det
 
          !> Local variables
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          integer(ilp) :: m,n,info,perm,k
          integer(ilp),allocatable :: ipiv(:)
          logical(lk) :: copy_a
@@ -142,7 +142,7 @@ module la_determinant
          n = size(a,2,kind=ilp)
 
          if (m /= n .or. .not. min(m,n) >= 0) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid or non-square matrix: a=[',m,',',n,']')
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or non-square matrix: a=[',m,',',n,']')
             det = 0.0_dp
             goto 1
          end if
@@ -195,11 +195,11 @@ module la_determinant
                        if (mod(perm,2) /= 0) det = -det
 
                    case (:-1)
-                       err0 = linalg_state(this,LINALG_ERROR,'invalid matrix size a=[',m,',',n,']')
+                       err0 = la_state(this,LINALG_ERROR,'invalid matrix size a=[',m,',',n,']')
                    case (1:)
-                       err0 = linalg_state(this,LINALG_ERROR,'singular matrix')
+                       err0 = la_state(this,LINALG_ERROR,'singular matrix')
                    case default
-                       err0 = linalg_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
+                       err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
                 end select
 
                 if (copy_a) deallocate (amat)
@@ -218,12 +218,12 @@ module la_determinant
          !> [optional] Can A data be overwritten and destroyed?
          logical(lk),optional,intent(in) :: overwrite_a
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
          !> Result: matrix determinant
          real(qp) :: det
 
          !> Local variables
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          integer(ilp) :: m,n,info,perm,k
          integer(ilp),allocatable :: ipiv(:)
          logical(lk) :: copy_a
@@ -234,7 +234,7 @@ module la_determinant
          n = size(a,2,kind=ilp)
 
          if (m /= n .or. .not. min(m,n) >= 0) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid or non-square matrix: a=[',m,',',n,']')
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or non-square matrix: a=[',m,',',n,']')
             det = 0.0_qp
             goto 1
          end if
@@ -287,11 +287,11 @@ module la_determinant
                        if (mod(perm,2) /= 0) det = -det
 
                    case (:-1)
-                       err0 = linalg_state(this,LINALG_ERROR,'invalid matrix size a=[',m,',',n,']')
+                       err0 = la_state(this,LINALG_ERROR,'invalid matrix size a=[',m,',',n,']')
                    case (1:)
-                       err0 = linalg_state(this,LINALG_ERROR,'singular matrix')
+                       err0 = la_state(this,LINALG_ERROR,'singular matrix')
                    case default
-                       err0 = linalg_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
+                       err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
                 end select
 
                 if (copy_a) deallocate (amat)
@@ -310,12 +310,12 @@ module la_determinant
          !> [optional] Can A data be overwritten and destroyed?
          logical(lk),optional,intent(in) :: overwrite_a
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
          !> Result: matrix determinant
          complex(sp) :: det
 
          !> Local variables
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          integer(ilp) :: m,n,info,perm,k
          integer(ilp),allocatable :: ipiv(:)
          logical(lk) :: copy_a
@@ -326,7 +326,7 @@ module la_determinant
          n = size(a,2,kind=ilp)
 
          if (m /= n .or. .not. min(m,n) >= 0) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid or non-square matrix: a=[',m,',',n,']')
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or non-square matrix: a=[',m,',',n,']')
             det = 0.0_sp
             goto 1
          end if
@@ -379,11 +379,11 @@ module la_determinant
                        if (mod(perm,2) /= 0) det = -det
 
                    case (:-1)
-                       err0 = linalg_state(this,LINALG_ERROR,'invalid matrix size a=[',m,',',n,']')
+                       err0 = la_state(this,LINALG_ERROR,'invalid matrix size a=[',m,',',n,']')
                    case (1:)
-                       err0 = linalg_state(this,LINALG_ERROR,'singular matrix')
+                       err0 = la_state(this,LINALG_ERROR,'singular matrix')
                    case default
-                       err0 = linalg_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
+                       err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
                 end select
 
                 if (copy_a) deallocate (amat)
@@ -402,12 +402,12 @@ module la_determinant
          !> [optional] Can A data be overwritten and destroyed?
          logical(lk),optional,intent(in) :: overwrite_a
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
          !> Result: matrix determinant
          complex(dp) :: det
 
          !> Local variables
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          integer(ilp) :: m,n,info,perm,k
          integer(ilp),allocatable :: ipiv(:)
          logical(lk) :: copy_a
@@ -418,7 +418,7 @@ module la_determinant
          n = size(a,2,kind=ilp)
 
          if (m /= n .or. .not. min(m,n) >= 0) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid or non-square matrix: a=[',m,',',n,']')
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or non-square matrix: a=[',m,',',n,']')
             det = 0.0_dp
             goto 1
          end if
@@ -471,11 +471,11 @@ module la_determinant
                        if (mod(perm,2) /= 0) det = -det
 
                    case (:-1)
-                       err0 = linalg_state(this,LINALG_ERROR,'invalid matrix size a=[',m,',',n,']')
+                       err0 = la_state(this,LINALG_ERROR,'invalid matrix size a=[',m,',',n,']')
                    case (1:)
-                       err0 = linalg_state(this,LINALG_ERROR,'singular matrix')
+                       err0 = la_state(this,LINALG_ERROR,'singular matrix')
                    case default
-                       err0 = linalg_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
+                       err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
                 end select
 
                 if (copy_a) deallocate (amat)
@@ -494,12 +494,12 @@ module la_determinant
          !> [optional] Can A data be overwritten and destroyed?
          logical(lk),optional,intent(in) :: overwrite_a
          !> [optional] state return flag. On error if not requested, the code will stop
-         type(linalg_state),optional,intent(out) :: err
+         type(la_state),optional,intent(out) :: err
          !> Result: matrix determinant
          complex(qp) :: det
 
          !> Local variables
-         type(linalg_state) :: err0
+         type(la_state) :: err0
          integer(ilp) :: m,n,info,perm,k
          integer(ilp),allocatable :: ipiv(:)
          logical(lk) :: copy_a
@@ -510,7 +510,7 @@ module la_determinant
          n = size(a,2,kind=ilp)
 
          if (m /= n .or. .not. min(m,n) >= 0) then
-            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid or non-square matrix: a=[',m,',',n,']')
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or non-square matrix: a=[',m,',',n,']')
             det = 0.0_qp
             goto 1
          end if
@@ -563,11 +563,11 @@ module la_determinant
                        if (mod(perm,2) /= 0) det = -det
 
                    case (:-1)
-                       err0 = linalg_state(this,LINALG_ERROR,'invalid matrix size a=[',m,',',n,']')
+                       err0 = la_state(this,LINALG_ERROR,'invalid matrix size a=[',m,',',n,']')
                    case (1:)
-                       err0 = linalg_state(this,LINALG_ERROR,'singular matrix')
+                       err0 = la_state(this,LINALG_ERROR,'singular matrix')
                    case default
-                       err0 = linalg_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
+                       err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
                 end select
 
                 if (copy_a) deallocate (amat)

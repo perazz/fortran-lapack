@@ -1,6 +1,6 @@
 ! Test eigendecomposition
 module test_linalg_eig
-    use la_interface
+    use linear_algebra
 
     implicit none(type,external)
 
@@ -54,7 +54,7 @@ module test_linalg_eig
         real(sp),parameter :: tol = sqrt(epsilon(zero))
 
         !> Local variables
-        type(linalg_state) :: state
+        type(la_state) :: state
         real(sp) :: A(3,3),B(2,2)
         complex(sp) :: lambda(3),Bvec(2,2),Bres(2,2)
 
@@ -102,7 +102,7 @@ module test_linalg_eig
         
         !> Local variables
         real(sp) :: Amat(4,4),lambda(4),vect(4,4),Av(4,4),lv(4,4)
-        type(linalg_state) :: state
+        type(la_state) :: state
         
         Amat = A
         
@@ -139,7 +139,7 @@ module test_linalg_eig
         real(dp),parameter :: tol = sqrt(epsilon(zero))
 
         !> Local variables
-        type(linalg_state) :: state
+        type(la_state) :: state
         real(dp) :: A(3,3),B(2,2)
         complex(dp) :: lambda(3),Bvec(2,2),Bres(2,2)
 
@@ -187,7 +187,7 @@ module test_linalg_eig
         
         !> Local variables
         real(dp) :: Amat(4,4),lambda(4),vect(4,4),Av(4,4),lv(4,4)
-        type(linalg_state) :: state
+        type(la_state) :: state
         
         Amat = A
         
@@ -224,7 +224,7 @@ module test_linalg_eig
         real(qp),parameter :: tol = sqrt(epsilon(zero))
 
         !> Local variables
-        type(linalg_state) :: state
+        type(la_state) :: state
         real(qp) :: A(3,3),B(2,2)
         complex(qp) :: lambda(3),Bvec(2,2),Bres(2,2)
 
@@ -272,7 +272,7 @@ module test_linalg_eig
         
         !> Local variables
         real(qp) :: Amat(4,4),lambda(4),vect(4,4),Av(4,4),lv(4,4)
-        type(linalg_state) :: state
+        type(la_state) :: state
         
         Amat = A
         
@@ -313,7 +313,7 @@ module test_linalg_eig
         complex(sp),parameter :: czero = (0.0_sp,0.0_sp)
 
         !> Local vaciables
-        type(linalg_state) :: state
+        type(la_state) :: state
         complex(sp) :: A(2,2),lambda(2),Avec(2,2),Ares(2,2),lres(2)
 
         !> Matcix with real eigenvalues
@@ -350,7 +350,7 @@ module test_linalg_eig
         complex(dp),parameter :: czero = (0.0_dp,0.0_dp)
 
         !> Local vaciables
-        type(linalg_state) :: state
+        type(la_state) :: state
         complex(dp) :: A(2,2),lambda(2),Avec(2,2),Ares(2,2),lres(2)
 
         !> Matcix with real eigenvalues
@@ -387,7 +387,7 @@ module test_linalg_eig
         complex(qp),parameter :: czero = (0.0_qp,0.0_qp)
 
         !> Local vaciables
-        type(linalg_state) :: state
+        type(la_state) :: state
         complex(qp) :: A(2,2),lambda(2),Avec(2,2),Ares(2,2),lres(2)
 
         !> Matcix with real eigenvalues

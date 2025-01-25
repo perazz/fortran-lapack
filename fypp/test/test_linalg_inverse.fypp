@@ -1,7 +1,7 @@
 #:include "common.fypp"
 ! Test inverse matrix
 module test_linalg_inverse
-    use la_interface
+    use linear_algebra
 
     implicit none (type,external)
 
@@ -37,7 +37,7 @@ module test_linalg_inverse
     subroutine test_${ri}$_eye_inverse(error)
         logical, intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp) :: i,j
         integer(ilp), parameter :: n = 250_ilp
@@ -66,7 +66,7 @@ module test_linalg_inverse
     subroutine test_${ci}$_eye_inverse(error)
         logical, intent(out) :: error
 
-        type(linalg_state) :: state
+        type(la_state) :: state
 
         integer(ilp) :: i,j,failed
         integer(ilp), parameter :: n = 250_ilp

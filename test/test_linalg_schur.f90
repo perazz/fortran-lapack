@@ -1,6 +1,6 @@
 ! Test Schur form
 module test_linalg_schur
-    use la_interface
+    use linear_algebra
 
     implicit none(type,external)
 
@@ -48,7 +48,7 @@ module test_linalg_schur
         complex(sp) :: eigs(n)
         real(sp),dimension(n,n) :: a,t,z
         real(sp),allocatable :: storage(:)
-        type(linalg_state) :: err
+        type(la_state) :: err
         
         call random_number(a)
         
@@ -82,7 +82,7 @@ module test_linalg_schur
         real(sp),parameter :: rtol = 1.0e-4_sp
         real(sp),parameter :: eps = sqrt(epsilon(0.0_sp))
         real(sp),dimension(n,n) :: a,t,z
-        type(linalg_state) :: err
+        type(la_state) :: err
 
         call random_number(a)
 
@@ -105,7 +105,7 @@ module test_linalg_schur
         complex(dp) :: eigs(n)
         real(dp),dimension(n,n) :: a,t,z
         real(dp),allocatable :: storage(:)
-        type(linalg_state) :: err
+        type(la_state) :: err
         
         call random_number(a)
         
@@ -139,7 +139,7 @@ module test_linalg_schur
         real(dp),parameter :: rtol = 1.0e-4_dp
         real(dp),parameter :: eps = sqrt(epsilon(0.0_dp))
         real(dp),dimension(n,n) :: a,t,z
-        type(linalg_state) :: err
+        type(la_state) :: err
 
         call random_number(a)
 
@@ -162,7 +162,7 @@ module test_linalg_schur
         complex(qp) :: eigs(n)
         real(qp),dimension(n,n) :: a,t,z
         real(qp),allocatable :: storage(:)
-        type(linalg_state) :: err
+        type(la_state) :: err
         
         call random_number(a)
         
@@ -196,7 +196,7 @@ module test_linalg_schur
         real(qp),parameter :: rtol = 1.0e-4_qp
         real(qp),parameter :: eps = sqrt(epsilon(0.0_qp))
         real(qp),dimension(n,n) :: a,t,z
-        type(linalg_state) :: err
+        type(la_state) :: err
 
         call random_number(a)
 
@@ -220,7 +220,7 @@ module test_linalg_schur
         complex(sp),dimension(n,n) :: a,t,z
         complex(sp),allocatable :: storage(:)
         real(sp) :: rea(n,n),ima(n,n)
-        type(linalg_state) :: err
+        type(la_state) :: err
         
         call random_number(rea)
         call random_number(ima)
@@ -259,7 +259,7 @@ module test_linalg_schur
         complex(dp),dimension(n,n) :: a,t,z
         complex(dp),allocatable :: storage(:)
         real(dp) :: rea(n,n),ima(n,n)
-        type(linalg_state) :: err
+        type(la_state) :: err
         
         call random_number(rea)
         call random_number(ima)
@@ -298,7 +298,7 @@ module test_linalg_schur
         complex(qp),dimension(n,n) :: a,t,z
         complex(qp),allocatable :: storage(:)
         real(qp) :: rea(n,n),ima(n,n)
-        type(linalg_state) :: err
+        type(la_state) :: err
         
         call random_number(rea)
         call random_number(ima)
