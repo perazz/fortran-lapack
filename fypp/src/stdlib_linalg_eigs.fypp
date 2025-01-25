@@ -1,10 +1,13 @@
 #:include "common.fypp"
+#:set EIG_PROBLEM  = ["standard", "generalized"]
+#:set EIG_FUNCTION = ["geev","ggev"]
+#:set EIG_PROBLEM_LIST = list(zip(EIG_PROBLEM, EIG_FUNCTION))
 module la_eig
      use la_constants
      use la_blas
      use la_lapack
      use la_state_type
-     use iso_fortran_env,only:real32,real64,real128,int8,int16,int32,int64,stderr => error_unit
+     use, intrinsic :: ieee_arithmetic, only: ieee_value, ieee_positive_inf, ieee_quiet_nan
      implicit none(type,external)
      private
 
@@ -25,16 +28,23 @@ module la_eig
      !        eigenvalues = eigvalsh(a)
      ! Scipy: eigh(a, b=None, *, lower=True, eigvals_only=False, overwrite_a=False, overwrite_b=False, turbo=<object object>, eigvals=<object object>, type=1, check_finite=True, subset_by_index=None, subset_by_value=None, driver=None)
 
-     interface eig
+     interface eig        
+        #:for ep,ei in EIG_PROBLEM_LIST
         #:for rk,rt,ri in ALL_KINDS_TYPES
-        module procedure la_eig_${ri}$
+        module procedure la_eig_${ep}$_${ri}$
+        #:endfor
+        #:for rk,rt,ri in REAL_KINDS_TYPES
+        module procedure la_real_eig_${ep}$_${ri}$        
+        #:endfor
         #:endfor
      end interface eig
 
      interface eigvals
         #:for rk,rt,ri in ALL_KINDS_TYPES
-        module procedure la_eigvals_${ri}$
-        module procedure la_eigvals_noerr_${ri}$
+        #:for ep,ei in EIG_PROBLEM_LIST
+        module procedure la_eigvals_${ep}$_${ri}$
+        module procedure la_eigvals_noerr_${ep}$_${ri}$
+        #:endfor
         #:endfor
      end interface eigvals
      
@@ -51,36 +61,41 @@ module la_eig
         #:endfor                
      end interface eigvalsh
 
+     !> Utility function: Scale generalized eigenvalue
+     interface scale_general_eig
+        #:for rk,rt,ri in ALL_KINDS_TYPES
+        module procedure scale_general_eig_${ri}$
+        #:endfor
+     end interface scale_general_eig   
 
      character(*), parameter :: this = 'eigenvalues'
-
 
      contains
      
      !> Request for eigenvector calculation
-     elemental character function eigenvectors_flag(required)
+     elemental character function eigenvectors_task(required)
         logical(lk), intent(in) :: required
-        eigenvectors_flag = merge('V','N',required)
-     end function eigenvectors_flag
+        eigenvectors_task = merge('V','N',required)
+     end function eigenvectors_task
      
      !> Request for symmetry side (default: lower)
-     elemental character function symmetric_triangle(upper)
+     elemental character function symmetric_triangle_task(upper)
         logical(lk), optional, intent(in) :: upper
         if (present(upper)) then 
-           symmetric_triangle = merge('U','L',upper)
+           symmetric_triangle_task = merge('U','L',upper)
         else 
-           symmetric_triangle = 'L'
+           symmetric_triangle_task = 'L'
         endif
-     end function symmetric_triangle
+     end function symmetric_triangle_task
 
      !> Process GEEV output flags
-     elemental subroutine geev_info(err,info,m,n)
+     pure subroutine handle_geev_info(err,info,shapea)
         !> Error handler
         type(la_state), intent(inout) :: err
-        !> geev return flag
+        !> GEEV return flag
         integer(ilp), intent(in) :: info
         !> Input matrix size
-        integer(ilp), intent(in) :: m,n
+        integer(ilp), intent(in) :: shapea(2)
 
         select case (info)
            case (0)
@@ -91,7 +106,7 @@ module la_eig
            case (-2)
                err = la_state(this,LINALG_INTERNAL_ERROR,'Invalid task ID: right eigenvectors.')
            case (-5,-3)
-               err = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size: a=',[m,n])
+               err = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size: a=',shapea)
            case (-9)
                err = la_state(this,LINALG_VALUE_ERROR,'insufficient left vector matrix size.')
            case (-11)
@@ -104,8 +119,42 @@ module la_eig
                err = la_state(this,LINALG_INTERNAL_ERROR,'Unknown error returned by geev.')
         end select
 
-     end subroutine geev_info
+     end subroutine handle_geev_info
 
+     !> Process GGEV output flags
+     pure subroutine handle_ggev_info(err,info,shapea,shapeb)
+        !> Error handler
+        type(la_state), intent(inout) :: err
+        !> GEEV return flag
+        integer(ilp), intent(in) :: info
+        !> Input matrix size
+        integer(ilp), intent(in) :: shapea(2),shapeb(2)
+
+        select case (info)
+           case (0)
+               ! Success!
+               err%state = LINALG_SUCCESS
+           case (-1)
+               err = la_state(this,LINALG_INTERNAL_ERROR,'Invalid task ID: left eigenvectors.')
+           case (-2)
+               err = la_state(this,LINALG_INTERNAL_ERROR,'Invalid task ID: right eigenvectors.')
+           case (-5,-3)
+               err = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size: a=',shapea)
+           case (-7)
+               err = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size: b=',shapeb)               
+           case (-12)
+               err = la_state(this,LINALG_VALUE_ERROR,'insufficient left vector matrix size.')
+           case (-14)
+               err = la_state(this,LINALG_VALUE_ERROR,'insufficient right vector matrix size.')
+           case (-16)
+               err = la_state(this,LINALG_INTERNAL_ERROR,'Insufficient work array size.')
+           case (1:)
+               err = la_state(this,LINALG_ERROR,'Eigenvalue computation did not converge.')
+           case default
+               err = la_state(this,LINALG_INTERNAL_ERROR,'Unknown error returned by ggev.')
+        end select
+
+     end subroutine handle_ggev_info
 
      !> Process SYEV/HEEV output flags
      elemental subroutine heev_info(err,info,m,n)
@@ -137,22 +186,28 @@ module la_eig
      end subroutine heev_info
 
      #:for rk,rt,ri in ALL_KINDS_TYPES
+     #:for ep,ei in EIG_PROBLEM_LIST
 
-     !> Return an array of eigenvalues of matrix A.
-     function la_eigvals_${ri}$(a,err) result(lambda)
+     function la_eigvals_${ep}$_${ri}$(a#{if ei=='ggev'}#,b#{endif}#,err) result(lambda)
+     !! Return an array of eigenvalues of matrix A.
          !> Input matrix A[m,n]
-         ${rt}$, intent(in), target :: a(:,:)
+         ${rt}$, intent(in), dimension(:,:), target :: a 
+         #:if ei=='ggev'
+         !> Generalized problem matrix B[n,n]
+         ${rt}$, intent(inout), dimension(:,:), target :: b         
+         #:endif                  
          !> [optional] state return flag. On error if not requested, the code will stop
          type(la_state), intent(out) :: err
-         !> Array of singular values
+         !> Array of eigenvalues
          complex(${rk}$), allocatable :: lambda(:)
 
          !> Create
-         ${rt}$, pointer :: amat(:,:)
+         ${rt}$, pointer, dimension(:,:) :: amat#{if ei=='ggev'}#, bmat #{endif}#
          integer(ilp) :: m,n,k
 
          !> Create an internal pointer so the intent of A won't affect the next call
          amat => a
+         #{if ei=='ggev'}#bmat => b#{endif}#
 
          m   = size(a,1,kind=ilp)
          n   = size(a,2,kind=ilp)
@@ -162,23 +217,28 @@ module la_eig
          allocate(lambda(k))
 
          !> Compute eigenvalues only
-         call la_eig_${ri}$(amat,lambda,overwrite_a=.false.,err=err)
+         call la_eig_${ep}$_${ri}$(amat#{if ei=='ggev'}#,bmat#{endif}#,lambda,err=err)
 
-     end function la_eigvals_${ri}$
+     end function la_eigvals_${ep}$_${ri}$
 
-     !> Return an array of eigenvalues of matrix A.
-     function la_eigvals_noerr_${ri}$(a) result(lambda)
+     function la_eigvals_noerr_${ep}$_${ri}$(a#{if ei=='ggev'}#,b#{endif}#) result(lambda)
+     !! Return an array of eigenvalues of matrix A.
          !> Input matrix A[m,n]
-         ${rt}$, intent(in), target :: a(:,:)
-         !> Array of singular values
+         ${rt}$, intent(in), dimension(:,:), target :: a
+         #:if ei=='ggev'
+         !> Generalized problem matrix B[n,n]
+         ${rt}$, intent(inout), dimension(:,:), target :: b         
+         #:endif         
+         !> Array of eigenvalues
          complex(${rk}$), allocatable :: lambda(:)
 
          !> Create
-         ${rt}$, pointer :: amat(:,:)
+         ${rt}$, pointer, dimension(:,:) :: amat#{if ei=='ggev'}#, bmat #{endif}#
          integer(ilp) :: m,n,k
 
          !> Create an internal pointer so the intent of A won't affect the next call
          amat => a
+         #{if ei=='ggev'}#bmat => b#{endif}#
 
          m   = size(a,1,kind=ilp)
          n   = size(a,2,kind=ilp)
@@ -188,36 +248,52 @@ module la_eig
          allocate(lambda(k))
 
          !> Compute eigenvalues only
-         call la_eig_${ri}$(amat,lambda,overwrite_a=.false.)
+         call la_eig_${ep}$_${ri}$(amat#{if ei=='ggev'}#,bmat#{endif}#,lambda,overwrite_a=.false.)
 
-     end function la_eigvals_noerr_${ri}$
+     end function la_eigvals_noerr_${ep}$_${ri}$
 
-     !> Eigendecomposition of matrix A returning an array `lambda` of eigenvalues, 
-     !> and optionally right or left eigenvectors.
-     subroutine la_eig_${ri}$(a,lambda,right,left,overwrite_a,err)
+     subroutine la_eig_${ep}$_${ri}$(a#{if ei=='ggev'}#,b#{endif}#,lambda,right,left,&
+                                                       overwrite_a#{if ei=='ggev'}#,overwrite_b#{endif}#,err)
+     !! Eigendecomposition of matrix A returning an array `lambda` of eigenvalues, 
+     !! and optionally right or left eigenvectors.        
          !> Input matrix A[m,n]
-         ${rt}$, intent(inout), target :: a(:,:)
+         ${rt}$, intent(inout), dimension(:,:), target :: a 
+         #:if ei=='ggev'
+         !> Generalized problem matrix B[n,n]
+         ${rt}$, intent(inout), dimension(:,:), target :: b         
+         #:endif         
          !> Array of eigenvalues
          complex(${rk}$), intent(out) :: lambda(:)
-         !> The columns of RIGHT contain the right eigenvectors of A
+         !> [optional] RIGHT eigenvectors of A (as columns)
          complex(${rk}$), optional, intent(out), target :: right(:,:)
-         !> The columns of LEFT contain the left eigenvectors of A
+         !> [optional] LEFT eigenvectors of A (as columns)
          complex(${rk}$), optional, intent(out), target :: left(:,:)
-         !> [optional] Can A data be overwritten and destroyed?
+         !> [optional] Can A data be overwritten and destroyed? (default: no)
          logical(lk), optional, intent(in) :: overwrite_a
+         #:if ei=='ggev'
+         !> [optional] Can B data be overwritten and destroyed? (default: no)
+         logical(lk), optional, intent(in) :: overwrite_b
+         #:endif
          !> [optional] state return flag. On error if not requested, the code will stop
          type(la_state), optional, intent(out) :: err
 
          !> Local variables
          type(la_state) :: err0
-         integer(ilp) :: m,n,lda,ldu,ldv,info,k,lwork,lrwork,neig
-         logical(lk) :: copy_a
+         integer(ilp) :: m,n,lda,ldu,ldv,info,k,lwork,neig#{if ei=='ggev'}#,ldb,nb#{endif}#
+         logical(lk) :: copy_a#{if ei=='ggev'}#,copy_b#{endif}#
          character :: task_u,task_v
          ${rt}$, target :: work_dummy(1),u_dummy(1,1),v_dummy(1,1)
          ${rt}$, allocatable :: work(:)
+         ${rt}$, dimension(:,:), pointer :: amat,umat,vmat#{if ei=='ggev'}#,bmat#{endif}#
+         #:if rt.startswith('complex')
          real(${rk}$), allocatable :: rwork(:)
-         ${rt}$, pointer :: amat(:,:),lreal(:),limag(:),umat(:,:),vmat(:,:)
-
+         #:else
+         ${rt}$, pointer :: lreal(:),limag(:)
+         #:endif
+         #:if ei=='ggev'
+         ${rt}$, allocatable :: beta(:)
+         #:endif
+         
          !> Matrix size
          m    = size(a,1,kind=ilp)
          n    = size(a,2,kind=ilp)
@@ -225,27 +301,34 @@ module la_eig
          neig = size(lambda,kind=ilp) 
          lda  = m
 
-         if (.not.(k>0 .and. m==n)) then
-            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or matrix size a=',[m,n], &
-                                                        ', must be square.')
+         if (k<=0 .or. m/=n) then
+            err0 = la_state(this,LINALG_VALUE_ERROR,&
+                                          'invalid or matrix size a=',[m,n],', must be nonempty square.')
             call err0%handle(err)
             return
-         end if
-
-         if (.not.neig>=k) then
-            err0 = la_state(this,LINALG_VALUE_ERROR,'eigenvalue array has insufficient size:',&
-                                                        ' lambda=',neig,', n=',n)
+         elseif (neig<k) then
+            err0 = la_state(this,LINALG_VALUE_ERROR,&
+                                          'eigenvalue array has insufficient size:',&
+                                          ' lambda=',neig,', n=',n)
             call err0%handle(err)
             return
          endif
+         
+         #:if ep=='generalized'
+         ldb = size(b,1,kind=ilp)
+         nb  = size(b,2,kind=ilp)
+         if (ldb/=n .or. nb/=n) then 
+            err0 = la_state(this,LINALG_VALUE_ERROR,&
+                                          'invalid or matrix size b=',[ldb,nb],', must be same as a=',[m,n])
+            call err0%handle(err)
+            return            
+         end if         
+         #:endif
 
          ! Can A be overwritten? By default, do not overwrite
-         if (present(overwrite_a)) then
-            copy_a = .not.overwrite_a
-         else
-            copy_a = .true._lk
-         endif
-
+         copy_a = .true._lk
+         if (present(overwrite_a)) copy_a = .not.overwrite_a
+         
          ! Initialize a matrix temporary
          if (copy_a) then
             allocate(amat(m,n),source=a)
@@ -253,15 +336,33 @@ module la_eig
             amat => a
          endif
 
+         #:if ep=='generalized'
+         ! Can B be overwritten? By default, do not overwrite
+         copy_b = .true._lk
+         if (present(overwrite_b)) copy_b = .not.overwrite_b        
+         
+         ! Initialize a matrix temporary
+         if (copy_b) then
+            allocate(bmat,source=b)
+         else
+            bmat => b
+         endif       
+         allocate(beta(n))
+         #:endif
+
          ! Decide if U, V eigenvectors
-         task_u = eigenvectors_flag(present(left))
-         task_v = eigenvectors_flag(present(right))         
+         task_u = eigenvectors_task(present(left))
+         task_v = eigenvectors_task(present(right))         
          
          if (present(right)) then 
-            
+                        
             #:if rt.startswith('complex')
+            ! For a complex matrix, GEEV returns complex arrays. 
+            ! Point directly to output.
             vmat => right
             #:else
+            ! For a real matrix, GEEV returns real arrays. 
+            ! Allocate temporary reals, will be converted to complex vectors at the end.
             allocate(vmat(n,n))
             #:endif            
             
@@ -269,7 +370,6 @@ module la_eig
                err0 = la_state(this,LINALG_VALUE_ERROR,&
                                         'right eigenvector matrix has insufficient size: ',&
                                         shape(vmat),', with n=',n)
-               goto 2
             endif  
             
          else
@@ -279,77 +379,108 @@ module la_eig
          if (present(left)) then
             
             #:if rt.startswith('complex')
+            ! For a complex matrix, GEEV returns complex arrays. 
+            ! Point directly to output.
             umat => left
             #:else
+            ! For a real matrix, GEEV returns real arrays. 
+            ! Allocate temporary reals, will be converted to complex vectors at the end.
             allocate(umat(n,n))
-            #:endif
-            
+            #:endif                             
+
             if (size(umat,2,kind=ilp)<n) then 
                err0 = la_state(this,LINALG_VALUE_ERROR,&
                                         'left eigenvector matrix has insufficient size: ',&
                                         shape(umat),', with n=',n)
-               goto 2
-            endif            
+            endif                
             
          else
             umat => u_dummy
          endif
-
-         ldu = size(umat,1,kind=ilp)
-         ldv = size(vmat,1,kind=ilp)
-
-         ! Compute workspace size
-         #:if rt.startswith('complex')
-         allocate(rwork(2*n))
-         #:else
-         allocate(lreal(n),limag(n))
-         #:endif
-
-         lwork = -1_ilp
-        
-         call geev(task_u,task_v,n,amat,lda,&
-                   #{if rt.startswith('complex')}#lambda,#{else}#lreal,limag,#{endif}#  &
-                   umat,ldu,vmat,ldv,&
-                   work_dummy,lwork,#{if rt.startswith('complex')}#rwork,#{endif}#info)
-         call geev_info(err0,info,m,n)
-
-         ! Compute eigenvalues
-         if (info==0) then
-
-            !> Prepare working storage
-            lwork = nint(real(work_dummy(1),kind=${rk}$), kind=ilp)
-            allocate(work(lwork))
-
-            !> Compute eigensystem
-            call geev(task_u,task_v,n,amat,lda,&
-                      #{if rt.startswith('complex')}#lambda,#{else}#lreal,limag,#{endif}#  &
-                      umat,ldu,vmat,ldv,&            
-                      work,lwork,#{if rt.startswith('complex')}#rwork,#{endif}#info)
-            call geev_info(err0,info,m,n)
-
-         endif
          
-         ! Finalize storage and process output flag
-         #:if not rt.startswith('complex')
-         lambda(:n) = cmplx(lreal(:n),limag(:n),kind=${rk}$) 
+         get_${ei}$: if (err0%ok()) then 
+
+             ldu = size(umat,1,kind=ilp)
+             ldv = size(vmat,1,kind=ilp)
+
+             ! Compute workspace size
+             #:if rt.startswith('complex')
+             allocate(rwork(2*n))
+             #:else
+             allocate(lreal(n),limag(n))
+             #:endif
+
+             lwork = -1_ilp
+            
+             call ${ei}$(task_u,task_v,n,amat,lda,&
+                       #:if ep=='generalized'
+                       bmat,ldb, &
+                       #:endif
+                       #{if rt.startswith('complex')}#lambda,#{else}#lreal,limag,#{endif}#  &
+                       #:if ep=='generalized'
+                       beta, &
+                       #:endif                       
+                       umat,ldu,vmat,ldv,&
+                       work_dummy,lwork,#{if rt.startswith('complex')}#rwork,#{endif}#info)
+             call handle_${ei}$_info(err0,info,shape(amat)#{if ei=='ggev'}#,shape(bmat)#{endif}#)
+
+             ! Compute eigenvalues
+             if (info==0) then
+
+                !> Prepare working storage
+                lwork = nint(real(work_dummy(1),kind=${rk}$), kind=ilp)
+                allocate(work(lwork))
+
+                !> Compute eigensystem
+                call ${ei}$(task_u,task_v,n,amat,lda,&
+                          #:if ep=='generalized'
+                          bmat,ldb, &
+                          #:endif
+                          #{if rt.startswith('complex')}#lambda,#{else}#lreal,limag,#{endif}#  &
+                          #:if ep=='generalized'
+                          beta, &
+                          #:endif                                                 
+                          umat,ldu,vmat,ldv,&            
+                          work,lwork,#{if rt.startswith('complex')}#rwork,#{endif}#info)
+                call handle_${ei}$_info(err0,info,shape(amat)#{if ei=='ggev'}#,shape(bmat)#{endif}#)
+
+             endif
+             
+             ! Finalize storage and process output flag
+             #:if not rt.startswith('complex')
+             lambda(:n) = cmplx(lreal(:n),limag(:n),kind=${rk}$) 
+             #:endif
+             
+             #:if ep=='generalized'
+             ! Scale generalized eigenvalues
+             lambda(:n) = scale_general_eig(lambda(:n),beta)
+             #:endif
+             
+             #:if not rt.startswith('complex')
+             ! If the j-th and (j+1)-st eigenvalues form a complex conjugate pair, 
+             ! ${ei}$ returns reals as: 
+             ! u(j)   = VL(:,j) + i*VL(:,j+1) and
+             ! u(j+1) = VL(:,j) - i*VL(:,j+1). 
+             ! Convert these to complex numbers here.            
+             if (present(right)) call assign_real_eigenvectors_${rk}$(n,lambda,vmat,right)
+             if (present(left))  call assign_real_eigenvectors_${rk}$(n,lambda,umat,left)
+             #:endif
          
-         ! If the j-th and (j+1)-st eigenvalues form a complex conjugate pair, 
-         ! geev returns reals as: 
-         ! u(j)   = VL(:,j) + i*VL(:,j+1) and
-         ! u(j+1) = VL(:,j) - i*VL(:,j+1). 
-         ! Convert these to complex numbers here.            
-         if (present(right)) call assign_real_eigenvectors_${rk}$(n,lambda,vmat,right)
-         if (present(left))  call assign_real_eigenvectors_${rk}$(n,lambda,umat,left)
-         #:endif
+         endif get_${ei}$
          
-         2 if (copy_a) deallocate(amat)
+         if (copy_a) deallocate(amat)
+         #:if ep=='generalized'
+         if (copy_b) deallocate(bmat)
+         #:endif         
          #:if not rt.startswith('complex')
          if (present(right)) deallocate(vmat)
          if (present(left)) deallocate(umat)
-         #:endif  
+         #:endif           
          call err0%handle(err)
 
-     end subroutine la_eig_${ri}$
+     end subroutine la_eig_${ep}$_${ri}$
+     
+     #:endfor
      
      !> Return an array of eigenvalues of real symmetric / complex hermitian A
      function la_eigvalsh_${ri}$(a,upper_a,err) result(lambda)
@@ -464,10 +595,10 @@ module la_eig
          endif        
          
          ! Should we use the upper or lower half of the matrix?
-         triangle = symmetric_triangle(upper_a)
+         triangle = symmetric_triangle_task(upper_a)
          
          ! Request for eigenvectors
-         task = eigenvectors_flag(present(vectors))
+         task = eigenvectors_task(present(vectors))
          
          if (present(vectors)) then 
             
@@ -566,7 +697,88 @@ module la_eig
         end do           
         
      end subroutine assign_real_eigenvectors_${rk}$
+     
+     #:for ep,ei in EIG_PROBLEM_LIST
+     subroutine la_real_eig_${ep}$_${ri}$(a#{if ei=='ggev'}#,b#{endif}#,lambda,right,left, &
+                                                            overwrite_a#{if ei=='ggev'}#,overwrite_b#{endif}#,err)
+      !! Eigendecomposition of matrix A returning an array `lambda` of real eigenvalues, 
+      !! and optionally right or left eigenvectors. Returns an error if the eigenvalues had
+      !! non-trivial imaginary parts.
+          !> Input matrix A[m,n]
+          ${rt}$, intent(inout), target :: a(:,:)
+          #:if ei=='ggev'
+          !> Generalized problem matrix B[n,n]
+          ${rt}$, intent(inout), target :: b(:,:)  
+          #:endif          
+          !> Array of real eigenvalues
+          real(${rk}$), intent(out) :: lambda(:)
+          !> The columns of RIGHT contain the right eigenvectors of A
+          complex(${rk}$), optional, intent(out), target :: right(:,:)
+          !> The columns of LEFT contain the left eigenvectors of A
+          complex(${rk}$), optional, intent(out), target :: left(:,:)
+          !> [optional] Can A data be overwritten and destroyed?
+          logical(lk), optional, intent(in) :: overwrite_a
+          #:if ei=='ggev'
+          !> [optional] Can B data be overwritten and destroyed? (default: no)
+          logical(lk), optional, intent(in) :: overwrite_b
+          #:endif                   
+          !> [optional] state return flag. On error if not requested, the code will stop
+          type(la_state), optional, intent(out) :: err
+          
+          type(la_state) :: err0
+          integer(ilp) :: n
+          complex(${rk}$), allocatable :: clambda(:)
+          real(${rk}$), parameter :: rtol = epsilon(0.0_${rk}$)
+          real(${rk}$), parameter :: atol = tiny(0.0_${rk}$)
+          
+          n = size(lambda,dim=1,kind=ilp)
+          allocate(clambda(n))
+          
+          call la_eig_${ep}$_${ri}$(a#{if ei=='ggev'}#,b#{endif}#,clambda,right,left, &
+                                                 overwrite_a#{if ei=='ggev'}#,overwrite_b#{endif}#,err0)          
+          
+          ! Check that no eigenvalues have meaningful imaginary part
+          if (err0%ok() .and. any(aimag(clambda)>atol+rtol*abs(abs(clambda)))) then 
+             err0 = la_state(this,LINALG_VALUE_ERROR, &
+                             'complex eigenvalues detected: max(imag(lambda))=',maxval(aimag(clambda)))
+          endif
+          
+          ! Return real components only
+          lambda(:n) = real(clambda,kind=${rk}$)
+          
+          call err0%handle(err)
+          
+     end subroutine la_real_eig_${ep}$_${ri}$    
+     
+     #:endfor         
      #:endfor
 
+     #:for rk,rt,ri in ALL_KINDS_TYPES
+     !> Utility function: Scale generalized eigenvalue
+     elemental complex(${rk}$) function scale_general_eig_${ri}$(alpha,beta) result(lambda)
+         !! A generalized eigenvalue for a pair of matrices (A,B) is a scalar lambda or a ratio
+         !! alpha/beta = lambda, such that A - lambda*B is singular. It is usually represented as the
+         !! pair (alpha,beta), there is a reasonable interpretation for beta=0, and even for both
+         !! being zero.
+         complex(${rk}$), intent(in) :: alpha
+         ${rt}$,          intent(in) :: beta
+         
+         real   (${rk}$), parameter :: rzero = 0.0_${rk}$
+         complex(${rk}$), parameter :: czero = (0.0_${rk}$,0.0_${rk}$)
+         
+         if (beta==#{if rt.startswith('real')}#r#{else}#c#{endif}#zero) then 
+            if (alpha/=czero) then 
+                lambda = cmplx(ieee_value(1.0_${rk}$, ieee_positive_inf), &
+                               ieee_value(1.0_${rk}$, ieee_positive_inf), kind=${rk}$)
+            else
+                lambda = ieee_value(1.0_${rk}$, ieee_quiet_nan)
+            end if            
+         else
+            lambda = alpha/beta
+         end if
+         
+     end function scale_general_eig_${ri}$  
+     
+     #:endfor   
 
 end module la_eig
