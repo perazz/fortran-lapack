@@ -49454,14 +49454,10 @@ module la_lapack_w
            istop = ihi
            maxit = 30*( ihi-ilo+1 )
            ld = 0
-           do iiter = 1, maxit
-              if( iiter >= maxit ) then
-                 info = istop+1
-                 goto 80
-              end if
+           iterations: do iiter = 1, maxit-1
               if ( istart+1 >= istop ) then
                  istop = istart
-                 exit
+                 exit iterations
               end if
               ! check deflations at the end
               if ( abs( a( istop, istop-1 ) ) <= max( smlnum,ulp*( abs( a( istop, istop ) )+abs( &
@@ -49479,9 +49475,8 @@ module la_lapack_w
                  ld = 0
                  eshift = czero
               end if
-              if ( istart+1 >= istop ) then
-                 exit
-              end if
+              if ( istart+1 >= istop ) exit iterations
+
               ! check interior deflations
               istart2 = istart
               do k = istop, istart+1, -1
@@ -49489,7 +49484,7 @@ module la_lapack_w
                            ) ) ) ) then
                     a( k, k-1 ) = czero
                     istart2 = k
-                    exit
+                    exit iterations
                  end if
               end do
               ! get range to apply rotations to
@@ -49564,7 +49559,7 @@ module la_lapack_w
                  istop = istart2-1
                  ld = 0
                  eshift = czero
-                 cycle
+                 cycle iterations
               end if
               nw = nwr
               nshifts = nsr
@@ -49589,12 +49584,11 @@ module la_lapack_w
                  ld = 0
                  eshift = czero
               end if
-              if ( 100*n_qeflated > nibble*( n_qeflated+n_undeflated ) .or.istop-istart2+1 < nmin &
-                        ) then
-                 ! aed has uncovered many eigenvalues. skip a qz sweep and run
-                 ! aed again.
-                 cycle
-              end if
+              
+              ! aed has uncovered many eigenvalues. skip a qz sweep and run aed again.
+              if (100*n_deflated > nibble*( n_deflated+n_undeflated ) .or.istop-istart2+1 < nmin) &
+                 cycle iterations              
+              
               ld = ld+1
               ns = min( nshifts, istop-istart2 )
               ns = min( ns, n_undeflated )
@@ -49615,12 +49609,15 @@ module la_lapack_w
               call la_wlaqz3( ilschur, ilq, ilz, n, istart2, istop, ns, nblock,alpha( &
               shiftpos ), beta( shiftpos ), a, lda, b,ldb, q, ldq, z, ldz, work, nblock, work( &
                         nblock**2+1 ), nblock, work( 2*nblock**2+1 ),lwork-2*nblock**2, sweep_info )
-           end do
+           end do iterations
+           
+           if ( iiter >= maxit ) info = istop+1
+           
            ! call la_whgeqz to normalize the eigenvalue blocks and set the eigenvalues
            ! if all the eigenvalues have been found, la_whgeqz will not do any iterations
            ! and only normalize the blocks. in case of a rare convergence failure,
            ! the single shift might perform better.
-        80 call la_whgeqz( wants, wantq, wantz, n, ilo, ihi, a, lda, b, ldb,alpha, beta, q, &
+           call la_whgeqz( wants, wantq, wantz, n, ilo, ihi, a, lda, b, ldb,alpha, beta, q, &
                   ldq, z, ldz, work, lwork, rwork,norm_info )
            info = norm_info
      end subroutine la_wlaqz0
