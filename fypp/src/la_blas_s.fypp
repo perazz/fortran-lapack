@@ -453,7 +453,7 @@ module la_blas_s
            intrinsic :: real
            dsdot = sb
            if (n<=0) then
-              la_sdsdot = dsdot
+              la_sdsdot = real(dsdot,KIND=sp)
               return
            end if
            if (incx==incy .and. incx>0) then
@@ -474,7 +474,7 @@ module la_blas_s
                  ky = ky + incy
               end do
            end if
-           la_sdsdot = dsdot
+           la_sdsdot = real(dsdot,KIND=sp)
            return
      end function la_sdsdot
 
