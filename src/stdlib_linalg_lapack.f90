@@ -1,13 +1,13 @@
-module la_linalg_lapack
-     use la_linalg_constants
-     use la_linalg_blas
-     use la_linalg_lapack_aux
-     use la_linalg_lapack_s
-     use la_linalg_lapack_d
-     use la_linalg_lapack_q
-     use la_linalg_lapack_c
-     use la_linalg_lapack_z
-     use la_linalg_lapack_w
+module la_lapack
+     use la_constants
+     use la_blas
+     use la_lapack_aux
+     use la_lapack_s
+     use la_lapack_d
+     use la_lapack_q
+     use la_lapack_c
+     use la_lapack_z
+     use la_lapack_w
      implicit none(type,external)
      public
 
@@ -26922,4 +26922,4 @@ module la_linalg_lapack
 #endif
           end interface upmtr
 
-end module la_linalg_lapack
+end module la_lapack

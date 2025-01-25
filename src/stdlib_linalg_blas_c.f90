@@ -1,7 +1,7 @@
-module la_linalg_blas_c
-     use la_linalg_constants
-     use la_linalg_blas_aux
-     use la_linalg_blas_s
+module la_blas_c
+     use la_constants
+     use la_blas_aux
+     use la_blas_s
      implicit none(type,external)
      private
 
@@ -5040,4 +5040,4 @@ module la_linalg_blas_c
            return
      end subroutine la_ctrsv
 
-end module la_linalg_blas_c
+end module la_blas_c

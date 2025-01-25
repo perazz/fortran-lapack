@@ -1,9 +1,9 @@
 #:include "common.fypp"
-module stdlib_linalg_svd
-     use stdlib_linalg_constants
-     use stdlib_linalg_blas
-     use stdlib_linalg_lapack
-     use stdlib_linalg_state
+module la_svd
+     use la_constants
+     use la_blas
+     use la_lapack
+     use la_state
      use iso_fortran_env,only:real32,real64,real128,int8,int16,int32,int64,stderr => error_unit
      implicit none(type,external)
      private
@@ -18,13 +18,13 @@ module stdlib_linalg_svd
 
      interface svd
         #:for rk,rt,ri in ALL_KINDS_TYPES
-        module procedure stdlib_linalg_svd_${ri}$
+        module procedure la_svd_${ri}$
         #:endfor
      end interface svd
 
      interface svdvals
         #:for rk,rt,ri in ALL_KINDS_TYPES
-        module procedure stdlib_linalg_svdvals_${ri}$
+        module procedure la_svdvals_${ri}$
         #:endfor
      end interface svdvals
 
@@ -80,7 +80,7 @@ module stdlib_linalg_svd
      #:for rk,rt,ri in ALL_KINDS_TYPES
 
      !> Singular values of matrix A
-     function stdlib_linalg_svdvals_${ri}$(a,err) result(s)
+     function la_svdvals_${ri}$(a,err) result(s)
          !> Input matrix A[m,n]
          ${rt}$, intent(in), target :: a(:,:)
          !> [optional] state return flag. On error if not requested, the code will stop
@@ -103,12 +103,12 @@ module stdlib_linalg_svd
          allocate(s(k))
 
          !> Compute singular values
-         call stdlib_linalg_svd_${ri}$(amat,s,overwrite_a=.false.,err=err)
+         call la_svd_${ri}$(amat,s,overwrite_a=.false.,err=err)
 
-     end function stdlib_linalg_svdvals_${ri}$
+     end function la_svdvals_${ri}$
 
      !> SVD of matrix A = U S V^T, returning S and optionally U and V^T
-     subroutine stdlib_linalg_svd_${ri}$(a,s,u,vt,overwrite_a,full_matrices,err)
+     subroutine la_svd_${ri}$(a,s,u,vt,overwrite_a,full_matrices,err)
          !> Input matrix A[m,n]
          ${rt}$, intent(inout), target :: a(:,:)
          !> Array of singular values
@@ -270,7 +270,7 @@ module stdlib_linalg_svd
          if (alloc_vt)  deallocate(vtmat)
          1 call linalg_error_handling(err0,err)
 
-     end subroutine stdlib_linalg_svd_${ri}$
+     end subroutine la_svd_${ri}$
      #:endfor
 
-end module stdlib_linalg_svd
+end module la_svd

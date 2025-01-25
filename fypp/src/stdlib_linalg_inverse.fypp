@@ -1,10 +1,10 @@
 #:include "common.fypp"
 ! Compute matrix inverse
-module stdlib_linalg_inverse
-     use stdlib_linalg_constants
-     use stdlib_linalg_blas
-     use stdlib_linalg_lapack
-     use stdlib_linalg_state
+module la_inverse
+     use la_constants
+     use la_blas
+     use la_lapack
+     use la_state
      use iso_fortran_env,only:real32,real64,real128,int8,int16,int32,int64,stderr => error_unit
      implicit none(type,external)
      private
@@ -23,21 +23,21 @@ module stdlib_linalg_inverse
      ! Function interface
      interface inv
         #:for rk,rt,ri in ALL_KINDS_TYPES
-        module procedure stdlib_linalg_inverse_${ri}$
+        module procedure la_inverse_${ri}$
         #:endfor
      end interface inv
 
      ! Subroutine interface: in-place factorization
      interface invert
         #:for rk,rt,ri in ALL_KINDS_TYPES
-        module procedure stdlib_linalg_invert_${ri}$
+        module procedure la_invert_${ri}$
         #:endfor
      end interface invert
 
      ! Operator interface
      interface operator(.inv.)
         #:for rk,rt,ri in ALL_KINDS_TYPES
-        module procedure stdlib_linalg_inverse_${ri}$_operator
+        module procedure la_inverse_${ri}$_operator
         #:endfor
      end interface operator(.inv.)
 
@@ -46,7 +46,7 @@ module stdlib_linalg_inverse
      #:for rk,rt,ri in ALL_KINDS_TYPES
 
      ! Compute the in-place square matrix inverse of a
-     subroutine stdlib_linalg_invert_${ri}$(a,err)
+     subroutine la_invert_${ri}$(a,err)
          !> Input matrix a[n,n]
          ${rt}$,                     intent(inout) :: a(:,:)
          !> [optional] state return flag. On error if not requested, the code will stop
@@ -78,7 +78,7 @@ module stdlib_linalg_inverse
          if (info==0) then
 
             ! Get optimal worksize (returned in work(1)) (apply 2% safety parameter)
-            nb = stdlib_ilaenv(1,'${ri}$getri',' ',n,-1,-1,-1)
+            nb = la_ilaenv(1,'${ri}$getri',' ',n,-1,-1,-1)
             lwork = nint(1.02*n*nb,kind=ilp)
 
             allocate(work(lwork))
@@ -103,10 +103,10 @@ module stdlib_linalg_inverse
          ! Process output and return
          1 call linalg_error_handling(err0,err)
 
-     end subroutine stdlib_linalg_invert_${ri}$
+     end subroutine la_invert_${ri}$
 
      ! Invert matrix in place
-     function stdlib_linalg_inverse_${ri}$(a,err) result(inva)
+     function la_inverse_${ri}$(a,err) result(inva)
          !> Input matrix a[n,n]
          ${rt}$, intent(in) :: a(:,:)
          !> Output matrix inverse
@@ -118,12 +118,12 @@ module stdlib_linalg_inverse
          allocate(inva,source=a)
 
          !> Compute matrix inverse
-         call stdlib_linalg_invert_${ri}$(inva,err)
+         call la_invert_${ri}$(inva,err)
 
-     end function stdlib_linalg_inverse_${ri}$
+     end function la_inverse_${ri}$
 
      ! Inverse matrix operator
-     function stdlib_linalg_inverse_${ri}$_operator(a) result(inva)
+     function la_inverse_${ri}$_operator(a) result(inva)
          !> Input matrix a[n,n]
          ${rt}$, intent(in) :: a(:,:)
          !> Result matrix
@@ -131,7 +131,7 @@ module stdlib_linalg_inverse
 
          type(linalg_state) :: err
 
-         inva = stdlib_linalg_inverse_${ri}$(a,err)
+         inva = la_inverse_${ri}$(a,err)
 
          ! On error, return an empty matrix
          if (err%error()) then
@@ -139,8 +139,8 @@ module stdlib_linalg_inverse
             allocate(inva(0,0))
          endif
 
-     end function stdlib_linalg_inverse_${ri}$_operator
+     end function la_inverse_${ri}$_operator
 
      #:endfor
 
-end module stdlib_linalg_inverse
+end module la_inverse

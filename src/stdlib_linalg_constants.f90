@@ -1,4 +1,4 @@
-module la_linalg_constants
+module la_constants
      use iso_fortran_env,only:real32,real64,real128,int32,int64
      use,intrinsic :: ieee_arithmetic,only:ieee_is_nan
 #if defined(_OPENMP)
@@ -15,4 +15,4 @@ module la_linalg_constants
      integer,parameter :: ilp = int32
      private :: int32,int64
 
-end module la_linalg_constants
+end module la_constants

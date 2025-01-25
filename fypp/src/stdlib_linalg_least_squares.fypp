@@ -1,9 +1,9 @@
 #:include "common.fypp"
-module stdlib_linalg_least_squares
-     use stdlib_linalg_constants
-     use stdlib_linalg_blas
-     use stdlib_linalg_lapack
-     use stdlib_linalg_state
+module la_least_squares
+     use la_constants
+     use la_blas
+     use la_lapack
+     use la_state
      use iso_fortran_env,only:real32,real64,real128,int8,int16,int32,int64,stderr => error_unit
      implicit none(type,external)
      private
@@ -18,7 +18,7 @@ module stdlib_linalg_least_squares
      interface lstsq
         #:for nd,ndsuf,nde in ALL_RANKS
         #:for rk,rt,ri in ALL_KINDS_TYPES
-        module procedure stdlib_linalg_${ri}$lstsq${ndsuf}$
+        module procedure la_${ri}$lstsq${ndsuf}$
         #:endfor
         #:endfor
      end interface lstsq
@@ -37,7 +37,7 @@ module stdlib_linalg_least_squares
          mnmin = min(m,n)
 
          ! Maximum size of the subproblems at the bottom of the computation (~25)
-         smlsiz = stdlib_ilaenv(9,'${ri}$gelsd',' ',0,0,0,0)
+         smlsiz = la_ilaenv(9,'${ri}$gelsd',' ',0,0,0,0)
 
          ! The exact minimum amount of workspace needed depends on M, N and NRHS. As long as LWORK is at least
          nlvl = max(0, ilog2(mnmin/(smlsiz+1))+1)
@@ -69,7 +69,7 @@ module stdlib_linalg_least_squares
      #:for rk,rt,ri in ALL_KINDS_TYPES
 
      ! Compute the least-squares solution to a real system of linear equations Ax = B
-     function stdlib_linalg_${ri}$lstsq${ndsuf}$(a,b,cond,overwrite_a,rank,err) result(x)
+     function la_${ri}$lstsq${ndsuf}$(a,b,cond,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          ${rt}$,                     intent(inout), target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
@@ -180,7 +180,7 @@ module stdlib_linalg_least_squares
          1 call linalg_error_handling(err0,err)
          if (present(rank)) rank = arank
 
-     end function stdlib_linalg_${ri}$lstsq${ndsuf}$
+     end function la_${ri}$lstsq${ndsuf}$
 
      #:endfor
      #:endfor
@@ -203,4 +203,4 @@ module stdlib_linalg_least_squares
         endif
      end function ilog2
 
-end module stdlib_linalg_least_squares
+end module la_least_squares

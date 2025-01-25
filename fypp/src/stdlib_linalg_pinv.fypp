@@ -1,11 +1,11 @@
 #:include "common.fypp"
 ! Compute the (Moore-Penrose) pseudo-inverse of a matrix.
-module stdlib_linalg_pseudoinverse
-     use stdlib_linalg_constants
-     use stdlib_linalg_blas
-     use stdlib_linalg_lapack
-     use stdlib_linalg_state
-     use stdlib_linalg_svd, only: svd
+module la_pseudoinverse
+     use la_constants
+     use la_blas
+     use la_lapack
+     use la_state
+     use la_svd, only: svd
      use iso_fortran_env,only:real32,real64,real128,int8,int16,int32,int64,stderr => error_unit
      implicit none(type,external)
      private
@@ -20,21 +20,21 @@ module stdlib_linalg_pseudoinverse
      ! Function interface
      interface pinv
         #:for rk,rt,ri in ALL_KINDS_TYPES
-        module procedure stdlib_linalg_pseudoinverse_${ri}$
+        module procedure la_pseudoinverse_${ri}$
         #:endfor
      end interface pinv
 
      ! Subroutine interface
      interface pseudoinvert
         #:for rk,rt,ri in ALL_KINDS_TYPES
-        module procedure stdlib_linalg_pseudoinvert_${ri}$
+        module procedure la_pseudoinvert_${ri}$
         #:endfor
      end interface pseudoinvert
 
      ! Operator interface
      interface operator(.pinv.)
         #:for rk,rt,ri in ALL_KINDS_TYPES
-        module procedure stdlib_linalg_pinv_${ri}$_operator
+        module procedure la_pinv_${ri}$_operator
         #:endfor
      end interface operator(.pinv.)
      
@@ -45,7 +45,7 @@ module stdlib_linalg_pseudoinverse
      #:for rk,rt,ri in ALL_KINDS_TYPES
 
      ! Compute the in-place pseudo-inverse of matrix a
-     subroutine stdlib_linalg_pseudoinvert_${ri}$(a,pinva,rtol,err)
+     subroutine la_pseudoinvert_${ri}$(a,pinva,rtol,err)
          !> Input matrix a[m,n]
          ${rt}$, intent(inout) :: a(:,:)
          !> Output pseudo-inverse matrix
@@ -111,10 +111,10 @@ module stdlib_linalg_pseudoinverse
          pinva = transpose(matmul(u,vt))
          #:endif
 
-     end subroutine stdlib_linalg_pseudoinvert_${ri}$
+     end subroutine la_pseudoinvert_${ri}$
 
      ! Function interface
-     function stdlib_linalg_pseudoinverse_${ri}$(a,rtol,err) result(pinva)
+     function la_pseudoinverse_${ri}$(a,rtol,err) result(pinva)
          !> Input matrix a[m,n]
          ${rt}$, intent(in), target :: a(:,:)
          !> [optional] ....
@@ -128,12 +128,12 @@ module stdlib_linalg_pseudoinverse
          ${rt}$, pointer :: ap(:,:)
          ap => a
          
-         call stdlib_linalg_pseudoinvert_${ri}$(ap,pinva,rtol,err)
+         call la_pseudoinvert_${ri}$(ap,pinva,rtol,err)
 
-     end function stdlib_linalg_pseudoinverse_${ri}$
+     end function la_pseudoinverse_${ri}$
 
      ! Inverse matrix operator
-     function stdlib_linalg_pinv_${ri}$_operator(a) result(pinva)
+     function la_pinv_${ri}$_operator(a) result(pinva)
          !> Input matrix a[m,n]
          ${rt}$, intent(in), target :: a(:,:)
          !> Result matrix
@@ -143,10 +143,10 @@ module stdlib_linalg_pseudoinverse
          ${rt}$, pointer :: ap(:,:)
          ap => a
 
-         call stdlib_linalg_pseudoinvert_${ri}$(ap,pinva)
+         call la_pseudoinvert_${ri}$(ap,pinva)
 
-     end function stdlib_linalg_pinv_${ri}$_operator
+     end function la_pinv_${ri}$_operator
 
      #:endfor
 
-end module stdlib_linalg_pseudoinverse
+end module la_pseudoinverse

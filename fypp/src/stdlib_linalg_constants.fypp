@@ -1,5 +1,5 @@
-module stdlib_linalg_constants
-     use stdlib_kinds, only: sp, dp, qp, int32, int64, lk
+module la_constants
+     use la_kinds, only: sp, dp, qp, int32, int64, lk
      use, intrinsic :: ieee_arithmetic, only: ieee_is_nan 
 #if defined(_OPENMP)
      use omp_lib
@@ -19,4 +19,4 @@ module stdlib_linalg_constants
 
 
 
-end module stdlib_linalg_constants
+end module la_constants

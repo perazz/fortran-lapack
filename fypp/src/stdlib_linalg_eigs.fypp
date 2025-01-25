@@ -1,9 +1,9 @@
 #:include "common.fypp"
-module stdlib_linalg_eig
-     use stdlib_linalg_constants
-     use stdlib_linalg_blas
-     use stdlib_linalg_lapack
-     use stdlib_linalg_state
+module la_eig
+     use la_constants
+     use la_blas
+     use la_lapack
+     use la_state
      use iso_fortran_env,only:real32,real64,real128,int8,int16,int32,int64,stderr => error_unit
      implicit none(type,external)
      private
@@ -27,27 +27,27 @@ module stdlib_linalg_eig
 
      interface eig
         #:for rk,rt,ri in ALL_KINDS_TYPES
-        module procedure stdlib_linalg_eig_${ri}$
+        module procedure la_eig_${ri}$
         #:endfor
      end interface eig
 
      interface eigvals
         #:for rk,rt,ri in ALL_KINDS_TYPES
-        module procedure stdlib_linalg_eigvals_${ri}$
-        module procedure stdlib_linalg_eigvals_noerr_${ri}$
+        module procedure la_eigvals_${ri}$
+        module procedure la_eigvals_noerr_${ri}$
         #:endfor
      end interface eigvals
      
      interface eigh
         #:for rk,rt,ri in ALL_KINDS_TYPES
-        module procedure stdlib_linalg_eigh_${ri}$
+        module procedure la_eigh_${ri}$
         #:endfor        
      end interface eigh
      
      interface eigvalsh
         #:for rk,rt,ri in ALL_KINDS_TYPES
-        module procedure stdlib_linalg_eigvalsh_${ri}$
-        module procedure stdlib_linalg_eigvalsh_noerr_${ri}$
+        module procedure la_eigvalsh_${ri}$
+        module procedure la_eigvalsh_noerr_${ri}$
         #:endfor                
      end interface eigvalsh
 
@@ -139,7 +139,7 @@ module stdlib_linalg_eig
      #:for rk,rt,ri in ALL_KINDS_TYPES
 
      !> Return an array of eigenvalues of matrix A.
-     function stdlib_linalg_eigvals_${ri}$(a,err) result(lambda)
+     function la_eigvals_${ri}$(a,err) result(lambda)
          !> Input matrix A[m,n]
          ${rt}$, intent(in), target :: a(:,:)
          !> [optional] state return flag. On error if not requested, the code will stop
@@ -162,12 +162,12 @@ module stdlib_linalg_eig
          allocate(lambda(k))
 
          !> Compute eigenvalues only
-         call stdlib_linalg_eig_${ri}$(amat,lambda,overwrite_a=.false.,err=err)
+         call la_eig_${ri}$(amat,lambda,overwrite_a=.false.,err=err)
 
-     end function stdlib_linalg_eigvals_${ri}$
+     end function la_eigvals_${ri}$
 
      !> Return an array of eigenvalues of matrix A.
-     function stdlib_linalg_eigvals_noerr_${ri}$(a) result(lambda)
+     function la_eigvals_noerr_${ri}$(a) result(lambda)
          !> Input matrix A[m,n]
          ${rt}$, intent(in), target :: a(:,:)
          !> Array of singular values
@@ -188,13 +188,13 @@ module stdlib_linalg_eig
          allocate(lambda(k))
 
          !> Compute eigenvalues only
-         call stdlib_linalg_eig_${ri}$(amat,lambda,overwrite_a=.false.)
+         call la_eig_${ri}$(amat,lambda,overwrite_a=.false.)
 
-     end function stdlib_linalg_eigvals_noerr_${ri}$
+     end function la_eigvals_noerr_${ri}$
 
      !> Eigendecomposition of matrix A returning an array `lambda` of eigenvalues, 
      !> and optionally right or left eigenvectors.
-     subroutine stdlib_linalg_eig_${ri}$(a,lambda,right,left,overwrite_a,err)
+     subroutine la_eig_${ri}$(a,lambda,right,left,overwrite_a,err)
          !> Input matrix A[m,n]
          ${rt}$, intent(inout), target :: a(:,:)
          !> Array of eigenvalues
@@ -349,10 +349,10 @@ module stdlib_linalg_eig
          #:endif           
          1 call linalg_error_handling(err0,err)
 
-     end subroutine stdlib_linalg_eig_${ri}$
+     end subroutine la_eig_${ri}$
      
      !> Return an array of eigenvalues of real symmetric / complex hermitian A
-     function stdlib_linalg_eigvalsh_${ri}$(a,upper_a,err) result(lambda)
+     function la_eigvalsh_${ri}$(a,upper_a,err) result(lambda)
          !> Input matrix A[m,n]
          ${rt}$, intent(in), target :: a(:,:)
          !> [optional] Should the upper/lower half of A be used? Default: lower
@@ -376,12 +376,12 @@ module stdlib_linalg_eig
          allocate(lambda(k))
 
          !> Compute eigenvalues only
-         call stdlib_linalg_eigh_${ri}$(amat,lambda,upper_a=upper_a,overwrite_a=.false.,err=err)
+         call la_eigh_${ri}$(amat,lambda,upper_a=upper_a,overwrite_a=.false.,err=err)
          
-     end function stdlib_linalg_eigvalsh_${ri}$
+     end function la_eigvalsh_${ri}$
      
      !> Return an array of eigenvalues of real symmetric / complex hermitian A
-     function stdlib_linalg_eigvalsh_noerr_${ri}$(a,upper_a) result(lambda)
+     function la_eigvalsh_noerr_${ri}$(a,upper_a) result(lambda)
          !> Input matrix A[m,n]
          ${rt}$, intent(in), target :: a(:,:)
          !> [optional] Should the upper/lower half of A be used? Default: lower
@@ -403,13 +403,13 @@ module stdlib_linalg_eig
          allocate(lambda(k))
 
          !> Compute eigenvalues only
-         call stdlib_linalg_eigh_${ri}$(amat,lambda,upper_a=upper_a,overwrite_a=.false.)
+         call la_eigh_${ri}$(amat,lambda,upper_a=upper_a,overwrite_a=.false.)
 
-     end function stdlib_linalg_eigvalsh_noerr_${ri}$     
+     end function la_eigvalsh_noerr_${ri}$     
 
      !> Eigendecomposition of a real symmetric or complex Hermitian matrix A returning an array `lambda` 
      !> of eigenvalues, and optionally right or left eigenvectors.
-     subroutine stdlib_linalg_eigh_${ri}$(a,lambda,vectors,upper_a,overwrite_a,err)
+     subroutine la_eigh_${ri}$(a,lambda,vectors,upper_a,overwrite_a,err)
          !> Input matrix A[m,n]
          ${rt}$, intent(inout), target :: a(:,:)
          !> Array of eigenvalues
@@ -526,7 +526,7 @@ module stdlib_linalg_eig
          if (copy_a) deallocate(amat)
          1 call linalg_error_handling(err0,err)
 
-     end subroutine stdlib_linalg_eigh_${ri}$
+     end subroutine la_eigh_${ri}$
      
      #:endfor
      
@@ -566,4 +566,4 @@ module stdlib_linalg_eig
      #:endfor
 
 
-end module stdlib_linalg_eig
+end module la_eig

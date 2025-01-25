@@ -1,9 +1,9 @@
 #:include "common.fypp"
-module stdlib_linalg_qr
-     use stdlib_linalg_constants
-     use stdlib_linalg_blas
-     use stdlib_linalg_lapack
-     use stdlib_linalg_state
+module la_qr
+     use la_constants
+     use la_blas
+     use la_lapack
+     use la_state
      use iso_fortran_env,only:real32,real64,real128,int8,int16,int32,int64,stderr => error_unit
      implicit none(type,external)
      private
@@ -17,7 +17,7 @@ module stdlib_linalg_qr
 
      interface qr
         #:for rk,rt,ri in ALL_KINDS_TYPES
-        module procedure stdlib_linalg_${ri}$_qr
+        module procedure la_${ri}$_qr
         #:endfor
      end interface qr
      
@@ -127,7 +127,7 @@ module stdlib_linalg_qr
      end subroutine get_qr_${ri}$_workspace 
      
      ! Compute the solution to a real system of linear equations A * X = B
-     pure subroutine stdlib_linalg_${ri}$_qr(a,q,r,overwrite_a,storage,err) 
+     pure subroutine la_${ri}$_qr(a,q,r,overwrite_a,storage,err) 
          !> Input matrix a[m,n]
          ${rt}$, intent(inout), target :: a(:,:)
          !> Orthogonal matrix Q ([m,m], or [m,k] if reduced)
@@ -262,8 +262,8 @@ module stdlib_linalg_qr
          ! Process output and return
          call linalg_error_handling(err0,err)
 
-     end subroutine stdlib_linalg_${ri}$_qr
+     end subroutine la_${ri}$_qr
 
      #:endfor
 
-end module stdlib_linalg_qr
+end module la_qr

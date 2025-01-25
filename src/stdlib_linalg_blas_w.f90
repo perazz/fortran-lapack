@@ -1,11 +1,11 @@
-module la_linalg_blas_w
-     use la_linalg_constants
-     use la_linalg_blas_aux
-     use la_linalg_blas_s
-     use la_linalg_blas_c
-     use la_linalg_blas_d
-     use la_linalg_blas_z
-     use la_linalg_blas_q
+module la_blas_w
+     use la_constants
+     use la_blas_aux
+     use la_blas_s
+     use la_blas_c
+     use la_blas_d
+     use la_blas_z
+     use la_blas_q
      implicit none(type,external)
      private
 
@@ -5044,4 +5044,4 @@ module la_linalg_blas_w
            return
      end subroutine la_wtrsv
 
-end module la_linalg_blas_w
+end module la_blas_w

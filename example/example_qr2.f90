@@ -1,6 +1,6 @@
 ! QR example with pre-allocated storage
 program example_qr2
-  use stdlib_linalg_interface, only: dp, ilp, qr, qr_space, linalg_state
+  use la_interface, only: dp, ilp, qr, qr_space, linalg_state
   implicit none(type,external)
   real(dp) :: A(104, 32), Q(104,32), R(32,32)
   real(dp), allocatable :: work(:)

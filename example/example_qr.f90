@@ -1,5 +1,5 @@
 program example_qr
-  use stdlib_linalg_interface, only: dp, qr
+  use la_interface, only: dp, qr
   implicit none(type,external)
   real(dp) :: A(104, 32), Q(104,32), R(32,32)
   

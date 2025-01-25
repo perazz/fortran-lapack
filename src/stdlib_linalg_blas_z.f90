@@ -1,9 +1,9 @@
-module la_linalg_blas_z
-     use la_linalg_constants
-     use la_linalg_blas_aux
-     use la_linalg_blas_s
-     use la_linalg_blas_c
-     use la_linalg_blas_d
+module la_blas_z
+     use la_constants
+     use la_blas_aux
+     use la_blas_s
+     use la_blas_c
+     use la_blas_d
      implicit none(type,external)
      private
 
@@ -5042,4 +5042,4 @@ module la_linalg_blas_z
            return
      end subroutine la_ztrsv
 
-end module la_linalg_blas_z
+end module la_blas_z

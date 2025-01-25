@@ -1,8 +1,8 @@
-module la_linalg_qr
-     use la_linalg_constants
-     use la_linalg_blas
-     use la_linalg_lapack
-     use la_linalg_state
+module la_qr
+     use la_constants
+     use la_blas
+     use la_lapack
+     use la_state
      use iso_fortran_env,only:real32,real64,real128,int8,int16,int32,int64,stderr => error_unit
      implicit none(type,external)
      private
@@ -15,12 +15,12 @@ module la_linalg_qr
      ! IMSL: lu_solve(a, b, transpose=False)
 
      interface qr
-        module procedure la_linalg_s_qr
-        module procedure la_linalg_d_qr
-        module procedure la_linalg_q_qr
-        module procedure la_linalg_c_qr
-        module procedure la_linalg_z_qr
-        module procedure la_linalg_w_qr
+        module procedure la_s_qr
+        module procedure la_d_qr
+        module procedure la_q_qr
+        module procedure la_c_qr
+        module procedure la_z_qr
+        module procedure la_w_qr
      end interface qr
      
      interface qr_space
@@ -129,7 +129,7 @@ module la_linalg_qr
      end subroutine get_qr_s_workspace
      
      ! Compute the solution to a real system of linear equations A * X = B
-     pure subroutine la_linalg_s_qr(a,q,r,overwrite_a,storage,err)
+     pure subroutine la_s_qr(a,q,r,overwrite_a,storage,err)
          !> Input matrix a[m,n]
          real(sp),intent(inout),target :: a(:,:)
          !> Orthogonal matrix Q ([m,m], or [m,k] if reduced)
@@ -264,7 +264,7 @@ module la_linalg_qr
          ! Process output and return
          call linalg_error_handling(err0,err)
 
-     end subroutine la_linalg_s_qr
+     end subroutine la_s_qr
 
      ! Get workspace size for QR operations
      pure subroutine get_qr_d_workspace(a,lwork,err)
@@ -313,7 +313,7 @@ module la_linalg_qr
      end subroutine get_qr_d_workspace
      
      ! Compute the solution to a real system of linear equations A * X = B
-     pure subroutine la_linalg_d_qr(a,q,r,overwrite_a,storage,err)
+     pure subroutine la_d_qr(a,q,r,overwrite_a,storage,err)
          !> Input matrix a[m,n]
          real(dp),intent(inout),target :: a(:,:)
          !> Orthogonal matrix Q ([m,m], or [m,k] if reduced)
@@ -448,7 +448,7 @@ module la_linalg_qr
          ! Process output and return
          call linalg_error_handling(err0,err)
 
-     end subroutine la_linalg_d_qr
+     end subroutine la_d_qr
 
      ! Get workspace size for QR operations
      pure subroutine get_qr_q_workspace(a,lwork,err)
@@ -497,7 +497,7 @@ module la_linalg_qr
      end subroutine get_qr_q_workspace
      
      ! Compute the solution to a real system of linear equations A * X = B
-     pure subroutine la_linalg_q_qr(a,q,r,overwrite_a,storage,err)
+     pure subroutine la_q_qr(a,q,r,overwrite_a,storage,err)
          !> Input matrix a[m,n]
          real(qp),intent(inout),target :: a(:,:)
          !> Orthogonal matrix Q ([m,m], or [m,k] if reduced)
@@ -632,7 +632,7 @@ module la_linalg_qr
          ! Process output and return
          call linalg_error_handling(err0,err)
 
-     end subroutine la_linalg_q_qr
+     end subroutine la_q_qr
 
      ! Get workspace size for QR operations
      pure subroutine get_qr_c_workspace(a,lwork,err)
@@ -681,7 +681,7 @@ module la_linalg_qr
      end subroutine get_qr_c_workspace
      
      ! Compute the solution to a real system of linear equations A * X = B
-     pure subroutine la_linalg_c_qr(a,q,r,overwrite_a,storage,err)
+     pure subroutine la_c_qr(a,q,r,overwrite_a,storage,err)
          !> Input matrix a[m,n]
          complex(sp),intent(inout),target :: a(:,:)
          !> Orthogonal matrix Q ([m,m], or [m,k] if reduced)
@@ -816,7 +816,7 @@ module la_linalg_qr
          ! Process output and return
          call linalg_error_handling(err0,err)
 
-     end subroutine la_linalg_c_qr
+     end subroutine la_c_qr
 
      ! Get workspace size for QR operations
      pure subroutine get_qr_z_workspace(a,lwork,err)
@@ -865,7 +865,7 @@ module la_linalg_qr
      end subroutine get_qr_z_workspace
      
      ! Compute the solution to a real system of linear equations A * X = B
-     pure subroutine la_linalg_z_qr(a,q,r,overwrite_a,storage,err)
+     pure subroutine la_z_qr(a,q,r,overwrite_a,storage,err)
          !> Input matrix a[m,n]
          complex(dp),intent(inout),target :: a(:,:)
          !> Orthogonal matrix Q ([m,m], or [m,k] if reduced)
@@ -1000,7 +1000,7 @@ module la_linalg_qr
          ! Process output and return
          call linalg_error_handling(err0,err)
 
-     end subroutine la_linalg_z_qr
+     end subroutine la_z_qr
 
      ! Get workspace size for QR operations
      pure subroutine get_qr_w_workspace(a,lwork,err)
@@ -1049,7 +1049,7 @@ module la_linalg_qr
      end subroutine get_qr_w_workspace
      
      ! Compute the solution to a real system of linear equations A * X = B
-     pure subroutine la_linalg_w_qr(a,q,r,overwrite_a,storage,err)
+     pure subroutine la_w_qr(a,q,r,overwrite_a,storage,err)
          !> Input matrix a[m,n]
          complex(qp),intent(inout),target :: a(:,:)
          !> Orthogonal matrix Q ([m,m], or [m,k] if reduced)
@@ -1184,6 +1184,6 @@ module la_linalg_qr
          ! Process output and return
          call linalg_error_handling(err0,err)
 
-     end subroutine la_linalg_w_qr
+     end subroutine la_w_qr
 
-end module la_linalg_qr
+end module la_qr

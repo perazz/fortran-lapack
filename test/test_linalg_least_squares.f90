@@ -1,7 +1,7 @@
 module test_linalg_least_squares
-    use la_linalg_constants
-    use la_linalg_state
-    use la_linalg_least_squares
+    use la_constants
+    use la_state
+    use la_least_squares
 
     implicit none(type,external)
 

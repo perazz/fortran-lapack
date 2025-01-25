@@ -1,6 +1,6 @@
 ! Test Schur form
 module test_linalg_schur
-    use la_linalg_interface
+    use la_interface
 
     implicit none(type,external)
 

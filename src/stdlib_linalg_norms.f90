@@ -1,10 +1,10 @@
 
 ! Vector norms
-module la_linalg_norms
-     use la_linalg_constants
-     use la_linalg_blas,only:nrm2
-     use la_linalg_lapack,only:lange
-     use la_linalg_state
+module la_norms
+     use la_constants
+     use la_blas,only:nrm2
+     use la_lapack,only:lange
+     use la_state
      use iso_fortran_env,only:real32,real64,real128,int8,int16,int32,int64,stderr => error_unit
      implicit none(type,external)
      private
@@ -30,725 +30,725 @@ module la_linalg_norms
      !> Vector norm: function interface
      interface norm
         !> Scalar norms: real(sp)
-        module procedure la_linalg_norm_1D_order_char_s
-        module procedure la_linalg_norm_1D_order_err_char_s
-        module procedure la_linalg_norm_2D_order_char_s
-        module procedure la_linalg_norm_2D_order_err_char_s
-        module procedure la_linalg_norm_3D_order_char_s
-        module procedure la_linalg_norm_3D_order_err_char_s
-        module procedure la_linalg_norm_4D_order_char_s
-        module procedure la_linalg_norm_4D_order_err_char_s
-        module procedure la_linalg_norm_5D_order_char_s
-        module procedure la_linalg_norm_5D_order_err_char_s
-        module procedure la_linalg_norm_6D_order_char_s
-        module procedure la_linalg_norm_6D_order_err_char_s
-        module procedure la_linalg_norm_7D_order_char_s
-        module procedure la_linalg_norm_7D_order_err_char_s
-        module procedure la_linalg_norm_8D_order_char_s
-        module procedure la_linalg_norm_8D_order_err_char_s
-        module procedure la_linalg_norm_9D_order_char_s
-        module procedure la_linalg_norm_9D_order_err_char_s
-        module procedure la_linalg_norm_10D_order_char_s
-        module procedure la_linalg_norm_10D_order_err_char_s
-        module procedure la_linalg_norm_11D_order_char_s
-        module procedure la_linalg_norm_11D_order_err_char_s
-        module procedure la_linalg_norm_12D_order_char_s
-        module procedure la_linalg_norm_12D_order_err_char_s
-        module procedure la_linalg_norm_13D_order_char_s
-        module procedure la_linalg_norm_13D_order_err_char_s
-        module procedure la_linalg_norm_14D_order_char_s
-        module procedure la_linalg_norm_14D_order_err_char_s
-        module procedure la_linalg_norm_15D_order_char_s
-        module procedure la_linalg_norm_15D_order_err_char_s
+        module procedure la_norm_1D_order_char_s
+        module procedure la_norm_1D_order_err_char_s
+        module procedure la_norm_2D_order_char_s
+        module procedure la_norm_2D_order_err_char_s
+        module procedure la_norm_3D_order_char_s
+        module procedure la_norm_3D_order_err_char_s
+        module procedure la_norm_4D_order_char_s
+        module procedure la_norm_4D_order_err_char_s
+        module procedure la_norm_5D_order_char_s
+        module procedure la_norm_5D_order_err_char_s
+        module procedure la_norm_6D_order_char_s
+        module procedure la_norm_6D_order_err_char_s
+        module procedure la_norm_7D_order_char_s
+        module procedure la_norm_7D_order_err_char_s
+        module procedure la_norm_8D_order_char_s
+        module procedure la_norm_8D_order_err_char_s
+        module procedure la_norm_9D_order_char_s
+        module procedure la_norm_9D_order_err_char_s
+        module procedure la_norm_10D_order_char_s
+        module procedure la_norm_10D_order_err_char_s
+        module procedure la_norm_11D_order_char_s
+        module procedure la_norm_11D_order_err_char_s
+        module procedure la_norm_12D_order_char_s
+        module procedure la_norm_12D_order_err_char_s
+        module procedure la_norm_13D_order_char_s
+        module procedure la_norm_13D_order_err_char_s
+        module procedure la_norm_14D_order_char_s
+        module procedure la_norm_14D_order_err_char_s
+        module procedure la_norm_15D_order_char_s
+        module procedure la_norm_15D_order_err_char_s
         !> Array norms: real(sp)
-        module procedure la_linalg_norm_2D_to_1D_char_s
-        module procedure la_linalg_norm_2D_to_1D_err_char_s
-        module procedure la_linalg_norm_3D_to_2D_char_s
-        module procedure la_linalg_norm_3D_to_2D_err_char_s
-        module procedure la_linalg_norm_4D_to_3D_char_s
-        module procedure la_linalg_norm_4D_to_3D_err_char_s
-        module procedure la_linalg_norm_5D_to_4D_char_s
-        module procedure la_linalg_norm_5D_to_4D_err_char_s
-        module procedure la_linalg_norm_6D_to_5D_char_s
-        module procedure la_linalg_norm_6D_to_5D_err_char_s
-        module procedure la_linalg_norm_7D_to_6D_char_s
-        module procedure la_linalg_norm_7D_to_6D_err_char_s
-        module procedure la_linalg_norm_8D_to_7D_char_s
-        module procedure la_linalg_norm_8D_to_7D_err_char_s
-        module procedure la_linalg_norm_9D_to_8D_char_s
-        module procedure la_linalg_norm_9D_to_8D_err_char_s
-        module procedure la_linalg_norm_10D_to_9D_char_s
-        module procedure la_linalg_norm_10D_to_9D_err_char_s
-        module procedure la_linalg_norm_11D_to_10D_char_s
-        module procedure la_linalg_norm_11D_to_10D_err_char_s
-        module procedure la_linalg_norm_12D_to_11D_char_s
-        module procedure la_linalg_norm_12D_to_11D_err_char_s
-        module procedure la_linalg_norm_13D_to_12D_char_s
-        module procedure la_linalg_norm_13D_to_12D_err_char_s
-        module procedure la_linalg_norm_14D_to_13D_char_s
-        module procedure la_linalg_norm_14D_to_13D_err_char_s
-        module procedure la_linalg_norm_15D_to_14D_char_s
-        module procedure la_linalg_norm_15D_to_14D_err_char_s
+        module procedure la_norm_2D_to_1D_char_s
+        module procedure la_norm_2D_to_1D_err_char_s
+        module procedure la_norm_3D_to_2D_char_s
+        module procedure la_norm_3D_to_2D_err_char_s
+        module procedure la_norm_4D_to_3D_char_s
+        module procedure la_norm_4D_to_3D_err_char_s
+        module procedure la_norm_5D_to_4D_char_s
+        module procedure la_norm_5D_to_4D_err_char_s
+        module procedure la_norm_6D_to_5D_char_s
+        module procedure la_norm_6D_to_5D_err_char_s
+        module procedure la_norm_7D_to_6D_char_s
+        module procedure la_norm_7D_to_6D_err_char_s
+        module procedure la_norm_8D_to_7D_char_s
+        module procedure la_norm_8D_to_7D_err_char_s
+        module procedure la_norm_9D_to_8D_char_s
+        module procedure la_norm_9D_to_8D_err_char_s
+        module procedure la_norm_10D_to_9D_char_s
+        module procedure la_norm_10D_to_9D_err_char_s
+        module procedure la_norm_11D_to_10D_char_s
+        module procedure la_norm_11D_to_10D_err_char_s
+        module procedure la_norm_12D_to_11D_char_s
+        module procedure la_norm_12D_to_11D_err_char_s
+        module procedure la_norm_13D_to_12D_char_s
+        module procedure la_norm_13D_to_12D_err_char_s
+        module procedure la_norm_14D_to_13D_char_s
+        module procedure la_norm_14D_to_13D_err_char_s
+        module procedure la_norm_15D_to_14D_char_s
+        module procedure la_norm_15D_to_14D_err_char_s
         !> Scalar norms: real(sp)
-        module procedure la_linalg_norm_1D_order_int_s
-        module procedure la_linalg_norm_1D_order_err_int_s
-        module procedure la_linalg_norm_2D_order_int_s
-        module procedure la_linalg_norm_2D_order_err_int_s
-        module procedure la_linalg_norm_3D_order_int_s
-        module procedure la_linalg_norm_3D_order_err_int_s
-        module procedure la_linalg_norm_4D_order_int_s
-        module procedure la_linalg_norm_4D_order_err_int_s
-        module procedure la_linalg_norm_5D_order_int_s
-        module procedure la_linalg_norm_5D_order_err_int_s
-        module procedure la_linalg_norm_6D_order_int_s
-        module procedure la_linalg_norm_6D_order_err_int_s
-        module procedure la_linalg_norm_7D_order_int_s
-        module procedure la_linalg_norm_7D_order_err_int_s
-        module procedure la_linalg_norm_8D_order_int_s
-        module procedure la_linalg_norm_8D_order_err_int_s
-        module procedure la_linalg_norm_9D_order_int_s
-        module procedure la_linalg_norm_9D_order_err_int_s
-        module procedure la_linalg_norm_10D_order_int_s
-        module procedure la_linalg_norm_10D_order_err_int_s
-        module procedure la_linalg_norm_11D_order_int_s
-        module procedure la_linalg_norm_11D_order_err_int_s
-        module procedure la_linalg_norm_12D_order_int_s
-        module procedure la_linalg_norm_12D_order_err_int_s
-        module procedure la_linalg_norm_13D_order_int_s
-        module procedure la_linalg_norm_13D_order_err_int_s
-        module procedure la_linalg_norm_14D_order_int_s
-        module procedure la_linalg_norm_14D_order_err_int_s
-        module procedure la_linalg_norm_15D_order_int_s
-        module procedure la_linalg_norm_15D_order_err_int_s
+        module procedure la_norm_1D_order_int_s
+        module procedure la_norm_1D_order_err_int_s
+        module procedure la_norm_2D_order_int_s
+        module procedure la_norm_2D_order_err_int_s
+        module procedure la_norm_3D_order_int_s
+        module procedure la_norm_3D_order_err_int_s
+        module procedure la_norm_4D_order_int_s
+        module procedure la_norm_4D_order_err_int_s
+        module procedure la_norm_5D_order_int_s
+        module procedure la_norm_5D_order_err_int_s
+        module procedure la_norm_6D_order_int_s
+        module procedure la_norm_6D_order_err_int_s
+        module procedure la_norm_7D_order_int_s
+        module procedure la_norm_7D_order_err_int_s
+        module procedure la_norm_8D_order_int_s
+        module procedure la_norm_8D_order_err_int_s
+        module procedure la_norm_9D_order_int_s
+        module procedure la_norm_9D_order_err_int_s
+        module procedure la_norm_10D_order_int_s
+        module procedure la_norm_10D_order_err_int_s
+        module procedure la_norm_11D_order_int_s
+        module procedure la_norm_11D_order_err_int_s
+        module procedure la_norm_12D_order_int_s
+        module procedure la_norm_12D_order_err_int_s
+        module procedure la_norm_13D_order_int_s
+        module procedure la_norm_13D_order_err_int_s
+        module procedure la_norm_14D_order_int_s
+        module procedure la_norm_14D_order_err_int_s
+        module procedure la_norm_15D_order_int_s
+        module procedure la_norm_15D_order_err_int_s
         !> Array norms: real(sp)
-        module procedure la_linalg_norm_2D_to_1D_int_s
-        module procedure la_linalg_norm_2D_to_1D_err_int_s
-        module procedure la_linalg_norm_3D_to_2D_int_s
-        module procedure la_linalg_norm_3D_to_2D_err_int_s
-        module procedure la_linalg_norm_4D_to_3D_int_s
-        module procedure la_linalg_norm_4D_to_3D_err_int_s
-        module procedure la_linalg_norm_5D_to_4D_int_s
-        module procedure la_linalg_norm_5D_to_4D_err_int_s
-        module procedure la_linalg_norm_6D_to_5D_int_s
-        module procedure la_linalg_norm_6D_to_5D_err_int_s
-        module procedure la_linalg_norm_7D_to_6D_int_s
-        module procedure la_linalg_norm_7D_to_6D_err_int_s
-        module procedure la_linalg_norm_8D_to_7D_int_s
-        module procedure la_linalg_norm_8D_to_7D_err_int_s
-        module procedure la_linalg_norm_9D_to_8D_int_s
-        module procedure la_linalg_norm_9D_to_8D_err_int_s
-        module procedure la_linalg_norm_10D_to_9D_int_s
-        module procedure la_linalg_norm_10D_to_9D_err_int_s
-        module procedure la_linalg_norm_11D_to_10D_int_s
-        module procedure la_linalg_norm_11D_to_10D_err_int_s
-        module procedure la_linalg_norm_12D_to_11D_int_s
-        module procedure la_linalg_norm_12D_to_11D_err_int_s
-        module procedure la_linalg_norm_13D_to_12D_int_s
-        module procedure la_linalg_norm_13D_to_12D_err_int_s
-        module procedure la_linalg_norm_14D_to_13D_int_s
-        module procedure la_linalg_norm_14D_to_13D_err_int_s
-        module procedure la_linalg_norm_15D_to_14D_int_s
-        module procedure la_linalg_norm_15D_to_14D_err_int_s
+        module procedure la_norm_2D_to_1D_int_s
+        module procedure la_norm_2D_to_1D_err_int_s
+        module procedure la_norm_3D_to_2D_int_s
+        module procedure la_norm_3D_to_2D_err_int_s
+        module procedure la_norm_4D_to_3D_int_s
+        module procedure la_norm_4D_to_3D_err_int_s
+        module procedure la_norm_5D_to_4D_int_s
+        module procedure la_norm_5D_to_4D_err_int_s
+        module procedure la_norm_6D_to_5D_int_s
+        module procedure la_norm_6D_to_5D_err_int_s
+        module procedure la_norm_7D_to_6D_int_s
+        module procedure la_norm_7D_to_6D_err_int_s
+        module procedure la_norm_8D_to_7D_int_s
+        module procedure la_norm_8D_to_7D_err_int_s
+        module procedure la_norm_9D_to_8D_int_s
+        module procedure la_norm_9D_to_8D_err_int_s
+        module procedure la_norm_10D_to_9D_int_s
+        module procedure la_norm_10D_to_9D_err_int_s
+        module procedure la_norm_11D_to_10D_int_s
+        module procedure la_norm_11D_to_10D_err_int_s
+        module procedure la_norm_12D_to_11D_int_s
+        module procedure la_norm_12D_to_11D_err_int_s
+        module procedure la_norm_13D_to_12D_int_s
+        module procedure la_norm_13D_to_12D_err_int_s
+        module procedure la_norm_14D_to_13D_int_s
+        module procedure la_norm_14D_to_13D_err_int_s
+        module procedure la_norm_15D_to_14D_int_s
+        module procedure la_norm_15D_to_14D_err_int_s
         !> Scalar norms: real(dp)
-        module procedure la_linalg_norm_1D_order_char_d
-        module procedure la_linalg_norm_1D_order_err_char_d
-        module procedure la_linalg_norm_2D_order_char_d
-        module procedure la_linalg_norm_2D_order_err_char_d
-        module procedure la_linalg_norm_3D_order_char_d
-        module procedure la_linalg_norm_3D_order_err_char_d
-        module procedure la_linalg_norm_4D_order_char_d
-        module procedure la_linalg_norm_4D_order_err_char_d
-        module procedure la_linalg_norm_5D_order_char_d
-        module procedure la_linalg_norm_5D_order_err_char_d
-        module procedure la_linalg_norm_6D_order_char_d
-        module procedure la_linalg_norm_6D_order_err_char_d
-        module procedure la_linalg_norm_7D_order_char_d
-        module procedure la_linalg_norm_7D_order_err_char_d
-        module procedure la_linalg_norm_8D_order_char_d
-        module procedure la_linalg_norm_8D_order_err_char_d
-        module procedure la_linalg_norm_9D_order_char_d
-        module procedure la_linalg_norm_9D_order_err_char_d
-        module procedure la_linalg_norm_10D_order_char_d
-        module procedure la_linalg_norm_10D_order_err_char_d
-        module procedure la_linalg_norm_11D_order_char_d
-        module procedure la_linalg_norm_11D_order_err_char_d
-        module procedure la_linalg_norm_12D_order_char_d
-        module procedure la_linalg_norm_12D_order_err_char_d
-        module procedure la_linalg_norm_13D_order_char_d
-        module procedure la_linalg_norm_13D_order_err_char_d
-        module procedure la_linalg_norm_14D_order_char_d
-        module procedure la_linalg_norm_14D_order_err_char_d
-        module procedure la_linalg_norm_15D_order_char_d
-        module procedure la_linalg_norm_15D_order_err_char_d
+        module procedure la_norm_1D_order_char_d
+        module procedure la_norm_1D_order_err_char_d
+        module procedure la_norm_2D_order_char_d
+        module procedure la_norm_2D_order_err_char_d
+        module procedure la_norm_3D_order_char_d
+        module procedure la_norm_3D_order_err_char_d
+        module procedure la_norm_4D_order_char_d
+        module procedure la_norm_4D_order_err_char_d
+        module procedure la_norm_5D_order_char_d
+        module procedure la_norm_5D_order_err_char_d
+        module procedure la_norm_6D_order_char_d
+        module procedure la_norm_6D_order_err_char_d
+        module procedure la_norm_7D_order_char_d
+        module procedure la_norm_7D_order_err_char_d
+        module procedure la_norm_8D_order_char_d
+        module procedure la_norm_8D_order_err_char_d
+        module procedure la_norm_9D_order_char_d
+        module procedure la_norm_9D_order_err_char_d
+        module procedure la_norm_10D_order_char_d
+        module procedure la_norm_10D_order_err_char_d
+        module procedure la_norm_11D_order_char_d
+        module procedure la_norm_11D_order_err_char_d
+        module procedure la_norm_12D_order_char_d
+        module procedure la_norm_12D_order_err_char_d
+        module procedure la_norm_13D_order_char_d
+        module procedure la_norm_13D_order_err_char_d
+        module procedure la_norm_14D_order_char_d
+        module procedure la_norm_14D_order_err_char_d
+        module procedure la_norm_15D_order_char_d
+        module procedure la_norm_15D_order_err_char_d
         !> Array norms: real(dp)
-        module procedure la_linalg_norm_2D_to_1D_char_d
-        module procedure la_linalg_norm_2D_to_1D_err_char_d
-        module procedure la_linalg_norm_3D_to_2D_char_d
-        module procedure la_linalg_norm_3D_to_2D_err_char_d
-        module procedure la_linalg_norm_4D_to_3D_char_d
-        module procedure la_linalg_norm_4D_to_3D_err_char_d
-        module procedure la_linalg_norm_5D_to_4D_char_d
-        module procedure la_linalg_norm_5D_to_4D_err_char_d
-        module procedure la_linalg_norm_6D_to_5D_char_d
-        module procedure la_linalg_norm_6D_to_5D_err_char_d
-        module procedure la_linalg_norm_7D_to_6D_char_d
-        module procedure la_linalg_norm_7D_to_6D_err_char_d
-        module procedure la_linalg_norm_8D_to_7D_char_d
-        module procedure la_linalg_norm_8D_to_7D_err_char_d
-        module procedure la_linalg_norm_9D_to_8D_char_d
-        module procedure la_linalg_norm_9D_to_8D_err_char_d
-        module procedure la_linalg_norm_10D_to_9D_char_d
-        module procedure la_linalg_norm_10D_to_9D_err_char_d
-        module procedure la_linalg_norm_11D_to_10D_char_d
-        module procedure la_linalg_norm_11D_to_10D_err_char_d
-        module procedure la_linalg_norm_12D_to_11D_char_d
-        module procedure la_linalg_norm_12D_to_11D_err_char_d
-        module procedure la_linalg_norm_13D_to_12D_char_d
-        module procedure la_linalg_norm_13D_to_12D_err_char_d
-        module procedure la_linalg_norm_14D_to_13D_char_d
-        module procedure la_linalg_norm_14D_to_13D_err_char_d
-        module procedure la_linalg_norm_15D_to_14D_char_d
-        module procedure la_linalg_norm_15D_to_14D_err_char_d
+        module procedure la_norm_2D_to_1D_char_d
+        module procedure la_norm_2D_to_1D_err_char_d
+        module procedure la_norm_3D_to_2D_char_d
+        module procedure la_norm_3D_to_2D_err_char_d
+        module procedure la_norm_4D_to_3D_char_d
+        module procedure la_norm_4D_to_3D_err_char_d
+        module procedure la_norm_5D_to_4D_char_d
+        module procedure la_norm_5D_to_4D_err_char_d
+        module procedure la_norm_6D_to_5D_char_d
+        module procedure la_norm_6D_to_5D_err_char_d
+        module procedure la_norm_7D_to_6D_char_d
+        module procedure la_norm_7D_to_6D_err_char_d
+        module procedure la_norm_8D_to_7D_char_d
+        module procedure la_norm_8D_to_7D_err_char_d
+        module procedure la_norm_9D_to_8D_char_d
+        module procedure la_norm_9D_to_8D_err_char_d
+        module procedure la_norm_10D_to_9D_char_d
+        module procedure la_norm_10D_to_9D_err_char_d
+        module procedure la_norm_11D_to_10D_char_d
+        module procedure la_norm_11D_to_10D_err_char_d
+        module procedure la_norm_12D_to_11D_char_d
+        module procedure la_norm_12D_to_11D_err_char_d
+        module procedure la_norm_13D_to_12D_char_d
+        module procedure la_norm_13D_to_12D_err_char_d
+        module procedure la_norm_14D_to_13D_char_d
+        module procedure la_norm_14D_to_13D_err_char_d
+        module procedure la_norm_15D_to_14D_char_d
+        module procedure la_norm_15D_to_14D_err_char_d
         !> Scalar norms: real(dp)
-        module procedure la_linalg_norm_1D_order_int_d
-        module procedure la_linalg_norm_1D_order_err_int_d
-        module procedure la_linalg_norm_2D_order_int_d
-        module procedure la_linalg_norm_2D_order_err_int_d
-        module procedure la_linalg_norm_3D_order_int_d
-        module procedure la_linalg_norm_3D_order_err_int_d
-        module procedure la_linalg_norm_4D_order_int_d
-        module procedure la_linalg_norm_4D_order_err_int_d
-        module procedure la_linalg_norm_5D_order_int_d
-        module procedure la_linalg_norm_5D_order_err_int_d
-        module procedure la_linalg_norm_6D_order_int_d
-        module procedure la_linalg_norm_6D_order_err_int_d
-        module procedure la_linalg_norm_7D_order_int_d
-        module procedure la_linalg_norm_7D_order_err_int_d
-        module procedure la_linalg_norm_8D_order_int_d
-        module procedure la_linalg_norm_8D_order_err_int_d
-        module procedure la_linalg_norm_9D_order_int_d
-        module procedure la_linalg_norm_9D_order_err_int_d
-        module procedure la_linalg_norm_10D_order_int_d
-        module procedure la_linalg_norm_10D_order_err_int_d
-        module procedure la_linalg_norm_11D_order_int_d
-        module procedure la_linalg_norm_11D_order_err_int_d
-        module procedure la_linalg_norm_12D_order_int_d
-        module procedure la_linalg_norm_12D_order_err_int_d
-        module procedure la_linalg_norm_13D_order_int_d
-        module procedure la_linalg_norm_13D_order_err_int_d
-        module procedure la_linalg_norm_14D_order_int_d
-        module procedure la_linalg_norm_14D_order_err_int_d
-        module procedure la_linalg_norm_15D_order_int_d
-        module procedure la_linalg_norm_15D_order_err_int_d
+        module procedure la_norm_1D_order_int_d
+        module procedure la_norm_1D_order_err_int_d
+        module procedure la_norm_2D_order_int_d
+        module procedure la_norm_2D_order_err_int_d
+        module procedure la_norm_3D_order_int_d
+        module procedure la_norm_3D_order_err_int_d
+        module procedure la_norm_4D_order_int_d
+        module procedure la_norm_4D_order_err_int_d
+        module procedure la_norm_5D_order_int_d
+        module procedure la_norm_5D_order_err_int_d
+        module procedure la_norm_6D_order_int_d
+        module procedure la_norm_6D_order_err_int_d
+        module procedure la_norm_7D_order_int_d
+        module procedure la_norm_7D_order_err_int_d
+        module procedure la_norm_8D_order_int_d
+        module procedure la_norm_8D_order_err_int_d
+        module procedure la_norm_9D_order_int_d
+        module procedure la_norm_9D_order_err_int_d
+        module procedure la_norm_10D_order_int_d
+        module procedure la_norm_10D_order_err_int_d
+        module procedure la_norm_11D_order_int_d
+        module procedure la_norm_11D_order_err_int_d
+        module procedure la_norm_12D_order_int_d
+        module procedure la_norm_12D_order_err_int_d
+        module procedure la_norm_13D_order_int_d
+        module procedure la_norm_13D_order_err_int_d
+        module procedure la_norm_14D_order_int_d
+        module procedure la_norm_14D_order_err_int_d
+        module procedure la_norm_15D_order_int_d
+        module procedure la_norm_15D_order_err_int_d
         !> Array norms: real(dp)
-        module procedure la_linalg_norm_2D_to_1D_int_d
-        module procedure la_linalg_norm_2D_to_1D_err_int_d
-        module procedure la_linalg_norm_3D_to_2D_int_d
-        module procedure la_linalg_norm_3D_to_2D_err_int_d
-        module procedure la_linalg_norm_4D_to_3D_int_d
-        module procedure la_linalg_norm_4D_to_3D_err_int_d
-        module procedure la_linalg_norm_5D_to_4D_int_d
-        module procedure la_linalg_norm_5D_to_4D_err_int_d
-        module procedure la_linalg_norm_6D_to_5D_int_d
-        module procedure la_linalg_norm_6D_to_5D_err_int_d
-        module procedure la_linalg_norm_7D_to_6D_int_d
-        module procedure la_linalg_norm_7D_to_6D_err_int_d
-        module procedure la_linalg_norm_8D_to_7D_int_d
-        module procedure la_linalg_norm_8D_to_7D_err_int_d
-        module procedure la_linalg_norm_9D_to_8D_int_d
-        module procedure la_linalg_norm_9D_to_8D_err_int_d
-        module procedure la_linalg_norm_10D_to_9D_int_d
-        module procedure la_linalg_norm_10D_to_9D_err_int_d
-        module procedure la_linalg_norm_11D_to_10D_int_d
-        module procedure la_linalg_norm_11D_to_10D_err_int_d
-        module procedure la_linalg_norm_12D_to_11D_int_d
-        module procedure la_linalg_norm_12D_to_11D_err_int_d
-        module procedure la_linalg_norm_13D_to_12D_int_d
-        module procedure la_linalg_norm_13D_to_12D_err_int_d
-        module procedure la_linalg_norm_14D_to_13D_int_d
-        module procedure la_linalg_norm_14D_to_13D_err_int_d
-        module procedure la_linalg_norm_15D_to_14D_int_d
-        module procedure la_linalg_norm_15D_to_14D_err_int_d
+        module procedure la_norm_2D_to_1D_int_d
+        module procedure la_norm_2D_to_1D_err_int_d
+        module procedure la_norm_3D_to_2D_int_d
+        module procedure la_norm_3D_to_2D_err_int_d
+        module procedure la_norm_4D_to_3D_int_d
+        module procedure la_norm_4D_to_3D_err_int_d
+        module procedure la_norm_5D_to_4D_int_d
+        module procedure la_norm_5D_to_4D_err_int_d
+        module procedure la_norm_6D_to_5D_int_d
+        module procedure la_norm_6D_to_5D_err_int_d
+        module procedure la_norm_7D_to_6D_int_d
+        module procedure la_norm_7D_to_6D_err_int_d
+        module procedure la_norm_8D_to_7D_int_d
+        module procedure la_norm_8D_to_7D_err_int_d
+        module procedure la_norm_9D_to_8D_int_d
+        module procedure la_norm_9D_to_8D_err_int_d
+        module procedure la_norm_10D_to_9D_int_d
+        module procedure la_norm_10D_to_9D_err_int_d
+        module procedure la_norm_11D_to_10D_int_d
+        module procedure la_norm_11D_to_10D_err_int_d
+        module procedure la_norm_12D_to_11D_int_d
+        module procedure la_norm_12D_to_11D_err_int_d
+        module procedure la_norm_13D_to_12D_int_d
+        module procedure la_norm_13D_to_12D_err_int_d
+        module procedure la_norm_14D_to_13D_int_d
+        module procedure la_norm_14D_to_13D_err_int_d
+        module procedure la_norm_15D_to_14D_int_d
+        module procedure la_norm_15D_to_14D_err_int_d
         !> Scalar norms: real(qp)
-        module procedure la_linalg_norm_1D_order_char_q
-        module procedure la_linalg_norm_1D_order_err_char_q
-        module procedure la_linalg_norm_2D_order_char_q
-        module procedure la_linalg_norm_2D_order_err_char_q
-        module procedure la_linalg_norm_3D_order_char_q
-        module procedure la_linalg_norm_3D_order_err_char_q
-        module procedure la_linalg_norm_4D_order_char_q
-        module procedure la_linalg_norm_4D_order_err_char_q
-        module procedure la_linalg_norm_5D_order_char_q
-        module procedure la_linalg_norm_5D_order_err_char_q
-        module procedure la_linalg_norm_6D_order_char_q
-        module procedure la_linalg_norm_6D_order_err_char_q
-        module procedure la_linalg_norm_7D_order_char_q
-        module procedure la_linalg_norm_7D_order_err_char_q
-        module procedure la_linalg_norm_8D_order_char_q
-        module procedure la_linalg_norm_8D_order_err_char_q
-        module procedure la_linalg_norm_9D_order_char_q
-        module procedure la_linalg_norm_9D_order_err_char_q
-        module procedure la_linalg_norm_10D_order_char_q
-        module procedure la_linalg_norm_10D_order_err_char_q
-        module procedure la_linalg_norm_11D_order_char_q
-        module procedure la_linalg_norm_11D_order_err_char_q
-        module procedure la_linalg_norm_12D_order_char_q
-        module procedure la_linalg_norm_12D_order_err_char_q
-        module procedure la_linalg_norm_13D_order_char_q
-        module procedure la_linalg_norm_13D_order_err_char_q
-        module procedure la_linalg_norm_14D_order_char_q
-        module procedure la_linalg_norm_14D_order_err_char_q
-        module procedure la_linalg_norm_15D_order_char_q
-        module procedure la_linalg_norm_15D_order_err_char_q
+        module procedure la_norm_1D_order_char_q
+        module procedure la_norm_1D_order_err_char_q
+        module procedure la_norm_2D_order_char_q
+        module procedure la_norm_2D_order_err_char_q
+        module procedure la_norm_3D_order_char_q
+        module procedure la_norm_3D_order_err_char_q
+        module procedure la_norm_4D_order_char_q
+        module procedure la_norm_4D_order_err_char_q
+        module procedure la_norm_5D_order_char_q
+        module procedure la_norm_5D_order_err_char_q
+        module procedure la_norm_6D_order_char_q
+        module procedure la_norm_6D_order_err_char_q
+        module procedure la_norm_7D_order_char_q
+        module procedure la_norm_7D_order_err_char_q
+        module procedure la_norm_8D_order_char_q
+        module procedure la_norm_8D_order_err_char_q
+        module procedure la_norm_9D_order_char_q
+        module procedure la_norm_9D_order_err_char_q
+        module procedure la_norm_10D_order_char_q
+        module procedure la_norm_10D_order_err_char_q
+        module procedure la_norm_11D_order_char_q
+        module procedure la_norm_11D_order_err_char_q
+        module procedure la_norm_12D_order_char_q
+        module procedure la_norm_12D_order_err_char_q
+        module procedure la_norm_13D_order_char_q
+        module procedure la_norm_13D_order_err_char_q
+        module procedure la_norm_14D_order_char_q
+        module procedure la_norm_14D_order_err_char_q
+        module procedure la_norm_15D_order_char_q
+        module procedure la_norm_15D_order_err_char_q
         !> Array norms: real(qp)
-        module procedure la_linalg_norm_2D_to_1D_char_q
-        module procedure la_linalg_norm_2D_to_1D_err_char_q
-        module procedure la_linalg_norm_3D_to_2D_char_q
-        module procedure la_linalg_norm_3D_to_2D_err_char_q
-        module procedure la_linalg_norm_4D_to_3D_char_q
-        module procedure la_linalg_norm_4D_to_3D_err_char_q
-        module procedure la_linalg_norm_5D_to_4D_char_q
-        module procedure la_linalg_norm_5D_to_4D_err_char_q
-        module procedure la_linalg_norm_6D_to_5D_char_q
-        module procedure la_linalg_norm_6D_to_5D_err_char_q
-        module procedure la_linalg_norm_7D_to_6D_char_q
-        module procedure la_linalg_norm_7D_to_6D_err_char_q
-        module procedure la_linalg_norm_8D_to_7D_char_q
-        module procedure la_linalg_norm_8D_to_7D_err_char_q
-        module procedure la_linalg_norm_9D_to_8D_char_q
-        module procedure la_linalg_norm_9D_to_8D_err_char_q
-        module procedure la_linalg_norm_10D_to_9D_char_q
-        module procedure la_linalg_norm_10D_to_9D_err_char_q
-        module procedure la_linalg_norm_11D_to_10D_char_q
-        module procedure la_linalg_norm_11D_to_10D_err_char_q
-        module procedure la_linalg_norm_12D_to_11D_char_q
-        module procedure la_linalg_norm_12D_to_11D_err_char_q
-        module procedure la_linalg_norm_13D_to_12D_char_q
-        module procedure la_linalg_norm_13D_to_12D_err_char_q
-        module procedure la_linalg_norm_14D_to_13D_char_q
-        module procedure la_linalg_norm_14D_to_13D_err_char_q
-        module procedure la_linalg_norm_15D_to_14D_char_q
-        module procedure la_linalg_norm_15D_to_14D_err_char_q
+        module procedure la_norm_2D_to_1D_char_q
+        module procedure la_norm_2D_to_1D_err_char_q
+        module procedure la_norm_3D_to_2D_char_q
+        module procedure la_norm_3D_to_2D_err_char_q
+        module procedure la_norm_4D_to_3D_char_q
+        module procedure la_norm_4D_to_3D_err_char_q
+        module procedure la_norm_5D_to_4D_char_q
+        module procedure la_norm_5D_to_4D_err_char_q
+        module procedure la_norm_6D_to_5D_char_q
+        module procedure la_norm_6D_to_5D_err_char_q
+        module procedure la_norm_7D_to_6D_char_q
+        module procedure la_norm_7D_to_6D_err_char_q
+        module procedure la_norm_8D_to_7D_char_q
+        module procedure la_norm_8D_to_7D_err_char_q
+        module procedure la_norm_9D_to_8D_char_q
+        module procedure la_norm_9D_to_8D_err_char_q
+        module procedure la_norm_10D_to_9D_char_q
+        module procedure la_norm_10D_to_9D_err_char_q
+        module procedure la_norm_11D_to_10D_char_q
+        module procedure la_norm_11D_to_10D_err_char_q
+        module procedure la_norm_12D_to_11D_char_q
+        module procedure la_norm_12D_to_11D_err_char_q
+        module procedure la_norm_13D_to_12D_char_q
+        module procedure la_norm_13D_to_12D_err_char_q
+        module procedure la_norm_14D_to_13D_char_q
+        module procedure la_norm_14D_to_13D_err_char_q
+        module procedure la_norm_15D_to_14D_char_q
+        module procedure la_norm_15D_to_14D_err_char_q
         !> Scalar norms: real(qp)
-        module procedure la_linalg_norm_1D_order_int_q
-        module procedure la_linalg_norm_1D_order_err_int_q
-        module procedure la_linalg_norm_2D_order_int_q
-        module procedure la_linalg_norm_2D_order_err_int_q
-        module procedure la_linalg_norm_3D_order_int_q
-        module procedure la_linalg_norm_3D_order_err_int_q
-        module procedure la_linalg_norm_4D_order_int_q
-        module procedure la_linalg_norm_4D_order_err_int_q
-        module procedure la_linalg_norm_5D_order_int_q
-        module procedure la_linalg_norm_5D_order_err_int_q
-        module procedure la_linalg_norm_6D_order_int_q
-        module procedure la_linalg_norm_6D_order_err_int_q
-        module procedure la_linalg_norm_7D_order_int_q
-        module procedure la_linalg_norm_7D_order_err_int_q
-        module procedure la_linalg_norm_8D_order_int_q
-        module procedure la_linalg_norm_8D_order_err_int_q
-        module procedure la_linalg_norm_9D_order_int_q
-        module procedure la_linalg_norm_9D_order_err_int_q
-        module procedure la_linalg_norm_10D_order_int_q
-        module procedure la_linalg_norm_10D_order_err_int_q
-        module procedure la_linalg_norm_11D_order_int_q
-        module procedure la_linalg_norm_11D_order_err_int_q
-        module procedure la_linalg_norm_12D_order_int_q
-        module procedure la_linalg_norm_12D_order_err_int_q
-        module procedure la_linalg_norm_13D_order_int_q
-        module procedure la_linalg_norm_13D_order_err_int_q
-        module procedure la_linalg_norm_14D_order_int_q
-        module procedure la_linalg_norm_14D_order_err_int_q
-        module procedure la_linalg_norm_15D_order_int_q
-        module procedure la_linalg_norm_15D_order_err_int_q
+        module procedure la_norm_1D_order_int_q
+        module procedure la_norm_1D_order_err_int_q
+        module procedure la_norm_2D_order_int_q
+        module procedure la_norm_2D_order_err_int_q
+        module procedure la_norm_3D_order_int_q
+        module procedure la_norm_3D_order_err_int_q
+        module procedure la_norm_4D_order_int_q
+        module procedure la_norm_4D_order_err_int_q
+        module procedure la_norm_5D_order_int_q
+        module procedure la_norm_5D_order_err_int_q
+        module procedure la_norm_6D_order_int_q
+        module procedure la_norm_6D_order_err_int_q
+        module procedure la_norm_7D_order_int_q
+        module procedure la_norm_7D_order_err_int_q
+        module procedure la_norm_8D_order_int_q
+        module procedure la_norm_8D_order_err_int_q
+        module procedure la_norm_9D_order_int_q
+        module procedure la_norm_9D_order_err_int_q
+        module procedure la_norm_10D_order_int_q
+        module procedure la_norm_10D_order_err_int_q
+        module procedure la_norm_11D_order_int_q
+        module procedure la_norm_11D_order_err_int_q
+        module procedure la_norm_12D_order_int_q
+        module procedure la_norm_12D_order_err_int_q
+        module procedure la_norm_13D_order_int_q
+        module procedure la_norm_13D_order_err_int_q
+        module procedure la_norm_14D_order_int_q
+        module procedure la_norm_14D_order_err_int_q
+        module procedure la_norm_15D_order_int_q
+        module procedure la_norm_15D_order_err_int_q
         !> Array norms: real(qp)
-        module procedure la_linalg_norm_2D_to_1D_int_q
-        module procedure la_linalg_norm_2D_to_1D_err_int_q
-        module procedure la_linalg_norm_3D_to_2D_int_q
-        module procedure la_linalg_norm_3D_to_2D_err_int_q
-        module procedure la_linalg_norm_4D_to_3D_int_q
-        module procedure la_linalg_norm_4D_to_3D_err_int_q
-        module procedure la_linalg_norm_5D_to_4D_int_q
-        module procedure la_linalg_norm_5D_to_4D_err_int_q
-        module procedure la_linalg_norm_6D_to_5D_int_q
-        module procedure la_linalg_norm_6D_to_5D_err_int_q
-        module procedure la_linalg_norm_7D_to_6D_int_q
-        module procedure la_linalg_norm_7D_to_6D_err_int_q
-        module procedure la_linalg_norm_8D_to_7D_int_q
-        module procedure la_linalg_norm_8D_to_7D_err_int_q
-        module procedure la_linalg_norm_9D_to_8D_int_q
-        module procedure la_linalg_norm_9D_to_8D_err_int_q
-        module procedure la_linalg_norm_10D_to_9D_int_q
-        module procedure la_linalg_norm_10D_to_9D_err_int_q
-        module procedure la_linalg_norm_11D_to_10D_int_q
-        module procedure la_linalg_norm_11D_to_10D_err_int_q
-        module procedure la_linalg_norm_12D_to_11D_int_q
-        module procedure la_linalg_norm_12D_to_11D_err_int_q
-        module procedure la_linalg_norm_13D_to_12D_int_q
-        module procedure la_linalg_norm_13D_to_12D_err_int_q
-        module procedure la_linalg_norm_14D_to_13D_int_q
-        module procedure la_linalg_norm_14D_to_13D_err_int_q
-        module procedure la_linalg_norm_15D_to_14D_int_q
-        module procedure la_linalg_norm_15D_to_14D_err_int_q
+        module procedure la_norm_2D_to_1D_int_q
+        module procedure la_norm_2D_to_1D_err_int_q
+        module procedure la_norm_3D_to_2D_int_q
+        module procedure la_norm_3D_to_2D_err_int_q
+        module procedure la_norm_4D_to_3D_int_q
+        module procedure la_norm_4D_to_3D_err_int_q
+        module procedure la_norm_5D_to_4D_int_q
+        module procedure la_norm_5D_to_4D_err_int_q
+        module procedure la_norm_6D_to_5D_int_q
+        module procedure la_norm_6D_to_5D_err_int_q
+        module procedure la_norm_7D_to_6D_int_q
+        module procedure la_norm_7D_to_6D_err_int_q
+        module procedure la_norm_8D_to_7D_int_q
+        module procedure la_norm_8D_to_7D_err_int_q
+        module procedure la_norm_9D_to_8D_int_q
+        module procedure la_norm_9D_to_8D_err_int_q
+        module procedure la_norm_10D_to_9D_int_q
+        module procedure la_norm_10D_to_9D_err_int_q
+        module procedure la_norm_11D_to_10D_int_q
+        module procedure la_norm_11D_to_10D_err_int_q
+        module procedure la_norm_12D_to_11D_int_q
+        module procedure la_norm_12D_to_11D_err_int_q
+        module procedure la_norm_13D_to_12D_int_q
+        module procedure la_norm_13D_to_12D_err_int_q
+        module procedure la_norm_14D_to_13D_int_q
+        module procedure la_norm_14D_to_13D_err_int_q
+        module procedure la_norm_15D_to_14D_int_q
+        module procedure la_norm_15D_to_14D_err_int_q
         !> Scalar norms: complex(sp)
-        module procedure la_linalg_norm_1D_order_char_c
-        module procedure la_linalg_norm_1D_order_err_char_c
-        module procedure la_linalg_norm_2D_order_char_c
-        module procedure la_linalg_norm_2D_order_err_char_c
-        module procedure la_linalg_norm_3D_order_char_c
-        module procedure la_linalg_norm_3D_order_err_char_c
-        module procedure la_linalg_norm_4D_order_char_c
-        module procedure la_linalg_norm_4D_order_err_char_c
-        module procedure la_linalg_norm_5D_order_char_c
-        module procedure la_linalg_norm_5D_order_err_char_c
-        module procedure la_linalg_norm_6D_order_char_c
-        module procedure la_linalg_norm_6D_order_err_char_c
-        module procedure la_linalg_norm_7D_order_char_c
-        module procedure la_linalg_norm_7D_order_err_char_c
-        module procedure la_linalg_norm_8D_order_char_c
-        module procedure la_linalg_norm_8D_order_err_char_c
-        module procedure la_linalg_norm_9D_order_char_c
-        module procedure la_linalg_norm_9D_order_err_char_c
-        module procedure la_linalg_norm_10D_order_char_c
-        module procedure la_linalg_norm_10D_order_err_char_c
-        module procedure la_linalg_norm_11D_order_char_c
-        module procedure la_linalg_norm_11D_order_err_char_c
-        module procedure la_linalg_norm_12D_order_char_c
-        module procedure la_linalg_norm_12D_order_err_char_c
-        module procedure la_linalg_norm_13D_order_char_c
-        module procedure la_linalg_norm_13D_order_err_char_c
-        module procedure la_linalg_norm_14D_order_char_c
-        module procedure la_linalg_norm_14D_order_err_char_c
-        module procedure la_linalg_norm_15D_order_char_c
-        module procedure la_linalg_norm_15D_order_err_char_c
+        module procedure la_norm_1D_order_char_c
+        module procedure la_norm_1D_order_err_char_c
+        module procedure la_norm_2D_order_char_c
+        module procedure la_norm_2D_order_err_char_c
+        module procedure la_norm_3D_order_char_c
+        module procedure la_norm_3D_order_err_char_c
+        module procedure la_norm_4D_order_char_c
+        module procedure la_norm_4D_order_err_char_c
+        module procedure la_norm_5D_order_char_c
+        module procedure la_norm_5D_order_err_char_c
+        module procedure la_norm_6D_order_char_c
+        module procedure la_norm_6D_order_err_char_c
+        module procedure la_norm_7D_order_char_c
+        module procedure la_norm_7D_order_err_char_c
+        module procedure la_norm_8D_order_char_c
+        module procedure la_norm_8D_order_err_char_c
+        module procedure la_norm_9D_order_char_c
+        module procedure la_norm_9D_order_err_char_c
+        module procedure la_norm_10D_order_char_c
+        module procedure la_norm_10D_order_err_char_c
+        module procedure la_norm_11D_order_char_c
+        module procedure la_norm_11D_order_err_char_c
+        module procedure la_norm_12D_order_char_c
+        module procedure la_norm_12D_order_err_char_c
+        module procedure la_norm_13D_order_char_c
+        module procedure la_norm_13D_order_err_char_c
+        module procedure la_norm_14D_order_char_c
+        module procedure la_norm_14D_order_err_char_c
+        module procedure la_norm_15D_order_char_c
+        module procedure la_norm_15D_order_err_char_c
         !> Array norms: complex(sp)
-        module procedure la_linalg_norm_2D_to_1D_char_c
-        module procedure la_linalg_norm_2D_to_1D_err_char_c
-        module procedure la_linalg_norm_3D_to_2D_char_c
-        module procedure la_linalg_norm_3D_to_2D_err_char_c
-        module procedure la_linalg_norm_4D_to_3D_char_c
-        module procedure la_linalg_norm_4D_to_3D_err_char_c
-        module procedure la_linalg_norm_5D_to_4D_char_c
-        module procedure la_linalg_norm_5D_to_4D_err_char_c
-        module procedure la_linalg_norm_6D_to_5D_char_c
-        module procedure la_linalg_norm_6D_to_5D_err_char_c
-        module procedure la_linalg_norm_7D_to_6D_char_c
-        module procedure la_linalg_norm_7D_to_6D_err_char_c
-        module procedure la_linalg_norm_8D_to_7D_char_c
-        module procedure la_linalg_norm_8D_to_7D_err_char_c
-        module procedure la_linalg_norm_9D_to_8D_char_c
-        module procedure la_linalg_norm_9D_to_8D_err_char_c
-        module procedure la_linalg_norm_10D_to_9D_char_c
-        module procedure la_linalg_norm_10D_to_9D_err_char_c
-        module procedure la_linalg_norm_11D_to_10D_char_c
-        module procedure la_linalg_norm_11D_to_10D_err_char_c
-        module procedure la_linalg_norm_12D_to_11D_char_c
-        module procedure la_linalg_norm_12D_to_11D_err_char_c
-        module procedure la_linalg_norm_13D_to_12D_char_c
-        module procedure la_linalg_norm_13D_to_12D_err_char_c
-        module procedure la_linalg_norm_14D_to_13D_char_c
-        module procedure la_linalg_norm_14D_to_13D_err_char_c
-        module procedure la_linalg_norm_15D_to_14D_char_c
-        module procedure la_linalg_norm_15D_to_14D_err_char_c
+        module procedure la_norm_2D_to_1D_char_c
+        module procedure la_norm_2D_to_1D_err_char_c
+        module procedure la_norm_3D_to_2D_char_c
+        module procedure la_norm_3D_to_2D_err_char_c
+        module procedure la_norm_4D_to_3D_char_c
+        module procedure la_norm_4D_to_3D_err_char_c
+        module procedure la_norm_5D_to_4D_char_c
+        module procedure la_norm_5D_to_4D_err_char_c
+        module procedure la_norm_6D_to_5D_char_c
+        module procedure la_norm_6D_to_5D_err_char_c
+        module procedure la_norm_7D_to_6D_char_c
+        module procedure la_norm_7D_to_6D_err_char_c
+        module procedure la_norm_8D_to_7D_char_c
+        module procedure la_norm_8D_to_7D_err_char_c
+        module procedure la_norm_9D_to_8D_char_c
+        module procedure la_norm_9D_to_8D_err_char_c
+        module procedure la_norm_10D_to_9D_char_c
+        module procedure la_norm_10D_to_9D_err_char_c
+        module procedure la_norm_11D_to_10D_char_c
+        module procedure la_norm_11D_to_10D_err_char_c
+        module procedure la_norm_12D_to_11D_char_c
+        module procedure la_norm_12D_to_11D_err_char_c
+        module procedure la_norm_13D_to_12D_char_c
+        module procedure la_norm_13D_to_12D_err_char_c
+        module procedure la_norm_14D_to_13D_char_c
+        module procedure la_norm_14D_to_13D_err_char_c
+        module procedure la_norm_15D_to_14D_char_c
+        module procedure la_norm_15D_to_14D_err_char_c
         !> Scalar norms: complex(sp)
-        module procedure la_linalg_norm_1D_order_int_c
-        module procedure la_linalg_norm_1D_order_err_int_c
-        module procedure la_linalg_norm_2D_order_int_c
-        module procedure la_linalg_norm_2D_order_err_int_c
-        module procedure la_linalg_norm_3D_order_int_c
-        module procedure la_linalg_norm_3D_order_err_int_c
-        module procedure la_linalg_norm_4D_order_int_c
-        module procedure la_linalg_norm_4D_order_err_int_c
-        module procedure la_linalg_norm_5D_order_int_c
-        module procedure la_linalg_norm_5D_order_err_int_c
-        module procedure la_linalg_norm_6D_order_int_c
-        module procedure la_linalg_norm_6D_order_err_int_c
-        module procedure la_linalg_norm_7D_order_int_c
-        module procedure la_linalg_norm_7D_order_err_int_c
-        module procedure la_linalg_norm_8D_order_int_c
-        module procedure la_linalg_norm_8D_order_err_int_c
-        module procedure la_linalg_norm_9D_order_int_c
-        module procedure la_linalg_norm_9D_order_err_int_c
-        module procedure la_linalg_norm_10D_order_int_c
-        module procedure la_linalg_norm_10D_order_err_int_c
-        module procedure la_linalg_norm_11D_order_int_c
-        module procedure la_linalg_norm_11D_order_err_int_c
-        module procedure la_linalg_norm_12D_order_int_c
-        module procedure la_linalg_norm_12D_order_err_int_c
-        module procedure la_linalg_norm_13D_order_int_c
-        module procedure la_linalg_norm_13D_order_err_int_c
-        module procedure la_linalg_norm_14D_order_int_c
-        module procedure la_linalg_norm_14D_order_err_int_c
-        module procedure la_linalg_norm_15D_order_int_c
-        module procedure la_linalg_norm_15D_order_err_int_c
+        module procedure la_norm_1D_order_int_c
+        module procedure la_norm_1D_order_err_int_c
+        module procedure la_norm_2D_order_int_c
+        module procedure la_norm_2D_order_err_int_c
+        module procedure la_norm_3D_order_int_c
+        module procedure la_norm_3D_order_err_int_c
+        module procedure la_norm_4D_order_int_c
+        module procedure la_norm_4D_order_err_int_c
+        module procedure la_norm_5D_order_int_c
+        module procedure la_norm_5D_order_err_int_c
+        module procedure la_norm_6D_order_int_c
+        module procedure la_norm_6D_order_err_int_c
+        module procedure la_norm_7D_order_int_c
+        module procedure la_norm_7D_order_err_int_c
+        module procedure la_norm_8D_order_int_c
+        module procedure la_norm_8D_order_err_int_c
+        module procedure la_norm_9D_order_int_c
+        module procedure la_norm_9D_order_err_int_c
+        module procedure la_norm_10D_order_int_c
+        module procedure la_norm_10D_order_err_int_c
+        module procedure la_norm_11D_order_int_c
+        module procedure la_norm_11D_order_err_int_c
+        module procedure la_norm_12D_order_int_c
+        module procedure la_norm_12D_order_err_int_c
+        module procedure la_norm_13D_order_int_c
+        module procedure la_norm_13D_order_err_int_c
+        module procedure la_norm_14D_order_int_c
+        module procedure la_norm_14D_order_err_int_c
+        module procedure la_norm_15D_order_int_c
+        module procedure la_norm_15D_order_err_int_c
         !> Array norms: complex(sp)
-        module procedure la_linalg_norm_2D_to_1D_int_c
-        module procedure la_linalg_norm_2D_to_1D_err_int_c
-        module procedure la_linalg_norm_3D_to_2D_int_c
-        module procedure la_linalg_norm_3D_to_2D_err_int_c
-        module procedure la_linalg_norm_4D_to_3D_int_c
-        module procedure la_linalg_norm_4D_to_3D_err_int_c
-        module procedure la_linalg_norm_5D_to_4D_int_c
-        module procedure la_linalg_norm_5D_to_4D_err_int_c
-        module procedure la_linalg_norm_6D_to_5D_int_c
-        module procedure la_linalg_norm_6D_to_5D_err_int_c
-        module procedure la_linalg_norm_7D_to_6D_int_c
-        module procedure la_linalg_norm_7D_to_6D_err_int_c
-        module procedure la_linalg_norm_8D_to_7D_int_c
-        module procedure la_linalg_norm_8D_to_7D_err_int_c
-        module procedure la_linalg_norm_9D_to_8D_int_c
-        module procedure la_linalg_norm_9D_to_8D_err_int_c
-        module procedure la_linalg_norm_10D_to_9D_int_c
-        module procedure la_linalg_norm_10D_to_9D_err_int_c
-        module procedure la_linalg_norm_11D_to_10D_int_c
-        module procedure la_linalg_norm_11D_to_10D_err_int_c
-        module procedure la_linalg_norm_12D_to_11D_int_c
-        module procedure la_linalg_norm_12D_to_11D_err_int_c
-        module procedure la_linalg_norm_13D_to_12D_int_c
-        module procedure la_linalg_norm_13D_to_12D_err_int_c
-        module procedure la_linalg_norm_14D_to_13D_int_c
-        module procedure la_linalg_norm_14D_to_13D_err_int_c
-        module procedure la_linalg_norm_15D_to_14D_int_c
-        module procedure la_linalg_norm_15D_to_14D_err_int_c
+        module procedure la_norm_2D_to_1D_int_c
+        module procedure la_norm_2D_to_1D_err_int_c
+        module procedure la_norm_3D_to_2D_int_c
+        module procedure la_norm_3D_to_2D_err_int_c
+        module procedure la_norm_4D_to_3D_int_c
+        module procedure la_norm_4D_to_3D_err_int_c
+        module procedure la_norm_5D_to_4D_int_c
+        module procedure la_norm_5D_to_4D_err_int_c
+        module procedure la_norm_6D_to_5D_int_c
+        module procedure la_norm_6D_to_5D_err_int_c
+        module procedure la_norm_7D_to_6D_int_c
+        module procedure la_norm_7D_to_6D_err_int_c
+        module procedure la_norm_8D_to_7D_int_c
+        module procedure la_norm_8D_to_7D_err_int_c
+        module procedure la_norm_9D_to_8D_int_c
+        module procedure la_norm_9D_to_8D_err_int_c
+        module procedure la_norm_10D_to_9D_int_c
+        module procedure la_norm_10D_to_9D_err_int_c
+        module procedure la_norm_11D_to_10D_int_c
+        module procedure la_norm_11D_to_10D_err_int_c
+        module procedure la_norm_12D_to_11D_int_c
+        module procedure la_norm_12D_to_11D_err_int_c
+        module procedure la_norm_13D_to_12D_int_c
+        module procedure la_norm_13D_to_12D_err_int_c
+        module procedure la_norm_14D_to_13D_int_c
+        module procedure la_norm_14D_to_13D_err_int_c
+        module procedure la_norm_15D_to_14D_int_c
+        module procedure la_norm_15D_to_14D_err_int_c
         !> Scalar norms: complex(dp)
-        module procedure la_linalg_norm_1D_order_char_z
-        module procedure la_linalg_norm_1D_order_err_char_z
-        module procedure la_linalg_norm_2D_order_char_z
-        module procedure la_linalg_norm_2D_order_err_char_z
-        module procedure la_linalg_norm_3D_order_char_z
-        module procedure la_linalg_norm_3D_order_err_char_z
-        module procedure la_linalg_norm_4D_order_char_z
-        module procedure la_linalg_norm_4D_order_err_char_z
-        module procedure la_linalg_norm_5D_order_char_z
-        module procedure la_linalg_norm_5D_order_err_char_z
-        module procedure la_linalg_norm_6D_order_char_z
-        module procedure la_linalg_norm_6D_order_err_char_z
-        module procedure la_linalg_norm_7D_order_char_z
-        module procedure la_linalg_norm_7D_order_err_char_z
-        module procedure la_linalg_norm_8D_order_char_z
-        module procedure la_linalg_norm_8D_order_err_char_z
-        module procedure la_linalg_norm_9D_order_char_z
-        module procedure la_linalg_norm_9D_order_err_char_z
-        module procedure la_linalg_norm_10D_order_char_z
-        module procedure la_linalg_norm_10D_order_err_char_z
-        module procedure la_linalg_norm_11D_order_char_z
-        module procedure la_linalg_norm_11D_order_err_char_z
-        module procedure la_linalg_norm_12D_order_char_z
-        module procedure la_linalg_norm_12D_order_err_char_z
-        module procedure la_linalg_norm_13D_order_char_z
-        module procedure la_linalg_norm_13D_order_err_char_z
-        module procedure la_linalg_norm_14D_order_char_z
-        module procedure la_linalg_norm_14D_order_err_char_z
-        module procedure la_linalg_norm_15D_order_char_z
-        module procedure la_linalg_norm_15D_order_err_char_z
+        module procedure la_norm_1D_order_char_z
+        module procedure la_norm_1D_order_err_char_z
+        module procedure la_norm_2D_order_char_z
+        module procedure la_norm_2D_order_err_char_z
+        module procedure la_norm_3D_order_char_z
+        module procedure la_norm_3D_order_err_char_z
+        module procedure la_norm_4D_order_char_z
+        module procedure la_norm_4D_order_err_char_z
+        module procedure la_norm_5D_order_char_z
+        module procedure la_norm_5D_order_err_char_z
+        module procedure la_norm_6D_order_char_z
+        module procedure la_norm_6D_order_err_char_z
+        module procedure la_norm_7D_order_char_z
+        module procedure la_norm_7D_order_err_char_z
+        module procedure la_norm_8D_order_char_z
+        module procedure la_norm_8D_order_err_char_z
+        module procedure la_norm_9D_order_char_z
+        module procedure la_norm_9D_order_err_char_z
+        module procedure la_norm_10D_order_char_z
+        module procedure la_norm_10D_order_err_char_z
+        module procedure la_norm_11D_order_char_z
+        module procedure la_norm_11D_order_err_char_z
+        module procedure la_norm_12D_order_char_z
+        module procedure la_norm_12D_order_err_char_z
+        module procedure la_norm_13D_order_char_z
+        module procedure la_norm_13D_order_err_char_z
+        module procedure la_norm_14D_order_char_z
+        module procedure la_norm_14D_order_err_char_z
+        module procedure la_norm_15D_order_char_z
+        module procedure la_norm_15D_order_err_char_z
         !> Array norms: complex(dp)
-        module procedure la_linalg_norm_2D_to_1D_char_z
-        module procedure la_linalg_norm_2D_to_1D_err_char_z
-        module procedure la_linalg_norm_3D_to_2D_char_z
-        module procedure la_linalg_norm_3D_to_2D_err_char_z
-        module procedure la_linalg_norm_4D_to_3D_char_z
-        module procedure la_linalg_norm_4D_to_3D_err_char_z
-        module procedure la_linalg_norm_5D_to_4D_char_z
-        module procedure la_linalg_norm_5D_to_4D_err_char_z
-        module procedure la_linalg_norm_6D_to_5D_char_z
-        module procedure la_linalg_norm_6D_to_5D_err_char_z
-        module procedure la_linalg_norm_7D_to_6D_char_z
-        module procedure la_linalg_norm_7D_to_6D_err_char_z
-        module procedure la_linalg_norm_8D_to_7D_char_z
-        module procedure la_linalg_norm_8D_to_7D_err_char_z
-        module procedure la_linalg_norm_9D_to_8D_char_z
-        module procedure la_linalg_norm_9D_to_8D_err_char_z
-        module procedure la_linalg_norm_10D_to_9D_char_z
-        module procedure la_linalg_norm_10D_to_9D_err_char_z
-        module procedure la_linalg_norm_11D_to_10D_char_z
-        module procedure la_linalg_norm_11D_to_10D_err_char_z
-        module procedure la_linalg_norm_12D_to_11D_char_z
-        module procedure la_linalg_norm_12D_to_11D_err_char_z
-        module procedure la_linalg_norm_13D_to_12D_char_z
-        module procedure la_linalg_norm_13D_to_12D_err_char_z
-        module procedure la_linalg_norm_14D_to_13D_char_z
-        module procedure la_linalg_norm_14D_to_13D_err_char_z
-        module procedure la_linalg_norm_15D_to_14D_char_z
-        module procedure la_linalg_norm_15D_to_14D_err_char_z
+        module procedure la_norm_2D_to_1D_char_z
+        module procedure la_norm_2D_to_1D_err_char_z
+        module procedure la_norm_3D_to_2D_char_z
+        module procedure la_norm_3D_to_2D_err_char_z
+        module procedure la_norm_4D_to_3D_char_z
+        module procedure la_norm_4D_to_3D_err_char_z
+        module procedure la_norm_5D_to_4D_char_z
+        module procedure la_norm_5D_to_4D_err_char_z
+        module procedure la_norm_6D_to_5D_char_z
+        module procedure la_norm_6D_to_5D_err_char_z
+        module procedure la_norm_7D_to_6D_char_z
+        module procedure la_norm_7D_to_6D_err_char_z
+        module procedure la_norm_8D_to_7D_char_z
+        module procedure la_norm_8D_to_7D_err_char_z
+        module procedure la_norm_9D_to_8D_char_z
+        module procedure la_norm_9D_to_8D_err_char_z
+        module procedure la_norm_10D_to_9D_char_z
+        module procedure la_norm_10D_to_9D_err_char_z
+        module procedure la_norm_11D_to_10D_char_z
+        module procedure la_norm_11D_to_10D_err_char_z
+        module procedure la_norm_12D_to_11D_char_z
+        module procedure la_norm_12D_to_11D_err_char_z
+        module procedure la_norm_13D_to_12D_char_z
+        module procedure la_norm_13D_to_12D_err_char_z
+        module procedure la_norm_14D_to_13D_char_z
+        module procedure la_norm_14D_to_13D_err_char_z
+        module procedure la_norm_15D_to_14D_char_z
+        module procedure la_norm_15D_to_14D_err_char_z
         !> Scalar norms: complex(dp)
-        module procedure la_linalg_norm_1D_order_int_z
-        module procedure la_linalg_norm_1D_order_err_int_z
-        module procedure la_linalg_norm_2D_order_int_z
-        module procedure la_linalg_norm_2D_order_err_int_z
-        module procedure la_linalg_norm_3D_order_int_z
-        module procedure la_linalg_norm_3D_order_err_int_z
-        module procedure la_linalg_norm_4D_order_int_z
-        module procedure la_linalg_norm_4D_order_err_int_z
-        module procedure la_linalg_norm_5D_order_int_z
-        module procedure la_linalg_norm_5D_order_err_int_z
-        module procedure la_linalg_norm_6D_order_int_z
-        module procedure la_linalg_norm_6D_order_err_int_z
-        module procedure la_linalg_norm_7D_order_int_z
-        module procedure la_linalg_norm_7D_order_err_int_z
-        module procedure la_linalg_norm_8D_order_int_z
-        module procedure la_linalg_norm_8D_order_err_int_z
-        module procedure la_linalg_norm_9D_order_int_z
-        module procedure la_linalg_norm_9D_order_err_int_z
-        module procedure la_linalg_norm_10D_order_int_z
-        module procedure la_linalg_norm_10D_order_err_int_z
-        module procedure la_linalg_norm_11D_order_int_z
-        module procedure la_linalg_norm_11D_order_err_int_z
-        module procedure la_linalg_norm_12D_order_int_z
-        module procedure la_linalg_norm_12D_order_err_int_z
-        module procedure la_linalg_norm_13D_order_int_z
-        module procedure la_linalg_norm_13D_order_err_int_z
-        module procedure la_linalg_norm_14D_order_int_z
-        module procedure la_linalg_norm_14D_order_err_int_z
-        module procedure la_linalg_norm_15D_order_int_z
-        module procedure la_linalg_norm_15D_order_err_int_z
+        module procedure la_norm_1D_order_int_z
+        module procedure la_norm_1D_order_err_int_z
+        module procedure la_norm_2D_order_int_z
+        module procedure la_norm_2D_order_err_int_z
+        module procedure la_norm_3D_order_int_z
+        module procedure la_norm_3D_order_err_int_z
+        module procedure la_norm_4D_order_int_z
+        module procedure la_norm_4D_order_err_int_z
+        module procedure la_norm_5D_order_int_z
+        module procedure la_norm_5D_order_err_int_z
+        module procedure la_norm_6D_order_int_z
+        module procedure la_norm_6D_order_err_int_z
+        module procedure la_norm_7D_order_int_z
+        module procedure la_norm_7D_order_err_int_z
+        module procedure la_norm_8D_order_int_z
+        module procedure la_norm_8D_order_err_int_z
+        module procedure la_norm_9D_order_int_z
+        module procedure la_norm_9D_order_err_int_z
+        module procedure la_norm_10D_order_int_z
+        module procedure la_norm_10D_order_err_int_z
+        module procedure la_norm_11D_order_int_z
+        module procedure la_norm_11D_order_err_int_z
+        module procedure la_norm_12D_order_int_z
+        module procedure la_norm_12D_order_err_int_z
+        module procedure la_norm_13D_order_int_z
+        module procedure la_norm_13D_order_err_int_z
+        module procedure la_norm_14D_order_int_z
+        module procedure la_norm_14D_order_err_int_z
+        module procedure la_norm_15D_order_int_z
+        module procedure la_norm_15D_order_err_int_z
         !> Array norms: complex(dp)
-        module procedure la_linalg_norm_2D_to_1D_int_z
-        module procedure la_linalg_norm_2D_to_1D_err_int_z
-        module procedure la_linalg_norm_3D_to_2D_int_z
-        module procedure la_linalg_norm_3D_to_2D_err_int_z
-        module procedure la_linalg_norm_4D_to_3D_int_z
-        module procedure la_linalg_norm_4D_to_3D_err_int_z
-        module procedure la_linalg_norm_5D_to_4D_int_z
-        module procedure la_linalg_norm_5D_to_4D_err_int_z
-        module procedure la_linalg_norm_6D_to_5D_int_z
-        module procedure la_linalg_norm_6D_to_5D_err_int_z
-        module procedure la_linalg_norm_7D_to_6D_int_z
-        module procedure la_linalg_norm_7D_to_6D_err_int_z
-        module procedure la_linalg_norm_8D_to_7D_int_z
-        module procedure la_linalg_norm_8D_to_7D_err_int_z
-        module procedure la_linalg_norm_9D_to_8D_int_z
-        module procedure la_linalg_norm_9D_to_8D_err_int_z
-        module procedure la_linalg_norm_10D_to_9D_int_z
-        module procedure la_linalg_norm_10D_to_9D_err_int_z
-        module procedure la_linalg_norm_11D_to_10D_int_z
-        module procedure la_linalg_norm_11D_to_10D_err_int_z
-        module procedure la_linalg_norm_12D_to_11D_int_z
-        module procedure la_linalg_norm_12D_to_11D_err_int_z
-        module procedure la_linalg_norm_13D_to_12D_int_z
-        module procedure la_linalg_norm_13D_to_12D_err_int_z
-        module procedure la_linalg_norm_14D_to_13D_int_z
-        module procedure la_linalg_norm_14D_to_13D_err_int_z
-        module procedure la_linalg_norm_15D_to_14D_int_z
-        module procedure la_linalg_norm_15D_to_14D_err_int_z
+        module procedure la_norm_2D_to_1D_int_z
+        module procedure la_norm_2D_to_1D_err_int_z
+        module procedure la_norm_3D_to_2D_int_z
+        module procedure la_norm_3D_to_2D_err_int_z
+        module procedure la_norm_4D_to_3D_int_z
+        module procedure la_norm_4D_to_3D_err_int_z
+        module procedure la_norm_5D_to_4D_int_z
+        module procedure la_norm_5D_to_4D_err_int_z
+        module procedure la_norm_6D_to_5D_int_z
+        module procedure la_norm_6D_to_5D_err_int_z
+        module procedure la_norm_7D_to_6D_int_z
+        module procedure la_norm_7D_to_6D_err_int_z
+        module procedure la_norm_8D_to_7D_int_z
+        module procedure la_norm_8D_to_7D_err_int_z
+        module procedure la_norm_9D_to_8D_int_z
+        module procedure la_norm_9D_to_8D_err_int_z
+        module procedure la_norm_10D_to_9D_int_z
+        module procedure la_norm_10D_to_9D_err_int_z
+        module procedure la_norm_11D_to_10D_int_z
+        module procedure la_norm_11D_to_10D_err_int_z
+        module procedure la_norm_12D_to_11D_int_z
+        module procedure la_norm_12D_to_11D_err_int_z
+        module procedure la_norm_13D_to_12D_int_z
+        module procedure la_norm_13D_to_12D_err_int_z
+        module procedure la_norm_14D_to_13D_int_z
+        module procedure la_norm_14D_to_13D_err_int_z
+        module procedure la_norm_15D_to_14D_int_z
+        module procedure la_norm_15D_to_14D_err_int_z
         !> Scalar norms: complex(qp)
-        module procedure la_linalg_norm_1D_order_char_w
-        module procedure la_linalg_norm_1D_order_err_char_w
-        module procedure la_linalg_norm_2D_order_char_w
-        module procedure la_linalg_norm_2D_order_err_char_w
-        module procedure la_linalg_norm_3D_order_char_w
-        module procedure la_linalg_norm_3D_order_err_char_w
-        module procedure la_linalg_norm_4D_order_char_w
-        module procedure la_linalg_norm_4D_order_err_char_w
-        module procedure la_linalg_norm_5D_order_char_w
-        module procedure la_linalg_norm_5D_order_err_char_w
-        module procedure la_linalg_norm_6D_order_char_w
-        module procedure la_linalg_norm_6D_order_err_char_w
-        module procedure la_linalg_norm_7D_order_char_w
-        module procedure la_linalg_norm_7D_order_err_char_w
-        module procedure la_linalg_norm_8D_order_char_w
-        module procedure la_linalg_norm_8D_order_err_char_w
-        module procedure la_linalg_norm_9D_order_char_w
-        module procedure la_linalg_norm_9D_order_err_char_w
-        module procedure la_linalg_norm_10D_order_char_w
-        module procedure la_linalg_norm_10D_order_err_char_w
-        module procedure la_linalg_norm_11D_order_char_w
-        module procedure la_linalg_norm_11D_order_err_char_w
-        module procedure la_linalg_norm_12D_order_char_w
-        module procedure la_linalg_norm_12D_order_err_char_w
-        module procedure la_linalg_norm_13D_order_char_w
-        module procedure la_linalg_norm_13D_order_err_char_w
-        module procedure la_linalg_norm_14D_order_char_w
-        module procedure la_linalg_norm_14D_order_err_char_w
-        module procedure la_linalg_norm_15D_order_char_w
-        module procedure la_linalg_norm_15D_order_err_char_w
+        module procedure la_norm_1D_order_char_w
+        module procedure la_norm_1D_order_err_char_w
+        module procedure la_norm_2D_order_char_w
+        module procedure la_norm_2D_order_err_char_w
+        module procedure la_norm_3D_order_char_w
+        module procedure la_norm_3D_order_err_char_w
+        module procedure la_norm_4D_order_char_w
+        module procedure la_norm_4D_order_err_char_w
+        module procedure la_norm_5D_order_char_w
+        module procedure la_norm_5D_order_err_char_w
+        module procedure la_norm_6D_order_char_w
+        module procedure la_norm_6D_order_err_char_w
+        module procedure la_norm_7D_order_char_w
+        module procedure la_norm_7D_order_err_char_w
+        module procedure la_norm_8D_order_char_w
+        module procedure la_norm_8D_order_err_char_w
+        module procedure la_norm_9D_order_char_w
+        module procedure la_norm_9D_order_err_char_w
+        module procedure la_norm_10D_order_char_w
+        module procedure la_norm_10D_order_err_char_w
+        module procedure la_norm_11D_order_char_w
+        module procedure la_norm_11D_order_err_char_w
+        module procedure la_norm_12D_order_char_w
+        module procedure la_norm_12D_order_err_char_w
+        module procedure la_norm_13D_order_char_w
+        module procedure la_norm_13D_order_err_char_w
+        module procedure la_norm_14D_order_char_w
+        module procedure la_norm_14D_order_err_char_w
+        module procedure la_norm_15D_order_char_w
+        module procedure la_norm_15D_order_err_char_w
         !> Array norms: complex(qp)
-        module procedure la_linalg_norm_2D_to_1D_char_w
-        module procedure la_linalg_norm_2D_to_1D_err_char_w
-        module procedure la_linalg_norm_3D_to_2D_char_w
-        module procedure la_linalg_norm_3D_to_2D_err_char_w
-        module procedure la_linalg_norm_4D_to_3D_char_w
-        module procedure la_linalg_norm_4D_to_3D_err_char_w
-        module procedure la_linalg_norm_5D_to_4D_char_w
-        module procedure la_linalg_norm_5D_to_4D_err_char_w
-        module procedure la_linalg_norm_6D_to_5D_char_w
-        module procedure la_linalg_norm_6D_to_5D_err_char_w
-        module procedure la_linalg_norm_7D_to_6D_char_w
-        module procedure la_linalg_norm_7D_to_6D_err_char_w
-        module procedure la_linalg_norm_8D_to_7D_char_w
-        module procedure la_linalg_norm_8D_to_7D_err_char_w
-        module procedure la_linalg_norm_9D_to_8D_char_w
-        module procedure la_linalg_norm_9D_to_8D_err_char_w
-        module procedure la_linalg_norm_10D_to_9D_char_w
-        module procedure la_linalg_norm_10D_to_9D_err_char_w
-        module procedure la_linalg_norm_11D_to_10D_char_w
-        module procedure la_linalg_norm_11D_to_10D_err_char_w
-        module procedure la_linalg_norm_12D_to_11D_char_w
-        module procedure la_linalg_norm_12D_to_11D_err_char_w
-        module procedure la_linalg_norm_13D_to_12D_char_w
-        module procedure la_linalg_norm_13D_to_12D_err_char_w
-        module procedure la_linalg_norm_14D_to_13D_char_w
-        module procedure la_linalg_norm_14D_to_13D_err_char_w
-        module procedure la_linalg_norm_15D_to_14D_char_w
-        module procedure la_linalg_norm_15D_to_14D_err_char_w
+        module procedure la_norm_2D_to_1D_char_w
+        module procedure la_norm_2D_to_1D_err_char_w
+        module procedure la_norm_3D_to_2D_char_w
+        module procedure la_norm_3D_to_2D_err_char_w
+        module procedure la_norm_4D_to_3D_char_w
+        module procedure la_norm_4D_to_3D_err_char_w
+        module procedure la_norm_5D_to_4D_char_w
+        module procedure la_norm_5D_to_4D_err_char_w
+        module procedure la_norm_6D_to_5D_char_w
+        module procedure la_norm_6D_to_5D_err_char_w
+        module procedure la_norm_7D_to_6D_char_w
+        module procedure la_norm_7D_to_6D_err_char_w
+        module procedure la_norm_8D_to_7D_char_w
+        module procedure la_norm_8D_to_7D_err_char_w
+        module procedure la_norm_9D_to_8D_char_w
+        module procedure la_norm_9D_to_8D_err_char_w
+        module procedure la_norm_10D_to_9D_char_w
+        module procedure la_norm_10D_to_9D_err_char_w
+        module procedure la_norm_11D_to_10D_char_w
+        module procedure la_norm_11D_to_10D_err_char_w
+        module procedure la_norm_12D_to_11D_char_w
+        module procedure la_norm_12D_to_11D_err_char_w
+        module procedure la_norm_13D_to_12D_char_w
+        module procedure la_norm_13D_to_12D_err_char_w
+        module procedure la_norm_14D_to_13D_char_w
+        module procedure la_norm_14D_to_13D_err_char_w
+        module procedure la_norm_15D_to_14D_char_w
+        module procedure la_norm_15D_to_14D_err_char_w
         !> Scalar norms: complex(qp)
-        module procedure la_linalg_norm_1D_order_int_w
-        module procedure la_linalg_norm_1D_order_err_int_w
-        module procedure la_linalg_norm_2D_order_int_w
-        module procedure la_linalg_norm_2D_order_err_int_w
-        module procedure la_linalg_norm_3D_order_int_w
-        module procedure la_linalg_norm_3D_order_err_int_w
-        module procedure la_linalg_norm_4D_order_int_w
-        module procedure la_linalg_norm_4D_order_err_int_w
-        module procedure la_linalg_norm_5D_order_int_w
-        module procedure la_linalg_norm_5D_order_err_int_w
-        module procedure la_linalg_norm_6D_order_int_w
-        module procedure la_linalg_norm_6D_order_err_int_w
-        module procedure la_linalg_norm_7D_order_int_w
-        module procedure la_linalg_norm_7D_order_err_int_w
-        module procedure la_linalg_norm_8D_order_int_w
-        module procedure la_linalg_norm_8D_order_err_int_w
-        module procedure la_linalg_norm_9D_order_int_w
-        module procedure la_linalg_norm_9D_order_err_int_w
-        module procedure la_linalg_norm_10D_order_int_w
-        module procedure la_linalg_norm_10D_order_err_int_w
-        module procedure la_linalg_norm_11D_order_int_w
-        module procedure la_linalg_norm_11D_order_err_int_w
-        module procedure la_linalg_norm_12D_order_int_w
-        module procedure la_linalg_norm_12D_order_err_int_w
-        module procedure la_linalg_norm_13D_order_int_w
-        module procedure la_linalg_norm_13D_order_err_int_w
-        module procedure la_linalg_norm_14D_order_int_w
-        module procedure la_linalg_norm_14D_order_err_int_w
-        module procedure la_linalg_norm_15D_order_int_w
-        module procedure la_linalg_norm_15D_order_err_int_w
+        module procedure la_norm_1D_order_int_w
+        module procedure la_norm_1D_order_err_int_w
+        module procedure la_norm_2D_order_int_w
+        module procedure la_norm_2D_order_err_int_w
+        module procedure la_norm_3D_order_int_w
+        module procedure la_norm_3D_order_err_int_w
+        module procedure la_norm_4D_order_int_w
+        module procedure la_norm_4D_order_err_int_w
+        module procedure la_norm_5D_order_int_w
+        module procedure la_norm_5D_order_err_int_w
+        module procedure la_norm_6D_order_int_w
+        module procedure la_norm_6D_order_err_int_w
+        module procedure la_norm_7D_order_int_w
+        module procedure la_norm_7D_order_err_int_w
+        module procedure la_norm_8D_order_int_w
+        module procedure la_norm_8D_order_err_int_w
+        module procedure la_norm_9D_order_int_w
+        module procedure la_norm_9D_order_err_int_w
+        module procedure la_norm_10D_order_int_w
+        module procedure la_norm_10D_order_err_int_w
+        module procedure la_norm_11D_order_int_w
+        module procedure la_norm_11D_order_err_int_w
+        module procedure la_norm_12D_order_int_w
+        module procedure la_norm_12D_order_err_int_w
+        module procedure la_norm_13D_order_int_w
+        module procedure la_norm_13D_order_err_int_w
+        module procedure la_norm_14D_order_int_w
+        module procedure la_norm_14D_order_err_int_w
+        module procedure la_norm_15D_order_int_w
+        module procedure la_norm_15D_order_err_int_w
         !> Array norms: complex(qp)
-        module procedure la_linalg_norm_2D_to_1D_int_w
-        module procedure la_linalg_norm_2D_to_1D_err_int_w
-        module procedure la_linalg_norm_3D_to_2D_int_w
-        module procedure la_linalg_norm_3D_to_2D_err_int_w
-        module procedure la_linalg_norm_4D_to_3D_int_w
-        module procedure la_linalg_norm_4D_to_3D_err_int_w
-        module procedure la_linalg_norm_5D_to_4D_int_w
-        module procedure la_linalg_norm_5D_to_4D_err_int_w
-        module procedure la_linalg_norm_6D_to_5D_int_w
-        module procedure la_linalg_norm_6D_to_5D_err_int_w
-        module procedure la_linalg_norm_7D_to_6D_int_w
-        module procedure la_linalg_norm_7D_to_6D_err_int_w
-        module procedure la_linalg_norm_8D_to_7D_int_w
-        module procedure la_linalg_norm_8D_to_7D_err_int_w
-        module procedure la_linalg_norm_9D_to_8D_int_w
-        module procedure la_linalg_norm_9D_to_8D_err_int_w
-        module procedure la_linalg_norm_10D_to_9D_int_w
-        module procedure la_linalg_norm_10D_to_9D_err_int_w
-        module procedure la_linalg_norm_11D_to_10D_int_w
-        module procedure la_linalg_norm_11D_to_10D_err_int_w
-        module procedure la_linalg_norm_12D_to_11D_int_w
-        module procedure la_linalg_norm_12D_to_11D_err_int_w
-        module procedure la_linalg_norm_13D_to_12D_int_w
-        module procedure la_linalg_norm_13D_to_12D_err_int_w
-        module procedure la_linalg_norm_14D_to_13D_int_w
-        module procedure la_linalg_norm_14D_to_13D_err_int_w
-        module procedure la_linalg_norm_15D_to_14D_int_w
-        module procedure la_linalg_norm_15D_to_14D_err_int_w
+        module procedure la_norm_2D_to_1D_int_w
+        module procedure la_norm_2D_to_1D_err_int_w
+        module procedure la_norm_3D_to_2D_int_w
+        module procedure la_norm_3D_to_2D_err_int_w
+        module procedure la_norm_4D_to_3D_int_w
+        module procedure la_norm_4D_to_3D_err_int_w
+        module procedure la_norm_5D_to_4D_int_w
+        module procedure la_norm_5D_to_4D_err_int_w
+        module procedure la_norm_6D_to_5D_int_w
+        module procedure la_norm_6D_to_5D_err_int_w
+        module procedure la_norm_7D_to_6D_int_w
+        module procedure la_norm_7D_to_6D_err_int_w
+        module procedure la_norm_8D_to_7D_int_w
+        module procedure la_norm_8D_to_7D_err_int_w
+        module procedure la_norm_9D_to_8D_int_w
+        module procedure la_norm_9D_to_8D_err_int_w
+        module procedure la_norm_10D_to_9D_int_w
+        module procedure la_norm_10D_to_9D_err_int_w
+        module procedure la_norm_11D_to_10D_int_w
+        module procedure la_norm_11D_to_10D_err_int_w
+        module procedure la_norm_12D_to_11D_int_w
+        module procedure la_norm_12D_to_11D_err_int_w
+        module procedure la_norm_13D_to_12D_int_w
+        module procedure la_norm_13D_to_12D_err_int_w
+        module procedure la_norm_14D_to_13D_int_w
+        module procedure la_norm_14D_to_13D_err_int_w
+        module procedure la_norm_15D_to_14D_int_w
+        module procedure la_norm_15D_to_14D_err_int_w
      end interface norm
      
      !> Vector norm: subroutine interface
@@ -1393,7 +1393,7 @@ module la_linalg_norms
     !==============================================
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_1D_order_char_s(a,order) result(nrm)
+    pure function la_norm_1D_order_char_s(a,order) result(nrm)
         !> Input 1-d matrix a(:)
         real(sp),intent(in) :: a(:)
         !> Order of the matrix norm being computed.
@@ -1403,10 +1403,10 @@ module la_linalg_norms
                                     
         call norm_1D_char_s(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_1D_order_char_s
+    end function la_norm_1D_order_char_s
     
     ! Function interface with output error
-    function la_linalg_norm_1D_order_err_char_s(a,order,err) result(nrm)
+    function la_norm_1D_order_err_char_s(a,order,err) result(nrm)
         !> Input 1-d matrix a(:)
         real(sp),intent(in) :: a(:)
         !> Order of the matrix norm being computed.
@@ -1418,7 +1418,7 @@ module la_linalg_norms
                 
         call norm_1D_char_s(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_1D_order_err_char_s
+    end function la_norm_1D_order_err_char_s
     
     ! Internal implementation
     pure subroutine norm_1D_char_s(a,nrm,order,err)
@@ -1476,7 +1476,7 @@ module la_linalg_norms
     end subroutine norm_1D_char_s
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_2D_order_char_s(a,order) result(nrm)
+    pure function la_norm_2D_order_char_s(a,order) result(nrm)
         !> Input 2-d matrix a(:,:)
         real(sp),intent(in) :: a(:,:)
         !> Order of the matrix norm being computed.
@@ -1486,10 +1486,10 @@ module la_linalg_norms
                                     
         call norm_2D_char_s(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_2D_order_char_s
+    end function la_norm_2D_order_char_s
     
     ! Function interface with output error
-    function la_linalg_norm_2D_order_err_char_s(a,order,err) result(nrm)
+    function la_norm_2D_order_err_char_s(a,order,err) result(nrm)
         !> Input 2-d matrix a(:,:)
         real(sp),intent(in) :: a(:,:)
         !> Order of the matrix norm being computed.
@@ -1501,7 +1501,7 @@ module la_linalg_norms
                 
         call norm_2D_char_s(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_2D_order_err_char_s
+    end function la_norm_2D_order_err_char_s
     
     ! Internal implementation
     pure subroutine norm_2D_char_s(a,nrm,order,err)
@@ -1559,7 +1559,7 @@ module la_linalg_norms
     end subroutine norm_2D_char_s
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_3D_order_char_s(a,order) result(nrm)
+    pure function la_norm_3D_order_char_s(a,order) result(nrm)
         !> Input 3-d matrix a(:,:,:)
         real(sp),intent(in) :: a(:,:,:)
         !> Order of the matrix norm being computed.
@@ -1569,10 +1569,10 @@ module la_linalg_norms
                                     
         call norm_3D_char_s(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_3D_order_char_s
+    end function la_norm_3D_order_char_s
     
     ! Function interface with output error
-    function la_linalg_norm_3D_order_err_char_s(a,order,err) result(nrm)
+    function la_norm_3D_order_err_char_s(a,order,err) result(nrm)
         !> Input 3-d matrix a(:,:,:)
         real(sp),intent(in) :: a(:,:,:)
         !> Order of the matrix norm being computed.
@@ -1584,7 +1584,7 @@ module la_linalg_norms
                 
         call norm_3D_char_s(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_3D_order_err_char_s
+    end function la_norm_3D_order_err_char_s
     
     ! Internal implementation
     pure subroutine norm_3D_char_s(a,nrm,order,err)
@@ -1642,7 +1642,7 @@ module la_linalg_norms
     end subroutine norm_3D_char_s
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_4D_order_char_s(a,order) result(nrm)
+    pure function la_norm_4D_order_char_s(a,order) result(nrm)
         !> Input 4-d matrix a(:,:,:,:)
         real(sp),intent(in) :: a(:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -1652,10 +1652,10 @@ module la_linalg_norms
                                     
         call norm_4D_char_s(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_4D_order_char_s
+    end function la_norm_4D_order_char_s
     
     ! Function interface with output error
-    function la_linalg_norm_4D_order_err_char_s(a,order,err) result(nrm)
+    function la_norm_4D_order_err_char_s(a,order,err) result(nrm)
         !> Input 4-d matrix a(:,:,:,:)
         real(sp),intent(in) :: a(:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -1667,7 +1667,7 @@ module la_linalg_norms
                 
         call norm_4D_char_s(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_4D_order_err_char_s
+    end function la_norm_4D_order_err_char_s
     
     ! Internal implementation
     pure subroutine norm_4D_char_s(a,nrm,order,err)
@@ -1725,7 +1725,7 @@ module la_linalg_norms
     end subroutine norm_4D_char_s
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_5D_order_char_s(a,order) result(nrm)
+    pure function la_norm_5D_order_char_s(a,order) result(nrm)
         !> Input 5-d matrix a(:,:,:,:,:)
         real(sp),intent(in) :: a(:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -1735,10 +1735,10 @@ module la_linalg_norms
                                     
         call norm_5D_char_s(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_5D_order_char_s
+    end function la_norm_5D_order_char_s
     
     ! Function interface with output error
-    function la_linalg_norm_5D_order_err_char_s(a,order,err) result(nrm)
+    function la_norm_5D_order_err_char_s(a,order,err) result(nrm)
         !> Input 5-d matrix a(:,:,:,:,:)
         real(sp),intent(in) :: a(:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -1750,7 +1750,7 @@ module la_linalg_norms
                 
         call norm_5D_char_s(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_5D_order_err_char_s
+    end function la_norm_5D_order_err_char_s
     
     ! Internal implementation
     pure subroutine norm_5D_char_s(a,nrm,order,err)
@@ -1808,7 +1808,7 @@ module la_linalg_norms
     end subroutine norm_5D_char_s
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_6D_order_char_s(a,order) result(nrm)
+    pure function la_norm_6D_order_char_s(a,order) result(nrm)
         !> Input 6-d matrix a(:,:,:,:,:,:)
         real(sp),intent(in) :: a(:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -1818,10 +1818,10 @@ module la_linalg_norms
                                     
         call norm_6D_char_s(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_6D_order_char_s
+    end function la_norm_6D_order_char_s
     
     ! Function interface with output error
-    function la_linalg_norm_6D_order_err_char_s(a,order,err) result(nrm)
+    function la_norm_6D_order_err_char_s(a,order,err) result(nrm)
         !> Input 6-d matrix a(:,:,:,:,:,:)
         real(sp),intent(in) :: a(:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -1833,7 +1833,7 @@ module la_linalg_norms
                 
         call norm_6D_char_s(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_6D_order_err_char_s
+    end function la_norm_6D_order_err_char_s
     
     ! Internal implementation
     pure subroutine norm_6D_char_s(a,nrm,order,err)
@@ -1891,7 +1891,7 @@ module la_linalg_norms
     end subroutine norm_6D_char_s
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_7D_order_char_s(a,order) result(nrm)
+    pure function la_norm_7D_order_char_s(a,order) result(nrm)
         !> Input 7-d matrix a(:,:,:,:,:,:,:)
         real(sp),intent(in) :: a(:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -1901,10 +1901,10 @@ module la_linalg_norms
                                     
         call norm_7D_char_s(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_7D_order_char_s
+    end function la_norm_7D_order_char_s
     
     ! Function interface with output error
-    function la_linalg_norm_7D_order_err_char_s(a,order,err) result(nrm)
+    function la_norm_7D_order_err_char_s(a,order,err) result(nrm)
         !> Input 7-d matrix a(:,:,:,:,:,:,:)
         real(sp),intent(in) :: a(:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -1916,7 +1916,7 @@ module la_linalg_norms
                 
         call norm_7D_char_s(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_7D_order_err_char_s
+    end function la_norm_7D_order_err_char_s
     
     ! Internal implementation
     pure subroutine norm_7D_char_s(a,nrm,order,err)
@@ -1974,7 +1974,7 @@ module la_linalg_norms
     end subroutine norm_7D_char_s
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_8D_order_char_s(a,order) result(nrm)
+    pure function la_norm_8D_order_char_s(a,order) result(nrm)
         !> Input 8-d matrix a(:,:,:,:,:,:,:,:)
         real(sp),intent(in) :: a(:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -1984,10 +1984,10 @@ module la_linalg_norms
                                     
         call norm_8D_char_s(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_8D_order_char_s
+    end function la_norm_8D_order_char_s
     
     ! Function interface with output error
-    function la_linalg_norm_8D_order_err_char_s(a,order,err) result(nrm)
+    function la_norm_8D_order_err_char_s(a,order,err) result(nrm)
         !> Input 8-d matrix a(:,:,:,:,:,:,:,:)
         real(sp),intent(in) :: a(:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -1999,7 +1999,7 @@ module la_linalg_norms
                 
         call norm_8D_char_s(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_8D_order_err_char_s
+    end function la_norm_8D_order_err_char_s
     
     ! Internal implementation
     pure subroutine norm_8D_char_s(a,nrm,order,err)
@@ -2057,7 +2057,7 @@ module la_linalg_norms
     end subroutine norm_8D_char_s
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_9D_order_char_s(a,order) result(nrm)
+    pure function la_norm_9D_order_char_s(a,order) result(nrm)
         !> Input 9-d matrix a(:,:,:,:,:,:,:,:,:)
         real(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -2067,10 +2067,10 @@ module la_linalg_norms
                                     
         call norm_9D_char_s(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_9D_order_char_s
+    end function la_norm_9D_order_char_s
     
     ! Function interface with output error
-    function la_linalg_norm_9D_order_err_char_s(a,order,err) result(nrm)
+    function la_norm_9D_order_err_char_s(a,order,err) result(nrm)
         !> Input 9-d matrix a(:,:,:,:,:,:,:,:,:)
         real(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -2082,7 +2082,7 @@ module la_linalg_norms
                 
         call norm_9D_char_s(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_9D_order_err_char_s
+    end function la_norm_9D_order_err_char_s
     
     ! Internal implementation
     pure subroutine norm_9D_char_s(a,nrm,order,err)
@@ -2140,7 +2140,7 @@ module la_linalg_norms
     end subroutine norm_9D_char_s
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_10D_order_char_s(a,order) result(nrm)
+    pure function la_norm_10D_order_char_s(a,order) result(nrm)
         !> Input 10-d matrix a(:,:,:,:,:,:,:,:,:,:)
         real(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -2150,10 +2150,10 @@ module la_linalg_norms
                                     
         call norm_10D_char_s(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_10D_order_char_s
+    end function la_norm_10D_order_char_s
     
     ! Function interface with output error
-    function la_linalg_norm_10D_order_err_char_s(a,order,err) result(nrm)
+    function la_norm_10D_order_err_char_s(a,order,err) result(nrm)
         !> Input 10-d matrix a(:,:,:,:,:,:,:,:,:,:)
         real(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -2165,7 +2165,7 @@ module la_linalg_norms
                 
         call norm_10D_char_s(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_10D_order_err_char_s
+    end function la_norm_10D_order_err_char_s
     
     ! Internal implementation
     pure subroutine norm_10D_char_s(a,nrm,order,err)
@@ -2223,7 +2223,7 @@ module la_linalg_norms
     end subroutine norm_10D_char_s
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_11D_order_char_s(a,order) result(nrm)
+    pure function la_norm_11D_order_char_s(a,order) result(nrm)
         !> Input 11-d matrix a(:,:,:,:,:,:,:,:,:,:,:)
         real(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -2233,10 +2233,10 @@ module la_linalg_norms
                                     
         call norm_11D_char_s(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_11D_order_char_s
+    end function la_norm_11D_order_char_s
     
     ! Function interface with output error
-    function la_linalg_norm_11D_order_err_char_s(a,order,err) result(nrm)
+    function la_norm_11D_order_err_char_s(a,order,err) result(nrm)
         !> Input 11-d matrix a(:,:,:,:,:,:,:,:,:,:,:)
         real(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -2248,7 +2248,7 @@ module la_linalg_norms
                 
         call norm_11D_char_s(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_11D_order_err_char_s
+    end function la_norm_11D_order_err_char_s
     
     ! Internal implementation
     pure subroutine norm_11D_char_s(a,nrm,order,err)
@@ -2306,7 +2306,7 @@ module la_linalg_norms
     end subroutine norm_11D_char_s
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_12D_order_char_s(a,order) result(nrm)
+    pure function la_norm_12D_order_char_s(a,order) result(nrm)
         !> Input 12-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:)
         real(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -2316,10 +2316,10 @@ module la_linalg_norms
                                     
         call norm_12D_char_s(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_12D_order_char_s
+    end function la_norm_12D_order_char_s
     
     ! Function interface with output error
-    function la_linalg_norm_12D_order_err_char_s(a,order,err) result(nrm)
+    function la_norm_12D_order_err_char_s(a,order,err) result(nrm)
         !> Input 12-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:)
         real(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -2331,7 +2331,7 @@ module la_linalg_norms
                 
         call norm_12D_char_s(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_12D_order_err_char_s
+    end function la_norm_12D_order_err_char_s
     
     ! Internal implementation
     pure subroutine norm_12D_char_s(a,nrm,order,err)
@@ -2389,7 +2389,7 @@ module la_linalg_norms
     end subroutine norm_12D_char_s
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_13D_order_char_s(a,order) result(nrm)
+    pure function la_norm_13D_order_char_s(a,order) result(nrm)
         !> Input 13-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         real(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -2399,10 +2399,10 @@ module la_linalg_norms
                                     
         call norm_13D_char_s(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_13D_order_char_s
+    end function la_norm_13D_order_char_s
     
     ! Function interface with output error
-    function la_linalg_norm_13D_order_err_char_s(a,order,err) result(nrm)
+    function la_norm_13D_order_err_char_s(a,order,err) result(nrm)
         !> Input 13-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         real(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -2414,7 +2414,7 @@ module la_linalg_norms
                 
         call norm_13D_char_s(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_13D_order_err_char_s
+    end function la_norm_13D_order_err_char_s
     
     ! Internal implementation
     pure subroutine norm_13D_char_s(a,nrm,order,err)
@@ -2472,7 +2472,7 @@ module la_linalg_norms
     end subroutine norm_13D_char_s
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_14D_order_char_s(a,order) result(nrm)
+    pure function la_norm_14D_order_char_s(a,order) result(nrm)
         !> Input 14-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         real(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -2482,10 +2482,10 @@ module la_linalg_norms
                                     
         call norm_14D_char_s(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_14D_order_char_s
+    end function la_norm_14D_order_char_s
     
     ! Function interface with output error
-    function la_linalg_norm_14D_order_err_char_s(a,order,err) result(nrm)
+    function la_norm_14D_order_err_char_s(a,order,err) result(nrm)
         !> Input 14-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         real(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -2497,7 +2497,7 @@ module la_linalg_norms
                 
         call norm_14D_char_s(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_14D_order_err_char_s
+    end function la_norm_14D_order_err_char_s
     
     ! Internal implementation
     pure subroutine norm_14D_char_s(a,nrm,order,err)
@@ -2555,7 +2555,7 @@ module la_linalg_norms
     end subroutine norm_14D_char_s
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_15D_order_char_s(a,order) result(nrm)
+    pure function la_norm_15D_order_char_s(a,order) result(nrm)
         !> Input 15-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         real(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -2565,10 +2565,10 @@ module la_linalg_norms
                                     
         call norm_15D_char_s(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_15D_order_char_s
+    end function la_norm_15D_order_char_s
     
     ! Function interface with output error
-    function la_linalg_norm_15D_order_err_char_s(a,order,err) result(nrm)
+    function la_norm_15D_order_err_char_s(a,order,err) result(nrm)
         !> Input 15-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         real(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -2580,7 +2580,7 @@ module la_linalg_norms
                 
         call norm_15D_char_s(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_15D_order_err_char_s
+    end function la_norm_15D_order_err_char_s
     
     ! Internal implementation
     pure subroutine norm_15D_char_s(a,nrm,order,err)
@@ -2642,7 +2642,7 @@ module la_linalg_norms
     !====================================================================
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_2D_to_1D_char_s(a,order,dim) result(nrm)
+    pure function la_norm_2D_to_1D_char_s(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(sp),intent(in),target :: a(:,:)
         !> Order of the matrix norm being computed.
@@ -2654,10 +2654,10 @@ module la_linalg_norms
         
         call norm_2D_to_1D_char_s(a,nrm,order,dim)
             
-    end function la_linalg_norm_2D_to_1D_char_s
+    end function la_norm_2D_to_1D_char_s
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_2D_to_1D_err_char_s(a,order,dim,err) result(nrm)
+    function la_norm_2D_to_1D_err_char_s(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(sp),intent(in),target :: a(:,:)
         !> Order of the matrix norm being computed.
@@ -2671,7 +2671,7 @@ module la_linalg_norms
         
         call norm_2D_to_1D_char_s(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_2D_to_1D_err_char_s
+    end function la_norm_2D_to_1D_err_char_s
     
     ! Internal implementation
     pure subroutine norm_2D_to_1D_char_s(a,nrm,order,dim,err)
@@ -2738,7 +2738,7 @@ module la_linalg_norms
     end subroutine norm_2D_to_1D_char_s
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_3D_to_2D_char_s(a,order,dim) result(nrm)
+    pure function la_norm_3D_to_2D_char_s(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(sp),intent(in),target :: a(:,:,:)
         !> Order of the matrix norm being computed.
@@ -2750,10 +2750,10 @@ module la_linalg_norms
         
         call norm_3D_to_2D_char_s(a,nrm,order,dim)
             
-    end function la_linalg_norm_3D_to_2D_char_s
+    end function la_norm_3D_to_2D_char_s
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_3D_to_2D_err_char_s(a,order,dim,err) result(nrm)
+    function la_norm_3D_to_2D_err_char_s(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(sp),intent(in),target :: a(:,:,:)
         !> Order of the matrix norm being computed.
@@ -2767,7 +2767,7 @@ module la_linalg_norms
         
         call norm_3D_to_2D_char_s(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_3D_to_2D_err_char_s
+    end function la_norm_3D_to_2D_err_char_s
     
     ! Internal implementation
     pure subroutine norm_3D_to_2D_char_s(a,nrm,order,dim,err)
@@ -2834,7 +2834,7 @@ module la_linalg_norms
     end subroutine norm_3D_to_2D_char_s
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_4D_to_3D_char_s(a,order,dim) result(nrm)
+    pure function la_norm_4D_to_3D_char_s(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(sp),intent(in),target :: a(:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -2847,10 +2847,10 @@ module la_linalg_norms
         
         call norm_4D_to_3D_char_s(a,nrm,order,dim)
             
-    end function la_linalg_norm_4D_to_3D_char_s
+    end function la_norm_4D_to_3D_char_s
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_4D_to_3D_err_char_s(a,order,dim,err) result(nrm)
+    function la_norm_4D_to_3D_err_char_s(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(sp),intent(in),target :: a(:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -2865,7 +2865,7 @@ module la_linalg_norms
         
         call norm_4D_to_3D_char_s(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_4D_to_3D_err_char_s
+    end function la_norm_4D_to_3D_err_char_s
     
     ! Internal implementation
     pure subroutine norm_4D_to_3D_char_s(a,nrm,order,dim,err)
@@ -2933,7 +2933,7 @@ module la_linalg_norms
     end subroutine norm_4D_to_3D_char_s
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_5D_to_4D_char_s(a,order,dim) result(nrm)
+    pure function la_norm_5D_to_4D_char_s(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(sp),intent(in),target :: a(:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -2946,10 +2946,10 @@ module la_linalg_norms
         
         call norm_5D_to_4D_char_s(a,nrm,order,dim)
             
-    end function la_linalg_norm_5D_to_4D_char_s
+    end function la_norm_5D_to_4D_char_s
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_5D_to_4D_err_char_s(a,order,dim,err) result(nrm)
+    function la_norm_5D_to_4D_err_char_s(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(sp),intent(in),target :: a(:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -2964,7 +2964,7 @@ module la_linalg_norms
         
         call norm_5D_to_4D_char_s(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_5D_to_4D_err_char_s
+    end function la_norm_5D_to_4D_err_char_s
     
     ! Internal implementation
     pure subroutine norm_5D_to_4D_char_s(a,nrm,order,dim,err)
@@ -3032,7 +3032,7 @@ module la_linalg_norms
     end subroutine norm_5D_to_4D_char_s
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_6D_to_5D_char_s(a,order,dim) result(nrm)
+    pure function la_norm_6D_to_5D_char_s(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(sp),intent(in),target :: a(:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -3045,10 +3045,10 @@ module la_linalg_norms
         
         call norm_6D_to_5D_char_s(a,nrm,order,dim)
             
-    end function la_linalg_norm_6D_to_5D_char_s
+    end function la_norm_6D_to_5D_char_s
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_6D_to_5D_err_char_s(a,order,dim,err) result(nrm)
+    function la_norm_6D_to_5D_err_char_s(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(sp),intent(in),target :: a(:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -3063,7 +3063,7 @@ module la_linalg_norms
         
         call norm_6D_to_5D_char_s(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_6D_to_5D_err_char_s
+    end function la_norm_6D_to_5D_err_char_s
     
     ! Internal implementation
     pure subroutine norm_6D_to_5D_char_s(a,nrm,order,dim,err)
@@ -3132,7 +3132,7 @@ module la_linalg_norms
     end subroutine norm_6D_to_5D_char_s
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_7D_to_6D_char_s(a,order,dim) result(nrm)
+    pure function la_norm_7D_to_6D_char_s(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(sp),intent(in),target :: a(:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -3146,10 +3146,10 @@ module la_linalg_norms
         
         call norm_7D_to_6D_char_s(a,nrm,order,dim)
             
-    end function la_linalg_norm_7D_to_6D_char_s
+    end function la_norm_7D_to_6D_char_s
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_7D_to_6D_err_char_s(a,order,dim,err) result(nrm)
+    function la_norm_7D_to_6D_err_char_s(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(sp),intent(in),target :: a(:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -3165,7 +3165,7 @@ module la_linalg_norms
         
         call norm_7D_to_6D_char_s(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_7D_to_6D_err_char_s
+    end function la_norm_7D_to_6D_err_char_s
     
     ! Internal implementation
     pure subroutine norm_7D_to_6D_char_s(a,nrm,order,dim,err)
@@ -3234,7 +3234,7 @@ module la_linalg_norms
     end subroutine norm_7D_to_6D_char_s
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_8D_to_7D_char_s(a,order,dim) result(nrm)
+    pure function la_norm_8D_to_7D_char_s(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(sp),intent(in),target :: a(:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -3248,10 +3248,10 @@ module la_linalg_norms
         
         call norm_8D_to_7D_char_s(a,nrm,order,dim)
             
-    end function la_linalg_norm_8D_to_7D_char_s
+    end function la_norm_8D_to_7D_char_s
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_8D_to_7D_err_char_s(a,order,dim,err) result(nrm)
+    function la_norm_8D_to_7D_err_char_s(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(sp),intent(in),target :: a(:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -3267,7 +3267,7 @@ module la_linalg_norms
         
         call norm_8D_to_7D_char_s(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_8D_to_7D_err_char_s
+    end function la_norm_8D_to_7D_err_char_s
     
     ! Internal implementation
     pure subroutine norm_8D_to_7D_char_s(a,nrm,order,dim,err)
@@ -3336,7 +3336,7 @@ module la_linalg_norms
     end subroutine norm_8D_to_7D_char_s
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_9D_to_8D_char_s(a,order,dim) result(nrm)
+    pure function la_norm_9D_to_8D_char_s(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -3351,10 +3351,10 @@ module la_linalg_norms
         
         call norm_9D_to_8D_char_s(a,nrm,order,dim)
             
-    end function la_linalg_norm_9D_to_8D_char_s
+    end function la_norm_9D_to_8D_char_s
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_9D_to_8D_err_char_s(a,order,dim,err) result(nrm)
+    function la_norm_9D_to_8D_err_char_s(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -3371,7 +3371,7 @@ module la_linalg_norms
         
         call norm_9D_to_8D_char_s(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_9D_to_8D_err_char_s
+    end function la_norm_9D_to_8D_err_char_s
     
     ! Internal implementation
     pure subroutine norm_9D_to_8D_char_s(a,nrm,order,dim,err)
@@ -3441,7 +3441,7 @@ module la_linalg_norms
     end subroutine norm_9D_to_8D_char_s
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_10D_to_9D_char_s(a,order,dim) result(nrm)
+    pure function la_norm_10D_to_9D_char_s(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -3456,10 +3456,10 @@ module la_linalg_norms
         
         call norm_10D_to_9D_char_s(a,nrm,order,dim)
             
-    end function la_linalg_norm_10D_to_9D_char_s
+    end function la_norm_10D_to_9D_char_s
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_10D_to_9D_err_char_s(a,order,dim,err) result(nrm)
+    function la_norm_10D_to_9D_err_char_s(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -3476,7 +3476,7 @@ module la_linalg_norms
         
         call norm_10D_to_9D_char_s(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_10D_to_9D_err_char_s
+    end function la_norm_10D_to_9D_err_char_s
     
     ! Internal implementation
     pure subroutine norm_10D_to_9D_char_s(a,nrm,order,dim,err)
@@ -3546,7 +3546,7 @@ module la_linalg_norms
     end subroutine norm_10D_to_9D_char_s
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_11D_to_10D_char_s(a,order,dim) result(nrm)
+    pure function la_norm_11D_to_10D_char_s(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -3561,10 +3561,10 @@ module la_linalg_norms
         
         call norm_11D_to_10D_char_s(a,nrm,order,dim)
             
-    end function la_linalg_norm_11D_to_10D_char_s
+    end function la_norm_11D_to_10D_char_s
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_11D_to_10D_err_char_s(a,order,dim,err) result(nrm)
+    function la_norm_11D_to_10D_err_char_s(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -3581,7 +3581,7 @@ module la_linalg_norms
         
         call norm_11D_to_10D_char_s(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_11D_to_10D_err_char_s
+    end function la_norm_11D_to_10D_err_char_s
     
     ! Internal implementation
     pure subroutine norm_11D_to_10D_char_s(a,nrm,order,dim,err)
@@ -3652,7 +3652,7 @@ module la_linalg_norms
     end subroutine norm_11D_to_10D_char_s
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_12D_to_11D_char_s(a,order,dim) result(nrm)
+    pure function la_norm_12D_to_11D_char_s(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -3668,10 +3668,10 @@ module la_linalg_norms
         
         call norm_12D_to_11D_char_s(a,nrm,order,dim)
             
-    end function la_linalg_norm_12D_to_11D_char_s
+    end function la_norm_12D_to_11D_char_s
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_12D_to_11D_err_char_s(a,order,dim,err) result(nrm)
+    function la_norm_12D_to_11D_err_char_s(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -3689,7 +3689,7 @@ module la_linalg_norms
         
         call norm_12D_to_11D_char_s(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_12D_to_11D_err_char_s
+    end function la_norm_12D_to_11D_err_char_s
     
     ! Internal implementation
     pure subroutine norm_12D_to_11D_char_s(a,nrm,order,dim,err)
@@ -3760,7 +3760,7 @@ module la_linalg_norms
     end subroutine norm_12D_to_11D_char_s
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_13D_to_12D_char_s(a,order,dim) result(nrm)
+    pure function la_norm_13D_to_12D_char_s(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -3776,10 +3776,10 @@ module la_linalg_norms
         
         call norm_13D_to_12D_char_s(a,nrm,order,dim)
             
-    end function la_linalg_norm_13D_to_12D_char_s
+    end function la_norm_13D_to_12D_char_s
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_13D_to_12D_err_char_s(a,order,dim,err) result(nrm)
+    function la_norm_13D_to_12D_err_char_s(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -3797,7 +3797,7 @@ module la_linalg_norms
         
         call norm_13D_to_12D_char_s(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_13D_to_12D_err_char_s
+    end function la_norm_13D_to_12D_err_char_s
     
     ! Internal implementation
     pure subroutine norm_13D_to_12D_char_s(a,nrm,order,dim,err)
@@ -3868,7 +3868,7 @@ module la_linalg_norms
     end subroutine norm_13D_to_12D_char_s
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_14D_to_13D_char_s(a,order,dim) result(nrm)
+    pure function la_norm_14D_to_13D_char_s(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -3885,10 +3885,10 @@ module la_linalg_norms
         
         call norm_14D_to_13D_char_s(a,nrm,order,dim)
             
-    end function la_linalg_norm_14D_to_13D_char_s
+    end function la_norm_14D_to_13D_char_s
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_14D_to_13D_err_char_s(a,order,dim,err) result(nrm)
+    function la_norm_14D_to_13D_err_char_s(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -3907,7 +3907,7 @@ module la_linalg_norms
         
         call norm_14D_to_13D_char_s(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_14D_to_13D_err_char_s
+    end function la_norm_14D_to_13D_err_char_s
     
     ! Internal implementation
     pure subroutine norm_14D_to_13D_char_s(a,nrm,order,dim,err)
@@ -3979,7 +3979,7 @@ module la_linalg_norms
     end subroutine norm_14D_to_13D_char_s
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_15D_to_14D_char_s(a,order,dim) result(nrm)
+    pure function la_norm_15D_to_14D_char_s(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -3996,10 +3996,10 @@ module la_linalg_norms
         
         call norm_15D_to_14D_char_s(a,nrm,order,dim)
             
-    end function la_linalg_norm_15D_to_14D_char_s
+    end function la_norm_15D_to_14D_char_s
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_15D_to_14D_err_char_s(a,order,dim,err) result(nrm)
+    function la_norm_15D_to_14D_err_char_s(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -4018,7 +4018,7 @@ module la_linalg_norms
         
         call norm_15D_to_14D_char_s(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_15D_to_14D_err_char_s
+    end function la_norm_15D_to_14D_err_char_s
     
     ! Internal implementation
     pure subroutine norm_15D_to_14D_char_s(a,nrm,order,dim,err)
@@ -5525,7 +5525,7 @@ module la_linalg_norms
     !==============================================
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_1D_order_int_s(a,order) result(nrm)
+    pure function la_norm_1D_order_int_s(a,order) result(nrm)
         !> Input 1-d matrix a(:)
         real(sp),intent(in) :: a(:)
         !> Order of the matrix norm being computed.
@@ -5535,10 +5535,10 @@ module la_linalg_norms
                                     
         call norm_1D_int_s(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_1D_order_int_s
+    end function la_norm_1D_order_int_s
     
     ! Function interface with output error
-    function la_linalg_norm_1D_order_err_int_s(a,order,err) result(nrm)
+    function la_norm_1D_order_err_int_s(a,order,err) result(nrm)
         !> Input 1-d matrix a(:)
         real(sp),intent(in) :: a(:)
         !> Order of the matrix norm being computed.
@@ -5550,7 +5550,7 @@ module la_linalg_norms
                 
         call norm_1D_int_s(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_1D_order_err_int_s
+    end function la_norm_1D_order_err_int_s
     
     ! Internal implementation
     pure subroutine norm_1D_int_s(a,nrm,order,err)
@@ -5608,7 +5608,7 @@ module la_linalg_norms
     end subroutine norm_1D_int_s
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_2D_order_int_s(a,order) result(nrm)
+    pure function la_norm_2D_order_int_s(a,order) result(nrm)
         !> Input 2-d matrix a(:,:)
         real(sp),intent(in) :: a(:,:)
         !> Order of the matrix norm being computed.
@@ -5618,10 +5618,10 @@ module la_linalg_norms
                                     
         call norm_2D_int_s(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_2D_order_int_s
+    end function la_norm_2D_order_int_s
     
     ! Function interface with output error
-    function la_linalg_norm_2D_order_err_int_s(a,order,err) result(nrm)
+    function la_norm_2D_order_err_int_s(a,order,err) result(nrm)
         !> Input 2-d matrix a(:,:)
         real(sp),intent(in) :: a(:,:)
         !> Order of the matrix norm being computed.
@@ -5633,7 +5633,7 @@ module la_linalg_norms
                 
         call norm_2D_int_s(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_2D_order_err_int_s
+    end function la_norm_2D_order_err_int_s
     
     ! Internal implementation
     pure subroutine norm_2D_int_s(a,nrm,order,err)
@@ -5691,7 +5691,7 @@ module la_linalg_norms
     end subroutine norm_2D_int_s
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_3D_order_int_s(a,order) result(nrm)
+    pure function la_norm_3D_order_int_s(a,order) result(nrm)
         !> Input 3-d matrix a(:,:,:)
         real(sp),intent(in) :: a(:,:,:)
         !> Order of the matrix norm being computed.
@@ -5701,10 +5701,10 @@ module la_linalg_norms
                                     
         call norm_3D_int_s(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_3D_order_int_s
+    end function la_norm_3D_order_int_s
     
     ! Function interface with output error
-    function la_linalg_norm_3D_order_err_int_s(a,order,err) result(nrm)
+    function la_norm_3D_order_err_int_s(a,order,err) result(nrm)
         !> Input 3-d matrix a(:,:,:)
         real(sp),intent(in) :: a(:,:,:)
         !> Order of the matrix norm being computed.
@@ -5716,7 +5716,7 @@ module la_linalg_norms
                 
         call norm_3D_int_s(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_3D_order_err_int_s
+    end function la_norm_3D_order_err_int_s
     
     ! Internal implementation
     pure subroutine norm_3D_int_s(a,nrm,order,err)
@@ -5774,7 +5774,7 @@ module la_linalg_norms
     end subroutine norm_3D_int_s
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_4D_order_int_s(a,order) result(nrm)
+    pure function la_norm_4D_order_int_s(a,order) result(nrm)
         !> Input 4-d matrix a(:,:,:,:)
         real(sp),intent(in) :: a(:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -5784,10 +5784,10 @@ module la_linalg_norms
                                     
         call norm_4D_int_s(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_4D_order_int_s
+    end function la_norm_4D_order_int_s
     
     ! Function interface with output error
-    function la_linalg_norm_4D_order_err_int_s(a,order,err) result(nrm)
+    function la_norm_4D_order_err_int_s(a,order,err) result(nrm)
         !> Input 4-d matrix a(:,:,:,:)
         real(sp),intent(in) :: a(:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -5799,7 +5799,7 @@ module la_linalg_norms
                 
         call norm_4D_int_s(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_4D_order_err_int_s
+    end function la_norm_4D_order_err_int_s
     
     ! Internal implementation
     pure subroutine norm_4D_int_s(a,nrm,order,err)
@@ -5857,7 +5857,7 @@ module la_linalg_norms
     end subroutine norm_4D_int_s
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_5D_order_int_s(a,order) result(nrm)
+    pure function la_norm_5D_order_int_s(a,order) result(nrm)
         !> Input 5-d matrix a(:,:,:,:,:)
         real(sp),intent(in) :: a(:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -5867,10 +5867,10 @@ module la_linalg_norms
                                     
         call norm_5D_int_s(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_5D_order_int_s
+    end function la_norm_5D_order_int_s
     
     ! Function interface with output error
-    function la_linalg_norm_5D_order_err_int_s(a,order,err) result(nrm)
+    function la_norm_5D_order_err_int_s(a,order,err) result(nrm)
         !> Input 5-d matrix a(:,:,:,:,:)
         real(sp),intent(in) :: a(:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -5882,7 +5882,7 @@ module la_linalg_norms
                 
         call norm_5D_int_s(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_5D_order_err_int_s
+    end function la_norm_5D_order_err_int_s
     
     ! Internal implementation
     pure subroutine norm_5D_int_s(a,nrm,order,err)
@@ -5940,7 +5940,7 @@ module la_linalg_norms
     end subroutine norm_5D_int_s
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_6D_order_int_s(a,order) result(nrm)
+    pure function la_norm_6D_order_int_s(a,order) result(nrm)
         !> Input 6-d matrix a(:,:,:,:,:,:)
         real(sp),intent(in) :: a(:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -5950,10 +5950,10 @@ module la_linalg_norms
                                     
         call norm_6D_int_s(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_6D_order_int_s
+    end function la_norm_6D_order_int_s
     
     ! Function interface with output error
-    function la_linalg_norm_6D_order_err_int_s(a,order,err) result(nrm)
+    function la_norm_6D_order_err_int_s(a,order,err) result(nrm)
         !> Input 6-d matrix a(:,:,:,:,:,:)
         real(sp),intent(in) :: a(:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -5965,7 +5965,7 @@ module la_linalg_norms
                 
         call norm_6D_int_s(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_6D_order_err_int_s
+    end function la_norm_6D_order_err_int_s
     
     ! Internal implementation
     pure subroutine norm_6D_int_s(a,nrm,order,err)
@@ -6023,7 +6023,7 @@ module la_linalg_norms
     end subroutine norm_6D_int_s
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_7D_order_int_s(a,order) result(nrm)
+    pure function la_norm_7D_order_int_s(a,order) result(nrm)
         !> Input 7-d matrix a(:,:,:,:,:,:,:)
         real(sp),intent(in) :: a(:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -6033,10 +6033,10 @@ module la_linalg_norms
                                     
         call norm_7D_int_s(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_7D_order_int_s
+    end function la_norm_7D_order_int_s
     
     ! Function interface with output error
-    function la_linalg_norm_7D_order_err_int_s(a,order,err) result(nrm)
+    function la_norm_7D_order_err_int_s(a,order,err) result(nrm)
         !> Input 7-d matrix a(:,:,:,:,:,:,:)
         real(sp),intent(in) :: a(:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -6048,7 +6048,7 @@ module la_linalg_norms
                 
         call norm_7D_int_s(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_7D_order_err_int_s
+    end function la_norm_7D_order_err_int_s
     
     ! Internal implementation
     pure subroutine norm_7D_int_s(a,nrm,order,err)
@@ -6106,7 +6106,7 @@ module la_linalg_norms
     end subroutine norm_7D_int_s
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_8D_order_int_s(a,order) result(nrm)
+    pure function la_norm_8D_order_int_s(a,order) result(nrm)
         !> Input 8-d matrix a(:,:,:,:,:,:,:,:)
         real(sp),intent(in) :: a(:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -6116,10 +6116,10 @@ module la_linalg_norms
                                     
         call norm_8D_int_s(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_8D_order_int_s
+    end function la_norm_8D_order_int_s
     
     ! Function interface with output error
-    function la_linalg_norm_8D_order_err_int_s(a,order,err) result(nrm)
+    function la_norm_8D_order_err_int_s(a,order,err) result(nrm)
         !> Input 8-d matrix a(:,:,:,:,:,:,:,:)
         real(sp),intent(in) :: a(:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -6131,7 +6131,7 @@ module la_linalg_norms
                 
         call norm_8D_int_s(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_8D_order_err_int_s
+    end function la_norm_8D_order_err_int_s
     
     ! Internal implementation
     pure subroutine norm_8D_int_s(a,nrm,order,err)
@@ -6189,7 +6189,7 @@ module la_linalg_norms
     end subroutine norm_8D_int_s
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_9D_order_int_s(a,order) result(nrm)
+    pure function la_norm_9D_order_int_s(a,order) result(nrm)
         !> Input 9-d matrix a(:,:,:,:,:,:,:,:,:)
         real(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -6199,10 +6199,10 @@ module la_linalg_norms
                                     
         call norm_9D_int_s(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_9D_order_int_s
+    end function la_norm_9D_order_int_s
     
     ! Function interface with output error
-    function la_linalg_norm_9D_order_err_int_s(a,order,err) result(nrm)
+    function la_norm_9D_order_err_int_s(a,order,err) result(nrm)
         !> Input 9-d matrix a(:,:,:,:,:,:,:,:,:)
         real(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -6214,7 +6214,7 @@ module la_linalg_norms
                 
         call norm_9D_int_s(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_9D_order_err_int_s
+    end function la_norm_9D_order_err_int_s
     
     ! Internal implementation
     pure subroutine norm_9D_int_s(a,nrm,order,err)
@@ -6272,7 +6272,7 @@ module la_linalg_norms
     end subroutine norm_9D_int_s
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_10D_order_int_s(a,order) result(nrm)
+    pure function la_norm_10D_order_int_s(a,order) result(nrm)
         !> Input 10-d matrix a(:,:,:,:,:,:,:,:,:,:)
         real(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -6282,10 +6282,10 @@ module la_linalg_norms
                                     
         call norm_10D_int_s(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_10D_order_int_s
+    end function la_norm_10D_order_int_s
     
     ! Function interface with output error
-    function la_linalg_norm_10D_order_err_int_s(a,order,err) result(nrm)
+    function la_norm_10D_order_err_int_s(a,order,err) result(nrm)
         !> Input 10-d matrix a(:,:,:,:,:,:,:,:,:,:)
         real(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -6297,7 +6297,7 @@ module la_linalg_norms
                 
         call norm_10D_int_s(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_10D_order_err_int_s
+    end function la_norm_10D_order_err_int_s
     
     ! Internal implementation
     pure subroutine norm_10D_int_s(a,nrm,order,err)
@@ -6355,7 +6355,7 @@ module la_linalg_norms
     end subroutine norm_10D_int_s
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_11D_order_int_s(a,order) result(nrm)
+    pure function la_norm_11D_order_int_s(a,order) result(nrm)
         !> Input 11-d matrix a(:,:,:,:,:,:,:,:,:,:,:)
         real(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -6365,10 +6365,10 @@ module la_linalg_norms
                                     
         call norm_11D_int_s(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_11D_order_int_s
+    end function la_norm_11D_order_int_s
     
     ! Function interface with output error
-    function la_linalg_norm_11D_order_err_int_s(a,order,err) result(nrm)
+    function la_norm_11D_order_err_int_s(a,order,err) result(nrm)
         !> Input 11-d matrix a(:,:,:,:,:,:,:,:,:,:,:)
         real(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -6380,7 +6380,7 @@ module la_linalg_norms
                 
         call norm_11D_int_s(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_11D_order_err_int_s
+    end function la_norm_11D_order_err_int_s
     
     ! Internal implementation
     pure subroutine norm_11D_int_s(a,nrm,order,err)
@@ -6438,7 +6438,7 @@ module la_linalg_norms
     end subroutine norm_11D_int_s
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_12D_order_int_s(a,order) result(nrm)
+    pure function la_norm_12D_order_int_s(a,order) result(nrm)
         !> Input 12-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:)
         real(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -6448,10 +6448,10 @@ module la_linalg_norms
                                     
         call norm_12D_int_s(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_12D_order_int_s
+    end function la_norm_12D_order_int_s
     
     ! Function interface with output error
-    function la_linalg_norm_12D_order_err_int_s(a,order,err) result(nrm)
+    function la_norm_12D_order_err_int_s(a,order,err) result(nrm)
         !> Input 12-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:)
         real(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -6463,7 +6463,7 @@ module la_linalg_norms
                 
         call norm_12D_int_s(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_12D_order_err_int_s
+    end function la_norm_12D_order_err_int_s
     
     ! Internal implementation
     pure subroutine norm_12D_int_s(a,nrm,order,err)
@@ -6521,7 +6521,7 @@ module la_linalg_norms
     end subroutine norm_12D_int_s
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_13D_order_int_s(a,order) result(nrm)
+    pure function la_norm_13D_order_int_s(a,order) result(nrm)
         !> Input 13-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         real(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -6531,10 +6531,10 @@ module la_linalg_norms
                                     
         call norm_13D_int_s(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_13D_order_int_s
+    end function la_norm_13D_order_int_s
     
     ! Function interface with output error
-    function la_linalg_norm_13D_order_err_int_s(a,order,err) result(nrm)
+    function la_norm_13D_order_err_int_s(a,order,err) result(nrm)
         !> Input 13-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         real(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -6546,7 +6546,7 @@ module la_linalg_norms
                 
         call norm_13D_int_s(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_13D_order_err_int_s
+    end function la_norm_13D_order_err_int_s
     
     ! Internal implementation
     pure subroutine norm_13D_int_s(a,nrm,order,err)
@@ -6604,7 +6604,7 @@ module la_linalg_norms
     end subroutine norm_13D_int_s
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_14D_order_int_s(a,order) result(nrm)
+    pure function la_norm_14D_order_int_s(a,order) result(nrm)
         !> Input 14-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         real(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -6614,10 +6614,10 @@ module la_linalg_norms
                                     
         call norm_14D_int_s(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_14D_order_int_s
+    end function la_norm_14D_order_int_s
     
     ! Function interface with output error
-    function la_linalg_norm_14D_order_err_int_s(a,order,err) result(nrm)
+    function la_norm_14D_order_err_int_s(a,order,err) result(nrm)
         !> Input 14-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         real(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -6629,7 +6629,7 @@ module la_linalg_norms
                 
         call norm_14D_int_s(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_14D_order_err_int_s
+    end function la_norm_14D_order_err_int_s
     
     ! Internal implementation
     pure subroutine norm_14D_int_s(a,nrm,order,err)
@@ -6687,7 +6687,7 @@ module la_linalg_norms
     end subroutine norm_14D_int_s
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_15D_order_int_s(a,order) result(nrm)
+    pure function la_norm_15D_order_int_s(a,order) result(nrm)
         !> Input 15-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         real(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -6697,10 +6697,10 @@ module la_linalg_norms
                                     
         call norm_15D_int_s(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_15D_order_int_s
+    end function la_norm_15D_order_int_s
     
     ! Function interface with output error
-    function la_linalg_norm_15D_order_err_int_s(a,order,err) result(nrm)
+    function la_norm_15D_order_err_int_s(a,order,err) result(nrm)
         !> Input 15-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         real(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -6712,7 +6712,7 @@ module la_linalg_norms
                 
         call norm_15D_int_s(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_15D_order_err_int_s
+    end function la_norm_15D_order_err_int_s
     
     ! Internal implementation
     pure subroutine norm_15D_int_s(a,nrm,order,err)
@@ -6774,7 +6774,7 @@ module la_linalg_norms
     !====================================================================
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_2D_to_1D_int_s(a,order,dim) result(nrm)
+    pure function la_norm_2D_to_1D_int_s(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(sp),intent(in),target :: a(:,:)
         !> Order of the matrix norm being computed.
@@ -6786,10 +6786,10 @@ module la_linalg_norms
         
         call norm_2D_to_1D_int_s(a,nrm,order,dim)
             
-    end function la_linalg_norm_2D_to_1D_int_s
+    end function la_norm_2D_to_1D_int_s
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_2D_to_1D_err_int_s(a,order,dim,err) result(nrm)
+    function la_norm_2D_to_1D_err_int_s(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(sp),intent(in),target :: a(:,:)
         !> Order of the matrix norm being computed.
@@ -6803,7 +6803,7 @@ module la_linalg_norms
         
         call norm_2D_to_1D_int_s(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_2D_to_1D_err_int_s
+    end function la_norm_2D_to_1D_err_int_s
     
     ! Internal implementation
     pure subroutine norm_2D_to_1D_int_s(a,nrm,order,dim,err)
@@ -6870,7 +6870,7 @@ module la_linalg_norms
     end subroutine norm_2D_to_1D_int_s
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_3D_to_2D_int_s(a,order,dim) result(nrm)
+    pure function la_norm_3D_to_2D_int_s(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(sp),intent(in),target :: a(:,:,:)
         !> Order of the matrix norm being computed.
@@ -6882,10 +6882,10 @@ module la_linalg_norms
         
         call norm_3D_to_2D_int_s(a,nrm,order,dim)
             
-    end function la_linalg_norm_3D_to_2D_int_s
+    end function la_norm_3D_to_2D_int_s
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_3D_to_2D_err_int_s(a,order,dim,err) result(nrm)
+    function la_norm_3D_to_2D_err_int_s(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(sp),intent(in),target :: a(:,:,:)
         !> Order of the matrix norm being computed.
@@ -6899,7 +6899,7 @@ module la_linalg_norms
         
         call norm_3D_to_2D_int_s(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_3D_to_2D_err_int_s
+    end function la_norm_3D_to_2D_err_int_s
     
     ! Internal implementation
     pure subroutine norm_3D_to_2D_int_s(a,nrm,order,dim,err)
@@ -6966,7 +6966,7 @@ module la_linalg_norms
     end subroutine norm_3D_to_2D_int_s
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_4D_to_3D_int_s(a,order,dim) result(nrm)
+    pure function la_norm_4D_to_3D_int_s(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(sp),intent(in),target :: a(:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -6979,10 +6979,10 @@ module la_linalg_norms
         
         call norm_4D_to_3D_int_s(a,nrm,order,dim)
             
-    end function la_linalg_norm_4D_to_3D_int_s
+    end function la_norm_4D_to_3D_int_s
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_4D_to_3D_err_int_s(a,order,dim,err) result(nrm)
+    function la_norm_4D_to_3D_err_int_s(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(sp),intent(in),target :: a(:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -6997,7 +6997,7 @@ module la_linalg_norms
         
         call norm_4D_to_3D_int_s(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_4D_to_3D_err_int_s
+    end function la_norm_4D_to_3D_err_int_s
     
     ! Internal implementation
     pure subroutine norm_4D_to_3D_int_s(a,nrm,order,dim,err)
@@ -7065,7 +7065,7 @@ module la_linalg_norms
     end subroutine norm_4D_to_3D_int_s
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_5D_to_4D_int_s(a,order,dim) result(nrm)
+    pure function la_norm_5D_to_4D_int_s(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(sp),intent(in),target :: a(:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -7078,10 +7078,10 @@ module la_linalg_norms
         
         call norm_5D_to_4D_int_s(a,nrm,order,dim)
             
-    end function la_linalg_norm_5D_to_4D_int_s
+    end function la_norm_5D_to_4D_int_s
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_5D_to_4D_err_int_s(a,order,dim,err) result(nrm)
+    function la_norm_5D_to_4D_err_int_s(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(sp),intent(in),target :: a(:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -7096,7 +7096,7 @@ module la_linalg_norms
         
         call norm_5D_to_4D_int_s(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_5D_to_4D_err_int_s
+    end function la_norm_5D_to_4D_err_int_s
     
     ! Internal implementation
     pure subroutine norm_5D_to_4D_int_s(a,nrm,order,dim,err)
@@ -7164,7 +7164,7 @@ module la_linalg_norms
     end subroutine norm_5D_to_4D_int_s
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_6D_to_5D_int_s(a,order,dim) result(nrm)
+    pure function la_norm_6D_to_5D_int_s(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(sp),intent(in),target :: a(:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -7177,10 +7177,10 @@ module la_linalg_norms
         
         call norm_6D_to_5D_int_s(a,nrm,order,dim)
             
-    end function la_linalg_norm_6D_to_5D_int_s
+    end function la_norm_6D_to_5D_int_s
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_6D_to_5D_err_int_s(a,order,dim,err) result(nrm)
+    function la_norm_6D_to_5D_err_int_s(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(sp),intent(in),target :: a(:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -7195,7 +7195,7 @@ module la_linalg_norms
         
         call norm_6D_to_5D_int_s(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_6D_to_5D_err_int_s
+    end function la_norm_6D_to_5D_err_int_s
     
     ! Internal implementation
     pure subroutine norm_6D_to_5D_int_s(a,nrm,order,dim,err)
@@ -7264,7 +7264,7 @@ module la_linalg_norms
     end subroutine norm_6D_to_5D_int_s
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_7D_to_6D_int_s(a,order,dim) result(nrm)
+    pure function la_norm_7D_to_6D_int_s(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(sp),intent(in),target :: a(:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -7278,10 +7278,10 @@ module la_linalg_norms
         
         call norm_7D_to_6D_int_s(a,nrm,order,dim)
             
-    end function la_linalg_norm_7D_to_6D_int_s
+    end function la_norm_7D_to_6D_int_s
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_7D_to_6D_err_int_s(a,order,dim,err) result(nrm)
+    function la_norm_7D_to_6D_err_int_s(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(sp),intent(in),target :: a(:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -7297,7 +7297,7 @@ module la_linalg_norms
         
         call norm_7D_to_6D_int_s(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_7D_to_6D_err_int_s
+    end function la_norm_7D_to_6D_err_int_s
     
     ! Internal implementation
     pure subroutine norm_7D_to_6D_int_s(a,nrm,order,dim,err)
@@ -7366,7 +7366,7 @@ module la_linalg_norms
     end subroutine norm_7D_to_6D_int_s
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_8D_to_7D_int_s(a,order,dim) result(nrm)
+    pure function la_norm_8D_to_7D_int_s(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(sp),intent(in),target :: a(:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -7380,10 +7380,10 @@ module la_linalg_norms
         
         call norm_8D_to_7D_int_s(a,nrm,order,dim)
             
-    end function la_linalg_norm_8D_to_7D_int_s
+    end function la_norm_8D_to_7D_int_s
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_8D_to_7D_err_int_s(a,order,dim,err) result(nrm)
+    function la_norm_8D_to_7D_err_int_s(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(sp),intent(in),target :: a(:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -7399,7 +7399,7 @@ module la_linalg_norms
         
         call norm_8D_to_7D_int_s(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_8D_to_7D_err_int_s
+    end function la_norm_8D_to_7D_err_int_s
     
     ! Internal implementation
     pure subroutine norm_8D_to_7D_int_s(a,nrm,order,dim,err)
@@ -7468,7 +7468,7 @@ module la_linalg_norms
     end subroutine norm_8D_to_7D_int_s
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_9D_to_8D_int_s(a,order,dim) result(nrm)
+    pure function la_norm_9D_to_8D_int_s(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -7483,10 +7483,10 @@ module la_linalg_norms
         
         call norm_9D_to_8D_int_s(a,nrm,order,dim)
             
-    end function la_linalg_norm_9D_to_8D_int_s
+    end function la_norm_9D_to_8D_int_s
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_9D_to_8D_err_int_s(a,order,dim,err) result(nrm)
+    function la_norm_9D_to_8D_err_int_s(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -7503,7 +7503,7 @@ module la_linalg_norms
         
         call norm_9D_to_8D_int_s(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_9D_to_8D_err_int_s
+    end function la_norm_9D_to_8D_err_int_s
     
     ! Internal implementation
     pure subroutine norm_9D_to_8D_int_s(a,nrm,order,dim,err)
@@ -7573,7 +7573,7 @@ module la_linalg_norms
     end subroutine norm_9D_to_8D_int_s
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_10D_to_9D_int_s(a,order,dim) result(nrm)
+    pure function la_norm_10D_to_9D_int_s(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -7588,10 +7588,10 @@ module la_linalg_norms
         
         call norm_10D_to_9D_int_s(a,nrm,order,dim)
             
-    end function la_linalg_norm_10D_to_9D_int_s
+    end function la_norm_10D_to_9D_int_s
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_10D_to_9D_err_int_s(a,order,dim,err) result(nrm)
+    function la_norm_10D_to_9D_err_int_s(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -7608,7 +7608,7 @@ module la_linalg_norms
         
         call norm_10D_to_9D_int_s(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_10D_to_9D_err_int_s
+    end function la_norm_10D_to_9D_err_int_s
     
     ! Internal implementation
     pure subroutine norm_10D_to_9D_int_s(a,nrm,order,dim,err)
@@ -7678,7 +7678,7 @@ module la_linalg_norms
     end subroutine norm_10D_to_9D_int_s
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_11D_to_10D_int_s(a,order,dim) result(nrm)
+    pure function la_norm_11D_to_10D_int_s(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -7693,10 +7693,10 @@ module la_linalg_norms
         
         call norm_11D_to_10D_int_s(a,nrm,order,dim)
             
-    end function la_linalg_norm_11D_to_10D_int_s
+    end function la_norm_11D_to_10D_int_s
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_11D_to_10D_err_int_s(a,order,dim,err) result(nrm)
+    function la_norm_11D_to_10D_err_int_s(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -7713,7 +7713,7 @@ module la_linalg_norms
         
         call norm_11D_to_10D_int_s(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_11D_to_10D_err_int_s
+    end function la_norm_11D_to_10D_err_int_s
     
     ! Internal implementation
     pure subroutine norm_11D_to_10D_int_s(a,nrm,order,dim,err)
@@ -7784,7 +7784,7 @@ module la_linalg_norms
     end subroutine norm_11D_to_10D_int_s
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_12D_to_11D_int_s(a,order,dim) result(nrm)
+    pure function la_norm_12D_to_11D_int_s(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -7800,10 +7800,10 @@ module la_linalg_norms
         
         call norm_12D_to_11D_int_s(a,nrm,order,dim)
             
-    end function la_linalg_norm_12D_to_11D_int_s
+    end function la_norm_12D_to_11D_int_s
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_12D_to_11D_err_int_s(a,order,dim,err) result(nrm)
+    function la_norm_12D_to_11D_err_int_s(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -7821,7 +7821,7 @@ module la_linalg_norms
         
         call norm_12D_to_11D_int_s(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_12D_to_11D_err_int_s
+    end function la_norm_12D_to_11D_err_int_s
     
     ! Internal implementation
     pure subroutine norm_12D_to_11D_int_s(a,nrm,order,dim,err)
@@ -7892,7 +7892,7 @@ module la_linalg_norms
     end subroutine norm_12D_to_11D_int_s
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_13D_to_12D_int_s(a,order,dim) result(nrm)
+    pure function la_norm_13D_to_12D_int_s(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -7908,10 +7908,10 @@ module la_linalg_norms
         
         call norm_13D_to_12D_int_s(a,nrm,order,dim)
             
-    end function la_linalg_norm_13D_to_12D_int_s
+    end function la_norm_13D_to_12D_int_s
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_13D_to_12D_err_int_s(a,order,dim,err) result(nrm)
+    function la_norm_13D_to_12D_err_int_s(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -7929,7 +7929,7 @@ module la_linalg_norms
         
         call norm_13D_to_12D_int_s(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_13D_to_12D_err_int_s
+    end function la_norm_13D_to_12D_err_int_s
     
     ! Internal implementation
     pure subroutine norm_13D_to_12D_int_s(a,nrm,order,dim,err)
@@ -8000,7 +8000,7 @@ module la_linalg_norms
     end subroutine norm_13D_to_12D_int_s
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_14D_to_13D_int_s(a,order,dim) result(nrm)
+    pure function la_norm_14D_to_13D_int_s(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -8017,10 +8017,10 @@ module la_linalg_norms
         
         call norm_14D_to_13D_int_s(a,nrm,order,dim)
             
-    end function la_linalg_norm_14D_to_13D_int_s
+    end function la_norm_14D_to_13D_int_s
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_14D_to_13D_err_int_s(a,order,dim,err) result(nrm)
+    function la_norm_14D_to_13D_err_int_s(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -8039,7 +8039,7 @@ module la_linalg_norms
         
         call norm_14D_to_13D_int_s(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_14D_to_13D_err_int_s
+    end function la_norm_14D_to_13D_err_int_s
     
     ! Internal implementation
     pure subroutine norm_14D_to_13D_int_s(a,nrm,order,dim,err)
@@ -8111,7 +8111,7 @@ module la_linalg_norms
     end subroutine norm_14D_to_13D_int_s
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_15D_to_14D_int_s(a,order,dim) result(nrm)
+    pure function la_norm_15D_to_14D_int_s(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -8128,10 +8128,10 @@ module la_linalg_norms
         
         call norm_15D_to_14D_int_s(a,nrm,order,dim)
             
-    end function la_linalg_norm_15D_to_14D_int_s
+    end function la_norm_15D_to_14D_int_s
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_15D_to_14D_err_int_s(a,order,dim,err) result(nrm)
+    function la_norm_15D_to_14D_err_int_s(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -8150,7 +8150,7 @@ module la_linalg_norms
         
         call norm_15D_to_14D_int_s(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_15D_to_14D_err_int_s
+    end function la_norm_15D_to_14D_err_int_s
     
     ! Internal implementation
     pure subroutine norm_15D_to_14D_int_s(a,nrm,order,dim,err)
@@ -9657,7 +9657,7 @@ module la_linalg_norms
     !==============================================
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_1D_order_char_d(a,order) result(nrm)
+    pure function la_norm_1D_order_char_d(a,order) result(nrm)
         !> Input 1-d matrix a(:)
         real(dp),intent(in) :: a(:)
         !> Order of the matrix norm being computed.
@@ -9667,10 +9667,10 @@ module la_linalg_norms
                                     
         call norm_1D_char_d(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_1D_order_char_d
+    end function la_norm_1D_order_char_d
     
     ! Function interface with output error
-    function la_linalg_norm_1D_order_err_char_d(a,order,err) result(nrm)
+    function la_norm_1D_order_err_char_d(a,order,err) result(nrm)
         !> Input 1-d matrix a(:)
         real(dp),intent(in) :: a(:)
         !> Order of the matrix norm being computed.
@@ -9682,7 +9682,7 @@ module la_linalg_norms
                 
         call norm_1D_char_d(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_1D_order_err_char_d
+    end function la_norm_1D_order_err_char_d
     
     ! Internal implementation
     pure subroutine norm_1D_char_d(a,nrm,order,err)
@@ -9740,7 +9740,7 @@ module la_linalg_norms
     end subroutine norm_1D_char_d
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_2D_order_char_d(a,order) result(nrm)
+    pure function la_norm_2D_order_char_d(a,order) result(nrm)
         !> Input 2-d matrix a(:,:)
         real(dp),intent(in) :: a(:,:)
         !> Order of the matrix norm being computed.
@@ -9750,10 +9750,10 @@ module la_linalg_norms
                                     
         call norm_2D_char_d(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_2D_order_char_d
+    end function la_norm_2D_order_char_d
     
     ! Function interface with output error
-    function la_linalg_norm_2D_order_err_char_d(a,order,err) result(nrm)
+    function la_norm_2D_order_err_char_d(a,order,err) result(nrm)
         !> Input 2-d matrix a(:,:)
         real(dp),intent(in) :: a(:,:)
         !> Order of the matrix norm being computed.
@@ -9765,7 +9765,7 @@ module la_linalg_norms
                 
         call norm_2D_char_d(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_2D_order_err_char_d
+    end function la_norm_2D_order_err_char_d
     
     ! Internal implementation
     pure subroutine norm_2D_char_d(a,nrm,order,err)
@@ -9823,7 +9823,7 @@ module la_linalg_norms
     end subroutine norm_2D_char_d
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_3D_order_char_d(a,order) result(nrm)
+    pure function la_norm_3D_order_char_d(a,order) result(nrm)
         !> Input 3-d matrix a(:,:,:)
         real(dp),intent(in) :: a(:,:,:)
         !> Order of the matrix norm being computed.
@@ -9833,10 +9833,10 @@ module la_linalg_norms
                                     
         call norm_3D_char_d(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_3D_order_char_d
+    end function la_norm_3D_order_char_d
     
     ! Function interface with output error
-    function la_linalg_norm_3D_order_err_char_d(a,order,err) result(nrm)
+    function la_norm_3D_order_err_char_d(a,order,err) result(nrm)
         !> Input 3-d matrix a(:,:,:)
         real(dp),intent(in) :: a(:,:,:)
         !> Order of the matrix norm being computed.
@@ -9848,7 +9848,7 @@ module la_linalg_norms
                 
         call norm_3D_char_d(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_3D_order_err_char_d
+    end function la_norm_3D_order_err_char_d
     
     ! Internal implementation
     pure subroutine norm_3D_char_d(a,nrm,order,err)
@@ -9906,7 +9906,7 @@ module la_linalg_norms
     end subroutine norm_3D_char_d
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_4D_order_char_d(a,order) result(nrm)
+    pure function la_norm_4D_order_char_d(a,order) result(nrm)
         !> Input 4-d matrix a(:,:,:,:)
         real(dp),intent(in) :: a(:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -9916,10 +9916,10 @@ module la_linalg_norms
                                     
         call norm_4D_char_d(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_4D_order_char_d
+    end function la_norm_4D_order_char_d
     
     ! Function interface with output error
-    function la_linalg_norm_4D_order_err_char_d(a,order,err) result(nrm)
+    function la_norm_4D_order_err_char_d(a,order,err) result(nrm)
         !> Input 4-d matrix a(:,:,:,:)
         real(dp),intent(in) :: a(:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -9931,7 +9931,7 @@ module la_linalg_norms
                 
         call norm_4D_char_d(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_4D_order_err_char_d
+    end function la_norm_4D_order_err_char_d
     
     ! Internal implementation
     pure subroutine norm_4D_char_d(a,nrm,order,err)
@@ -9989,7 +9989,7 @@ module la_linalg_norms
     end subroutine norm_4D_char_d
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_5D_order_char_d(a,order) result(nrm)
+    pure function la_norm_5D_order_char_d(a,order) result(nrm)
         !> Input 5-d matrix a(:,:,:,:,:)
         real(dp),intent(in) :: a(:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -9999,10 +9999,10 @@ module la_linalg_norms
                                     
         call norm_5D_char_d(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_5D_order_char_d
+    end function la_norm_5D_order_char_d
     
     ! Function interface with output error
-    function la_linalg_norm_5D_order_err_char_d(a,order,err) result(nrm)
+    function la_norm_5D_order_err_char_d(a,order,err) result(nrm)
         !> Input 5-d matrix a(:,:,:,:,:)
         real(dp),intent(in) :: a(:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -10014,7 +10014,7 @@ module la_linalg_norms
                 
         call norm_5D_char_d(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_5D_order_err_char_d
+    end function la_norm_5D_order_err_char_d
     
     ! Internal implementation
     pure subroutine norm_5D_char_d(a,nrm,order,err)
@@ -10072,7 +10072,7 @@ module la_linalg_norms
     end subroutine norm_5D_char_d
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_6D_order_char_d(a,order) result(nrm)
+    pure function la_norm_6D_order_char_d(a,order) result(nrm)
         !> Input 6-d matrix a(:,:,:,:,:,:)
         real(dp),intent(in) :: a(:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -10082,10 +10082,10 @@ module la_linalg_norms
                                     
         call norm_6D_char_d(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_6D_order_char_d
+    end function la_norm_6D_order_char_d
     
     ! Function interface with output error
-    function la_linalg_norm_6D_order_err_char_d(a,order,err) result(nrm)
+    function la_norm_6D_order_err_char_d(a,order,err) result(nrm)
         !> Input 6-d matrix a(:,:,:,:,:,:)
         real(dp),intent(in) :: a(:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -10097,7 +10097,7 @@ module la_linalg_norms
                 
         call norm_6D_char_d(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_6D_order_err_char_d
+    end function la_norm_6D_order_err_char_d
     
     ! Internal implementation
     pure subroutine norm_6D_char_d(a,nrm,order,err)
@@ -10155,7 +10155,7 @@ module la_linalg_norms
     end subroutine norm_6D_char_d
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_7D_order_char_d(a,order) result(nrm)
+    pure function la_norm_7D_order_char_d(a,order) result(nrm)
         !> Input 7-d matrix a(:,:,:,:,:,:,:)
         real(dp),intent(in) :: a(:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -10165,10 +10165,10 @@ module la_linalg_norms
                                     
         call norm_7D_char_d(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_7D_order_char_d
+    end function la_norm_7D_order_char_d
     
     ! Function interface with output error
-    function la_linalg_norm_7D_order_err_char_d(a,order,err) result(nrm)
+    function la_norm_7D_order_err_char_d(a,order,err) result(nrm)
         !> Input 7-d matrix a(:,:,:,:,:,:,:)
         real(dp),intent(in) :: a(:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -10180,7 +10180,7 @@ module la_linalg_norms
                 
         call norm_7D_char_d(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_7D_order_err_char_d
+    end function la_norm_7D_order_err_char_d
     
     ! Internal implementation
     pure subroutine norm_7D_char_d(a,nrm,order,err)
@@ -10238,7 +10238,7 @@ module la_linalg_norms
     end subroutine norm_7D_char_d
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_8D_order_char_d(a,order) result(nrm)
+    pure function la_norm_8D_order_char_d(a,order) result(nrm)
         !> Input 8-d matrix a(:,:,:,:,:,:,:,:)
         real(dp),intent(in) :: a(:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -10248,10 +10248,10 @@ module la_linalg_norms
                                     
         call norm_8D_char_d(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_8D_order_char_d
+    end function la_norm_8D_order_char_d
     
     ! Function interface with output error
-    function la_linalg_norm_8D_order_err_char_d(a,order,err) result(nrm)
+    function la_norm_8D_order_err_char_d(a,order,err) result(nrm)
         !> Input 8-d matrix a(:,:,:,:,:,:,:,:)
         real(dp),intent(in) :: a(:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -10263,7 +10263,7 @@ module la_linalg_norms
                 
         call norm_8D_char_d(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_8D_order_err_char_d
+    end function la_norm_8D_order_err_char_d
     
     ! Internal implementation
     pure subroutine norm_8D_char_d(a,nrm,order,err)
@@ -10321,7 +10321,7 @@ module la_linalg_norms
     end subroutine norm_8D_char_d
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_9D_order_char_d(a,order) result(nrm)
+    pure function la_norm_9D_order_char_d(a,order) result(nrm)
         !> Input 9-d matrix a(:,:,:,:,:,:,:,:,:)
         real(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -10331,10 +10331,10 @@ module la_linalg_norms
                                     
         call norm_9D_char_d(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_9D_order_char_d
+    end function la_norm_9D_order_char_d
     
     ! Function interface with output error
-    function la_linalg_norm_9D_order_err_char_d(a,order,err) result(nrm)
+    function la_norm_9D_order_err_char_d(a,order,err) result(nrm)
         !> Input 9-d matrix a(:,:,:,:,:,:,:,:,:)
         real(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -10346,7 +10346,7 @@ module la_linalg_norms
                 
         call norm_9D_char_d(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_9D_order_err_char_d
+    end function la_norm_9D_order_err_char_d
     
     ! Internal implementation
     pure subroutine norm_9D_char_d(a,nrm,order,err)
@@ -10404,7 +10404,7 @@ module la_linalg_norms
     end subroutine norm_9D_char_d
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_10D_order_char_d(a,order) result(nrm)
+    pure function la_norm_10D_order_char_d(a,order) result(nrm)
         !> Input 10-d matrix a(:,:,:,:,:,:,:,:,:,:)
         real(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -10414,10 +10414,10 @@ module la_linalg_norms
                                     
         call norm_10D_char_d(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_10D_order_char_d
+    end function la_norm_10D_order_char_d
     
     ! Function interface with output error
-    function la_linalg_norm_10D_order_err_char_d(a,order,err) result(nrm)
+    function la_norm_10D_order_err_char_d(a,order,err) result(nrm)
         !> Input 10-d matrix a(:,:,:,:,:,:,:,:,:,:)
         real(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -10429,7 +10429,7 @@ module la_linalg_norms
                 
         call norm_10D_char_d(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_10D_order_err_char_d
+    end function la_norm_10D_order_err_char_d
     
     ! Internal implementation
     pure subroutine norm_10D_char_d(a,nrm,order,err)
@@ -10487,7 +10487,7 @@ module la_linalg_norms
     end subroutine norm_10D_char_d
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_11D_order_char_d(a,order) result(nrm)
+    pure function la_norm_11D_order_char_d(a,order) result(nrm)
         !> Input 11-d matrix a(:,:,:,:,:,:,:,:,:,:,:)
         real(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -10497,10 +10497,10 @@ module la_linalg_norms
                                     
         call norm_11D_char_d(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_11D_order_char_d
+    end function la_norm_11D_order_char_d
     
     ! Function interface with output error
-    function la_linalg_norm_11D_order_err_char_d(a,order,err) result(nrm)
+    function la_norm_11D_order_err_char_d(a,order,err) result(nrm)
         !> Input 11-d matrix a(:,:,:,:,:,:,:,:,:,:,:)
         real(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -10512,7 +10512,7 @@ module la_linalg_norms
                 
         call norm_11D_char_d(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_11D_order_err_char_d
+    end function la_norm_11D_order_err_char_d
     
     ! Internal implementation
     pure subroutine norm_11D_char_d(a,nrm,order,err)
@@ -10570,7 +10570,7 @@ module la_linalg_norms
     end subroutine norm_11D_char_d
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_12D_order_char_d(a,order) result(nrm)
+    pure function la_norm_12D_order_char_d(a,order) result(nrm)
         !> Input 12-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:)
         real(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -10580,10 +10580,10 @@ module la_linalg_norms
                                     
         call norm_12D_char_d(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_12D_order_char_d
+    end function la_norm_12D_order_char_d
     
     ! Function interface with output error
-    function la_linalg_norm_12D_order_err_char_d(a,order,err) result(nrm)
+    function la_norm_12D_order_err_char_d(a,order,err) result(nrm)
         !> Input 12-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:)
         real(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -10595,7 +10595,7 @@ module la_linalg_norms
                 
         call norm_12D_char_d(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_12D_order_err_char_d
+    end function la_norm_12D_order_err_char_d
     
     ! Internal implementation
     pure subroutine norm_12D_char_d(a,nrm,order,err)
@@ -10653,7 +10653,7 @@ module la_linalg_norms
     end subroutine norm_12D_char_d
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_13D_order_char_d(a,order) result(nrm)
+    pure function la_norm_13D_order_char_d(a,order) result(nrm)
         !> Input 13-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         real(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -10663,10 +10663,10 @@ module la_linalg_norms
                                     
         call norm_13D_char_d(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_13D_order_char_d
+    end function la_norm_13D_order_char_d
     
     ! Function interface with output error
-    function la_linalg_norm_13D_order_err_char_d(a,order,err) result(nrm)
+    function la_norm_13D_order_err_char_d(a,order,err) result(nrm)
         !> Input 13-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         real(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -10678,7 +10678,7 @@ module la_linalg_norms
                 
         call norm_13D_char_d(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_13D_order_err_char_d
+    end function la_norm_13D_order_err_char_d
     
     ! Internal implementation
     pure subroutine norm_13D_char_d(a,nrm,order,err)
@@ -10736,7 +10736,7 @@ module la_linalg_norms
     end subroutine norm_13D_char_d
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_14D_order_char_d(a,order) result(nrm)
+    pure function la_norm_14D_order_char_d(a,order) result(nrm)
         !> Input 14-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         real(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -10746,10 +10746,10 @@ module la_linalg_norms
                                     
         call norm_14D_char_d(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_14D_order_char_d
+    end function la_norm_14D_order_char_d
     
     ! Function interface with output error
-    function la_linalg_norm_14D_order_err_char_d(a,order,err) result(nrm)
+    function la_norm_14D_order_err_char_d(a,order,err) result(nrm)
         !> Input 14-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         real(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -10761,7 +10761,7 @@ module la_linalg_norms
                 
         call norm_14D_char_d(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_14D_order_err_char_d
+    end function la_norm_14D_order_err_char_d
     
     ! Internal implementation
     pure subroutine norm_14D_char_d(a,nrm,order,err)
@@ -10819,7 +10819,7 @@ module la_linalg_norms
     end subroutine norm_14D_char_d
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_15D_order_char_d(a,order) result(nrm)
+    pure function la_norm_15D_order_char_d(a,order) result(nrm)
         !> Input 15-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         real(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -10829,10 +10829,10 @@ module la_linalg_norms
                                     
         call norm_15D_char_d(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_15D_order_char_d
+    end function la_norm_15D_order_char_d
     
     ! Function interface with output error
-    function la_linalg_norm_15D_order_err_char_d(a,order,err) result(nrm)
+    function la_norm_15D_order_err_char_d(a,order,err) result(nrm)
         !> Input 15-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         real(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -10844,7 +10844,7 @@ module la_linalg_norms
                 
         call norm_15D_char_d(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_15D_order_err_char_d
+    end function la_norm_15D_order_err_char_d
     
     ! Internal implementation
     pure subroutine norm_15D_char_d(a,nrm,order,err)
@@ -10906,7 +10906,7 @@ module la_linalg_norms
     !====================================================================
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_2D_to_1D_char_d(a,order,dim) result(nrm)
+    pure function la_norm_2D_to_1D_char_d(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(dp),intent(in),target :: a(:,:)
         !> Order of the matrix norm being computed.
@@ -10918,10 +10918,10 @@ module la_linalg_norms
         
         call norm_2D_to_1D_char_d(a,nrm,order,dim)
             
-    end function la_linalg_norm_2D_to_1D_char_d
+    end function la_norm_2D_to_1D_char_d
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_2D_to_1D_err_char_d(a,order,dim,err) result(nrm)
+    function la_norm_2D_to_1D_err_char_d(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(dp),intent(in),target :: a(:,:)
         !> Order of the matrix norm being computed.
@@ -10935,7 +10935,7 @@ module la_linalg_norms
         
         call norm_2D_to_1D_char_d(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_2D_to_1D_err_char_d
+    end function la_norm_2D_to_1D_err_char_d
     
     ! Internal implementation
     pure subroutine norm_2D_to_1D_char_d(a,nrm,order,dim,err)
@@ -11002,7 +11002,7 @@ module la_linalg_norms
     end subroutine norm_2D_to_1D_char_d
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_3D_to_2D_char_d(a,order,dim) result(nrm)
+    pure function la_norm_3D_to_2D_char_d(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(dp),intent(in),target :: a(:,:,:)
         !> Order of the matrix norm being computed.
@@ -11014,10 +11014,10 @@ module la_linalg_norms
         
         call norm_3D_to_2D_char_d(a,nrm,order,dim)
             
-    end function la_linalg_norm_3D_to_2D_char_d
+    end function la_norm_3D_to_2D_char_d
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_3D_to_2D_err_char_d(a,order,dim,err) result(nrm)
+    function la_norm_3D_to_2D_err_char_d(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(dp),intent(in),target :: a(:,:,:)
         !> Order of the matrix norm being computed.
@@ -11031,7 +11031,7 @@ module la_linalg_norms
         
         call norm_3D_to_2D_char_d(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_3D_to_2D_err_char_d
+    end function la_norm_3D_to_2D_err_char_d
     
     ! Internal implementation
     pure subroutine norm_3D_to_2D_char_d(a,nrm,order,dim,err)
@@ -11098,7 +11098,7 @@ module la_linalg_norms
     end subroutine norm_3D_to_2D_char_d
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_4D_to_3D_char_d(a,order,dim) result(nrm)
+    pure function la_norm_4D_to_3D_char_d(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(dp),intent(in),target :: a(:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -11111,10 +11111,10 @@ module la_linalg_norms
         
         call norm_4D_to_3D_char_d(a,nrm,order,dim)
             
-    end function la_linalg_norm_4D_to_3D_char_d
+    end function la_norm_4D_to_3D_char_d
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_4D_to_3D_err_char_d(a,order,dim,err) result(nrm)
+    function la_norm_4D_to_3D_err_char_d(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(dp),intent(in),target :: a(:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -11129,7 +11129,7 @@ module la_linalg_norms
         
         call norm_4D_to_3D_char_d(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_4D_to_3D_err_char_d
+    end function la_norm_4D_to_3D_err_char_d
     
     ! Internal implementation
     pure subroutine norm_4D_to_3D_char_d(a,nrm,order,dim,err)
@@ -11197,7 +11197,7 @@ module la_linalg_norms
     end subroutine norm_4D_to_3D_char_d
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_5D_to_4D_char_d(a,order,dim) result(nrm)
+    pure function la_norm_5D_to_4D_char_d(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(dp),intent(in),target :: a(:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -11210,10 +11210,10 @@ module la_linalg_norms
         
         call norm_5D_to_4D_char_d(a,nrm,order,dim)
             
-    end function la_linalg_norm_5D_to_4D_char_d
+    end function la_norm_5D_to_4D_char_d
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_5D_to_4D_err_char_d(a,order,dim,err) result(nrm)
+    function la_norm_5D_to_4D_err_char_d(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(dp),intent(in),target :: a(:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -11228,7 +11228,7 @@ module la_linalg_norms
         
         call norm_5D_to_4D_char_d(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_5D_to_4D_err_char_d
+    end function la_norm_5D_to_4D_err_char_d
     
     ! Internal implementation
     pure subroutine norm_5D_to_4D_char_d(a,nrm,order,dim,err)
@@ -11296,7 +11296,7 @@ module la_linalg_norms
     end subroutine norm_5D_to_4D_char_d
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_6D_to_5D_char_d(a,order,dim) result(nrm)
+    pure function la_norm_6D_to_5D_char_d(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(dp),intent(in),target :: a(:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -11309,10 +11309,10 @@ module la_linalg_norms
         
         call norm_6D_to_5D_char_d(a,nrm,order,dim)
             
-    end function la_linalg_norm_6D_to_5D_char_d
+    end function la_norm_6D_to_5D_char_d
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_6D_to_5D_err_char_d(a,order,dim,err) result(nrm)
+    function la_norm_6D_to_5D_err_char_d(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(dp),intent(in),target :: a(:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -11327,7 +11327,7 @@ module la_linalg_norms
         
         call norm_6D_to_5D_char_d(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_6D_to_5D_err_char_d
+    end function la_norm_6D_to_5D_err_char_d
     
     ! Internal implementation
     pure subroutine norm_6D_to_5D_char_d(a,nrm,order,dim,err)
@@ -11396,7 +11396,7 @@ module la_linalg_norms
     end subroutine norm_6D_to_5D_char_d
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_7D_to_6D_char_d(a,order,dim) result(nrm)
+    pure function la_norm_7D_to_6D_char_d(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(dp),intent(in),target :: a(:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -11410,10 +11410,10 @@ module la_linalg_norms
         
         call norm_7D_to_6D_char_d(a,nrm,order,dim)
             
-    end function la_linalg_norm_7D_to_6D_char_d
+    end function la_norm_7D_to_6D_char_d
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_7D_to_6D_err_char_d(a,order,dim,err) result(nrm)
+    function la_norm_7D_to_6D_err_char_d(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(dp),intent(in),target :: a(:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -11429,7 +11429,7 @@ module la_linalg_norms
         
         call norm_7D_to_6D_char_d(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_7D_to_6D_err_char_d
+    end function la_norm_7D_to_6D_err_char_d
     
     ! Internal implementation
     pure subroutine norm_7D_to_6D_char_d(a,nrm,order,dim,err)
@@ -11498,7 +11498,7 @@ module la_linalg_norms
     end subroutine norm_7D_to_6D_char_d
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_8D_to_7D_char_d(a,order,dim) result(nrm)
+    pure function la_norm_8D_to_7D_char_d(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(dp),intent(in),target :: a(:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -11512,10 +11512,10 @@ module la_linalg_norms
         
         call norm_8D_to_7D_char_d(a,nrm,order,dim)
             
-    end function la_linalg_norm_8D_to_7D_char_d
+    end function la_norm_8D_to_7D_char_d
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_8D_to_7D_err_char_d(a,order,dim,err) result(nrm)
+    function la_norm_8D_to_7D_err_char_d(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(dp),intent(in),target :: a(:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -11531,7 +11531,7 @@ module la_linalg_norms
         
         call norm_8D_to_7D_char_d(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_8D_to_7D_err_char_d
+    end function la_norm_8D_to_7D_err_char_d
     
     ! Internal implementation
     pure subroutine norm_8D_to_7D_char_d(a,nrm,order,dim,err)
@@ -11600,7 +11600,7 @@ module la_linalg_norms
     end subroutine norm_8D_to_7D_char_d
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_9D_to_8D_char_d(a,order,dim) result(nrm)
+    pure function la_norm_9D_to_8D_char_d(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -11615,10 +11615,10 @@ module la_linalg_norms
         
         call norm_9D_to_8D_char_d(a,nrm,order,dim)
             
-    end function la_linalg_norm_9D_to_8D_char_d
+    end function la_norm_9D_to_8D_char_d
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_9D_to_8D_err_char_d(a,order,dim,err) result(nrm)
+    function la_norm_9D_to_8D_err_char_d(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -11635,7 +11635,7 @@ module la_linalg_norms
         
         call norm_9D_to_8D_char_d(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_9D_to_8D_err_char_d
+    end function la_norm_9D_to_8D_err_char_d
     
     ! Internal implementation
     pure subroutine norm_9D_to_8D_char_d(a,nrm,order,dim,err)
@@ -11705,7 +11705,7 @@ module la_linalg_norms
     end subroutine norm_9D_to_8D_char_d
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_10D_to_9D_char_d(a,order,dim) result(nrm)
+    pure function la_norm_10D_to_9D_char_d(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -11720,10 +11720,10 @@ module la_linalg_norms
         
         call norm_10D_to_9D_char_d(a,nrm,order,dim)
             
-    end function la_linalg_norm_10D_to_9D_char_d
+    end function la_norm_10D_to_9D_char_d
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_10D_to_9D_err_char_d(a,order,dim,err) result(nrm)
+    function la_norm_10D_to_9D_err_char_d(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -11740,7 +11740,7 @@ module la_linalg_norms
         
         call norm_10D_to_9D_char_d(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_10D_to_9D_err_char_d
+    end function la_norm_10D_to_9D_err_char_d
     
     ! Internal implementation
     pure subroutine norm_10D_to_9D_char_d(a,nrm,order,dim,err)
@@ -11810,7 +11810,7 @@ module la_linalg_norms
     end subroutine norm_10D_to_9D_char_d
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_11D_to_10D_char_d(a,order,dim) result(nrm)
+    pure function la_norm_11D_to_10D_char_d(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -11825,10 +11825,10 @@ module la_linalg_norms
         
         call norm_11D_to_10D_char_d(a,nrm,order,dim)
             
-    end function la_linalg_norm_11D_to_10D_char_d
+    end function la_norm_11D_to_10D_char_d
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_11D_to_10D_err_char_d(a,order,dim,err) result(nrm)
+    function la_norm_11D_to_10D_err_char_d(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -11845,7 +11845,7 @@ module la_linalg_norms
         
         call norm_11D_to_10D_char_d(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_11D_to_10D_err_char_d
+    end function la_norm_11D_to_10D_err_char_d
     
     ! Internal implementation
     pure subroutine norm_11D_to_10D_char_d(a,nrm,order,dim,err)
@@ -11916,7 +11916,7 @@ module la_linalg_norms
     end subroutine norm_11D_to_10D_char_d
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_12D_to_11D_char_d(a,order,dim) result(nrm)
+    pure function la_norm_12D_to_11D_char_d(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -11932,10 +11932,10 @@ module la_linalg_norms
         
         call norm_12D_to_11D_char_d(a,nrm,order,dim)
             
-    end function la_linalg_norm_12D_to_11D_char_d
+    end function la_norm_12D_to_11D_char_d
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_12D_to_11D_err_char_d(a,order,dim,err) result(nrm)
+    function la_norm_12D_to_11D_err_char_d(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -11953,7 +11953,7 @@ module la_linalg_norms
         
         call norm_12D_to_11D_char_d(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_12D_to_11D_err_char_d
+    end function la_norm_12D_to_11D_err_char_d
     
     ! Internal implementation
     pure subroutine norm_12D_to_11D_char_d(a,nrm,order,dim,err)
@@ -12024,7 +12024,7 @@ module la_linalg_norms
     end subroutine norm_12D_to_11D_char_d
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_13D_to_12D_char_d(a,order,dim) result(nrm)
+    pure function la_norm_13D_to_12D_char_d(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -12040,10 +12040,10 @@ module la_linalg_norms
         
         call norm_13D_to_12D_char_d(a,nrm,order,dim)
             
-    end function la_linalg_norm_13D_to_12D_char_d
+    end function la_norm_13D_to_12D_char_d
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_13D_to_12D_err_char_d(a,order,dim,err) result(nrm)
+    function la_norm_13D_to_12D_err_char_d(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -12061,7 +12061,7 @@ module la_linalg_norms
         
         call norm_13D_to_12D_char_d(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_13D_to_12D_err_char_d
+    end function la_norm_13D_to_12D_err_char_d
     
     ! Internal implementation
     pure subroutine norm_13D_to_12D_char_d(a,nrm,order,dim,err)
@@ -12132,7 +12132,7 @@ module la_linalg_norms
     end subroutine norm_13D_to_12D_char_d
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_14D_to_13D_char_d(a,order,dim) result(nrm)
+    pure function la_norm_14D_to_13D_char_d(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -12149,10 +12149,10 @@ module la_linalg_norms
         
         call norm_14D_to_13D_char_d(a,nrm,order,dim)
             
-    end function la_linalg_norm_14D_to_13D_char_d
+    end function la_norm_14D_to_13D_char_d
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_14D_to_13D_err_char_d(a,order,dim,err) result(nrm)
+    function la_norm_14D_to_13D_err_char_d(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -12171,7 +12171,7 @@ module la_linalg_norms
         
         call norm_14D_to_13D_char_d(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_14D_to_13D_err_char_d
+    end function la_norm_14D_to_13D_err_char_d
     
     ! Internal implementation
     pure subroutine norm_14D_to_13D_char_d(a,nrm,order,dim,err)
@@ -12243,7 +12243,7 @@ module la_linalg_norms
     end subroutine norm_14D_to_13D_char_d
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_15D_to_14D_char_d(a,order,dim) result(nrm)
+    pure function la_norm_15D_to_14D_char_d(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -12260,10 +12260,10 @@ module la_linalg_norms
         
         call norm_15D_to_14D_char_d(a,nrm,order,dim)
             
-    end function la_linalg_norm_15D_to_14D_char_d
+    end function la_norm_15D_to_14D_char_d
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_15D_to_14D_err_char_d(a,order,dim,err) result(nrm)
+    function la_norm_15D_to_14D_err_char_d(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -12282,7 +12282,7 @@ module la_linalg_norms
         
         call norm_15D_to_14D_char_d(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_15D_to_14D_err_char_d
+    end function la_norm_15D_to_14D_err_char_d
     
     ! Internal implementation
     pure subroutine norm_15D_to_14D_char_d(a,nrm,order,dim,err)
@@ -13789,7 +13789,7 @@ module la_linalg_norms
     !==============================================
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_1D_order_int_d(a,order) result(nrm)
+    pure function la_norm_1D_order_int_d(a,order) result(nrm)
         !> Input 1-d matrix a(:)
         real(dp),intent(in) :: a(:)
         !> Order of the matrix norm being computed.
@@ -13799,10 +13799,10 @@ module la_linalg_norms
                                     
         call norm_1D_int_d(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_1D_order_int_d
+    end function la_norm_1D_order_int_d
     
     ! Function interface with output error
-    function la_linalg_norm_1D_order_err_int_d(a,order,err) result(nrm)
+    function la_norm_1D_order_err_int_d(a,order,err) result(nrm)
         !> Input 1-d matrix a(:)
         real(dp),intent(in) :: a(:)
         !> Order of the matrix norm being computed.
@@ -13814,7 +13814,7 @@ module la_linalg_norms
                 
         call norm_1D_int_d(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_1D_order_err_int_d
+    end function la_norm_1D_order_err_int_d
     
     ! Internal implementation
     pure subroutine norm_1D_int_d(a,nrm,order,err)
@@ -13872,7 +13872,7 @@ module la_linalg_norms
     end subroutine norm_1D_int_d
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_2D_order_int_d(a,order) result(nrm)
+    pure function la_norm_2D_order_int_d(a,order) result(nrm)
         !> Input 2-d matrix a(:,:)
         real(dp),intent(in) :: a(:,:)
         !> Order of the matrix norm being computed.
@@ -13882,10 +13882,10 @@ module la_linalg_norms
                                     
         call norm_2D_int_d(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_2D_order_int_d
+    end function la_norm_2D_order_int_d
     
     ! Function interface with output error
-    function la_linalg_norm_2D_order_err_int_d(a,order,err) result(nrm)
+    function la_norm_2D_order_err_int_d(a,order,err) result(nrm)
         !> Input 2-d matrix a(:,:)
         real(dp),intent(in) :: a(:,:)
         !> Order of the matrix norm being computed.
@@ -13897,7 +13897,7 @@ module la_linalg_norms
                 
         call norm_2D_int_d(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_2D_order_err_int_d
+    end function la_norm_2D_order_err_int_d
     
     ! Internal implementation
     pure subroutine norm_2D_int_d(a,nrm,order,err)
@@ -13955,7 +13955,7 @@ module la_linalg_norms
     end subroutine norm_2D_int_d
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_3D_order_int_d(a,order) result(nrm)
+    pure function la_norm_3D_order_int_d(a,order) result(nrm)
         !> Input 3-d matrix a(:,:,:)
         real(dp),intent(in) :: a(:,:,:)
         !> Order of the matrix norm being computed.
@@ -13965,10 +13965,10 @@ module la_linalg_norms
                                     
         call norm_3D_int_d(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_3D_order_int_d
+    end function la_norm_3D_order_int_d
     
     ! Function interface with output error
-    function la_linalg_norm_3D_order_err_int_d(a,order,err) result(nrm)
+    function la_norm_3D_order_err_int_d(a,order,err) result(nrm)
         !> Input 3-d matrix a(:,:,:)
         real(dp),intent(in) :: a(:,:,:)
         !> Order of the matrix norm being computed.
@@ -13980,7 +13980,7 @@ module la_linalg_norms
                 
         call norm_3D_int_d(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_3D_order_err_int_d
+    end function la_norm_3D_order_err_int_d
     
     ! Internal implementation
     pure subroutine norm_3D_int_d(a,nrm,order,err)
@@ -14038,7 +14038,7 @@ module la_linalg_norms
     end subroutine norm_3D_int_d
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_4D_order_int_d(a,order) result(nrm)
+    pure function la_norm_4D_order_int_d(a,order) result(nrm)
         !> Input 4-d matrix a(:,:,:,:)
         real(dp),intent(in) :: a(:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -14048,10 +14048,10 @@ module la_linalg_norms
                                     
         call norm_4D_int_d(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_4D_order_int_d
+    end function la_norm_4D_order_int_d
     
     ! Function interface with output error
-    function la_linalg_norm_4D_order_err_int_d(a,order,err) result(nrm)
+    function la_norm_4D_order_err_int_d(a,order,err) result(nrm)
         !> Input 4-d matrix a(:,:,:,:)
         real(dp),intent(in) :: a(:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -14063,7 +14063,7 @@ module la_linalg_norms
                 
         call norm_4D_int_d(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_4D_order_err_int_d
+    end function la_norm_4D_order_err_int_d
     
     ! Internal implementation
     pure subroutine norm_4D_int_d(a,nrm,order,err)
@@ -14121,7 +14121,7 @@ module la_linalg_norms
     end subroutine norm_4D_int_d
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_5D_order_int_d(a,order) result(nrm)
+    pure function la_norm_5D_order_int_d(a,order) result(nrm)
         !> Input 5-d matrix a(:,:,:,:,:)
         real(dp),intent(in) :: a(:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -14131,10 +14131,10 @@ module la_linalg_norms
                                     
         call norm_5D_int_d(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_5D_order_int_d
+    end function la_norm_5D_order_int_d
     
     ! Function interface with output error
-    function la_linalg_norm_5D_order_err_int_d(a,order,err) result(nrm)
+    function la_norm_5D_order_err_int_d(a,order,err) result(nrm)
         !> Input 5-d matrix a(:,:,:,:,:)
         real(dp),intent(in) :: a(:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -14146,7 +14146,7 @@ module la_linalg_norms
                 
         call norm_5D_int_d(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_5D_order_err_int_d
+    end function la_norm_5D_order_err_int_d
     
     ! Internal implementation
     pure subroutine norm_5D_int_d(a,nrm,order,err)
@@ -14204,7 +14204,7 @@ module la_linalg_norms
     end subroutine norm_5D_int_d
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_6D_order_int_d(a,order) result(nrm)
+    pure function la_norm_6D_order_int_d(a,order) result(nrm)
         !> Input 6-d matrix a(:,:,:,:,:,:)
         real(dp),intent(in) :: a(:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -14214,10 +14214,10 @@ module la_linalg_norms
                                     
         call norm_6D_int_d(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_6D_order_int_d
+    end function la_norm_6D_order_int_d
     
     ! Function interface with output error
-    function la_linalg_norm_6D_order_err_int_d(a,order,err) result(nrm)
+    function la_norm_6D_order_err_int_d(a,order,err) result(nrm)
         !> Input 6-d matrix a(:,:,:,:,:,:)
         real(dp),intent(in) :: a(:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -14229,7 +14229,7 @@ module la_linalg_norms
                 
         call norm_6D_int_d(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_6D_order_err_int_d
+    end function la_norm_6D_order_err_int_d
     
     ! Internal implementation
     pure subroutine norm_6D_int_d(a,nrm,order,err)
@@ -14287,7 +14287,7 @@ module la_linalg_norms
     end subroutine norm_6D_int_d
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_7D_order_int_d(a,order) result(nrm)
+    pure function la_norm_7D_order_int_d(a,order) result(nrm)
         !> Input 7-d matrix a(:,:,:,:,:,:,:)
         real(dp),intent(in) :: a(:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -14297,10 +14297,10 @@ module la_linalg_norms
                                     
         call norm_7D_int_d(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_7D_order_int_d
+    end function la_norm_7D_order_int_d
     
     ! Function interface with output error
-    function la_linalg_norm_7D_order_err_int_d(a,order,err) result(nrm)
+    function la_norm_7D_order_err_int_d(a,order,err) result(nrm)
         !> Input 7-d matrix a(:,:,:,:,:,:,:)
         real(dp),intent(in) :: a(:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -14312,7 +14312,7 @@ module la_linalg_norms
                 
         call norm_7D_int_d(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_7D_order_err_int_d
+    end function la_norm_7D_order_err_int_d
     
     ! Internal implementation
     pure subroutine norm_7D_int_d(a,nrm,order,err)
@@ -14370,7 +14370,7 @@ module la_linalg_norms
     end subroutine norm_7D_int_d
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_8D_order_int_d(a,order) result(nrm)
+    pure function la_norm_8D_order_int_d(a,order) result(nrm)
         !> Input 8-d matrix a(:,:,:,:,:,:,:,:)
         real(dp),intent(in) :: a(:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -14380,10 +14380,10 @@ module la_linalg_norms
                                     
         call norm_8D_int_d(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_8D_order_int_d
+    end function la_norm_8D_order_int_d
     
     ! Function interface with output error
-    function la_linalg_norm_8D_order_err_int_d(a,order,err) result(nrm)
+    function la_norm_8D_order_err_int_d(a,order,err) result(nrm)
         !> Input 8-d matrix a(:,:,:,:,:,:,:,:)
         real(dp),intent(in) :: a(:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -14395,7 +14395,7 @@ module la_linalg_norms
                 
         call norm_8D_int_d(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_8D_order_err_int_d
+    end function la_norm_8D_order_err_int_d
     
     ! Internal implementation
     pure subroutine norm_8D_int_d(a,nrm,order,err)
@@ -14453,7 +14453,7 @@ module la_linalg_norms
     end subroutine norm_8D_int_d
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_9D_order_int_d(a,order) result(nrm)
+    pure function la_norm_9D_order_int_d(a,order) result(nrm)
         !> Input 9-d matrix a(:,:,:,:,:,:,:,:,:)
         real(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -14463,10 +14463,10 @@ module la_linalg_norms
                                     
         call norm_9D_int_d(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_9D_order_int_d
+    end function la_norm_9D_order_int_d
     
     ! Function interface with output error
-    function la_linalg_norm_9D_order_err_int_d(a,order,err) result(nrm)
+    function la_norm_9D_order_err_int_d(a,order,err) result(nrm)
         !> Input 9-d matrix a(:,:,:,:,:,:,:,:,:)
         real(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -14478,7 +14478,7 @@ module la_linalg_norms
                 
         call norm_9D_int_d(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_9D_order_err_int_d
+    end function la_norm_9D_order_err_int_d
     
     ! Internal implementation
     pure subroutine norm_9D_int_d(a,nrm,order,err)
@@ -14536,7 +14536,7 @@ module la_linalg_norms
     end subroutine norm_9D_int_d
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_10D_order_int_d(a,order) result(nrm)
+    pure function la_norm_10D_order_int_d(a,order) result(nrm)
         !> Input 10-d matrix a(:,:,:,:,:,:,:,:,:,:)
         real(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -14546,10 +14546,10 @@ module la_linalg_norms
                                     
         call norm_10D_int_d(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_10D_order_int_d
+    end function la_norm_10D_order_int_d
     
     ! Function interface with output error
-    function la_linalg_norm_10D_order_err_int_d(a,order,err) result(nrm)
+    function la_norm_10D_order_err_int_d(a,order,err) result(nrm)
         !> Input 10-d matrix a(:,:,:,:,:,:,:,:,:,:)
         real(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -14561,7 +14561,7 @@ module la_linalg_norms
                 
         call norm_10D_int_d(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_10D_order_err_int_d
+    end function la_norm_10D_order_err_int_d
     
     ! Internal implementation
     pure subroutine norm_10D_int_d(a,nrm,order,err)
@@ -14619,7 +14619,7 @@ module la_linalg_norms
     end subroutine norm_10D_int_d
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_11D_order_int_d(a,order) result(nrm)
+    pure function la_norm_11D_order_int_d(a,order) result(nrm)
         !> Input 11-d matrix a(:,:,:,:,:,:,:,:,:,:,:)
         real(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -14629,10 +14629,10 @@ module la_linalg_norms
                                     
         call norm_11D_int_d(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_11D_order_int_d
+    end function la_norm_11D_order_int_d
     
     ! Function interface with output error
-    function la_linalg_norm_11D_order_err_int_d(a,order,err) result(nrm)
+    function la_norm_11D_order_err_int_d(a,order,err) result(nrm)
         !> Input 11-d matrix a(:,:,:,:,:,:,:,:,:,:,:)
         real(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -14644,7 +14644,7 @@ module la_linalg_norms
                 
         call norm_11D_int_d(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_11D_order_err_int_d
+    end function la_norm_11D_order_err_int_d
     
     ! Internal implementation
     pure subroutine norm_11D_int_d(a,nrm,order,err)
@@ -14702,7 +14702,7 @@ module la_linalg_norms
     end subroutine norm_11D_int_d
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_12D_order_int_d(a,order) result(nrm)
+    pure function la_norm_12D_order_int_d(a,order) result(nrm)
         !> Input 12-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:)
         real(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -14712,10 +14712,10 @@ module la_linalg_norms
                                     
         call norm_12D_int_d(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_12D_order_int_d
+    end function la_norm_12D_order_int_d
     
     ! Function interface with output error
-    function la_linalg_norm_12D_order_err_int_d(a,order,err) result(nrm)
+    function la_norm_12D_order_err_int_d(a,order,err) result(nrm)
         !> Input 12-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:)
         real(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -14727,7 +14727,7 @@ module la_linalg_norms
                 
         call norm_12D_int_d(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_12D_order_err_int_d
+    end function la_norm_12D_order_err_int_d
     
     ! Internal implementation
     pure subroutine norm_12D_int_d(a,nrm,order,err)
@@ -14785,7 +14785,7 @@ module la_linalg_norms
     end subroutine norm_12D_int_d
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_13D_order_int_d(a,order) result(nrm)
+    pure function la_norm_13D_order_int_d(a,order) result(nrm)
         !> Input 13-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         real(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -14795,10 +14795,10 @@ module la_linalg_norms
                                     
         call norm_13D_int_d(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_13D_order_int_d
+    end function la_norm_13D_order_int_d
     
     ! Function interface with output error
-    function la_linalg_norm_13D_order_err_int_d(a,order,err) result(nrm)
+    function la_norm_13D_order_err_int_d(a,order,err) result(nrm)
         !> Input 13-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         real(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -14810,7 +14810,7 @@ module la_linalg_norms
                 
         call norm_13D_int_d(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_13D_order_err_int_d
+    end function la_norm_13D_order_err_int_d
     
     ! Internal implementation
     pure subroutine norm_13D_int_d(a,nrm,order,err)
@@ -14868,7 +14868,7 @@ module la_linalg_norms
     end subroutine norm_13D_int_d
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_14D_order_int_d(a,order) result(nrm)
+    pure function la_norm_14D_order_int_d(a,order) result(nrm)
         !> Input 14-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         real(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -14878,10 +14878,10 @@ module la_linalg_norms
                                     
         call norm_14D_int_d(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_14D_order_int_d
+    end function la_norm_14D_order_int_d
     
     ! Function interface with output error
-    function la_linalg_norm_14D_order_err_int_d(a,order,err) result(nrm)
+    function la_norm_14D_order_err_int_d(a,order,err) result(nrm)
         !> Input 14-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         real(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -14893,7 +14893,7 @@ module la_linalg_norms
                 
         call norm_14D_int_d(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_14D_order_err_int_d
+    end function la_norm_14D_order_err_int_d
     
     ! Internal implementation
     pure subroutine norm_14D_int_d(a,nrm,order,err)
@@ -14951,7 +14951,7 @@ module la_linalg_norms
     end subroutine norm_14D_int_d
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_15D_order_int_d(a,order) result(nrm)
+    pure function la_norm_15D_order_int_d(a,order) result(nrm)
         !> Input 15-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         real(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -14961,10 +14961,10 @@ module la_linalg_norms
                                     
         call norm_15D_int_d(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_15D_order_int_d
+    end function la_norm_15D_order_int_d
     
     ! Function interface with output error
-    function la_linalg_norm_15D_order_err_int_d(a,order,err) result(nrm)
+    function la_norm_15D_order_err_int_d(a,order,err) result(nrm)
         !> Input 15-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         real(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -14976,7 +14976,7 @@ module la_linalg_norms
                 
         call norm_15D_int_d(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_15D_order_err_int_d
+    end function la_norm_15D_order_err_int_d
     
     ! Internal implementation
     pure subroutine norm_15D_int_d(a,nrm,order,err)
@@ -15038,7 +15038,7 @@ module la_linalg_norms
     !====================================================================
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_2D_to_1D_int_d(a,order,dim) result(nrm)
+    pure function la_norm_2D_to_1D_int_d(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(dp),intent(in),target :: a(:,:)
         !> Order of the matrix norm being computed.
@@ -15050,10 +15050,10 @@ module la_linalg_norms
         
         call norm_2D_to_1D_int_d(a,nrm,order,dim)
             
-    end function la_linalg_norm_2D_to_1D_int_d
+    end function la_norm_2D_to_1D_int_d
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_2D_to_1D_err_int_d(a,order,dim,err) result(nrm)
+    function la_norm_2D_to_1D_err_int_d(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(dp),intent(in),target :: a(:,:)
         !> Order of the matrix norm being computed.
@@ -15067,7 +15067,7 @@ module la_linalg_norms
         
         call norm_2D_to_1D_int_d(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_2D_to_1D_err_int_d
+    end function la_norm_2D_to_1D_err_int_d
     
     ! Internal implementation
     pure subroutine norm_2D_to_1D_int_d(a,nrm,order,dim,err)
@@ -15134,7 +15134,7 @@ module la_linalg_norms
     end subroutine norm_2D_to_1D_int_d
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_3D_to_2D_int_d(a,order,dim) result(nrm)
+    pure function la_norm_3D_to_2D_int_d(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(dp),intent(in),target :: a(:,:,:)
         !> Order of the matrix norm being computed.
@@ -15146,10 +15146,10 @@ module la_linalg_norms
         
         call norm_3D_to_2D_int_d(a,nrm,order,dim)
             
-    end function la_linalg_norm_3D_to_2D_int_d
+    end function la_norm_3D_to_2D_int_d
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_3D_to_2D_err_int_d(a,order,dim,err) result(nrm)
+    function la_norm_3D_to_2D_err_int_d(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(dp),intent(in),target :: a(:,:,:)
         !> Order of the matrix norm being computed.
@@ -15163,7 +15163,7 @@ module la_linalg_norms
         
         call norm_3D_to_2D_int_d(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_3D_to_2D_err_int_d
+    end function la_norm_3D_to_2D_err_int_d
     
     ! Internal implementation
     pure subroutine norm_3D_to_2D_int_d(a,nrm,order,dim,err)
@@ -15230,7 +15230,7 @@ module la_linalg_norms
     end subroutine norm_3D_to_2D_int_d
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_4D_to_3D_int_d(a,order,dim) result(nrm)
+    pure function la_norm_4D_to_3D_int_d(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(dp),intent(in),target :: a(:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -15243,10 +15243,10 @@ module la_linalg_norms
         
         call norm_4D_to_3D_int_d(a,nrm,order,dim)
             
-    end function la_linalg_norm_4D_to_3D_int_d
+    end function la_norm_4D_to_3D_int_d
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_4D_to_3D_err_int_d(a,order,dim,err) result(nrm)
+    function la_norm_4D_to_3D_err_int_d(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(dp),intent(in),target :: a(:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -15261,7 +15261,7 @@ module la_linalg_norms
         
         call norm_4D_to_3D_int_d(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_4D_to_3D_err_int_d
+    end function la_norm_4D_to_3D_err_int_d
     
     ! Internal implementation
     pure subroutine norm_4D_to_3D_int_d(a,nrm,order,dim,err)
@@ -15329,7 +15329,7 @@ module la_linalg_norms
     end subroutine norm_4D_to_3D_int_d
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_5D_to_4D_int_d(a,order,dim) result(nrm)
+    pure function la_norm_5D_to_4D_int_d(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(dp),intent(in),target :: a(:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -15342,10 +15342,10 @@ module la_linalg_norms
         
         call norm_5D_to_4D_int_d(a,nrm,order,dim)
             
-    end function la_linalg_norm_5D_to_4D_int_d
+    end function la_norm_5D_to_4D_int_d
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_5D_to_4D_err_int_d(a,order,dim,err) result(nrm)
+    function la_norm_5D_to_4D_err_int_d(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(dp),intent(in),target :: a(:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -15360,7 +15360,7 @@ module la_linalg_norms
         
         call norm_5D_to_4D_int_d(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_5D_to_4D_err_int_d
+    end function la_norm_5D_to_4D_err_int_d
     
     ! Internal implementation
     pure subroutine norm_5D_to_4D_int_d(a,nrm,order,dim,err)
@@ -15428,7 +15428,7 @@ module la_linalg_norms
     end subroutine norm_5D_to_4D_int_d
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_6D_to_5D_int_d(a,order,dim) result(nrm)
+    pure function la_norm_6D_to_5D_int_d(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(dp),intent(in),target :: a(:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -15441,10 +15441,10 @@ module la_linalg_norms
         
         call norm_6D_to_5D_int_d(a,nrm,order,dim)
             
-    end function la_linalg_norm_6D_to_5D_int_d
+    end function la_norm_6D_to_5D_int_d
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_6D_to_5D_err_int_d(a,order,dim,err) result(nrm)
+    function la_norm_6D_to_5D_err_int_d(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(dp),intent(in),target :: a(:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -15459,7 +15459,7 @@ module la_linalg_norms
         
         call norm_6D_to_5D_int_d(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_6D_to_5D_err_int_d
+    end function la_norm_6D_to_5D_err_int_d
     
     ! Internal implementation
     pure subroutine norm_6D_to_5D_int_d(a,nrm,order,dim,err)
@@ -15528,7 +15528,7 @@ module la_linalg_norms
     end subroutine norm_6D_to_5D_int_d
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_7D_to_6D_int_d(a,order,dim) result(nrm)
+    pure function la_norm_7D_to_6D_int_d(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(dp),intent(in),target :: a(:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -15542,10 +15542,10 @@ module la_linalg_norms
         
         call norm_7D_to_6D_int_d(a,nrm,order,dim)
             
-    end function la_linalg_norm_7D_to_6D_int_d
+    end function la_norm_7D_to_6D_int_d
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_7D_to_6D_err_int_d(a,order,dim,err) result(nrm)
+    function la_norm_7D_to_6D_err_int_d(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(dp),intent(in),target :: a(:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -15561,7 +15561,7 @@ module la_linalg_norms
         
         call norm_7D_to_6D_int_d(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_7D_to_6D_err_int_d
+    end function la_norm_7D_to_6D_err_int_d
     
     ! Internal implementation
     pure subroutine norm_7D_to_6D_int_d(a,nrm,order,dim,err)
@@ -15630,7 +15630,7 @@ module la_linalg_norms
     end subroutine norm_7D_to_6D_int_d
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_8D_to_7D_int_d(a,order,dim) result(nrm)
+    pure function la_norm_8D_to_7D_int_d(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(dp),intent(in),target :: a(:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -15644,10 +15644,10 @@ module la_linalg_norms
         
         call norm_8D_to_7D_int_d(a,nrm,order,dim)
             
-    end function la_linalg_norm_8D_to_7D_int_d
+    end function la_norm_8D_to_7D_int_d
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_8D_to_7D_err_int_d(a,order,dim,err) result(nrm)
+    function la_norm_8D_to_7D_err_int_d(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(dp),intent(in),target :: a(:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -15663,7 +15663,7 @@ module la_linalg_norms
         
         call norm_8D_to_7D_int_d(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_8D_to_7D_err_int_d
+    end function la_norm_8D_to_7D_err_int_d
     
     ! Internal implementation
     pure subroutine norm_8D_to_7D_int_d(a,nrm,order,dim,err)
@@ -15732,7 +15732,7 @@ module la_linalg_norms
     end subroutine norm_8D_to_7D_int_d
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_9D_to_8D_int_d(a,order,dim) result(nrm)
+    pure function la_norm_9D_to_8D_int_d(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -15747,10 +15747,10 @@ module la_linalg_norms
         
         call norm_9D_to_8D_int_d(a,nrm,order,dim)
             
-    end function la_linalg_norm_9D_to_8D_int_d
+    end function la_norm_9D_to_8D_int_d
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_9D_to_8D_err_int_d(a,order,dim,err) result(nrm)
+    function la_norm_9D_to_8D_err_int_d(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -15767,7 +15767,7 @@ module la_linalg_norms
         
         call norm_9D_to_8D_int_d(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_9D_to_8D_err_int_d
+    end function la_norm_9D_to_8D_err_int_d
     
     ! Internal implementation
     pure subroutine norm_9D_to_8D_int_d(a,nrm,order,dim,err)
@@ -15837,7 +15837,7 @@ module la_linalg_norms
     end subroutine norm_9D_to_8D_int_d
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_10D_to_9D_int_d(a,order,dim) result(nrm)
+    pure function la_norm_10D_to_9D_int_d(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -15852,10 +15852,10 @@ module la_linalg_norms
         
         call norm_10D_to_9D_int_d(a,nrm,order,dim)
             
-    end function la_linalg_norm_10D_to_9D_int_d
+    end function la_norm_10D_to_9D_int_d
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_10D_to_9D_err_int_d(a,order,dim,err) result(nrm)
+    function la_norm_10D_to_9D_err_int_d(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -15872,7 +15872,7 @@ module la_linalg_norms
         
         call norm_10D_to_9D_int_d(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_10D_to_9D_err_int_d
+    end function la_norm_10D_to_9D_err_int_d
     
     ! Internal implementation
     pure subroutine norm_10D_to_9D_int_d(a,nrm,order,dim,err)
@@ -15942,7 +15942,7 @@ module la_linalg_norms
     end subroutine norm_10D_to_9D_int_d
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_11D_to_10D_int_d(a,order,dim) result(nrm)
+    pure function la_norm_11D_to_10D_int_d(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -15957,10 +15957,10 @@ module la_linalg_norms
         
         call norm_11D_to_10D_int_d(a,nrm,order,dim)
             
-    end function la_linalg_norm_11D_to_10D_int_d
+    end function la_norm_11D_to_10D_int_d
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_11D_to_10D_err_int_d(a,order,dim,err) result(nrm)
+    function la_norm_11D_to_10D_err_int_d(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -15977,7 +15977,7 @@ module la_linalg_norms
         
         call norm_11D_to_10D_int_d(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_11D_to_10D_err_int_d
+    end function la_norm_11D_to_10D_err_int_d
     
     ! Internal implementation
     pure subroutine norm_11D_to_10D_int_d(a,nrm,order,dim,err)
@@ -16048,7 +16048,7 @@ module la_linalg_norms
     end subroutine norm_11D_to_10D_int_d
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_12D_to_11D_int_d(a,order,dim) result(nrm)
+    pure function la_norm_12D_to_11D_int_d(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -16064,10 +16064,10 @@ module la_linalg_norms
         
         call norm_12D_to_11D_int_d(a,nrm,order,dim)
             
-    end function la_linalg_norm_12D_to_11D_int_d
+    end function la_norm_12D_to_11D_int_d
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_12D_to_11D_err_int_d(a,order,dim,err) result(nrm)
+    function la_norm_12D_to_11D_err_int_d(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -16085,7 +16085,7 @@ module la_linalg_norms
         
         call norm_12D_to_11D_int_d(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_12D_to_11D_err_int_d
+    end function la_norm_12D_to_11D_err_int_d
     
     ! Internal implementation
     pure subroutine norm_12D_to_11D_int_d(a,nrm,order,dim,err)
@@ -16156,7 +16156,7 @@ module la_linalg_norms
     end subroutine norm_12D_to_11D_int_d
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_13D_to_12D_int_d(a,order,dim) result(nrm)
+    pure function la_norm_13D_to_12D_int_d(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -16172,10 +16172,10 @@ module la_linalg_norms
         
         call norm_13D_to_12D_int_d(a,nrm,order,dim)
             
-    end function la_linalg_norm_13D_to_12D_int_d
+    end function la_norm_13D_to_12D_int_d
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_13D_to_12D_err_int_d(a,order,dim,err) result(nrm)
+    function la_norm_13D_to_12D_err_int_d(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -16193,7 +16193,7 @@ module la_linalg_norms
         
         call norm_13D_to_12D_int_d(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_13D_to_12D_err_int_d
+    end function la_norm_13D_to_12D_err_int_d
     
     ! Internal implementation
     pure subroutine norm_13D_to_12D_int_d(a,nrm,order,dim,err)
@@ -16264,7 +16264,7 @@ module la_linalg_norms
     end subroutine norm_13D_to_12D_int_d
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_14D_to_13D_int_d(a,order,dim) result(nrm)
+    pure function la_norm_14D_to_13D_int_d(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -16281,10 +16281,10 @@ module la_linalg_norms
         
         call norm_14D_to_13D_int_d(a,nrm,order,dim)
             
-    end function la_linalg_norm_14D_to_13D_int_d
+    end function la_norm_14D_to_13D_int_d
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_14D_to_13D_err_int_d(a,order,dim,err) result(nrm)
+    function la_norm_14D_to_13D_err_int_d(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -16303,7 +16303,7 @@ module la_linalg_norms
         
         call norm_14D_to_13D_int_d(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_14D_to_13D_err_int_d
+    end function la_norm_14D_to_13D_err_int_d
     
     ! Internal implementation
     pure subroutine norm_14D_to_13D_int_d(a,nrm,order,dim,err)
@@ -16375,7 +16375,7 @@ module la_linalg_norms
     end subroutine norm_14D_to_13D_int_d
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_15D_to_14D_int_d(a,order,dim) result(nrm)
+    pure function la_norm_15D_to_14D_int_d(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -16392,10 +16392,10 @@ module la_linalg_norms
         
         call norm_15D_to_14D_int_d(a,nrm,order,dim)
             
-    end function la_linalg_norm_15D_to_14D_int_d
+    end function la_norm_15D_to_14D_int_d
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_15D_to_14D_err_int_d(a,order,dim,err) result(nrm)
+    function la_norm_15D_to_14D_err_int_d(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -16414,7 +16414,7 @@ module la_linalg_norms
         
         call norm_15D_to_14D_int_d(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_15D_to_14D_err_int_d
+    end function la_norm_15D_to_14D_err_int_d
     
     ! Internal implementation
     pure subroutine norm_15D_to_14D_int_d(a,nrm,order,dim,err)
@@ -17921,7 +17921,7 @@ module la_linalg_norms
     !==============================================
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_1D_order_char_q(a,order) result(nrm)
+    pure function la_norm_1D_order_char_q(a,order) result(nrm)
         !> Input 1-d matrix a(:)
         real(qp),intent(in) :: a(:)
         !> Order of the matrix norm being computed.
@@ -17931,10 +17931,10 @@ module la_linalg_norms
                                     
         call norm_1D_char_q(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_1D_order_char_q
+    end function la_norm_1D_order_char_q
     
     ! Function interface with output error
-    function la_linalg_norm_1D_order_err_char_q(a,order,err) result(nrm)
+    function la_norm_1D_order_err_char_q(a,order,err) result(nrm)
         !> Input 1-d matrix a(:)
         real(qp),intent(in) :: a(:)
         !> Order of the matrix norm being computed.
@@ -17946,7 +17946,7 @@ module la_linalg_norms
                 
         call norm_1D_char_q(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_1D_order_err_char_q
+    end function la_norm_1D_order_err_char_q
     
     ! Internal implementation
     pure subroutine norm_1D_char_q(a,nrm,order,err)
@@ -18004,7 +18004,7 @@ module la_linalg_norms
     end subroutine norm_1D_char_q
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_2D_order_char_q(a,order) result(nrm)
+    pure function la_norm_2D_order_char_q(a,order) result(nrm)
         !> Input 2-d matrix a(:,:)
         real(qp),intent(in) :: a(:,:)
         !> Order of the matrix norm being computed.
@@ -18014,10 +18014,10 @@ module la_linalg_norms
                                     
         call norm_2D_char_q(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_2D_order_char_q
+    end function la_norm_2D_order_char_q
     
     ! Function interface with output error
-    function la_linalg_norm_2D_order_err_char_q(a,order,err) result(nrm)
+    function la_norm_2D_order_err_char_q(a,order,err) result(nrm)
         !> Input 2-d matrix a(:,:)
         real(qp),intent(in) :: a(:,:)
         !> Order of the matrix norm being computed.
@@ -18029,7 +18029,7 @@ module la_linalg_norms
                 
         call norm_2D_char_q(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_2D_order_err_char_q
+    end function la_norm_2D_order_err_char_q
     
     ! Internal implementation
     pure subroutine norm_2D_char_q(a,nrm,order,err)
@@ -18087,7 +18087,7 @@ module la_linalg_norms
     end subroutine norm_2D_char_q
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_3D_order_char_q(a,order) result(nrm)
+    pure function la_norm_3D_order_char_q(a,order) result(nrm)
         !> Input 3-d matrix a(:,:,:)
         real(qp),intent(in) :: a(:,:,:)
         !> Order of the matrix norm being computed.
@@ -18097,10 +18097,10 @@ module la_linalg_norms
                                     
         call norm_3D_char_q(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_3D_order_char_q
+    end function la_norm_3D_order_char_q
     
     ! Function interface with output error
-    function la_linalg_norm_3D_order_err_char_q(a,order,err) result(nrm)
+    function la_norm_3D_order_err_char_q(a,order,err) result(nrm)
         !> Input 3-d matrix a(:,:,:)
         real(qp),intent(in) :: a(:,:,:)
         !> Order of the matrix norm being computed.
@@ -18112,7 +18112,7 @@ module la_linalg_norms
                 
         call norm_3D_char_q(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_3D_order_err_char_q
+    end function la_norm_3D_order_err_char_q
     
     ! Internal implementation
     pure subroutine norm_3D_char_q(a,nrm,order,err)
@@ -18170,7 +18170,7 @@ module la_linalg_norms
     end subroutine norm_3D_char_q
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_4D_order_char_q(a,order) result(nrm)
+    pure function la_norm_4D_order_char_q(a,order) result(nrm)
         !> Input 4-d matrix a(:,:,:,:)
         real(qp),intent(in) :: a(:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -18180,10 +18180,10 @@ module la_linalg_norms
                                     
         call norm_4D_char_q(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_4D_order_char_q
+    end function la_norm_4D_order_char_q
     
     ! Function interface with output error
-    function la_linalg_norm_4D_order_err_char_q(a,order,err) result(nrm)
+    function la_norm_4D_order_err_char_q(a,order,err) result(nrm)
         !> Input 4-d matrix a(:,:,:,:)
         real(qp),intent(in) :: a(:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -18195,7 +18195,7 @@ module la_linalg_norms
                 
         call norm_4D_char_q(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_4D_order_err_char_q
+    end function la_norm_4D_order_err_char_q
     
     ! Internal implementation
     pure subroutine norm_4D_char_q(a,nrm,order,err)
@@ -18253,7 +18253,7 @@ module la_linalg_norms
     end subroutine norm_4D_char_q
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_5D_order_char_q(a,order) result(nrm)
+    pure function la_norm_5D_order_char_q(a,order) result(nrm)
         !> Input 5-d matrix a(:,:,:,:,:)
         real(qp),intent(in) :: a(:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -18263,10 +18263,10 @@ module la_linalg_norms
                                     
         call norm_5D_char_q(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_5D_order_char_q
+    end function la_norm_5D_order_char_q
     
     ! Function interface with output error
-    function la_linalg_norm_5D_order_err_char_q(a,order,err) result(nrm)
+    function la_norm_5D_order_err_char_q(a,order,err) result(nrm)
         !> Input 5-d matrix a(:,:,:,:,:)
         real(qp),intent(in) :: a(:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -18278,7 +18278,7 @@ module la_linalg_norms
                 
         call norm_5D_char_q(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_5D_order_err_char_q
+    end function la_norm_5D_order_err_char_q
     
     ! Internal implementation
     pure subroutine norm_5D_char_q(a,nrm,order,err)
@@ -18336,7 +18336,7 @@ module la_linalg_norms
     end subroutine norm_5D_char_q
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_6D_order_char_q(a,order) result(nrm)
+    pure function la_norm_6D_order_char_q(a,order) result(nrm)
         !> Input 6-d matrix a(:,:,:,:,:,:)
         real(qp),intent(in) :: a(:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -18346,10 +18346,10 @@ module la_linalg_norms
                                     
         call norm_6D_char_q(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_6D_order_char_q
+    end function la_norm_6D_order_char_q
     
     ! Function interface with output error
-    function la_linalg_norm_6D_order_err_char_q(a,order,err) result(nrm)
+    function la_norm_6D_order_err_char_q(a,order,err) result(nrm)
         !> Input 6-d matrix a(:,:,:,:,:,:)
         real(qp),intent(in) :: a(:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -18361,7 +18361,7 @@ module la_linalg_norms
                 
         call norm_6D_char_q(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_6D_order_err_char_q
+    end function la_norm_6D_order_err_char_q
     
     ! Internal implementation
     pure subroutine norm_6D_char_q(a,nrm,order,err)
@@ -18419,7 +18419,7 @@ module la_linalg_norms
     end subroutine norm_6D_char_q
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_7D_order_char_q(a,order) result(nrm)
+    pure function la_norm_7D_order_char_q(a,order) result(nrm)
         !> Input 7-d matrix a(:,:,:,:,:,:,:)
         real(qp),intent(in) :: a(:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -18429,10 +18429,10 @@ module la_linalg_norms
                                     
         call norm_7D_char_q(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_7D_order_char_q
+    end function la_norm_7D_order_char_q
     
     ! Function interface with output error
-    function la_linalg_norm_7D_order_err_char_q(a,order,err) result(nrm)
+    function la_norm_7D_order_err_char_q(a,order,err) result(nrm)
         !> Input 7-d matrix a(:,:,:,:,:,:,:)
         real(qp),intent(in) :: a(:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -18444,7 +18444,7 @@ module la_linalg_norms
                 
         call norm_7D_char_q(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_7D_order_err_char_q
+    end function la_norm_7D_order_err_char_q
     
     ! Internal implementation
     pure subroutine norm_7D_char_q(a,nrm,order,err)
@@ -18502,7 +18502,7 @@ module la_linalg_norms
     end subroutine norm_7D_char_q
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_8D_order_char_q(a,order) result(nrm)
+    pure function la_norm_8D_order_char_q(a,order) result(nrm)
         !> Input 8-d matrix a(:,:,:,:,:,:,:,:)
         real(qp),intent(in) :: a(:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -18512,10 +18512,10 @@ module la_linalg_norms
                                     
         call norm_8D_char_q(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_8D_order_char_q
+    end function la_norm_8D_order_char_q
     
     ! Function interface with output error
-    function la_linalg_norm_8D_order_err_char_q(a,order,err) result(nrm)
+    function la_norm_8D_order_err_char_q(a,order,err) result(nrm)
         !> Input 8-d matrix a(:,:,:,:,:,:,:,:)
         real(qp),intent(in) :: a(:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -18527,7 +18527,7 @@ module la_linalg_norms
                 
         call norm_8D_char_q(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_8D_order_err_char_q
+    end function la_norm_8D_order_err_char_q
     
     ! Internal implementation
     pure subroutine norm_8D_char_q(a,nrm,order,err)
@@ -18585,7 +18585,7 @@ module la_linalg_norms
     end subroutine norm_8D_char_q
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_9D_order_char_q(a,order) result(nrm)
+    pure function la_norm_9D_order_char_q(a,order) result(nrm)
         !> Input 9-d matrix a(:,:,:,:,:,:,:,:,:)
         real(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -18595,10 +18595,10 @@ module la_linalg_norms
                                     
         call norm_9D_char_q(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_9D_order_char_q
+    end function la_norm_9D_order_char_q
     
     ! Function interface with output error
-    function la_linalg_norm_9D_order_err_char_q(a,order,err) result(nrm)
+    function la_norm_9D_order_err_char_q(a,order,err) result(nrm)
         !> Input 9-d matrix a(:,:,:,:,:,:,:,:,:)
         real(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -18610,7 +18610,7 @@ module la_linalg_norms
                 
         call norm_9D_char_q(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_9D_order_err_char_q
+    end function la_norm_9D_order_err_char_q
     
     ! Internal implementation
     pure subroutine norm_9D_char_q(a,nrm,order,err)
@@ -18668,7 +18668,7 @@ module la_linalg_norms
     end subroutine norm_9D_char_q
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_10D_order_char_q(a,order) result(nrm)
+    pure function la_norm_10D_order_char_q(a,order) result(nrm)
         !> Input 10-d matrix a(:,:,:,:,:,:,:,:,:,:)
         real(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -18678,10 +18678,10 @@ module la_linalg_norms
                                     
         call norm_10D_char_q(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_10D_order_char_q
+    end function la_norm_10D_order_char_q
     
     ! Function interface with output error
-    function la_linalg_norm_10D_order_err_char_q(a,order,err) result(nrm)
+    function la_norm_10D_order_err_char_q(a,order,err) result(nrm)
         !> Input 10-d matrix a(:,:,:,:,:,:,:,:,:,:)
         real(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -18693,7 +18693,7 @@ module la_linalg_norms
                 
         call norm_10D_char_q(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_10D_order_err_char_q
+    end function la_norm_10D_order_err_char_q
     
     ! Internal implementation
     pure subroutine norm_10D_char_q(a,nrm,order,err)
@@ -18751,7 +18751,7 @@ module la_linalg_norms
     end subroutine norm_10D_char_q
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_11D_order_char_q(a,order) result(nrm)
+    pure function la_norm_11D_order_char_q(a,order) result(nrm)
         !> Input 11-d matrix a(:,:,:,:,:,:,:,:,:,:,:)
         real(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -18761,10 +18761,10 @@ module la_linalg_norms
                                     
         call norm_11D_char_q(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_11D_order_char_q
+    end function la_norm_11D_order_char_q
     
     ! Function interface with output error
-    function la_linalg_norm_11D_order_err_char_q(a,order,err) result(nrm)
+    function la_norm_11D_order_err_char_q(a,order,err) result(nrm)
         !> Input 11-d matrix a(:,:,:,:,:,:,:,:,:,:,:)
         real(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -18776,7 +18776,7 @@ module la_linalg_norms
                 
         call norm_11D_char_q(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_11D_order_err_char_q
+    end function la_norm_11D_order_err_char_q
     
     ! Internal implementation
     pure subroutine norm_11D_char_q(a,nrm,order,err)
@@ -18834,7 +18834,7 @@ module la_linalg_norms
     end subroutine norm_11D_char_q
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_12D_order_char_q(a,order) result(nrm)
+    pure function la_norm_12D_order_char_q(a,order) result(nrm)
         !> Input 12-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:)
         real(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -18844,10 +18844,10 @@ module la_linalg_norms
                                     
         call norm_12D_char_q(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_12D_order_char_q
+    end function la_norm_12D_order_char_q
     
     ! Function interface with output error
-    function la_linalg_norm_12D_order_err_char_q(a,order,err) result(nrm)
+    function la_norm_12D_order_err_char_q(a,order,err) result(nrm)
         !> Input 12-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:)
         real(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -18859,7 +18859,7 @@ module la_linalg_norms
                 
         call norm_12D_char_q(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_12D_order_err_char_q
+    end function la_norm_12D_order_err_char_q
     
     ! Internal implementation
     pure subroutine norm_12D_char_q(a,nrm,order,err)
@@ -18917,7 +18917,7 @@ module la_linalg_norms
     end subroutine norm_12D_char_q
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_13D_order_char_q(a,order) result(nrm)
+    pure function la_norm_13D_order_char_q(a,order) result(nrm)
         !> Input 13-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         real(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -18927,10 +18927,10 @@ module la_linalg_norms
                                     
         call norm_13D_char_q(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_13D_order_char_q
+    end function la_norm_13D_order_char_q
     
     ! Function interface with output error
-    function la_linalg_norm_13D_order_err_char_q(a,order,err) result(nrm)
+    function la_norm_13D_order_err_char_q(a,order,err) result(nrm)
         !> Input 13-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         real(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -18942,7 +18942,7 @@ module la_linalg_norms
                 
         call norm_13D_char_q(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_13D_order_err_char_q
+    end function la_norm_13D_order_err_char_q
     
     ! Internal implementation
     pure subroutine norm_13D_char_q(a,nrm,order,err)
@@ -19000,7 +19000,7 @@ module la_linalg_norms
     end subroutine norm_13D_char_q
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_14D_order_char_q(a,order) result(nrm)
+    pure function la_norm_14D_order_char_q(a,order) result(nrm)
         !> Input 14-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         real(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -19010,10 +19010,10 @@ module la_linalg_norms
                                     
         call norm_14D_char_q(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_14D_order_char_q
+    end function la_norm_14D_order_char_q
     
     ! Function interface with output error
-    function la_linalg_norm_14D_order_err_char_q(a,order,err) result(nrm)
+    function la_norm_14D_order_err_char_q(a,order,err) result(nrm)
         !> Input 14-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         real(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -19025,7 +19025,7 @@ module la_linalg_norms
                 
         call norm_14D_char_q(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_14D_order_err_char_q
+    end function la_norm_14D_order_err_char_q
     
     ! Internal implementation
     pure subroutine norm_14D_char_q(a,nrm,order,err)
@@ -19083,7 +19083,7 @@ module la_linalg_norms
     end subroutine norm_14D_char_q
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_15D_order_char_q(a,order) result(nrm)
+    pure function la_norm_15D_order_char_q(a,order) result(nrm)
         !> Input 15-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         real(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -19093,10 +19093,10 @@ module la_linalg_norms
                                     
         call norm_15D_char_q(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_15D_order_char_q
+    end function la_norm_15D_order_char_q
     
     ! Function interface with output error
-    function la_linalg_norm_15D_order_err_char_q(a,order,err) result(nrm)
+    function la_norm_15D_order_err_char_q(a,order,err) result(nrm)
         !> Input 15-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         real(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -19108,7 +19108,7 @@ module la_linalg_norms
                 
         call norm_15D_char_q(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_15D_order_err_char_q
+    end function la_norm_15D_order_err_char_q
     
     ! Internal implementation
     pure subroutine norm_15D_char_q(a,nrm,order,err)
@@ -19170,7 +19170,7 @@ module la_linalg_norms
     !====================================================================
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_2D_to_1D_char_q(a,order,dim) result(nrm)
+    pure function la_norm_2D_to_1D_char_q(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(qp),intent(in),target :: a(:,:)
         !> Order of the matrix norm being computed.
@@ -19182,10 +19182,10 @@ module la_linalg_norms
         
         call norm_2D_to_1D_char_q(a,nrm,order,dim)
             
-    end function la_linalg_norm_2D_to_1D_char_q
+    end function la_norm_2D_to_1D_char_q
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_2D_to_1D_err_char_q(a,order,dim,err) result(nrm)
+    function la_norm_2D_to_1D_err_char_q(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(qp),intent(in),target :: a(:,:)
         !> Order of the matrix norm being computed.
@@ -19199,7 +19199,7 @@ module la_linalg_norms
         
         call norm_2D_to_1D_char_q(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_2D_to_1D_err_char_q
+    end function la_norm_2D_to_1D_err_char_q
     
     ! Internal implementation
     pure subroutine norm_2D_to_1D_char_q(a,nrm,order,dim,err)
@@ -19266,7 +19266,7 @@ module la_linalg_norms
     end subroutine norm_2D_to_1D_char_q
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_3D_to_2D_char_q(a,order,dim) result(nrm)
+    pure function la_norm_3D_to_2D_char_q(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(qp),intent(in),target :: a(:,:,:)
         !> Order of the matrix norm being computed.
@@ -19278,10 +19278,10 @@ module la_linalg_norms
         
         call norm_3D_to_2D_char_q(a,nrm,order,dim)
             
-    end function la_linalg_norm_3D_to_2D_char_q
+    end function la_norm_3D_to_2D_char_q
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_3D_to_2D_err_char_q(a,order,dim,err) result(nrm)
+    function la_norm_3D_to_2D_err_char_q(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(qp),intent(in),target :: a(:,:,:)
         !> Order of the matrix norm being computed.
@@ -19295,7 +19295,7 @@ module la_linalg_norms
         
         call norm_3D_to_2D_char_q(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_3D_to_2D_err_char_q
+    end function la_norm_3D_to_2D_err_char_q
     
     ! Internal implementation
     pure subroutine norm_3D_to_2D_char_q(a,nrm,order,dim,err)
@@ -19362,7 +19362,7 @@ module la_linalg_norms
     end subroutine norm_3D_to_2D_char_q
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_4D_to_3D_char_q(a,order,dim) result(nrm)
+    pure function la_norm_4D_to_3D_char_q(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(qp),intent(in),target :: a(:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -19375,10 +19375,10 @@ module la_linalg_norms
         
         call norm_4D_to_3D_char_q(a,nrm,order,dim)
             
-    end function la_linalg_norm_4D_to_3D_char_q
+    end function la_norm_4D_to_3D_char_q
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_4D_to_3D_err_char_q(a,order,dim,err) result(nrm)
+    function la_norm_4D_to_3D_err_char_q(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(qp),intent(in),target :: a(:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -19393,7 +19393,7 @@ module la_linalg_norms
         
         call norm_4D_to_3D_char_q(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_4D_to_3D_err_char_q
+    end function la_norm_4D_to_3D_err_char_q
     
     ! Internal implementation
     pure subroutine norm_4D_to_3D_char_q(a,nrm,order,dim,err)
@@ -19461,7 +19461,7 @@ module la_linalg_norms
     end subroutine norm_4D_to_3D_char_q
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_5D_to_4D_char_q(a,order,dim) result(nrm)
+    pure function la_norm_5D_to_4D_char_q(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(qp),intent(in),target :: a(:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -19474,10 +19474,10 @@ module la_linalg_norms
         
         call norm_5D_to_4D_char_q(a,nrm,order,dim)
             
-    end function la_linalg_norm_5D_to_4D_char_q
+    end function la_norm_5D_to_4D_char_q
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_5D_to_4D_err_char_q(a,order,dim,err) result(nrm)
+    function la_norm_5D_to_4D_err_char_q(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(qp),intent(in),target :: a(:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -19492,7 +19492,7 @@ module la_linalg_norms
         
         call norm_5D_to_4D_char_q(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_5D_to_4D_err_char_q
+    end function la_norm_5D_to_4D_err_char_q
     
     ! Internal implementation
     pure subroutine norm_5D_to_4D_char_q(a,nrm,order,dim,err)
@@ -19560,7 +19560,7 @@ module la_linalg_norms
     end subroutine norm_5D_to_4D_char_q
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_6D_to_5D_char_q(a,order,dim) result(nrm)
+    pure function la_norm_6D_to_5D_char_q(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(qp),intent(in),target :: a(:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -19573,10 +19573,10 @@ module la_linalg_norms
         
         call norm_6D_to_5D_char_q(a,nrm,order,dim)
             
-    end function la_linalg_norm_6D_to_5D_char_q
+    end function la_norm_6D_to_5D_char_q
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_6D_to_5D_err_char_q(a,order,dim,err) result(nrm)
+    function la_norm_6D_to_5D_err_char_q(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(qp),intent(in),target :: a(:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -19591,7 +19591,7 @@ module la_linalg_norms
         
         call norm_6D_to_5D_char_q(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_6D_to_5D_err_char_q
+    end function la_norm_6D_to_5D_err_char_q
     
     ! Internal implementation
     pure subroutine norm_6D_to_5D_char_q(a,nrm,order,dim,err)
@@ -19660,7 +19660,7 @@ module la_linalg_norms
     end subroutine norm_6D_to_5D_char_q
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_7D_to_6D_char_q(a,order,dim) result(nrm)
+    pure function la_norm_7D_to_6D_char_q(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(qp),intent(in),target :: a(:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -19674,10 +19674,10 @@ module la_linalg_norms
         
         call norm_7D_to_6D_char_q(a,nrm,order,dim)
             
-    end function la_linalg_norm_7D_to_6D_char_q
+    end function la_norm_7D_to_6D_char_q
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_7D_to_6D_err_char_q(a,order,dim,err) result(nrm)
+    function la_norm_7D_to_6D_err_char_q(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(qp),intent(in),target :: a(:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -19693,7 +19693,7 @@ module la_linalg_norms
         
         call norm_7D_to_6D_char_q(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_7D_to_6D_err_char_q
+    end function la_norm_7D_to_6D_err_char_q
     
     ! Internal implementation
     pure subroutine norm_7D_to_6D_char_q(a,nrm,order,dim,err)
@@ -19762,7 +19762,7 @@ module la_linalg_norms
     end subroutine norm_7D_to_6D_char_q
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_8D_to_7D_char_q(a,order,dim) result(nrm)
+    pure function la_norm_8D_to_7D_char_q(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(qp),intent(in),target :: a(:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -19776,10 +19776,10 @@ module la_linalg_norms
         
         call norm_8D_to_7D_char_q(a,nrm,order,dim)
             
-    end function la_linalg_norm_8D_to_7D_char_q
+    end function la_norm_8D_to_7D_char_q
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_8D_to_7D_err_char_q(a,order,dim,err) result(nrm)
+    function la_norm_8D_to_7D_err_char_q(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(qp),intent(in),target :: a(:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -19795,7 +19795,7 @@ module la_linalg_norms
         
         call norm_8D_to_7D_char_q(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_8D_to_7D_err_char_q
+    end function la_norm_8D_to_7D_err_char_q
     
     ! Internal implementation
     pure subroutine norm_8D_to_7D_char_q(a,nrm,order,dim,err)
@@ -19864,7 +19864,7 @@ module la_linalg_norms
     end subroutine norm_8D_to_7D_char_q
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_9D_to_8D_char_q(a,order,dim) result(nrm)
+    pure function la_norm_9D_to_8D_char_q(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -19879,10 +19879,10 @@ module la_linalg_norms
         
         call norm_9D_to_8D_char_q(a,nrm,order,dim)
             
-    end function la_linalg_norm_9D_to_8D_char_q
+    end function la_norm_9D_to_8D_char_q
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_9D_to_8D_err_char_q(a,order,dim,err) result(nrm)
+    function la_norm_9D_to_8D_err_char_q(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -19899,7 +19899,7 @@ module la_linalg_norms
         
         call norm_9D_to_8D_char_q(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_9D_to_8D_err_char_q
+    end function la_norm_9D_to_8D_err_char_q
     
     ! Internal implementation
     pure subroutine norm_9D_to_8D_char_q(a,nrm,order,dim,err)
@@ -19969,7 +19969,7 @@ module la_linalg_norms
     end subroutine norm_9D_to_8D_char_q
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_10D_to_9D_char_q(a,order,dim) result(nrm)
+    pure function la_norm_10D_to_9D_char_q(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -19984,10 +19984,10 @@ module la_linalg_norms
         
         call norm_10D_to_9D_char_q(a,nrm,order,dim)
             
-    end function la_linalg_norm_10D_to_9D_char_q
+    end function la_norm_10D_to_9D_char_q
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_10D_to_9D_err_char_q(a,order,dim,err) result(nrm)
+    function la_norm_10D_to_9D_err_char_q(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -20004,7 +20004,7 @@ module la_linalg_norms
         
         call norm_10D_to_9D_char_q(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_10D_to_9D_err_char_q
+    end function la_norm_10D_to_9D_err_char_q
     
     ! Internal implementation
     pure subroutine norm_10D_to_9D_char_q(a,nrm,order,dim,err)
@@ -20074,7 +20074,7 @@ module la_linalg_norms
     end subroutine norm_10D_to_9D_char_q
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_11D_to_10D_char_q(a,order,dim) result(nrm)
+    pure function la_norm_11D_to_10D_char_q(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -20089,10 +20089,10 @@ module la_linalg_norms
         
         call norm_11D_to_10D_char_q(a,nrm,order,dim)
             
-    end function la_linalg_norm_11D_to_10D_char_q
+    end function la_norm_11D_to_10D_char_q
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_11D_to_10D_err_char_q(a,order,dim,err) result(nrm)
+    function la_norm_11D_to_10D_err_char_q(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -20109,7 +20109,7 @@ module la_linalg_norms
         
         call norm_11D_to_10D_char_q(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_11D_to_10D_err_char_q
+    end function la_norm_11D_to_10D_err_char_q
     
     ! Internal implementation
     pure subroutine norm_11D_to_10D_char_q(a,nrm,order,dim,err)
@@ -20180,7 +20180,7 @@ module la_linalg_norms
     end subroutine norm_11D_to_10D_char_q
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_12D_to_11D_char_q(a,order,dim) result(nrm)
+    pure function la_norm_12D_to_11D_char_q(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -20196,10 +20196,10 @@ module la_linalg_norms
         
         call norm_12D_to_11D_char_q(a,nrm,order,dim)
             
-    end function la_linalg_norm_12D_to_11D_char_q
+    end function la_norm_12D_to_11D_char_q
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_12D_to_11D_err_char_q(a,order,dim,err) result(nrm)
+    function la_norm_12D_to_11D_err_char_q(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -20217,7 +20217,7 @@ module la_linalg_norms
         
         call norm_12D_to_11D_char_q(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_12D_to_11D_err_char_q
+    end function la_norm_12D_to_11D_err_char_q
     
     ! Internal implementation
     pure subroutine norm_12D_to_11D_char_q(a,nrm,order,dim,err)
@@ -20288,7 +20288,7 @@ module la_linalg_norms
     end subroutine norm_12D_to_11D_char_q
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_13D_to_12D_char_q(a,order,dim) result(nrm)
+    pure function la_norm_13D_to_12D_char_q(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -20304,10 +20304,10 @@ module la_linalg_norms
         
         call norm_13D_to_12D_char_q(a,nrm,order,dim)
             
-    end function la_linalg_norm_13D_to_12D_char_q
+    end function la_norm_13D_to_12D_char_q
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_13D_to_12D_err_char_q(a,order,dim,err) result(nrm)
+    function la_norm_13D_to_12D_err_char_q(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -20325,7 +20325,7 @@ module la_linalg_norms
         
         call norm_13D_to_12D_char_q(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_13D_to_12D_err_char_q
+    end function la_norm_13D_to_12D_err_char_q
     
     ! Internal implementation
     pure subroutine norm_13D_to_12D_char_q(a,nrm,order,dim,err)
@@ -20396,7 +20396,7 @@ module la_linalg_norms
     end subroutine norm_13D_to_12D_char_q
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_14D_to_13D_char_q(a,order,dim) result(nrm)
+    pure function la_norm_14D_to_13D_char_q(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -20413,10 +20413,10 @@ module la_linalg_norms
         
         call norm_14D_to_13D_char_q(a,nrm,order,dim)
             
-    end function la_linalg_norm_14D_to_13D_char_q
+    end function la_norm_14D_to_13D_char_q
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_14D_to_13D_err_char_q(a,order,dim,err) result(nrm)
+    function la_norm_14D_to_13D_err_char_q(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -20435,7 +20435,7 @@ module la_linalg_norms
         
         call norm_14D_to_13D_char_q(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_14D_to_13D_err_char_q
+    end function la_norm_14D_to_13D_err_char_q
     
     ! Internal implementation
     pure subroutine norm_14D_to_13D_char_q(a,nrm,order,dim,err)
@@ -20507,7 +20507,7 @@ module la_linalg_norms
     end subroutine norm_14D_to_13D_char_q
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_15D_to_14D_char_q(a,order,dim) result(nrm)
+    pure function la_norm_15D_to_14D_char_q(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -20524,10 +20524,10 @@ module la_linalg_norms
         
         call norm_15D_to_14D_char_q(a,nrm,order,dim)
             
-    end function la_linalg_norm_15D_to_14D_char_q
+    end function la_norm_15D_to_14D_char_q
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_15D_to_14D_err_char_q(a,order,dim,err) result(nrm)
+    function la_norm_15D_to_14D_err_char_q(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -20546,7 +20546,7 @@ module la_linalg_norms
         
         call norm_15D_to_14D_char_q(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_15D_to_14D_err_char_q
+    end function la_norm_15D_to_14D_err_char_q
     
     ! Internal implementation
     pure subroutine norm_15D_to_14D_char_q(a,nrm,order,dim,err)
@@ -22053,7 +22053,7 @@ module la_linalg_norms
     !==============================================
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_1D_order_int_q(a,order) result(nrm)
+    pure function la_norm_1D_order_int_q(a,order) result(nrm)
         !> Input 1-d matrix a(:)
         real(qp),intent(in) :: a(:)
         !> Order of the matrix norm being computed.
@@ -22063,10 +22063,10 @@ module la_linalg_norms
                                     
         call norm_1D_int_q(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_1D_order_int_q
+    end function la_norm_1D_order_int_q
     
     ! Function interface with output error
-    function la_linalg_norm_1D_order_err_int_q(a,order,err) result(nrm)
+    function la_norm_1D_order_err_int_q(a,order,err) result(nrm)
         !> Input 1-d matrix a(:)
         real(qp),intent(in) :: a(:)
         !> Order of the matrix norm being computed.
@@ -22078,7 +22078,7 @@ module la_linalg_norms
                 
         call norm_1D_int_q(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_1D_order_err_int_q
+    end function la_norm_1D_order_err_int_q
     
     ! Internal implementation
     pure subroutine norm_1D_int_q(a,nrm,order,err)
@@ -22136,7 +22136,7 @@ module la_linalg_norms
     end subroutine norm_1D_int_q
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_2D_order_int_q(a,order) result(nrm)
+    pure function la_norm_2D_order_int_q(a,order) result(nrm)
         !> Input 2-d matrix a(:,:)
         real(qp),intent(in) :: a(:,:)
         !> Order of the matrix norm being computed.
@@ -22146,10 +22146,10 @@ module la_linalg_norms
                                     
         call norm_2D_int_q(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_2D_order_int_q
+    end function la_norm_2D_order_int_q
     
     ! Function interface with output error
-    function la_linalg_norm_2D_order_err_int_q(a,order,err) result(nrm)
+    function la_norm_2D_order_err_int_q(a,order,err) result(nrm)
         !> Input 2-d matrix a(:,:)
         real(qp),intent(in) :: a(:,:)
         !> Order of the matrix norm being computed.
@@ -22161,7 +22161,7 @@ module la_linalg_norms
                 
         call norm_2D_int_q(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_2D_order_err_int_q
+    end function la_norm_2D_order_err_int_q
     
     ! Internal implementation
     pure subroutine norm_2D_int_q(a,nrm,order,err)
@@ -22219,7 +22219,7 @@ module la_linalg_norms
     end subroutine norm_2D_int_q
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_3D_order_int_q(a,order) result(nrm)
+    pure function la_norm_3D_order_int_q(a,order) result(nrm)
         !> Input 3-d matrix a(:,:,:)
         real(qp),intent(in) :: a(:,:,:)
         !> Order of the matrix norm being computed.
@@ -22229,10 +22229,10 @@ module la_linalg_norms
                                     
         call norm_3D_int_q(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_3D_order_int_q
+    end function la_norm_3D_order_int_q
     
     ! Function interface with output error
-    function la_linalg_norm_3D_order_err_int_q(a,order,err) result(nrm)
+    function la_norm_3D_order_err_int_q(a,order,err) result(nrm)
         !> Input 3-d matrix a(:,:,:)
         real(qp),intent(in) :: a(:,:,:)
         !> Order of the matrix norm being computed.
@@ -22244,7 +22244,7 @@ module la_linalg_norms
                 
         call norm_3D_int_q(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_3D_order_err_int_q
+    end function la_norm_3D_order_err_int_q
     
     ! Internal implementation
     pure subroutine norm_3D_int_q(a,nrm,order,err)
@@ -22302,7 +22302,7 @@ module la_linalg_norms
     end subroutine norm_3D_int_q
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_4D_order_int_q(a,order) result(nrm)
+    pure function la_norm_4D_order_int_q(a,order) result(nrm)
         !> Input 4-d matrix a(:,:,:,:)
         real(qp),intent(in) :: a(:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -22312,10 +22312,10 @@ module la_linalg_norms
                                     
         call norm_4D_int_q(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_4D_order_int_q
+    end function la_norm_4D_order_int_q
     
     ! Function interface with output error
-    function la_linalg_norm_4D_order_err_int_q(a,order,err) result(nrm)
+    function la_norm_4D_order_err_int_q(a,order,err) result(nrm)
         !> Input 4-d matrix a(:,:,:,:)
         real(qp),intent(in) :: a(:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -22327,7 +22327,7 @@ module la_linalg_norms
                 
         call norm_4D_int_q(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_4D_order_err_int_q
+    end function la_norm_4D_order_err_int_q
     
     ! Internal implementation
     pure subroutine norm_4D_int_q(a,nrm,order,err)
@@ -22385,7 +22385,7 @@ module la_linalg_norms
     end subroutine norm_4D_int_q
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_5D_order_int_q(a,order) result(nrm)
+    pure function la_norm_5D_order_int_q(a,order) result(nrm)
         !> Input 5-d matrix a(:,:,:,:,:)
         real(qp),intent(in) :: a(:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -22395,10 +22395,10 @@ module la_linalg_norms
                                     
         call norm_5D_int_q(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_5D_order_int_q
+    end function la_norm_5D_order_int_q
     
     ! Function interface with output error
-    function la_linalg_norm_5D_order_err_int_q(a,order,err) result(nrm)
+    function la_norm_5D_order_err_int_q(a,order,err) result(nrm)
         !> Input 5-d matrix a(:,:,:,:,:)
         real(qp),intent(in) :: a(:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -22410,7 +22410,7 @@ module la_linalg_norms
                 
         call norm_5D_int_q(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_5D_order_err_int_q
+    end function la_norm_5D_order_err_int_q
     
     ! Internal implementation
     pure subroutine norm_5D_int_q(a,nrm,order,err)
@@ -22468,7 +22468,7 @@ module la_linalg_norms
     end subroutine norm_5D_int_q
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_6D_order_int_q(a,order) result(nrm)
+    pure function la_norm_6D_order_int_q(a,order) result(nrm)
         !> Input 6-d matrix a(:,:,:,:,:,:)
         real(qp),intent(in) :: a(:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -22478,10 +22478,10 @@ module la_linalg_norms
                                     
         call norm_6D_int_q(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_6D_order_int_q
+    end function la_norm_6D_order_int_q
     
     ! Function interface with output error
-    function la_linalg_norm_6D_order_err_int_q(a,order,err) result(nrm)
+    function la_norm_6D_order_err_int_q(a,order,err) result(nrm)
         !> Input 6-d matrix a(:,:,:,:,:,:)
         real(qp),intent(in) :: a(:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -22493,7 +22493,7 @@ module la_linalg_norms
                 
         call norm_6D_int_q(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_6D_order_err_int_q
+    end function la_norm_6D_order_err_int_q
     
     ! Internal implementation
     pure subroutine norm_6D_int_q(a,nrm,order,err)
@@ -22551,7 +22551,7 @@ module la_linalg_norms
     end subroutine norm_6D_int_q
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_7D_order_int_q(a,order) result(nrm)
+    pure function la_norm_7D_order_int_q(a,order) result(nrm)
         !> Input 7-d matrix a(:,:,:,:,:,:,:)
         real(qp),intent(in) :: a(:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -22561,10 +22561,10 @@ module la_linalg_norms
                                     
         call norm_7D_int_q(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_7D_order_int_q
+    end function la_norm_7D_order_int_q
     
     ! Function interface with output error
-    function la_linalg_norm_7D_order_err_int_q(a,order,err) result(nrm)
+    function la_norm_7D_order_err_int_q(a,order,err) result(nrm)
         !> Input 7-d matrix a(:,:,:,:,:,:,:)
         real(qp),intent(in) :: a(:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -22576,7 +22576,7 @@ module la_linalg_norms
                 
         call norm_7D_int_q(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_7D_order_err_int_q
+    end function la_norm_7D_order_err_int_q
     
     ! Internal implementation
     pure subroutine norm_7D_int_q(a,nrm,order,err)
@@ -22634,7 +22634,7 @@ module la_linalg_norms
     end subroutine norm_7D_int_q
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_8D_order_int_q(a,order) result(nrm)
+    pure function la_norm_8D_order_int_q(a,order) result(nrm)
         !> Input 8-d matrix a(:,:,:,:,:,:,:,:)
         real(qp),intent(in) :: a(:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -22644,10 +22644,10 @@ module la_linalg_norms
                                     
         call norm_8D_int_q(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_8D_order_int_q
+    end function la_norm_8D_order_int_q
     
     ! Function interface with output error
-    function la_linalg_norm_8D_order_err_int_q(a,order,err) result(nrm)
+    function la_norm_8D_order_err_int_q(a,order,err) result(nrm)
         !> Input 8-d matrix a(:,:,:,:,:,:,:,:)
         real(qp),intent(in) :: a(:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -22659,7 +22659,7 @@ module la_linalg_norms
                 
         call norm_8D_int_q(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_8D_order_err_int_q
+    end function la_norm_8D_order_err_int_q
     
     ! Internal implementation
     pure subroutine norm_8D_int_q(a,nrm,order,err)
@@ -22717,7 +22717,7 @@ module la_linalg_norms
     end subroutine norm_8D_int_q
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_9D_order_int_q(a,order) result(nrm)
+    pure function la_norm_9D_order_int_q(a,order) result(nrm)
         !> Input 9-d matrix a(:,:,:,:,:,:,:,:,:)
         real(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -22727,10 +22727,10 @@ module la_linalg_norms
                                     
         call norm_9D_int_q(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_9D_order_int_q
+    end function la_norm_9D_order_int_q
     
     ! Function interface with output error
-    function la_linalg_norm_9D_order_err_int_q(a,order,err) result(nrm)
+    function la_norm_9D_order_err_int_q(a,order,err) result(nrm)
         !> Input 9-d matrix a(:,:,:,:,:,:,:,:,:)
         real(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -22742,7 +22742,7 @@ module la_linalg_norms
                 
         call norm_9D_int_q(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_9D_order_err_int_q
+    end function la_norm_9D_order_err_int_q
     
     ! Internal implementation
     pure subroutine norm_9D_int_q(a,nrm,order,err)
@@ -22800,7 +22800,7 @@ module la_linalg_norms
     end subroutine norm_9D_int_q
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_10D_order_int_q(a,order) result(nrm)
+    pure function la_norm_10D_order_int_q(a,order) result(nrm)
         !> Input 10-d matrix a(:,:,:,:,:,:,:,:,:,:)
         real(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -22810,10 +22810,10 @@ module la_linalg_norms
                                     
         call norm_10D_int_q(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_10D_order_int_q
+    end function la_norm_10D_order_int_q
     
     ! Function interface with output error
-    function la_linalg_norm_10D_order_err_int_q(a,order,err) result(nrm)
+    function la_norm_10D_order_err_int_q(a,order,err) result(nrm)
         !> Input 10-d matrix a(:,:,:,:,:,:,:,:,:,:)
         real(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -22825,7 +22825,7 @@ module la_linalg_norms
                 
         call norm_10D_int_q(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_10D_order_err_int_q
+    end function la_norm_10D_order_err_int_q
     
     ! Internal implementation
     pure subroutine norm_10D_int_q(a,nrm,order,err)
@@ -22883,7 +22883,7 @@ module la_linalg_norms
     end subroutine norm_10D_int_q
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_11D_order_int_q(a,order) result(nrm)
+    pure function la_norm_11D_order_int_q(a,order) result(nrm)
         !> Input 11-d matrix a(:,:,:,:,:,:,:,:,:,:,:)
         real(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -22893,10 +22893,10 @@ module la_linalg_norms
                                     
         call norm_11D_int_q(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_11D_order_int_q
+    end function la_norm_11D_order_int_q
     
     ! Function interface with output error
-    function la_linalg_norm_11D_order_err_int_q(a,order,err) result(nrm)
+    function la_norm_11D_order_err_int_q(a,order,err) result(nrm)
         !> Input 11-d matrix a(:,:,:,:,:,:,:,:,:,:,:)
         real(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -22908,7 +22908,7 @@ module la_linalg_norms
                 
         call norm_11D_int_q(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_11D_order_err_int_q
+    end function la_norm_11D_order_err_int_q
     
     ! Internal implementation
     pure subroutine norm_11D_int_q(a,nrm,order,err)
@@ -22966,7 +22966,7 @@ module la_linalg_norms
     end subroutine norm_11D_int_q
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_12D_order_int_q(a,order) result(nrm)
+    pure function la_norm_12D_order_int_q(a,order) result(nrm)
         !> Input 12-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:)
         real(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -22976,10 +22976,10 @@ module la_linalg_norms
                                     
         call norm_12D_int_q(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_12D_order_int_q
+    end function la_norm_12D_order_int_q
     
     ! Function interface with output error
-    function la_linalg_norm_12D_order_err_int_q(a,order,err) result(nrm)
+    function la_norm_12D_order_err_int_q(a,order,err) result(nrm)
         !> Input 12-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:)
         real(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -22991,7 +22991,7 @@ module la_linalg_norms
                 
         call norm_12D_int_q(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_12D_order_err_int_q
+    end function la_norm_12D_order_err_int_q
     
     ! Internal implementation
     pure subroutine norm_12D_int_q(a,nrm,order,err)
@@ -23049,7 +23049,7 @@ module la_linalg_norms
     end subroutine norm_12D_int_q
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_13D_order_int_q(a,order) result(nrm)
+    pure function la_norm_13D_order_int_q(a,order) result(nrm)
         !> Input 13-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         real(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -23059,10 +23059,10 @@ module la_linalg_norms
                                     
         call norm_13D_int_q(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_13D_order_int_q
+    end function la_norm_13D_order_int_q
     
     ! Function interface with output error
-    function la_linalg_norm_13D_order_err_int_q(a,order,err) result(nrm)
+    function la_norm_13D_order_err_int_q(a,order,err) result(nrm)
         !> Input 13-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         real(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -23074,7 +23074,7 @@ module la_linalg_norms
                 
         call norm_13D_int_q(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_13D_order_err_int_q
+    end function la_norm_13D_order_err_int_q
     
     ! Internal implementation
     pure subroutine norm_13D_int_q(a,nrm,order,err)
@@ -23132,7 +23132,7 @@ module la_linalg_norms
     end subroutine norm_13D_int_q
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_14D_order_int_q(a,order) result(nrm)
+    pure function la_norm_14D_order_int_q(a,order) result(nrm)
         !> Input 14-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         real(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -23142,10 +23142,10 @@ module la_linalg_norms
                                     
         call norm_14D_int_q(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_14D_order_int_q
+    end function la_norm_14D_order_int_q
     
     ! Function interface with output error
-    function la_linalg_norm_14D_order_err_int_q(a,order,err) result(nrm)
+    function la_norm_14D_order_err_int_q(a,order,err) result(nrm)
         !> Input 14-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         real(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -23157,7 +23157,7 @@ module la_linalg_norms
                 
         call norm_14D_int_q(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_14D_order_err_int_q
+    end function la_norm_14D_order_err_int_q
     
     ! Internal implementation
     pure subroutine norm_14D_int_q(a,nrm,order,err)
@@ -23215,7 +23215,7 @@ module la_linalg_norms
     end subroutine norm_14D_int_q
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_15D_order_int_q(a,order) result(nrm)
+    pure function la_norm_15D_order_int_q(a,order) result(nrm)
         !> Input 15-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         real(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -23225,10 +23225,10 @@ module la_linalg_norms
                                     
         call norm_15D_int_q(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_15D_order_int_q
+    end function la_norm_15D_order_int_q
     
     ! Function interface with output error
-    function la_linalg_norm_15D_order_err_int_q(a,order,err) result(nrm)
+    function la_norm_15D_order_err_int_q(a,order,err) result(nrm)
         !> Input 15-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         real(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -23240,7 +23240,7 @@ module la_linalg_norms
                 
         call norm_15D_int_q(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_15D_order_err_int_q
+    end function la_norm_15D_order_err_int_q
     
     ! Internal implementation
     pure subroutine norm_15D_int_q(a,nrm,order,err)
@@ -23302,7 +23302,7 @@ module la_linalg_norms
     !====================================================================
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_2D_to_1D_int_q(a,order,dim) result(nrm)
+    pure function la_norm_2D_to_1D_int_q(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(qp),intent(in),target :: a(:,:)
         !> Order of the matrix norm being computed.
@@ -23314,10 +23314,10 @@ module la_linalg_norms
         
         call norm_2D_to_1D_int_q(a,nrm,order,dim)
             
-    end function la_linalg_norm_2D_to_1D_int_q
+    end function la_norm_2D_to_1D_int_q
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_2D_to_1D_err_int_q(a,order,dim,err) result(nrm)
+    function la_norm_2D_to_1D_err_int_q(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(qp),intent(in),target :: a(:,:)
         !> Order of the matrix norm being computed.
@@ -23331,7 +23331,7 @@ module la_linalg_norms
         
         call norm_2D_to_1D_int_q(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_2D_to_1D_err_int_q
+    end function la_norm_2D_to_1D_err_int_q
     
     ! Internal implementation
     pure subroutine norm_2D_to_1D_int_q(a,nrm,order,dim,err)
@@ -23398,7 +23398,7 @@ module la_linalg_norms
     end subroutine norm_2D_to_1D_int_q
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_3D_to_2D_int_q(a,order,dim) result(nrm)
+    pure function la_norm_3D_to_2D_int_q(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(qp),intent(in),target :: a(:,:,:)
         !> Order of the matrix norm being computed.
@@ -23410,10 +23410,10 @@ module la_linalg_norms
         
         call norm_3D_to_2D_int_q(a,nrm,order,dim)
             
-    end function la_linalg_norm_3D_to_2D_int_q
+    end function la_norm_3D_to_2D_int_q
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_3D_to_2D_err_int_q(a,order,dim,err) result(nrm)
+    function la_norm_3D_to_2D_err_int_q(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(qp),intent(in),target :: a(:,:,:)
         !> Order of the matrix norm being computed.
@@ -23427,7 +23427,7 @@ module la_linalg_norms
         
         call norm_3D_to_2D_int_q(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_3D_to_2D_err_int_q
+    end function la_norm_3D_to_2D_err_int_q
     
     ! Internal implementation
     pure subroutine norm_3D_to_2D_int_q(a,nrm,order,dim,err)
@@ -23494,7 +23494,7 @@ module la_linalg_norms
     end subroutine norm_3D_to_2D_int_q
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_4D_to_3D_int_q(a,order,dim) result(nrm)
+    pure function la_norm_4D_to_3D_int_q(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(qp),intent(in),target :: a(:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -23507,10 +23507,10 @@ module la_linalg_norms
         
         call norm_4D_to_3D_int_q(a,nrm,order,dim)
             
-    end function la_linalg_norm_4D_to_3D_int_q
+    end function la_norm_4D_to_3D_int_q
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_4D_to_3D_err_int_q(a,order,dim,err) result(nrm)
+    function la_norm_4D_to_3D_err_int_q(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(qp),intent(in),target :: a(:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -23525,7 +23525,7 @@ module la_linalg_norms
         
         call norm_4D_to_3D_int_q(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_4D_to_3D_err_int_q
+    end function la_norm_4D_to_3D_err_int_q
     
     ! Internal implementation
     pure subroutine norm_4D_to_3D_int_q(a,nrm,order,dim,err)
@@ -23593,7 +23593,7 @@ module la_linalg_norms
     end subroutine norm_4D_to_3D_int_q
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_5D_to_4D_int_q(a,order,dim) result(nrm)
+    pure function la_norm_5D_to_4D_int_q(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(qp),intent(in),target :: a(:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -23606,10 +23606,10 @@ module la_linalg_norms
         
         call norm_5D_to_4D_int_q(a,nrm,order,dim)
             
-    end function la_linalg_norm_5D_to_4D_int_q
+    end function la_norm_5D_to_4D_int_q
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_5D_to_4D_err_int_q(a,order,dim,err) result(nrm)
+    function la_norm_5D_to_4D_err_int_q(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(qp),intent(in),target :: a(:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -23624,7 +23624,7 @@ module la_linalg_norms
         
         call norm_5D_to_4D_int_q(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_5D_to_4D_err_int_q
+    end function la_norm_5D_to_4D_err_int_q
     
     ! Internal implementation
     pure subroutine norm_5D_to_4D_int_q(a,nrm,order,dim,err)
@@ -23692,7 +23692,7 @@ module la_linalg_norms
     end subroutine norm_5D_to_4D_int_q
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_6D_to_5D_int_q(a,order,dim) result(nrm)
+    pure function la_norm_6D_to_5D_int_q(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(qp),intent(in),target :: a(:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -23705,10 +23705,10 @@ module la_linalg_norms
         
         call norm_6D_to_5D_int_q(a,nrm,order,dim)
             
-    end function la_linalg_norm_6D_to_5D_int_q
+    end function la_norm_6D_to_5D_int_q
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_6D_to_5D_err_int_q(a,order,dim,err) result(nrm)
+    function la_norm_6D_to_5D_err_int_q(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(qp),intent(in),target :: a(:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -23723,7 +23723,7 @@ module la_linalg_norms
         
         call norm_6D_to_5D_int_q(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_6D_to_5D_err_int_q
+    end function la_norm_6D_to_5D_err_int_q
     
     ! Internal implementation
     pure subroutine norm_6D_to_5D_int_q(a,nrm,order,dim,err)
@@ -23792,7 +23792,7 @@ module la_linalg_norms
     end subroutine norm_6D_to_5D_int_q
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_7D_to_6D_int_q(a,order,dim) result(nrm)
+    pure function la_norm_7D_to_6D_int_q(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(qp),intent(in),target :: a(:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -23806,10 +23806,10 @@ module la_linalg_norms
         
         call norm_7D_to_6D_int_q(a,nrm,order,dim)
             
-    end function la_linalg_norm_7D_to_6D_int_q
+    end function la_norm_7D_to_6D_int_q
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_7D_to_6D_err_int_q(a,order,dim,err) result(nrm)
+    function la_norm_7D_to_6D_err_int_q(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(qp),intent(in),target :: a(:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -23825,7 +23825,7 @@ module la_linalg_norms
         
         call norm_7D_to_6D_int_q(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_7D_to_6D_err_int_q
+    end function la_norm_7D_to_6D_err_int_q
     
     ! Internal implementation
     pure subroutine norm_7D_to_6D_int_q(a,nrm,order,dim,err)
@@ -23894,7 +23894,7 @@ module la_linalg_norms
     end subroutine norm_7D_to_6D_int_q
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_8D_to_7D_int_q(a,order,dim) result(nrm)
+    pure function la_norm_8D_to_7D_int_q(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(qp),intent(in),target :: a(:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -23908,10 +23908,10 @@ module la_linalg_norms
         
         call norm_8D_to_7D_int_q(a,nrm,order,dim)
             
-    end function la_linalg_norm_8D_to_7D_int_q
+    end function la_norm_8D_to_7D_int_q
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_8D_to_7D_err_int_q(a,order,dim,err) result(nrm)
+    function la_norm_8D_to_7D_err_int_q(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(qp),intent(in),target :: a(:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -23927,7 +23927,7 @@ module la_linalg_norms
         
         call norm_8D_to_7D_int_q(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_8D_to_7D_err_int_q
+    end function la_norm_8D_to_7D_err_int_q
     
     ! Internal implementation
     pure subroutine norm_8D_to_7D_int_q(a,nrm,order,dim,err)
@@ -23996,7 +23996,7 @@ module la_linalg_norms
     end subroutine norm_8D_to_7D_int_q
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_9D_to_8D_int_q(a,order,dim) result(nrm)
+    pure function la_norm_9D_to_8D_int_q(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -24011,10 +24011,10 @@ module la_linalg_norms
         
         call norm_9D_to_8D_int_q(a,nrm,order,dim)
             
-    end function la_linalg_norm_9D_to_8D_int_q
+    end function la_norm_9D_to_8D_int_q
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_9D_to_8D_err_int_q(a,order,dim,err) result(nrm)
+    function la_norm_9D_to_8D_err_int_q(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -24031,7 +24031,7 @@ module la_linalg_norms
         
         call norm_9D_to_8D_int_q(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_9D_to_8D_err_int_q
+    end function la_norm_9D_to_8D_err_int_q
     
     ! Internal implementation
     pure subroutine norm_9D_to_8D_int_q(a,nrm,order,dim,err)
@@ -24101,7 +24101,7 @@ module la_linalg_norms
     end subroutine norm_9D_to_8D_int_q
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_10D_to_9D_int_q(a,order,dim) result(nrm)
+    pure function la_norm_10D_to_9D_int_q(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -24116,10 +24116,10 @@ module la_linalg_norms
         
         call norm_10D_to_9D_int_q(a,nrm,order,dim)
             
-    end function la_linalg_norm_10D_to_9D_int_q
+    end function la_norm_10D_to_9D_int_q
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_10D_to_9D_err_int_q(a,order,dim,err) result(nrm)
+    function la_norm_10D_to_9D_err_int_q(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -24136,7 +24136,7 @@ module la_linalg_norms
         
         call norm_10D_to_9D_int_q(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_10D_to_9D_err_int_q
+    end function la_norm_10D_to_9D_err_int_q
     
     ! Internal implementation
     pure subroutine norm_10D_to_9D_int_q(a,nrm,order,dim,err)
@@ -24206,7 +24206,7 @@ module la_linalg_norms
     end subroutine norm_10D_to_9D_int_q
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_11D_to_10D_int_q(a,order,dim) result(nrm)
+    pure function la_norm_11D_to_10D_int_q(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -24221,10 +24221,10 @@ module la_linalg_norms
         
         call norm_11D_to_10D_int_q(a,nrm,order,dim)
             
-    end function la_linalg_norm_11D_to_10D_int_q
+    end function la_norm_11D_to_10D_int_q
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_11D_to_10D_err_int_q(a,order,dim,err) result(nrm)
+    function la_norm_11D_to_10D_err_int_q(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -24241,7 +24241,7 @@ module la_linalg_norms
         
         call norm_11D_to_10D_int_q(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_11D_to_10D_err_int_q
+    end function la_norm_11D_to_10D_err_int_q
     
     ! Internal implementation
     pure subroutine norm_11D_to_10D_int_q(a,nrm,order,dim,err)
@@ -24312,7 +24312,7 @@ module la_linalg_norms
     end subroutine norm_11D_to_10D_int_q
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_12D_to_11D_int_q(a,order,dim) result(nrm)
+    pure function la_norm_12D_to_11D_int_q(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -24328,10 +24328,10 @@ module la_linalg_norms
         
         call norm_12D_to_11D_int_q(a,nrm,order,dim)
             
-    end function la_linalg_norm_12D_to_11D_int_q
+    end function la_norm_12D_to_11D_int_q
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_12D_to_11D_err_int_q(a,order,dim,err) result(nrm)
+    function la_norm_12D_to_11D_err_int_q(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -24349,7 +24349,7 @@ module la_linalg_norms
         
         call norm_12D_to_11D_int_q(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_12D_to_11D_err_int_q
+    end function la_norm_12D_to_11D_err_int_q
     
     ! Internal implementation
     pure subroutine norm_12D_to_11D_int_q(a,nrm,order,dim,err)
@@ -24420,7 +24420,7 @@ module la_linalg_norms
     end subroutine norm_12D_to_11D_int_q
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_13D_to_12D_int_q(a,order,dim) result(nrm)
+    pure function la_norm_13D_to_12D_int_q(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -24436,10 +24436,10 @@ module la_linalg_norms
         
         call norm_13D_to_12D_int_q(a,nrm,order,dim)
             
-    end function la_linalg_norm_13D_to_12D_int_q
+    end function la_norm_13D_to_12D_int_q
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_13D_to_12D_err_int_q(a,order,dim,err) result(nrm)
+    function la_norm_13D_to_12D_err_int_q(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -24457,7 +24457,7 @@ module la_linalg_norms
         
         call norm_13D_to_12D_int_q(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_13D_to_12D_err_int_q
+    end function la_norm_13D_to_12D_err_int_q
     
     ! Internal implementation
     pure subroutine norm_13D_to_12D_int_q(a,nrm,order,dim,err)
@@ -24528,7 +24528,7 @@ module la_linalg_norms
     end subroutine norm_13D_to_12D_int_q
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_14D_to_13D_int_q(a,order,dim) result(nrm)
+    pure function la_norm_14D_to_13D_int_q(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -24545,10 +24545,10 @@ module la_linalg_norms
         
         call norm_14D_to_13D_int_q(a,nrm,order,dim)
             
-    end function la_linalg_norm_14D_to_13D_int_q
+    end function la_norm_14D_to_13D_int_q
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_14D_to_13D_err_int_q(a,order,dim,err) result(nrm)
+    function la_norm_14D_to_13D_err_int_q(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -24567,7 +24567,7 @@ module la_linalg_norms
         
         call norm_14D_to_13D_int_q(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_14D_to_13D_err_int_q
+    end function la_norm_14D_to_13D_err_int_q
     
     ! Internal implementation
     pure subroutine norm_14D_to_13D_int_q(a,nrm,order,dim,err)
@@ -24639,7 +24639,7 @@ module la_linalg_norms
     end subroutine norm_14D_to_13D_int_q
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_15D_to_14D_int_q(a,order,dim) result(nrm)
+    pure function la_norm_15D_to_14D_int_q(a,order,dim) result(nrm)
         !> Input matrix a[..]
         real(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -24656,10 +24656,10 @@ module la_linalg_norms
         
         call norm_15D_to_14D_int_q(a,nrm,order,dim)
             
-    end function la_linalg_norm_15D_to_14D_int_q
+    end function la_norm_15D_to_14D_int_q
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_15D_to_14D_err_int_q(a,order,dim,err) result(nrm)
+    function la_norm_15D_to_14D_err_int_q(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         real(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -24678,7 +24678,7 @@ module la_linalg_norms
         
         call norm_15D_to_14D_int_q(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_15D_to_14D_err_int_q
+    end function la_norm_15D_to_14D_err_int_q
     
     ! Internal implementation
     pure subroutine norm_15D_to_14D_int_q(a,nrm,order,dim,err)
@@ -26185,7 +26185,7 @@ module la_linalg_norms
     !==============================================
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_1D_order_char_c(a,order) result(nrm)
+    pure function la_norm_1D_order_char_c(a,order) result(nrm)
         !> Input 1-d matrix a(:)
         complex(sp),intent(in) :: a(:)
         !> Order of the matrix norm being computed.
@@ -26195,10 +26195,10 @@ module la_linalg_norms
                                     
         call norm_1D_char_c(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_1D_order_char_c
+    end function la_norm_1D_order_char_c
     
     ! Function interface with output error
-    function la_linalg_norm_1D_order_err_char_c(a,order,err) result(nrm)
+    function la_norm_1D_order_err_char_c(a,order,err) result(nrm)
         !> Input 1-d matrix a(:)
         complex(sp),intent(in) :: a(:)
         !> Order of the matrix norm being computed.
@@ -26210,7 +26210,7 @@ module la_linalg_norms
                 
         call norm_1D_char_c(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_1D_order_err_char_c
+    end function la_norm_1D_order_err_char_c
     
     ! Internal implementation
     pure subroutine norm_1D_char_c(a,nrm,order,err)
@@ -26268,7 +26268,7 @@ module la_linalg_norms
     end subroutine norm_1D_char_c
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_2D_order_char_c(a,order) result(nrm)
+    pure function la_norm_2D_order_char_c(a,order) result(nrm)
         !> Input 2-d matrix a(:,:)
         complex(sp),intent(in) :: a(:,:)
         !> Order of the matrix norm being computed.
@@ -26278,10 +26278,10 @@ module la_linalg_norms
                                     
         call norm_2D_char_c(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_2D_order_char_c
+    end function la_norm_2D_order_char_c
     
     ! Function interface with output error
-    function la_linalg_norm_2D_order_err_char_c(a,order,err) result(nrm)
+    function la_norm_2D_order_err_char_c(a,order,err) result(nrm)
         !> Input 2-d matrix a(:,:)
         complex(sp),intent(in) :: a(:,:)
         !> Order of the matrix norm being computed.
@@ -26293,7 +26293,7 @@ module la_linalg_norms
                 
         call norm_2D_char_c(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_2D_order_err_char_c
+    end function la_norm_2D_order_err_char_c
     
     ! Internal implementation
     pure subroutine norm_2D_char_c(a,nrm,order,err)
@@ -26351,7 +26351,7 @@ module la_linalg_norms
     end subroutine norm_2D_char_c
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_3D_order_char_c(a,order) result(nrm)
+    pure function la_norm_3D_order_char_c(a,order) result(nrm)
         !> Input 3-d matrix a(:,:,:)
         complex(sp),intent(in) :: a(:,:,:)
         !> Order of the matrix norm being computed.
@@ -26361,10 +26361,10 @@ module la_linalg_norms
                                     
         call norm_3D_char_c(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_3D_order_char_c
+    end function la_norm_3D_order_char_c
     
     ! Function interface with output error
-    function la_linalg_norm_3D_order_err_char_c(a,order,err) result(nrm)
+    function la_norm_3D_order_err_char_c(a,order,err) result(nrm)
         !> Input 3-d matrix a(:,:,:)
         complex(sp),intent(in) :: a(:,:,:)
         !> Order of the matrix norm being computed.
@@ -26376,7 +26376,7 @@ module la_linalg_norms
                 
         call norm_3D_char_c(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_3D_order_err_char_c
+    end function la_norm_3D_order_err_char_c
     
     ! Internal implementation
     pure subroutine norm_3D_char_c(a,nrm,order,err)
@@ -26434,7 +26434,7 @@ module la_linalg_norms
     end subroutine norm_3D_char_c
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_4D_order_char_c(a,order) result(nrm)
+    pure function la_norm_4D_order_char_c(a,order) result(nrm)
         !> Input 4-d matrix a(:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -26444,10 +26444,10 @@ module la_linalg_norms
                                     
         call norm_4D_char_c(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_4D_order_char_c
+    end function la_norm_4D_order_char_c
     
     ! Function interface with output error
-    function la_linalg_norm_4D_order_err_char_c(a,order,err) result(nrm)
+    function la_norm_4D_order_err_char_c(a,order,err) result(nrm)
         !> Input 4-d matrix a(:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -26459,7 +26459,7 @@ module la_linalg_norms
                 
         call norm_4D_char_c(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_4D_order_err_char_c
+    end function la_norm_4D_order_err_char_c
     
     ! Internal implementation
     pure subroutine norm_4D_char_c(a,nrm,order,err)
@@ -26517,7 +26517,7 @@ module la_linalg_norms
     end subroutine norm_4D_char_c
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_5D_order_char_c(a,order) result(nrm)
+    pure function la_norm_5D_order_char_c(a,order) result(nrm)
         !> Input 5-d matrix a(:,:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -26527,10 +26527,10 @@ module la_linalg_norms
                                     
         call norm_5D_char_c(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_5D_order_char_c
+    end function la_norm_5D_order_char_c
     
     ! Function interface with output error
-    function la_linalg_norm_5D_order_err_char_c(a,order,err) result(nrm)
+    function la_norm_5D_order_err_char_c(a,order,err) result(nrm)
         !> Input 5-d matrix a(:,:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -26542,7 +26542,7 @@ module la_linalg_norms
                 
         call norm_5D_char_c(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_5D_order_err_char_c
+    end function la_norm_5D_order_err_char_c
     
     ! Internal implementation
     pure subroutine norm_5D_char_c(a,nrm,order,err)
@@ -26600,7 +26600,7 @@ module la_linalg_norms
     end subroutine norm_5D_char_c
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_6D_order_char_c(a,order) result(nrm)
+    pure function la_norm_6D_order_char_c(a,order) result(nrm)
         !> Input 6-d matrix a(:,:,:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -26610,10 +26610,10 @@ module la_linalg_norms
                                     
         call norm_6D_char_c(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_6D_order_char_c
+    end function la_norm_6D_order_char_c
     
     ! Function interface with output error
-    function la_linalg_norm_6D_order_err_char_c(a,order,err) result(nrm)
+    function la_norm_6D_order_err_char_c(a,order,err) result(nrm)
         !> Input 6-d matrix a(:,:,:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -26625,7 +26625,7 @@ module la_linalg_norms
                 
         call norm_6D_char_c(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_6D_order_err_char_c
+    end function la_norm_6D_order_err_char_c
     
     ! Internal implementation
     pure subroutine norm_6D_char_c(a,nrm,order,err)
@@ -26683,7 +26683,7 @@ module la_linalg_norms
     end subroutine norm_6D_char_c
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_7D_order_char_c(a,order) result(nrm)
+    pure function la_norm_7D_order_char_c(a,order) result(nrm)
         !> Input 7-d matrix a(:,:,:,:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -26693,10 +26693,10 @@ module la_linalg_norms
                                     
         call norm_7D_char_c(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_7D_order_char_c
+    end function la_norm_7D_order_char_c
     
     ! Function interface with output error
-    function la_linalg_norm_7D_order_err_char_c(a,order,err) result(nrm)
+    function la_norm_7D_order_err_char_c(a,order,err) result(nrm)
         !> Input 7-d matrix a(:,:,:,:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -26708,7 +26708,7 @@ module la_linalg_norms
                 
         call norm_7D_char_c(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_7D_order_err_char_c
+    end function la_norm_7D_order_err_char_c
     
     ! Internal implementation
     pure subroutine norm_7D_char_c(a,nrm,order,err)
@@ -26766,7 +26766,7 @@ module la_linalg_norms
     end subroutine norm_7D_char_c
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_8D_order_char_c(a,order) result(nrm)
+    pure function la_norm_8D_order_char_c(a,order) result(nrm)
         !> Input 8-d matrix a(:,:,:,:,:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -26776,10 +26776,10 @@ module la_linalg_norms
                                     
         call norm_8D_char_c(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_8D_order_char_c
+    end function la_norm_8D_order_char_c
     
     ! Function interface with output error
-    function la_linalg_norm_8D_order_err_char_c(a,order,err) result(nrm)
+    function la_norm_8D_order_err_char_c(a,order,err) result(nrm)
         !> Input 8-d matrix a(:,:,:,:,:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -26791,7 +26791,7 @@ module la_linalg_norms
                 
         call norm_8D_char_c(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_8D_order_err_char_c
+    end function la_norm_8D_order_err_char_c
     
     ! Internal implementation
     pure subroutine norm_8D_char_c(a,nrm,order,err)
@@ -26849,7 +26849,7 @@ module la_linalg_norms
     end subroutine norm_8D_char_c
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_9D_order_char_c(a,order) result(nrm)
+    pure function la_norm_9D_order_char_c(a,order) result(nrm)
         !> Input 9-d matrix a(:,:,:,:,:,:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -26859,10 +26859,10 @@ module la_linalg_norms
                                     
         call norm_9D_char_c(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_9D_order_char_c
+    end function la_norm_9D_order_char_c
     
     ! Function interface with output error
-    function la_linalg_norm_9D_order_err_char_c(a,order,err) result(nrm)
+    function la_norm_9D_order_err_char_c(a,order,err) result(nrm)
         !> Input 9-d matrix a(:,:,:,:,:,:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -26874,7 +26874,7 @@ module la_linalg_norms
                 
         call norm_9D_char_c(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_9D_order_err_char_c
+    end function la_norm_9D_order_err_char_c
     
     ! Internal implementation
     pure subroutine norm_9D_char_c(a,nrm,order,err)
@@ -26932,7 +26932,7 @@ module la_linalg_norms
     end subroutine norm_9D_char_c
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_10D_order_char_c(a,order) result(nrm)
+    pure function la_norm_10D_order_char_c(a,order) result(nrm)
         !> Input 10-d matrix a(:,:,:,:,:,:,:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -26942,10 +26942,10 @@ module la_linalg_norms
                                     
         call norm_10D_char_c(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_10D_order_char_c
+    end function la_norm_10D_order_char_c
     
     ! Function interface with output error
-    function la_linalg_norm_10D_order_err_char_c(a,order,err) result(nrm)
+    function la_norm_10D_order_err_char_c(a,order,err) result(nrm)
         !> Input 10-d matrix a(:,:,:,:,:,:,:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -26957,7 +26957,7 @@ module la_linalg_norms
                 
         call norm_10D_char_c(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_10D_order_err_char_c
+    end function la_norm_10D_order_err_char_c
     
     ! Internal implementation
     pure subroutine norm_10D_char_c(a,nrm,order,err)
@@ -27015,7 +27015,7 @@ module la_linalg_norms
     end subroutine norm_10D_char_c
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_11D_order_char_c(a,order) result(nrm)
+    pure function la_norm_11D_order_char_c(a,order) result(nrm)
         !> Input 11-d matrix a(:,:,:,:,:,:,:,:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -27025,10 +27025,10 @@ module la_linalg_norms
                                     
         call norm_11D_char_c(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_11D_order_char_c
+    end function la_norm_11D_order_char_c
     
     ! Function interface with output error
-    function la_linalg_norm_11D_order_err_char_c(a,order,err) result(nrm)
+    function la_norm_11D_order_err_char_c(a,order,err) result(nrm)
         !> Input 11-d matrix a(:,:,:,:,:,:,:,:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -27040,7 +27040,7 @@ module la_linalg_norms
                 
         call norm_11D_char_c(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_11D_order_err_char_c
+    end function la_norm_11D_order_err_char_c
     
     ! Internal implementation
     pure subroutine norm_11D_char_c(a,nrm,order,err)
@@ -27098,7 +27098,7 @@ module la_linalg_norms
     end subroutine norm_11D_char_c
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_12D_order_char_c(a,order) result(nrm)
+    pure function la_norm_12D_order_char_c(a,order) result(nrm)
         !> Input 12-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -27108,10 +27108,10 @@ module la_linalg_norms
                                     
         call norm_12D_char_c(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_12D_order_char_c
+    end function la_norm_12D_order_char_c
     
     ! Function interface with output error
-    function la_linalg_norm_12D_order_err_char_c(a,order,err) result(nrm)
+    function la_norm_12D_order_err_char_c(a,order,err) result(nrm)
         !> Input 12-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -27123,7 +27123,7 @@ module la_linalg_norms
                 
         call norm_12D_char_c(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_12D_order_err_char_c
+    end function la_norm_12D_order_err_char_c
     
     ! Internal implementation
     pure subroutine norm_12D_char_c(a,nrm,order,err)
@@ -27181,7 +27181,7 @@ module la_linalg_norms
     end subroutine norm_12D_char_c
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_13D_order_char_c(a,order) result(nrm)
+    pure function la_norm_13D_order_char_c(a,order) result(nrm)
         !> Input 13-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -27191,10 +27191,10 @@ module la_linalg_norms
                                     
         call norm_13D_char_c(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_13D_order_char_c
+    end function la_norm_13D_order_char_c
     
     ! Function interface with output error
-    function la_linalg_norm_13D_order_err_char_c(a,order,err) result(nrm)
+    function la_norm_13D_order_err_char_c(a,order,err) result(nrm)
         !> Input 13-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -27206,7 +27206,7 @@ module la_linalg_norms
                 
         call norm_13D_char_c(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_13D_order_err_char_c
+    end function la_norm_13D_order_err_char_c
     
     ! Internal implementation
     pure subroutine norm_13D_char_c(a,nrm,order,err)
@@ -27264,7 +27264,7 @@ module la_linalg_norms
     end subroutine norm_13D_char_c
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_14D_order_char_c(a,order) result(nrm)
+    pure function la_norm_14D_order_char_c(a,order) result(nrm)
         !> Input 14-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -27274,10 +27274,10 @@ module la_linalg_norms
                                     
         call norm_14D_char_c(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_14D_order_char_c
+    end function la_norm_14D_order_char_c
     
     ! Function interface with output error
-    function la_linalg_norm_14D_order_err_char_c(a,order,err) result(nrm)
+    function la_norm_14D_order_err_char_c(a,order,err) result(nrm)
         !> Input 14-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -27289,7 +27289,7 @@ module la_linalg_norms
                 
         call norm_14D_char_c(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_14D_order_err_char_c
+    end function la_norm_14D_order_err_char_c
     
     ! Internal implementation
     pure subroutine norm_14D_char_c(a,nrm,order,err)
@@ -27347,7 +27347,7 @@ module la_linalg_norms
     end subroutine norm_14D_char_c
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_15D_order_char_c(a,order) result(nrm)
+    pure function la_norm_15D_order_char_c(a,order) result(nrm)
         !> Input 15-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -27357,10 +27357,10 @@ module la_linalg_norms
                                     
         call norm_15D_char_c(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_15D_order_char_c
+    end function la_norm_15D_order_char_c
     
     ! Function interface with output error
-    function la_linalg_norm_15D_order_err_char_c(a,order,err) result(nrm)
+    function la_norm_15D_order_err_char_c(a,order,err) result(nrm)
         !> Input 15-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -27372,7 +27372,7 @@ module la_linalg_norms
                 
         call norm_15D_char_c(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_15D_order_err_char_c
+    end function la_norm_15D_order_err_char_c
     
     ! Internal implementation
     pure subroutine norm_15D_char_c(a,nrm,order,err)
@@ -27434,7 +27434,7 @@ module la_linalg_norms
     !====================================================================
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_2D_to_1D_char_c(a,order,dim) result(nrm)
+    pure function la_norm_2D_to_1D_char_c(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(sp),intent(in),target :: a(:,:)
         !> Order of the matrix norm being computed.
@@ -27446,10 +27446,10 @@ module la_linalg_norms
         
         call norm_2D_to_1D_char_c(a,nrm,order,dim)
             
-    end function la_linalg_norm_2D_to_1D_char_c
+    end function la_norm_2D_to_1D_char_c
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_2D_to_1D_err_char_c(a,order,dim,err) result(nrm)
+    function la_norm_2D_to_1D_err_char_c(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(sp),intent(in),target :: a(:,:)
         !> Order of the matrix norm being computed.
@@ -27463,7 +27463,7 @@ module la_linalg_norms
         
         call norm_2D_to_1D_char_c(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_2D_to_1D_err_char_c
+    end function la_norm_2D_to_1D_err_char_c
     
     ! Internal implementation
     pure subroutine norm_2D_to_1D_char_c(a,nrm,order,dim,err)
@@ -27530,7 +27530,7 @@ module la_linalg_norms
     end subroutine norm_2D_to_1D_char_c
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_3D_to_2D_char_c(a,order,dim) result(nrm)
+    pure function la_norm_3D_to_2D_char_c(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(sp),intent(in),target :: a(:,:,:)
         !> Order of the matrix norm being computed.
@@ -27542,10 +27542,10 @@ module la_linalg_norms
         
         call norm_3D_to_2D_char_c(a,nrm,order,dim)
             
-    end function la_linalg_norm_3D_to_2D_char_c
+    end function la_norm_3D_to_2D_char_c
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_3D_to_2D_err_char_c(a,order,dim,err) result(nrm)
+    function la_norm_3D_to_2D_err_char_c(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(sp),intent(in),target :: a(:,:,:)
         !> Order of the matrix norm being computed.
@@ -27559,7 +27559,7 @@ module la_linalg_norms
         
         call norm_3D_to_2D_char_c(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_3D_to_2D_err_char_c
+    end function la_norm_3D_to_2D_err_char_c
     
     ! Internal implementation
     pure subroutine norm_3D_to_2D_char_c(a,nrm,order,dim,err)
@@ -27626,7 +27626,7 @@ module la_linalg_norms
     end subroutine norm_3D_to_2D_char_c
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_4D_to_3D_char_c(a,order,dim) result(nrm)
+    pure function la_norm_4D_to_3D_char_c(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(sp),intent(in),target :: a(:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -27639,10 +27639,10 @@ module la_linalg_norms
         
         call norm_4D_to_3D_char_c(a,nrm,order,dim)
             
-    end function la_linalg_norm_4D_to_3D_char_c
+    end function la_norm_4D_to_3D_char_c
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_4D_to_3D_err_char_c(a,order,dim,err) result(nrm)
+    function la_norm_4D_to_3D_err_char_c(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(sp),intent(in),target :: a(:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -27657,7 +27657,7 @@ module la_linalg_norms
         
         call norm_4D_to_3D_char_c(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_4D_to_3D_err_char_c
+    end function la_norm_4D_to_3D_err_char_c
     
     ! Internal implementation
     pure subroutine norm_4D_to_3D_char_c(a,nrm,order,dim,err)
@@ -27725,7 +27725,7 @@ module la_linalg_norms
     end subroutine norm_4D_to_3D_char_c
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_5D_to_4D_char_c(a,order,dim) result(nrm)
+    pure function la_norm_5D_to_4D_char_c(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(sp),intent(in),target :: a(:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -27738,10 +27738,10 @@ module la_linalg_norms
         
         call norm_5D_to_4D_char_c(a,nrm,order,dim)
             
-    end function la_linalg_norm_5D_to_4D_char_c
+    end function la_norm_5D_to_4D_char_c
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_5D_to_4D_err_char_c(a,order,dim,err) result(nrm)
+    function la_norm_5D_to_4D_err_char_c(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(sp),intent(in),target :: a(:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -27756,7 +27756,7 @@ module la_linalg_norms
         
         call norm_5D_to_4D_char_c(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_5D_to_4D_err_char_c
+    end function la_norm_5D_to_4D_err_char_c
     
     ! Internal implementation
     pure subroutine norm_5D_to_4D_char_c(a,nrm,order,dim,err)
@@ -27824,7 +27824,7 @@ module la_linalg_norms
     end subroutine norm_5D_to_4D_char_c
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_6D_to_5D_char_c(a,order,dim) result(nrm)
+    pure function la_norm_6D_to_5D_char_c(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(sp),intent(in),target :: a(:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -27837,10 +27837,10 @@ module la_linalg_norms
         
         call norm_6D_to_5D_char_c(a,nrm,order,dim)
             
-    end function la_linalg_norm_6D_to_5D_char_c
+    end function la_norm_6D_to_5D_char_c
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_6D_to_5D_err_char_c(a,order,dim,err) result(nrm)
+    function la_norm_6D_to_5D_err_char_c(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(sp),intent(in),target :: a(:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -27855,7 +27855,7 @@ module la_linalg_norms
         
         call norm_6D_to_5D_char_c(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_6D_to_5D_err_char_c
+    end function la_norm_6D_to_5D_err_char_c
     
     ! Internal implementation
     pure subroutine norm_6D_to_5D_char_c(a,nrm,order,dim,err)
@@ -27924,7 +27924,7 @@ module la_linalg_norms
     end subroutine norm_6D_to_5D_char_c
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_7D_to_6D_char_c(a,order,dim) result(nrm)
+    pure function la_norm_7D_to_6D_char_c(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(sp),intent(in),target :: a(:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -27938,10 +27938,10 @@ module la_linalg_norms
         
         call norm_7D_to_6D_char_c(a,nrm,order,dim)
             
-    end function la_linalg_norm_7D_to_6D_char_c
+    end function la_norm_7D_to_6D_char_c
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_7D_to_6D_err_char_c(a,order,dim,err) result(nrm)
+    function la_norm_7D_to_6D_err_char_c(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(sp),intent(in),target :: a(:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -27957,7 +27957,7 @@ module la_linalg_norms
         
         call norm_7D_to_6D_char_c(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_7D_to_6D_err_char_c
+    end function la_norm_7D_to_6D_err_char_c
     
     ! Internal implementation
     pure subroutine norm_7D_to_6D_char_c(a,nrm,order,dim,err)
@@ -28026,7 +28026,7 @@ module la_linalg_norms
     end subroutine norm_7D_to_6D_char_c
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_8D_to_7D_char_c(a,order,dim) result(nrm)
+    pure function la_norm_8D_to_7D_char_c(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(sp),intent(in),target :: a(:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -28040,10 +28040,10 @@ module la_linalg_norms
         
         call norm_8D_to_7D_char_c(a,nrm,order,dim)
             
-    end function la_linalg_norm_8D_to_7D_char_c
+    end function la_norm_8D_to_7D_char_c
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_8D_to_7D_err_char_c(a,order,dim,err) result(nrm)
+    function la_norm_8D_to_7D_err_char_c(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(sp),intent(in),target :: a(:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -28059,7 +28059,7 @@ module la_linalg_norms
         
         call norm_8D_to_7D_char_c(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_8D_to_7D_err_char_c
+    end function la_norm_8D_to_7D_err_char_c
     
     ! Internal implementation
     pure subroutine norm_8D_to_7D_char_c(a,nrm,order,dim,err)
@@ -28128,7 +28128,7 @@ module la_linalg_norms
     end subroutine norm_8D_to_7D_char_c
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_9D_to_8D_char_c(a,order,dim) result(nrm)
+    pure function la_norm_9D_to_8D_char_c(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -28143,10 +28143,10 @@ module la_linalg_norms
         
         call norm_9D_to_8D_char_c(a,nrm,order,dim)
             
-    end function la_linalg_norm_9D_to_8D_char_c
+    end function la_norm_9D_to_8D_char_c
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_9D_to_8D_err_char_c(a,order,dim,err) result(nrm)
+    function la_norm_9D_to_8D_err_char_c(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -28163,7 +28163,7 @@ module la_linalg_norms
         
         call norm_9D_to_8D_char_c(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_9D_to_8D_err_char_c
+    end function la_norm_9D_to_8D_err_char_c
     
     ! Internal implementation
     pure subroutine norm_9D_to_8D_char_c(a,nrm,order,dim,err)
@@ -28233,7 +28233,7 @@ module la_linalg_norms
     end subroutine norm_9D_to_8D_char_c
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_10D_to_9D_char_c(a,order,dim) result(nrm)
+    pure function la_norm_10D_to_9D_char_c(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -28248,10 +28248,10 @@ module la_linalg_norms
         
         call norm_10D_to_9D_char_c(a,nrm,order,dim)
             
-    end function la_linalg_norm_10D_to_9D_char_c
+    end function la_norm_10D_to_9D_char_c
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_10D_to_9D_err_char_c(a,order,dim,err) result(nrm)
+    function la_norm_10D_to_9D_err_char_c(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -28268,7 +28268,7 @@ module la_linalg_norms
         
         call norm_10D_to_9D_char_c(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_10D_to_9D_err_char_c
+    end function la_norm_10D_to_9D_err_char_c
     
     ! Internal implementation
     pure subroutine norm_10D_to_9D_char_c(a,nrm,order,dim,err)
@@ -28338,7 +28338,7 @@ module la_linalg_norms
     end subroutine norm_10D_to_9D_char_c
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_11D_to_10D_char_c(a,order,dim) result(nrm)
+    pure function la_norm_11D_to_10D_char_c(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -28353,10 +28353,10 @@ module la_linalg_norms
         
         call norm_11D_to_10D_char_c(a,nrm,order,dim)
             
-    end function la_linalg_norm_11D_to_10D_char_c
+    end function la_norm_11D_to_10D_char_c
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_11D_to_10D_err_char_c(a,order,dim,err) result(nrm)
+    function la_norm_11D_to_10D_err_char_c(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -28373,7 +28373,7 @@ module la_linalg_norms
         
         call norm_11D_to_10D_char_c(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_11D_to_10D_err_char_c
+    end function la_norm_11D_to_10D_err_char_c
     
     ! Internal implementation
     pure subroutine norm_11D_to_10D_char_c(a,nrm,order,dim,err)
@@ -28444,7 +28444,7 @@ module la_linalg_norms
     end subroutine norm_11D_to_10D_char_c
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_12D_to_11D_char_c(a,order,dim) result(nrm)
+    pure function la_norm_12D_to_11D_char_c(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -28460,10 +28460,10 @@ module la_linalg_norms
         
         call norm_12D_to_11D_char_c(a,nrm,order,dim)
             
-    end function la_linalg_norm_12D_to_11D_char_c
+    end function la_norm_12D_to_11D_char_c
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_12D_to_11D_err_char_c(a,order,dim,err) result(nrm)
+    function la_norm_12D_to_11D_err_char_c(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -28481,7 +28481,7 @@ module la_linalg_norms
         
         call norm_12D_to_11D_char_c(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_12D_to_11D_err_char_c
+    end function la_norm_12D_to_11D_err_char_c
     
     ! Internal implementation
     pure subroutine norm_12D_to_11D_char_c(a,nrm,order,dim,err)
@@ -28552,7 +28552,7 @@ module la_linalg_norms
     end subroutine norm_12D_to_11D_char_c
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_13D_to_12D_char_c(a,order,dim) result(nrm)
+    pure function la_norm_13D_to_12D_char_c(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -28568,10 +28568,10 @@ module la_linalg_norms
         
         call norm_13D_to_12D_char_c(a,nrm,order,dim)
             
-    end function la_linalg_norm_13D_to_12D_char_c
+    end function la_norm_13D_to_12D_char_c
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_13D_to_12D_err_char_c(a,order,dim,err) result(nrm)
+    function la_norm_13D_to_12D_err_char_c(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -28589,7 +28589,7 @@ module la_linalg_norms
         
         call norm_13D_to_12D_char_c(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_13D_to_12D_err_char_c
+    end function la_norm_13D_to_12D_err_char_c
     
     ! Internal implementation
     pure subroutine norm_13D_to_12D_char_c(a,nrm,order,dim,err)
@@ -28660,7 +28660,7 @@ module la_linalg_norms
     end subroutine norm_13D_to_12D_char_c
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_14D_to_13D_char_c(a,order,dim) result(nrm)
+    pure function la_norm_14D_to_13D_char_c(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -28677,10 +28677,10 @@ module la_linalg_norms
         
         call norm_14D_to_13D_char_c(a,nrm,order,dim)
             
-    end function la_linalg_norm_14D_to_13D_char_c
+    end function la_norm_14D_to_13D_char_c
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_14D_to_13D_err_char_c(a,order,dim,err) result(nrm)
+    function la_norm_14D_to_13D_err_char_c(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -28699,7 +28699,7 @@ module la_linalg_norms
         
         call norm_14D_to_13D_char_c(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_14D_to_13D_err_char_c
+    end function la_norm_14D_to_13D_err_char_c
     
     ! Internal implementation
     pure subroutine norm_14D_to_13D_char_c(a,nrm,order,dim,err)
@@ -28771,7 +28771,7 @@ module la_linalg_norms
     end subroutine norm_14D_to_13D_char_c
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_15D_to_14D_char_c(a,order,dim) result(nrm)
+    pure function la_norm_15D_to_14D_char_c(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -28788,10 +28788,10 @@ module la_linalg_norms
         
         call norm_15D_to_14D_char_c(a,nrm,order,dim)
             
-    end function la_linalg_norm_15D_to_14D_char_c
+    end function la_norm_15D_to_14D_char_c
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_15D_to_14D_err_char_c(a,order,dim,err) result(nrm)
+    function la_norm_15D_to_14D_err_char_c(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -28810,7 +28810,7 @@ module la_linalg_norms
         
         call norm_15D_to_14D_char_c(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_15D_to_14D_err_char_c
+    end function la_norm_15D_to_14D_err_char_c
     
     ! Internal implementation
     pure subroutine norm_15D_to_14D_char_c(a,nrm,order,dim,err)
@@ -30317,7 +30317,7 @@ module la_linalg_norms
     !==============================================
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_1D_order_int_c(a,order) result(nrm)
+    pure function la_norm_1D_order_int_c(a,order) result(nrm)
         !> Input 1-d matrix a(:)
         complex(sp),intent(in) :: a(:)
         !> Order of the matrix norm being computed.
@@ -30327,10 +30327,10 @@ module la_linalg_norms
                                     
         call norm_1D_int_c(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_1D_order_int_c
+    end function la_norm_1D_order_int_c
     
     ! Function interface with output error
-    function la_linalg_norm_1D_order_err_int_c(a,order,err) result(nrm)
+    function la_norm_1D_order_err_int_c(a,order,err) result(nrm)
         !> Input 1-d matrix a(:)
         complex(sp),intent(in) :: a(:)
         !> Order of the matrix norm being computed.
@@ -30342,7 +30342,7 @@ module la_linalg_norms
                 
         call norm_1D_int_c(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_1D_order_err_int_c
+    end function la_norm_1D_order_err_int_c
     
     ! Internal implementation
     pure subroutine norm_1D_int_c(a,nrm,order,err)
@@ -30400,7 +30400,7 @@ module la_linalg_norms
     end subroutine norm_1D_int_c
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_2D_order_int_c(a,order) result(nrm)
+    pure function la_norm_2D_order_int_c(a,order) result(nrm)
         !> Input 2-d matrix a(:,:)
         complex(sp),intent(in) :: a(:,:)
         !> Order of the matrix norm being computed.
@@ -30410,10 +30410,10 @@ module la_linalg_norms
                                     
         call norm_2D_int_c(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_2D_order_int_c
+    end function la_norm_2D_order_int_c
     
     ! Function interface with output error
-    function la_linalg_norm_2D_order_err_int_c(a,order,err) result(nrm)
+    function la_norm_2D_order_err_int_c(a,order,err) result(nrm)
         !> Input 2-d matrix a(:,:)
         complex(sp),intent(in) :: a(:,:)
         !> Order of the matrix norm being computed.
@@ -30425,7 +30425,7 @@ module la_linalg_norms
                 
         call norm_2D_int_c(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_2D_order_err_int_c
+    end function la_norm_2D_order_err_int_c
     
     ! Internal implementation
     pure subroutine norm_2D_int_c(a,nrm,order,err)
@@ -30483,7 +30483,7 @@ module la_linalg_norms
     end subroutine norm_2D_int_c
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_3D_order_int_c(a,order) result(nrm)
+    pure function la_norm_3D_order_int_c(a,order) result(nrm)
         !> Input 3-d matrix a(:,:,:)
         complex(sp),intent(in) :: a(:,:,:)
         !> Order of the matrix norm being computed.
@@ -30493,10 +30493,10 @@ module la_linalg_norms
                                     
         call norm_3D_int_c(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_3D_order_int_c
+    end function la_norm_3D_order_int_c
     
     ! Function interface with output error
-    function la_linalg_norm_3D_order_err_int_c(a,order,err) result(nrm)
+    function la_norm_3D_order_err_int_c(a,order,err) result(nrm)
         !> Input 3-d matrix a(:,:,:)
         complex(sp),intent(in) :: a(:,:,:)
         !> Order of the matrix norm being computed.
@@ -30508,7 +30508,7 @@ module la_linalg_norms
                 
         call norm_3D_int_c(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_3D_order_err_int_c
+    end function la_norm_3D_order_err_int_c
     
     ! Internal implementation
     pure subroutine norm_3D_int_c(a,nrm,order,err)
@@ -30566,7 +30566,7 @@ module la_linalg_norms
     end subroutine norm_3D_int_c
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_4D_order_int_c(a,order) result(nrm)
+    pure function la_norm_4D_order_int_c(a,order) result(nrm)
         !> Input 4-d matrix a(:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -30576,10 +30576,10 @@ module la_linalg_norms
                                     
         call norm_4D_int_c(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_4D_order_int_c
+    end function la_norm_4D_order_int_c
     
     ! Function interface with output error
-    function la_linalg_norm_4D_order_err_int_c(a,order,err) result(nrm)
+    function la_norm_4D_order_err_int_c(a,order,err) result(nrm)
         !> Input 4-d matrix a(:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -30591,7 +30591,7 @@ module la_linalg_norms
                 
         call norm_4D_int_c(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_4D_order_err_int_c
+    end function la_norm_4D_order_err_int_c
     
     ! Internal implementation
     pure subroutine norm_4D_int_c(a,nrm,order,err)
@@ -30649,7 +30649,7 @@ module la_linalg_norms
     end subroutine norm_4D_int_c
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_5D_order_int_c(a,order) result(nrm)
+    pure function la_norm_5D_order_int_c(a,order) result(nrm)
         !> Input 5-d matrix a(:,:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -30659,10 +30659,10 @@ module la_linalg_norms
                                     
         call norm_5D_int_c(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_5D_order_int_c
+    end function la_norm_5D_order_int_c
     
     ! Function interface with output error
-    function la_linalg_norm_5D_order_err_int_c(a,order,err) result(nrm)
+    function la_norm_5D_order_err_int_c(a,order,err) result(nrm)
         !> Input 5-d matrix a(:,:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -30674,7 +30674,7 @@ module la_linalg_norms
                 
         call norm_5D_int_c(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_5D_order_err_int_c
+    end function la_norm_5D_order_err_int_c
     
     ! Internal implementation
     pure subroutine norm_5D_int_c(a,nrm,order,err)
@@ -30732,7 +30732,7 @@ module la_linalg_norms
     end subroutine norm_5D_int_c
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_6D_order_int_c(a,order) result(nrm)
+    pure function la_norm_6D_order_int_c(a,order) result(nrm)
         !> Input 6-d matrix a(:,:,:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -30742,10 +30742,10 @@ module la_linalg_norms
                                     
         call norm_6D_int_c(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_6D_order_int_c
+    end function la_norm_6D_order_int_c
     
     ! Function interface with output error
-    function la_linalg_norm_6D_order_err_int_c(a,order,err) result(nrm)
+    function la_norm_6D_order_err_int_c(a,order,err) result(nrm)
         !> Input 6-d matrix a(:,:,:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -30757,7 +30757,7 @@ module la_linalg_norms
                 
         call norm_6D_int_c(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_6D_order_err_int_c
+    end function la_norm_6D_order_err_int_c
     
     ! Internal implementation
     pure subroutine norm_6D_int_c(a,nrm,order,err)
@@ -30815,7 +30815,7 @@ module la_linalg_norms
     end subroutine norm_6D_int_c
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_7D_order_int_c(a,order) result(nrm)
+    pure function la_norm_7D_order_int_c(a,order) result(nrm)
         !> Input 7-d matrix a(:,:,:,:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -30825,10 +30825,10 @@ module la_linalg_norms
                                     
         call norm_7D_int_c(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_7D_order_int_c
+    end function la_norm_7D_order_int_c
     
     ! Function interface with output error
-    function la_linalg_norm_7D_order_err_int_c(a,order,err) result(nrm)
+    function la_norm_7D_order_err_int_c(a,order,err) result(nrm)
         !> Input 7-d matrix a(:,:,:,:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -30840,7 +30840,7 @@ module la_linalg_norms
                 
         call norm_7D_int_c(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_7D_order_err_int_c
+    end function la_norm_7D_order_err_int_c
     
     ! Internal implementation
     pure subroutine norm_7D_int_c(a,nrm,order,err)
@@ -30898,7 +30898,7 @@ module la_linalg_norms
     end subroutine norm_7D_int_c
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_8D_order_int_c(a,order) result(nrm)
+    pure function la_norm_8D_order_int_c(a,order) result(nrm)
         !> Input 8-d matrix a(:,:,:,:,:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -30908,10 +30908,10 @@ module la_linalg_norms
                                     
         call norm_8D_int_c(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_8D_order_int_c
+    end function la_norm_8D_order_int_c
     
     ! Function interface with output error
-    function la_linalg_norm_8D_order_err_int_c(a,order,err) result(nrm)
+    function la_norm_8D_order_err_int_c(a,order,err) result(nrm)
         !> Input 8-d matrix a(:,:,:,:,:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -30923,7 +30923,7 @@ module la_linalg_norms
                 
         call norm_8D_int_c(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_8D_order_err_int_c
+    end function la_norm_8D_order_err_int_c
     
     ! Internal implementation
     pure subroutine norm_8D_int_c(a,nrm,order,err)
@@ -30981,7 +30981,7 @@ module la_linalg_norms
     end subroutine norm_8D_int_c
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_9D_order_int_c(a,order) result(nrm)
+    pure function la_norm_9D_order_int_c(a,order) result(nrm)
         !> Input 9-d matrix a(:,:,:,:,:,:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -30991,10 +30991,10 @@ module la_linalg_norms
                                     
         call norm_9D_int_c(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_9D_order_int_c
+    end function la_norm_9D_order_int_c
     
     ! Function interface with output error
-    function la_linalg_norm_9D_order_err_int_c(a,order,err) result(nrm)
+    function la_norm_9D_order_err_int_c(a,order,err) result(nrm)
         !> Input 9-d matrix a(:,:,:,:,:,:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -31006,7 +31006,7 @@ module la_linalg_norms
                 
         call norm_9D_int_c(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_9D_order_err_int_c
+    end function la_norm_9D_order_err_int_c
     
     ! Internal implementation
     pure subroutine norm_9D_int_c(a,nrm,order,err)
@@ -31064,7 +31064,7 @@ module la_linalg_norms
     end subroutine norm_9D_int_c
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_10D_order_int_c(a,order) result(nrm)
+    pure function la_norm_10D_order_int_c(a,order) result(nrm)
         !> Input 10-d matrix a(:,:,:,:,:,:,:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -31074,10 +31074,10 @@ module la_linalg_norms
                                     
         call norm_10D_int_c(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_10D_order_int_c
+    end function la_norm_10D_order_int_c
     
     ! Function interface with output error
-    function la_linalg_norm_10D_order_err_int_c(a,order,err) result(nrm)
+    function la_norm_10D_order_err_int_c(a,order,err) result(nrm)
         !> Input 10-d matrix a(:,:,:,:,:,:,:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -31089,7 +31089,7 @@ module la_linalg_norms
                 
         call norm_10D_int_c(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_10D_order_err_int_c
+    end function la_norm_10D_order_err_int_c
     
     ! Internal implementation
     pure subroutine norm_10D_int_c(a,nrm,order,err)
@@ -31147,7 +31147,7 @@ module la_linalg_norms
     end subroutine norm_10D_int_c
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_11D_order_int_c(a,order) result(nrm)
+    pure function la_norm_11D_order_int_c(a,order) result(nrm)
         !> Input 11-d matrix a(:,:,:,:,:,:,:,:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -31157,10 +31157,10 @@ module la_linalg_norms
                                     
         call norm_11D_int_c(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_11D_order_int_c
+    end function la_norm_11D_order_int_c
     
     ! Function interface with output error
-    function la_linalg_norm_11D_order_err_int_c(a,order,err) result(nrm)
+    function la_norm_11D_order_err_int_c(a,order,err) result(nrm)
         !> Input 11-d matrix a(:,:,:,:,:,:,:,:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -31172,7 +31172,7 @@ module la_linalg_norms
                 
         call norm_11D_int_c(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_11D_order_err_int_c
+    end function la_norm_11D_order_err_int_c
     
     ! Internal implementation
     pure subroutine norm_11D_int_c(a,nrm,order,err)
@@ -31230,7 +31230,7 @@ module la_linalg_norms
     end subroutine norm_11D_int_c
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_12D_order_int_c(a,order) result(nrm)
+    pure function la_norm_12D_order_int_c(a,order) result(nrm)
         !> Input 12-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -31240,10 +31240,10 @@ module la_linalg_norms
                                     
         call norm_12D_int_c(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_12D_order_int_c
+    end function la_norm_12D_order_int_c
     
     ! Function interface with output error
-    function la_linalg_norm_12D_order_err_int_c(a,order,err) result(nrm)
+    function la_norm_12D_order_err_int_c(a,order,err) result(nrm)
         !> Input 12-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -31255,7 +31255,7 @@ module la_linalg_norms
                 
         call norm_12D_int_c(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_12D_order_err_int_c
+    end function la_norm_12D_order_err_int_c
     
     ! Internal implementation
     pure subroutine norm_12D_int_c(a,nrm,order,err)
@@ -31313,7 +31313,7 @@ module la_linalg_norms
     end subroutine norm_12D_int_c
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_13D_order_int_c(a,order) result(nrm)
+    pure function la_norm_13D_order_int_c(a,order) result(nrm)
         !> Input 13-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -31323,10 +31323,10 @@ module la_linalg_norms
                                     
         call norm_13D_int_c(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_13D_order_int_c
+    end function la_norm_13D_order_int_c
     
     ! Function interface with output error
-    function la_linalg_norm_13D_order_err_int_c(a,order,err) result(nrm)
+    function la_norm_13D_order_err_int_c(a,order,err) result(nrm)
         !> Input 13-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -31338,7 +31338,7 @@ module la_linalg_norms
                 
         call norm_13D_int_c(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_13D_order_err_int_c
+    end function la_norm_13D_order_err_int_c
     
     ! Internal implementation
     pure subroutine norm_13D_int_c(a,nrm,order,err)
@@ -31396,7 +31396,7 @@ module la_linalg_norms
     end subroutine norm_13D_int_c
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_14D_order_int_c(a,order) result(nrm)
+    pure function la_norm_14D_order_int_c(a,order) result(nrm)
         !> Input 14-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -31406,10 +31406,10 @@ module la_linalg_norms
                                     
         call norm_14D_int_c(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_14D_order_int_c
+    end function la_norm_14D_order_int_c
     
     ! Function interface with output error
-    function la_linalg_norm_14D_order_err_int_c(a,order,err) result(nrm)
+    function la_norm_14D_order_err_int_c(a,order,err) result(nrm)
         !> Input 14-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -31421,7 +31421,7 @@ module la_linalg_norms
                 
         call norm_14D_int_c(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_14D_order_err_int_c
+    end function la_norm_14D_order_err_int_c
     
     ! Internal implementation
     pure subroutine norm_14D_int_c(a,nrm,order,err)
@@ -31479,7 +31479,7 @@ module la_linalg_norms
     end subroutine norm_14D_int_c
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_15D_order_int_c(a,order) result(nrm)
+    pure function la_norm_15D_order_int_c(a,order) result(nrm)
         !> Input 15-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -31489,10 +31489,10 @@ module la_linalg_norms
                                     
         call norm_15D_int_c(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_15D_order_int_c
+    end function la_norm_15D_order_int_c
     
     ! Function interface with output error
-    function la_linalg_norm_15D_order_err_int_c(a,order,err) result(nrm)
+    function la_norm_15D_order_err_int_c(a,order,err) result(nrm)
         !> Input 15-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         complex(sp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -31504,7 +31504,7 @@ module la_linalg_norms
                 
         call norm_15D_int_c(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_15D_order_err_int_c
+    end function la_norm_15D_order_err_int_c
     
     ! Internal implementation
     pure subroutine norm_15D_int_c(a,nrm,order,err)
@@ -31566,7 +31566,7 @@ module la_linalg_norms
     !====================================================================
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_2D_to_1D_int_c(a,order,dim) result(nrm)
+    pure function la_norm_2D_to_1D_int_c(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(sp),intent(in),target :: a(:,:)
         !> Order of the matrix norm being computed.
@@ -31578,10 +31578,10 @@ module la_linalg_norms
         
         call norm_2D_to_1D_int_c(a,nrm,order,dim)
             
-    end function la_linalg_norm_2D_to_1D_int_c
+    end function la_norm_2D_to_1D_int_c
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_2D_to_1D_err_int_c(a,order,dim,err) result(nrm)
+    function la_norm_2D_to_1D_err_int_c(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(sp),intent(in),target :: a(:,:)
         !> Order of the matrix norm being computed.
@@ -31595,7 +31595,7 @@ module la_linalg_norms
         
         call norm_2D_to_1D_int_c(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_2D_to_1D_err_int_c
+    end function la_norm_2D_to_1D_err_int_c
     
     ! Internal implementation
     pure subroutine norm_2D_to_1D_int_c(a,nrm,order,dim,err)
@@ -31662,7 +31662,7 @@ module la_linalg_norms
     end subroutine norm_2D_to_1D_int_c
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_3D_to_2D_int_c(a,order,dim) result(nrm)
+    pure function la_norm_3D_to_2D_int_c(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(sp),intent(in),target :: a(:,:,:)
         !> Order of the matrix norm being computed.
@@ -31674,10 +31674,10 @@ module la_linalg_norms
         
         call norm_3D_to_2D_int_c(a,nrm,order,dim)
             
-    end function la_linalg_norm_3D_to_2D_int_c
+    end function la_norm_3D_to_2D_int_c
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_3D_to_2D_err_int_c(a,order,dim,err) result(nrm)
+    function la_norm_3D_to_2D_err_int_c(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(sp),intent(in),target :: a(:,:,:)
         !> Order of the matrix norm being computed.
@@ -31691,7 +31691,7 @@ module la_linalg_norms
         
         call norm_3D_to_2D_int_c(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_3D_to_2D_err_int_c
+    end function la_norm_3D_to_2D_err_int_c
     
     ! Internal implementation
     pure subroutine norm_3D_to_2D_int_c(a,nrm,order,dim,err)
@@ -31758,7 +31758,7 @@ module la_linalg_norms
     end subroutine norm_3D_to_2D_int_c
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_4D_to_3D_int_c(a,order,dim) result(nrm)
+    pure function la_norm_4D_to_3D_int_c(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(sp),intent(in),target :: a(:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -31771,10 +31771,10 @@ module la_linalg_norms
         
         call norm_4D_to_3D_int_c(a,nrm,order,dim)
             
-    end function la_linalg_norm_4D_to_3D_int_c
+    end function la_norm_4D_to_3D_int_c
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_4D_to_3D_err_int_c(a,order,dim,err) result(nrm)
+    function la_norm_4D_to_3D_err_int_c(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(sp),intent(in),target :: a(:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -31789,7 +31789,7 @@ module la_linalg_norms
         
         call norm_4D_to_3D_int_c(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_4D_to_3D_err_int_c
+    end function la_norm_4D_to_3D_err_int_c
     
     ! Internal implementation
     pure subroutine norm_4D_to_3D_int_c(a,nrm,order,dim,err)
@@ -31857,7 +31857,7 @@ module la_linalg_norms
     end subroutine norm_4D_to_3D_int_c
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_5D_to_4D_int_c(a,order,dim) result(nrm)
+    pure function la_norm_5D_to_4D_int_c(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(sp),intent(in),target :: a(:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -31870,10 +31870,10 @@ module la_linalg_norms
         
         call norm_5D_to_4D_int_c(a,nrm,order,dim)
             
-    end function la_linalg_norm_5D_to_4D_int_c
+    end function la_norm_5D_to_4D_int_c
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_5D_to_4D_err_int_c(a,order,dim,err) result(nrm)
+    function la_norm_5D_to_4D_err_int_c(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(sp),intent(in),target :: a(:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -31888,7 +31888,7 @@ module la_linalg_norms
         
         call norm_5D_to_4D_int_c(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_5D_to_4D_err_int_c
+    end function la_norm_5D_to_4D_err_int_c
     
     ! Internal implementation
     pure subroutine norm_5D_to_4D_int_c(a,nrm,order,dim,err)
@@ -31956,7 +31956,7 @@ module la_linalg_norms
     end subroutine norm_5D_to_4D_int_c
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_6D_to_5D_int_c(a,order,dim) result(nrm)
+    pure function la_norm_6D_to_5D_int_c(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(sp),intent(in),target :: a(:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -31969,10 +31969,10 @@ module la_linalg_norms
         
         call norm_6D_to_5D_int_c(a,nrm,order,dim)
             
-    end function la_linalg_norm_6D_to_5D_int_c
+    end function la_norm_6D_to_5D_int_c
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_6D_to_5D_err_int_c(a,order,dim,err) result(nrm)
+    function la_norm_6D_to_5D_err_int_c(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(sp),intent(in),target :: a(:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -31987,7 +31987,7 @@ module la_linalg_norms
         
         call norm_6D_to_5D_int_c(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_6D_to_5D_err_int_c
+    end function la_norm_6D_to_5D_err_int_c
     
     ! Internal implementation
     pure subroutine norm_6D_to_5D_int_c(a,nrm,order,dim,err)
@@ -32056,7 +32056,7 @@ module la_linalg_norms
     end subroutine norm_6D_to_5D_int_c
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_7D_to_6D_int_c(a,order,dim) result(nrm)
+    pure function la_norm_7D_to_6D_int_c(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(sp),intent(in),target :: a(:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -32070,10 +32070,10 @@ module la_linalg_norms
         
         call norm_7D_to_6D_int_c(a,nrm,order,dim)
             
-    end function la_linalg_norm_7D_to_6D_int_c
+    end function la_norm_7D_to_6D_int_c
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_7D_to_6D_err_int_c(a,order,dim,err) result(nrm)
+    function la_norm_7D_to_6D_err_int_c(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(sp),intent(in),target :: a(:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -32089,7 +32089,7 @@ module la_linalg_norms
         
         call norm_7D_to_6D_int_c(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_7D_to_6D_err_int_c
+    end function la_norm_7D_to_6D_err_int_c
     
     ! Internal implementation
     pure subroutine norm_7D_to_6D_int_c(a,nrm,order,dim,err)
@@ -32158,7 +32158,7 @@ module la_linalg_norms
     end subroutine norm_7D_to_6D_int_c
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_8D_to_7D_int_c(a,order,dim) result(nrm)
+    pure function la_norm_8D_to_7D_int_c(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(sp),intent(in),target :: a(:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -32172,10 +32172,10 @@ module la_linalg_norms
         
         call norm_8D_to_7D_int_c(a,nrm,order,dim)
             
-    end function la_linalg_norm_8D_to_7D_int_c
+    end function la_norm_8D_to_7D_int_c
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_8D_to_7D_err_int_c(a,order,dim,err) result(nrm)
+    function la_norm_8D_to_7D_err_int_c(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(sp),intent(in),target :: a(:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -32191,7 +32191,7 @@ module la_linalg_norms
         
         call norm_8D_to_7D_int_c(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_8D_to_7D_err_int_c
+    end function la_norm_8D_to_7D_err_int_c
     
     ! Internal implementation
     pure subroutine norm_8D_to_7D_int_c(a,nrm,order,dim,err)
@@ -32260,7 +32260,7 @@ module la_linalg_norms
     end subroutine norm_8D_to_7D_int_c
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_9D_to_8D_int_c(a,order,dim) result(nrm)
+    pure function la_norm_9D_to_8D_int_c(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -32275,10 +32275,10 @@ module la_linalg_norms
         
         call norm_9D_to_8D_int_c(a,nrm,order,dim)
             
-    end function la_linalg_norm_9D_to_8D_int_c
+    end function la_norm_9D_to_8D_int_c
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_9D_to_8D_err_int_c(a,order,dim,err) result(nrm)
+    function la_norm_9D_to_8D_err_int_c(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -32295,7 +32295,7 @@ module la_linalg_norms
         
         call norm_9D_to_8D_int_c(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_9D_to_8D_err_int_c
+    end function la_norm_9D_to_8D_err_int_c
     
     ! Internal implementation
     pure subroutine norm_9D_to_8D_int_c(a,nrm,order,dim,err)
@@ -32365,7 +32365,7 @@ module la_linalg_norms
     end subroutine norm_9D_to_8D_int_c
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_10D_to_9D_int_c(a,order,dim) result(nrm)
+    pure function la_norm_10D_to_9D_int_c(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -32380,10 +32380,10 @@ module la_linalg_norms
         
         call norm_10D_to_9D_int_c(a,nrm,order,dim)
             
-    end function la_linalg_norm_10D_to_9D_int_c
+    end function la_norm_10D_to_9D_int_c
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_10D_to_9D_err_int_c(a,order,dim,err) result(nrm)
+    function la_norm_10D_to_9D_err_int_c(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -32400,7 +32400,7 @@ module la_linalg_norms
         
         call norm_10D_to_9D_int_c(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_10D_to_9D_err_int_c
+    end function la_norm_10D_to_9D_err_int_c
     
     ! Internal implementation
     pure subroutine norm_10D_to_9D_int_c(a,nrm,order,dim,err)
@@ -32470,7 +32470,7 @@ module la_linalg_norms
     end subroutine norm_10D_to_9D_int_c
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_11D_to_10D_int_c(a,order,dim) result(nrm)
+    pure function la_norm_11D_to_10D_int_c(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -32485,10 +32485,10 @@ module la_linalg_norms
         
         call norm_11D_to_10D_int_c(a,nrm,order,dim)
             
-    end function la_linalg_norm_11D_to_10D_int_c
+    end function la_norm_11D_to_10D_int_c
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_11D_to_10D_err_int_c(a,order,dim,err) result(nrm)
+    function la_norm_11D_to_10D_err_int_c(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -32505,7 +32505,7 @@ module la_linalg_norms
         
         call norm_11D_to_10D_int_c(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_11D_to_10D_err_int_c
+    end function la_norm_11D_to_10D_err_int_c
     
     ! Internal implementation
     pure subroutine norm_11D_to_10D_int_c(a,nrm,order,dim,err)
@@ -32576,7 +32576,7 @@ module la_linalg_norms
     end subroutine norm_11D_to_10D_int_c
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_12D_to_11D_int_c(a,order,dim) result(nrm)
+    pure function la_norm_12D_to_11D_int_c(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -32592,10 +32592,10 @@ module la_linalg_norms
         
         call norm_12D_to_11D_int_c(a,nrm,order,dim)
             
-    end function la_linalg_norm_12D_to_11D_int_c
+    end function la_norm_12D_to_11D_int_c
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_12D_to_11D_err_int_c(a,order,dim,err) result(nrm)
+    function la_norm_12D_to_11D_err_int_c(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -32613,7 +32613,7 @@ module la_linalg_norms
         
         call norm_12D_to_11D_int_c(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_12D_to_11D_err_int_c
+    end function la_norm_12D_to_11D_err_int_c
     
     ! Internal implementation
     pure subroutine norm_12D_to_11D_int_c(a,nrm,order,dim,err)
@@ -32684,7 +32684,7 @@ module la_linalg_norms
     end subroutine norm_12D_to_11D_int_c
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_13D_to_12D_int_c(a,order,dim) result(nrm)
+    pure function la_norm_13D_to_12D_int_c(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -32700,10 +32700,10 @@ module la_linalg_norms
         
         call norm_13D_to_12D_int_c(a,nrm,order,dim)
             
-    end function la_linalg_norm_13D_to_12D_int_c
+    end function la_norm_13D_to_12D_int_c
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_13D_to_12D_err_int_c(a,order,dim,err) result(nrm)
+    function la_norm_13D_to_12D_err_int_c(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -32721,7 +32721,7 @@ module la_linalg_norms
         
         call norm_13D_to_12D_int_c(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_13D_to_12D_err_int_c
+    end function la_norm_13D_to_12D_err_int_c
     
     ! Internal implementation
     pure subroutine norm_13D_to_12D_int_c(a,nrm,order,dim,err)
@@ -32792,7 +32792,7 @@ module la_linalg_norms
     end subroutine norm_13D_to_12D_int_c
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_14D_to_13D_int_c(a,order,dim) result(nrm)
+    pure function la_norm_14D_to_13D_int_c(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -32809,10 +32809,10 @@ module la_linalg_norms
         
         call norm_14D_to_13D_int_c(a,nrm,order,dim)
             
-    end function la_linalg_norm_14D_to_13D_int_c
+    end function la_norm_14D_to_13D_int_c
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_14D_to_13D_err_int_c(a,order,dim,err) result(nrm)
+    function la_norm_14D_to_13D_err_int_c(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -32831,7 +32831,7 @@ module la_linalg_norms
         
         call norm_14D_to_13D_int_c(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_14D_to_13D_err_int_c
+    end function la_norm_14D_to_13D_err_int_c
     
     ! Internal implementation
     pure subroutine norm_14D_to_13D_int_c(a,nrm,order,dim,err)
@@ -32903,7 +32903,7 @@ module la_linalg_norms
     end subroutine norm_14D_to_13D_int_c
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_15D_to_14D_int_c(a,order,dim) result(nrm)
+    pure function la_norm_15D_to_14D_int_c(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -32920,10 +32920,10 @@ module la_linalg_norms
         
         call norm_15D_to_14D_int_c(a,nrm,order,dim)
             
-    end function la_linalg_norm_15D_to_14D_int_c
+    end function la_norm_15D_to_14D_int_c
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_15D_to_14D_err_int_c(a,order,dim,err) result(nrm)
+    function la_norm_15D_to_14D_err_int_c(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(sp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -32942,7 +32942,7 @@ module la_linalg_norms
         
         call norm_15D_to_14D_int_c(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_15D_to_14D_err_int_c
+    end function la_norm_15D_to_14D_err_int_c
     
     ! Internal implementation
     pure subroutine norm_15D_to_14D_int_c(a,nrm,order,dim,err)
@@ -34449,7 +34449,7 @@ module la_linalg_norms
     !==============================================
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_1D_order_char_z(a,order) result(nrm)
+    pure function la_norm_1D_order_char_z(a,order) result(nrm)
         !> Input 1-d matrix a(:)
         complex(dp),intent(in) :: a(:)
         !> Order of the matrix norm being computed.
@@ -34459,10 +34459,10 @@ module la_linalg_norms
                                     
         call norm_1D_char_z(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_1D_order_char_z
+    end function la_norm_1D_order_char_z
     
     ! Function interface with output error
-    function la_linalg_norm_1D_order_err_char_z(a,order,err) result(nrm)
+    function la_norm_1D_order_err_char_z(a,order,err) result(nrm)
         !> Input 1-d matrix a(:)
         complex(dp),intent(in) :: a(:)
         !> Order of the matrix norm being computed.
@@ -34474,7 +34474,7 @@ module la_linalg_norms
                 
         call norm_1D_char_z(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_1D_order_err_char_z
+    end function la_norm_1D_order_err_char_z
     
     ! Internal implementation
     pure subroutine norm_1D_char_z(a,nrm,order,err)
@@ -34532,7 +34532,7 @@ module la_linalg_norms
     end subroutine norm_1D_char_z
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_2D_order_char_z(a,order) result(nrm)
+    pure function la_norm_2D_order_char_z(a,order) result(nrm)
         !> Input 2-d matrix a(:,:)
         complex(dp),intent(in) :: a(:,:)
         !> Order of the matrix norm being computed.
@@ -34542,10 +34542,10 @@ module la_linalg_norms
                                     
         call norm_2D_char_z(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_2D_order_char_z
+    end function la_norm_2D_order_char_z
     
     ! Function interface with output error
-    function la_linalg_norm_2D_order_err_char_z(a,order,err) result(nrm)
+    function la_norm_2D_order_err_char_z(a,order,err) result(nrm)
         !> Input 2-d matrix a(:,:)
         complex(dp),intent(in) :: a(:,:)
         !> Order of the matrix norm being computed.
@@ -34557,7 +34557,7 @@ module la_linalg_norms
                 
         call norm_2D_char_z(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_2D_order_err_char_z
+    end function la_norm_2D_order_err_char_z
     
     ! Internal implementation
     pure subroutine norm_2D_char_z(a,nrm,order,err)
@@ -34615,7 +34615,7 @@ module la_linalg_norms
     end subroutine norm_2D_char_z
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_3D_order_char_z(a,order) result(nrm)
+    pure function la_norm_3D_order_char_z(a,order) result(nrm)
         !> Input 3-d matrix a(:,:,:)
         complex(dp),intent(in) :: a(:,:,:)
         !> Order of the matrix norm being computed.
@@ -34625,10 +34625,10 @@ module la_linalg_norms
                                     
         call norm_3D_char_z(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_3D_order_char_z
+    end function la_norm_3D_order_char_z
     
     ! Function interface with output error
-    function la_linalg_norm_3D_order_err_char_z(a,order,err) result(nrm)
+    function la_norm_3D_order_err_char_z(a,order,err) result(nrm)
         !> Input 3-d matrix a(:,:,:)
         complex(dp),intent(in) :: a(:,:,:)
         !> Order of the matrix norm being computed.
@@ -34640,7 +34640,7 @@ module la_linalg_norms
                 
         call norm_3D_char_z(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_3D_order_err_char_z
+    end function la_norm_3D_order_err_char_z
     
     ! Internal implementation
     pure subroutine norm_3D_char_z(a,nrm,order,err)
@@ -34698,7 +34698,7 @@ module la_linalg_norms
     end subroutine norm_3D_char_z
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_4D_order_char_z(a,order) result(nrm)
+    pure function la_norm_4D_order_char_z(a,order) result(nrm)
         !> Input 4-d matrix a(:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -34708,10 +34708,10 @@ module la_linalg_norms
                                     
         call norm_4D_char_z(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_4D_order_char_z
+    end function la_norm_4D_order_char_z
     
     ! Function interface with output error
-    function la_linalg_norm_4D_order_err_char_z(a,order,err) result(nrm)
+    function la_norm_4D_order_err_char_z(a,order,err) result(nrm)
         !> Input 4-d matrix a(:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -34723,7 +34723,7 @@ module la_linalg_norms
                 
         call norm_4D_char_z(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_4D_order_err_char_z
+    end function la_norm_4D_order_err_char_z
     
     ! Internal implementation
     pure subroutine norm_4D_char_z(a,nrm,order,err)
@@ -34781,7 +34781,7 @@ module la_linalg_norms
     end subroutine norm_4D_char_z
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_5D_order_char_z(a,order) result(nrm)
+    pure function la_norm_5D_order_char_z(a,order) result(nrm)
         !> Input 5-d matrix a(:,:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -34791,10 +34791,10 @@ module la_linalg_norms
                                     
         call norm_5D_char_z(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_5D_order_char_z
+    end function la_norm_5D_order_char_z
     
     ! Function interface with output error
-    function la_linalg_norm_5D_order_err_char_z(a,order,err) result(nrm)
+    function la_norm_5D_order_err_char_z(a,order,err) result(nrm)
         !> Input 5-d matrix a(:,:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -34806,7 +34806,7 @@ module la_linalg_norms
                 
         call norm_5D_char_z(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_5D_order_err_char_z
+    end function la_norm_5D_order_err_char_z
     
     ! Internal implementation
     pure subroutine norm_5D_char_z(a,nrm,order,err)
@@ -34864,7 +34864,7 @@ module la_linalg_norms
     end subroutine norm_5D_char_z
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_6D_order_char_z(a,order) result(nrm)
+    pure function la_norm_6D_order_char_z(a,order) result(nrm)
         !> Input 6-d matrix a(:,:,:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -34874,10 +34874,10 @@ module la_linalg_norms
                                     
         call norm_6D_char_z(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_6D_order_char_z
+    end function la_norm_6D_order_char_z
     
     ! Function interface with output error
-    function la_linalg_norm_6D_order_err_char_z(a,order,err) result(nrm)
+    function la_norm_6D_order_err_char_z(a,order,err) result(nrm)
         !> Input 6-d matrix a(:,:,:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -34889,7 +34889,7 @@ module la_linalg_norms
                 
         call norm_6D_char_z(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_6D_order_err_char_z
+    end function la_norm_6D_order_err_char_z
     
     ! Internal implementation
     pure subroutine norm_6D_char_z(a,nrm,order,err)
@@ -34947,7 +34947,7 @@ module la_linalg_norms
     end subroutine norm_6D_char_z
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_7D_order_char_z(a,order) result(nrm)
+    pure function la_norm_7D_order_char_z(a,order) result(nrm)
         !> Input 7-d matrix a(:,:,:,:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -34957,10 +34957,10 @@ module la_linalg_norms
                                     
         call norm_7D_char_z(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_7D_order_char_z
+    end function la_norm_7D_order_char_z
     
     ! Function interface with output error
-    function la_linalg_norm_7D_order_err_char_z(a,order,err) result(nrm)
+    function la_norm_7D_order_err_char_z(a,order,err) result(nrm)
         !> Input 7-d matrix a(:,:,:,:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -34972,7 +34972,7 @@ module la_linalg_norms
                 
         call norm_7D_char_z(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_7D_order_err_char_z
+    end function la_norm_7D_order_err_char_z
     
     ! Internal implementation
     pure subroutine norm_7D_char_z(a,nrm,order,err)
@@ -35030,7 +35030,7 @@ module la_linalg_norms
     end subroutine norm_7D_char_z
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_8D_order_char_z(a,order) result(nrm)
+    pure function la_norm_8D_order_char_z(a,order) result(nrm)
         !> Input 8-d matrix a(:,:,:,:,:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -35040,10 +35040,10 @@ module la_linalg_norms
                                     
         call norm_8D_char_z(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_8D_order_char_z
+    end function la_norm_8D_order_char_z
     
     ! Function interface with output error
-    function la_linalg_norm_8D_order_err_char_z(a,order,err) result(nrm)
+    function la_norm_8D_order_err_char_z(a,order,err) result(nrm)
         !> Input 8-d matrix a(:,:,:,:,:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -35055,7 +35055,7 @@ module la_linalg_norms
                 
         call norm_8D_char_z(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_8D_order_err_char_z
+    end function la_norm_8D_order_err_char_z
     
     ! Internal implementation
     pure subroutine norm_8D_char_z(a,nrm,order,err)
@@ -35113,7 +35113,7 @@ module la_linalg_norms
     end subroutine norm_8D_char_z
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_9D_order_char_z(a,order) result(nrm)
+    pure function la_norm_9D_order_char_z(a,order) result(nrm)
         !> Input 9-d matrix a(:,:,:,:,:,:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -35123,10 +35123,10 @@ module la_linalg_norms
                                     
         call norm_9D_char_z(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_9D_order_char_z
+    end function la_norm_9D_order_char_z
     
     ! Function interface with output error
-    function la_linalg_norm_9D_order_err_char_z(a,order,err) result(nrm)
+    function la_norm_9D_order_err_char_z(a,order,err) result(nrm)
         !> Input 9-d matrix a(:,:,:,:,:,:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -35138,7 +35138,7 @@ module la_linalg_norms
                 
         call norm_9D_char_z(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_9D_order_err_char_z
+    end function la_norm_9D_order_err_char_z
     
     ! Internal implementation
     pure subroutine norm_9D_char_z(a,nrm,order,err)
@@ -35196,7 +35196,7 @@ module la_linalg_norms
     end subroutine norm_9D_char_z
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_10D_order_char_z(a,order) result(nrm)
+    pure function la_norm_10D_order_char_z(a,order) result(nrm)
         !> Input 10-d matrix a(:,:,:,:,:,:,:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -35206,10 +35206,10 @@ module la_linalg_norms
                                     
         call norm_10D_char_z(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_10D_order_char_z
+    end function la_norm_10D_order_char_z
     
     ! Function interface with output error
-    function la_linalg_norm_10D_order_err_char_z(a,order,err) result(nrm)
+    function la_norm_10D_order_err_char_z(a,order,err) result(nrm)
         !> Input 10-d matrix a(:,:,:,:,:,:,:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -35221,7 +35221,7 @@ module la_linalg_norms
                 
         call norm_10D_char_z(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_10D_order_err_char_z
+    end function la_norm_10D_order_err_char_z
     
     ! Internal implementation
     pure subroutine norm_10D_char_z(a,nrm,order,err)
@@ -35279,7 +35279,7 @@ module la_linalg_norms
     end subroutine norm_10D_char_z
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_11D_order_char_z(a,order) result(nrm)
+    pure function la_norm_11D_order_char_z(a,order) result(nrm)
         !> Input 11-d matrix a(:,:,:,:,:,:,:,:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -35289,10 +35289,10 @@ module la_linalg_norms
                                     
         call norm_11D_char_z(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_11D_order_char_z
+    end function la_norm_11D_order_char_z
     
     ! Function interface with output error
-    function la_linalg_norm_11D_order_err_char_z(a,order,err) result(nrm)
+    function la_norm_11D_order_err_char_z(a,order,err) result(nrm)
         !> Input 11-d matrix a(:,:,:,:,:,:,:,:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -35304,7 +35304,7 @@ module la_linalg_norms
                 
         call norm_11D_char_z(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_11D_order_err_char_z
+    end function la_norm_11D_order_err_char_z
     
     ! Internal implementation
     pure subroutine norm_11D_char_z(a,nrm,order,err)
@@ -35362,7 +35362,7 @@ module la_linalg_norms
     end subroutine norm_11D_char_z
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_12D_order_char_z(a,order) result(nrm)
+    pure function la_norm_12D_order_char_z(a,order) result(nrm)
         !> Input 12-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -35372,10 +35372,10 @@ module la_linalg_norms
                                     
         call norm_12D_char_z(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_12D_order_char_z
+    end function la_norm_12D_order_char_z
     
     ! Function interface with output error
-    function la_linalg_norm_12D_order_err_char_z(a,order,err) result(nrm)
+    function la_norm_12D_order_err_char_z(a,order,err) result(nrm)
         !> Input 12-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -35387,7 +35387,7 @@ module la_linalg_norms
                 
         call norm_12D_char_z(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_12D_order_err_char_z
+    end function la_norm_12D_order_err_char_z
     
     ! Internal implementation
     pure subroutine norm_12D_char_z(a,nrm,order,err)
@@ -35445,7 +35445,7 @@ module la_linalg_norms
     end subroutine norm_12D_char_z
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_13D_order_char_z(a,order) result(nrm)
+    pure function la_norm_13D_order_char_z(a,order) result(nrm)
         !> Input 13-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -35455,10 +35455,10 @@ module la_linalg_norms
                                     
         call norm_13D_char_z(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_13D_order_char_z
+    end function la_norm_13D_order_char_z
     
     ! Function interface with output error
-    function la_linalg_norm_13D_order_err_char_z(a,order,err) result(nrm)
+    function la_norm_13D_order_err_char_z(a,order,err) result(nrm)
         !> Input 13-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -35470,7 +35470,7 @@ module la_linalg_norms
                 
         call norm_13D_char_z(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_13D_order_err_char_z
+    end function la_norm_13D_order_err_char_z
     
     ! Internal implementation
     pure subroutine norm_13D_char_z(a,nrm,order,err)
@@ -35528,7 +35528,7 @@ module la_linalg_norms
     end subroutine norm_13D_char_z
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_14D_order_char_z(a,order) result(nrm)
+    pure function la_norm_14D_order_char_z(a,order) result(nrm)
         !> Input 14-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -35538,10 +35538,10 @@ module la_linalg_norms
                                     
         call norm_14D_char_z(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_14D_order_char_z
+    end function la_norm_14D_order_char_z
     
     ! Function interface with output error
-    function la_linalg_norm_14D_order_err_char_z(a,order,err) result(nrm)
+    function la_norm_14D_order_err_char_z(a,order,err) result(nrm)
         !> Input 14-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -35553,7 +35553,7 @@ module la_linalg_norms
                 
         call norm_14D_char_z(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_14D_order_err_char_z
+    end function la_norm_14D_order_err_char_z
     
     ! Internal implementation
     pure subroutine norm_14D_char_z(a,nrm,order,err)
@@ -35611,7 +35611,7 @@ module la_linalg_norms
     end subroutine norm_14D_char_z
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_15D_order_char_z(a,order) result(nrm)
+    pure function la_norm_15D_order_char_z(a,order) result(nrm)
         !> Input 15-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -35621,10 +35621,10 @@ module la_linalg_norms
                                     
         call norm_15D_char_z(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_15D_order_char_z
+    end function la_norm_15D_order_char_z
     
     ! Function interface with output error
-    function la_linalg_norm_15D_order_err_char_z(a,order,err) result(nrm)
+    function la_norm_15D_order_err_char_z(a,order,err) result(nrm)
         !> Input 15-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -35636,7 +35636,7 @@ module la_linalg_norms
                 
         call norm_15D_char_z(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_15D_order_err_char_z
+    end function la_norm_15D_order_err_char_z
     
     ! Internal implementation
     pure subroutine norm_15D_char_z(a,nrm,order,err)
@@ -35698,7 +35698,7 @@ module la_linalg_norms
     !====================================================================
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_2D_to_1D_char_z(a,order,dim) result(nrm)
+    pure function la_norm_2D_to_1D_char_z(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(dp),intent(in),target :: a(:,:)
         !> Order of the matrix norm being computed.
@@ -35710,10 +35710,10 @@ module la_linalg_norms
         
         call norm_2D_to_1D_char_z(a,nrm,order,dim)
             
-    end function la_linalg_norm_2D_to_1D_char_z
+    end function la_norm_2D_to_1D_char_z
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_2D_to_1D_err_char_z(a,order,dim,err) result(nrm)
+    function la_norm_2D_to_1D_err_char_z(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(dp),intent(in),target :: a(:,:)
         !> Order of the matrix norm being computed.
@@ -35727,7 +35727,7 @@ module la_linalg_norms
         
         call norm_2D_to_1D_char_z(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_2D_to_1D_err_char_z
+    end function la_norm_2D_to_1D_err_char_z
     
     ! Internal implementation
     pure subroutine norm_2D_to_1D_char_z(a,nrm,order,dim,err)
@@ -35794,7 +35794,7 @@ module la_linalg_norms
     end subroutine norm_2D_to_1D_char_z
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_3D_to_2D_char_z(a,order,dim) result(nrm)
+    pure function la_norm_3D_to_2D_char_z(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(dp),intent(in),target :: a(:,:,:)
         !> Order of the matrix norm being computed.
@@ -35806,10 +35806,10 @@ module la_linalg_norms
         
         call norm_3D_to_2D_char_z(a,nrm,order,dim)
             
-    end function la_linalg_norm_3D_to_2D_char_z
+    end function la_norm_3D_to_2D_char_z
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_3D_to_2D_err_char_z(a,order,dim,err) result(nrm)
+    function la_norm_3D_to_2D_err_char_z(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(dp),intent(in),target :: a(:,:,:)
         !> Order of the matrix norm being computed.
@@ -35823,7 +35823,7 @@ module la_linalg_norms
         
         call norm_3D_to_2D_char_z(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_3D_to_2D_err_char_z
+    end function la_norm_3D_to_2D_err_char_z
     
     ! Internal implementation
     pure subroutine norm_3D_to_2D_char_z(a,nrm,order,dim,err)
@@ -35890,7 +35890,7 @@ module la_linalg_norms
     end subroutine norm_3D_to_2D_char_z
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_4D_to_3D_char_z(a,order,dim) result(nrm)
+    pure function la_norm_4D_to_3D_char_z(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(dp),intent(in),target :: a(:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -35903,10 +35903,10 @@ module la_linalg_norms
         
         call norm_4D_to_3D_char_z(a,nrm,order,dim)
             
-    end function la_linalg_norm_4D_to_3D_char_z
+    end function la_norm_4D_to_3D_char_z
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_4D_to_3D_err_char_z(a,order,dim,err) result(nrm)
+    function la_norm_4D_to_3D_err_char_z(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(dp),intent(in),target :: a(:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -35921,7 +35921,7 @@ module la_linalg_norms
         
         call norm_4D_to_3D_char_z(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_4D_to_3D_err_char_z
+    end function la_norm_4D_to_3D_err_char_z
     
     ! Internal implementation
     pure subroutine norm_4D_to_3D_char_z(a,nrm,order,dim,err)
@@ -35989,7 +35989,7 @@ module la_linalg_norms
     end subroutine norm_4D_to_3D_char_z
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_5D_to_4D_char_z(a,order,dim) result(nrm)
+    pure function la_norm_5D_to_4D_char_z(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(dp),intent(in),target :: a(:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -36002,10 +36002,10 @@ module la_linalg_norms
         
         call norm_5D_to_4D_char_z(a,nrm,order,dim)
             
-    end function la_linalg_norm_5D_to_4D_char_z
+    end function la_norm_5D_to_4D_char_z
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_5D_to_4D_err_char_z(a,order,dim,err) result(nrm)
+    function la_norm_5D_to_4D_err_char_z(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(dp),intent(in),target :: a(:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -36020,7 +36020,7 @@ module la_linalg_norms
         
         call norm_5D_to_4D_char_z(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_5D_to_4D_err_char_z
+    end function la_norm_5D_to_4D_err_char_z
     
     ! Internal implementation
     pure subroutine norm_5D_to_4D_char_z(a,nrm,order,dim,err)
@@ -36088,7 +36088,7 @@ module la_linalg_norms
     end subroutine norm_5D_to_4D_char_z
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_6D_to_5D_char_z(a,order,dim) result(nrm)
+    pure function la_norm_6D_to_5D_char_z(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(dp),intent(in),target :: a(:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -36101,10 +36101,10 @@ module la_linalg_norms
         
         call norm_6D_to_5D_char_z(a,nrm,order,dim)
             
-    end function la_linalg_norm_6D_to_5D_char_z
+    end function la_norm_6D_to_5D_char_z
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_6D_to_5D_err_char_z(a,order,dim,err) result(nrm)
+    function la_norm_6D_to_5D_err_char_z(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(dp),intent(in),target :: a(:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -36119,7 +36119,7 @@ module la_linalg_norms
         
         call norm_6D_to_5D_char_z(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_6D_to_5D_err_char_z
+    end function la_norm_6D_to_5D_err_char_z
     
     ! Internal implementation
     pure subroutine norm_6D_to_5D_char_z(a,nrm,order,dim,err)
@@ -36188,7 +36188,7 @@ module la_linalg_norms
     end subroutine norm_6D_to_5D_char_z
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_7D_to_6D_char_z(a,order,dim) result(nrm)
+    pure function la_norm_7D_to_6D_char_z(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(dp),intent(in),target :: a(:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -36202,10 +36202,10 @@ module la_linalg_norms
         
         call norm_7D_to_6D_char_z(a,nrm,order,dim)
             
-    end function la_linalg_norm_7D_to_6D_char_z
+    end function la_norm_7D_to_6D_char_z
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_7D_to_6D_err_char_z(a,order,dim,err) result(nrm)
+    function la_norm_7D_to_6D_err_char_z(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(dp),intent(in),target :: a(:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -36221,7 +36221,7 @@ module la_linalg_norms
         
         call norm_7D_to_6D_char_z(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_7D_to_6D_err_char_z
+    end function la_norm_7D_to_6D_err_char_z
     
     ! Internal implementation
     pure subroutine norm_7D_to_6D_char_z(a,nrm,order,dim,err)
@@ -36290,7 +36290,7 @@ module la_linalg_norms
     end subroutine norm_7D_to_6D_char_z
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_8D_to_7D_char_z(a,order,dim) result(nrm)
+    pure function la_norm_8D_to_7D_char_z(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(dp),intent(in),target :: a(:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -36304,10 +36304,10 @@ module la_linalg_norms
         
         call norm_8D_to_7D_char_z(a,nrm,order,dim)
             
-    end function la_linalg_norm_8D_to_7D_char_z
+    end function la_norm_8D_to_7D_char_z
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_8D_to_7D_err_char_z(a,order,dim,err) result(nrm)
+    function la_norm_8D_to_7D_err_char_z(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(dp),intent(in),target :: a(:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -36323,7 +36323,7 @@ module la_linalg_norms
         
         call norm_8D_to_7D_char_z(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_8D_to_7D_err_char_z
+    end function la_norm_8D_to_7D_err_char_z
     
     ! Internal implementation
     pure subroutine norm_8D_to_7D_char_z(a,nrm,order,dim,err)
@@ -36392,7 +36392,7 @@ module la_linalg_norms
     end subroutine norm_8D_to_7D_char_z
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_9D_to_8D_char_z(a,order,dim) result(nrm)
+    pure function la_norm_9D_to_8D_char_z(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -36407,10 +36407,10 @@ module la_linalg_norms
         
         call norm_9D_to_8D_char_z(a,nrm,order,dim)
             
-    end function la_linalg_norm_9D_to_8D_char_z
+    end function la_norm_9D_to_8D_char_z
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_9D_to_8D_err_char_z(a,order,dim,err) result(nrm)
+    function la_norm_9D_to_8D_err_char_z(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -36427,7 +36427,7 @@ module la_linalg_norms
         
         call norm_9D_to_8D_char_z(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_9D_to_8D_err_char_z
+    end function la_norm_9D_to_8D_err_char_z
     
     ! Internal implementation
     pure subroutine norm_9D_to_8D_char_z(a,nrm,order,dim,err)
@@ -36497,7 +36497,7 @@ module la_linalg_norms
     end subroutine norm_9D_to_8D_char_z
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_10D_to_9D_char_z(a,order,dim) result(nrm)
+    pure function la_norm_10D_to_9D_char_z(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -36512,10 +36512,10 @@ module la_linalg_norms
         
         call norm_10D_to_9D_char_z(a,nrm,order,dim)
             
-    end function la_linalg_norm_10D_to_9D_char_z
+    end function la_norm_10D_to_9D_char_z
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_10D_to_9D_err_char_z(a,order,dim,err) result(nrm)
+    function la_norm_10D_to_9D_err_char_z(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -36532,7 +36532,7 @@ module la_linalg_norms
         
         call norm_10D_to_9D_char_z(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_10D_to_9D_err_char_z
+    end function la_norm_10D_to_9D_err_char_z
     
     ! Internal implementation
     pure subroutine norm_10D_to_9D_char_z(a,nrm,order,dim,err)
@@ -36602,7 +36602,7 @@ module la_linalg_norms
     end subroutine norm_10D_to_9D_char_z
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_11D_to_10D_char_z(a,order,dim) result(nrm)
+    pure function la_norm_11D_to_10D_char_z(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -36617,10 +36617,10 @@ module la_linalg_norms
         
         call norm_11D_to_10D_char_z(a,nrm,order,dim)
             
-    end function la_linalg_norm_11D_to_10D_char_z
+    end function la_norm_11D_to_10D_char_z
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_11D_to_10D_err_char_z(a,order,dim,err) result(nrm)
+    function la_norm_11D_to_10D_err_char_z(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -36637,7 +36637,7 @@ module la_linalg_norms
         
         call norm_11D_to_10D_char_z(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_11D_to_10D_err_char_z
+    end function la_norm_11D_to_10D_err_char_z
     
     ! Internal implementation
     pure subroutine norm_11D_to_10D_char_z(a,nrm,order,dim,err)
@@ -36708,7 +36708,7 @@ module la_linalg_norms
     end subroutine norm_11D_to_10D_char_z
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_12D_to_11D_char_z(a,order,dim) result(nrm)
+    pure function la_norm_12D_to_11D_char_z(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -36724,10 +36724,10 @@ module la_linalg_norms
         
         call norm_12D_to_11D_char_z(a,nrm,order,dim)
             
-    end function la_linalg_norm_12D_to_11D_char_z
+    end function la_norm_12D_to_11D_char_z
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_12D_to_11D_err_char_z(a,order,dim,err) result(nrm)
+    function la_norm_12D_to_11D_err_char_z(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -36745,7 +36745,7 @@ module la_linalg_norms
         
         call norm_12D_to_11D_char_z(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_12D_to_11D_err_char_z
+    end function la_norm_12D_to_11D_err_char_z
     
     ! Internal implementation
     pure subroutine norm_12D_to_11D_char_z(a,nrm,order,dim,err)
@@ -36816,7 +36816,7 @@ module la_linalg_norms
     end subroutine norm_12D_to_11D_char_z
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_13D_to_12D_char_z(a,order,dim) result(nrm)
+    pure function la_norm_13D_to_12D_char_z(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -36832,10 +36832,10 @@ module la_linalg_norms
         
         call norm_13D_to_12D_char_z(a,nrm,order,dim)
             
-    end function la_linalg_norm_13D_to_12D_char_z
+    end function la_norm_13D_to_12D_char_z
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_13D_to_12D_err_char_z(a,order,dim,err) result(nrm)
+    function la_norm_13D_to_12D_err_char_z(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -36853,7 +36853,7 @@ module la_linalg_norms
         
         call norm_13D_to_12D_char_z(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_13D_to_12D_err_char_z
+    end function la_norm_13D_to_12D_err_char_z
     
     ! Internal implementation
     pure subroutine norm_13D_to_12D_char_z(a,nrm,order,dim,err)
@@ -36924,7 +36924,7 @@ module la_linalg_norms
     end subroutine norm_13D_to_12D_char_z
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_14D_to_13D_char_z(a,order,dim) result(nrm)
+    pure function la_norm_14D_to_13D_char_z(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -36941,10 +36941,10 @@ module la_linalg_norms
         
         call norm_14D_to_13D_char_z(a,nrm,order,dim)
             
-    end function la_linalg_norm_14D_to_13D_char_z
+    end function la_norm_14D_to_13D_char_z
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_14D_to_13D_err_char_z(a,order,dim,err) result(nrm)
+    function la_norm_14D_to_13D_err_char_z(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -36963,7 +36963,7 @@ module la_linalg_norms
         
         call norm_14D_to_13D_char_z(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_14D_to_13D_err_char_z
+    end function la_norm_14D_to_13D_err_char_z
     
     ! Internal implementation
     pure subroutine norm_14D_to_13D_char_z(a,nrm,order,dim,err)
@@ -37035,7 +37035,7 @@ module la_linalg_norms
     end subroutine norm_14D_to_13D_char_z
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_15D_to_14D_char_z(a,order,dim) result(nrm)
+    pure function la_norm_15D_to_14D_char_z(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -37052,10 +37052,10 @@ module la_linalg_norms
         
         call norm_15D_to_14D_char_z(a,nrm,order,dim)
             
-    end function la_linalg_norm_15D_to_14D_char_z
+    end function la_norm_15D_to_14D_char_z
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_15D_to_14D_err_char_z(a,order,dim,err) result(nrm)
+    function la_norm_15D_to_14D_err_char_z(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -37074,7 +37074,7 @@ module la_linalg_norms
         
         call norm_15D_to_14D_char_z(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_15D_to_14D_err_char_z
+    end function la_norm_15D_to_14D_err_char_z
     
     ! Internal implementation
     pure subroutine norm_15D_to_14D_char_z(a,nrm,order,dim,err)
@@ -38581,7 +38581,7 @@ module la_linalg_norms
     !==============================================
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_1D_order_int_z(a,order) result(nrm)
+    pure function la_norm_1D_order_int_z(a,order) result(nrm)
         !> Input 1-d matrix a(:)
         complex(dp),intent(in) :: a(:)
         !> Order of the matrix norm being computed.
@@ -38591,10 +38591,10 @@ module la_linalg_norms
                                     
         call norm_1D_int_z(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_1D_order_int_z
+    end function la_norm_1D_order_int_z
     
     ! Function interface with output error
-    function la_linalg_norm_1D_order_err_int_z(a,order,err) result(nrm)
+    function la_norm_1D_order_err_int_z(a,order,err) result(nrm)
         !> Input 1-d matrix a(:)
         complex(dp),intent(in) :: a(:)
         !> Order of the matrix norm being computed.
@@ -38606,7 +38606,7 @@ module la_linalg_norms
                 
         call norm_1D_int_z(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_1D_order_err_int_z
+    end function la_norm_1D_order_err_int_z
     
     ! Internal implementation
     pure subroutine norm_1D_int_z(a,nrm,order,err)
@@ -38664,7 +38664,7 @@ module la_linalg_norms
     end subroutine norm_1D_int_z
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_2D_order_int_z(a,order) result(nrm)
+    pure function la_norm_2D_order_int_z(a,order) result(nrm)
         !> Input 2-d matrix a(:,:)
         complex(dp),intent(in) :: a(:,:)
         !> Order of the matrix norm being computed.
@@ -38674,10 +38674,10 @@ module la_linalg_norms
                                     
         call norm_2D_int_z(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_2D_order_int_z
+    end function la_norm_2D_order_int_z
     
     ! Function interface with output error
-    function la_linalg_norm_2D_order_err_int_z(a,order,err) result(nrm)
+    function la_norm_2D_order_err_int_z(a,order,err) result(nrm)
         !> Input 2-d matrix a(:,:)
         complex(dp),intent(in) :: a(:,:)
         !> Order of the matrix norm being computed.
@@ -38689,7 +38689,7 @@ module la_linalg_norms
                 
         call norm_2D_int_z(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_2D_order_err_int_z
+    end function la_norm_2D_order_err_int_z
     
     ! Internal implementation
     pure subroutine norm_2D_int_z(a,nrm,order,err)
@@ -38747,7 +38747,7 @@ module la_linalg_norms
     end subroutine norm_2D_int_z
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_3D_order_int_z(a,order) result(nrm)
+    pure function la_norm_3D_order_int_z(a,order) result(nrm)
         !> Input 3-d matrix a(:,:,:)
         complex(dp),intent(in) :: a(:,:,:)
         !> Order of the matrix norm being computed.
@@ -38757,10 +38757,10 @@ module la_linalg_norms
                                     
         call norm_3D_int_z(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_3D_order_int_z
+    end function la_norm_3D_order_int_z
     
     ! Function interface with output error
-    function la_linalg_norm_3D_order_err_int_z(a,order,err) result(nrm)
+    function la_norm_3D_order_err_int_z(a,order,err) result(nrm)
         !> Input 3-d matrix a(:,:,:)
         complex(dp),intent(in) :: a(:,:,:)
         !> Order of the matrix norm being computed.
@@ -38772,7 +38772,7 @@ module la_linalg_norms
                 
         call norm_3D_int_z(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_3D_order_err_int_z
+    end function la_norm_3D_order_err_int_z
     
     ! Internal implementation
     pure subroutine norm_3D_int_z(a,nrm,order,err)
@@ -38830,7 +38830,7 @@ module la_linalg_norms
     end subroutine norm_3D_int_z
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_4D_order_int_z(a,order) result(nrm)
+    pure function la_norm_4D_order_int_z(a,order) result(nrm)
         !> Input 4-d matrix a(:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -38840,10 +38840,10 @@ module la_linalg_norms
                                     
         call norm_4D_int_z(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_4D_order_int_z
+    end function la_norm_4D_order_int_z
     
     ! Function interface with output error
-    function la_linalg_norm_4D_order_err_int_z(a,order,err) result(nrm)
+    function la_norm_4D_order_err_int_z(a,order,err) result(nrm)
         !> Input 4-d matrix a(:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -38855,7 +38855,7 @@ module la_linalg_norms
                 
         call norm_4D_int_z(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_4D_order_err_int_z
+    end function la_norm_4D_order_err_int_z
     
     ! Internal implementation
     pure subroutine norm_4D_int_z(a,nrm,order,err)
@@ -38913,7 +38913,7 @@ module la_linalg_norms
     end subroutine norm_4D_int_z
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_5D_order_int_z(a,order) result(nrm)
+    pure function la_norm_5D_order_int_z(a,order) result(nrm)
         !> Input 5-d matrix a(:,:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -38923,10 +38923,10 @@ module la_linalg_norms
                                     
         call norm_5D_int_z(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_5D_order_int_z
+    end function la_norm_5D_order_int_z
     
     ! Function interface with output error
-    function la_linalg_norm_5D_order_err_int_z(a,order,err) result(nrm)
+    function la_norm_5D_order_err_int_z(a,order,err) result(nrm)
         !> Input 5-d matrix a(:,:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -38938,7 +38938,7 @@ module la_linalg_norms
                 
         call norm_5D_int_z(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_5D_order_err_int_z
+    end function la_norm_5D_order_err_int_z
     
     ! Internal implementation
     pure subroutine norm_5D_int_z(a,nrm,order,err)
@@ -38996,7 +38996,7 @@ module la_linalg_norms
     end subroutine norm_5D_int_z
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_6D_order_int_z(a,order) result(nrm)
+    pure function la_norm_6D_order_int_z(a,order) result(nrm)
         !> Input 6-d matrix a(:,:,:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -39006,10 +39006,10 @@ module la_linalg_norms
                                     
         call norm_6D_int_z(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_6D_order_int_z
+    end function la_norm_6D_order_int_z
     
     ! Function interface with output error
-    function la_linalg_norm_6D_order_err_int_z(a,order,err) result(nrm)
+    function la_norm_6D_order_err_int_z(a,order,err) result(nrm)
         !> Input 6-d matrix a(:,:,:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -39021,7 +39021,7 @@ module la_linalg_norms
                 
         call norm_6D_int_z(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_6D_order_err_int_z
+    end function la_norm_6D_order_err_int_z
     
     ! Internal implementation
     pure subroutine norm_6D_int_z(a,nrm,order,err)
@@ -39079,7 +39079,7 @@ module la_linalg_norms
     end subroutine norm_6D_int_z
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_7D_order_int_z(a,order) result(nrm)
+    pure function la_norm_7D_order_int_z(a,order) result(nrm)
         !> Input 7-d matrix a(:,:,:,:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -39089,10 +39089,10 @@ module la_linalg_norms
                                     
         call norm_7D_int_z(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_7D_order_int_z
+    end function la_norm_7D_order_int_z
     
     ! Function interface with output error
-    function la_linalg_norm_7D_order_err_int_z(a,order,err) result(nrm)
+    function la_norm_7D_order_err_int_z(a,order,err) result(nrm)
         !> Input 7-d matrix a(:,:,:,:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -39104,7 +39104,7 @@ module la_linalg_norms
                 
         call norm_7D_int_z(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_7D_order_err_int_z
+    end function la_norm_7D_order_err_int_z
     
     ! Internal implementation
     pure subroutine norm_7D_int_z(a,nrm,order,err)
@@ -39162,7 +39162,7 @@ module la_linalg_norms
     end subroutine norm_7D_int_z
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_8D_order_int_z(a,order) result(nrm)
+    pure function la_norm_8D_order_int_z(a,order) result(nrm)
         !> Input 8-d matrix a(:,:,:,:,:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -39172,10 +39172,10 @@ module la_linalg_norms
                                     
         call norm_8D_int_z(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_8D_order_int_z
+    end function la_norm_8D_order_int_z
     
     ! Function interface with output error
-    function la_linalg_norm_8D_order_err_int_z(a,order,err) result(nrm)
+    function la_norm_8D_order_err_int_z(a,order,err) result(nrm)
         !> Input 8-d matrix a(:,:,:,:,:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -39187,7 +39187,7 @@ module la_linalg_norms
                 
         call norm_8D_int_z(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_8D_order_err_int_z
+    end function la_norm_8D_order_err_int_z
     
     ! Internal implementation
     pure subroutine norm_8D_int_z(a,nrm,order,err)
@@ -39245,7 +39245,7 @@ module la_linalg_norms
     end subroutine norm_8D_int_z
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_9D_order_int_z(a,order) result(nrm)
+    pure function la_norm_9D_order_int_z(a,order) result(nrm)
         !> Input 9-d matrix a(:,:,:,:,:,:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -39255,10 +39255,10 @@ module la_linalg_norms
                                     
         call norm_9D_int_z(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_9D_order_int_z
+    end function la_norm_9D_order_int_z
     
     ! Function interface with output error
-    function la_linalg_norm_9D_order_err_int_z(a,order,err) result(nrm)
+    function la_norm_9D_order_err_int_z(a,order,err) result(nrm)
         !> Input 9-d matrix a(:,:,:,:,:,:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -39270,7 +39270,7 @@ module la_linalg_norms
                 
         call norm_9D_int_z(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_9D_order_err_int_z
+    end function la_norm_9D_order_err_int_z
     
     ! Internal implementation
     pure subroutine norm_9D_int_z(a,nrm,order,err)
@@ -39328,7 +39328,7 @@ module la_linalg_norms
     end subroutine norm_9D_int_z
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_10D_order_int_z(a,order) result(nrm)
+    pure function la_norm_10D_order_int_z(a,order) result(nrm)
         !> Input 10-d matrix a(:,:,:,:,:,:,:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -39338,10 +39338,10 @@ module la_linalg_norms
                                     
         call norm_10D_int_z(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_10D_order_int_z
+    end function la_norm_10D_order_int_z
     
     ! Function interface with output error
-    function la_linalg_norm_10D_order_err_int_z(a,order,err) result(nrm)
+    function la_norm_10D_order_err_int_z(a,order,err) result(nrm)
         !> Input 10-d matrix a(:,:,:,:,:,:,:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -39353,7 +39353,7 @@ module la_linalg_norms
                 
         call norm_10D_int_z(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_10D_order_err_int_z
+    end function la_norm_10D_order_err_int_z
     
     ! Internal implementation
     pure subroutine norm_10D_int_z(a,nrm,order,err)
@@ -39411,7 +39411,7 @@ module la_linalg_norms
     end subroutine norm_10D_int_z
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_11D_order_int_z(a,order) result(nrm)
+    pure function la_norm_11D_order_int_z(a,order) result(nrm)
         !> Input 11-d matrix a(:,:,:,:,:,:,:,:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -39421,10 +39421,10 @@ module la_linalg_norms
                                     
         call norm_11D_int_z(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_11D_order_int_z
+    end function la_norm_11D_order_int_z
     
     ! Function interface with output error
-    function la_linalg_norm_11D_order_err_int_z(a,order,err) result(nrm)
+    function la_norm_11D_order_err_int_z(a,order,err) result(nrm)
         !> Input 11-d matrix a(:,:,:,:,:,:,:,:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -39436,7 +39436,7 @@ module la_linalg_norms
                 
         call norm_11D_int_z(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_11D_order_err_int_z
+    end function la_norm_11D_order_err_int_z
     
     ! Internal implementation
     pure subroutine norm_11D_int_z(a,nrm,order,err)
@@ -39494,7 +39494,7 @@ module la_linalg_norms
     end subroutine norm_11D_int_z
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_12D_order_int_z(a,order) result(nrm)
+    pure function la_norm_12D_order_int_z(a,order) result(nrm)
         !> Input 12-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -39504,10 +39504,10 @@ module la_linalg_norms
                                     
         call norm_12D_int_z(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_12D_order_int_z
+    end function la_norm_12D_order_int_z
     
     ! Function interface with output error
-    function la_linalg_norm_12D_order_err_int_z(a,order,err) result(nrm)
+    function la_norm_12D_order_err_int_z(a,order,err) result(nrm)
         !> Input 12-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -39519,7 +39519,7 @@ module la_linalg_norms
                 
         call norm_12D_int_z(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_12D_order_err_int_z
+    end function la_norm_12D_order_err_int_z
     
     ! Internal implementation
     pure subroutine norm_12D_int_z(a,nrm,order,err)
@@ -39577,7 +39577,7 @@ module la_linalg_norms
     end subroutine norm_12D_int_z
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_13D_order_int_z(a,order) result(nrm)
+    pure function la_norm_13D_order_int_z(a,order) result(nrm)
         !> Input 13-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -39587,10 +39587,10 @@ module la_linalg_norms
                                     
         call norm_13D_int_z(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_13D_order_int_z
+    end function la_norm_13D_order_int_z
     
     ! Function interface with output error
-    function la_linalg_norm_13D_order_err_int_z(a,order,err) result(nrm)
+    function la_norm_13D_order_err_int_z(a,order,err) result(nrm)
         !> Input 13-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -39602,7 +39602,7 @@ module la_linalg_norms
                 
         call norm_13D_int_z(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_13D_order_err_int_z
+    end function la_norm_13D_order_err_int_z
     
     ! Internal implementation
     pure subroutine norm_13D_int_z(a,nrm,order,err)
@@ -39660,7 +39660,7 @@ module la_linalg_norms
     end subroutine norm_13D_int_z
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_14D_order_int_z(a,order) result(nrm)
+    pure function la_norm_14D_order_int_z(a,order) result(nrm)
         !> Input 14-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -39670,10 +39670,10 @@ module la_linalg_norms
                                     
         call norm_14D_int_z(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_14D_order_int_z
+    end function la_norm_14D_order_int_z
     
     ! Function interface with output error
-    function la_linalg_norm_14D_order_err_int_z(a,order,err) result(nrm)
+    function la_norm_14D_order_err_int_z(a,order,err) result(nrm)
         !> Input 14-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -39685,7 +39685,7 @@ module la_linalg_norms
                 
         call norm_14D_int_z(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_14D_order_err_int_z
+    end function la_norm_14D_order_err_int_z
     
     ! Internal implementation
     pure subroutine norm_14D_int_z(a,nrm,order,err)
@@ -39743,7 +39743,7 @@ module la_linalg_norms
     end subroutine norm_14D_int_z
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_15D_order_int_z(a,order) result(nrm)
+    pure function la_norm_15D_order_int_z(a,order) result(nrm)
         !> Input 15-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -39753,10 +39753,10 @@ module la_linalg_norms
                                     
         call norm_15D_int_z(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_15D_order_int_z
+    end function la_norm_15D_order_int_z
     
     ! Function interface with output error
-    function la_linalg_norm_15D_order_err_int_z(a,order,err) result(nrm)
+    function la_norm_15D_order_err_int_z(a,order,err) result(nrm)
         !> Input 15-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         complex(dp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -39768,7 +39768,7 @@ module la_linalg_norms
                 
         call norm_15D_int_z(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_15D_order_err_int_z
+    end function la_norm_15D_order_err_int_z
     
     ! Internal implementation
     pure subroutine norm_15D_int_z(a,nrm,order,err)
@@ -39830,7 +39830,7 @@ module la_linalg_norms
     !====================================================================
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_2D_to_1D_int_z(a,order,dim) result(nrm)
+    pure function la_norm_2D_to_1D_int_z(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(dp),intent(in),target :: a(:,:)
         !> Order of the matrix norm being computed.
@@ -39842,10 +39842,10 @@ module la_linalg_norms
         
         call norm_2D_to_1D_int_z(a,nrm,order,dim)
             
-    end function la_linalg_norm_2D_to_1D_int_z
+    end function la_norm_2D_to_1D_int_z
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_2D_to_1D_err_int_z(a,order,dim,err) result(nrm)
+    function la_norm_2D_to_1D_err_int_z(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(dp),intent(in),target :: a(:,:)
         !> Order of the matrix norm being computed.
@@ -39859,7 +39859,7 @@ module la_linalg_norms
         
         call norm_2D_to_1D_int_z(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_2D_to_1D_err_int_z
+    end function la_norm_2D_to_1D_err_int_z
     
     ! Internal implementation
     pure subroutine norm_2D_to_1D_int_z(a,nrm,order,dim,err)
@@ -39926,7 +39926,7 @@ module la_linalg_norms
     end subroutine norm_2D_to_1D_int_z
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_3D_to_2D_int_z(a,order,dim) result(nrm)
+    pure function la_norm_3D_to_2D_int_z(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(dp),intent(in),target :: a(:,:,:)
         !> Order of the matrix norm being computed.
@@ -39938,10 +39938,10 @@ module la_linalg_norms
         
         call norm_3D_to_2D_int_z(a,nrm,order,dim)
             
-    end function la_linalg_norm_3D_to_2D_int_z
+    end function la_norm_3D_to_2D_int_z
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_3D_to_2D_err_int_z(a,order,dim,err) result(nrm)
+    function la_norm_3D_to_2D_err_int_z(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(dp),intent(in),target :: a(:,:,:)
         !> Order of the matrix norm being computed.
@@ -39955,7 +39955,7 @@ module la_linalg_norms
         
         call norm_3D_to_2D_int_z(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_3D_to_2D_err_int_z
+    end function la_norm_3D_to_2D_err_int_z
     
     ! Internal implementation
     pure subroutine norm_3D_to_2D_int_z(a,nrm,order,dim,err)
@@ -40022,7 +40022,7 @@ module la_linalg_norms
     end subroutine norm_3D_to_2D_int_z
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_4D_to_3D_int_z(a,order,dim) result(nrm)
+    pure function la_norm_4D_to_3D_int_z(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(dp),intent(in),target :: a(:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -40035,10 +40035,10 @@ module la_linalg_norms
         
         call norm_4D_to_3D_int_z(a,nrm,order,dim)
             
-    end function la_linalg_norm_4D_to_3D_int_z
+    end function la_norm_4D_to_3D_int_z
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_4D_to_3D_err_int_z(a,order,dim,err) result(nrm)
+    function la_norm_4D_to_3D_err_int_z(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(dp),intent(in),target :: a(:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -40053,7 +40053,7 @@ module la_linalg_norms
         
         call norm_4D_to_3D_int_z(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_4D_to_3D_err_int_z
+    end function la_norm_4D_to_3D_err_int_z
     
     ! Internal implementation
     pure subroutine norm_4D_to_3D_int_z(a,nrm,order,dim,err)
@@ -40121,7 +40121,7 @@ module la_linalg_norms
     end subroutine norm_4D_to_3D_int_z
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_5D_to_4D_int_z(a,order,dim) result(nrm)
+    pure function la_norm_5D_to_4D_int_z(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(dp),intent(in),target :: a(:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -40134,10 +40134,10 @@ module la_linalg_norms
         
         call norm_5D_to_4D_int_z(a,nrm,order,dim)
             
-    end function la_linalg_norm_5D_to_4D_int_z
+    end function la_norm_5D_to_4D_int_z
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_5D_to_4D_err_int_z(a,order,dim,err) result(nrm)
+    function la_norm_5D_to_4D_err_int_z(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(dp),intent(in),target :: a(:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -40152,7 +40152,7 @@ module la_linalg_norms
         
         call norm_5D_to_4D_int_z(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_5D_to_4D_err_int_z
+    end function la_norm_5D_to_4D_err_int_z
     
     ! Internal implementation
     pure subroutine norm_5D_to_4D_int_z(a,nrm,order,dim,err)
@@ -40220,7 +40220,7 @@ module la_linalg_norms
     end subroutine norm_5D_to_4D_int_z
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_6D_to_5D_int_z(a,order,dim) result(nrm)
+    pure function la_norm_6D_to_5D_int_z(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(dp),intent(in),target :: a(:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -40233,10 +40233,10 @@ module la_linalg_norms
         
         call norm_6D_to_5D_int_z(a,nrm,order,dim)
             
-    end function la_linalg_norm_6D_to_5D_int_z
+    end function la_norm_6D_to_5D_int_z
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_6D_to_5D_err_int_z(a,order,dim,err) result(nrm)
+    function la_norm_6D_to_5D_err_int_z(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(dp),intent(in),target :: a(:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -40251,7 +40251,7 @@ module la_linalg_norms
         
         call norm_6D_to_5D_int_z(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_6D_to_5D_err_int_z
+    end function la_norm_6D_to_5D_err_int_z
     
     ! Internal implementation
     pure subroutine norm_6D_to_5D_int_z(a,nrm,order,dim,err)
@@ -40320,7 +40320,7 @@ module la_linalg_norms
     end subroutine norm_6D_to_5D_int_z
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_7D_to_6D_int_z(a,order,dim) result(nrm)
+    pure function la_norm_7D_to_6D_int_z(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(dp),intent(in),target :: a(:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -40334,10 +40334,10 @@ module la_linalg_norms
         
         call norm_7D_to_6D_int_z(a,nrm,order,dim)
             
-    end function la_linalg_norm_7D_to_6D_int_z
+    end function la_norm_7D_to_6D_int_z
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_7D_to_6D_err_int_z(a,order,dim,err) result(nrm)
+    function la_norm_7D_to_6D_err_int_z(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(dp),intent(in),target :: a(:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -40353,7 +40353,7 @@ module la_linalg_norms
         
         call norm_7D_to_6D_int_z(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_7D_to_6D_err_int_z
+    end function la_norm_7D_to_6D_err_int_z
     
     ! Internal implementation
     pure subroutine norm_7D_to_6D_int_z(a,nrm,order,dim,err)
@@ -40422,7 +40422,7 @@ module la_linalg_norms
     end subroutine norm_7D_to_6D_int_z
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_8D_to_7D_int_z(a,order,dim) result(nrm)
+    pure function la_norm_8D_to_7D_int_z(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(dp),intent(in),target :: a(:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -40436,10 +40436,10 @@ module la_linalg_norms
         
         call norm_8D_to_7D_int_z(a,nrm,order,dim)
             
-    end function la_linalg_norm_8D_to_7D_int_z
+    end function la_norm_8D_to_7D_int_z
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_8D_to_7D_err_int_z(a,order,dim,err) result(nrm)
+    function la_norm_8D_to_7D_err_int_z(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(dp),intent(in),target :: a(:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -40455,7 +40455,7 @@ module la_linalg_norms
         
         call norm_8D_to_7D_int_z(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_8D_to_7D_err_int_z
+    end function la_norm_8D_to_7D_err_int_z
     
     ! Internal implementation
     pure subroutine norm_8D_to_7D_int_z(a,nrm,order,dim,err)
@@ -40524,7 +40524,7 @@ module la_linalg_norms
     end subroutine norm_8D_to_7D_int_z
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_9D_to_8D_int_z(a,order,dim) result(nrm)
+    pure function la_norm_9D_to_8D_int_z(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -40539,10 +40539,10 @@ module la_linalg_norms
         
         call norm_9D_to_8D_int_z(a,nrm,order,dim)
             
-    end function la_linalg_norm_9D_to_8D_int_z
+    end function la_norm_9D_to_8D_int_z
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_9D_to_8D_err_int_z(a,order,dim,err) result(nrm)
+    function la_norm_9D_to_8D_err_int_z(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -40559,7 +40559,7 @@ module la_linalg_norms
         
         call norm_9D_to_8D_int_z(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_9D_to_8D_err_int_z
+    end function la_norm_9D_to_8D_err_int_z
     
     ! Internal implementation
     pure subroutine norm_9D_to_8D_int_z(a,nrm,order,dim,err)
@@ -40629,7 +40629,7 @@ module la_linalg_norms
     end subroutine norm_9D_to_8D_int_z
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_10D_to_9D_int_z(a,order,dim) result(nrm)
+    pure function la_norm_10D_to_9D_int_z(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -40644,10 +40644,10 @@ module la_linalg_norms
         
         call norm_10D_to_9D_int_z(a,nrm,order,dim)
             
-    end function la_linalg_norm_10D_to_9D_int_z
+    end function la_norm_10D_to_9D_int_z
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_10D_to_9D_err_int_z(a,order,dim,err) result(nrm)
+    function la_norm_10D_to_9D_err_int_z(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -40664,7 +40664,7 @@ module la_linalg_norms
         
         call norm_10D_to_9D_int_z(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_10D_to_9D_err_int_z
+    end function la_norm_10D_to_9D_err_int_z
     
     ! Internal implementation
     pure subroutine norm_10D_to_9D_int_z(a,nrm,order,dim,err)
@@ -40734,7 +40734,7 @@ module la_linalg_norms
     end subroutine norm_10D_to_9D_int_z
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_11D_to_10D_int_z(a,order,dim) result(nrm)
+    pure function la_norm_11D_to_10D_int_z(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -40749,10 +40749,10 @@ module la_linalg_norms
         
         call norm_11D_to_10D_int_z(a,nrm,order,dim)
             
-    end function la_linalg_norm_11D_to_10D_int_z
+    end function la_norm_11D_to_10D_int_z
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_11D_to_10D_err_int_z(a,order,dim,err) result(nrm)
+    function la_norm_11D_to_10D_err_int_z(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -40769,7 +40769,7 @@ module la_linalg_norms
         
         call norm_11D_to_10D_int_z(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_11D_to_10D_err_int_z
+    end function la_norm_11D_to_10D_err_int_z
     
     ! Internal implementation
     pure subroutine norm_11D_to_10D_int_z(a,nrm,order,dim,err)
@@ -40840,7 +40840,7 @@ module la_linalg_norms
     end subroutine norm_11D_to_10D_int_z
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_12D_to_11D_int_z(a,order,dim) result(nrm)
+    pure function la_norm_12D_to_11D_int_z(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -40856,10 +40856,10 @@ module la_linalg_norms
         
         call norm_12D_to_11D_int_z(a,nrm,order,dim)
             
-    end function la_linalg_norm_12D_to_11D_int_z
+    end function la_norm_12D_to_11D_int_z
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_12D_to_11D_err_int_z(a,order,dim,err) result(nrm)
+    function la_norm_12D_to_11D_err_int_z(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -40877,7 +40877,7 @@ module la_linalg_norms
         
         call norm_12D_to_11D_int_z(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_12D_to_11D_err_int_z
+    end function la_norm_12D_to_11D_err_int_z
     
     ! Internal implementation
     pure subroutine norm_12D_to_11D_int_z(a,nrm,order,dim,err)
@@ -40948,7 +40948,7 @@ module la_linalg_norms
     end subroutine norm_12D_to_11D_int_z
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_13D_to_12D_int_z(a,order,dim) result(nrm)
+    pure function la_norm_13D_to_12D_int_z(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -40964,10 +40964,10 @@ module la_linalg_norms
         
         call norm_13D_to_12D_int_z(a,nrm,order,dim)
             
-    end function la_linalg_norm_13D_to_12D_int_z
+    end function la_norm_13D_to_12D_int_z
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_13D_to_12D_err_int_z(a,order,dim,err) result(nrm)
+    function la_norm_13D_to_12D_err_int_z(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -40985,7 +40985,7 @@ module la_linalg_norms
         
         call norm_13D_to_12D_int_z(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_13D_to_12D_err_int_z
+    end function la_norm_13D_to_12D_err_int_z
     
     ! Internal implementation
     pure subroutine norm_13D_to_12D_int_z(a,nrm,order,dim,err)
@@ -41056,7 +41056,7 @@ module la_linalg_norms
     end subroutine norm_13D_to_12D_int_z
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_14D_to_13D_int_z(a,order,dim) result(nrm)
+    pure function la_norm_14D_to_13D_int_z(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -41073,10 +41073,10 @@ module la_linalg_norms
         
         call norm_14D_to_13D_int_z(a,nrm,order,dim)
             
-    end function la_linalg_norm_14D_to_13D_int_z
+    end function la_norm_14D_to_13D_int_z
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_14D_to_13D_err_int_z(a,order,dim,err) result(nrm)
+    function la_norm_14D_to_13D_err_int_z(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -41095,7 +41095,7 @@ module la_linalg_norms
         
         call norm_14D_to_13D_int_z(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_14D_to_13D_err_int_z
+    end function la_norm_14D_to_13D_err_int_z
     
     ! Internal implementation
     pure subroutine norm_14D_to_13D_int_z(a,nrm,order,dim,err)
@@ -41167,7 +41167,7 @@ module la_linalg_norms
     end subroutine norm_14D_to_13D_int_z
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_15D_to_14D_int_z(a,order,dim) result(nrm)
+    pure function la_norm_15D_to_14D_int_z(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -41184,10 +41184,10 @@ module la_linalg_norms
         
         call norm_15D_to_14D_int_z(a,nrm,order,dim)
             
-    end function la_linalg_norm_15D_to_14D_int_z
+    end function la_norm_15D_to_14D_int_z
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_15D_to_14D_err_int_z(a,order,dim,err) result(nrm)
+    function la_norm_15D_to_14D_err_int_z(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(dp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -41206,7 +41206,7 @@ module la_linalg_norms
         
         call norm_15D_to_14D_int_z(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_15D_to_14D_err_int_z
+    end function la_norm_15D_to_14D_err_int_z
     
     ! Internal implementation
     pure subroutine norm_15D_to_14D_int_z(a,nrm,order,dim,err)
@@ -42713,7 +42713,7 @@ module la_linalg_norms
     !==============================================
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_1D_order_char_w(a,order) result(nrm)
+    pure function la_norm_1D_order_char_w(a,order) result(nrm)
         !> Input 1-d matrix a(:)
         complex(qp),intent(in) :: a(:)
         !> Order of the matrix norm being computed.
@@ -42723,10 +42723,10 @@ module la_linalg_norms
                                     
         call norm_1D_char_w(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_1D_order_char_w
+    end function la_norm_1D_order_char_w
     
     ! Function interface with output error
-    function la_linalg_norm_1D_order_err_char_w(a,order,err) result(nrm)
+    function la_norm_1D_order_err_char_w(a,order,err) result(nrm)
         !> Input 1-d matrix a(:)
         complex(qp),intent(in) :: a(:)
         !> Order of the matrix norm being computed.
@@ -42738,7 +42738,7 @@ module la_linalg_norms
                 
         call norm_1D_char_w(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_1D_order_err_char_w
+    end function la_norm_1D_order_err_char_w
     
     ! Internal implementation
     pure subroutine norm_1D_char_w(a,nrm,order,err)
@@ -42796,7 +42796,7 @@ module la_linalg_norms
     end subroutine norm_1D_char_w
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_2D_order_char_w(a,order) result(nrm)
+    pure function la_norm_2D_order_char_w(a,order) result(nrm)
         !> Input 2-d matrix a(:,:)
         complex(qp),intent(in) :: a(:,:)
         !> Order of the matrix norm being computed.
@@ -42806,10 +42806,10 @@ module la_linalg_norms
                                     
         call norm_2D_char_w(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_2D_order_char_w
+    end function la_norm_2D_order_char_w
     
     ! Function interface with output error
-    function la_linalg_norm_2D_order_err_char_w(a,order,err) result(nrm)
+    function la_norm_2D_order_err_char_w(a,order,err) result(nrm)
         !> Input 2-d matrix a(:,:)
         complex(qp),intent(in) :: a(:,:)
         !> Order of the matrix norm being computed.
@@ -42821,7 +42821,7 @@ module la_linalg_norms
                 
         call norm_2D_char_w(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_2D_order_err_char_w
+    end function la_norm_2D_order_err_char_w
     
     ! Internal implementation
     pure subroutine norm_2D_char_w(a,nrm,order,err)
@@ -42879,7 +42879,7 @@ module la_linalg_norms
     end subroutine norm_2D_char_w
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_3D_order_char_w(a,order) result(nrm)
+    pure function la_norm_3D_order_char_w(a,order) result(nrm)
         !> Input 3-d matrix a(:,:,:)
         complex(qp),intent(in) :: a(:,:,:)
         !> Order of the matrix norm being computed.
@@ -42889,10 +42889,10 @@ module la_linalg_norms
                                     
         call norm_3D_char_w(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_3D_order_char_w
+    end function la_norm_3D_order_char_w
     
     ! Function interface with output error
-    function la_linalg_norm_3D_order_err_char_w(a,order,err) result(nrm)
+    function la_norm_3D_order_err_char_w(a,order,err) result(nrm)
         !> Input 3-d matrix a(:,:,:)
         complex(qp),intent(in) :: a(:,:,:)
         !> Order of the matrix norm being computed.
@@ -42904,7 +42904,7 @@ module la_linalg_norms
                 
         call norm_3D_char_w(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_3D_order_err_char_w
+    end function la_norm_3D_order_err_char_w
     
     ! Internal implementation
     pure subroutine norm_3D_char_w(a,nrm,order,err)
@@ -42962,7 +42962,7 @@ module la_linalg_norms
     end subroutine norm_3D_char_w
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_4D_order_char_w(a,order) result(nrm)
+    pure function la_norm_4D_order_char_w(a,order) result(nrm)
         !> Input 4-d matrix a(:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -42972,10 +42972,10 @@ module la_linalg_norms
                                     
         call norm_4D_char_w(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_4D_order_char_w
+    end function la_norm_4D_order_char_w
     
     ! Function interface with output error
-    function la_linalg_norm_4D_order_err_char_w(a,order,err) result(nrm)
+    function la_norm_4D_order_err_char_w(a,order,err) result(nrm)
         !> Input 4-d matrix a(:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -42987,7 +42987,7 @@ module la_linalg_norms
                 
         call norm_4D_char_w(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_4D_order_err_char_w
+    end function la_norm_4D_order_err_char_w
     
     ! Internal implementation
     pure subroutine norm_4D_char_w(a,nrm,order,err)
@@ -43045,7 +43045,7 @@ module la_linalg_norms
     end subroutine norm_4D_char_w
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_5D_order_char_w(a,order) result(nrm)
+    pure function la_norm_5D_order_char_w(a,order) result(nrm)
         !> Input 5-d matrix a(:,:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -43055,10 +43055,10 @@ module la_linalg_norms
                                     
         call norm_5D_char_w(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_5D_order_char_w
+    end function la_norm_5D_order_char_w
     
     ! Function interface with output error
-    function la_linalg_norm_5D_order_err_char_w(a,order,err) result(nrm)
+    function la_norm_5D_order_err_char_w(a,order,err) result(nrm)
         !> Input 5-d matrix a(:,:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -43070,7 +43070,7 @@ module la_linalg_norms
                 
         call norm_5D_char_w(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_5D_order_err_char_w
+    end function la_norm_5D_order_err_char_w
     
     ! Internal implementation
     pure subroutine norm_5D_char_w(a,nrm,order,err)
@@ -43128,7 +43128,7 @@ module la_linalg_norms
     end subroutine norm_5D_char_w
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_6D_order_char_w(a,order) result(nrm)
+    pure function la_norm_6D_order_char_w(a,order) result(nrm)
         !> Input 6-d matrix a(:,:,:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -43138,10 +43138,10 @@ module la_linalg_norms
                                     
         call norm_6D_char_w(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_6D_order_char_w
+    end function la_norm_6D_order_char_w
     
     ! Function interface with output error
-    function la_linalg_norm_6D_order_err_char_w(a,order,err) result(nrm)
+    function la_norm_6D_order_err_char_w(a,order,err) result(nrm)
         !> Input 6-d matrix a(:,:,:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -43153,7 +43153,7 @@ module la_linalg_norms
                 
         call norm_6D_char_w(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_6D_order_err_char_w
+    end function la_norm_6D_order_err_char_w
     
     ! Internal implementation
     pure subroutine norm_6D_char_w(a,nrm,order,err)
@@ -43211,7 +43211,7 @@ module la_linalg_norms
     end subroutine norm_6D_char_w
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_7D_order_char_w(a,order) result(nrm)
+    pure function la_norm_7D_order_char_w(a,order) result(nrm)
         !> Input 7-d matrix a(:,:,:,:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -43221,10 +43221,10 @@ module la_linalg_norms
                                     
         call norm_7D_char_w(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_7D_order_char_w
+    end function la_norm_7D_order_char_w
     
     ! Function interface with output error
-    function la_linalg_norm_7D_order_err_char_w(a,order,err) result(nrm)
+    function la_norm_7D_order_err_char_w(a,order,err) result(nrm)
         !> Input 7-d matrix a(:,:,:,:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -43236,7 +43236,7 @@ module la_linalg_norms
                 
         call norm_7D_char_w(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_7D_order_err_char_w
+    end function la_norm_7D_order_err_char_w
     
     ! Internal implementation
     pure subroutine norm_7D_char_w(a,nrm,order,err)
@@ -43294,7 +43294,7 @@ module la_linalg_norms
     end subroutine norm_7D_char_w
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_8D_order_char_w(a,order) result(nrm)
+    pure function la_norm_8D_order_char_w(a,order) result(nrm)
         !> Input 8-d matrix a(:,:,:,:,:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -43304,10 +43304,10 @@ module la_linalg_norms
                                     
         call norm_8D_char_w(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_8D_order_char_w
+    end function la_norm_8D_order_char_w
     
     ! Function interface with output error
-    function la_linalg_norm_8D_order_err_char_w(a,order,err) result(nrm)
+    function la_norm_8D_order_err_char_w(a,order,err) result(nrm)
         !> Input 8-d matrix a(:,:,:,:,:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -43319,7 +43319,7 @@ module la_linalg_norms
                 
         call norm_8D_char_w(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_8D_order_err_char_w
+    end function la_norm_8D_order_err_char_w
     
     ! Internal implementation
     pure subroutine norm_8D_char_w(a,nrm,order,err)
@@ -43377,7 +43377,7 @@ module la_linalg_norms
     end subroutine norm_8D_char_w
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_9D_order_char_w(a,order) result(nrm)
+    pure function la_norm_9D_order_char_w(a,order) result(nrm)
         !> Input 9-d matrix a(:,:,:,:,:,:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -43387,10 +43387,10 @@ module la_linalg_norms
                                     
         call norm_9D_char_w(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_9D_order_char_w
+    end function la_norm_9D_order_char_w
     
     ! Function interface with output error
-    function la_linalg_norm_9D_order_err_char_w(a,order,err) result(nrm)
+    function la_norm_9D_order_err_char_w(a,order,err) result(nrm)
         !> Input 9-d matrix a(:,:,:,:,:,:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -43402,7 +43402,7 @@ module la_linalg_norms
                 
         call norm_9D_char_w(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_9D_order_err_char_w
+    end function la_norm_9D_order_err_char_w
     
     ! Internal implementation
     pure subroutine norm_9D_char_w(a,nrm,order,err)
@@ -43460,7 +43460,7 @@ module la_linalg_norms
     end subroutine norm_9D_char_w
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_10D_order_char_w(a,order) result(nrm)
+    pure function la_norm_10D_order_char_w(a,order) result(nrm)
         !> Input 10-d matrix a(:,:,:,:,:,:,:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -43470,10 +43470,10 @@ module la_linalg_norms
                                     
         call norm_10D_char_w(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_10D_order_char_w
+    end function la_norm_10D_order_char_w
     
     ! Function interface with output error
-    function la_linalg_norm_10D_order_err_char_w(a,order,err) result(nrm)
+    function la_norm_10D_order_err_char_w(a,order,err) result(nrm)
         !> Input 10-d matrix a(:,:,:,:,:,:,:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -43485,7 +43485,7 @@ module la_linalg_norms
                 
         call norm_10D_char_w(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_10D_order_err_char_w
+    end function la_norm_10D_order_err_char_w
     
     ! Internal implementation
     pure subroutine norm_10D_char_w(a,nrm,order,err)
@@ -43543,7 +43543,7 @@ module la_linalg_norms
     end subroutine norm_10D_char_w
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_11D_order_char_w(a,order) result(nrm)
+    pure function la_norm_11D_order_char_w(a,order) result(nrm)
         !> Input 11-d matrix a(:,:,:,:,:,:,:,:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -43553,10 +43553,10 @@ module la_linalg_norms
                                     
         call norm_11D_char_w(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_11D_order_char_w
+    end function la_norm_11D_order_char_w
     
     ! Function interface with output error
-    function la_linalg_norm_11D_order_err_char_w(a,order,err) result(nrm)
+    function la_norm_11D_order_err_char_w(a,order,err) result(nrm)
         !> Input 11-d matrix a(:,:,:,:,:,:,:,:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -43568,7 +43568,7 @@ module la_linalg_norms
                 
         call norm_11D_char_w(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_11D_order_err_char_w
+    end function la_norm_11D_order_err_char_w
     
     ! Internal implementation
     pure subroutine norm_11D_char_w(a,nrm,order,err)
@@ -43626,7 +43626,7 @@ module la_linalg_norms
     end subroutine norm_11D_char_w
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_12D_order_char_w(a,order) result(nrm)
+    pure function la_norm_12D_order_char_w(a,order) result(nrm)
         !> Input 12-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -43636,10 +43636,10 @@ module la_linalg_norms
                                     
         call norm_12D_char_w(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_12D_order_char_w
+    end function la_norm_12D_order_char_w
     
     ! Function interface with output error
-    function la_linalg_norm_12D_order_err_char_w(a,order,err) result(nrm)
+    function la_norm_12D_order_err_char_w(a,order,err) result(nrm)
         !> Input 12-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -43651,7 +43651,7 @@ module la_linalg_norms
                 
         call norm_12D_char_w(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_12D_order_err_char_w
+    end function la_norm_12D_order_err_char_w
     
     ! Internal implementation
     pure subroutine norm_12D_char_w(a,nrm,order,err)
@@ -43709,7 +43709,7 @@ module la_linalg_norms
     end subroutine norm_12D_char_w
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_13D_order_char_w(a,order) result(nrm)
+    pure function la_norm_13D_order_char_w(a,order) result(nrm)
         !> Input 13-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -43719,10 +43719,10 @@ module la_linalg_norms
                                     
         call norm_13D_char_w(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_13D_order_char_w
+    end function la_norm_13D_order_char_w
     
     ! Function interface with output error
-    function la_linalg_norm_13D_order_err_char_w(a,order,err) result(nrm)
+    function la_norm_13D_order_err_char_w(a,order,err) result(nrm)
         !> Input 13-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -43734,7 +43734,7 @@ module la_linalg_norms
                 
         call norm_13D_char_w(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_13D_order_err_char_w
+    end function la_norm_13D_order_err_char_w
     
     ! Internal implementation
     pure subroutine norm_13D_char_w(a,nrm,order,err)
@@ -43792,7 +43792,7 @@ module la_linalg_norms
     end subroutine norm_13D_char_w
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_14D_order_char_w(a,order) result(nrm)
+    pure function la_norm_14D_order_char_w(a,order) result(nrm)
         !> Input 14-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -43802,10 +43802,10 @@ module la_linalg_norms
                                     
         call norm_14D_char_w(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_14D_order_char_w
+    end function la_norm_14D_order_char_w
     
     ! Function interface with output error
-    function la_linalg_norm_14D_order_err_char_w(a,order,err) result(nrm)
+    function la_norm_14D_order_err_char_w(a,order,err) result(nrm)
         !> Input 14-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -43817,7 +43817,7 @@ module la_linalg_norms
                 
         call norm_14D_char_w(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_14D_order_err_char_w
+    end function la_norm_14D_order_err_char_w
     
     ! Internal implementation
     pure subroutine norm_14D_char_w(a,nrm,order,err)
@@ -43875,7 +43875,7 @@ module la_linalg_norms
     end subroutine norm_14D_char_w
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_15D_order_char_w(a,order) result(nrm)
+    pure function la_norm_15D_order_char_w(a,order) result(nrm)
         !> Input 15-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -43885,10 +43885,10 @@ module la_linalg_norms
                                     
         call norm_15D_char_w(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_15D_order_char_w
+    end function la_norm_15D_order_char_w
     
     ! Function interface with output error
-    function la_linalg_norm_15D_order_err_char_w(a,order,err) result(nrm)
+    function la_norm_15D_order_err_char_w(a,order,err) result(nrm)
         !> Input 15-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -43900,7 +43900,7 @@ module la_linalg_norms
                 
         call norm_15D_char_w(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_15D_order_err_char_w
+    end function la_norm_15D_order_err_char_w
     
     ! Internal implementation
     pure subroutine norm_15D_char_w(a,nrm,order,err)
@@ -43962,7 +43962,7 @@ module la_linalg_norms
     !====================================================================
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_2D_to_1D_char_w(a,order,dim) result(nrm)
+    pure function la_norm_2D_to_1D_char_w(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(qp),intent(in),target :: a(:,:)
         !> Order of the matrix norm being computed.
@@ -43974,10 +43974,10 @@ module la_linalg_norms
         
         call norm_2D_to_1D_char_w(a,nrm,order,dim)
             
-    end function la_linalg_norm_2D_to_1D_char_w
+    end function la_norm_2D_to_1D_char_w
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_2D_to_1D_err_char_w(a,order,dim,err) result(nrm)
+    function la_norm_2D_to_1D_err_char_w(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(qp),intent(in),target :: a(:,:)
         !> Order of the matrix norm being computed.
@@ -43991,7 +43991,7 @@ module la_linalg_norms
         
         call norm_2D_to_1D_char_w(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_2D_to_1D_err_char_w
+    end function la_norm_2D_to_1D_err_char_w
     
     ! Internal implementation
     pure subroutine norm_2D_to_1D_char_w(a,nrm,order,dim,err)
@@ -44058,7 +44058,7 @@ module la_linalg_norms
     end subroutine norm_2D_to_1D_char_w
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_3D_to_2D_char_w(a,order,dim) result(nrm)
+    pure function la_norm_3D_to_2D_char_w(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(qp),intent(in),target :: a(:,:,:)
         !> Order of the matrix norm being computed.
@@ -44070,10 +44070,10 @@ module la_linalg_norms
         
         call norm_3D_to_2D_char_w(a,nrm,order,dim)
             
-    end function la_linalg_norm_3D_to_2D_char_w
+    end function la_norm_3D_to_2D_char_w
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_3D_to_2D_err_char_w(a,order,dim,err) result(nrm)
+    function la_norm_3D_to_2D_err_char_w(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(qp),intent(in),target :: a(:,:,:)
         !> Order of the matrix norm being computed.
@@ -44087,7 +44087,7 @@ module la_linalg_norms
         
         call norm_3D_to_2D_char_w(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_3D_to_2D_err_char_w
+    end function la_norm_3D_to_2D_err_char_w
     
     ! Internal implementation
     pure subroutine norm_3D_to_2D_char_w(a,nrm,order,dim,err)
@@ -44154,7 +44154,7 @@ module la_linalg_norms
     end subroutine norm_3D_to_2D_char_w
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_4D_to_3D_char_w(a,order,dim) result(nrm)
+    pure function la_norm_4D_to_3D_char_w(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(qp),intent(in),target :: a(:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -44167,10 +44167,10 @@ module la_linalg_norms
         
         call norm_4D_to_3D_char_w(a,nrm,order,dim)
             
-    end function la_linalg_norm_4D_to_3D_char_w
+    end function la_norm_4D_to_3D_char_w
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_4D_to_3D_err_char_w(a,order,dim,err) result(nrm)
+    function la_norm_4D_to_3D_err_char_w(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(qp),intent(in),target :: a(:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -44185,7 +44185,7 @@ module la_linalg_norms
         
         call norm_4D_to_3D_char_w(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_4D_to_3D_err_char_w
+    end function la_norm_4D_to_3D_err_char_w
     
     ! Internal implementation
     pure subroutine norm_4D_to_3D_char_w(a,nrm,order,dim,err)
@@ -44253,7 +44253,7 @@ module la_linalg_norms
     end subroutine norm_4D_to_3D_char_w
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_5D_to_4D_char_w(a,order,dim) result(nrm)
+    pure function la_norm_5D_to_4D_char_w(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(qp),intent(in),target :: a(:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -44266,10 +44266,10 @@ module la_linalg_norms
         
         call norm_5D_to_4D_char_w(a,nrm,order,dim)
             
-    end function la_linalg_norm_5D_to_4D_char_w
+    end function la_norm_5D_to_4D_char_w
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_5D_to_4D_err_char_w(a,order,dim,err) result(nrm)
+    function la_norm_5D_to_4D_err_char_w(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(qp),intent(in),target :: a(:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -44284,7 +44284,7 @@ module la_linalg_norms
         
         call norm_5D_to_4D_char_w(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_5D_to_4D_err_char_w
+    end function la_norm_5D_to_4D_err_char_w
     
     ! Internal implementation
     pure subroutine norm_5D_to_4D_char_w(a,nrm,order,dim,err)
@@ -44352,7 +44352,7 @@ module la_linalg_norms
     end subroutine norm_5D_to_4D_char_w
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_6D_to_5D_char_w(a,order,dim) result(nrm)
+    pure function la_norm_6D_to_5D_char_w(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(qp),intent(in),target :: a(:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -44365,10 +44365,10 @@ module la_linalg_norms
         
         call norm_6D_to_5D_char_w(a,nrm,order,dim)
             
-    end function la_linalg_norm_6D_to_5D_char_w
+    end function la_norm_6D_to_5D_char_w
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_6D_to_5D_err_char_w(a,order,dim,err) result(nrm)
+    function la_norm_6D_to_5D_err_char_w(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(qp),intent(in),target :: a(:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -44383,7 +44383,7 @@ module la_linalg_norms
         
         call norm_6D_to_5D_char_w(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_6D_to_5D_err_char_w
+    end function la_norm_6D_to_5D_err_char_w
     
     ! Internal implementation
     pure subroutine norm_6D_to_5D_char_w(a,nrm,order,dim,err)
@@ -44452,7 +44452,7 @@ module la_linalg_norms
     end subroutine norm_6D_to_5D_char_w
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_7D_to_6D_char_w(a,order,dim) result(nrm)
+    pure function la_norm_7D_to_6D_char_w(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(qp),intent(in),target :: a(:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -44466,10 +44466,10 @@ module la_linalg_norms
         
         call norm_7D_to_6D_char_w(a,nrm,order,dim)
             
-    end function la_linalg_norm_7D_to_6D_char_w
+    end function la_norm_7D_to_6D_char_w
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_7D_to_6D_err_char_w(a,order,dim,err) result(nrm)
+    function la_norm_7D_to_6D_err_char_w(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(qp),intent(in),target :: a(:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -44485,7 +44485,7 @@ module la_linalg_norms
         
         call norm_7D_to_6D_char_w(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_7D_to_6D_err_char_w
+    end function la_norm_7D_to_6D_err_char_w
     
     ! Internal implementation
     pure subroutine norm_7D_to_6D_char_w(a,nrm,order,dim,err)
@@ -44554,7 +44554,7 @@ module la_linalg_norms
     end subroutine norm_7D_to_6D_char_w
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_8D_to_7D_char_w(a,order,dim) result(nrm)
+    pure function la_norm_8D_to_7D_char_w(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(qp),intent(in),target :: a(:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -44568,10 +44568,10 @@ module la_linalg_norms
         
         call norm_8D_to_7D_char_w(a,nrm,order,dim)
             
-    end function la_linalg_norm_8D_to_7D_char_w
+    end function la_norm_8D_to_7D_char_w
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_8D_to_7D_err_char_w(a,order,dim,err) result(nrm)
+    function la_norm_8D_to_7D_err_char_w(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(qp),intent(in),target :: a(:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -44587,7 +44587,7 @@ module la_linalg_norms
         
         call norm_8D_to_7D_char_w(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_8D_to_7D_err_char_w
+    end function la_norm_8D_to_7D_err_char_w
     
     ! Internal implementation
     pure subroutine norm_8D_to_7D_char_w(a,nrm,order,dim,err)
@@ -44656,7 +44656,7 @@ module la_linalg_norms
     end subroutine norm_8D_to_7D_char_w
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_9D_to_8D_char_w(a,order,dim) result(nrm)
+    pure function la_norm_9D_to_8D_char_w(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -44671,10 +44671,10 @@ module la_linalg_norms
         
         call norm_9D_to_8D_char_w(a,nrm,order,dim)
             
-    end function la_linalg_norm_9D_to_8D_char_w
+    end function la_norm_9D_to_8D_char_w
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_9D_to_8D_err_char_w(a,order,dim,err) result(nrm)
+    function la_norm_9D_to_8D_err_char_w(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -44691,7 +44691,7 @@ module la_linalg_norms
         
         call norm_9D_to_8D_char_w(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_9D_to_8D_err_char_w
+    end function la_norm_9D_to_8D_err_char_w
     
     ! Internal implementation
     pure subroutine norm_9D_to_8D_char_w(a,nrm,order,dim,err)
@@ -44761,7 +44761,7 @@ module la_linalg_norms
     end subroutine norm_9D_to_8D_char_w
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_10D_to_9D_char_w(a,order,dim) result(nrm)
+    pure function la_norm_10D_to_9D_char_w(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -44776,10 +44776,10 @@ module la_linalg_norms
         
         call norm_10D_to_9D_char_w(a,nrm,order,dim)
             
-    end function la_linalg_norm_10D_to_9D_char_w
+    end function la_norm_10D_to_9D_char_w
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_10D_to_9D_err_char_w(a,order,dim,err) result(nrm)
+    function la_norm_10D_to_9D_err_char_w(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -44796,7 +44796,7 @@ module la_linalg_norms
         
         call norm_10D_to_9D_char_w(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_10D_to_9D_err_char_w
+    end function la_norm_10D_to_9D_err_char_w
     
     ! Internal implementation
     pure subroutine norm_10D_to_9D_char_w(a,nrm,order,dim,err)
@@ -44866,7 +44866,7 @@ module la_linalg_norms
     end subroutine norm_10D_to_9D_char_w
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_11D_to_10D_char_w(a,order,dim) result(nrm)
+    pure function la_norm_11D_to_10D_char_w(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -44881,10 +44881,10 @@ module la_linalg_norms
         
         call norm_11D_to_10D_char_w(a,nrm,order,dim)
             
-    end function la_linalg_norm_11D_to_10D_char_w
+    end function la_norm_11D_to_10D_char_w
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_11D_to_10D_err_char_w(a,order,dim,err) result(nrm)
+    function la_norm_11D_to_10D_err_char_w(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -44901,7 +44901,7 @@ module la_linalg_norms
         
         call norm_11D_to_10D_char_w(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_11D_to_10D_err_char_w
+    end function la_norm_11D_to_10D_err_char_w
     
     ! Internal implementation
     pure subroutine norm_11D_to_10D_char_w(a,nrm,order,dim,err)
@@ -44972,7 +44972,7 @@ module la_linalg_norms
     end subroutine norm_11D_to_10D_char_w
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_12D_to_11D_char_w(a,order,dim) result(nrm)
+    pure function la_norm_12D_to_11D_char_w(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -44988,10 +44988,10 @@ module la_linalg_norms
         
         call norm_12D_to_11D_char_w(a,nrm,order,dim)
             
-    end function la_linalg_norm_12D_to_11D_char_w
+    end function la_norm_12D_to_11D_char_w
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_12D_to_11D_err_char_w(a,order,dim,err) result(nrm)
+    function la_norm_12D_to_11D_err_char_w(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -45009,7 +45009,7 @@ module la_linalg_norms
         
         call norm_12D_to_11D_char_w(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_12D_to_11D_err_char_w
+    end function la_norm_12D_to_11D_err_char_w
     
     ! Internal implementation
     pure subroutine norm_12D_to_11D_char_w(a,nrm,order,dim,err)
@@ -45080,7 +45080,7 @@ module la_linalg_norms
     end subroutine norm_12D_to_11D_char_w
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_13D_to_12D_char_w(a,order,dim) result(nrm)
+    pure function la_norm_13D_to_12D_char_w(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -45096,10 +45096,10 @@ module la_linalg_norms
         
         call norm_13D_to_12D_char_w(a,nrm,order,dim)
             
-    end function la_linalg_norm_13D_to_12D_char_w
+    end function la_norm_13D_to_12D_char_w
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_13D_to_12D_err_char_w(a,order,dim,err) result(nrm)
+    function la_norm_13D_to_12D_err_char_w(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -45117,7 +45117,7 @@ module la_linalg_norms
         
         call norm_13D_to_12D_char_w(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_13D_to_12D_err_char_w
+    end function la_norm_13D_to_12D_err_char_w
     
     ! Internal implementation
     pure subroutine norm_13D_to_12D_char_w(a,nrm,order,dim,err)
@@ -45188,7 +45188,7 @@ module la_linalg_norms
     end subroutine norm_13D_to_12D_char_w
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_14D_to_13D_char_w(a,order,dim) result(nrm)
+    pure function la_norm_14D_to_13D_char_w(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -45205,10 +45205,10 @@ module la_linalg_norms
         
         call norm_14D_to_13D_char_w(a,nrm,order,dim)
             
-    end function la_linalg_norm_14D_to_13D_char_w
+    end function la_norm_14D_to_13D_char_w
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_14D_to_13D_err_char_w(a,order,dim,err) result(nrm)
+    function la_norm_14D_to_13D_err_char_w(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -45227,7 +45227,7 @@ module la_linalg_norms
         
         call norm_14D_to_13D_char_w(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_14D_to_13D_err_char_w
+    end function la_norm_14D_to_13D_err_char_w
     
     ! Internal implementation
     pure subroutine norm_14D_to_13D_char_w(a,nrm,order,dim,err)
@@ -45299,7 +45299,7 @@ module la_linalg_norms
     end subroutine norm_14D_to_13D_char_w
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_15D_to_14D_char_w(a,order,dim) result(nrm)
+    pure function la_norm_15D_to_14D_char_w(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -45316,10 +45316,10 @@ module la_linalg_norms
         
         call norm_15D_to_14D_char_w(a,nrm,order,dim)
             
-    end function la_linalg_norm_15D_to_14D_char_w
+    end function la_norm_15D_to_14D_char_w
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_15D_to_14D_err_char_w(a,order,dim,err) result(nrm)
+    function la_norm_15D_to_14D_err_char_w(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -45338,7 +45338,7 @@ module la_linalg_norms
         
         call norm_15D_to_14D_char_w(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_15D_to_14D_err_char_w
+    end function la_norm_15D_to_14D_err_char_w
     
     ! Internal implementation
     pure subroutine norm_15D_to_14D_char_w(a,nrm,order,dim,err)
@@ -46845,7 +46845,7 @@ module la_linalg_norms
     !==============================================
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_1D_order_int_w(a,order) result(nrm)
+    pure function la_norm_1D_order_int_w(a,order) result(nrm)
         !> Input 1-d matrix a(:)
         complex(qp),intent(in) :: a(:)
         !> Order of the matrix norm being computed.
@@ -46855,10 +46855,10 @@ module la_linalg_norms
                                     
         call norm_1D_int_w(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_1D_order_int_w
+    end function la_norm_1D_order_int_w
     
     ! Function interface with output error
-    function la_linalg_norm_1D_order_err_int_w(a,order,err) result(nrm)
+    function la_norm_1D_order_err_int_w(a,order,err) result(nrm)
         !> Input 1-d matrix a(:)
         complex(qp),intent(in) :: a(:)
         !> Order of the matrix norm being computed.
@@ -46870,7 +46870,7 @@ module la_linalg_norms
                 
         call norm_1D_int_w(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_1D_order_err_int_w
+    end function la_norm_1D_order_err_int_w
     
     ! Internal implementation
     pure subroutine norm_1D_int_w(a,nrm,order,err)
@@ -46928,7 +46928,7 @@ module la_linalg_norms
     end subroutine norm_1D_int_w
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_2D_order_int_w(a,order) result(nrm)
+    pure function la_norm_2D_order_int_w(a,order) result(nrm)
         !> Input 2-d matrix a(:,:)
         complex(qp),intent(in) :: a(:,:)
         !> Order of the matrix norm being computed.
@@ -46938,10 +46938,10 @@ module la_linalg_norms
                                     
         call norm_2D_int_w(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_2D_order_int_w
+    end function la_norm_2D_order_int_w
     
     ! Function interface with output error
-    function la_linalg_norm_2D_order_err_int_w(a,order,err) result(nrm)
+    function la_norm_2D_order_err_int_w(a,order,err) result(nrm)
         !> Input 2-d matrix a(:,:)
         complex(qp),intent(in) :: a(:,:)
         !> Order of the matrix norm being computed.
@@ -46953,7 +46953,7 @@ module la_linalg_norms
                 
         call norm_2D_int_w(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_2D_order_err_int_w
+    end function la_norm_2D_order_err_int_w
     
     ! Internal implementation
     pure subroutine norm_2D_int_w(a,nrm,order,err)
@@ -47011,7 +47011,7 @@ module la_linalg_norms
     end subroutine norm_2D_int_w
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_3D_order_int_w(a,order) result(nrm)
+    pure function la_norm_3D_order_int_w(a,order) result(nrm)
         !> Input 3-d matrix a(:,:,:)
         complex(qp),intent(in) :: a(:,:,:)
         !> Order of the matrix norm being computed.
@@ -47021,10 +47021,10 @@ module la_linalg_norms
                                     
         call norm_3D_int_w(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_3D_order_int_w
+    end function la_norm_3D_order_int_w
     
     ! Function interface with output error
-    function la_linalg_norm_3D_order_err_int_w(a,order,err) result(nrm)
+    function la_norm_3D_order_err_int_w(a,order,err) result(nrm)
         !> Input 3-d matrix a(:,:,:)
         complex(qp),intent(in) :: a(:,:,:)
         !> Order of the matrix norm being computed.
@@ -47036,7 +47036,7 @@ module la_linalg_norms
                 
         call norm_3D_int_w(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_3D_order_err_int_w
+    end function la_norm_3D_order_err_int_w
     
     ! Internal implementation
     pure subroutine norm_3D_int_w(a,nrm,order,err)
@@ -47094,7 +47094,7 @@ module la_linalg_norms
     end subroutine norm_3D_int_w
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_4D_order_int_w(a,order) result(nrm)
+    pure function la_norm_4D_order_int_w(a,order) result(nrm)
         !> Input 4-d matrix a(:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -47104,10 +47104,10 @@ module la_linalg_norms
                                     
         call norm_4D_int_w(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_4D_order_int_w
+    end function la_norm_4D_order_int_w
     
     ! Function interface with output error
-    function la_linalg_norm_4D_order_err_int_w(a,order,err) result(nrm)
+    function la_norm_4D_order_err_int_w(a,order,err) result(nrm)
         !> Input 4-d matrix a(:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -47119,7 +47119,7 @@ module la_linalg_norms
                 
         call norm_4D_int_w(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_4D_order_err_int_w
+    end function la_norm_4D_order_err_int_w
     
     ! Internal implementation
     pure subroutine norm_4D_int_w(a,nrm,order,err)
@@ -47177,7 +47177,7 @@ module la_linalg_norms
     end subroutine norm_4D_int_w
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_5D_order_int_w(a,order) result(nrm)
+    pure function la_norm_5D_order_int_w(a,order) result(nrm)
         !> Input 5-d matrix a(:,:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -47187,10 +47187,10 @@ module la_linalg_norms
                                     
         call norm_5D_int_w(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_5D_order_int_w
+    end function la_norm_5D_order_int_w
     
     ! Function interface with output error
-    function la_linalg_norm_5D_order_err_int_w(a,order,err) result(nrm)
+    function la_norm_5D_order_err_int_w(a,order,err) result(nrm)
         !> Input 5-d matrix a(:,:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -47202,7 +47202,7 @@ module la_linalg_norms
                 
         call norm_5D_int_w(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_5D_order_err_int_w
+    end function la_norm_5D_order_err_int_w
     
     ! Internal implementation
     pure subroutine norm_5D_int_w(a,nrm,order,err)
@@ -47260,7 +47260,7 @@ module la_linalg_norms
     end subroutine norm_5D_int_w
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_6D_order_int_w(a,order) result(nrm)
+    pure function la_norm_6D_order_int_w(a,order) result(nrm)
         !> Input 6-d matrix a(:,:,:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -47270,10 +47270,10 @@ module la_linalg_norms
                                     
         call norm_6D_int_w(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_6D_order_int_w
+    end function la_norm_6D_order_int_w
     
     ! Function interface with output error
-    function la_linalg_norm_6D_order_err_int_w(a,order,err) result(nrm)
+    function la_norm_6D_order_err_int_w(a,order,err) result(nrm)
         !> Input 6-d matrix a(:,:,:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -47285,7 +47285,7 @@ module la_linalg_norms
                 
         call norm_6D_int_w(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_6D_order_err_int_w
+    end function la_norm_6D_order_err_int_w
     
     ! Internal implementation
     pure subroutine norm_6D_int_w(a,nrm,order,err)
@@ -47343,7 +47343,7 @@ module la_linalg_norms
     end subroutine norm_6D_int_w
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_7D_order_int_w(a,order) result(nrm)
+    pure function la_norm_7D_order_int_w(a,order) result(nrm)
         !> Input 7-d matrix a(:,:,:,:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -47353,10 +47353,10 @@ module la_linalg_norms
                                     
         call norm_7D_int_w(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_7D_order_int_w
+    end function la_norm_7D_order_int_w
     
     ! Function interface with output error
-    function la_linalg_norm_7D_order_err_int_w(a,order,err) result(nrm)
+    function la_norm_7D_order_err_int_w(a,order,err) result(nrm)
         !> Input 7-d matrix a(:,:,:,:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -47368,7 +47368,7 @@ module la_linalg_norms
                 
         call norm_7D_int_w(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_7D_order_err_int_w
+    end function la_norm_7D_order_err_int_w
     
     ! Internal implementation
     pure subroutine norm_7D_int_w(a,nrm,order,err)
@@ -47426,7 +47426,7 @@ module la_linalg_norms
     end subroutine norm_7D_int_w
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_8D_order_int_w(a,order) result(nrm)
+    pure function la_norm_8D_order_int_w(a,order) result(nrm)
         !> Input 8-d matrix a(:,:,:,:,:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -47436,10 +47436,10 @@ module la_linalg_norms
                                     
         call norm_8D_int_w(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_8D_order_int_w
+    end function la_norm_8D_order_int_w
     
     ! Function interface with output error
-    function la_linalg_norm_8D_order_err_int_w(a,order,err) result(nrm)
+    function la_norm_8D_order_err_int_w(a,order,err) result(nrm)
         !> Input 8-d matrix a(:,:,:,:,:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -47451,7 +47451,7 @@ module la_linalg_norms
                 
         call norm_8D_int_w(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_8D_order_err_int_w
+    end function la_norm_8D_order_err_int_w
     
     ! Internal implementation
     pure subroutine norm_8D_int_w(a,nrm,order,err)
@@ -47509,7 +47509,7 @@ module la_linalg_norms
     end subroutine norm_8D_int_w
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_9D_order_int_w(a,order) result(nrm)
+    pure function la_norm_9D_order_int_w(a,order) result(nrm)
         !> Input 9-d matrix a(:,:,:,:,:,:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -47519,10 +47519,10 @@ module la_linalg_norms
                                     
         call norm_9D_int_w(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_9D_order_int_w
+    end function la_norm_9D_order_int_w
     
     ! Function interface with output error
-    function la_linalg_norm_9D_order_err_int_w(a,order,err) result(nrm)
+    function la_norm_9D_order_err_int_w(a,order,err) result(nrm)
         !> Input 9-d matrix a(:,:,:,:,:,:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -47534,7 +47534,7 @@ module la_linalg_norms
                 
         call norm_9D_int_w(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_9D_order_err_int_w
+    end function la_norm_9D_order_err_int_w
     
     ! Internal implementation
     pure subroutine norm_9D_int_w(a,nrm,order,err)
@@ -47592,7 +47592,7 @@ module la_linalg_norms
     end subroutine norm_9D_int_w
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_10D_order_int_w(a,order) result(nrm)
+    pure function la_norm_10D_order_int_w(a,order) result(nrm)
         !> Input 10-d matrix a(:,:,:,:,:,:,:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -47602,10 +47602,10 @@ module la_linalg_norms
                                     
         call norm_10D_int_w(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_10D_order_int_w
+    end function la_norm_10D_order_int_w
     
     ! Function interface with output error
-    function la_linalg_norm_10D_order_err_int_w(a,order,err) result(nrm)
+    function la_norm_10D_order_err_int_w(a,order,err) result(nrm)
         !> Input 10-d matrix a(:,:,:,:,:,:,:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -47617,7 +47617,7 @@ module la_linalg_norms
                 
         call norm_10D_int_w(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_10D_order_err_int_w
+    end function la_norm_10D_order_err_int_w
     
     ! Internal implementation
     pure subroutine norm_10D_int_w(a,nrm,order,err)
@@ -47675,7 +47675,7 @@ module la_linalg_norms
     end subroutine norm_10D_int_w
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_11D_order_int_w(a,order) result(nrm)
+    pure function la_norm_11D_order_int_w(a,order) result(nrm)
         !> Input 11-d matrix a(:,:,:,:,:,:,:,:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -47685,10 +47685,10 @@ module la_linalg_norms
                                     
         call norm_11D_int_w(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_11D_order_int_w
+    end function la_norm_11D_order_int_w
     
     ! Function interface with output error
-    function la_linalg_norm_11D_order_err_int_w(a,order,err) result(nrm)
+    function la_norm_11D_order_err_int_w(a,order,err) result(nrm)
         !> Input 11-d matrix a(:,:,:,:,:,:,:,:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -47700,7 +47700,7 @@ module la_linalg_norms
                 
         call norm_11D_int_w(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_11D_order_err_int_w
+    end function la_norm_11D_order_err_int_w
     
     ! Internal implementation
     pure subroutine norm_11D_int_w(a,nrm,order,err)
@@ -47758,7 +47758,7 @@ module la_linalg_norms
     end subroutine norm_11D_int_w
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_12D_order_int_w(a,order) result(nrm)
+    pure function la_norm_12D_order_int_w(a,order) result(nrm)
         !> Input 12-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -47768,10 +47768,10 @@ module la_linalg_norms
                                     
         call norm_12D_int_w(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_12D_order_int_w
+    end function la_norm_12D_order_int_w
     
     ! Function interface with output error
-    function la_linalg_norm_12D_order_err_int_w(a,order,err) result(nrm)
+    function la_norm_12D_order_err_int_w(a,order,err) result(nrm)
         !> Input 12-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -47783,7 +47783,7 @@ module la_linalg_norms
                 
         call norm_12D_int_w(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_12D_order_err_int_w
+    end function la_norm_12D_order_err_int_w
     
     ! Internal implementation
     pure subroutine norm_12D_int_w(a,nrm,order,err)
@@ -47841,7 +47841,7 @@ module la_linalg_norms
     end subroutine norm_12D_int_w
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_13D_order_int_w(a,order) result(nrm)
+    pure function la_norm_13D_order_int_w(a,order) result(nrm)
         !> Input 13-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -47851,10 +47851,10 @@ module la_linalg_norms
                                     
         call norm_13D_int_w(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_13D_order_int_w
+    end function la_norm_13D_order_int_w
     
     ! Function interface with output error
-    function la_linalg_norm_13D_order_err_int_w(a,order,err) result(nrm)
+    function la_norm_13D_order_err_int_w(a,order,err) result(nrm)
         !> Input 13-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -47866,7 +47866,7 @@ module la_linalg_norms
                 
         call norm_13D_int_w(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_13D_order_err_int_w
+    end function la_norm_13D_order_err_int_w
     
     ! Internal implementation
     pure subroutine norm_13D_int_w(a,nrm,order,err)
@@ -47924,7 +47924,7 @@ module la_linalg_norms
     end subroutine norm_13D_int_w
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_14D_order_int_w(a,order) result(nrm)
+    pure function la_norm_14D_order_int_w(a,order) result(nrm)
         !> Input 14-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -47934,10 +47934,10 @@ module la_linalg_norms
                                     
         call norm_14D_int_w(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_14D_order_int_w
+    end function la_norm_14D_order_int_w
     
     ! Function interface with output error
-    function la_linalg_norm_14D_order_err_int_w(a,order,err) result(nrm)
+    function la_norm_14D_order_err_int_w(a,order,err) result(nrm)
         !> Input 14-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -47949,7 +47949,7 @@ module la_linalg_norms
                 
         call norm_14D_int_w(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_14D_order_err_int_w
+    end function la_norm_14D_order_err_int_w
     
     ! Internal implementation
     pure subroutine norm_14D_int_w(a,nrm,order,err)
@@ -48007,7 +48007,7 @@ module la_linalg_norms
     end subroutine norm_14D_int_w
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function la_linalg_norm_15D_order_int_w(a,order) result(nrm)
+    pure function la_norm_15D_order_int_w(a,order) result(nrm)
         !> Input 15-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -48017,10 +48017,10 @@ module la_linalg_norms
                                     
         call norm_15D_int_w(a,nrm=nrm,order=order)
         
-    end function la_linalg_norm_15D_order_int_w
+    end function la_norm_15D_order_int_w
     
     ! Function interface with output error
-    function la_linalg_norm_15D_order_err_int_w(a,order,err) result(nrm)
+    function la_norm_15D_order_err_int_w(a,order,err) result(nrm)
         !> Input 15-d matrix a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         complex(qp),intent(in) :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -48032,7 +48032,7 @@ module la_linalg_norms
                 
         call norm_15D_int_w(a,nrm=nrm,order=order,err=err)
         
-    end function la_linalg_norm_15D_order_err_int_w
+    end function la_norm_15D_order_err_int_w
     
     ! Internal implementation
     pure subroutine norm_15D_int_w(a,nrm,order,err)
@@ -48094,7 +48094,7 @@ module la_linalg_norms
     !====================================================================
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_2D_to_1D_int_w(a,order,dim) result(nrm)
+    pure function la_norm_2D_to_1D_int_w(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(qp),intent(in),target :: a(:,:)
         !> Order of the matrix norm being computed.
@@ -48106,10 +48106,10 @@ module la_linalg_norms
         
         call norm_2D_to_1D_int_w(a,nrm,order,dim)
             
-    end function la_linalg_norm_2D_to_1D_int_w
+    end function la_norm_2D_to_1D_int_w
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_2D_to_1D_err_int_w(a,order,dim,err) result(nrm)
+    function la_norm_2D_to_1D_err_int_w(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(qp),intent(in),target :: a(:,:)
         !> Order of the matrix norm being computed.
@@ -48123,7 +48123,7 @@ module la_linalg_norms
         
         call norm_2D_to_1D_int_w(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_2D_to_1D_err_int_w
+    end function la_norm_2D_to_1D_err_int_w
     
     ! Internal implementation
     pure subroutine norm_2D_to_1D_int_w(a,nrm,order,dim,err)
@@ -48190,7 +48190,7 @@ module la_linalg_norms
     end subroutine norm_2D_to_1D_int_w
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_3D_to_2D_int_w(a,order,dim) result(nrm)
+    pure function la_norm_3D_to_2D_int_w(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(qp),intent(in),target :: a(:,:,:)
         !> Order of the matrix norm being computed.
@@ -48202,10 +48202,10 @@ module la_linalg_norms
         
         call norm_3D_to_2D_int_w(a,nrm,order,dim)
             
-    end function la_linalg_norm_3D_to_2D_int_w
+    end function la_norm_3D_to_2D_int_w
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_3D_to_2D_err_int_w(a,order,dim,err) result(nrm)
+    function la_norm_3D_to_2D_err_int_w(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(qp),intent(in),target :: a(:,:,:)
         !> Order of the matrix norm being computed.
@@ -48219,7 +48219,7 @@ module la_linalg_norms
         
         call norm_3D_to_2D_int_w(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_3D_to_2D_err_int_w
+    end function la_norm_3D_to_2D_err_int_w
     
     ! Internal implementation
     pure subroutine norm_3D_to_2D_int_w(a,nrm,order,dim,err)
@@ -48286,7 +48286,7 @@ module la_linalg_norms
     end subroutine norm_3D_to_2D_int_w
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_4D_to_3D_int_w(a,order,dim) result(nrm)
+    pure function la_norm_4D_to_3D_int_w(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(qp),intent(in),target :: a(:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -48299,10 +48299,10 @@ module la_linalg_norms
         
         call norm_4D_to_3D_int_w(a,nrm,order,dim)
             
-    end function la_linalg_norm_4D_to_3D_int_w
+    end function la_norm_4D_to_3D_int_w
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_4D_to_3D_err_int_w(a,order,dim,err) result(nrm)
+    function la_norm_4D_to_3D_err_int_w(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(qp),intent(in),target :: a(:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -48317,7 +48317,7 @@ module la_linalg_norms
         
         call norm_4D_to_3D_int_w(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_4D_to_3D_err_int_w
+    end function la_norm_4D_to_3D_err_int_w
     
     ! Internal implementation
     pure subroutine norm_4D_to_3D_int_w(a,nrm,order,dim,err)
@@ -48385,7 +48385,7 @@ module la_linalg_norms
     end subroutine norm_4D_to_3D_int_w
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_5D_to_4D_int_w(a,order,dim) result(nrm)
+    pure function la_norm_5D_to_4D_int_w(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(qp),intent(in),target :: a(:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -48398,10 +48398,10 @@ module la_linalg_norms
         
         call norm_5D_to_4D_int_w(a,nrm,order,dim)
             
-    end function la_linalg_norm_5D_to_4D_int_w
+    end function la_norm_5D_to_4D_int_w
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_5D_to_4D_err_int_w(a,order,dim,err) result(nrm)
+    function la_norm_5D_to_4D_err_int_w(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(qp),intent(in),target :: a(:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -48416,7 +48416,7 @@ module la_linalg_norms
         
         call norm_5D_to_4D_int_w(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_5D_to_4D_err_int_w
+    end function la_norm_5D_to_4D_err_int_w
     
     ! Internal implementation
     pure subroutine norm_5D_to_4D_int_w(a,nrm,order,dim,err)
@@ -48484,7 +48484,7 @@ module la_linalg_norms
     end subroutine norm_5D_to_4D_int_w
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_6D_to_5D_int_w(a,order,dim) result(nrm)
+    pure function la_norm_6D_to_5D_int_w(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(qp),intent(in),target :: a(:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -48497,10 +48497,10 @@ module la_linalg_norms
         
         call norm_6D_to_5D_int_w(a,nrm,order,dim)
             
-    end function la_linalg_norm_6D_to_5D_int_w
+    end function la_norm_6D_to_5D_int_w
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_6D_to_5D_err_int_w(a,order,dim,err) result(nrm)
+    function la_norm_6D_to_5D_err_int_w(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(qp),intent(in),target :: a(:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -48515,7 +48515,7 @@ module la_linalg_norms
         
         call norm_6D_to_5D_int_w(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_6D_to_5D_err_int_w
+    end function la_norm_6D_to_5D_err_int_w
     
     ! Internal implementation
     pure subroutine norm_6D_to_5D_int_w(a,nrm,order,dim,err)
@@ -48584,7 +48584,7 @@ module la_linalg_norms
     end subroutine norm_6D_to_5D_int_w
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_7D_to_6D_int_w(a,order,dim) result(nrm)
+    pure function la_norm_7D_to_6D_int_w(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(qp),intent(in),target :: a(:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -48598,10 +48598,10 @@ module la_linalg_norms
         
         call norm_7D_to_6D_int_w(a,nrm,order,dim)
             
-    end function la_linalg_norm_7D_to_6D_int_w
+    end function la_norm_7D_to_6D_int_w
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_7D_to_6D_err_int_w(a,order,dim,err) result(nrm)
+    function la_norm_7D_to_6D_err_int_w(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(qp),intent(in),target :: a(:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -48617,7 +48617,7 @@ module la_linalg_norms
         
         call norm_7D_to_6D_int_w(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_7D_to_6D_err_int_w
+    end function la_norm_7D_to_6D_err_int_w
     
     ! Internal implementation
     pure subroutine norm_7D_to_6D_int_w(a,nrm,order,dim,err)
@@ -48686,7 +48686,7 @@ module la_linalg_norms
     end subroutine norm_7D_to_6D_int_w
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_8D_to_7D_int_w(a,order,dim) result(nrm)
+    pure function la_norm_8D_to_7D_int_w(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(qp),intent(in),target :: a(:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -48700,10 +48700,10 @@ module la_linalg_norms
         
         call norm_8D_to_7D_int_w(a,nrm,order,dim)
             
-    end function la_linalg_norm_8D_to_7D_int_w
+    end function la_norm_8D_to_7D_int_w
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_8D_to_7D_err_int_w(a,order,dim,err) result(nrm)
+    function la_norm_8D_to_7D_err_int_w(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(qp),intent(in),target :: a(:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -48719,7 +48719,7 @@ module la_linalg_norms
         
         call norm_8D_to_7D_int_w(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_8D_to_7D_err_int_w
+    end function la_norm_8D_to_7D_err_int_w
     
     ! Internal implementation
     pure subroutine norm_8D_to_7D_int_w(a,nrm,order,dim,err)
@@ -48788,7 +48788,7 @@ module la_linalg_norms
     end subroutine norm_8D_to_7D_int_w
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_9D_to_8D_int_w(a,order,dim) result(nrm)
+    pure function la_norm_9D_to_8D_int_w(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -48803,10 +48803,10 @@ module la_linalg_norms
         
         call norm_9D_to_8D_int_w(a,nrm,order,dim)
             
-    end function la_linalg_norm_9D_to_8D_int_w
+    end function la_norm_9D_to_8D_int_w
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_9D_to_8D_err_int_w(a,order,dim,err) result(nrm)
+    function la_norm_9D_to_8D_err_int_w(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -48823,7 +48823,7 @@ module la_linalg_norms
         
         call norm_9D_to_8D_int_w(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_9D_to_8D_err_int_w
+    end function la_norm_9D_to_8D_err_int_w
     
     ! Internal implementation
     pure subroutine norm_9D_to_8D_int_w(a,nrm,order,dim,err)
@@ -48893,7 +48893,7 @@ module la_linalg_norms
     end subroutine norm_9D_to_8D_int_w
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_10D_to_9D_int_w(a,order,dim) result(nrm)
+    pure function la_norm_10D_to_9D_int_w(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -48908,10 +48908,10 @@ module la_linalg_norms
         
         call norm_10D_to_9D_int_w(a,nrm,order,dim)
             
-    end function la_linalg_norm_10D_to_9D_int_w
+    end function la_norm_10D_to_9D_int_w
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_10D_to_9D_err_int_w(a,order,dim,err) result(nrm)
+    function la_norm_10D_to_9D_err_int_w(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -48928,7 +48928,7 @@ module la_linalg_norms
         
         call norm_10D_to_9D_int_w(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_10D_to_9D_err_int_w
+    end function la_norm_10D_to_9D_err_int_w
     
     ! Internal implementation
     pure subroutine norm_10D_to_9D_int_w(a,nrm,order,dim,err)
@@ -48998,7 +48998,7 @@ module la_linalg_norms
     end subroutine norm_10D_to_9D_int_w
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_11D_to_10D_int_w(a,order,dim) result(nrm)
+    pure function la_norm_11D_to_10D_int_w(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -49013,10 +49013,10 @@ module la_linalg_norms
         
         call norm_11D_to_10D_int_w(a,nrm,order,dim)
             
-    end function la_linalg_norm_11D_to_10D_int_w
+    end function la_norm_11D_to_10D_int_w
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_11D_to_10D_err_int_w(a,order,dim,err) result(nrm)
+    function la_norm_11D_to_10D_err_int_w(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -49033,7 +49033,7 @@ module la_linalg_norms
         
         call norm_11D_to_10D_int_w(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_11D_to_10D_err_int_w
+    end function la_norm_11D_to_10D_err_int_w
     
     ! Internal implementation
     pure subroutine norm_11D_to_10D_int_w(a,nrm,order,dim,err)
@@ -49104,7 +49104,7 @@ module la_linalg_norms
     end subroutine norm_11D_to_10D_int_w
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_12D_to_11D_int_w(a,order,dim) result(nrm)
+    pure function la_norm_12D_to_11D_int_w(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -49120,10 +49120,10 @@ module la_linalg_norms
         
         call norm_12D_to_11D_int_w(a,nrm,order,dim)
             
-    end function la_linalg_norm_12D_to_11D_int_w
+    end function la_norm_12D_to_11D_int_w
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_12D_to_11D_err_int_w(a,order,dim,err) result(nrm)
+    function la_norm_12D_to_11D_err_int_w(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -49141,7 +49141,7 @@ module la_linalg_norms
         
         call norm_12D_to_11D_int_w(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_12D_to_11D_err_int_w
+    end function la_norm_12D_to_11D_err_int_w
     
     ! Internal implementation
     pure subroutine norm_12D_to_11D_int_w(a,nrm,order,dim,err)
@@ -49212,7 +49212,7 @@ module la_linalg_norms
     end subroutine norm_12D_to_11D_int_w
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_13D_to_12D_int_w(a,order,dim) result(nrm)
+    pure function la_norm_13D_to_12D_int_w(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -49228,10 +49228,10 @@ module la_linalg_norms
         
         call norm_13D_to_12D_int_w(a,nrm,order,dim)
             
-    end function la_linalg_norm_13D_to_12D_int_w
+    end function la_norm_13D_to_12D_int_w
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_13D_to_12D_err_int_w(a,order,dim,err) result(nrm)
+    function la_norm_13D_to_12D_err_int_w(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -49249,7 +49249,7 @@ module la_linalg_norms
         
         call norm_13D_to_12D_int_w(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_13D_to_12D_err_int_w
+    end function la_norm_13D_to_12D_err_int_w
     
     ! Internal implementation
     pure subroutine norm_13D_to_12D_int_w(a,nrm,order,dim,err)
@@ -49320,7 +49320,7 @@ module la_linalg_norms
     end subroutine norm_13D_to_12D_int_w
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_14D_to_13D_int_w(a,order,dim) result(nrm)
+    pure function la_norm_14D_to_13D_int_w(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -49337,10 +49337,10 @@ module la_linalg_norms
         
         call norm_14D_to_13D_int_w(a,nrm,order,dim)
             
-    end function la_linalg_norm_14D_to_13D_int_w
+    end function la_norm_14D_to_13D_int_w
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_14D_to_13D_err_int_w(a,order,dim,err) result(nrm)
+    function la_norm_14D_to_13D_err_int_w(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -49359,7 +49359,7 @@ module la_linalg_norms
         
         call norm_14D_to_13D_int_w(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_14D_to_13D_err_int_w
+    end function la_norm_14D_to_13D_err_int_w
     
     ! Internal implementation
     pure subroutine norm_14D_to_13D_int_w(a,nrm,order,dim,err)
@@ -49431,7 +49431,7 @@ module la_linalg_norms
     end subroutine norm_14D_to_13D_int_w
 
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function la_linalg_norm_15D_to_14D_int_w(a,order,dim) result(nrm)
+    pure function la_norm_15D_to_14D_int_w(a,order,dim) result(nrm)
         !> Input matrix a[..]
         complex(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -49448,10 +49448,10 @@ module la_linalg_norms
         
         call norm_15D_to_14D_int_w(a,nrm,order,dim)
             
-    end function la_linalg_norm_15D_to_14D_int_w
+    end function la_norm_15D_to_14D_int_w
 
     ! Function interface with DIM specifier and output error state.
-    function la_linalg_norm_15D_to_14D_err_int_w(a,order,dim,err) result(nrm)
+    function la_norm_15D_to_14D_err_int_w(a,order,dim,err) result(nrm)
         !> Input matrix a[..]
         complex(qp),intent(in),target :: a(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
         !> Order of the matrix norm being computed.
@@ -49470,7 +49470,7 @@ module la_linalg_norms
         
         call norm_15D_to_14D_int_w(a,nrm,order,dim,err)
             
-    end function la_linalg_norm_15D_to_14D_err_int_w
+    end function la_norm_15D_to_14D_err_int_w
     
     ! Internal implementation
     pure subroutine norm_15D_to_14D_int_w(a,nrm,order,dim,err)
@@ -50972,4 +50972,4 @@ module la_linalg_norms
         
     end function matrix_norm_15D_to_13D_int_w
     
-end module la_linalg_norms
+end module la_norms

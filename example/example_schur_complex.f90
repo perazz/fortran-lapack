@@ -1,6 +1,6 @@
 ! This example demonstrates the Schur decomposition for a complex-valued matrix.
 program example_schur_complex
-  use stdlib_linalg_interface, only: schur, dp
+  use la_interface, only: schur, dp
   implicit none
   complex(dp), allocatable :: A(:,:), T(:,:), Z(:,:)
   integer :: n

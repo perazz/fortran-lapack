@@ -1,5 +1,5 @@
-module la_linalg_state
-     use la_linalg_constants,only:ilp,lk
+module la_state
+     use la_constants,only:ilp,lk
      use iso_fortran_env,only:real32,real64,real128,int8,int16,int32,int64,stderr => error_unit
      implicit none(type,external)
      private
@@ -537,4 +537,4 @@ module la_linalg_state
 
     end subroutine appendv
 
-end module la_linalg_state
+end module la_state

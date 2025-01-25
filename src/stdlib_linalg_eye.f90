@@ -1,9 +1,9 @@
 ! Return a 2-D matrix with ones on the diagonal and zeros everywhere else
-module la_linalg_eye
-     use la_linalg_constants
-     use la_linalg_blas
-     use la_linalg_lapack
-     use la_linalg_state
+module la_eye
+     use la_constants
+     use la_blas
+     use la_lapack
+     use la_state
      use iso_fortran_env,only:real32,real64,real128,int8,int16,int32,int64,stderr => error_unit
      implicit none(type,external)
      private
@@ -19,52 +19,52 @@ module la_linalg_eye
 
      ! Identity interface
      interface eye
-        module procedure la_linalg_eye_s
-        module procedure la_linalg_eye_d
-        module procedure la_linalg_eye_q
-        module procedure la_linalg_eye_c
-        module procedure la_linalg_eye_z
-        module procedure la_linalg_eye_w
-        module procedure la_linalg_eye_s_errhandle
-        module procedure la_linalg_eye_d_errhandle
-        module procedure la_linalg_eye_q_errhandle
-        module procedure la_linalg_eye_c_errhandle
-        module procedure la_linalg_eye_z_errhandle
-        module procedure la_linalg_eye_w_errhandle
+        module procedure la_eye_s
+        module procedure la_eye_d
+        module procedure la_eye_q
+        module procedure la_eye_c
+        module procedure la_eye_z
+        module procedure la_eye_w
+        module procedure la_eye_s_errhandle
+        module procedure la_eye_d_errhandle
+        module procedure la_eye_q_errhandle
+        module procedure la_eye_c_errhandle
+        module procedure la_eye_z_errhandle
+        module procedure la_eye_w_errhandle
      end interface eye
 
      ! Diagonal matrix interface
      interface diag
-        module procedure la_linalg_diag_s_from_scalar
-        module procedure la_linalg_diag_s_from_array
-        module procedure la_linalg_diag_d_from_scalar
-        module procedure la_linalg_diag_d_from_array
-        module procedure la_linalg_diag_q_from_scalar
-        module procedure la_linalg_diag_q_from_array
-        module procedure la_linalg_diag_c_from_scalar
-        module procedure la_linalg_diag_c_from_array
-        module procedure la_linalg_diag_z_from_scalar
-        module procedure la_linalg_diag_z_from_array
-        module procedure la_linalg_diag_w_from_scalar
-        module procedure la_linalg_diag_w_from_array
-        module procedure la_linalg_diag_s_errhandle_from_scalar
-        module procedure la_linalg_diag_s_errhandle_from_array
-        module procedure la_linalg_diag_d_errhandle_from_scalar
-        module procedure la_linalg_diag_d_errhandle_from_array
-        module procedure la_linalg_diag_q_errhandle_from_scalar
-        module procedure la_linalg_diag_q_errhandle_from_array
-        module procedure la_linalg_diag_c_errhandle_from_scalar
-        module procedure la_linalg_diag_c_errhandle_from_array
-        module procedure la_linalg_diag_z_errhandle_from_scalar
-        module procedure la_linalg_diag_z_errhandle_from_array
-        module procedure la_linalg_diag_w_errhandle_from_scalar
-        module procedure la_linalg_diag_w_errhandle_from_array
+        module procedure la_diag_s_from_scalar
+        module procedure la_diag_s_from_array
+        module procedure la_diag_d_from_scalar
+        module procedure la_diag_d_from_array
+        module procedure la_diag_q_from_scalar
+        module procedure la_diag_q_from_array
+        module procedure la_diag_c_from_scalar
+        module procedure la_diag_c_from_array
+        module procedure la_diag_z_from_scalar
+        module procedure la_diag_z_from_array
+        module procedure la_diag_w_from_scalar
+        module procedure la_diag_w_from_array
+        module procedure la_diag_s_errhandle_from_scalar
+        module procedure la_diag_s_errhandle_from_array
+        module procedure la_diag_d_errhandle_from_scalar
+        module procedure la_diag_d_errhandle_from_array
+        module procedure la_diag_q_errhandle_from_scalar
+        module procedure la_diag_q_errhandle_from_array
+        module procedure la_diag_c_errhandle_from_scalar
+        module procedure la_diag_c_errhandle_from_array
+        module procedure la_diag_z_errhandle_from_scalar
+        module procedure la_diag_z_errhandle_from_array
+        module procedure la_diag_w_errhandle_from_scalar
+        module procedure la_diag_w_errhandle_from_array
      end interface diag
 
      contains
 
      ! Return diagonal eye matrix of size N
-     pure function la_linalg_eye_s(m,n,mold) result(eye)
+     pure function la_eye_s(m,n,mold) result(eye)
          !> Number of rows
          integer(ilp),intent(in) :: m
          !> Number of columns (optional)
@@ -107,10 +107,10 @@ module la_linalg_eye
          ! Process output and return
 1        call linalg_error_handling(err0)
 
-     end function la_linalg_eye_s
+     end function la_eye_s
 
      ! Return diagonal eye matrix of size N
-     pure function la_linalg_eye_d(m,n,mold) result(eye)
+     pure function la_eye_d(m,n,mold) result(eye)
          !> Number of rows
          integer(ilp),intent(in) :: m
          !> Number of columns (optional)
@@ -153,10 +153,10 @@ module la_linalg_eye
          ! Process output and return
 1        call linalg_error_handling(err0)
 
-     end function la_linalg_eye_d
+     end function la_eye_d
 
      ! Return diagonal eye matrix of size N
-     pure function la_linalg_eye_q(m,n,mold) result(eye)
+     pure function la_eye_q(m,n,mold) result(eye)
          !> Number of rows
          integer(ilp),intent(in) :: m
          !> Number of columns (optional)
@@ -199,10 +199,10 @@ module la_linalg_eye
          ! Process output and return
 1        call linalg_error_handling(err0)
 
-     end function la_linalg_eye_q
+     end function la_eye_q
 
      ! Return diagonal eye matrix of size N
-     pure function la_linalg_eye_c(m,n,mold) result(eye)
+     pure function la_eye_c(m,n,mold) result(eye)
          !> Number of rows
          integer(ilp),intent(in) :: m
          !> Number of columns (optional)
@@ -245,10 +245,10 @@ module la_linalg_eye
          ! Process output and return
 1        call linalg_error_handling(err0)
 
-     end function la_linalg_eye_c
+     end function la_eye_c
 
      ! Return diagonal eye matrix of size N
-     pure function la_linalg_eye_z(m,n,mold) result(eye)
+     pure function la_eye_z(m,n,mold) result(eye)
          !> Number of rows
          integer(ilp),intent(in) :: m
          !> Number of columns (optional)
@@ -291,10 +291,10 @@ module la_linalg_eye
          ! Process output and return
 1        call linalg_error_handling(err0)
 
-     end function la_linalg_eye_z
+     end function la_eye_z
 
      ! Return diagonal eye matrix of size N
-     pure function la_linalg_eye_w(m,n,mold) result(eye)
+     pure function la_eye_w(m,n,mold) result(eye)
          !> Number of rows
          integer(ilp),intent(in) :: m
          !> Number of columns (optional)
@@ -337,10 +337,10 @@ module la_linalg_eye
          ! Process output and return
 1        call linalg_error_handling(err0)
 
-     end function la_linalg_eye_w
+     end function la_eye_w
 
      ! Return square diagonal matrix with diagonal values equal to the input scalar
-     pure function la_linalg_diag_s_from_scalar(n,source) result(diag)
+     pure function la_diag_s_from_scalar(n,source) result(diag)
          !> Matrix size
          integer(ilp),intent(in) :: n
          !> Scalar diagonal value. Used to define the return type.
@@ -378,10 +378,10 @@ module la_linalg_eye
          ! Process output and return
 1        call linalg_error_handling(err0)
 
-     end function la_linalg_diag_s_from_scalar
+     end function la_diag_s_from_scalar
 
      ! Construct square diagonal matrix from an array of diagonal values
-     pure function la_linalg_diag_s_from_array(source) result(diag)
+     pure function la_diag_s_from_array(source) result(diag)
          !> Array of diagonal values. Used to define the return type and the matrix size.
          real(sp),intent(in) :: source(:)
          !> Return matrix
@@ -419,10 +419,10 @@ module la_linalg_eye
          ! Process output and return
 1        call linalg_error_handling(err0)
 
-     end function la_linalg_diag_s_from_array
+     end function la_diag_s_from_array
 
      ! Return square diagonal matrix with diagonal values equal to the input scalar
-     pure function la_linalg_diag_d_from_scalar(n,source) result(diag)
+     pure function la_diag_d_from_scalar(n,source) result(diag)
          !> Matrix size
          integer(ilp),intent(in) :: n
          !> Scalar diagonal value. Used to define the return type.
@@ -460,10 +460,10 @@ module la_linalg_eye
          ! Process output and return
 1        call linalg_error_handling(err0)
 
-     end function la_linalg_diag_d_from_scalar
+     end function la_diag_d_from_scalar
 
      ! Construct square diagonal matrix from an array of diagonal values
-     pure function la_linalg_diag_d_from_array(source) result(diag)
+     pure function la_diag_d_from_array(source) result(diag)
          !> Array of diagonal values. Used to define the return type and the matrix size.
          real(dp),intent(in) :: source(:)
          !> Return matrix
@@ -501,10 +501,10 @@ module la_linalg_eye
          ! Process output and return
 1        call linalg_error_handling(err0)
 
-     end function la_linalg_diag_d_from_array
+     end function la_diag_d_from_array
 
      ! Return square diagonal matrix with diagonal values equal to the input scalar
-     pure function la_linalg_diag_q_from_scalar(n,source) result(diag)
+     pure function la_diag_q_from_scalar(n,source) result(diag)
          !> Matrix size
          integer(ilp),intent(in) :: n
          !> Scalar diagonal value. Used to define the return type.
@@ -542,10 +542,10 @@ module la_linalg_eye
          ! Process output and return
 1        call linalg_error_handling(err0)
 
-     end function la_linalg_diag_q_from_scalar
+     end function la_diag_q_from_scalar
 
      ! Construct square diagonal matrix from an array of diagonal values
-     pure function la_linalg_diag_q_from_array(source) result(diag)
+     pure function la_diag_q_from_array(source) result(diag)
          !> Array of diagonal values. Used to define the return type and the matrix size.
          real(qp),intent(in) :: source(:)
          !> Return matrix
@@ -583,10 +583,10 @@ module la_linalg_eye
          ! Process output and return
 1        call linalg_error_handling(err0)
 
-     end function la_linalg_diag_q_from_array
+     end function la_diag_q_from_array
 
      ! Return square diagonal matrix with diagonal values equal to the input scalar
-     pure function la_linalg_diag_c_from_scalar(n,source) result(diag)
+     pure function la_diag_c_from_scalar(n,source) result(diag)
          !> Matrix size
          integer(ilp),intent(in) :: n
          !> Scalar diagonal value. Used to define the return type.
@@ -624,10 +624,10 @@ module la_linalg_eye
          ! Process output and return
 1        call linalg_error_handling(err0)
 
-     end function la_linalg_diag_c_from_scalar
+     end function la_diag_c_from_scalar
 
      ! Construct square diagonal matrix from an array of diagonal values
-     pure function la_linalg_diag_c_from_array(source) result(diag)
+     pure function la_diag_c_from_array(source) result(diag)
          !> Array of diagonal values. Used to define the return type and the matrix size.
          complex(sp),intent(in) :: source(:)
          !> Return matrix
@@ -665,10 +665,10 @@ module la_linalg_eye
          ! Process output and return
 1        call linalg_error_handling(err0)
 
-     end function la_linalg_diag_c_from_array
+     end function la_diag_c_from_array
 
      ! Return square diagonal matrix with diagonal values equal to the input scalar
-     pure function la_linalg_diag_z_from_scalar(n,source) result(diag)
+     pure function la_diag_z_from_scalar(n,source) result(diag)
          !> Matrix size
          integer(ilp),intent(in) :: n
          !> Scalar diagonal value. Used to define the return type.
@@ -706,10 +706,10 @@ module la_linalg_eye
          ! Process output and return
 1        call linalg_error_handling(err0)
 
-     end function la_linalg_diag_z_from_scalar
+     end function la_diag_z_from_scalar
 
      ! Construct square diagonal matrix from an array of diagonal values
-     pure function la_linalg_diag_z_from_array(source) result(diag)
+     pure function la_diag_z_from_array(source) result(diag)
          !> Array of diagonal values. Used to define the return type and the matrix size.
          complex(dp),intent(in) :: source(:)
          !> Return matrix
@@ -747,10 +747,10 @@ module la_linalg_eye
          ! Process output and return
 1        call linalg_error_handling(err0)
 
-     end function la_linalg_diag_z_from_array
+     end function la_diag_z_from_array
 
      ! Return square diagonal matrix with diagonal values equal to the input scalar
-     pure function la_linalg_diag_w_from_scalar(n,source) result(diag)
+     pure function la_diag_w_from_scalar(n,source) result(diag)
          !> Matrix size
          integer(ilp),intent(in) :: n
          !> Scalar diagonal value. Used to define the return type.
@@ -788,10 +788,10 @@ module la_linalg_eye
          ! Process output and return
 1        call linalg_error_handling(err0)
 
-     end function la_linalg_diag_w_from_scalar
+     end function la_diag_w_from_scalar
 
      ! Construct square diagonal matrix from an array of diagonal values
-     pure function la_linalg_diag_w_from_array(source) result(diag)
+     pure function la_diag_w_from_array(source) result(diag)
          !> Array of diagonal values. Used to define the return type and the matrix size.
          complex(qp),intent(in) :: source(:)
          !> Return matrix
@@ -829,10 +829,10 @@ module la_linalg_eye
          ! Process output and return
 1        call linalg_error_handling(err0)
 
-     end function la_linalg_diag_w_from_array
+     end function la_diag_w_from_array
 
      ! Return diagonal eye matrix of size N
-     function la_linalg_eye_s_errhandle(m,n,mold,err) result(eye)
+     function la_eye_s_errhandle(m,n,mold,err) result(eye)
          !> Number of rows
          integer(ilp),intent(in) :: m
          !> Number of columns (optional)
@@ -877,10 +877,10 @@ module la_linalg_eye
          ! Process output and return
 1        call linalg_error_handling(err0,err)
 
-     end function la_linalg_eye_s_errhandle
+     end function la_eye_s_errhandle
 
      ! Return diagonal eye matrix of size N
-     function la_linalg_eye_d_errhandle(m,n,mold,err) result(eye)
+     function la_eye_d_errhandle(m,n,mold,err) result(eye)
          !> Number of rows
          integer(ilp),intent(in) :: m
          !> Number of columns (optional)
@@ -925,10 +925,10 @@ module la_linalg_eye
          ! Process output and return
 1        call linalg_error_handling(err0,err)
 
-     end function la_linalg_eye_d_errhandle
+     end function la_eye_d_errhandle
 
      ! Return diagonal eye matrix of size N
-     function la_linalg_eye_q_errhandle(m,n,mold,err) result(eye)
+     function la_eye_q_errhandle(m,n,mold,err) result(eye)
          !> Number of rows
          integer(ilp),intent(in) :: m
          !> Number of columns (optional)
@@ -973,10 +973,10 @@ module la_linalg_eye
          ! Process output and return
 1        call linalg_error_handling(err0,err)
 
-     end function la_linalg_eye_q_errhandle
+     end function la_eye_q_errhandle
 
      ! Return diagonal eye matrix of size N
-     function la_linalg_eye_c_errhandle(m,n,mold,err) result(eye)
+     function la_eye_c_errhandle(m,n,mold,err) result(eye)
          !> Number of rows
          integer(ilp),intent(in) :: m
          !> Number of columns (optional)
@@ -1021,10 +1021,10 @@ module la_linalg_eye
          ! Process output and return
 1        call linalg_error_handling(err0,err)
 
-     end function la_linalg_eye_c_errhandle
+     end function la_eye_c_errhandle
 
      ! Return diagonal eye matrix of size N
-     function la_linalg_eye_z_errhandle(m,n,mold,err) result(eye)
+     function la_eye_z_errhandle(m,n,mold,err) result(eye)
          !> Number of rows
          integer(ilp),intent(in) :: m
          !> Number of columns (optional)
@@ -1069,10 +1069,10 @@ module la_linalg_eye
          ! Process output and return
 1        call linalg_error_handling(err0,err)
 
-     end function la_linalg_eye_z_errhandle
+     end function la_eye_z_errhandle
 
      ! Return diagonal eye matrix of size N
-     function la_linalg_eye_w_errhandle(m,n,mold,err) result(eye)
+     function la_eye_w_errhandle(m,n,mold,err) result(eye)
          !> Number of rows
          integer(ilp),intent(in) :: m
          !> Number of columns (optional)
@@ -1117,10 +1117,10 @@ module la_linalg_eye
          ! Process output and return
 1        call linalg_error_handling(err0,err)
 
-     end function la_linalg_eye_w_errhandle
+     end function la_eye_w_errhandle
 
      ! Return square diagonal matrix with diagonal values equal to the input scalar
-     function la_linalg_diag_s_errhandle_from_scalar(n,source,err) result(diag)
+     function la_diag_s_errhandle_from_scalar(n,source,err) result(diag)
          !> Matrix size
          integer(ilp),intent(in) :: n
          !> Scalar diagonal value. Used to define the return type.
@@ -1160,10 +1160,10 @@ module la_linalg_eye
          ! Process output and return
 1        call linalg_error_handling(err0,err)
 
-     end function la_linalg_diag_s_errhandle_from_scalar
+     end function la_diag_s_errhandle_from_scalar
 
      ! Construct square diagonal matrix from an array of diagonal values
-     function la_linalg_diag_s_errhandle_from_array(source,err) result(diag)
+     function la_diag_s_errhandle_from_array(source,err) result(diag)
          !> Array of diagonal values. Used to define the return type and the matrix size.
          real(sp),intent(in) :: source(:)
          !> [optional] state return flag. On error if not requested, the code will stop
@@ -1203,10 +1203,10 @@ module la_linalg_eye
          ! Process output and return
 1        call linalg_error_handling(err0,err)
 
-     end function la_linalg_diag_s_errhandle_from_array
+     end function la_diag_s_errhandle_from_array
 
      ! Return square diagonal matrix with diagonal values equal to the input scalar
-     function la_linalg_diag_d_errhandle_from_scalar(n,source,err) result(diag)
+     function la_diag_d_errhandle_from_scalar(n,source,err) result(diag)
          !> Matrix size
          integer(ilp),intent(in) :: n
          !> Scalar diagonal value. Used to define the return type.
@@ -1246,10 +1246,10 @@ module la_linalg_eye
          ! Process output and return
 1        call linalg_error_handling(err0,err)
 
-     end function la_linalg_diag_d_errhandle_from_scalar
+     end function la_diag_d_errhandle_from_scalar
 
      ! Construct square diagonal matrix from an array of diagonal values
-     function la_linalg_diag_d_errhandle_from_array(source,err) result(diag)
+     function la_diag_d_errhandle_from_array(source,err) result(diag)
          !> Array of diagonal values. Used to define the return type and the matrix size.
          real(dp),intent(in) :: source(:)
          !> [optional] state return flag. On error if not requested, the code will stop
@@ -1289,10 +1289,10 @@ module la_linalg_eye
          ! Process output and return
 1        call linalg_error_handling(err0,err)
 
-     end function la_linalg_diag_d_errhandle_from_array
+     end function la_diag_d_errhandle_from_array
 
      ! Return square diagonal matrix with diagonal values equal to the input scalar
-     function la_linalg_diag_q_errhandle_from_scalar(n,source,err) result(diag)
+     function la_diag_q_errhandle_from_scalar(n,source,err) result(diag)
          !> Matrix size
          integer(ilp),intent(in) :: n
          !> Scalar diagonal value. Used to define the return type.
@@ -1332,10 +1332,10 @@ module la_linalg_eye
          ! Process output and return
 1        call linalg_error_handling(err0,err)
 
-     end function la_linalg_diag_q_errhandle_from_scalar
+     end function la_diag_q_errhandle_from_scalar
 
      ! Construct square diagonal matrix from an array of diagonal values
-     function la_linalg_diag_q_errhandle_from_array(source,err) result(diag)
+     function la_diag_q_errhandle_from_array(source,err) result(diag)
          !> Array of diagonal values. Used to define the return type and the matrix size.
          real(qp),intent(in) :: source(:)
          !> [optional] state return flag. On error if not requested, the code will stop
@@ -1375,10 +1375,10 @@ module la_linalg_eye
          ! Process output and return
 1        call linalg_error_handling(err0,err)
 
-     end function la_linalg_diag_q_errhandle_from_array
+     end function la_diag_q_errhandle_from_array
 
      ! Return square diagonal matrix with diagonal values equal to the input scalar
-     function la_linalg_diag_c_errhandle_from_scalar(n,source,err) result(diag)
+     function la_diag_c_errhandle_from_scalar(n,source,err) result(diag)
          !> Matrix size
          integer(ilp),intent(in) :: n
          !> Scalar diagonal value. Used to define the return type.
@@ -1418,10 +1418,10 @@ module la_linalg_eye
          ! Process output and return
 1        call linalg_error_handling(err0,err)
 
-     end function la_linalg_diag_c_errhandle_from_scalar
+     end function la_diag_c_errhandle_from_scalar
 
      ! Construct square diagonal matrix from an array of diagonal values
-     function la_linalg_diag_c_errhandle_from_array(source,err) result(diag)
+     function la_diag_c_errhandle_from_array(source,err) result(diag)
          !> Array of diagonal values. Used to define the return type and the matrix size.
          complex(sp),intent(in) :: source(:)
          !> [optional] state return flag. On error if not requested, the code will stop
@@ -1461,10 +1461,10 @@ module la_linalg_eye
          ! Process output and return
 1        call linalg_error_handling(err0,err)
 
-     end function la_linalg_diag_c_errhandle_from_array
+     end function la_diag_c_errhandle_from_array
 
      ! Return square diagonal matrix with diagonal values equal to the input scalar
-     function la_linalg_diag_z_errhandle_from_scalar(n,source,err) result(diag)
+     function la_diag_z_errhandle_from_scalar(n,source,err) result(diag)
          !> Matrix size
          integer(ilp),intent(in) :: n
          !> Scalar diagonal value. Used to define the return type.
@@ -1504,10 +1504,10 @@ module la_linalg_eye
          ! Process output and return
 1        call linalg_error_handling(err0,err)
 
-     end function la_linalg_diag_z_errhandle_from_scalar
+     end function la_diag_z_errhandle_from_scalar
 
      ! Construct square diagonal matrix from an array of diagonal values
-     function la_linalg_diag_z_errhandle_from_array(source,err) result(diag)
+     function la_diag_z_errhandle_from_array(source,err) result(diag)
          !> Array of diagonal values. Used to define the return type and the matrix size.
          complex(dp),intent(in) :: source(:)
          !> [optional] state return flag. On error if not requested, the code will stop
@@ -1547,10 +1547,10 @@ module la_linalg_eye
          ! Process output and return
 1        call linalg_error_handling(err0,err)
 
-     end function la_linalg_diag_z_errhandle_from_array
+     end function la_diag_z_errhandle_from_array
 
      ! Return square diagonal matrix with diagonal values equal to the input scalar
-     function la_linalg_diag_w_errhandle_from_scalar(n,source,err) result(diag)
+     function la_diag_w_errhandle_from_scalar(n,source,err) result(diag)
          !> Matrix size
          integer(ilp),intent(in) :: n
          !> Scalar diagonal value. Used to define the return type.
@@ -1590,10 +1590,10 @@ module la_linalg_eye
          ! Process output and return
 1        call linalg_error_handling(err0,err)
 
-     end function la_linalg_diag_w_errhandle_from_scalar
+     end function la_diag_w_errhandle_from_scalar
 
      ! Construct square diagonal matrix from an array of diagonal values
-     function la_linalg_diag_w_errhandle_from_array(source,err) result(diag)
+     function la_diag_w_errhandle_from_array(source,err) result(diag)
          !> Array of diagonal values. Used to define the return type and the matrix size.
          complex(qp),intent(in) :: source(:)
          !> [optional] state return flag. On error if not requested, the code will stop
@@ -1633,6 +1633,6 @@ module la_linalg_eye
          ! Process output and return
 1        call linalg_error_handling(err0,err)
 
-     end function la_linalg_diag_w_errhandle_from_array
+     end function la_diag_w_errhandle_from_array
 
-end module la_linalg_eye
+end module la_eye

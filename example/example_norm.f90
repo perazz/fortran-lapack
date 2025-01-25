@@ -1,6 +1,6 @@
 ! Vector norm: demonstrate usage 
 program example_norm
-  use stdlib_linalg_interface, only: norm, get_norm, linalg_state
+  use la_interface, only: norm, get_norm, linalg_state
   implicit none
   
   real :: a(3,3),na

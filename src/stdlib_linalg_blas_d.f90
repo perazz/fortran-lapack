@@ -1,8 +1,8 @@
-module la_linalg_blas_d
-     use la_linalg_constants
-     use la_linalg_blas_aux
-     use la_linalg_blas_s
-     use la_linalg_blas_c
+module la_blas_d
+     use la_constants
+     use la_blas_aux
+     use la_blas_s
+     use la_blas_c
      implicit none(type,external)
      private
 
@@ -4512,4 +4512,4 @@ module la_linalg_blas_d
         return
      end function la_dznrm2
 
-end module la_linalg_blas_d
+end module la_blas_d

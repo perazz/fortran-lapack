@@ -1,8 +1,8 @@
 #:include "common.fypp"
-module stdlib_linalg_schur
-    use stdlib_linalg_constants
-    use stdlib_linalg_lapack, only: gees
-    use stdlib_linalg_state, only: linalg_state, linalg_error_handling, LINALG_ERROR, &
+module la_schur
+    use la_constants
+    use la_lapack, only: gees
+    use la_state, only: linalg_state, linalg_error_handling, LINALG_ERROR, &
         LINALG_INTERNAL_ERROR, LINALG_VALUE_ERROR
     implicit none(type,external)
     private
@@ -28,7 +28,7 @@ module stdlib_linalg_schur
     !! version: experimental
     !!
     !! Computes the Schur decomposition of matrix \( A = Z T Z^H \).
-    !! ([Specification](../page/specs/stdlib_linalg.html#schur-compute-the-schur-decomposition-of-a-matrix))
+    !! ([Specification](../page/specs/la_linalg.html#schur-compute-the-schur-decomposition-of-a-matrix))
     !!
     !!### Summary
     !! Compute the Schur decomposition of a `real` or `complex` matrix: \( A = Z T Z^H \), where \( Z \) is
@@ -48,7 +48,8 @@ module stdlib_linalg_schur
     !! are implemented using LAPACK's eigenvalue sorting mechanism.
     !! 
     #:for rk,rt,ri in ALL_KINDS_TYPES
-      module procedure stdlib_linalg_${ri}$_schur
+      module procedure la_${ri}$_schur
+      module procedure la_real_eig_${ri}$_schur
     #:endfor
   end interface schur
 
@@ -57,7 +58,7 @@ module stdlib_linalg_schur
     !! version: experimental
     !!
     !! Computes the working array space required by the Schur decomposition solver
-    !! ([Specification](../page/specs/stdlib_linalg.html#schur-space-compute-internal-working-space-requirements-for-the-schur-decomposition))
+    !! ([Specification](../page/specs/la_linalg.html#schur-space-compute-internal-working-space-requirements-for-the-schur-decomposition))
     !!
     !!### Description
     !! 
@@ -181,7 +182,7 @@ module stdlib_linalg_schur
     end subroutine get_schur_${ri}$_workspace    
     
     ! Schur decomposition subroutine
-    subroutine stdlib_linalg_${ri}$_schur(a,t,z,eigvals,overwrite_a,storage,err)
+    subroutine la_${ri}$_schur(a,t,z,eigvals,overwrite_a,storage,err)
         !> Input matrix a[m,m]
         ${rt}$, intent(inout), target :: a(:,:)
         !> Schur form of A: upper-triangular or quasi-upper-triangular matrix T
@@ -206,7 +207,7 @@ module stdlib_linalg_schur
         ${rt}$, target :: vs_dummy(1,1)
         ${rt}$, pointer :: vs(:,:),work(:),eigs(:)#{if rt.startswith('r')}#,eigi(:)#{endif}#
         character :: jobvs,sort
-        type(linalg_state) :: err0
+        type(linalg_state_type) :: err0
         
         ! Problem size
         m  = size(a, 1, kind=ilp)
@@ -216,12 +217,12 @@ module stdlib_linalg_schur
         
         ! Validate dimensions
         if (m/=n .or. m<=0 .or. n<=0) then
-            err0 = linalg_state(this, LINALG_VALUE_ERROR, 'Matrix A must be square: size(a)=',[m,n])
+            err0 = linalg_state_type(this, LINALG_VALUE_ERROR, 'Matrix A must be square: size(a)=',[m,n])
             call linalg_error_handling(err0, err)
             return
         end if    
         if (mt/=nt .or. mt/=n .or. nt/=n) then
-            err0 = linalg_state(this, LINALG_VALUE_ERROR, 'Matrix T must be square: size(T)=',[mt,nt], &
+            err0 = linalg_state_type(this, LINALG_VALUE_ERROR, 'Matrix T must be square: size(T)=',[mt,nt], &
                                                           'should be',[m,n])
             call linalg_error_handling(err0, err)
             return
@@ -231,25 +232,8 @@ module stdlib_linalg_schur
         t = a 
         
         ! Can A be overwritten? By default, do not overwrite
-        if (present(overwrite_a)) then 
-            overwrite_a_ = overwrite_a .and. n>=2    
-        else
-            overwrite_a_ = .false._lk
-        endif
-        
-        !> SORTING: no sorting options are currently supported
-        sort  = gees_sort_eigs(.false.)
-        sdim  = 0_ilp     
-        
-        if (sort/=GEES_NOT) then 
-            
-           allocate(bwork(n),source=.false.)
-        
-        else
-            
-           bwork => bwork_dummy 
-            
-        end if        
+        overwrite_a_ = .false._lk
+        if (present(overwrite_a)) overwrite_a_ = overwrite_a .and. n>=2    
         
         !> Schur vectors
         jobvs = gees_vectors(present(z))        
@@ -260,9 +244,10 @@ module stdlib_linalg_schur
             nvs  = size(vs, 2, kind=ilp)
             
             if (ldvs<n .or. nvs/=n) then
-                err0 = linalg_state(this, LINALG_VALUE_ERROR, 'Schur vectors size=',[ldvs,nvs], &
+                err0 = linalg_state_type(this, LINALG_VALUE_ERROR, 'Schur vectors size=',[ldvs,nvs], &
                                                               'should be n=',n)
-                goto 1
+                call linalg_error_handling(err0, err)
+                return
             end if             
             
         else
@@ -281,61 +266,77 @@ module stdlib_linalg_schur
             
             ! Query optimal workspace            
             call get_schur_${ri}$_workspace(a,lwork,err0)
-            if (err0%error()) goto 1
-            allocate(work(lwork))
             
-        end if
+            if (err0%error()) then 
+                call linalg_error_handling(err0, err)
+                return
+            else
+                allocate(work(lwork))
+            end if
+            
+        end if        
+        
+        !> SORTING: no sorting options are currently supported
+        sort  = gees_sort_eigs(.false.)
+        sdim  = 0_ilp     
+        
+        if (sort/=GEES_NOT) then 
+            
+           allocate(bwork(n),source=.false.)
+        
+        else
+            
+           bwork => bwork_dummy 
+            
+        end if            
         
         !> User or self-allocated eigenvalue storage
-        if (present(eigvals)) then 
-            
-            lde = size(eigvals, 1, kind=ilp)
-            
+        if (present(eigvals)) then             
+            lde = size(eigvals, 1, kind=ilp)            
             #:if rt.startswith('c')
             eigs => eigvals
             local_eigs = .false.
             #:else
-            ! use A storage if possible
-            if (overwrite_a_) then                 
-                eigs => a(:,1)
-                eigi => a(:,2)
-            else
-                allocate(eigs(n),eigi(n))
-            end if            
             local_eigs = .true.
-            #:endif
-            
-        else
-            
+            #:endif            
+        else            
+            local_eigs = .true.
+            lde = n            
+        end if
+
+        if (local_eigs) then 
             ! Use A storage if possible
             if (overwrite_a_) then                 
                 eigs => a(:,1)
+                #:if rt.startswith('r') 
                 eigi => a(:,2)
+                #:endif
             else
                 allocate(eigs(n)#{if rt.startswith('r')}#,eigi(n)#{endif}#)
-            end if               
-            
-            local_eigs = .true.
-            lde = n
-            
-        end if
+            end if  
+        endif
         
         #:if rt.startswith('c')
         allocate(rwork(n))
         #:endif
 
         if (lde<n) then
-            err0 = linalg_state(this, LINALG_VALUE_ERROR, 'Insufficient eigenvalue array size=',lde, &
-                                                          'should be >=',n)
-            goto 2
+            
+            err0 = linalg_state_type(this, LINALG_VALUE_ERROR, &
+                                           'Insufficient eigenvalue array size=',lde, &
+                                           'should be >=',n)
+        
+        else
+            
+            ! Compute Schur decomposition
+            call gees(jobvs,sort,eig_select,nt,t,mt,sdim,eigs,#{if rt.startswith('r')}#eigi,#{endif}# &
+                      vs,ldvs,work,lwork,#{if rt.startswith('c')}#rwork,#{endif}#bwork,info)
+            call handle_gees_info(info,m,n,m,err0)            
+            
+        
         end if  
 
-        ! Compute Schur decomposition
-        call gees(jobvs,sort,eig_select,nt,t,mt,sdim,eigs,#{if rt.startswith('r')}#eigi,#{endif}# &
-                  vs,ldvs,work,lwork,#{if rt.startswith('c')}#rwork,#{endif}#bwork,info)
-        call handle_gees_info(info,m,n,m,err0)
-
-      2 eigenvalue_output: if (local_eigs) then 
+        eigenvalue_output: if (local_eigs) then 
            #:if rt.startswith('r')
            ! Build complex eigenvalues
            if (present(eigvals)) eigvals = cmplx(eigs,eigi,kind=${rk}$)
@@ -343,7 +344,7 @@ module stdlib_linalg_schur
            if (.not.overwrite_a_) deallocate(eigs#{if rt.startswith('r')}#,eigi#{endif}#)
         endif eigenvalue_output
         if (.not.present(storage)) deallocate(work)
-      1 if (sort/=GEES_NOT) deallocate(bwork)
+        if (sort/=GEES_NOT) deallocate(bwork)
         call linalg_error_handling(err0,err)
         
         contains
@@ -360,9 +361,51 @@ module stdlib_linalg_schur
                 eig_select = .false.
             end function eig_select 
 
-    end subroutine stdlib_linalg_${ri}$_schur
+    end subroutine la_${ri}$_schur
+
+    ! Schur decomposition subroutine: real eigenvalue interface
+    module subroutine la_real_eig_${ri}$_schur(a,t,z,eigvals,overwrite_a,storage,err)
+        !> Input matrix a[m,m]
+        ${rt}$, intent(inout), target :: a(:,:)
+        !> Schur form of A: upper-triangular or quasi-upper-triangular matrix T
+        ${rt}$, intent(out), contiguous, target :: t(:,:)
+        !> Unitary/orthonormal transformation matrix Z
+        ${rt}$, optional, intent(out), contiguous, target :: z(:,:)
+        !> Output eigenvalues that appear on the diagonal of T
+        real(${rk}$), intent(out), contiguous, target :: eigvals(:)
+        !> [optional] Provide pre-allocated workspace, size to be checked with schur_space
+        ${rt}$, optional, intent(inout), target :: storage(:)
+        !> [optional] Can A data be overwritten and destroyed?
+        logical(lk), optional, intent(in) :: overwrite_a        
+        !> [optional] State return flag. On error if not requested, the code will stop
+        type(linalg_state), optional, intent(out) :: err
+        
+        type(linalg_state) :: err0
+        integer(ilp) :: n
+        complex(${rk}$), allocatable :: ceigvals(:)
+        real(${rk}$), parameter :: rtol = epsilon(0.0_${rk}$)
+        real(${rk}$), parameter :: atol = tiny(0.0_${rk}$)
+          
+        n = size(eigvals,dim=1,kind=ilp)
+        allocate(ceigvals(n))
+          
+        !> Compute Schur decomposition with complex eigenvalues
+        call la_${ri}$_schur(a,t,z,ceigvals,overwrite_a,storage,err0)
+          
+        ! Check that no eigenvalues have meaningful imaginary part
+        if (err0%ok() .and. any(aimag(ceigvals)>atol+rtol*abs(abs(ceigvals)))) then 
+           err0 = linalg_state(this,LINALG_VALUE_ERROR, &
+                              'complex eigenvalues detected: max(imag(lambda))=',maxval(aimag(ceigvals)))
+        endif
+          
+        ! Return real components only
+        eigvals(:n) = real(ceigvals,kind=${rk}$)
+          
+        call linalg_error_handling(err0,err)        
+        
+    end subroutine la_real_eig_${ri}$_schur
 
     #:endfor
 
-end module stdlib_linalg_schur
+end module la_schur
 

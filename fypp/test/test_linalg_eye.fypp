@@ -1,6 +1,6 @@
 #:include "common.fypp"
 module test_linalg_eye
-    use stdlib_linalg_interface
+    use la_interface
 
     implicit none (type,external)
 

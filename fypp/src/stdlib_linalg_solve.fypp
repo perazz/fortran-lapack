@@ -1,9 +1,9 @@
 #:include "common.fypp"
-module stdlib_linalg_solve
-     use stdlib_linalg_constants
-     use stdlib_linalg_blas
-     use stdlib_linalg_lapack
-     use stdlib_linalg_state
+module la_solve
+     use la_constants
+     use la_blas
+     use la_lapack
+     use la_state
      use iso_fortran_env,only:real32,real64,real128,int8,int16,int32,int64,stderr => error_unit
      implicit none(type,external)
      private
@@ -18,7 +18,7 @@ module stdlib_linalg_solve
      interface solve
         #:for nd,ndsuf,nde in ALL_RANKS
         #:for rk,rt,ri in ALL_KINDS_TYPES
-        module procedure stdlib_linalg_${ri}$solve${ndsuf}$
+        module procedure la_${ri}$solve${ndsuf}$
         #:endfor
         #:endfor
      end interface solve
@@ -56,7 +56,7 @@ module stdlib_linalg_solve
      #:for nd,ndsuf,nde in ALL_RANKS
      #:for rk,rt,ri in ALL_KINDS_TYPES
      ! Compute the solution to a real system of linear equations A * X = B
-     function stdlib_linalg_${ri}$solve${ndsuf}$(a,b,overwrite_a,err) result(x)
+     function la_${ri}$solve${ndsuf}$(a,b,overwrite_a,err) result(x)
          !> Input matrix a[n,n]
          ${rt}$,                     intent(inout), target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
@@ -120,9 +120,9 @@ module stdlib_linalg_solve
          ! Process output and return
          1 call linalg_error_handling(err0,err)
 
-     end function stdlib_linalg_${ri}$solve${ndsuf}$
+     end function la_${ri}$solve${ndsuf}$
 
      #:endfor
      #:endfor
 
-end module stdlib_linalg_solve
+end module la_solve

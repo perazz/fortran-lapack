@@ -1,12 +1,12 @@
-module la_linalg_lapack_w
-     use la_linalg_constants
-     use la_linalg_blas
-     use la_linalg_lapack_aux
-     use la_linalg_lapack_s
-     use la_linalg_lapack_c
-     use la_linalg_lapack_d
-     use la_linalg_lapack_z
-     use la_linalg_lapack_q
+module la_lapack_w
+     use la_constants
+     use la_blas
+     use la_lapack_aux
+     use la_lapack_s
+     use la_lapack_c
+     use la_lapack_d
+     use la_lapack_z
+     use la_lapack_q
      implicit none(type,external)
      private
 
@@ -81007,4 +81007,4 @@ module la_linalg_lapack_w
            return
      end subroutine la_wupmtr
 
-end module la_linalg_lapack_w
+end module la_lapack_w

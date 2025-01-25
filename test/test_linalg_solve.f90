@@ -1,7 +1,7 @@
 module test_linalg_solve
-    use la_linalg_constants
-    use la_linalg_state
-    use la_linalg_solve
+    use la_constants
+    use la_state
+    use la_solve
 
     implicit none(type,external)
 

@@ -1,6 +1,6 @@
 ! This example computes the Schur decomposition of a real-valued square matrix.
 program example_schur_real
-  use stdlib_linalg_interface, only: schur, dp
+  use la_interface, only: schur, dp
   implicit none
   real(dp), allocatable :: A(:,:), T(:,:), Z(:,:)
   integer :: n

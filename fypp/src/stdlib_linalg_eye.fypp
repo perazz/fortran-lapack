@@ -1,10 +1,10 @@
 #:include "common.fypp"
 ! Return a 2-D matrix with ones on the diagonal and zeros everywhere else
-module stdlib_linalg_eye
-     use stdlib_linalg_constants
-     use stdlib_linalg_blas
-     use stdlib_linalg_lapack
-     use stdlib_linalg_state
+module la_eye
+     use la_constants
+     use la_blas
+     use la_lapack
+     use la_state
      use iso_fortran_env,only:real32,real64,real128,int8,int16,int32,int64,stderr => error_unit
      implicit none(type,external)
      private
@@ -22,7 +22,7 @@ module stdlib_linalg_eye
      interface eye
         #:for epref,esuf,earg,epresent in FUNCTION_INTERFACES
         #:for rk,rt,ri in ALL_KINDS_TYPES
-        module procedure stdlib_linalg_eye_${ri}$${esuf}$
+        module procedure la_eye_${ri}$${esuf}$
         #:endfor
         #:endfor
      end interface eye
@@ -31,8 +31,8 @@ module stdlib_linalg_eye
      interface diag
         #:for epref,esuf,earg,epresent in FUNCTION_INTERFACES
         #:for rk,rt,ri in ALL_KINDS_TYPES
-        module procedure stdlib_linalg_diag_${ri}$${esuf}$_from_scalar
-        module procedure stdlib_linalg_diag_${ri}$${esuf}$_from_array
+        module procedure la_diag_${ri}$${esuf}$_from_scalar
+        module procedure la_diag_${ri}$${esuf}$_from_array
         #:endfor
         #:endfor
      end interface diag
@@ -42,7 +42,7 @@ module stdlib_linalg_eye
      #:for epref,esuf,earg,epresent in FUNCTION_INTERFACES
      #:for rk,rt,ri in ALL_KINDS_TYPES
      ! Return diagonal eye matrix of size N
-     ${epref}$function stdlib_linalg_eye_${ri}$${esuf}$(m,n,mold${earg}$) result(eye)
+     ${epref}$function la_eye_${ri}$${esuf}$(m,n,mold${earg}$) result(eye)
          !> Number of rows
          integer(ilp), intent(in) :: m
          !> Number of columns (optional)
@@ -93,13 +93,13 @@ module stdlib_linalg_eye
          ! Process output and return
          1 call linalg_error_handling(err0${earg}$)
 
-     end function stdlib_linalg_eye_${ri}$${esuf}$
+     end function la_eye_${ri}$${esuf}$
 
      #:endfor
 
      #:for rk,rt,ri in ALL_KINDS_TYPES
      ! Return square diagonal matrix with diagonal values equal to the input scalar
-     ${epref}$function stdlib_linalg_diag_${ri}$${esuf}$_from_scalar(n,source${earg}$) result(diag)
+     ${epref}$function la_diag_${ri}$${esuf}$_from_scalar(n,source${earg}$) result(diag)
          !> Matrix size
          integer(ilp), intent(in) :: n
          !> Scalar diagonal value. Used to define the return type.
@@ -141,10 +141,10 @@ module stdlib_linalg_eye
          ! Process output and return
          1 call linalg_error_handling(err0${earg}$)
 
-     end function stdlib_linalg_diag_${ri}$${esuf}$_from_scalar
+     end function la_diag_${ri}$${esuf}$_from_scalar
 
      ! Construct square diagonal matrix from an array of diagonal values
-     ${epref}$function stdlib_linalg_diag_${ri}$${esuf}$_from_array(source${earg}$) result(diag)
+     ${epref}$function la_diag_${ri}$${esuf}$_from_array(source${earg}$) result(diag)
          !> Array of diagonal values. Used to define the return type and the matrix size.
          ${rt}$, intent(in) :: source(:)
          #:if epresent
@@ -186,9 +186,9 @@ module stdlib_linalg_eye
          ! Process output and return
          1 call linalg_error_handling(err0${earg}$)
 
-     end function stdlib_linalg_diag_${ri}$${esuf}$_from_array
+     end function la_diag_${ri}$${esuf}$_from_array
 
      #:endfor
      #:endfor
 
-end module stdlib_linalg_eye
+end module la_eye

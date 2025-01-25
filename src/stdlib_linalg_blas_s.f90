@@ -1,6 +1,6 @@
-module la_linalg_blas_s
-     use la_linalg_constants
-     use la_linalg_blas_aux
+module la_blas_s
+     use la_constants
+     use la_blas_aux
      implicit none(type,external)
      private
 
@@ -4514,4 +4514,4 @@ module la_linalg_blas_s
            return
      end subroutine la_strsv
 
-end module la_linalg_blas_s
+end module la_blas_s

@@ -1,7 +1,7 @@
 ! This example includes eigenvalue computation in addition to 
 ! the Schur decomposition for a randomly generated matrix.
 program example_schur_eigenvalues
-  use stdlib_linalg_interface, only: schur, dp
+  use la_interface, only: schur, dp
   implicit none
   real(dp), allocatable :: A(:,:), T(:,:), Z(:,:)
   complex(dp), allocatable :: eigenvalues(:)

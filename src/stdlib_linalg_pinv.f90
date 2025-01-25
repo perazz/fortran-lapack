@@ -1,10 +1,10 @@
 ! Compute the (Moore-Penrose) pseudo-inverse of a matrix.
-module la_linalg_pseudoinverse
-     use la_linalg_constants
-     use la_linalg_blas
-     use la_linalg_lapack
-     use la_linalg_state
-     use la_linalg_svd,only:svd
+module la_pseudoinverse
+     use la_constants
+     use la_blas
+     use la_lapack
+     use la_state
+     use la_svd,only:svd
      use iso_fortran_env,only:real32,real64,real128,int8,int16,int32,int64,stderr => error_unit
      implicit none(type,external)
      private
@@ -18,32 +18,32 @@ module la_linalg_pseudoinverse
 
      ! Function interface
      interface pinv
-        module procedure la_linalg_pseudoinverse_s
-        module procedure la_linalg_pseudoinverse_d
-        module procedure la_linalg_pseudoinverse_q
-        module procedure la_linalg_pseudoinverse_c
-        module procedure la_linalg_pseudoinverse_z
-        module procedure la_linalg_pseudoinverse_w
+        module procedure la_pseudoinverse_s
+        module procedure la_pseudoinverse_d
+        module procedure la_pseudoinverse_q
+        module procedure la_pseudoinverse_c
+        module procedure la_pseudoinverse_z
+        module procedure la_pseudoinverse_w
      end interface pinv
 
      ! Subroutine interface
      interface pseudoinvert
-        module procedure la_linalg_pseudoinvert_s
-        module procedure la_linalg_pseudoinvert_d
-        module procedure la_linalg_pseudoinvert_q
-        module procedure la_linalg_pseudoinvert_c
-        module procedure la_linalg_pseudoinvert_z
-        module procedure la_linalg_pseudoinvert_w
+        module procedure la_pseudoinvert_s
+        module procedure la_pseudoinvert_d
+        module procedure la_pseudoinvert_q
+        module procedure la_pseudoinvert_c
+        module procedure la_pseudoinvert_z
+        module procedure la_pseudoinvert_w
      end interface pseudoinvert
 
      ! Operator interface
      interface operator(.pinv.)
-        module procedure la_linalg_pinv_s_operator
-        module procedure la_linalg_pinv_d_operator
-        module procedure la_linalg_pinv_q_operator
-        module procedure la_linalg_pinv_c_operator
-        module procedure la_linalg_pinv_z_operator
-        module procedure la_linalg_pinv_w_operator
+        module procedure la_pinv_s_operator
+        module procedure la_pinv_d_operator
+        module procedure la_pinv_q_operator
+        module procedure la_pinv_c_operator
+        module procedure la_pinv_z_operator
+        module procedure la_pinv_w_operator
      end interface operator(.pinv.)
      
      character(*),parameter :: this = 'pseudo-inverse'
@@ -51,7 +51,7 @@ module la_linalg_pseudoinverse
      contains
 
      ! Compute the in-place pseudo-inverse of matrix a
-     subroutine la_linalg_pseudoinvert_s(a,pinva,rtol,err)
+     subroutine la_pseudoinvert_s(a,pinva,rtol,err)
          !> Input matrix a[m,n]
          real(sp),intent(inout) :: a(:,:)
          !> Output pseudo-inverse matrix
@@ -113,10 +113,10 @@ module la_linalg_pseudoinverse
          !    This avoids one matrix transpose
          pinva = transpose(matmul(u,vt))
 
-     end subroutine la_linalg_pseudoinvert_s
+     end subroutine la_pseudoinvert_s
 
      ! Function interface
-     function la_linalg_pseudoinverse_s(a,rtol,err) result(pinva)
+     function la_pseudoinverse_s(a,rtol,err) result(pinva)
          !> Input matrix a[m,n]
          real(sp),intent(in),target :: a(:,:)
          !> [optional] ....
@@ -130,12 +130,12 @@ module la_linalg_pseudoinverse
          real(sp),pointer :: ap(:,:)
          ap => a
          
-         call la_linalg_pseudoinvert_s(ap,pinva,rtol,err)
+         call la_pseudoinvert_s(ap,pinva,rtol,err)
 
-     end function la_linalg_pseudoinverse_s
+     end function la_pseudoinverse_s
 
      ! Inverse matrix operator
-     function la_linalg_pinv_s_operator(a) result(pinva)
+     function la_pinv_s_operator(a) result(pinva)
          !> Input matrix a[m,n]
          real(sp),intent(in),target :: a(:,:)
          !> Result matrix
@@ -145,12 +145,12 @@ module la_linalg_pseudoinverse
          real(sp),pointer :: ap(:,:)
          ap => a
 
-         call la_linalg_pseudoinvert_s(ap,pinva)
+         call la_pseudoinvert_s(ap,pinva)
 
-     end function la_linalg_pinv_s_operator
+     end function la_pinv_s_operator
 
      ! Compute the in-place pseudo-inverse of matrix a
-     subroutine la_linalg_pseudoinvert_d(a,pinva,rtol,err)
+     subroutine la_pseudoinvert_d(a,pinva,rtol,err)
          !> Input matrix a[m,n]
          real(dp),intent(inout) :: a(:,:)
          !> Output pseudo-inverse matrix
@@ -212,10 +212,10 @@ module la_linalg_pseudoinverse
          !    This avoids one matrix transpose
          pinva = transpose(matmul(u,vt))
 
-     end subroutine la_linalg_pseudoinvert_d
+     end subroutine la_pseudoinvert_d
 
      ! Function interface
-     function la_linalg_pseudoinverse_d(a,rtol,err) result(pinva)
+     function la_pseudoinverse_d(a,rtol,err) result(pinva)
          !> Input matrix a[m,n]
          real(dp),intent(in),target :: a(:,:)
          !> [optional] ....
@@ -229,12 +229,12 @@ module la_linalg_pseudoinverse
          real(dp),pointer :: ap(:,:)
          ap => a
          
-         call la_linalg_pseudoinvert_d(ap,pinva,rtol,err)
+         call la_pseudoinvert_d(ap,pinva,rtol,err)
 
-     end function la_linalg_pseudoinverse_d
+     end function la_pseudoinverse_d
 
      ! Inverse matrix operator
-     function la_linalg_pinv_d_operator(a) result(pinva)
+     function la_pinv_d_operator(a) result(pinva)
          !> Input matrix a[m,n]
          real(dp),intent(in),target :: a(:,:)
          !> Result matrix
@@ -244,12 +244,12 @@ module la_linalg_pseudoinverse
          real(dp),pointer :: ap(:,:)
          ap => a
 
-         call la_linalg_pseudoinvert_d(ap,pinva)
+         call la_pseudoinvert_d(ap,pinva)
 
-     end function la_linalg_pinv_d_operator
+     end function la_pinv_d_operator
 
      ! Compute the in-place pseudo-inverse of matrix a
-     subroutine la_linalg_pseudoinvert_q(a,pinva,rtol,err)
+     subroutine la_pseudoinvert_q(a,pinva,rtol,err)
          !> Input matrix a[m,n]
          real(qp),intent(inout) :: a(:,:)
          !> Output pseudo-inverse matrix
@@ -311,10 +311,10 @@ module la_linalg_pseudoinverse
          !    This avoids one matrix transpose
          pinva = transpose(matmul(u,vt))
 
-     end subroutine la_linalg_pseudoinvert_q
+     end subroutine la_pseudoinvert_q
 
      ! Function interface
-     function la_linalg_pseudoinverse_q(a,rtol,err) result(pinva)
+     function la_pseudoinverse_q(a,rtol,err) result(pinva)
          !> Input matrix a[m,n]
          real(qp),intent(in),target :: a(:,:)
          !> [optional] ....
@@ -328,12 +328,12 @@ module la_linalg_pseudoinverse
          real(qp),pointer :: ap(:,:)
          ap => a
          
-         call la_linalg_pseudoinvert_q(ap,pinva,rtol,err)
+         call la_pseudoinvert_q(ap,pinva,rtol,err)
 
-     end function la_linalg_pseudoinverse_q
+     end function la_pseudoinverse_q
 
      ! Inverse matrix operator
-     function la_linalg_pinv_q_operator(a) result(pinva)
+     function la_pinv_q_operator(a) result(pinva)
          !> Input matrix a[m,n]
          real(qp),intent(in),target :: a(:,:)
          !> Result matrix
@@ -343,12 +343,12 @@ module la_linalg_pseudoinverse
          real(qp),pointer :: ap(:,:)
          ap => a
 
-         call la_linalg_pseudoinvert_q(ap,pinva)
+         call la_pseudoinvert_q(ap,pinva)
 
-     end function la_linalg_pinv_q_operator
+     end function la_pinv_q_operator
 
      ! Compute the in-place pseudo-inverse of matrix a
-     subroutine la_linalg_pseudoinvert_c(a,pinva,rtol,err)
+     subroutine la_pseudoinvert_c(a,pinva,rtol,err)
          !> Input matrix a[m,n]
          complex(sp),intent(inout) :: a(:,:)
          !> Output pseudo-inverse matrix
@@ -410,10 +410,10 @@ module la_linalg_pseudoinverse
          !    This avoids one matrix transpose
          pinva = conjg(transpose(matmul(u,vt)))
 
-     end subroutine la_linalg_pseudoinvert_c
+     end subroutine la_pseudoinvert_c
 
      ! Function interface
-     function la_linalg_pseudoinverse_c(a,rtol,err) result(pinva)
+     function la_pseudoinverse_c(a,rtol,err) result(pinva)
          !> Input matrix a[m,n]
          complex(sp),intent(in),target :: a(:,:)
          !> [optional] ....
@@ -427,12 +427,12 @@ module la_linalg_pseudoinverse
          complex(sp),pointer :: ap(:,:)
          ap => a
          
-         call la_linalg_pseudoinvert_c(ap,pinva,rtol,err)
+         call la_pseudoinvert_c(ap,pinva,rtol,err)
 
-     end function la_linalg_pseudoinverse_c
+     end function la_pseudoinverse_c
 
      ! Inverse matrix operator
-     function la_linalg_pinv_c_operator(a) result(pinva)
+     function la_pinv_c_operator(a) result(pinva)
          !> Input matrix a[m,n]
          complex(sp),intent(in),target :: a(:,:)
          !> Result matrix
@@ -442,12 +442,12 @@ module la_linalg_pseudoinverse
          complex(sp),pointer :: ap(:,:)
          ap => a
 
-         call la_linalg_pseudoinvert_c(ap,pinva)
+         call la_pseudoinvert_c(ap,pinva)
 
-     end function la_linalg_pinv_c_operator
+     end function la_pinv_c_operator
 
      ! Compute the in-place pseudo-inverse of matrix a
-     subroutine la_linalg_pseudoinvert_z(a,pinva,rtol,err)
+     subroutine la_pseudoinvert_z(a,pinva,rtol,err)
          !> Input matrix a[m,n]
          complex(dp),intent(inout) :: a(:,:)
          !> Output pseudo-inverse matrix
@@ -509,10 +509,10 @@ module la_linalg_pseudoinverse
          !    This avoids one matrix transpose
          pinva = conjg(transpose(matmul(u,vt)))
 
-     end subroutine la_linalg_pseudoinvert_z
+     end subroutine la_pseudoinvert_z
 
      ! Function interface
-     function la_linalg_pseudoinverse_z(a,rtol,err) result(pinva)
+     function la_pseudoinverse_z(a,rtol,err) result(pinva)
          !> Input matrix a[m,n]
          complex(dp),intent(in),target :: a(:,:)
          !> [optional] ....
@@ -526,12 +526,12 @@ module la_linalg_pseudoinverse
          complex(dp),pointer :: ap(:,:)
          ap => a
          
-         call la_linalg_pseudoinvert_z(ap,pinva,rtol,err)
+         call la_pseudoinvert_z(ap,pinva,rtol,err)
 
-     end function la_linalg_pseudoinverse_z
+     end function la_pseudoinverse_z
 
      ! Inverse matrix operator
-     function la_linalg_pinv_z_operator(a) result(pinva)
+     function la_pinv_z_operator(a) result(pinva)
          !> Input matrix a[m,n]
          complex(dp),intent(in),target :: a(:,:)
          !> Result matrix
@@ -541,12 +541,12 @@ module la_linalg_pseudoinverse
          complex(dp),pointer :: ap(:,:)
          ap => a
 
-         call la_linalg_pseudoinvert_z(ap,pinva)
+         call la_pseudoinvert_z(ap,pinva)
 
-     end function la_linalg_pinv_z_operator
+     end function la_pinv_z_operator
 
      ! Compute the in-place pseudo-inverse of matrix a
-     subroutine la_linalg_pseudoinvert_w(a,pinva,rtol,err)
+     subroutine la_pseudoinvert_w(a,pinva,rtol,err)
          !> Input matrix a[m,n]
          complex(qp),intent(inout) :: a(:,:)
          !> Output pseudo-inverse matrix
@@ -608,10 +608,10 @@ module la_linalg_pseudoinverse
          !    This avoids one matrix transpose
          pinva = conjg(transpose(matmul(u,vt)))
 
-     end subroutine la_linalg_pseudoinvert_w
+     end subroutine la_pseudoinvert_w
 
      ! Function interface
-     function la_linalg_pseudoinverse_w(a,rtol,err) result(pinva)
+     function la_pseudoinverse_w(a,rtol,err) result(pinva)
          !> Input matrix a[m,n]
          complex(qp),intent(in),target :: a(:,:)
          !> [optional] ....
@@ -625,12 +625,12 @@ module la_linalg_pseudoinverse
          complex(qp),pointer :: ap(:,:)
          ap => a
          
-         call la_linalg_pseudoinvert_w(ap,pinva,rtol,err)
+         call la_pseudoinvert_w(ap,pinva,rtol,err)
 
-     end function la_linalg_pseudoinverse_w
+     end function la_pseudoinverse_w
 
      ! Inverse matrix operator
-     function la_linalg_pinv_w_operator(a) result(pinva)
+     function la_pinv_w_operator(a) result(pinva)
          !> Input matrix a[m,n]
          complex(qp),intent(in),target :: a(:,:)
          !> Result matrix
@@ -640,8 +640,8 @@ module la_linalg_pseudoinverse
          complex(qp),pointer :: ap(:,:)
          ap => a
 
-         call la_linalg_pseudoinvert_w(ap,pinva)
+         call la_pseudoinvert_w(ap,pinva)
 
-     end function la_linalg_pinv_w_operator
+     end function la_pinv_w_operator
 
-end module la_linalg_pseudoinverse
+end module la_pseudoinverse

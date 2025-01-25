@@ -1,6 +1,6 @@
 program example_getrf
-  use stdlib_linalg_eye, only: eye
-  use stdlib_linalg_lapack, only: dp,ilp,getrf
+  use la_eye, only: eye
+  use la_lapack, only: dp,ilp,getrf
   implicit none(type,external)
   real(dp) :: A(3, 3)
   integer(ilp) :: ipiv(3),info

@@ -1,8 +1,8 @@
-module la_linalg_lapack_c
-     use la_linalg_constants
-     use la_linalg_blas
-     use la_linalg_lapack_aux
-     use la_linalg_lapack_s
+module la_lapack_c
+     use la_constants
+     use la_blas
+     use la_lapack_aux
+     use la_lapack_s
      implicit none(type,external)
      private
 
@@ -80541,4 +80541,4 @@ module la_linalg_lapack_c
            return
      end subroutine la_csytrf_aa
 
-end module la_linalg_lapack_c
+end module la_lapack_c

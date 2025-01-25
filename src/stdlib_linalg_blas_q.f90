@@ -1,10 +1,10 @@
-module la_linalg_blas_q
-     use la_linalg_constants
-     use la_linalg_blas_aux
-     use la_linalg_blas_s
-     use la_linalg_blas_c
-     use la_linalg_blas_d
-     use la_linalg_blas_z
+module la_blas_q
+     use la_constants
+     use la_blas_aux
+     use la_blas_s
+     use la_blas_c
+     use la_blas_d
+     use la_blas_z
      implicit none(type,external)
      private
 
@@ -4514,4 +4514,4 @@ module la_linalg_blas_q
         return
      end function la_qznrm2
 
-end module la_linalg_blas_q
+end module la_blas_q

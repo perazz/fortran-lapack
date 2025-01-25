@@ -1,8 +1,8 @@
-module la_linalg_solve
-     use la_linalg_constants
-     use la_linalg_blas
-     use la_linalg_lapack
-     use la_linalg_state
+module la_solve
+     use la_constants
+     use la_blas
+     use la_lapack
+     use la_state
      use iso_fortran_env,only:real32,real64,real128,int8,int16,int32,int64,stderr => error_unit
      implicit none(type,external)
      private
@@ -14,18 +14,18 @@ module la_linalg_solve
      ! IMSL: lu_solve(a, b, transpose=False)
 
      interface solve
-        module procedure la_linalg_ssolve_one
-        module procedure la_linalg_dsolve_one
-        module procedure la_linalg_qsolve_one
-        module procedure la_linalg_csolve_one
-        module procedure la_linalg_zsolve_one
-        module procedure la_linalg_wsolve_one
-        module procedure la_linalg_ssolve_multiple
-        module procedure la_linalg_dsolve_multiple
-        module procedure la_linalg_qsolve_multiple
-        module procedure la_linalg_csolve_multiple
-        module procedure la_linalg_zsolve_multiple
-        module procedure la_linalg_wsolve_multiple
+        module procedure la_ssolve_one
+        module procedure la_dsolve_one
+        module procedure la_qsolve_one
+        module procedure la_csolve_one
+        module procedure la_zsolve_one
+        module procedure la_wsolve_one
+        module procedure la_ssolve_multiple
+        module procedure la_dsolve_multiple
+        module procedure la_qsolve_multiple
+        module procedure la_csolve_multiple
+        module procedure la_zsolve_multiple
+        module procedure la_wsolve_multiple
      end interface solve
      
      character(*),parameter :: this = 'solve'
@@ -57,7 +57,7 @@ module la_linalg_solve
      end subroutine handle_gesv_info
 
      ! Compute the solution to a real system of linear equations A * X = B
-     function la_linalg_ssolve_one(a,b,overwrite_a,err) result(x)
+     function la_ssolve_one(a,b,overwrite_a,err) result(x)
          !> Input matrix a[n,n]
          real(sp),intent(inout),target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
@@ -121,10 +121,10 @@ module la_linalg_solve
          ! Process output and return
 1        call linalg_error_handling(err0,err)
 
-     end function la_linalg_ssolve_one
+     end function la_ssolve_one
 
      ! Compute the solution to a real system of linear equations A * X = B
-     function la_linalg_dsolve_one(a,b,overwrite_a,err) result(x)
+     function la_dsolve_one(a,b,overwrite_a,err) result(x)
          !> Input matrix a[n,n]
          real(dp),intent(inout),target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
@@ -188,10 +188,10 @@ module la_linalg_solve
          ! Process output and return
 1        call linalg_error_handling(err0,err)
 
-     end function la_linalg_dsolve_one
+     end function la_dsolve_one
 
      ! Compute the solution to a real system of linear equations A * X = B
-     function la_linalg_qsolve_one(a,b,overwrite_a,err) result(x)
+     function la_qsolve_one(a,b,overwrite_a,err) result(x)
          !> Input matrix a[n,n]
          real(qp),intent(inout),target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
@@ -255,10 +255,10 @@ module la_linalg_solve
          ! Process output and return
 1        call linalg_error_handling(err0,err)
 
-     end function la_linalg_qsolve_one
+     end function la_qsolve_one
 
      ! Compute the solution to a real system of linear equations A * X = B
-     function la_linalg_csolve_one(a,b,overwrite_a,err) result(x)
+     function la_csolve_one(a,b,overwrite_a,err) result(x)
          !> Input matrix a[n,n]
          complex(sp),intent(inout),target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
@@ -322,10 +322,10 @@ module la_linalg_solve
          ! Process output and return
 1        call linalg_error_handling(err0,err)
 
-     end function la_linalg_csolve_one
+     end function la_csolve_one
 
      ! Compute the solution to a real system of linear equations A * X = B
-     function la_linalg_zsolve_one(a,b,overwrite_a,err) result(x)
+     function la_zsolve_one(a,b,overwrite_a,err) result(x)
          !> Input matrix a[n,n]
          complex(dp),intent(inout),target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
@@ -389,10 +389,10 @@ module la_linalg_solve
          ! Process output and return
 1        call linalg_error_handling(err0,err)
 
-     end function la_linalg_zsolve_one
+     end function la_zsolve_one
 
      ! Compute the solution to a real system of linear equations A * X = B
-     function la_linalg_wsolve_one(a,b,overwrite_a,err) result(x)
+     function la_wsolve_one(a,b,overwrite_a,err) result(x)
          !> Input matrix a[n,n]
          complex(qp),intent(inout),target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
@@ -456,10 +456,10 @@ module la_linalg_solve
          ! Process output and return
 1        call linalg_error_handling(err0,err)
 
-     end function la_linalg_wsolve_one
+     end function la_wsolve_one
 
      ! Compute the solution to a real system of linear equations A * X = B
-     function la_linalg_ssolve_multiple(a,b,overwrite_a,err) result(x)
+     function la_ssolve_multiple(a,b,overwrite_a,err) result(x)
          !> Input matrix a[n,n]
          real(sp),intent(inout),target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
@@ -523,10 +523,10 @@ module la_linalg_solve
          ! Process output and return
 1        call linalg_error_handling(err0,err)
 
-     end function la_linalg_ssolve_multiple
+     end function la_ssolve_multiple
 
      ! Compute the solution to a real system of linear equations A * X = B
-     function la_linalg_dsolve_multiple(a,b,overwrite_a,err) result(x)
+     function la_dsolve_multiple(a,b,overwrite_a,err) result(x)
          !> Input matrix a[n,n]
          real(dp),intent(inout),target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
@@ -590,10 +590,10 @@ module la_linalg_solve
          ! Process output and return
 1        call linalg_error_handling(err0,err)
 
-     end function la_linalg_dsolve_multiple
+     end function la_dsolve_multiple
 
      ! Compute the solution to a real system of linear equations A * X = B
-     function la_linalg_qsolve_multiple(a,b,overwrite_a,err) result(x)
+     function la_qsolve_multiple(a,b,overwrite_a,err) result(x)
          !> Input matrix a[n,n]
          real(qp),intent(inout),target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
@@ -657,10 +657,10 @@ module la_linalg_solve
          ! Process output and return
 1        call linalg_error_handling(err0,err)
 
-     end function la_linalg_qsolve_multiple
+     end function la_qsolve_multiple
 
      ! Compute the solution to a real system of linear equations A * X = B
-     function la_linalg_csolve_multiple(a,b,overwrite_a,err) result(x)
+     function la_csolve_multiple(a,b,overwrite_a,err) result(x)
          !> Input matrix a[n,n]
          complex(sp),intent(inout),target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
@@ -724,10 +724,10 @@ module la_linalg_solve
          ! Process output and return
 1        call linalg_error_handling(err0,err)
 
-     end function la_linalg_csolve_multiple
+     end function la_csolve_multiple
 
      ! Compute the solution to a real system of linear equations A * X = B
-     function la_linalg_zsolve_multiple(a,b,overwrite_a,err) result(x)
+     function la_zsolve_multiple(a,b,overwrite_a,err) result(x)
          !> Input matrix a[n,n]
          complex(dp),intent(inout),target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
@@ -791,10 +791,10 @@ module la_linalg_solve
          ! Process output and return
 1        call linalg_error_handling(err0,err)
 
-     end function la_linalg_zsolve_multiple
+     end function la_zsolve_multiple
 
      ! Compute the solution to a real system of linear equations A * X = B
-     function la_linalg_wsolve_multiple(a,b,overwrite_a,err) result(x)
+     function la_wsolve_multiple(a,b,overwrite_a,err) result(x)
          !> Input matrix a[n,n]
          complex(qp),intent(inout),target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
@@ -858,6 +858,6 @@ module la_linalg_solve
          ! Process output and return
 1        call linalg_error_handling(err0,err)
 
-     end function la_linalg_wsolve_multiple
+     end function la_wsolve_multiple
 
-end module la_linalg_solve
+end module la_solve

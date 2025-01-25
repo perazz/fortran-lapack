@@ -1,8 +1,8 @@
-module la_linalg_least_squares
-     use la_linalg_constants
-     use la_linalg_blas
-     use la_linalg_lapack
-     use la_linalg_state
+module la_least_squares
+     use la_constants
+     use la_blas
+     use la_lapack
+     use la_state
      use iso_fortran_env,only:real32,real64,real128,int8,int16,int32,int64,stderr => error_unit
      implicit none(type,external)
      private
@@ -15,18 +15,18 @@ module la_linalg_least_squares
      ! IMSL: Result = IMSL_QRSOL(B, [A] [, AUXQR] [, BASIS] [, /DOUBLE] [, QR] [, PIVOT] [, RESIDUAL] [, TOLERANCE])
 
      interface lstsq
-        module procedure la_linalg_slstsq_one
-        module procedure la_linalg_dlstsq_one
-        module procedure la_linalg_qlstsq_one
-        module procedure la_linalg_clstsq_one
-        module procedure la_linalg_zlstsq_one
-        module procedure la_linalg_wlstsq_one
-        module procedure la_linalg_slstsq_multiple
-        module procedure la_linalg_dlstsq_multiple
-        module procedure la_linalg_qlstsq_multiple
-        module procedure la_linalg_clstsq_multiple
-        module procedure la_linalg_zlstsq_multiple
-        module procedure la_linalg_wlstsq_multiple
+        module procedure la_slstsq_one
+        module procedure la_dlstsq_one
+        module procedure la_qlstsq_one
+        module procedure la_clstsq_one
+        module procedure la_zlstsq_one
+        module procedure la_wlstsq_one
+        module procedure la_slstsq_multiple
+        module procedure la_dlstsq_multiple
+        module procedure la_qlstsq_multiple
+        module procedure la_clstsq_multiple
+        module procedure la_zlstsq_multiple
+        module procedure la_wlstsq_multiple
      end interface lstsq
 
      contains
@@ -224,7 +224,7 @@ module la_linalg_least_squares
      end subroutine wgesv_space
 
      ! Compute the least-squares solution to a real system of linear equations Ax = B
-     function la_linalg_slstsq_one(a,b,cond,overwrite_a,rank,err) result(x)
+     function la_slstsq_one(a,b,cond,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          real(sp),intent(inout),target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
@@ -327,10 +327,10 @@ module la_linalg_least_squares
 1        call linalg_error_handling(err0,err)
          if (present(rank)) rank = arank
 
-     end function la_linalg_slstsq_one
+     end function la_slstsq_one
 
      ! Compute the least-squares solution to a real system of linear equations Ax = B
-     function la_linalg_dlstsq_one(a,b,cond,overwrite_a,rank,err) result(x)
+     function la_dlstsq_one(a,b,cond,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          real(dp),intent(inout),target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
@@ -433,10 +433,10 @@ module la_linalg_least_squares
 1        call linalg_error_handling(err0,err)
          if (present(rank)) rank = arank
 
-     end function la_linalg_dlstsq_one
+     end function la_dlstsq_one
 
      ! Compute the least-squares solution to a real system of linear equations Ax = B
-     function la_linalg_qlstsq_one(a,b,cond,overwrite_a,rank,err) result(x)
+     function la_qlstsq_one(a,b,cond,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          real(qp),intent(inout),target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
@@ -539,10 +539,10 @@ module la_linalg_least_squares
 1        call linalg_error_handling(err0,err)
          if (present(rank)) rank = arank
 
-     end function la_linalg_qlstsq_one
+     end function la_qlstsq_one
 
      ! Compute the least-squares solution to a real system of linear equations Ax = B
-     function la_linalg_clstsq_one(a,b,cond,overwrite_a,rank,err) result(x)
+     function la_clstsq_one(a,b,cond,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          complex(sp),intent(inout),target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
@@ -645,10 +645,10 @@ module la_linalg_least_squares
 1        call linalg_error_handling(err0,err)
          if (present(rank)) rank = arank
 
-     end function la_linalg_clstsq_one
+     end function la_clstsq_one
 
      ! Compute the least-squares solution to a real system of linear equations Ax = B
-     function la_linalg_zlstsq_one(a,b,cond,overwrite_a,rank,err) result(x)
+     function la_zlstsq_one(a,b,cond,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          complex(dp),intent(inout),target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
@@ -751,10 +751,10 @@ module la_linalg_least_squares
 1        call linalg_error_handling(err0,err)
          if (present(rank)) rank = arank
 
-     end function la_linalg_zlstsq_one
+     end function la_zlstsq_one
 
      ! Compute the least-squares solution to a real system of linear equations Ax = B
-     function la_linalg_wlstsq_one(a,b,cond,overwrite_a,rank,err) result(x)
+     function la_wlstsq_one(a,b,cond,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          complex(qp),intent(inout),target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
@@ -857,10 +857,10 @@ module la_linalg_least_squares
 1        call linalg_error_handling(err0,err)
          if (present(rank)) rank = arank
 
-     end function la_linalg_wlstsq_one
+     end function la_wlstsq_one
 
      ! Compute the least-squares solution to a real system of linear equations Ax = B
-     function la_linalg_slstsq_multiple(a,b,cond,overwrite_a,rank,err) result(x)
+     function la_slstsq_multiple(a,b,cond,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          real(sp),intent(inout),target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
@@ -963,10 +963,10 @@ module la_linalg_least_squares
 1        call linalg_error_handling(err0,err)
          if (present(rank)) rank = arank
 
-     end function la_linalg_slstsq_multiple
+     end function la_slstsq_multiple
 
      ! Compute the least-squares solution to a real system of linear equations Ax = B
-     function la_linalg_dlstsq_multiple(a,b,cond,overwrite_a,rank,err) result(x)
+     function la_dlstsq_multiple(a,b,cond,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          real(dp),intent(inout),target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
@@ -1069,10 +1069,10 @@ module la_linalg_least_squares
 1        call linalg_error_handling(err0,err)
          if (present(rank)) rank = arank
 
-     end function la_linalg_dlstsq_multiple
+     end function la_dlstsq_multiple
 
      ! Compute the least-squares solution to a real system of linear equations Ax = B
-     function la_linalg_qlstsq_multiple(a,b,cond,overwrite_a,rank,err) result(x)
+     function la_qlstsq_multiple(a,b,cond,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          real(qp),intent(inout),target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
@@ -1175,10 +1175,10 @@ module la_linalg_least_squares
 1        call linalg_error_handling(err0,err)
          if (present(rank)) rank = arank
 
-     end function la_linalg_qlstsq_multiple
+     end function la_qlstsq_multiple
 
      ! Compute the least-squares solution to a real system of linear equations Ax = B
-     function la_linalg_clstsq_multiple(a,b,cond,overwrite_a,rank,err) result(x)
+     function la_clstsq_multiple(a,b,cond,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          complex(sp),intent(inout),target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
@@ -1281,10 +1281,10 @@ module la_linalg_least_squares
 1        call linalg_error_handling(err0,err)
          if (present(rank)) rank = arank
 
-     end function la_linalg_clstsq_multiple
+     end function la_clstsq_multiple
 
      ! Compute the least-squares solution to a real system of linear equations Ax = B
-     function la_linalg_zlstsq_multiple(a,b,cond,overwrite_a,rank,err) result(x)
+     function la_zlstsq_multiple(a,b,cond,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          complex(dp),intent(inout),target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
@@ -1387,10 +1387,10 @@ module la_linalg_least_squares
 1        call linalg_error_handling(err0,err)
          if (present(rank)) rank = arank
 
-     end function la_linalg_zlstsq_multiple
+     end function la_zlstsq_multiple
 
      ! Compute the least-squares solution to a real system of linear equations Ax = B
-     function la_linalg_wlstsq_multiple(a,b,cond,overwrite_a,rank,err) result(x)
+     function la_wlstsq_multiple(a,b,cond,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          complex(qp),intent(inout),target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
@@ -1493,7 +1493,7 @@ module la_linalg_least_squares
 1        call linalg_error_handling(err0,err)
          if (present(rank)) rank = arank
 
-     end function la_linalg_wlstsq_multiple
+     end function la_wlstsq_multiple
 
      ! Simple integer log2 implementation
      elemental integer(ilp) function ilog2(x)
@@ -1513,4 +1513,4 @@ module la_linalg_least_squares
         end if
      end function ilog2
 
-end module la_linalg_least_squares
+end module la_least_squares

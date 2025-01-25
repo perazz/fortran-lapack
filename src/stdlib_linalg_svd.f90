@@ -1,8 +1,8 @@
-module la_linalg_svd
-     use la_linalg_constants
-     use la_linalg_blas
-     use la_linalg_lapack
-     use la_linalg_state
+module la_svd
+     use la_constants
+     use la_blas
+     use la_lapack
+     use la_state
      use iso_fortran_env,only:real32,real64,real128,int8,int16,int32,int64,stderr => error_unit
      implicit none(type,external)
      private
@@ -16,21 +16,21 @@ module la_linalg_svd
      ! Scipy: svd(a, full_matrices=True, compute_uv=True, overwrite_a=False, check_finite=True, lapack_driver='gesdd')
 
      interface svd
-        module procedure la_linalg_svd_s
-        module procedure la_linalg_svd_d
-        module procedure la_linalg_svd_q
-        module procedure la_linalg_svd_c
-        module procedure la_linalg_svd_z
-        module procedure la_linalg_svd_w
+        module procedure la_svd_s
+        module procedure la_svd_d
+        module procedure la_svd_q
+        module procedure la_svd_c
+        module procedure la_svd_z
+        module procedure la_svd_w
      end interface svd
 
      interface svdvals
-        module procedure la_linalg_svdvals_s
-        module procedure la_linalg_svdvals_d
-        module procedure la_linalg_svdvals_q
-        module procedure la_linalg_svdvals_c
-        module procedure la_linalg_svdvals_z
-        module procedure la_linalg_svdvals_w
+        module procedure la_svdvals_s
+        module procedure la_svdvals_d
+        module procedure la_svdvals_q
+        module procedure la_svdvals_c
+        module procedure la_svdvals_z
+        module procedure la_svdvals_w
      end interface svdvals
 
      !> Return full matrices U, V^T to separate storage
@@ -81,7 +81,7 @@ module la_linalg_svd
      end subroutine gesdd_info
 
      !> Singular values of matrix A
-     function la_linalg_svdvals_s(a,err) result(s)
+     function la_svdvals_s(a,err) result(s)
          !> Input matrix A[m,n]
          real(sp),intent(in),target :: a(:,:)
          !> [optional] state return flag. On error if not requested, the code will stop
@@ -104,12 +104,12 @@ module la_linalg_svd
          allocate (s(k))
 
          !> Compute singular values
-         call la_linalg_svd_s(amat,s,overwrite_a=.false.,err=err)
+         call la_svd_s(amat,s,overwrite_a=.false.,err=err)
 
-     end function la_linalg_svdvals_s
+     end function la_svdvals_s
 
      !> SVD of matrix A = U S V^T, returning S and optionally U and V^T
-     subroutine la_linalg_svd_s(a,s,u,vt,overwrite_a,full_matrices,err)
+     subroutine la_svd_s(a,s,u,vt,overwrite_a,full_matrices,err)
          !> Input matrix A[m,n]
          real(sp),intent(inout),target :: a(:,:)
          !> Array of singular values
@@ -263,10 +263,10 @@ module la_linalg_svd
          if (alloc_vt) deallocate (vtmat)
 1        call linalg_error_handling(err0,err)
 
-     end subroutine la_linalg_svd_s
+     end subroutine la_svd_s
 
      !> Singular values of matrix A
-     function la_linalg_svdvals_d(a,err) result(s)
+     function la_svdvals_d(a,err) result(s)
          !> Input matrix A[m,n]
          real(dp),intent(in),target :: a(:,:)
          !> [optional] state return flag. On error if not requested, the code will stop
@@ -289,12 +289,12 @@ module la_linalg_svd
          allocate (s(k))
 
          !> Compute singular values
-         call la_linalg_svd_d(amat,s,overwrite_a=.false.,err=err)
+         call la_svd_d(amat,s,overwrite_a=.false.,err=err)
 
-     end function la_linalg_svdvals_d
+     end function la_svdvals_d
 
      !> SVD of matrix A = U S V^T, returning S and optionally U and V^T
-     subroutine la_linalg_svd_d(a,s,u,vt,overwrite_a,full_matrices,err)
+     subroutine la_svd_d(a,s,u,vt,overwrite_a,full_matrices,err)
          !> Input matrix A[m,n]
          real(dp),intent(inout),target :: a(:,:)
          !> Array of singular values
@@ -448,10 +448,10 @@ module la_linalg_svd
          if (alloc_vt) deallocate (vtmat)
 1        call linalg_error_handling(err0,err)
 
-     end subroutine la_linalg_svd_d
+     end subroutine la_svd_d
 
      !> Singular values of matrix A
-     function la_linalg_svdvals_q(a,err) result(s)
+     function la_svdvals_q(a,err) result(s)
          !> Input matrix A[m,n]
          real(qp),intent(in),target :: a(:,:)
          !> [optional] state return flag. On error if not requested, the code will stop
@@ -474,12 +474,12 @@ module la_linalg_svd
          allocate (s(k))
 
          !> Compute singular values
-         call la_linalg_svd_q(amat,s,overwrite_a=.false.,err=err)
+         call la_svd_q(amat,s,overwrite_a=.false.,err=err)
 
-     end function la_linalg_svdvals_q
+     end function la_svdvals_q
 
      !> SVD of matrix A = U S V^T, returning S and optionally U and V^T
-     subroutine la_linalg_svd_q(a,s,u,vt,overwrite_a,full_matrices,err)
+     subroutine la_svd_q(a,s,u,vt,overwrite_a,full_matrices,err)
          !> Input matrix A[m,n]
          real(qp),intent(inout),target :: a(:,:)
          !> Array of singular values
@@ -633,10 +633,10 @@ module la_linalg_svd
          if (alloc_vt) deallocate (vtmat)
 1        call linalg_error_handling(err0,err)
 
-     end subroutine la_linalg_svd_q
+     end subroutine la_svd_q
 
      !> Singular values of matrix A
-     function la_linalg_svdvals_c(a,err) result(s)
+     function la_svdvals_c(a,err) result(s)
          !> Input matrix A[m,n]
          complex(sp),intent(in),target :: a(:,:)
          !> [optional] state return flag. On error if not requested, the code will stop
@@ -659,12 +659,12 @@ module la_linalg_svd
          allocate (s(k))
 
          !> Compute singular values
-         call la_linalg_svd_c(amat,s,overwrite_a=.false.,err=err)
+         call la_svd_c(amat,s,overwrite_a=.false.,err=err)
 
-     end function la_linalg_svdvals_c
+     end function la_svdvals_c
 
      !> SVD of matrix A = U S V^T, returning S and optionally U and V^T
-     subroutine la_linalg_svd_c(a,s,u,vt,overwrite_a,full_matrices,err)
+     subroutine la_svd_c(a,s,u,vt,overwrite_a,full_matrices,err)
          !> Input matrix A[m,n]
          complex(sp),intent(inout),target :: a(:,:)
          !> Array of singular values
@@ -824,10 +824,10 @@ module la_linalg_svd
          if (alloc_vt) deallocate (vtmat)
 1        call linalg_error_handling(err0,err)
 
-     end subroutine la_linalg_svd_c
+     end subroutine la_svd_c
 
      !> Singular values of matrix A
-     function la_linalg_svdvals_z(a,err) result(s)
+     function la_svdvals_z(a,err) result(s)
          !> Input matrix A[m,n]
          complex(dp),intent(in),target :: a(:,:)
          !> [optional] state return flag. On error if not requested, the code will stop
@@ -850,12 +850,12 @@ module la_linalg_svd
          allocate (s(k))
 
          !> Compute singular values
-         call la_linalg_svd_z(amat,s,overwrite_a=.false.,err=err)
+         call la_svd_z(amat,s,overwrite_a=.false.,err=err)
 
-     end function la_linalg_svdvals_z
+     end function la_svdvals_z
 
      !> SVD of matrix A = U S V^T, returning S and optionally U and V^T
-     subroutine la_linalg_svd_z(a,s,u,vt,overwrite_a,full_matrices,err)
+     subroutine la_svd_z(a,s,u,vt,overwrite_a,full_matrices,err)
          !> Input matrix A[m,n]
          complex(dp),intent(inout),target :: a(:,:)
          !> Array of singular values
@@ -1015,10 +1015,10 @@ module la_linalg_svd
          if (alloc_vt) deallocate (vtmat)
 1        call linalg_error_handling(err0,err)
 
-     end subroutine la_linalg_svd_z
+     end subroutine la_svd_z
 
      !> Singular values of matrix A
-     function la_linalg_svdvals_w(a,err) result(s)
+     function la_svdvals_w(a,err) result(s)
          !> Input matrix A[m,n]
          complex(qp),intent(in),target :: a(:,:)
          !> [optional] state return flag. On error if not requested, the code will stop
@@ -1041,12 +1041,12 @@ module la_linalg_svd
          allocate (s(k))
 
          !> Compute singular values
-         call la_linalg_svd_w(amat,s,overwrite_a=.false.,err=err)
+         call la_svd_w(amat,s,overwrite_a=.false.,err=err)
 
-     end function la_linalg_svdvals_w
+     end function la_svdvals_w
 
      !> SVD of matrix A = U S V^T, returning S and optionally U and V^T
-     subroutine la_linalg_svd_w(a,s,u,vt,overwrite_a,full_matrices,err)
+     subroutine la_svd_w(a,s,u,vt,overwrite_a,full_matrices,err)
          !> Input matrix A[m,n]
          complex(qp),intent(inout),target :: a(:,:)
          !> Array of singular values
@@ -1206,6 +1206,6 @@ module la_linalg_svd
          if (alloc_vt) deallocate (vtmat)
 1        call linalg_error_handling(err0,err)
 
-     end subroutine la_linalg_svd_w
+     end subroutine la_svd_w
 
-end module la_linalg_svd
+end module la_svd

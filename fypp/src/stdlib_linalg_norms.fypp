@@ -106,11 +106,11 @@ ${indent}$do ${varname}$${n+1+dim_offset-i}$ = lbound(${matname}$, ${n+1+dim_off
 #:enddef
 
 ! Vector norms
-module stdlib_linalg_norms
-     use stdlib_linalg_constants
-     use stdlib_linalg_blas, only: nrm2
-     use stdlib_linalg_lapack, only: lange
-     use stdlib_linalg_state
+module la_norms
+     use la_constants
+     use la_blas, only: nrm2
+     use la_lapack, only: lange
+     use la_state
      use iso_fortran_env,only:real32,real64,real128,int8,int16,int32,int64,stderr => error_unit
      implicit none(type,external)
      private
@@ -140,13 +140,13 @@ module stdlib_linalg_norms
         #:for it,ii in INPUT_OPTIONS
         !> Scalar norms: ${rt}$
         #:for rank in RANKS        
-        module procedure stdlib_linalg_norm_${rank}$D_order_${ii}$_${ri}$         
-        module procedure stdlib_linalg_norm_${rank}$D_order_err_${ii}$_${ri}$         
+        module procedure la_norm_${rank}$D_order_${ii}$_${ri}$         
+        module procedure la_norm_${rank}$D_order_err_${ii}$_${ri}$         
         #:endfor
         !> Array norms: ${rt}$
         #:for rank in range(2, MAXRANK + 1)
-        module procedure stdlib_linalg_norm_${rank}$D_to_${rank-1}$D_${ii}$_${ri}$
-        module procedure stdlib_linalg_norm_${rank}$D_to_${rank-1}$D_err_${ii}$_${ri}$
+        module procedure la_norm_${rank}$D_to_${rank-1}$D_${ii}$_${ri}$
+        module procedure la_norm_${rank}$D_to_${rank-1}$D_err_${ii}$_${ri}$
         #:endfor
         #:endfor        
         #:endfor
@@ -279,7 +279,7 @@ module stdlib_linalg_norms
     #:for rank in RANKS
 
     ! Pure function interface, with order specification. On error, the code will stop
-    pure function stdlib_linalg_norm_${rank}$D_order_${ii}$_${ri}$(a, order) result(nrm)
+    pure function la_norm_${rank}$D_order_${ii}$_${ri}$(a, order) result(nrm)
         !> Input ${rank}$-d matrix a${ranksuffix(rank)}$
         ${rt}$, intent(in) :: a${ranksuffix(rank)}$
         !> Order of the matrix norm being computed.
@@ -289,10 +289,10 @@ module stdlib_linalg_norms
                                     
         call norm_${rank}$D_${ii}$_${ri}$(a, nrm=nrm, order=order)
         
-    end function stdlib_linalg_norm_${rank}$D_order_${ii}$_${ri}$
+    end function la_norm_${rank}$D_order_${ii}$_${ri}$
     
     ! Function interface with output error
-    function stdlib_linalg_norm_${rank}$D_order_err_${ii}$_${ri}$(a, order, err) result(nrm)
+    function la_norm_${rank}$D_order_err_${ii}$_${ri}$(a, order, err) result(nrm)
         !> Input ${rank}$-d matrix a${ranksuffix(rank)}$
         ${rt}$, intent(in) :: a${ranksuffix(rank)}$
         !> Order of the matrix norm being computed.
@@ -304,7 +304,7 @@ module stdlib_linalg_norms
                 
         call norm_${rank}$D_${ii}$_${ri}$(a, nrm=nrm, order=order, err=err)
         
-    end function stdlib_linalg_norm_${rank}$D_order_err_${ii}$_${ri}$
+    end function la_norm_${rank}$D_order_err_${ii}$_${ri}$
     
     ! Internal implementation
     pure subroutine norm_${rank}$D_${ii}$_${ri}$(a, nrm, order, err)
@@ -374,7 +374,7 @@ module stdlib_linalg_norms
     #:for rank in range(2, MAXRANK + 1)
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    pure function stdlib_linalg_norm_${rank}$D_to_${rank-1}$D_${ii}$_${ri}$(a, order, dim) result(nrm)
+    pure function la_norm_${rank}$D_to_${rank-1}$D_${ii}$_${ri}$(a, order, dim) result(nrm)
         !> Input matrix a[..]
         ${rt}$, intent(in), target :: a${ranksuffix(rank)}$
         !> Order of the matrix norm being computed.
@@ -386,10 +386,10 @@ module stdlib_linalg_norms
         
         call norm_${rank}$D_to_${rank-1}$D_${ii}$_${ri}$(a, nrm, order, dim)
             
-    end function stdlib_linalg_norm_${rank}$D_to_${rank-1}$D_${ii}$_${ri}$
+    end function la_norm_${rank}$D_to_${rank-1}$D_${ii}$_${ri}$
 
     ! Function interface with DIM specifier and output error state.
-    function stdlib_linalg_norm_${rank}$D_to_${rank-1}$D_err_${ii}$_${ri}$(a, order, dim, err) result(nrm)
+    function la_norm_${rank}$D_to_${rank-1}$D_err_${ii}$_${ri}$(a, order, dim, err) result(nrm)
         !> Input matrix a[..]
         ${rt}$, intent(in), target :: a${ranksuffix(rank)}$
         !> Order of the matrix norm being computed.
@@ -403,7 +403,7 @@ module stdlib_linalg_norms
         
         call norm_${rank}$D_to_${rank-1}$D_${ii}$_${ri}$(a, nrm, order, dim, err)
             
-    end function stdlib_linalg_norm_${rank}$D_to_${rank-1}$D_err_${ii}$_${ri}$
+    end function la_norm_${rank}$D_to_${rank-1}$D_err_${ii}$_${ri}$
     
     ! Internal implementation 
     pure subroutine norm_${rank}$D_to_${rank-1}$D_${ii}$_${ri}$(a, nrm, order, dim, err)
@@ -636,4 +636,4 @@ ${loop_variables_end(rank-2)}$
     #:endfor
     #:endfor
 
-end module stdlib_linalg_norms
+end module la_norms

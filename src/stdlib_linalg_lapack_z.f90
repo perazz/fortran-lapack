@@ -1,10 +1,10 @@
-module la_linalg_lapack_z
-     use la_linalg_constants
-     use la_linalg_blas
-     use la_linalg_lapack_aux
-     use la_linalg_lapack_s
-     use la_linalg_lapack_c
-     use la_linalg_lapack_d
+module la_lapack_z
+     use la_constants
+     use la_blas
+     use la_lapack_aux
+     use la_lapack_s
+     use la_lapack_c
+     use la_lapack_d
      implicit none(type,external)
      private
 
@@ -81005,4 +81005,4 @@ module la_linalg_lapack_z
            return
      end subroutine la_zsytrf_aa
 
-end module la_linalg_lapack_z
+end module la_lapack_z

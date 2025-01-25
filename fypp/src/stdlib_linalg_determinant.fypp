@@ -1,9 +1,9 @@
 #:include "common.fypp"
-module stdlib_linalg_determinant
-     use stdlib_linalg_constants
-     use stdlib_linalg_blas
-     use stdlib_linalg_lapack
-     use stdlib_linalg_state
+module la_determinant
+     use la_constants
+     use la_blas
+     use la_lapack
+     use la_state
      use iso_fortran_env,only:real32,real64,real128,int8,int16,int32,int64,stderr => error_unit
      implicit none(type,external)
      private
@@ -19,7 +19,7 @@ module stdlib_linalg_determinant
 
      interface det
         #:for rk,rt,ri in ALL_KINDS_TYPES
-        module procedure stdlib_linalg_${ri}$determinant
+        module procedure la_${ri}$determinant
         #:endfor
      end interface det
 
@@ -28,7 +28,7 @@ module stdlib_linalg_determinant
 
      #:for rk,rt,ri in ALL_KINDS_TYPES
      ! Compute determinant of a square matrix A
-     function stdlib_linalg_${ri}$determinant(a,overwrite_a,err) result(det)
+     function la_${ri}$determinant(a,overwrite_a,err) result(det)
          !> Input matrix a[m,n]
          ${rt}$, intent(inout), target :: a(:,:)
          !> [optional] Can A data be overwritten and destroyed?
@@ -117,8 +117,8 @@ module stdlib_linalg_determinant
          ! Process output and return
          1 call linalg_error_handling(err0,err)
 
-     end function stdlib_linalg_${ri}$determinant
+     end function la_${ri}$determinant
 
      #:endfor
 
-end module stdlib_linalg_determinant
+end module la_determinant

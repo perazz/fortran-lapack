@@ -1,5 +1,5 @@
-module la_linalg_blas_aux
-     use la_linalg_constants
+module la_blas_aux
+     use la_constants
      implicit none(type,external)
      private
 
@@ -437,4 +437,4 @@ module la_linalg_blas_aux
            return
      end function la_idamax
 
-end module la_linalg_blas_aux
+end module la_blas_aux

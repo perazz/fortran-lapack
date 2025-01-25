@@ -1,12 +1,12 @@
-module la_linalg_blas
-     use la_linalg_constants
-     use la_linalg_blas_aux
-     use la_linalg_blas_s
-     use la_linalg_blas_d
-     use la_linalg_blas_q
-     use la_linalg_blas_c
-     use la_linalg_blas_z
-     use la_linalg_blas_w
+module la_blas
+     use la_constants
+     use la_blas_aux
+     use la_blas_s
+     use la_blas_d
+     use la_blas_q
+     use la_blas_c
+     use la_blas_z
+     use la_blas_w
      implicit none(type,external)
      public
 
@@ -2002,4 +2002,4 @@ module la_linalg_blas
 #endif
           end interface trsv
 
-end module la_linalg_blas
+end module la_blas

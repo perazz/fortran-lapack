@@ -1,5 +1,5 @@
 module test_linalg_eye
-    use la_linalg_interface
+    use la_interface
 
     implicit none(type,external)
 

@@ -1,5 +1,5 @@
 program example_state1
-  use stdlib_linalg_state
+  use la_state
   implicit none
   type(linalg_state) :: err
 

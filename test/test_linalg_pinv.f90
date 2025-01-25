@@ -1,6 +1,6 @@
 ! Test inverse matrix
 module test_linalg_pseudoinverse
-    use la_linalg_interface
+    use la_interface
 
     implicit none(type,external)
 

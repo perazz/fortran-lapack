@@ -1,6 +1,6 @@
-module la_linalg_lapack_aux
-     use la_linalg_constants
-     use la_linalg_blas
+module la_lapack_aux
+     use la_constants
+     use la_blas
      implicit none(type,external)
      private
 
@@ -1913,4 +1913,4 @@ module la_linalg_lapack_aux
            return
      end function la_ilaenv2stage
 
-end module la_linalg_lapack_aux
+end module la_lapack_aux

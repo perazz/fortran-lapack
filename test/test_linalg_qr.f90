@@ -1,6 +1,6 @@
 ! Test QR factorization
 module test_linalg_qr
-    use la_linalg_interface
+    use la_interface
 
     implicit none(type,external)
 
