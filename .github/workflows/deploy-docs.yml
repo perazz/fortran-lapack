@@ -28,5 +28,5 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
-          publish_dir: ./project/doxygen/html
+          publish_dir: ./html
 
