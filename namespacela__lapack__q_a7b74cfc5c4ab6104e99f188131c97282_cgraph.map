@@ -1,0 +1,5 @@
+<map id="la_lapack_q::la_qtpmqrt" name="la_lapack_q::la_qtpmqrt">
+<area shape="rect" id="Node000001" title="DTPMQRT: applies a real orthogonal matrix Q obtained from a &quot;triangular&#45;pentagonal&quot; real block reflec..." alt="" coords="5,5,184,31"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__q.html#aecb60d5949dfeb01a8ab74523b832aea" title="DTPRFB: applies a real &quot;triangular&#45;pentagonal&quot; block reflector H or its transpose H**T to a real matr..." alt="" coords="232,5,397,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="184,15,218,15,218,21,184,21"/>
+</map>

@@ -1,0 +1,11 @@
+<map id="la_lapack_d::la_dorgqr" name="la_lapack_d::la_dorgqr">
+<area shape="rect" id="Node000001" title="DORGQR: generates an M&#45;by&#45;N real matrix Q with orthonormal columns, which is defined as the first N c..." alt="" coords="5,55,173,80"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__d.html#a7c993a9b006074abbe4e51f11d15c32d" title="DLARFB: applies a real block reflector H or its transpose H**T to a real m by n matrix C,..." alt="" coords="223,5,387,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="145,52,235,31,236,36,146,57"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__d.html#abe4ab35a3a4f535ce709b92d660cfd11" title="DLARFT: forms the triangular factor T of a real block reflector H of order n, which is defined as a p..." alt="" coords="225,55,385,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="174,65,212,65,212,70,174,70"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__d.html#a23062c7436456354772dea86f57191cf" title="DORG2R: generates an m by n real matrix Q with orthonormal columns, which is defined as the first n c..." alt="" coords="221,104,389,129"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="146,77,236,98,235,104,145,83"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__d.html#a3741bc70f5c5819f1435cdee2c1304d5" title="DLARF: applies a real elementary reflector H to a real m by n matrix C, from either the left or the r..." alt="" coords="437,104,593,129"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="390,114,424,114,424,119,390,119"/>
+</map>

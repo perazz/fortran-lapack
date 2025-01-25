@@ -1,0 +1,24 @@
+<map id="la_lapack_w::la_wtrsen" name="la_lapack_w::la_wtrsen">
+<area shape="rect" id="Node000001" title="ZTRSEN: reorders the Schur factorization of a complex matrix A = Q*T*Q**H, so that a selected cluster..." alt="" coords="5,104,177,129"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__w.html#a181e3ce6202dd4d6e6a0104746779391" title="ZLACN2: estimates the 1&#45;norm of a square, complex matrix A. Reverse communication is used for evaluat..." alt="" coords="225,5,400,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="111,101,161,71,224,40,244,32,246,37,226,44,164,76,114,106"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__w.html#a2bdb179a3947a0d642455755afe72807" title="ZLACPY: copies all or part of a two&#45;dimensional matrix A to another matrix B." alt="" coords="225,55,400,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="148,101,241,80,242,86,150,107"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__w.html#affa07edb87a8f941a752c768e3f57c4d" title="ZLANGE: returns the value of the one norm, or the Frobenius norm, or the infinity norm,..." alt="" coords="448,177,623,203"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="157,127,226,139,434,173,434,178,225,145,156,132"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__w.html#a4c3e864448e244d05154f8f7845df265" title="ZTREXC: reorders the Schur factorization of a complex matrix A = Q*T*Q**H, so that the diagonal eleme..." alt="" coords="227,104,399,129"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="178,114,213,114,213,119,178,119"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__w.html#a2778f6f8de2ab1ebd7245b5cd9a44595" title="ZTRSYL: solves the complex Sylvester matrix equation: op(A)*X + X*op(B) = scale*C or op(A)*X &#45; X*op(B..." alt="" coords="229,205,397,231"/>
+<area shape="poly" id="edge9_Node000001_Node000009" title=" " alt="" coords="116,127,226,184,262,198,260,203,224,188,114,132"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="499,179,491,169,495,159,510,153,535,151,566,154,578,163,575,168,564,159,535,156,512,158,499,163,497,168,503,176"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__w.html#a2bf5a64bcaccd3676164dbf3aee36bb5" title="!" alt="" coords="671,177,844,203"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="623,187,657,187,657,193,623,193"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__w.html#ac13f3299220b4bc549736e039e2de2ef" title="!" alt="" coords="451,104,620,129"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="399,114,437,114,437,119,399,119"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__w.html#a5eb5821fca8d8864b83cab2d6b2a9b70" title="ZROT: applies a plane rotation, where the cos (C) is real and the sin (S) is complex,..." alt="" coords="457,55,614,80"/>
+<area shape="poly" id="edge8_Node000006_Node000008" title=" " alt="" coords="370,101,464,80,465,86,371,107"/>
+<area shape="poly" id="edge12_Node000009_Node000004" title=" " alt="" coords="397,205,434,200,435,205,398,210"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__w.html#a256289e251e51bb1c01d2fe45fe134fa" title="ZLADIV: := X / Y, where X and Y are complex. The computation of X / Y will not overflow on an interme..." alt="" coords="450,251,621,276"/>
+<area shape="poly" id="edge10_Node000009_Node000010" title=" " alt="" coords="376,228,459,245,458,250,375,233"/>
+<area shape="poly" id="edge11_Node000010_Node000010" title=" " alt="" coords="499,252,491,242,495,232,510,226,535,224,566,228,578,237,575,241,564,233,535,229,512,231,499,236,497,242,503,249"/>
+</map>

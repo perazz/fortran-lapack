@@ -1,0 +1,9 @@
+<map id="la_lapack_w::la_wlalsa" name="la_lapack_w::la_wlalsa">
+<area shape="rect" id="Node000001" title="ZLALSA: is an itermediate step in solving the least squares problem by computing the SVD of the coeff..." alt="" coords="5,31,176,56"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__w.html#a355c2886ebbd962e5e88b4b47182a8ac" title="ZLALS0: applies back the multiplying factors of either the left or the right singular vector matrix o..." alt="" coords="224,31,395,56"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="176,41,210,41,210,46,176,46"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__w.html#a2bdb179a3947a0d642455755afe72807" title="ZLACPY: copies all or part of a two&#45;dimensional matrix A to another matrix B." alt="" coords="443,5,617,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="395,31,429,27,429,32,395,36"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__w.html#ad1c85219234bb41f60311c720a8200f6" title="ZLASCL: multiplies the M by N complex matrix A by the real scalar CTO/CFROM. This is done without ove..." alt="" coords="445,55,615,80"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="395,50,432,54,432,59,395,55"/>
+</map>

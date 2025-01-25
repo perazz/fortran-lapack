@@ -1,0 +1,30 @@
+<map id="la_lapack_w::la_wgeqr" name="la_lapack_w::la_wgeqr">
+<area shape="rect" id="Node000001" title="ZGEQR: computes a QR factorization of a complex M&#45;by&#45;N matrix A: A = Q * ( R ), ( 0 ) where: Q is a M..." alt="" coords="5,128,173,153"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__w.html#a449025f637443cc568485205614174e0" title="ZGEQRT: computes a blocked QR factorization of a complex M&#45;by&#45;N matrix A using the compact WY represe..." alt="" coords="445,103,619,128"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="173,133,431,118,432,124,174,139"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__w.html#a14ee9fdcedde75b5fe4726ae43f3bd98" title="ZLATSQR: computes a blocked Tall&#45;Skinny QR factorization of a complex M&#45;by&#45;N matrix A for M &gt;= N: A =..." alt="" coords="221,153,397,179"/>
+<area shape="poly" id="edge11_Node000001_Node000009" title=" " alt="" coords="174,148,208,152,207,157,173,153"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__w.html#a256125ef70cd9eeadf721e1a8c29a461" title="ZGEQRT2: computes a QR factorization of a complex M&#45;by&#45;N matrix A, using the compact WY representatio..." alt="" coords="667,128,848,153"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="619,122,653,126,653,132,618,128"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__w.html#a937821320da253c820129233e93eaca6" title="ZGEQRT3: recursively computes a QR factorization of a complex M&#45;by&#45;N matrix A, using the compact WY r..." alt="" coords="667,79,848,104"/>
+<area shape="poly" id="edge6_Node000002_Node000006" title=" " alt="" coords="618,103,653,100,653,105,619,109"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__w.html#a3f55478b3a303207019b864ee0d4a681" title="ZLARFB: applies a complex block reflector H or its transpose H**H to a complex M&#45;by&#45;N matrix C,..." alt="" coords="673,5,842,31"/>
+<area shape="poly" id="edge9_Node000002_Node000007" title=" " alt="" coords="552,100,602,70,666,40,687,32,689,37,668,44,605,75,554,105"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__w.html#aa9eb79b853bd27197cc061402a74d006" title="ZLARFG: generates a complex elementary reflector H of order n, such that H**H * ( alpha ) = ( beta ),..." alt="" coords="899,128,1068,153"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="848,138,885,138,885,143,848,143"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__w.html#a256289e251e51bb1c01d2fe45fe134fa" title="ZLADIV: := X / Y, where X and Y are complex. The computation of X / Y will not overflow on an interme..." alt="" coords="1119,128,1289,153"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="1068,138,1105,138,1105,143,1068,143"/>
+<area shape="poly" id="edge5_Node000005_Node000005" title=" " alt="" coords="1168,130,1161,120,1165,110,1179,104,1204,101,1234,105,1246,114,1243,118,1232,110,1204,107,1181,109,1168,114,1166,119,1172,126"/>
+<area shape="poly" id="edge8_Node000006_Node000004" title=" " alt="" coords="817,101,912,122,910,128,816,107"/>
+<area shape="poly" id="edge7_Node000006_Node000006" title=" " alt="" coords="721,80,713,70,717,60,732,54,757,52,789,56,801,65,798,69,787,61,757,57,733,59,721,64,718,70,725,77"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__w.html#af9fd634fd795490b65aee72c58533e2f" title="ZLACGV: conjugates a complex vector of length N." alt="" coords="896,5,1071,31"/>
+<area shape="poly" id="edge10_Node000007_Node000008" title=" " alt="" coords="842,15,882,15,882,21,842,21"/>
+<area shape="poly" id="edge12_Node000009_Node000002" title=" " alt="" coords="366,151,462,128,463,134,367,156"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__w.html#a21cb083e1d891713292a75b4604e8d8c" title="ZTPQRT: computes a blocked QR factorization of a complex &quot;triangular&#45;pentagonal&quot; matrix C,..." alt="" coords="447,177,617,203"/>
+<area shape="poly" id="edge13_Node000009_Node000010" title=" " alt="" coords="398,173,434,177,433,182,397,178"/>
+<area shape="rect" id="Node000011" href="$namespacela__lapack__w.html#a20ca5760f77807317f6b3f4151b9b533" title="ZTPQRT2: computes a QR factorization of a complex &quot;triangular&#45;pentagonal&quot; matrix C,..." alt="" coords="668,227,847,252"/>
+<area shape="poly" id="edge14_Node000010_Node000011" title=" " alt="" coords="591,200,686,221,685,226,590,205"/>
+<area shape="rect" id="Node000012" href="$namespacela__lapack__w.html#a71d546591b52c26a9f34f39357be4557" title="ZTPRFB: applies a complex &quot;triangular&#45;pentagonal&quot; block reflector H or its conjugate transpose H**H t..." alt="" coords="672,177,843,203"/>
+<area shape="poly" id="edge16_Node000010_Node000012" title=" " alt="" coords="618,187,658,187,658,193,618,193"/>
+<area shape="poly" id="edge15_Node000011_Node000004" title=" " alt="" coords="814,224,847,213,902,186,950,158,953,163,905,191,849,218,815,229"/>
+</map>

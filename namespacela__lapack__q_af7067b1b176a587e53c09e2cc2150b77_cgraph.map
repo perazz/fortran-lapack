@@ -1,0 +1,16 @@
+<map id="la_lapack_q::la_qgsvj0" name="la_lapack_q::la_qgsvj0">
+<area shape="rect" id="Node000001" title="DGSVJ0: is called from DGESVJ as a pre&#45;processor and that is its main purpose. It applies Jacobi rota..." alt="" coords="5,91,175,116"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__q.html#a4638c824a5da25cfe2a9f5a34df6f40c" title="DLASCL: multiplies the M by N real matrix A by the real scalar CTO/CFROM. This is done without over/u..." alt="" coords="225,65,389,91"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="174,91,211,87,211,92,175,96"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__q.html#ae52696bd9e5bb3687dcfdc6176da6ea5" title="!" alt="" coords="223,115,391,140"/>
+<area shape="poly" id="edge8_Node000001_Node000006" title=" " alt="" coords="175,110,209,114,209,119,174,115"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__q.html#a905710846630796d062c866934101635" title="DISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="441,29,611,55"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="384,63,434,54,435,60,385,68"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__q.html#a5435a74c593174c3ab375e653a46f8fe" title="DLAMCH: determines quad precision machine parameters." alt="" coords="439,103,613,128"/>
+<area shape="poly" id="edge6_Node000002_Node000005" title=" " alt="" coords="382,88,438,98,437,103,382,93"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="490,31,483,21,487,11,501,5,526,3,556,6,568,15,565,20,554,11,526,8,503,10,490,15,488,20,494,28"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__q.html#a70bf73297aef7307a374d805b9ea5736" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in DISNAN...." alt="" coords="661,29,843,55"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="611,39,648,39,648,45,611,45"/>
+<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="715,31,708,21,712,11,727,5,752,3,784,7,796,16,792,20,782,11,752,8,728,10,715,15,713,20,720,27"/>
+<area shape="poly" id="edge7_Node000005_Node000005" title=" " alt="" coords="490,104,483,94,487,84,501,78,526,76,556,80,568,89,565,93,554,85,526,81,503,83,490,88,488,94,494,101"/>
+</map>

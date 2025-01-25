@@ -1,0 +1,13 @@
+<map id="la_lapack_s::la_sorghr" name="la_lapack_s::la_sorghr">
+<area shape="rect" id="Node000001" title="SORGHR: generates a real orthogonal matrix Q which is defined as the product of IHI&#45;ILO elementary re..." alt="" coords="5,55,172,80"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#aa5c17964b5116204999558eb1393885f" title="SORGQR: generates an M&#45;by&#45;N real matrix Q with orthonormal columns, which is defined as the first N c..." alt="" coords="220,55,387,80"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="173,65,206,65,206,70,173,70"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__s.html#a88f424ab78fa97dff58d431a8ab51b7c" title="SLARFB: applies a real block reflector H or its transpose H**T to a real m by n matrix C,..." alt="" coords="437,5,599,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="359,52,448,31,449,36,360,57"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__s.html#a94b9ff2c43c13daa04cd1985c67d4216" title="SLARFT: forms the triangular factor T of a real block reflector H of order n, which is defined as a p..." alt="" coords="439,55,597,80"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="387,65,425,65,425,70,387,70"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__s.html#ac50ce79c5b9f671484ac787de35af9a3" title="SORG2R: generates an m by n real matrix Q with orthonormal columns, which is defined as the first n c..." alt="" coords="435,104,601,129"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="360,77,449,98,448,103,359,83"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__s.html#afe74baa9cec84eae9cb50ed04c85340c" title="SLARF: applies a real elementary reflector H to a real m by n matrix C, from either the left or the r..." alt="" coords="649,104,804,129"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="601,114,635,114,635,119,601,119"/>
+</map>

@@ -1,0 +1,10 @@
+<map id="la_lapack_s::la_sptrfs" name="la_lapack_s::la_sptrfs">
+<area shape="rect" id="Node000001" title="SPTRFS: improves the computed solution to a system of linear equations when the coefficient matrix is..." alt="" coords="5,55,168,80"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#abbe0ae24f069ddbf134ff3e404a19878" title="SLAMCH: determines single precision machine parameters." alt="" coords="216,29,388,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="168,55,202,51,203,56,169,60"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__s.html#a31326688c6441df71b20dcf0468740aa" title="SPTTRS: solves a tridiagonal system of the form A * X = B using the L*D*L**T factorization of A compu..." alt="" coords="221,79,383,104"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="169,74,207,78,207,83,168,79"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="267,31,260,21,263,11,278,5,302,3,332,6,343,15,340,20,330,11,302,8,279,10,267,15,265,20,271,28"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__s.html#aa98d21053f7ac4eacd2ef221b82b8b2c" title="SPTTS2: solves a tridiagonal system of the form A * X = B using the L*D*L**T factorization of A compu..." alt="" coords="436,79,601,104"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="384,89,422,89,422,94,384,94"/>
+</map>

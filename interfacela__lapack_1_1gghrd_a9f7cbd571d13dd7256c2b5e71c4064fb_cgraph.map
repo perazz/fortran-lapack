@@ -1,0 +1,17 @@
+<map id="la_lapack::gghrd::sgghrd" name="la_lapack::gghrd::sgghrd">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,104,187,129"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#aba31ecd524f8a1f3159b0119df14559b" title="SGGHRD: reduces a pair of real matrices (A,B) to generalized upper Hessenberg form using orthogonal t..." alt="" coords="238,55,407,80"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="154,101,250,80,251,86,156,107"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__w.html#ae33ee948328df011264c9ada9f703874" title="ZGGHRD: reduces a pair of complex matrices (A,B) to generalized upper Hessenberg form using unitary t..." alt="" coords="235,128,411,153"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="187,124,221,127,221,133,187,129"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__s.html#aabd68a5bad03276a397dd6b4efd2bd83" title="!" alt="" coords="463,5,625,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="380,52,472,31,473,36,381,57"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__s.html#a3eaa56062a507046ea65b05c77c0104f" title="SLASET: initializes an m&#45;by&#45;n matrix A to BETA on the diagonal and ALPHA on the offdiagonals." alt="" coords="462,55,626,80"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="408,65,448,65,448,70,408,70"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__w.html#ac13f3299220b4bc549736e039e2de2ef" title="!" alt="" coords="459,104,629,129"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="411,128,445,125,446,130,411,134"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__w.html#a511f532e396be36dddfb639d4e9f31a9" title="ZLASET: initializes a 2&#45;D array A to BETA on the diagonal and ALPHA on the offdiagonals." alt="" coords="459,153,629,179"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="411,148,445,152,444,157,411,153"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__w.html#a5eb5821fca8d8864b83cab2d6b2a9b70" title="ZROT: applies a plane rotation, where the cos (C) is real and the sin (S) is complex,..." alt="" coords="465,203,623,228"/>
+<area shape="poly" id="edge7_Node000005_Node000008" title=" " alt="" coords="358,151,460,187,487,196,485,201,458,193,356,156"/>
+</map>

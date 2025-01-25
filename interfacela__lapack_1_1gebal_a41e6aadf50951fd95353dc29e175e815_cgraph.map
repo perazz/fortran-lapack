@@ -1,0 +1,25 @@
+<map id="la_lapack::gebal::dgebal" name="la_lapack::gebal::dgebal">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,140,185,165"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__d.html#abb806336a071690d5d6c793e4640776a" title="DGEBAL: balances a general real matrix A. This involves, first, permuting A by a similarity transform..." alt="" coords="233,103,404,128"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="172,137,228,128,229,133,172,143"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__q.html#a6272b0ea28e6256e8fbe99f3dd58f65b" title="DGEBAL: balances a general real matrix A. This involves, first, permuting A by a similarity transform..." alt="" coords="233,176,404,201"/>
+<area shape="poly" id="edge8_Node000001_Node000006" title=" " alt="" coords="175,163,226,171,226,176,174,168"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__d.html#a4a9c9cc2b970e1644f2f475aff87fb6e" title="DISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="455,29,624,55"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="351,100,451,63,476,56,477,61,453,69,353,105"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__d.html#af258e93ce5d1d461c745335332ff184b" title="DLAMCH: determines double precision machine parameters." alt="" coords="452,103,627,128"/>
+<area shape="poly" id="edge6_Node000002_Node000005" title=" " alt="" coords="404,113,438,113,438,118,404,118"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="504,31,496,21,500,11,515,5,539,3,570,6,582,15,579,20,568,11,539,8,516,10,504,15,501,20,508,28"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__d.html#a7d6ce8ad80e116b4b65bc05ac5012e74" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in DISNAN...." alt="" coords="675,29,856,55"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="624,39,661,39,661,45,624,45"/>
+<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="729,31,721,21,725,11,740,5,765,3,797,7,809,16,806,20,795,11,765,8,741,10,729,15,726,20,733,27"/>
+<area shape="poly" id="edge7_Node000005_Node000005" title=" " alt="" coords="504,104,496,94,500,84,515,78,539,76,570,80,582,89,579,93,568,85,539,81,516,83,504,88,501,94,508,101"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__q.html#a905710846630796d062c866934101635" title="DISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="455,176,624,201"/>
+<area shape="poly" id="edge9_Node000006_Node000007" title=" " alt="" coords="404,186,441,186,441,191,404,191"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__q.html#a5435a74c593174c3ab375e653a46f8fe" title="DLAMCH: determines quad precision machine parameters." alt="" coords="452,249,627,275"/>
+<area shape="poly" id="edge13_Node000006_Node000009" title=" " alt="" coords="359,199,488,242,486,247,357,204"/>
+<area shape="poly" id="edge10_Node000007_Node000007" title=" " alt="" coords="504,178,496,168,500,158,515,152,539,149,570,153,582,162,579,166,568,158,539,155,516,157,504,162,501,167,508,174"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__q.html#a70bf73297aef7307a374d805b9ea5736" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in DISNAN...." alt="" coords="675,176,856,201"/>
+<area shape="poly" id="edge11_Node000007_Node000008" title=" " alt="" coords="624,186,661,186,661,191,624,191"/>
+<area shape="poly" id="edge12_Node000008_Node000008" title=" " alt="" coords="729,178,721,168,725,158,740,152,765,149,797,153,809,163,806,167,795,158,765,155,741,157,729,162,726,167,733,174"/>
+<area shape="poly" id="edge14_Node000009_Node000009" title=" " alt="" coords="504,251,496,241,500,231,515,225,539,223,570,226,582,235,579,240,568,231,539,228,516,230,504,235,501,240,508,248"/>
+</map>

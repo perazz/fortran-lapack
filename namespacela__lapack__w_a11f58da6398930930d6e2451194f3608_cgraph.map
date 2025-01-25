@@ -1,0 +1,20 @@
+<map id="la_lapack_w::la_whgeqz" name="la_lapack_w::la_whgeqz">
+<area shape="rect" id="Node000001" title="ZHGEQZ: computes the eigenvalues of a complex matrix pair (H,T), where H is an upper Hessenberg matri..." alt="" coords="5,201,184,227"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__q.html#a5435a74c593174c3ab375e653a46f8fe" title="DLAMCH: determines quad precision machine parameters." alt="" coords="232,29,407,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="102,199,151,135,188,96,231,64,242,57,245,62,233,68,191,100,155,138,106,203"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__w.html#a256289e251e51bb1c01d2fe45fe134fa" title="ZLADIV: := X / Y, where X and Y are complex. The computation of X / Y will not overflow on an interme..." alt="" coords="234,103,405,128"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="115,199,166,168,231,137,251,130,253,135,233,142,169,173,117,203"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__w.html#a454d80d369886b228a82a963c1d4d43e" title="ZLANHS: returns the value of the one norm, or the Frobenius norm, or the infinity norm,..." alt="" coords="232,176,407,201"/>
+<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="184,201,218,197,218,203,185,207"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__w.html#ac13f3299220b4bc549736e039e2de2ef" title="!" alt="" coords="235,225,404,251"/>
+<area shape="poly" id="edge8_Node000001_Node000006" title=" " alt="" coords="185,221,221,225,221,230,184,226"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__w.html#a511f532e396be36dddfb639d4e9f31a9" title="ZLASET: initializes a 2&#45;D array A to BETA on the diagonal and ALPHA on the offdiagonals." alt="" coords="234,275,405,300"/>
+<area shape="poly" id="edge9_Node000001_Node000007" title=" " alt="" coords="131,224,233,259,261,268,259,273,231,265,130,229"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__w.html#a5eb5821fca8d8864b83cab2d6b2a9b70" title="ZROT: applies a plane rotation, where the cos (C) is real and the sin (S) is complex,..." alt="" coords="241,324,398,349"/>
+<area shape="poly" id="edge10_Node000001_Node000008" title=" " alt="" coords="112,225,164,266,197,289,233,309,253,317,251,322,231,314,195,293,160,270,109,229"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="283,31,275,21,279,11,294,5,319,3,350,6,362,15,359,20,348,11,319,8,296,10,283,15,281,20,287,28"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="283,104,275,94,279,84,294,78,319,76,350,80,362,89,359,93,348,85,319,81,296,83,283,88,281,94,287,101"/>
+<area shape="poly" id="edge6_Node000004_Node000004" title=" " alt="" coords="283,178,275,168,279,158,294,152,319,149,350,153,362,162,359,166,348,158,319,155,296,157,283,162,281,167,287,174"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__w.html#a2bf5a64bcaccd3676164dbf3aee36bb5" title="!" alt="" coords="455,176,628,201"/>
+<area shape="poly" id="edge7_Node000004_Node000005" title=" " alt="" coords="407,186,441,186,441,191,407,191"/>
+</map>

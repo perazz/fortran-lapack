@@ -1,0 +1,16 @@
+<map id="la_lapack_c::la_chetf2_rook" name="la_lapack_c::la_chetf2_rook">
+<area shape="rect" id="Node000001" title="CHETF2_ROOK: computes the factorization of a complex Hermitian matrix A using the bounded Bunch&#45;Kaufm..." alt="" coords="5,65,208,91"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#abbe0ae24f069ddbf134ff3e404a19878" title="SLAMCH: determines single precision machine parameters." alt="" coords="472,29,644,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="208,67,458,47,459,53,208,73"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__s.html#a9e70d6d165ba95d10e4f8592c02475c7" title="SLAPY2: returns sqrt(x**2+y**2), taking care not to cause unnecessary overflow and unnecessary underf..." alt="" coords="256,103,424,128"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="187,88,247,98,246,103,186,93"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="523,31,515,21,519,11,534,5,558,3,588,6,600,15,597,20,586,11,558,8,535,10,523,15,520,20,527,28"/>
+<area shape="poly" id="edge8_Node000003_Node000002" title=" " alt="" coords="374,100,471,65,498,56,500,61,473,70,375,105"/>
+<area shape="poly" id="edge9_Node000003_Node000003" title=" " alt="" coords="305,104,297,94,301,84,316,78,340,76,370,80,382,89,379,93,368,85,340,81,317,83,305,88,302,94,309,101"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__s.html#af8d4b806648873f614d26ba3f9d00512" title="SISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="475,103,641,128"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="425,113,461,113,461,118,425,118"/>
+<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="523,104,515,94,519,84,534,78,558,76,588,80,600,89,597,93,586,85,558,81,535,83,523,88,520,94,527,101"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__s.html#ab716c1e999e316ce29c31703ef379eb1" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in SISNAN...." alt="" coords="692,103,871,128"/>
+<area shape="poly" id="edge6_Node000004_Node000005" title=" " alt="" coords="642,113,678,113,678,118,642,118"/>
+<area shape="poly" id="edge7_Node000005_Node000005" title=" " alt="" coords="745,104,737,94,741,84,756,78,781,76,812,80,824,89,821,93,810,85,781,81,758,83,745,88,743,94,749,101"/>
+</map>

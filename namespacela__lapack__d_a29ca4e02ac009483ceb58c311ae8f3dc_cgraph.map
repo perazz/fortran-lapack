@@ -1,0 +1,13 @@
+<map id="la_lapack_d::la_dormhr" name="la_lapack_d::la_dormhr">
+<area shape="rect" id="Node000001" title="DORMHR: overwrites the general real M&#45;by&#45;N matrix C with SIDE = &#39;L&#39; SIDE = &#39;R&#39; TRANS = &#39;N&#39;: Q * C C *..." alt="" coords="5,55,179,80"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__d.html#a513cb4e1f6d107878a4185c9ec5109ba" title="DORMQR: overwrites the general real M&#45;by&#45;N matrix C with SIDE = &#39;L&#39; SIDE = &#39;R&#39; TRANS = &#39;N&#39;: Q * C C *..." alt="" coords="227,55,400,80"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="179,65,213,65,213,70,179,70"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__d.html#a7c993a9b006074abbe4e51f11d15c32d" title="DLARFB: applies a real block reflector H or its transpose H**T to a real m by n matrix C,..." alt="" coords="453,5,617,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="370,52,463,31,464,36,372,57"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__d.html#abe4ab35a3a4f535ce709b92d660cfd11" title="DLARFT: forms the triangular factor T of a real block reflector H of order n, which is defined as a p..." alt="" coords="455,55,615,80"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="400,65,441,65,441,70,400,70"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__d.html#a840a31a062a8aead0c392ac0bb99ad84" title="DORM2R: overwrites the general real m by n matrix C with Q * C if SIDE = &#39;L&#39; and TRANS = &#39;N&#39;,..." alt="" coords="448,104,621,129"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="372,77,464,98,463,104,370,83"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__d.html#a3741bc70f5c5819f1435cdee2c1304d5" title="DLARF: applies a real elementary reflector H to a real m by n matrix C, from either the left or the r..." alt="" coords="669,104,825,129"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="621,114,655,114,655,119,621,119"/>
+</map>

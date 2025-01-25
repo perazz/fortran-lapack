@@ -1,0 +1,27 @@
+<map id="la_lapack_q::la_qlaqr5" name="la_lapack_q::la_qlaqr5">
+<area shape="rect" id="Node000001" title="DLAQR5:, called by DLAQR0, performs a single small&#45;bulge multi&#45;shift QR sweep." alt="" coords="5,131,172,156"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__q.html#ac3259935fc628e89592bb9c7046ae53f" title="DLABAD: takes as input the values computed by DLAMCH for underflow and overflow, and returns the squa..." alt="" coords="220,5,391,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="101,129,150,85,183,61,219,40,234,33,237,38,221,44,186,65,153,89,105,133"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__q.html#ac66f60e6670c48505b22e28c7d8cd3d3" title="DLACPY: copies all or part of a two&#45;dimensional matrix A to another matrix B." alt="" coords="221,55,390,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="125,128,254,82,256,87,127,133"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__q.html#a5435a74c593174c3ab375e653a46f8fe" title="DLAMCH: determines quad precision machine parameters." alt="" coords="657,156,832,181"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="172,139,391,141,644,157,644,162,391,146,172,144"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__q.html#a2c333a33a40f7dae032677ba601ad9fe" title="Given a 2&#45;by&#45;2 or 3&#45;by&#45;3 matrix H, DLAQR1: sets v to a scalar multiple of the first column of the pro..." alt="" coords="222,156,389,181"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="172,150,209,155,208,160,172,156"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__q.html#a6fa4a60ea6daa6fa31435aa628181099" title="DLARFG: generates a real elementary reflector H of order n, such that H * ( alpha ) = ( beta ),..." alt="" coords="223,205,387,231"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="123,154,221,190,248,199,246,204,219,195,121,159"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__q.html#aea8c25dcc46ceaf8d39ba10cb1584312" title="DLASET: initializes an m&#45;by&#45;n matrix A to BETA on the diagonal and ALPHA on the offdiagonals." alt="" coords="222,255,389,280"/>
+<area shape="poly" id="edge15_Node000001_Node000010" title=" " alt="" coords="105,154,154,196,187,219,221,240,239,248,237,252,219,244,184,224,151,200,102,158"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="709,158,701,148,705,138,720,132,745,129,775,133,787,142,784,146,773,138,745,135,721,137,709,142,706,147,713,154"/>
+<area shape="poly" id="edge7_Node000006_Node000004" title=" " alt="" coords="369,203,438,191,643,172,644,177,439,197,370,208"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__q.html#a582984249eedf0398706ec14537bf429" title="DLAPY2: returns sqrt(x**2+y**2), taking care not to cause unnecessary overflow and unnecessary underf..." alt="" coords="439,231,609,256"/>
+<area shape="poly" id="edge8_Node000006_Node000007" title=" " alt="" coords="388,225,425,229,425,235,387,230"/>
+<area shape="poly" id="edge13_Node000007_Node000004" title=" " alt="" coords="557,228,656,191,684,183,686,188,658,197,559,233"/>
+<area shape="poly" id="edge14_Node000007_Node000007" title=" " alt="" coords="488,232,481,222,485,212,499,206,524,204,554,208,566,217,563,221,552,213,524,209,501,211,488,216,486,222,492,229"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__q.html#a905710846630796d062c866934101635" title="DISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="660,231,829,256"/>
+<area shape="poly" id="edge9_Node000007_Node000008" title=" " alt="" coords="610,241,646,241,646,246,610,246"/>
+<area shape="poly" id="edge10_Node000008_Node000008" title=" " alt="" coords="709,232,701,222,705,212,720,206,745,204,775,208,787,217,784,221,773,213,745,209,721,211,709,216,706,222,713,229"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__q.html#a70bf73297aef7307a374d805b9ea5736" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in DISNAN...." alt="" coords="880,231,1061,256"/>
+<area shape="poly" id="edge11_Node000008_Node000009" title=" " alt="" coords="830,241,866,241,866,246,830,246"/>
+<area shape="poly" id="edge12_Node000009_Node000009" title=" " alt="" coords="934,232,926,222,930,212,946,206,971,204,1002,208,1014,217,1011,221,1000,213,971,209,947,211,934,216,931,222,938,229"/>
+</map>

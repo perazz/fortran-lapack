@@ -1,0 +1,6 @@
+<map id="la_lapack_w::la_wla_gbamv" name="la_lapack_w::la_wla_gbamv">
+<area shape="rect" id="Node000001" title="ZLA_GBAMV: performs one of the matrix&#45;vector operations y := alpha*abs(A)*abs(x) + beta*abs(y),..." alt="" coords="5,22,156,62"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__q.html#a5435a74c593174c3ab375e653a46f8fe" title="DLAMCH: determines quad precision machine parameters." alt="" coords="204,29,379,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="157,39,191,39,191,45,157,45"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="257,31,249,21,253,11,268,5,291,3,321,6,332,15,329,20,319,11,291,8,269,10,257,15,255,20,261,28"/>
+</map>

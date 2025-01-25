@@ -1,0 +1,52 @@
+<map id="la_lapack_w::la_wlaqz0" name="la_lapack_w::la_wlaqz0">
+<area shape="rect" id="Node000001" title="ZLAQZ0: computes the eigenvalues of a real matrix pair (H,T), where H is an upper Hessenberg matrix a..." alt="" coords="5,507,180,532"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__w.html#a11f58da6398930930d6e2451194f3608" title="ZHGEQZ: computes the eigenvalues of a complex matrix pair (H,T), where H is an upper Hessenberg matri..." alt="" coords="451,279,629,304"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="113,504,252,423,349,370,450,321,486,306,488,311,452,326,351,375,255,427,116,509"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__w.html#ac13f3299220b4bc549736e039e2de2ef" title="!" alt="" coords="904,355,1073,380"/>
+<area shape="poly" id="edge33_Node000001_Node000007" title=" " alt="" coords="101,505,151,443,187,405,226,371,341,283,436,222,485,197,539,175,677,135,727,122,768,114,809,116,855,136,871,149,888,170,923,227,979,341,974,343,918,229,884,173,867,153,852,140,807,122,769,119,728,127,678,141,541,181,487,202,439,226,344,288,230,375,190,409,155,447,105,508"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__w.html#a511f532e396be36dddfb639d4e9f31a9" title="ZLASET: initializes a 2&#45;D array A to BETA on the diagonal and ALPHA on the offdiagonals." alt="" coords="680,633,851,659"/>
+<area shape="poly" id="edge34_Node000001_Node000008" title=" " alt="" coords="124,530,263,582,356,611,451,633,562,645,666,647,666,652,562,650,450,638,354,616,262,587,122,535"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__w.html#a5eb5821fca8d8864b83cab2d6b2a9b70" title="ZROT: applies a plane rotation, where the cos (C) is real and the sin (S) is complex,..." alt="" coords="910,557,1067,583"/>
+<area shape="poly" id="edge35_Node000001_Node000009" title=" " alt="" coords="100,531,114,572,140,628,178,686,202,712,229,733,289,766,342,786,392,795,441,797,546,790,607,787,678,789,729,796,769,805,808,806,828,800,852,789,878,771,901,748,937,695,963,641,978,596,983,597,968,643,942,698,905,752,882,775,855,794,830,805,808,811,769,810,728,801,677,794,607,792,546,795,441,802,391,800,341,791,287,771,227,738,199,716,174,690,136,631,109,574,95,533"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__w.html#a23c63f1926ddf9dac9578d442d86f0a0" title="ZLAQZ2: performs AED." alt="" coords="228,507,403,532"/>
+<area shape="poly" id="edge12_Node000001_Node000010" title=" " alt="" coords="180,525,214,526,214,531,180,531"/>
+<area shape="rect" id="Node000015" href="$namespacela__lapack__w.html#a877ace748ab26d7e6e3a2c597e787b75" title="ZLAQZ3: Executes a single multishift QZ sweep." alt="" coords="453,709,627,735"/>
+<area shape="poly" id="edge27_Node000001_Node000015" title=" " alt="" coords="102,531,119,564,146,608,183,652,205,672,229,688,280,709,334,722,388,727,439,728,439,734,388,733,333,727,278,714,227,692,202,676,179,656,142,611,114,567,97,533"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__q.html#a5435a74c593174c3ab375e653a46f8fe" title="DLAMCH: determines quad precision machine parameters." alt="" coords="678,205,853,231"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="573,276,677,239,702,232,703,237,678,245,575,281"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__w.html#a256289e251e51bb1c01d2fe45fe134fa" title="ZLADIV: := X / Y, where X and Y are complex. The computation of X / Y will not overflow on an interme..." alt="" coords="680,279,851,304"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="629,289,666,289,666,294,629,294"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__w.html#a454d80d369886b228a82a963c1d4d43e" title="ZLANHS: returns the value of the one norm, or the Frobenius norm, or the infinity norm,..." alt="" coords="678,29,853,55"/>
+<area shape="poly" id="edge6_Node000002_Node000005" title=" " alt="" coords="549,277,601,210,675,123,737,62,741,66,679,126,605,213,553,280"/>
+<area shape="poly" id="edge9_Node000002_Node000007" title=" " alt="" coords="548,277,568,251,597,220,634,189,676,166,725,149,767,142,808,147,855,166,880,183,902,203,938,251,965,300,981,341,977,343,960,302,934,254,898,207,876,187,852,171,806,152,767,147,727,154,678,171,637,194,601,224,572,255,552,280"/>
+<area shape="poly" id="edge10_Node000002_Node000008" title=" " alt="" coords="564,302,599,329,632,366,646,394,653,420,656,468,659,514,666,540,680,567,705,599,734,623,731,627,701,602,675,570,661,542,654,515,651,468,648,421,641,396,627,369,596,332,561,306"/>
+<area shape="poly" id="edge11_Node000002_Node000009" title=" " alt="" coords="559,302,631,365,654,391,679,415,747,458,818,496,941,550,938,555,815,501,744,463,676,419,650,395,627,369,556,306"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="729,207,721,197,725,187,740,181,765,179,796,182,808,191,805,196,794,187,765,184,742,186,729,191,727,196,733,204"/>
+<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="729,280,721,270,725,260,740,254,765,252,796,256,808,265,805,269,794,261,765,257,742,259,729,264,727,270,733,277"/>
+<area shape="poly" id="edge7_Node000005_Node000005" title=" " alt="" coords="729,31,721,21,725,11,740,5,765,3,796,6,808,15,805,20,794,11,765,8,742,10,729,15,727,20,733,28"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__w.html#a2bf5a64bcaccd3676164dbf3aee36bb5" title="!" alt="" coords="902,155,1075,180"/>
+<area shape="poly" id="edge8_Node000005_Node000006" title=" " alt="" coords="809,52,855,72,914,108,963,144,960,148,911,112,852,76,807,57"/>
+<area shape="poly" id="edge14_Node000010_Node000001" title=" " alt="" coords="228,513,194,513,194,508,228,508"/>
+<area shape="poly" id="edge18_Node000010_Node000007" title=" " alt="" coords="331,504,365,476,401,439,414,418,421,399,430,381,449,365,511,339,577,323,645,315,712,315,776,320,836,328,933,349,931,354,835,333,776,325,712,320,645,321,578,328,513,344,452,370,434,384,426,401,418,420,405,442,368,480,335,509"/>
+<area shape="poly" id="edge19_Node000010_Node000008" title=" " alt="" coords="338,530,388,558,452,586,562,615,667,633,666,638,561,621,450,591,386,563,335,534"/>
+<area shape="poly" id="edge20_Node000010_Node000009" title=" " alt="" coords="388,529,451,539,564,556,677,566,791,570,896,570,896,575,791,575,677,571,563,561,450,545,387,535"/>
+<area shape="rect" id="Node000011" href="$namespacela__lapack__w.html#a2bdb179a3947a0d642455755afe72807" title="ZLACPY: copies all or part of a two&#45;dimensional matrix A to another matrix B." alt="" coords="901,431,1076,456"/>
+<area shape="poly" id="edge13_Node000010_Node000011" title=" " alt="" coords="403,507,887,452,888,457,403,512"/>
+<area shape="rect" id="Node000012" href="$namespacela__lapack__w.html#ab61ec75a96b0bab98d40e7158a6ba208" title="ZLAQZ1: chases a 1x1 shift bulge in a matrix pencil down a single position." alt="" coords="678,532,853,557"/>
+<area shape="poly" id="edge15_Node000010_Node000012" title=" " alt="" coords="403,522,664,536,664,542,403,527"/>
+<area shape="rect" id="Node000013" href="$namespacela__lapack__w.html#ac66c0332c519e67176bcd4c7d46270c4" title="ZTGEXC: reorders the generalized Schur decomposition of a complex matrix pair (A,B),..." alt="" coords="453,380,627,405"/>
+<area shape="poly" id="edge21_Node000010_Node000013" title=" " alt="" coords="330,504,381,465,449,422,483,408,485,413,452,427,384,469,333,509"/>
+<area shape="poly" id="edge16_Node000012_Node000007" title=" " alt="" coords="777,530,828,478,900,416,949,384,952,389,903,420,832,482,780,534"/>
+<area shape="poly" id="edge17_Node000012_Node000009" title=" " alt="" coords="854,552,897,557,896,562,853,557"/>
+<area shape="rect" id="Node000014" href="$namespacela__lapack__w.html#aebd69680e7b1eb7060ed0cd7bdb95ea5" title="ZTGEX2: swaps adjacent diagonal 1 by 1 blocks (A11,B11) and (A22,B22) in an upper triangular matrix p..." alt="" coords="677,380,853,405"/>
+<area shape="poly" id="edge22_Node000013_Node000014" title=" " alt="" coords="627,390,664,390,664,395,627,395"/>
+<area shape="poly" id="edge25_Node000014_Node000006" title=" " alt="" coords="780,378,851,313,915,246,966,188,970,192,919,250,855,317,784,382"/>
+<area shape="poly" id="edge24_Node000014_Node000007" title=" " alt="" coords="854,380,890,376,891,381,854,385"/>
+<area shape="poly" id="edge26_Node000014_Node000009" title=" " alt="" coords="784,403,962,546,959,550,781,407"/>
+<area shape="poly" id="edge23_Node000014_Node000011" title=" " alt="" coords="823,403,919,425,918,430,822,408"/>
+<area shape="poly" id="edge30_Node000015_Node000007" title=" " alt="" coords="627,716,692,710,759,701,815,687,837,678,851,668,874,639,883,610,884,580,881,549,876,518,875,485,881,451,899,416,917,398,938,384,941,388,920,402,904,420,886,453,880,486,881,517,886,549,890,580,889,611,878,641,855,672,839,683,817,692,760,706,693,716,628,721"/>
+<area shape="poly" id="edge31_Node000015_Node000008" title=" " alt="" coords="578,707,713,661,715,666,579,712"/>
+<area shape="poly" id="edge32_Node000015_Node000009" title=" " alt="" coords="567,732,621,756,694,777,734,783,775,784,815,778,852,764,876,748,898,728,934,682,960,634,976,594,981,596,965,637,938,685,902,732,880,752,855,768,816,783,775,789,734,788,693,782,619,761,565,737"/>
+<area shape="poly" id="edge28_Node000015_Node000011" title=" " alt="" coords="582,732,640,745,712,752,749,751,786,744,820,732,852,713,870,695,879,677,883,658,884,638,884,594,889,569,899,543,929,500,961,464,965,468,933,503,904,546,894,571,890,594,889,638,889,659,884,679,874,699,855,717,823,737,787,749,750,756,712,758,639,751,581,737"/>
+<area shape="poly" id="edge29_Node000015_Node000012" title=" " alt="" coords="556,707,735,564,738,569,559,711"/>
+</map>

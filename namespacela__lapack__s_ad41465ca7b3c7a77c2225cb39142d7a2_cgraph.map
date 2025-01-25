@@ -1,0 +1,5 @@
+<map id="la_lapack_s::la_ssytrs2" name="la_lapack_s::la_ssytrs2">
+<area shape="rect" id="Node000001" title="SSYTRS2: solves a system of linear equations A*X = B with a real symmetric matrix A using the factori..." alt="" coords="5,5,177,31"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#a8cc7b810157326017df962c1f1ffe85e" title="SSYCONV: convert A given by TRF into L and D and vice&#45;versa. Get Non&#45;diag elements of D (returned in ..." alt="" coords="225,5,404,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="177,15,212,15,212,21,177,21"/>
+</map>

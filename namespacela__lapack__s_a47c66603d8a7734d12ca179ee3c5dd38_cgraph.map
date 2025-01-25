@@ -1,0 +1,5 @@
+<map id="la_lapack_s::la_ssygst" name="la_lapack_s::la_ssygst">
+<area shape="rect" id="Node000001" title="SSYGST: reduces a real symmetric&#45;definite generalized eigenproblem to standard form...." alt="" coords="5,5,172,31"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#a37255b1d0699fda9ef2bb0f66ffbda1b" title="SSYGS2: reduces a real symmetric&#45;definite generalized eigenproblem to standard form...." alt="" coords="220,5,391,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="172,15,207,15,207,21,172,21"/>
+</map>

@@ -1,0 +1,9 @@
+<map id="la_lapack_q::la_qlaorhr_col_getrfnp" name="la_lapack_q::la_qlaorhr_col_getrfnp">
+<area shape="rect" id="Node000001" title="DLAORHR_COL_GETRFNP: computes the modified LU factorization without pivoting of a real general M&#45;by&#45;N..." alt="" coords="5,29,177,69"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__q.html#a627b99b49308410d79e2ed375c344bfe" title="DLAORHR_COL_GETRFNP2: computes the modified LU factorization without pivoting of a real general M&#45;by&#45;..." alt="" coords="225,29,397,69"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="178,47,212,47,212,52,178,52"/>
+<area shape="poly" id="edge4_Node000002_Node000002" title=" " alt="" coords="270,30,268,20,274,10,289,5,311,3,337,6,351,13,348,18,335,11,311,8,290,10,278,15,273,21,275,28"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__q.html#a5435a74c593174c3ab375e653a46f8fe" title="DLAMCH: determines quad precision machine parameters." alt="" coords="445,37,620,62"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="398,47,432,47,432,52,398,52"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="497,38,489,28,493,18,508,12,533,10,563,14,576,23,572,27,561,19,533,15,509,17,496,22,494,28,501,35"/>
+</map>

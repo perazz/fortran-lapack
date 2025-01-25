@@ -1,0 +1,14 @@
+<map id="la_lapack_w::la_wgtrfs" name="la_lapack_w::la_wgtrfs">
+<area shape="rect" id="Node000001" title="ZGTRFS: improves the computed solution to a system of linear equations when the coefficient matrix is..." alt="" coords="5,104,175,129"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__q.html#a5435a74c593174c3ab375e653a46f8fe" title="DLAMCH: determines quad precision machine parameters." alt="" coords="224,29,399,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="121,101,222,63,247,56,248,61,224,69,123,106"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__w.html#ad1d0ff505e1049c8f48795741fb29157" title="ZGTTRS: solves one of the systems of equations A * X = B, A**T * X = B, or A**H * X = B,..." alt="" coords="227,79,396,104"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="175,104,213,100,213,105,176,110"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__w.html#a181e3ce6202dd4d6e6a0104746779391" title="ZLACN2: estimates the 1&#45;norm of a square, complex matrix A. Reverse communication is used for evaluat..." alt="" coords="224,128,399,153"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="176,123,210,127,210,132,175,129"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__w.html#ab8f67ee58601f9b484ba2422272cd3e9" title="ZLAGTM: performs a matrix&#45;vector product of the form B := alpha * A * X + beta * B where A is a tridi..." alt="" coords="223,177,400,203"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="125,127,224,162,252,171,250,176,222,167,124,132"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="275,31,267,21,271,11,286,5,311,3,342,6,354,15,351,20,340,11,311,8,288,10,275,15,273,20,279,28"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__w.html#a514efd2517f7046ca6f4a70bdb82a52b" title="ZGTTS2: solves one of the systems of equations A * X = B, A**T * X = B, or A**H * X = B,..." alt="" coords="448,79,620,104"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="396,89,434,89,434,94,396,94"/>
+</map>

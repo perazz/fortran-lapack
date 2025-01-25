@@ -1,0 +1,27 @@
+<map id="la_lapack_q::la_qlatdf" name="la_lapack_q::la_qlatdf">
+<area shape="rect" id="Node000001" title="DLATDF: uses the LU factorization of the n&#45;by&#45;n matrix Z computed by DGETC2 and computes a contributi..." alt="" coords="5,283,169,308"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__q.html#ad4c5da25c993f065066684bcf9320685" title="DGECON: estimates the reciprocal of the condition number of a general real matrix A,..." alt="" coords="217,107,391,132"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="103,280,275,139,278,143,106,284"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__q.html#a545865a2ea4b19e3cfe0c00df900851d" title="DGESC2: solves a system of linear equations A * X = scale* RHS with a general N&#45;by&#45;N matrix A using t..." alt="" coords="218,257,390,283"/>
+<area shape="poly" id="edge10_Node000001_Node000008" title=" " alt="" coords="169,283,204,279,205,284,170,288"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__q.html#af32ee00983521185b31feae682abc840" title="DLASWP: performs a series of row interchanges on the matrix A. One row interchange is initiated for e..." alt="" coords="439,308,611,333"/>
+<area shape="poly" id="edge15_Node000001_Node000009" title=" " alt="" coords="170,297,425,312,425,318,169,303"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__q.html#ae52696bd9e5bb3687dcfdc6176da6ea5" title="!" alt="" coords="220,359,388,384"/>
+<area shape="poly" id="edge14_Node000001_Node000010" title=" " alt="" coords="125,306,255,352,253,357,124,311"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__q.html#aeea11d99daa996e31dda1dbc449bfb44" title="DLACN2: estimates the 1&#45;norm of a square, real matrix A. Reverse communication is used for evaluating..." alt="" coords="440,107,609,132"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="391,117,426,117,426,122,391,122"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__q.html#a5435a74c593174c3ab375e653a46f8fe" title="DLAMCH: determines quad precision machine parameters." alt="" coords="659,119,833,144"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="359,104,438,91,525,85,611,91,655,100,697,112,695,117,654,105,610,97,525,90,439,97,360,109"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__q.html#a7a5b8691869f187a905c99dcce81fc26" title="DLATRS: solves one of the triangular systems A *x = s*b or A**T *x = s*b with scaling to prevent over..." alt="" coords="443,5,606,31"/>
+<area shape="poly" id="edge5_Node000002_Node000005" title=" " alt="" coords="327,104,438,48,473,33,475,38,440,52,329,109"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__q.html#a39f7433386019ca47ea18d31cf1bdaa7" title="DRSCL: multiplies an n&#45;element real vector x by the real scalar 1/a. This is done without overflow or..." alt="" coords="446,156,603,181"/>
+<area shape="poly" id="edge7_Node000002_Node000006" title=" " alt="" coords="362,129,454,150,453,156,361,135"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="710,120,702,110,706,100,721,94,746,92,777,96,789,105,786,109,775,101,746,97,722,99,710,104,707,110,714,117"/>
+<area shape="poly" id="edge6_Node000005_Node000004" title=" " alt="" coords="565,28,612,48,668,79,716,109,714,113,666,83,610,52,563,33"/>
+<area shape="poly" id="edge9_Node000006_Node000004" title=" " alt="" coords="600,153,657,144,657,149,601,159"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__q.html#ac3259935fc628e89592bb9c7046ae53f" title="DLABAD: takes as input the values computed by DLAMCH for underflow and overflow, and returns the squa..." alt="" coords="661,193,831,219"/>
+<area shape="poly" id="edge8_Node000006_Node000007" title=" " alt="" coords="601,179,657,188,657,194,600,184"/>
+<area shape="poly" id="edge12_Node000008_Node000004" title=" " alt="" coords="357,255,610,190,707,148,709,153,612,195,359,260"/>
+<area shape="poly" id="edge11_Node000008_Node000007" title=" " alt="" coords="390,261,496,251,610,235,684,219,685,225,611,241,496,257,391,267"/>
+<area shape="poly" id="edge13_Node000008_Node000009" title=" " alt="" coords="361,280,456,302,455,308,360,285"/>
+</map>

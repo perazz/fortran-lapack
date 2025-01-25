@@ -1,0 +1,9 @@
+<map id="la_lapack_w::la_wgtcon" name="la_lapack_w::la_wgtcon">
+<area shape="rect" id="Node000001" title="ZGTCON: estimates the reciprocal of the condition number of a complex tridiagonal matrix A using the ..." alt="" coords="5,31,180,56"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__w.html#ad1d0ff505e1049c8f48795741fb29157" title="ZGTTRS: solves one of the systems of equations A * X = B, A**T * X = B, or A**H * X = B,..." alt="" coords="231,5,400,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="180,31,217,27,217,32,181,36"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__w.html#a181e3ce6202dd4d6e6a0104746779391" title="ZLACN2: estimates the 1&#45;norm of a square, complex matrix A. Reverse communication is used for evaluat..." alt="" coords="228,55,403,80"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="181,50,215,54,214,59,180,55"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__w.html#a514efd2517f7046ca6f4a70bdb82a52b" title="ZGTTS2: solves one of the systems of equations A * X = B, A**T * X = B, or A**H * X = B,..." alt="" coords="451,5,623,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="401,15,437,15,437,21,401,21"/>
+</map>

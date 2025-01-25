@@ -1,0 +1,11 @@
+<map id="la_lapack_s::la_sorglq" name="la_lapack_s::la_sorglq">
+<area shape="rect" id="Node000001" title="SORGLQ: generates an M&#45;by&#45;N real matrix Q with orthonormal rows, which is defined as the first M rows..." alt="" coords="5,55,171,80"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#a88f424ab78fa97dff58d431a8ab51b7c" title="SLARFB: applies a real block reflector H or its transpose H**T to a real m by n matrix C,..." alt="" coords="220,5,383,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="143,52,232,31,233,36,144,57"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__s.html#a94b9ff2c43c13daa04cd1985c67d4216" title="SLARFT: forms the triangular factor T of a real block reflector H of order n, which is defined as a p..." alt="" coords="222,55,381,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="171,65,208,65,208,70,171,70"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__s.html#a60b6b7ed9e2baccac0cdab9696540ed3" title="SORGL2: generates an m by n real matrix Q with orthonormal rows, which is defined as the first m rows..." alt="" coords="219,104,384,129"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="144,77,233,98,232,103,143,83"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__s.html#afe74baa9cec84eae9cb50ed04c85340c" title="SLARF: applies a real elementary reflector H to a real m by n matrix C, from either the left or the r..." alt="" coords="432,104,587,129"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="384,114,418,114,418,119,384,119"/>
+</map>

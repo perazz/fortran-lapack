@@ -1,0 +1,6 @@
+<map id="la_lapack_q::la_qlasq6" name="la_lapack_q::la_qlasq6">
+<area shape="rect" id="Node000001" title="DLASQ6: computes one dqd (shift equal to zero) transform in ping&#45;pong form, with protection against u..." alt="" coords="5,29,175,55"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__q.html#a5435a74c593174c3ab375e653a46f8fe" title="DLAMCH: determines quad precision machine parameters." alt="" coords="223,29,397,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="175,39,209,39,209,45,175,45"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="274,31,267,21,271,11,285,5,310,3,340,6,352,15,349,20,338,11,310,8,287,10,274,15,272,20,278,28"/>
+</map>

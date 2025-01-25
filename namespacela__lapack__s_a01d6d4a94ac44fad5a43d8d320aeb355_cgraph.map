@@ -1,0 +1,27 @@
+<map id="la_lapack_s::la_strcon" name="la_lapack_s::la_strcon">
+<area shape="rect" id="Node000001" title="STRCON: estimates the reciprocal of the condition number of a triangular matrix A,..." alt="" coords="5,105,171,131"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#a7f5f2af31221a1cf8d74880aedc775ca" title="SLACN2: estimates the 1&#45;norm of a square, real matrix A. Reverse communication is used for evaluating..." alt="" coords="219,5,385,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="106,103,155,72,218,40,236,32,238,37,220,44,158,76,109,107"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__s.html#abbe0ae24f069ddbf134ff3e404a19878" title="SLAMCH: determines single precision machine parameters." alt="" coords="433,105,605,131"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="171,115,419,115,419,121,171,121"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__s.html#a3bada3fedb8efd1af250730afea5e073" title="SLANTR: returns the value of the one norm, or the Frobenius norm, or the infinity norm,..." alt="" coords="221,229,383,255"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="113,129,268,220,265,224,110,133"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__s.html#a2be33840b5f73aee7f595b96369bb720" title="SLATRS: solves one of the triangular systems A *x = s*b or A**T*x = s*b with scaling to prevent overf..." alt="" coords="221,55,383,80"/>
+<area shape="poly" id="edge11_Node000001_Node000008" title=" " alt="" coords="142,103,234,81,235,86,143,108"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__s.html#a783c8ae4ebd73b3e7afebebd367a6492" title="SRSCL: multiplies an n&#45;element real vector x by the real scalar 1/a. This is done without overflow or..." alt="" coords="225,156,379,181"/>
+<area shape="poly" id="edge13_Node000001_Node000009" title=" " alt="" coords="143,128,235,150,234,155,142,133"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="484,107,476,97,480,87,495,81,519,79,549,82,561,91,558,96,547,87,519,84,496,86,484,91,482,96,488,104"/>
+<area shape="poly" id="edge9_Node000004_Node000004" title=" " alt="" coords="267,231,260,221,263,211,278,205,302,203,332,206,343,215,340,220,330,211,302,208,279,210,267,215,265,220,271,228"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__s.html#af8d4b806648873f614d26ba3f9d00512" title="SISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="436,229,603,255"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="384,239,423,239,423,245,384,245"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__s.html#a67ffb8da40d4b0e1ec3c776507a088cc" title="!" alt="" coords="436,279,603,304"/>
+<area shape="poly" id="edge10_Node000004_Node000007" title=" " alt="" coords="359,252,450,273,449,278,358,257"/>
+<area shape="poly" id="edge6_Node000005_Node000005" title=" " alt="" coords="484,231,476,221,480,211,495,205,519,203,549,206,561,215,558,220,547,211,519,208,496,210,484,215,482,220,488,228"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__s.html#ab716c1e999e316ce29c31703ef379eb1" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in SISNAN...." alt="" coords="653,229,832,255"/>
+<area shape="poly" id="edge7_Node000005_Node000006" title=" " alt="" coords="603,239,640,239,640,245,603,245"/>
+<area shape="poly" id="edge8_Node000006_Node000006" title=" " alt="" coords="707,231,699,221,703,211,718,205,743,203,773,206,786,215,782,220,771,211,743,208,719,210,706,215,704,220,711,228"/>
+<area shape="poly" id="edge12_Node000008_Node000003" title=" " alt="" coords="358,78,452,100,451,105,357,83"/>
+<area shape="poly" id="edge15_Node000009_Node000003" title=" " alt="" coords="357,153,451,131,452,136,358,158"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__s.html#a8c70bc25650d02927495d8a3635d03f8" title="SLABAD: takes as input the values computed by SLAMCH for underflow and overflow, and returns the squa..." alt="" coords="435,156,603,181"/>
+<area shape="poly" id="edge14_Node000009_Node000010" title=" " alt="" coords="380,166,422,166,422,171,380,171"/>
+</map>

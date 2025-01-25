@@ -1,0 +1,7 @@
+<map id="la_lapack_s::la_sisnan" name="la_lapack_s::la_sisnan">
+<area shape="rect" id="Node000001" title="SISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="5,29,172,55"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="53,31,45,21,49,11,64,5,89,3,119,6,131,15,128,20,117,11,89,8,65,10,53,15,50,20,57,28"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#ab716c1e999e316ce29c31703ef379eb1" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in SISNAN...." alt="" coords="220,29,399,55"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="172,39,206,39,206,45,172,45"/>
+<area shape="poly" id="edge3_Node000002_Node000002" title=" " alt="" coords="274,31,266,21,270,11,285,5,309,3,340,6,352,15,349,20,338,11,309,8,286,10,274,15,271,20,278,28"/>
+</map>

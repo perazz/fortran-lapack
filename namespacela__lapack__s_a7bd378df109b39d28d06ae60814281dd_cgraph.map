@@ -1,0 +1,10 @@
+<map id="la_lapack_s::la_sopgtr" name="la_lapack_s::la_sopgtr">
+<area shape="rect" id="Node000001" title="SOPGTR: generates a real orthogonal matrix Q which is defined as the product of n&#45;1 elementary reflec..." alt="" coords="5,31,172,56"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#a6467e11886d47543e86e228b9575da82" title="SORG2L: generates an m by n real matrix Q with orthonormal columns, which is defined as the last n co..." alt="" coords="221,5,386,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="172,31,207,27,207,32,173,36"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__s.html#ac50ce79c5b9f671484ac787de35af9a3" title="SORG2R: generates an m by n real matrix Q with orthonormal columns, which is defined as the first n c..." alt="" coords="220,55,387,80"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="173,50,206,54,206,59,172,55"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__s.html#afe74baa9cec84eae9cb50ed04c85340c" title="SLARF: applies a real elementary reflector H to a real m by n matrix C, from either the left or the r..." alt="" coords="435,31,589,56"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="386,25,421,30,421,35,386,31"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="386,55,421,51,421,56,387,60"/>
+</map>

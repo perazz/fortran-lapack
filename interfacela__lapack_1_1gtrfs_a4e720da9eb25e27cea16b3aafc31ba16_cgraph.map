@@ -1,0 +1,29 @@
+<map id="la_lapack::gtrfs::dgtrfs" name="la_lapack::gtrfs::dgtrfs">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,191,173,216"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__d.html#a0f2676bf3d7f8cc13fcdb22bf66b24fc" title="DGTRFS: improves the computed solution to a system of linear equations when the coefficient matrix is..." alt="" coords="221,104,385,129"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="121,188,258,132,260,137,123,193"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__q.html#a2829e23f62bb7a439a831f9dca6564a1" title="DGTRFS: improves the computed solution to a system of linear equations when the coefficient matrix is..." alt="" coords="221,276,385,301"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="123,214,259,268,257,273,121,219"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__d.html#a2e057b983816971dd46a539d5db85c79" title="DGTTRS: solves one of the systems of equations A*X = B or A**T*X = B, with a tridiagonal matrix A usi..." alt="" coords="439,5,603,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="322,102,370,71,432,40,452,32,454,37,434,44,373,76,324,106"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__d.html#ae42ad3a826b8dcf34dffab0b71c5baeb" title="DLACN2: estimates the 1&#45;norm of a square, real matrix A. Reverse communication is used for evaluating..." alt="" coords="436,55,605,80"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="359,101,450,80,451,86,361,107"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__d.html#a214e731d613b78c9bebde0267bcb1938" title="DLAGTM: performs a matrix&#45;vector product of the form B := alpha * A * X + beta * B where A is a tridi..." alt="" coords="435,104,607,129"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="386,114,421,114,421,119,386,119"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__d.html#af258e93ce5d1d461c745335332ff184b" title="DLAMCH: determines double precision machine parameters." alt="" coords="433,177,608,203"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="343,127,470,170,468,175,341,132"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__d.html#a565db7d1e8ad0a3351deb4613d6fa46d" title="DGTTS2: solves one of the systems of equations A*X = B or A**T*X = B, with a tridiagonal matrix A usi..." alt="" coords="656,5,823,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="603,15,642,15,642,21,603,21"/>
+<area shape="poly" id="edge7_Node000007_Node000007" title=" " alt="" coords="485,179,478,169,482,159,496,153,521,151,551,154,563,163,559,168,549,159,521,156,498,158,485,163,483,168,489,176"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__q.html#aeaafb633463fbad766567d4c772123e5" title="DGTTRS: solves one of the systems of equations A*X = B or A**T*X = B, with a tridiagonal matrix A usi..." alt="" coords="439,227,603,252"/>
+<area shape="poly" id="edge9_Node000008_Node000009" title=" " alt="" coords="359,273,450,252,451,258,361,279"/>
+<area shape="rect" id="Node000011" href="$namespacela__lapack__q.html#aeea11d99daa996e31dda1dbc449bfb44" title="DLACN2: estimates the 1&#45;norm of a square, real matrix A. Reverse communication is used for evaluating..." alt="" coords="436,276,605,301"/>
+<area shape="poly" id="edge11_Node000008_Node000011" title=" " alt="" coords="386,286,422,286,422,291,386,291"/>
+<area shape="rect" id="Node000012" href="$namespacela__lapack__q.html#adbaa0b90de201fb38d3e4e15fd7b0b02" title="DLAGTM: performs a matrix&#45;vector product of the form B := alpha * A * X + beta * B where A is a tridi..." alt="" coords="435,325,607,351"/>
+<area shape="poly" id="edge12_Node000008_Node000012" title=" " alt="" coords="361,299,451,320,450,325,359,304"/>
+<area shape="rect" id="Node000013" href="$namespacela__lapack__q.html#a5435a74c593174c3ab375e653a46f8fe" title="DLAMCH: determines quad precision machine parameters." alt="" coords="433,399,608,424"/>
+<area shape="poly" id="edge13_Node000008_Node000013" title=" " alt="" coords="329,299,486,389,484,394,326,304"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__q.html#a72ef9407406deda757c3b90c4cbcd2e3" title="DGTTS2: solves one of the systems of equations A*X = B or A**T*X = B, with a tridiagonal matrix A usi..." alt="" coords="656,227,823,252"/>
+<area shape="poly" id="edge10_Node000009_Node000010" title=" " alt="" coords="603,237,642,237,642,242,603,242"/>
+<area shape="poly" id="edge14_Node000013_Node000013" title=" " alt="" coords="485,400,478,390,482,380,496,374,521,372,551,376,563,385,559,389,549,381,521,377,498,379,485,384,483,390,489,397"/>
+</map>

@@ -1,0 +1,9 @@
+<map id="la_lapack_s::la_slartgs" name="la_lapack_s::la_slartgs">
+<area shape="rect" id="Node000001" title="SLARTGS: generates a plane rotation designed to introduce a bulge in Golub&#45;Reinsch&#45;style implicit QR ..." alt="" coords="5,29,175,55"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#abbe0ae24f069ddbf134ff3e404a19878" title="SLAMCH: determines single precision machine parameters." alt="" coords="441,29,613,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="175,39,428,39,428,45,175,45"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__s.html#af339f24767ab40f6bc796ff5c5560f7c" title="SLARTGP: generates a plane rotation so that [ CS SN ] . [ F ] = [ R ] where CS**2 + SN**2 = 1...." alt="" coords="223,55,393,80"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="176,49,209,53,208,58,175,55"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="492,31,484,21,488,11,503,5,527,3,558,6,570,15,567,20,556,11,527,8,504,10,492,15,489,20,496,28"/>
+<area shape="poly" id="edge4_Node000003_Node000002" title=" " alt="" coords="393,55,428,51,428,56,394,60"/>
+</map>

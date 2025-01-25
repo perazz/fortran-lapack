@@ -1,0 +1,11 @@
+<map id="la_lapack_s::la_sorhr_col" name="la_lapack_s::la_sorhr_col">
+<area shape="rect" id="Node000001" title="SORHR_COL: takes an M&#45;by&#45;N real matrix Q_in with orthonormal columns as input, stored in A,..." alt="" coords="5,37,189,62"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#a8a0e034d216518ad02f6de070555524e" title="SLAORHR_COL_GETRFNP: computes the modified LU factorization without pivoting of a real general M&#45;by&#45;N..." alt="" coords="237,29,408,69"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="190,47,224,47,224,52,190,52"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__s.html#a4b36aefdcd735380a2912b047235df6d" title="SLAORHR_COL_GETRFNP2: computes the modified LU factorization without pivoting of a real general M&#45;by&#45;..." alt="" coords="456,29,627,69"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="408,47,442,47,442,52,408,52"/>
+<area shape="poly" id="edge5_Node000003_Node000003" title=" " alt="" coords="500,30,498,20,504,10,519,5,541,3,567,6,581,13,578,18,565,11,541,8,520,10,508,15,503,21,505,28"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__s.html#abbe0ae24f069ddbf134ff3e404a19878" title="SLAMCH: determines single precision machine parameters." alt="" coords="675,37,847,62"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="627,47,661,47,661,52,627,52"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="725,38,717,28,721,18,736,12,761,10,791,14,803,23,800,27,789,19,761,15,737,17,725,22,722,28,729,35"/>
+</map>

@@ -1,0 +1,26 @@
+<map id="la_lapack_d::la_dorbdb3" name="la_lapack_d::la_dorbdb3">
+<area shape="rect" id="Node000001" title="DORBDB3: simultaneously bidiagonalizes the blocks of a tall and skinny matrix X with orthonomal colum..." alt="" coords="5,103,184,128"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__d.html#a3741bc70f5c5819f1435cdee2c1304d5" title="DLARF: applies a real elementary reflector H to a real m by n matrix C, from either the left or the r..." alt="" coords="243,53,399,79"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="153,100,248,79,249,84,154,105"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__d.html#a3d23ee71249292e93cbf7008fcf2e2a4" title="DLARFGP: generates a real elementary reflector H of order n, such that H * ( alpha ) = ( beta ),..." alt="" coords="235,103,407,128"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="185,113,221,113,221,118,185,118"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__d.html#a0cdc296e794c243f73a3bfcb8cf00826" title="DORBDB5: orthogonalizes the column vector X = [ X1 ] [ X2 ] with respect to the columns of Q = [ Q1 ]..." alt="" coords="232,152,411,177"/>
+<area shape="poly" id="edge12_Node000001_Node000008" title=" " alt="" coords="154,125,249,146,248,152,153,131"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__d.html#af258e93ce5d1d461c745335332ff184b" title="DLAMCH: determines double precision machine parameters." alt="" coords="685,29,860,55"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="372,100,410,88,433,75,458,63,512,51,568,43,672,37,672,43,568,49,513,57,460,69,436,80,412,92,374,105"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__d.html#a3c4f675d0639f59f0786eb3019043624" title="DLAPY2: returns sqrt(x**2+y**2), taking care not to cause unnecessary overflow and unnecessary underf..." alt="" coords="463,103,633,128"/>
+<area shape="poly" id="edge5_Node000003_Node000005" title=" " alt="" coords="407,113,449,113,449,118,407,118"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="736,31,728,21,732,11,748,5,773,3,804,7,816,16,813,20,802,11,773,8,749,10,736,15,733,20,740,27"/>
+<area shape="poly" id="edge10_Node000005_Node000004" title=" " alt="" coords="582,100,684,63,710,56,711,61,686,69,584,105"/>
+<area shape="poly" id="edge11_Node000005_Node000005" title=" " alt="" coords="511,104,504,94,508,84,523,78,548,76,580,80,592,89,588,93,578,85,548,81,524,83,511,88,509,94,516,101"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__d.html#a4a9c9cc2b970e1644f2f475aff87fb6e" title="DISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="688,103,857,128"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="634,113,674,113,674,118,634,118"/>
+<area shape="poly" id="edge7_Node000006_Node000006" title=" " alt="" coords="736,104,728,94,732,84,748,78,773,76,804,80,816,89,813,93,802,85,773,81,749,83,736,88,733,94,740,101"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__d.html#a7d6ce8ad80e116b4b65bc05ac5012e74" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in DISNAN...." alt="" coords="908,103,1089,128"/>
+<area shape="poly" id="edge8_Node000006_Node000007" title=" " alt="" coords="858,113,894,113,894,118,858,118"/>
+<area shape="poly" id="edge9_Node000007_Node000007" title=" " alt="" coords="962,104,954,94,958,84,974,78,999,76,1030,80,1042,89,1039,93,1028,85,999,81,975,83,962,88,959,94,966,101"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__d.html#ac71a8a2a7a341182429d759b01f83f56" title="DORBDB6: orthogonalizes the column vector X = [ X1 ] [ X2 ] with respect to the columns of Q = [ Q1 ]..." alt="" coords="459,152,637,177"/>
+<area shape="poly" id="edge13_Node000008_Node000009" title=" " alt="" coords="411,162,445,162,445,167,411,167"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__d.html#a8394aa9e5f035af22f7c18e48e8c619d" title="!" alt="" coords="689,152,857,177"/>
+<area shape="poly" id="edge14_Node000009_Node000010" title=" " alt="" coords="638,162,675,162,675,167,638,167"/>
+</map>

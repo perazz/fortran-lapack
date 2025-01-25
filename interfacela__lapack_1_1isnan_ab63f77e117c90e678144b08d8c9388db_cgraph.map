@@ -1,0 +1,15 @@
+<map id="la_lapack::isnan::disnan" name="la_lapack::isnan::disnan">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,67,184,92"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__d.html#a4a9c9cc2b970e1644f2f475aff87fb6e" title="DISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="232,29,401,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="170,64,227,54,228,60,171,69"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__q.html#a905710846630796d062c866934101635" title="DISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="232,103,401,128"/>
+<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="174,89,225,98,224,103,173,95"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="281,31,273,21,277,11,292,5,317,3,347,6,360,15,356,20,345,11,317,8,293,10,280,15,278,20,285,28"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__d.html#a7d6ce8ad80e116b4b65bc05ac5012e74" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in DISNAN...." alt="" coords="449,29,631,55"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="401,39,436,39,436,45,401,45"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="504,31,496,21,500,11,515,5,540,3,571,6,583,15,580,20,569,11,540,8,516,10,504,15,501,20,508,28"/>
+<area shape="poly" id="edge6_Node000004_Node000004" title=" " alt="" coords="281,104,273,94,277,84,292,78,317,76,347,80,360,89,356,93,345,85,317,81,293,83,280,88,278,94,285,101"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__q.html#a70bf73297aef7307a374d805b9ea5736" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in DISNAN...." alt="" coords="449,103,631,128"/>
+<area shape="poly" id="edge7_Node000004_Node000005" title=" " alt="" coords="401,113,436,113,436,118,401,118"/>
+<area shape="poly" id="edge8_Node000005_Node000005" title=" " alt="" coords="504,104,496,94,500,84,515,78,540,76,571,80,583,89,580,93,569,85,540,81,516,83,504,88,501,94,508,101"/>
+</map>

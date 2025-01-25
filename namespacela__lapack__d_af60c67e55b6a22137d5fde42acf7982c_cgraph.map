@@ -1,0 +1,33 @@
+<map id="la_lapack_d::la_dtrsyl" name="la_lapack_d::la_dtrsyl">
+<area shape="rect" id="Node000001" title="DTRSYL: solves the real Sylvester matrix equation: op(A)*X + X*op(B) = scale*C or op(A)*X &#45; X*op(B) =..." alt="" coords="5,131,168,156"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__d.html#aa5488e8cb6689a9ea38a8b10398ffb62" title="DLABAD: takes as input the values computed by DLAMCH for underflow and overflow, and returns the squa..." alt="" coords="216,31,387,56"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="105,128,153,97,215,65,234,58,236,63,217,70,156,102,108,133"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__d.html#a2db5ae8029f4c390a20d45075d91a2b7" title="DLALN2: solves a system of the form (ca A &#45; w D ) X = s B or (ca A**T &#45; w D) X = s B with possible sc..." alt="" coords="218,80,385,105"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="141,128,233,106,234,111,142,133"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__d.html#af258e93ce5d1d461c745335332ff184b" title="DLAMCH: determines double precision machine parameters." alt="" coords="655,117,830,143"/>
+<area shape="poly" id="edge10_Node000001_Node000007" title=" " alt="" coords="168,139,641,129,641,135,168,144"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__d.html#a94c22b9240c2e8ea17fac3b4b8d5c680" title="DLANGE: returns the value of the one norm, or the Frobenius norm, or the infinity norm,..." alt="" coords="216,256,387,281"/>
+<area shape="poly" id="edge11_Node000001_Node000008" title=" " alt="" coords="111,154,268,247,265,251,108,158"/>
+<area shape="rect" id="Node000012" href="$namespacela__lapack__d.html#a3c0a01193522ed36577d59fbc83d5154" title="DLASY2: solves for the N1 by N2 matrix X, 1 &lt;= N1,N2 &lt;= 2, in op(TL)*X + ISGN*X*op(TR) = SCALE*B,..." alt="" coords="435,181,604,207"/>
+<area shape="poly" id="edge18_Node000001_Node000012" title=" " alt="" coords="169,153,216,159,421,182,421,187,216,165,168,158"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__d.html#a6dab16c0b7a0043918dbda8b2de83620" title="DLADIV: performs complex division in real arithmetic a + i*b p + i*q = &#45;&#45;&#45;&#45;&#45;&#45;— c + i*d The algorithm ..." alt="" coords="436,29,603,55"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="356,77,450,55,452,60,358,82"/>
+<area shape="poly" id="edge9_Node000003_Node000007" title=" " alt="" coords="385,97,642,119,641,124,385,102"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__d.html#aafcd10a669a532dc4d212ebec6d08041" title=" " alt="" coords="655,29,830,55"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="603,39,642,39,642,45,603,45"/>
+<area shape="poly" id="edge7_Node000004_Node000007" title=" " alt="" coords="555,52,605,72,699,110,697,114,603,76,553,57"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__d.html#a5592a3e7aa43d1a1337e40e7406ee95d" title=" " alt="" coords="881,29,1056,55"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="830,39,868,39,868,45,830,45"/>
+<area shape="poly" id="edge6_Node000006_Node000006" title=" " alt="" coords="932,31,924,21,928,11,944,5,969,3,1000,7,1012,16,1009,20,998,11,969,8,945,10,932,15,929,20,936,27"/>
+<area shape="poly" id="edge8_Node000007_Node000007" title=" " alt="" coords="707,119,699,109,703,99,718,93,743,91,773,94,786,103,782,108,771,99,743,96,719,98,706,103,704,108,711,116"/>
+<area shape="poly" id="edge16_Node000008_Node000008" title=" " alt="" coords="266,258,259,248,263,238,277,232,301,229,331,233,343,242,340,246,329,238,301,235,279,237,267,242,264,247,271,254"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__d.html#a4a9c9cc2b970e1644f2f475aff87fb6e" title="DISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="435,316,604,341"/>
+<area shape="poly" id="edge12_Node000008_Node000009" title=" " alt="" coords="349,279,460,310,459,315,348,284"/>
+<area shape="rect" id="Node000011" href="$namespacela__lapack__d.html#a8394aa9e5f035af22f7c18e48e8c619d" title="!" alt="" coords="435,243,603,268"/>
+<area shape="poly" id="edge17_Node000008_Node000011" title=" " alt="" coords="387,261,422,259,422,264,387,266"/>
+<area shape="poly" id="edge13_Node000009_Node000009" title=" " alt="" coords="484,318,476,308,480,298,495,292,519,289,549,293,561,302,558,306,547,298,519,295,496,297,484,302,482,307,488,314"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__d.html#a7d6ce8ad80e116b4b65bc05ac5012e74" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in DISNAN...." alt="" coords="652,316,833,341"/>
+<area shape="poly" id="edge14_Node000009_Node000010" title=" " alt="" coords="604,326,638,326,638,331,604,331"/>
+<area shape="poly" id="edge15_Node000010_Node000010" title=" " alt="" coords="707,318,699,308,703,298,718,292,743,289,773,293,786,302,782,306,771,298,743,295,719,297,706,302,704,307,711,314"/>
+<area shape="poly" id="edge19_Node000012_Node000007" title=" " alt="" coords="564,179,683,144,685,149,566,184"/>
+</map>

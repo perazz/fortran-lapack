@@ -1,0 +1,6 @@
+<map id="la_lapack_c::la_cgeequb" name="la_lapack_c::la_cgeequb">
+<area shape="rect" id="Node000001" title="CGEEQUB: computes row and column scalings intended to equilibrate an M&#45;by&#45;N matrix A and reduce its c..." alt="" coords="5,29,185,55"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#abbe0ae24f069ddbf134ff3e404a19878" title="SLAMCH: determines single precision machine parameters." alt="" coords="233,29,405,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="185,39,220,39,220,45,185,45"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="283,31,275,21,279,11,294,5,319,3,351,7,363,16,360,20,349,11,319,8,295,10,283,15,280,20,287,27"/>
+</map>

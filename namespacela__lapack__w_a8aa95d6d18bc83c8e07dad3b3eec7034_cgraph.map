@@ -1,0 +1,6 @@
+<map id="la_lapack_w::la_wgbequ" name="la_lapack_w::la_wgbequ">
+<area shape="rect" id="Node000001" title="ZGBEQU: computes row and column scalings intended to equilibrate an M&#45;by&#45;N band matrix A and reduce i..." alt="" coords="5,29,184,55"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__q.html#a5435a74c593174c3ab375e653a46f8fe" title="DLAMCH: determines quad precision machine parameters." alt="" coords="232,29,407,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="184,39,218,39,218,45,184,45"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="283,31,275,21,279,11,294,5,319,3,351,7,363,16,360,20,349,11,319,8,295,10,283,15,280,20,287,27"/>
+</map>

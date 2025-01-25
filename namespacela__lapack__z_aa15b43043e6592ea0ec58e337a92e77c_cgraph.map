@@ -1,0 +1,25 @@
+<map id="la_lapack_z::la_ztrsna" name="la_lapack_z::la_ztrsna">
+<area shape="rect" id="Node000001" title="ZTRSNA: estimates reciprocal condition numbers for specified eigenvalues and/or right eigenvectors of..." alt="" coords="5,140,171,165"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__z.html#a5b21e73155bc0b42ff0863c0918c757e" title="ZDRSCL: multiplies an n&#45;element complex vector x by the real scalar 1/a. This is done without overflo..." alt="" coords="221,41,383,67"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="107,138,156,107,218,76,236,68,238,73,220,80,159,112,110,142"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__z.html#a6c902b7518c5ee698a5adae87c13a01f" title="ZLACN2: estimates the 1&#45;norm of a square, complex matrix A. Reverse communication is used for evaluat..." alt="" coords="219,91,385,116"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="143,137,232,117,233,122,144,143"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__z.html#afa7bb9c2f7c700a9e54ea7fff6f31f06" title="ZLACPY: copies all or part of a two&#45;dimensional matrix A to another matrix B." alt="" coords="219,140,385,165"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="171,150,205,150,205,155,171,155"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__z.html#aa72cbd7dc8ad4b9d94bd67837d422951" title="ZLATRS: solves one of the triangular systems A * x = s*b, A**T * x = s*b, or A**H * x = s*b,..." alt="" coords="221,189,383,215"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="144,163,233,184,232,189,143,168"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__z.html#a648fcbc35965e1e716092bc73814ce86" title="ZTREXC: reorders the Schur factorization of a complex matrix A = Q*T*Q**H, so that the diagonal eleme..." alt="" coords="219,239,385,264"/>
+<area shape="poly" id="edge10_Node000001_Node000009" title=" " alt="" coords="110,163,159,193,220,224,241,232,239,237,218,228,156,197,107,168"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__d.html#aa5488e8cb6689a9ea38a8b10398ffb62" title="DLABAD: takes as input the values computed by DLAMCH for underflow and overflow, and returns the squa..." alt="" coords="435,5,606,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="379,39,429,30,430,36,380,44"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__d.html#af258e93ce5d1d461c745335332ff184b" title="DLAMCH: determines double precision machine parameters." alt="" coords="433,79,608,104"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="378,64,433,74,432,79,377,69"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="485,80,477,70,481,60,496,54,521,52,551,56,563,65,560,69,549,61,521,57,497,59,485,64,482,70,489,77"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__z.html#a84c15ce60f44f9d3a7b7da3357063087" title="ZLADIV = X / Y, where X and Y are complex. The computation of X / Y will not overflow on an intermedi..." alt="" coords="439,189,603,215"/>
+<area shape="poly" id="edge8_Node000007_Node000008" title=" " alt="" coords="383,199,425,199,425,205,383,205"/>
+<area shape="poly" id="edge9_Node000008_Node000008" title=" " alt="" coords="485,191,477,181,481,171,496,165,521,163,551,166,563,175,560,180,549,171,521,168,497,170,485,175,482,180,489,188"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__z.html#ab24869a854f908d0f48768f276f7e734" title="!" alt="" coords="439,239,602,264"/>
+<area shape="poly" id="edge11_Node000009_Node000010" title=" " alt="" coords="385,249,426,249,426,254,385,254"/>
+<area shape="rect" id="Node000011" href="$namespacela__lapack__z.html#a411a43fc9f301021398bbc14fd53295b" title="ZROT: applies a plane rotation, where the cos (C) is real and the sin (S) is complex,..." alt="" coords="445,288,596,313"/>
+<area shape="poly" id="edge12_Node000009_Node000011" title=" " alt="" coords="360,261,451,282,450,288,358,267"/>
+</map>

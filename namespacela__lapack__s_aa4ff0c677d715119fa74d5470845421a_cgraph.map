@@ -1,0 +1,7 @@
+<map id="la_lapack_s::la_sgetri" name="la_lapack_s::la_sgetri">
+<area shape="rect" id="Node000001" title="SGETRI: computes the inverse of a matrix using the LU factorization computed by SGETRF...." alt="" coords="5,5,168,31"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#a8f079d7d62b337682c03978fa4ea7e7a" title="STRTRI: computes the inverse of a real upper or lower triangular matrix A. This is the Level 3 BLAS v..." alt="" coords="216,5,372,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="168,15,202,15,202,21,168,21"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__s.html#a1825d3e253eed70022be6e45f2e69121" title="STRTI2: computes the inverse of a real upper or lower triangular matrix. This is the Level 2 BLAS ver..." alt="" coords="420,5,579,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="373,15,406,15,406,21,373,21"/>
+</map>

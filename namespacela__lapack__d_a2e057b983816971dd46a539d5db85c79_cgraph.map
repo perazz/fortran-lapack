@@ -1,0 +1,5 @@
+<map id="la_lapack_d::la_dgttrs" name="la_lapack_d::la_dgttrs">
+<area shape="rect" id="Node000001" title="DGTTRS: solves one of the systems of equations A*X = B or A**T*X = B, with a tridiagonal matrix A usi..." alt="" coords="5,5,169,31"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__d.html#a565db7d1e8ad0a3351deb4613d6fa46d" title="DGTTS2: solves one of the systems of equations A*X = B or A**T*X = B, with a tridiagonal matrix A usi..." alt="" coords="217,5,384,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="170,15,204,15,204,21,170,21"/>
+</map>

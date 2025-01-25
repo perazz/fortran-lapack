@@ -1,0 +1,6 @@
+<map id="la_lapack_q::la_qlaic1" name="la_lapack_q::la_qlaic1">
+<area shape="rect" id="Node000001" title="DLAIC1: applies one step of incremental condition estimation in its simplest version: Let x,..." alt="" coords="5,29,171,55"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__q.html#a5435a74c593174c3ab375e653a46f8fe" title="DLAMCH: determines quad precision machine parameters." alt="" coords="219,29,393,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="171,39,205,39,205,45,171,45"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="271,31,263,21,267,11,282,5,306,3,336,6,348,15,345,20,334,11,306,8,283,10,271,15,268,20,275,28"/>
+</map>

@@ -1,0 +1,9 @@
+<map id="la_lapack_z::la_zhprfs" name="la_lapack_z::la_zhprfs">
+<area shape="rect" id="Node000001" title="ZHPRFS: improves the computed solution to a system of linear equations when the coefficient matrix is..." alt="" coords="5,31,171,56"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__z.html#a7580d698526563f0bafdfecb365da27c" title="ZHPTRS: solves a system of linear equations A*X = B with a complex Hermitian matrix A stored in packe..." alt="" coords="219,5,385,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="171,31,205,27,206,32,171,36"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__z.html#a6c902b7518c5ee698a5adae87c13a01f" title="ZLACN2: estimates the 1&#45;norm of a square, complex matrix A. Reverse communication is used for evaluat..." alt="" coords="219,55,385,80"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="171,50,205,54,205,59,171,55"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__z.html#ab5e8ff36e5e3ba9ba5c24f6b2fb59e1d" title="ZLACGV: conjugates a complex vector of length N." alt="" coords="433,5,600,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="385,15,420,15,420,21,385,21"/>
+</map>

@@ -1,0 +1,8 @@
+<map id="la_lapack_q::la_qrscl" name="la_lapack_q::la_qrscl">
+<area shape="rect" id="Node000001" title="DRSCL: multiplies an n&#45;element real vector x by the real scalar 1/a. This is done without overflow or..." alt="" coords="5,43,163,68"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__q.html#ac3259935fc628e89592bb9c7046ae53f" title="DLABAD: takes as input the values computed by DLAMCH for underflow and overflow, and returns the squa..." alt="" coords="213,5,383,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="157,40,211,30,212,36,158,45"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__q.html#a5435a74c593174c3ab375e653a46f8fe" title="DLAMCH: determines quad precision machine parameters." alt="" coords="211,79,385,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="160,65,209,74,208,79,159,71"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="263,80,256,70,259,60,274,54,298,52,328,56,339,65,336,69,326,61,298,57,275,59,263,64,261,70,267,77"/>
+</map>

@@ -1,0 +1,14 @@
+<map id="la_lapack_d::la_dgtrfs" name="la_lapack_d::la_dgtrfs">
+<area shape="rect" id="Node000001" title="DGTRFS: improves the computed solution to a system of linear equations when the coefficient matrix is..." alt="" coords="5,80,169,105"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__d.html#a2e057b983816971dd46a539d5db85c79" title="DGTTRS: solves one of the systems of equations A*X = B or A**T*X = B, with a tridiagonal matrix A usi..." alt="" coords="223,5,387,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="118,77,216,39,240,32,242,37,218,45,119,82"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__d.html#ae42ad3a826b8dcf34dffab0b71c5baeb" title="DLACN2: estimates the 1&#45;norm of a square, real matrix A. Reverse communication is used for evaluating..." alt="" coords="220,55,389,80"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="170,80,206,76,207,81,170,86"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__d.html#a214e731d613b78c9bebde0267bcb1938" title="DLAGTM: performs a matrix&#45;vector product of the form B := alpha * A * X + beta * B where A is a tridi..." alt="" coords="219,104,391,129"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="170,99,206,103,205,108,170,104"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__d.html#af258e93ce5d1d461c745335332ff184b" title="DLAMCH: determines double precision machine parameters." alt="" coords="217,177,392,203"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="118,103,264,169,262,174,116,108"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__d.html#a565db7d1e8ad0a3351deb4613d6fa46d" title="DGTTS2: solves one of the systems of equations A*X = B or A**T*X = B, with a tridiagonal matrix A usi..." alt="" coords="440,5,607,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="387,15,426,15,426,21,387,21"/>
+<area shape="poly" id="edge6_Node000006_Node000006" title=" " alt="" coords="269,179,262,169,266,159,280,153,305,151,335,154,347,163,343,168,333,159,305,156,282,158,269,163,267,168,273,176"/>
+</map>

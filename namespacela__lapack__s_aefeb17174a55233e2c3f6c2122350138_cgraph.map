@@ -1,0 +1,13 @@
+<map id="la_lapack_s::la_spftri" name="la_lapack_s::la_spftri">
+<area shape="rect" id="Node000001" title="SPFTRI: computes the inverse of a real (symmetric) positive definite matrix A using the Cholesky fact..." alt="" coords="5,31,164,56"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#ac68932d0582407df8a265aca8e9dec21" title="SLAUUM: computes the product U * U**T or L**T * L, where the triangular factor U or L is stored in th..." alt="" coords="212,5,385,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="164,31,198,27,199,33,164,37"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__s.html#af6fbe7d9afa8aa1e03f05b3a7f708c06" title="STFTRI: computes the inverse of a triangular matrix A stored in RFP format. This is a Level 3 BLAS ve..." alt="" coords="221,55,376,80"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="164,50,208,55,208,60,164,55"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__s.html#a38cd3b7f78ef835df9124f4e840e14d3" title="SLAUU2: computes the product U * U**T or L**T * L, where the triangular factor U or L is stored in th..." alt="" coords="433,5,601,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="385,15,419,15,419,21,385,21"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__s.html#a8f079d7d62b337682c03978fa4ea7e7a" title="STRTRI: computes the inverse of a real upper or lower triangular matrix A. This is the Level 3 BLAS v..." alt="" coords="439,55,595,80"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="376,65,425,65,425,70,376,70"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__s.html#a1825d3e253eed70022be6e45f2e69121" title="STRTI2: computes the inverse of a real upper or lower triangular matrix. This is the Level 2 BLAS ver..." alt="" coords="649,55,808,80"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="596,65,635,65,635,70,596,70"/>
+</map>

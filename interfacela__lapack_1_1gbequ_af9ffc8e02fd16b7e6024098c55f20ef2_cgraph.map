@@ -1,0 +1,8 @@
+<map id="la_lapack::gbequ::cgbequ" name="la_lapack::gbequ::cgbequ">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,29,192,55"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__c.html#a6f9340f354f5756d6e4f876dcc254f89" title="CGBEQU: computes row and column scalings intended to equilibrate an M&#45;by&#45;N band matrix A and reduce i..." alt="" coords="240,29,412,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="192,39,226,39,226,45,192,45"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__s.html#abbe0ae24f069ddbf134ff3e404a19878" title="SLAMCH: determines single precision machine parameters." alt="" coords="460,29,632,55"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="413,39,446,39,446,45,413,45"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="510,31,503,21,507,11,521,5,546,3,576,6,588,15,585,20,574,11,546,8,523,10,510,15,508,20,514,28"/>
+</map>

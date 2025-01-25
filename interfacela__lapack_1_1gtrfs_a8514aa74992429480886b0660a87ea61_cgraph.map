@@ -1,0 +1,29 @@
+<map id="la_lapack::gtrfs::sgtrfs" name="la_lapack::gtrfs::sgtrfs">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,203,172,228"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#a6e83e9cf2315c5a725308155863bcba6" title="SGTRFS: improves the computed solution to a system of linear equations when the coefficient matrix is..." alt="" coords="223,104,386,129"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="116,200,262,133,264,138,119,205"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__w.html#a3696bca885b72d8e6801e0cfa5b8bb3c" title="ZGTRFS: improves the computed solution to a system of linear equations when the coefficient matrix is..." alt="" coords="220,300,389,325"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="119,226,264,292,262,297,117,230"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__s.html#a992250d92f6d8ca4bacfbe5c7ec6dad8" title="SGTTRS: solves one of the systems of equations A*X = B or A**T*X = B, with a tridiagonal matrix A usi..." alt="" coords="445,5,607,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="323,102,373,71,436,40,456,32,458,37,438,44,376,76,326,106"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__s.html#a7f5f2af31221a1cf8d74880aedc775ca" title="SLACN2: estimates the 1&#45;norm of a square, real matrix A. Reverse communication is used for evaluating..." alt="" coords="443,55,609,80"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="362,101,454,80,455,86,363,107"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__s.html#a4e1f5cf44ac54507afde1fe5fd0f3120" title="SLAGTM: performs a matrix&#45;vector product of the form B := alpha * A * X + beta * B where A is a tridi..." alt="" coords="441,104,611,129"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="386,114,427,114,427,119,386,119"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__s.html#abbe0ae24f069ddbf134ff3e404a19878" title="SLAMCH: determines single precision machine parameters." alt="" coords="440,177,612,203"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="345,127,475,170,473,175,343,132"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__s.html#a580597865c1dd0decf74221c205778bc" title="SGTTS2: solves one of the systems of equations A*X = B or A**T*X = B, with a tridiagonal matrix A usi..." alt="" coords="666,5,831,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="607,15,652,15,652,21,607,21"/>
+<area shape="poly" id="edge7_Node000007_Node000007" title=" " alt="" coords="490,179,482,169,486,159,501,153,526,151,557,154,569,163,566,168,555,159,526,156,502,158,490,163,487,168,494,176"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__q.html#a5435a74c593174c3ab375e653a46f8fe" title="DLAMCH: determines quad precision machine parameters." alt="" coords="439,251,613,276"/>
+<area shape="poly" id="edge9_Node000008_Node000009" title=" " alt="" coords="362,297,454,276,455,282,363,303"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__w.html#ad1d0ff505e1049c8f48795741fb29157" title="ZGTTRS: solves one of the systems of equations A * X = B, A**T * X = B, or A**H * X = B,..." alt="" coords="441,300,611,325"/>
+<area shape="poly" id="edge11_Node000008_Node000010" title=" " alt="" coords="390,310,427,310,427,315,390,315"/>
+<area shape="rect" id="Node000012" href="$namespacela__lapack__w.html#a181e3ce6202dd4d6e6a0104746779391" title="ZLACN2: estimates the 1&#45;norm of a square, complex matrix A. Reverse communication is used for evaluat..." alt="" coords="439,349,613,375"/>
+<area shape="poly" id="edge13_Node000008_Node000012" title=" " alt="" coords="363,323,455,344,454,349,362,328"/>
+<area shape="rect" id="Node000013" href="$namespacela__lapack__w.html#ab8f67ee58601f9b484ba2422272cd3e9" title="ZLAGTM: performs a matrix&#45;vector product of the form B := alpha * A * X + beta * B where A is a tridi..." alt="" coords="437,399,615,424"/>
+<area shape="poly" id="edge14_Node000008_Node000013" title=" " alt="" coords="327,323,377,353,438,384,461,392,460,397,436,388,374,358,324,328"/>
+<area shape="poly" id="edge10_Node000009_Node000009" title=" " alt="" coords="490,252,482,242,486,232,501,226,526,224,557,228,569,237,566,241,555,233,526,229,502,231,490,236,487,242,494,249"/>
+<area shape="rect" id="Node000011" href="$namespacela__lapack__w.html#a514efd2517f7046ca6f4a70bdb82a52b" title="ZGTTS2: solves one of the systems of equations A * X = B, A**T * X = B, or A**H * X = B,..." alt="" coords="663,300,835,325"/>
+<area shape="poly" id="edge12_Node000010_Node000011" title=" " alt="" coords="611,310,649,310,649,315,611,315"/>
+</map>

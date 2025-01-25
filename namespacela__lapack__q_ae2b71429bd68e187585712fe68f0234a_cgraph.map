@@ -1,0 +1,20 @@
+<map id="la_lapack_q::la_qlaed3" name="la_lapack_q::la_qlaed3">
+<area shape="rect" id="Node000001" title="DLAED3: finds the roots of the secular equation, as defined by the values in D, W,..." alt="" coords="5,92,176,117"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__q.html#ac66f60e6670c48505b22e28c7d8cd3d3" title="DLACPY: copies all or part of a two&#45;dimensional matrix A to another matrix B." alt="" coords="227,5,396,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="115,89,164,65,223,40,245,32,246,37,225,44,166,70,117,94"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__q.html#a1055405708a828b76c0a02279ebde9c9" title="This subroutine computes the I&#45;th updated eigenvalue of a symmetric rank&#45;one modification to a diagon..." alt="" coords="226,55,397,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="166,89,222,80,223,85,167,95"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__q.html#ac64a08638988d176d7035b66c9af8311" title=" " alt="" coords="224,128,399,153"/>
+<area shape="poly" id="edge8_Node000001_Node000007" title=" " alt="" coords="169,115,220,123,219,128,168,120"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__q.html#aea8c25dcc46ceaf8d39ba10cb1584312" title="DLASET: initializes an m&#45;by&#45;n matrix A to BETA on the diagonal and ALPHA on the offdiagonals." alt="" coords="228,177,395,203"/>
+<area shape="poly" id="edge10_Node000001_Node000008" title=" " alt="" coords="117,115,167,139,225,164,247,171,245,176,223,168,164,144,115,120"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__q.html#ae9c2d42a11d23924aec845563809fcc2" title="This subroutine computes the I&#45;th eigenvalue of a symmetric rank&#45;one modification of a 2&#45;by&#45;2 diagona..." alt="" coords="447,5,617,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="368,52,460,31,462,36,369,57"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__q.html#a55d92e91347cbaea0903fc5b260982b3" title="DLAED6: computes the positive or negative root (closest to the origin) of z(1) z(2) z(3) f(x) = rho +..." alt="" coords="447,55,617,80"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="397,65,433,65,433,70,397,70"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__q.html#a5435a74c593174c3ab375e653a46f8fe" title="DLAMCH: determines quad precision machine parameters." alt="" coords="665,80,840,105"/>
+<area shape="poly" id="edge7_Node000003_Node000006" title=" " alt="" coords="368,77,447,90,552,95,652,95,652,100,552,101,446,95,367,83"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="618,74,652,78,651,84,617,80"/>
+<area shape="poly" id="edge6_Node000006_Node000006" title=" " alt="" coords="717,82,709,72,713,62,728,56,753,53,783,57,795,66,792,70,781,62,753,59,729,61,717,66,714,71,721,78"/>
+<area shape="poly" id="edge9_Node000007_Node000007" title=" " alt="" coords="276,130,268,120,272,110,287,104,311,101,342,105,354,114,351,118,340,110,311,107,288,109,276,114,273,119,280,126"/>
+</map>

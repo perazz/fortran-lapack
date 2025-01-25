@@ -1,0 +1,16 @@
+<map id="la_lapack_w::la_whetf2" name="la_lapack_w::la_whetf2">
+<area shape="rect" id="Node000001" title="ZHETF2: computes the factorization of a complex Hermitian matrix A using the Bunch&#45;Kaufman diagonal p..." alt="" coords="5,65,179,91"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__q.html#a905710846630796d062c866934101635" title="DISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="448,29,617,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="179,68,434,47,435,53,179,74"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__q.html#a582984249eedf0398706ec14537bf429" title="DLAPY2: returns sqrt(x**2+y**2), taking care not to cause unnecessary overflow and unnecessary underf..." alt="" coords="227,103,397,128"/>
+<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="168,88,224,98,223,103,167,93"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="497,31,489,21,493,11,508,5,533,3,563,6,575,15,572,20,561,11,533,8,509,10,497,15,494,20,501,28"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__q.html#a70bf73297aef7307a374d805b9ea5736" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in DISNAN...." alt="" coords="668,29,849,55"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="618,39,654,39,654,45,618,45"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="722,31,714,21,718,11,734,5,759,3,790,7,802,16,799,20,788,11,759,8,735,10,722,15,719,20,726,27"/>
+<area shape="poly" id="edge6_Node000004_Node000002" title=" " alt="" coords="346,100,444,65,472,56,474,61,446,70,348,105"/>
+<area shape="poly" id="edge9_Node000004_Node000004" title=" " alt="" coords="276,104,269,94,273,84,287,78,312,76,342,80,354,89,351,93,340,85,312,81,289,83,276,88,274,94,280,101"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__q.html#a5435a74c593174c3ab375e653a46f8fe" title="DLAMCH: determines quad precision machine parameters." alt="" coords="445,103,620,128"/>
+<area shape="poly" id="edge7_Node000004_Node000005" title=" " alt="" coords="398,113,431,113,431,118,398,118"/>
+<area shape="poly" id="edge8_Node000005_Node000005" title=" " alt="" coords="497,104,489,94,493,84,508,78,533,76,563,80,575,89,572,93,561,85,533,81,509,83,497,88,494,94,501,101"/>
+</map>

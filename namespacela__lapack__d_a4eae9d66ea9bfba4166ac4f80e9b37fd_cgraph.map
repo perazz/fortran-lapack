@@ -1,0 +1,37 @@
+<map id="la_lapack_d::la_dgtsvx" name="la_lapack_d::la_dgtsvx">
+<area shape="rect" id="Node000001" title="DGTSVX: uses the LU factorization to compute the solution to a real system of linear equations A * X ..." alt="" coords="5,155,176,180"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__d.html#ac8f91fe7794703571c24e545a2fc12fc" title="DGTCON: estimates the reciprocal of the condition number of a real tridiagonal matrix A using the LU ..." alt="" coords="224,55,395,80"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="110,152,160,121,223,89,242,82,244,87,225,94,162,126,112,157"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__d.html#a2e057b983816971dd46a539d5db85c79" title="DGTTRS: solves one of the systems of equations A*X = B or A**T*X = B, with a tridiagonal matrix A usi..." alt="" coords="448,5,612,31"/>
+<area shape="poly" id="edge12_Node000001_Node000003" title=" " alt="" coords="99,153,146,96,182,64,223,40,275,22,330,11,384,7,434,7,434,12,384,12,331,17,277,27,225,44,185,69,150,100,103,156"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__d.html#a0f2676bf3d7f8cc13fcdb22bf66b24fc" title="DGTRFS: improves the computed solution to a system of linear equations when the coefficient matrix is..." alt="" coords="227,104,391,129"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="146,152,240,130,241,135,147,157"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__d.html#af258e93ce5d1d461c745335332ff184b" title="DLAMCH: determines double precision machine parameters." alt="" coords="443,177,617,203"/>
+<area shape="poly" id="edge14_Node000001_Node000008" title=" " alt="" coords="176,169,429,182,429,187,176,174"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__d.html#a0606ba5d480f43b21a95f6ca4108f9d9" title="DGTTRF: computes an LU factorization of a real tridiagonal matrix A using elimination with partial pi..." alt="" coords="228,205,391,231"/>
+<area shape="poly" id="edge11_Node000001_Node000009" title=" " alt="" coords="147,178,241,200,240,205,146,183"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__d.html#a9262c98a06dd8a45eb80fb9ca662212d" title="DLACPY: copies all or part of a two&#45;dimensional matrix A to another matrix B." alt="" coords="225,255,394,280"/>
+<area shape="poly" id="edge13_Node000001_Node000010" title=" " alt="" coords="113,178,163,208,225,240,247,248,246,253,223,244,160,213,110,182"/>
+<area shape="rect" id="Node000011" href="$namespacela__lapack__d.html#a595fa7b8adc97431e0565ce8bd5dd01b" title="DLANGT: returns the value of the one norm, or the Frobenius norm, or the infinity norm,..." alt="" coords="226,328,393,353"/>
+<area shape="poly" id="edge15_Node000001_Node000011" title=" " alt="" coords="106,178,156,229,226,289,273,319,270,324,222,293,152,233,102,182"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="366,52,458,31,460,36,367,57"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__d.html#ae42ad3a826b8dcf34dffab0b71c5baeb" title="DLACN2: estimates the 1&#45;norm of a square, real matrix A. Reverse communication is used for evaluating..." alt="" coords="445,55,615,80"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="395,65,432,65,432,70,395,70"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__d.html#a565db7d1e8ad0a3351deb4613d6fa46d" title="DGTTS2: solves one of the systems of equations A*X = B or A**T*X = B, with a tridiagonal matrix A usi..." alt="" coords="673,5,839,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="613,15,659,15,659,21,613,21"/>
+<area shape="poly" id="edge6_Node000006_Node000003" title=" " alt="" coords="366,102,393,89,408,77,416,65,426,52,441,40,453,33,456,38,444,44,430,56,421,68,411,81,396,94,368,106"/>
+<area shape="poly" id="edge7_Node000006_Node000005" title=" " alt="" coords="366,101,458,80,460,86,367,107"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__d.html#a214e731d613b78c9bebde0267bcb1938" title="DLAGTM: performs a matrix&#45;vector product of the form B := alpha * A * X + beta * B where A is a tridi..." alt="" coords="444,104,616,129"/>
+<area shape="poly" id="edge8_Node000006_Node000007" title=" " alt="" coords="392,114,430,114,430,119,392,119"/>
+<area shape="poly" id="edge9_Node000006_Node000008" title=" " alt="" coords="349,127,479,170,477,175,348,132"/>
+<area shape="poly" id="edge10_Node000008_Node000008" title=" " alt="" coords="494,179,487,169,491,159,505,153,530,151,560,154,572,163,569,168,558,159,530,156,507,158,494,163,492,168,498,176"/>
+<area shape="poly" id="edge20_Node000011_Node000011" title=" " alt="" coords="274,330,266,320,270,310,285,304,309,301,340,305,352,314,349,318,338,310,309,307,286,309,274,314,271,319,278,326"/>
+<area shape="rect" id="Node000012" href="$namespacela__lapack__d.html#a4a9c9cc2b970e1644f2f475aff87fb6e" title="DISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="445,303,615,328"/>
+<area shape="poly" id="edge16_Node000011_Node000012" title=" " alt="" coords="393,328,431,324,432,329,393,334"/>
+<area shape="rect" id="Node000014" href="$namespacela__lapack__d.html#a8394aa9e5f035af22f7c18e48e8c619d" title="!" alt="" coords="446,352,614,377"/>
+<area shape="poly" id="edge21_Node000011_Node000014" title=" " alt="" coords="393,347,433,351,432,357,393,352"/>
+<area shape="poly" id="edge17_Node000012_Node000012" title=" " alt="" coords="494,304,487,294,491,284,505,278,530,276,560,280,572,289,569,293,558,285,530,281,507,283,494,288,492,294,498,301"/>
+<area shape="rect" id="Node000013" href="$namespacela__lapack__d.html#a7d6ce8ad80e116b4b65bc05ac5012e74" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in DISNAN...." alt="" coords="665,303,847,328"/>
+<area shape="poly" id="edge18_Node000012_Node000013" title=" " alt="" coords="615,313,652,313,652,318,615,318"/>
+<area shape="poly" id="edge19_Node000013_Node000013" title=" " alt="" coords="719,304,712,294,716,284,731,278,756,276,788,280,800,289,796,293,786,285,756,281,732,283,719,288,717,294,724,301"/>
+</map>

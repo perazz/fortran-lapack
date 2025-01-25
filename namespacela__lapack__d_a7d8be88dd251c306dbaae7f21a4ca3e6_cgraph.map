@@ -1,0 +1,5 @@
+<map id="la_lapack_d::la_dtrtri" name="la_lapack_d::la_dtrtri">
+<area shape="rect" id="Node000001" title="DTRTRI: computes the inverse of a real upper or lower triangular matrix A. This is the Level 3 BLAS v..." alt="" coords="5,5,164,31"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__d.html#ac4c9da07c1e66ebf410ac438f4c045bf" title="DTRTI2: computes the inverse of a real upper or lower triangular matrix. This is the Level 2 BLAS ver..." alt="" coords="212,5,373,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="164,15,199,15,199,21,164,21"/>
+</map>

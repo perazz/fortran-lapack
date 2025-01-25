@@ -1,0 +1,12 @@
+<map id="la_lapack_s::la_slanst" name="la_lapack_s::la_slanst">
+<area shape="rect" id="Node000001" title="SLANST: returns the value of the one norm, or the Frobenius norm, or the infinity norm,..." alt="" coords="5,55,169,80"/>
+<area shape="poly" id="edge5_Node000001_Node000001" title=" " alt="" coords="52,56,45,46,49,36,63,30,87,28,117,32,129,41,126,45,115,37,87,33,65,35,53,40,50,46,57,53"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#af8d4b806648873f614d26ba3f9d00512" title="SISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="217,29,384,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="169,55,204,51,204,56,170,60"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__s.html#a67ffb8da40d4b0e1ec3c776507a088cc" title="!" alt="" coords="217,79,384,104"/>
+<area shape="poly" id="edge6_Node000001_Node000004" title=" " alt="" coords="170,74,204,78,204,83,169,79"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="266,31,258,21,262,11,277,5,301,3,330,6,342,15,339,20,328,11,301,8,278,10,266,15,263,20,270,28"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__s.html#ab716c1e999e316ce29c31703ef379eb1" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in SISNAN...." alt="" coords="432,29,611,55"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="384,39,418,39,418,45,384,45"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="486,31,478,21,482,11,497,5,521,3,552,6,564,15,561,20,550,11,521,8,498,10,486,15,483,20,490,28"/>
+</map>

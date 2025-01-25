@@ -1,0 +1,11 @@
+<map id="la_lapack_d::la_dormrz" name="la_lapack_d::la_dormrz">
+<area shape="rect" id="Node000001" title="DORMRZ: overwrites the general real M&#45;by&#45;N matrix C with SIDE = &#39;L&#39; SIDE = &#39;R&#39; TRANS = &#39;N&#39;: Q * C C *..." alt="" coords="5,55,177,80"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__d.html#a3c1d0975326436d276af2686ff6b797f" title="DLARZB: applies a real block reflector H or its transpose H**T to a real distributed M&#45;by&#45;N C from th..." alt="" coords="229,5,395,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="148,52,240,31,242,36,149,57"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__d.html#ac6e466f554a2b1214e99df3182ba1106" title="DLARZT: forms the triangular factor T of a real block reflector H of order &gt; n, which is defined as a..." alt="" coords="231,55,393,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="178,65,217,65,217,70,178,70"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__d.html#ae4b93112292f490ba395e5b5375689ba" title="DORMR3: overwrites the general real m by n matrix C with Q * C if SIDE = &#39;L&#39; and TRANS = &#39;N&#39;,..." alt="" coords="225,104,399,129"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="149,77,242,98,240,104,148,83"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__d.html#ac72150823afdb447faac5589e2c20a71" title="DLARZ: applies a real elementary reflector H to a real M&#45;by&#45;N matrix C, from either the left or the r..." alt="" coords="447,104,605,129"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="399,114,433,114,433,119,399,119"/>
+</map>

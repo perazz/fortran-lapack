@@ -1,0 +1,15 @@
+<map id="la_lapack_w::la_whetrd" name="la_lapack_w::la_whetrd">
+<area shape="rect" id="Node000001" title="ZHETRD: reduces a complex Hermitian matrix A to real symmetric tridiagonal form T by a unitary simila..." alt="" coords="5,55,179,80"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__w.html#ada1d34bb3c196482269a57c6ac06b19e" title="ZHETD2: reduces a complex Hermitian matrix A to real symmetric tridiagonal form T by a unitary simila..." alt="" coords="227,29,403,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="179,55,213,51,213,56,179,60"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__w.html#a5ee74ce01cebe74f0fcdfcdc2fcf4550" title="ZLATRD: reduces NB rows and columns of a complex Hermitian matrix A to Hermitian tridiagonal form by ..." alt="" coords="230,79,399,104"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="179,74,217,78,216,83,179,79"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__w.html#aa9eb79b853bd27197cc061402a74d006" title="ZLARFG: generates a complex elementary reflector H of order n, such that H**H * ( alpha ) = ( beta ),..." alt="" coords="453,29,623,55"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="403,39,440,39,440,45,403,45"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__w.html#a256289e251e51bb1c01d2fe45fe134fa" title="ZLADIV: := X / Y, where X and Y are complex. The computation of X / Y will not overflow on an interme..." alt="" coords="673,29,844,55"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="623,39,660,39,660,45,623,45"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="723,31,715,21,719,11,734,5,759,3,789,6,801,15,798,20,787,11,759,8,735,10,723,15,720,20,727,28"/>
+<area shape="poly" id="edge7_Node000005_Node000003" title=" " alt="" coords="372,76,466,55,467,60,373,81"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__w.html#af9fd634fd795490b65aee72c58533e2f" title="ZLACGV: conjugates a complex vector of length N." alt="" coords="451,79,625,104"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="399,89,437,89,437,94,399,94"/>
+</map>

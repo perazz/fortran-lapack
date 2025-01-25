@@ -1,0 +1,11 @@
+<map id="la_lapack_d::la_dorhr_col" name="la_lapack_d::la_dorhr_col">
+<area shape="rect" id="Node000001" title="DORHR_COL: takes an M&#45;by&#45;N real matrix Q_in with orthonormal columns as input, stored in A,..." alt="" coords="5,37,192,62"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__d.html#a5856f3acb33bb93e243159d20af551b6" title="DLAORHR_COL_GETRFNP: computes the modified LU factorization without pivoting of a real general M&#45;by&#45;N..." alt="" coords="240,29,412,69"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="192,47,226,47,226,52,192,52"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__d.html#a95ff990daf015eac9bfabdfa5d8f1c2f" title="DLAORHR_COL_GETRFNP2: computes the modified LU factorization without pivoting of a real general M&#45;by&#45;..." alt="" coords="460,29,632,69"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="413,47,446,47,446,52,413,52"/>
+<area shape="poly" id="edge5_Node000003_Node000003" title=" " alt="" coords="505,30,503,20,509,10,524,5,546,3,572,6,586,13,583,18,570,11,546,8,525,10,512,15,508,21,510,28"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__d.html#af258e93ce5d1d461c745335332ff184b" title="DLAMCH: determines double precision machine parameters." alt="" coords="680,37,855,62"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="633,47,666,47,666,52,633,52"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="731,38,723,28,727,18,742,12,767,10,798,14,810,23,807,27,796,19,767,15,744,17,731,22,729,28,735,35"/>
+</map>

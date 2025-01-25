@@ -1,0 +1,30 @@
+<map id="la_lapack_s::la_ssytrd_sb2st" name="la_lapack_s::la_ssytrd_sb2st">
+<area shape="rect" id="Node000001" title="SSYTRD_SB2ST: reduces a real symmetric band matrix A to real symmetric tridiagonal form T by a orthog..." alt="" coords="5,87,171,127"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#aaf1967e81244ac5e46fcdee355359852" title="SLACPY: copies all or part of a two&#45;dimensional matrix A to another matrix B." alt="" coords="219,45,385,71"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="170,86,232,71,233,76,172,91"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__s.html#a3eaa56062a507046ea65b05c77c0104f" title="SLASET: initializes an m&#45;by&#45;n matrix A to BETA on the diagonal and ALPHA on the offdiagonals." alt="" coords="220,95,384,120"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="171,105,206,105,206,110,171,110"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__s.html#a0efb8175e39eae761c029fe03fdcd7fa" title="SSB2ST_KERNELS: is an internal routine used by the SSYTRD_SB2ST subroutine." alt="" coords="219,145,385,185"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="164,125,214,138,213,144,163,130"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__s.html#a7abfbd65886bc302a2f9526f8de41388" title="SLARFG: generates a real elementary reflector H of order n, such that H * ( alpha ) = ( beta ),..." alt="" coords="433,103,596,128"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="385,143,445,129,446,134,386,148"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__s.html#aedc192e2bc4ec8214dc94d7e793a1a59" title="SLARFX: applies a real elementary reflector H to a real m by n matrix C, from either the left or the ..." alt="" coords="433,152,596,177"/>
+<area shape="poly" id="edge14_Node000004_Node000010" title=" " alt="" coords="386,162,420,162,420,167,386,167"/>
+<area shape="rect" id="Node000012" href="$namespacela__lapack__s.html#a5ec676c3c643164ef3da80603d9e3452" title="SLARFY: applies an elementary reflector, or Householder matrix, H, to an n x n symmetric matrix C,..." alt="" coords="434,201,595,227"/>
+<area shape="poly" id="edge16_Node000004_Node000012" title=" " alt="" coords="386,181,446,195,445,201,385,187"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__s.html#abbe0ae24f069ddbf134ff3e404a19878" title="SLAMCH: determines single precision machine parameters." alt="" coords="860,29,1032,55"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="541,100,588,81,643,63,747,47,846,40,846,45,748,52,645,69,590,86,543,105"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__s.html#a9e70d6d165ba95d10e4f8592c02475c7" title="SLAPY2: returns sqrt(x**2+y**2), taking care not to cause unnecessary overflow and unnecessary underf..." alt="" coords="644,103,812,128"/>
+<area shape="poly" id="edge7_Node000005_Node000007" title=" " alt="" coords="596,113,630,113,630,118,596,118"/>
+<area shape="poly" id="edge6_Node000006_Node000006" title=" " alt="" coords="911,31,903,21,907,11,922,5,946,3,976,6,988,15,985,20,974,11,946,8,923,10,911,15,908,20,915,28"/>
+<area shape="poly" id="edge12_Node000007_Node000006" title=" " alt="" coords="760,100,859,63,883,56,884,61,861,69,762,105"/>
+<area shape="poly" id="edge13_Node000007_Node000007" title=" " alt="" coords="693,104,686,94,689,84,704,78,728,76,758,80,769,89,766,93,756,85,728,81,705,83,693,88,691,94,697,101"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__s.html#af8d4b806648873f614d26ba3f9d00512" title="SISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="863,103,1029,128"/>
+<area shape="poly" id="edge8_Node000007_Node000008" title=" " alt="" coords="813,113,849,113,849,118,813,118"/>
+<area shape="poly" id="edge9_Node000008_Node000008" title=" " alt="" coords="911,104,903,94,907,84,922,78,946,76,976,80,988,89,985,93,974,85,946,81,923,83,911,88,908,94,915,101"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__s.html#ab716c1e999e316ce29c31703ef379eb1" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in SISNAN...." alt="" coords="1080,103,1259,128"/>
+<area shape="poly" id="edge10_Node000008_Node000009" title=" " alt="" coords="1030,113,1066,113,1066,118,1030,118"/>
+<area shape="poly" id="edge11_Node000009_Node000009" title=" " alt="" coords="1133,104,1125,94,1129,84,1144,78,1169,76,1200,80,1212,89,1209,93,1198,85,1169,81,1146,83,1133,88,1131,94,1137,101"/>
+<area shape="rect" id="Node000011" href="$namespacela__lapack__s.html#afe74baa9cec84eae9cb50ed04c85340c" title="SLARF: applies a real elementary reflector H to a real m by n matrix C, from either the left or the r..." alt="" coords="651,152,805,177"/>
+<area shape="poly" id="edge15_Node000010_Node000011" title=" " alt="" coords="596,162,637,162,637,167,596,167"/>
+</map>

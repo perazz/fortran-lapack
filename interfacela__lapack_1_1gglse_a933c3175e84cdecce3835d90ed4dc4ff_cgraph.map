@@ -1,0 +1,105 @@
+<map id="la_lapack::gglse::sgglse" name="la_lapack::gglse::sgglse">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,373,183,399"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#abd87f7df4e1c6e3231b3767af4c7b384" title="SGGLSE: solves the linear equality&#45;constrained least squares (LSE) problem: minimize || c &#45; A*x ||_2 ..." alt="" coords="235,251,401,276"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="117,371,280,280,283,285,120,375"/>
+<area shape="rect" id="Node000021" href="$namespacela__lapack__w.html#a50b11d6d663ce8774b28b36ae1aee8c2" title="ZGGLSE: solves the linear equality&#45;constrained least squares (LSE) problem: minimize || c &#45; A*x ||_2 ..." alt="" coords="231,495,405,520"/>
+<area shape="poly" id="edge36_Node000001_Node000021" title=" " alt="" coords="120,396,283,486,280,490,117,401"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__s.html#aaea9a71f41b96f07dc12505649a468ba" title="SGGRQF: computes a generalized RQ factorization of an M&#45;by&#45;N matrix A and a P&#45;by&#45;N matrix B: A = R*Q,..." alt="" coords="457,149,623,175"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="341,248,452,192,488,177,490,182,454,196,343,253"/>
+<area shape="rect" id="Node000016" href="$namespacela__lapack__s.html#a3c39c99283a53c26c7dbef16d3498367" title="SORMRQ: overwrites the general real M&#45;by&#45;N matrix C with SIDE = &#39;L&#39; SIDE = &#39;R&#39; TRANS = &#39;N&#39;: Q * C C *..." alt="" coords="680,200,851,225"/>
+<area shape="poly" id="edge34_Node000002_Node000016" title=" " alt="" coords="401,249,453,242,666,219,666,225,454,247,402,254"/>
+<area shape="rect" id="Node000018" href="$namespacela__lapack__s.html#a675207ce317df13db048b8579ed02740" title="SORMQR: overwrites the general real M&#45;by&#45;N matrix C with SIDE = &#39;L&#39; SIDE = &#39;R&#39; TRANS = &#39;N&#39;: Q * C C *..." alt="" coords="680,251,851,276"/>
+<area shape="poly" id="edge29_Node000002_Node000018" title=" " alt="" coords="401,261,666,261,666,266,401,266"/>
+<area shape="rect" id="Node000020" href="$namespacela__lapack__s.html#af445fc9c7e6588a73f335ad49bbaf3e0" title="STRTRS: solves a triangular system of the form A * X = B or A**T * X = B, where A is a triangular mat..." alt="" coords="461,301,619,327"/>
+<area shape="poly" id="edge35_Node000002_Node000020" title=" " alt="" coords="375,274,471,296,470,301,374,279"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__s.html#ae4ec775b671b37193a0422dffb6b684d" title="SGEQRF: computes a QR factorization of a real M&#45;by&#45;N matrix A: A = Q * ( R ), ( 0 ) where: Q is a M&#45;b..." alt="" coords="682,101,849,127"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="600,147,691,127,692,132,601,152"/>
+<area shape="rect" id="Node000014" href="$namespacela__lapack__s.html#a9a99125299ad716550fda38aade31661" title="SGERQF: computes an RQ factorization of a real M&#45;by&#45;N matrix A: A = R * Q." alt="" coords="682,151,849,176"/>
+<area shape="poly" id="edge18_Node000003_Node000014" title=" " alt="" coords="624,160,668,160,668,165,624,165"/>
+<area shape="poly" id="edge24_Node000003_Node000016" title=" " alt="" coords="598,172,696,194,695,200,597,177"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__s.html#ad980098756b1e6a624184516e365ed45" title="SGEQR2: computes a QR factorization of a real m&#45;by&#45;n matrix A: A = Q * ( R ), ( 0 ) where: Q is a m&#45;b..." alt="" coords="910,52,1079,77"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="824,99,921,78,922,83,826,104"/>
+<area shape="rect" id="Node000012" href="$namespacela__lapack__s.html#a88f424ab78fa97dff58d431a8ab51b7c" title="SLARFB: applies a real block reflector H or its transpose H**T to a real m by n matrix C,..." alt="" coords="913,200,1076,225"/>
+<area shape="poly" id="edge16_Node000004_Node000012" title=" " alt="" coords="832,124,857,136,873,148,882,161,891,173,905,185,921,193,918,197,903,190,887,177,878,164,869,152,855,140,830,129"/>
+<area shape="rect" id="Node000013" href="$namespacela__lapack__s.html#a94b9ff2c43c13daa04cd1985c67d4216" title="SLARFT: forms the triangular factor T of a real block reflector H of order n, which is defined as a p..." alt="" coords="915,151,1074,176"/>
+<area shape="poly" id="edge17_Node000004_Node000013" title=" " alt="" coords="826,124,922,145,921,150,824,129"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__s.html#afe74baa9cec84eae9cb50ed04c85340c" title="SLARF: applies a real elementary reflector H to a real m by n matrix C, from either the left or the r..." alt="" coords="1143,188,1298,213"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="1058,75,1087,86,1120,107,1151,131,1200,176,1197,180,1148,135,1117,111,1084,91,1056,80"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__s.html#a7abfbd65886bc302a2f9526f8de41388" title="SLARFG: generates a real elementary reflector H of order n, such that H * ( alpha ) = ( beta ),..." alt="" coords="1139,77,1302,103"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="1080,72,1126,77,1126,82,1079,77"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__s.html#abbe0ae24f069ddbf134ff3e404a19878" title="SLAMCH: determines single precision machine parameters." alt="" coords="1575,103,1747,128"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="1302,92,1561,107,1561,112,1302,97"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__s.html#a9e70d6d165ba95d10e4f8592c02475c7" title="SLAPY2: returns sqrt(x**2+y**2), taking care not to cause unnecessary overflow and unnecessary underf..." alt="" coords="1357,52,1525,77"/>
+<area shape="poly" id="edge9_Node000007_Node000009" title=" " alt="" coords="1302,78,1343,73,1344,79,1303,83"/>
+<area shape="poly" id="edge8_Node000008_Node000008" title=" " alt="" coords="1625,104,1617,94,1621,84,1636,78,1661,76,1691,80,1703,89,1700,93,1689,85,1661,81,1637,83,1625,88,1622,94,1629,101"/>
+<area shape="poly" id="edge14_Node000009_Node000008" title=" " alt="" coords="1498,75,1593,97,1591,102,1497,80"/>
+<area shape="poly" id="edge15_Node000009_Node000009" title=" " alt="" coords="1406,54,1398,44,1402,34,1417,28,1441,25,1472,29,1484,38,1481,42,1470,34,1441,31,1418,33,1406,38,1403,43,1410,50"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__s.html#af8d4b806648873f614d26ba3f9d00512" title="SISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="1577,29,1744,55"/>
+<area shape="poly" id="edge10_Node000009_Node000010" title=" " alt="" coords="1526,53,1563,49,1564,55,1526,59"/>
+<area shape="poly" id="edge11_Node000010_Node000010" title=" " alt="" coords="1625,31,1617,21,1621,11,1636,5,1661,3,1691,6,1703,15,1700,20,1689,11,1661,8,1637,10,1625,15,1622,20,1629,28"/>
+<area shape="rect" id="Node000011" href="$namespacela__lapack__s.html#ab716c1e999e316ce29c31703ef379eb1" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in SISNAN...." alt="" coords="1795,29,1973,55"/>
+<area shape="poly" id="edge12_Node000010_Node000011" title=" " alt="" coords="1744,39,1781,39,1781,45,1744,45"/>
+<area shape="poly" id="edge13_Node000011_Node000011" title=" " alt="" coords="1848,31,1840,21,1844,11,1859,5,1884,3,1915,6,1927,15,1924,20,1913,11,1884,8,1860,10,1848,15,1845,20,1852,28"/>
+<area shape="poly" id="edge22_Node000014_Node000012" title=" " alt="" coords="826,173,922,194,921,200,824,179"/>
+<area shape="poly" id="edge23_Node000014_Node000013" title=" " alt="" coords="849,161,901,161,901,166,849,166"/>
+<area shape="rect" id="Node000015" href="$namespacela__lapack__s.html#a7cff8cd10058f41bb912a786ebe67d1f" title="SGERQ2: computes an RQ factorization of a real m by n matrix A: A = R * Q." alt="" coords="910,101,1079,127"/>
+<area shape="poly" id="edge19_Node000014_Node000015" title=" " alt="" coords="824,148,921,127,922,132,826,153"/>
+<area shape="poly" id="edge20_Node000015_Node000006" title=" " alt="" coords="1050,124,1086,136,1184,179,1182,184,1084,140,1049,129"/>
+<area shape="poly" id="edge21_Node000015_Node000007" title=" " alt="" coords="1080,102,1126,97,1126,103,1080,108"/>
+<area shape="poly" id="edge25_Node000016_Node000012" title=" " alt="" coords="851,210,900,210,900,215,851,215"/>
+<area shape="poly" id="edge26_Node000016_Node000013" title=" " alt="" coords="824,197,921,176,922,182,826,203"/>
+<area shape="rect" id="Node000017" href="$namespacela__lapack__s.html#a4df969938e68cb4d69d3fe70c9ce3e45" title="SORMR2: overwrites the general real m by n matrix C with Q * C if SIDE = &#39;L&#39; and TRANS = &#39;N&#39;,..." alt="" coords="909,249,1080,275"/>
+<area shape="poly" id="edge27_Node000016_Node000017" title=" " alt="" coords="826,223,922,244,921,249,824,228"/>
+<area shape="poly" id="edge28_Node000017_Node000006" title=" " alt="" coords="1042,247,1159,214,1161,220,1043,252"/>
+<area shape="poly" id="edge30_Node000018_Node000012" title=" " alt="" coords="823,248,923,226,924,231,824,253"/>
+<area shape="poly" id="edge31_Node000018_Node000013" title=" " alt="" coords="824,248,855,234,869,223,878,210,887,198,903,185,915,179,918,183,905,190,891,201,882,213,873,226,857,239,826,253"/>
+<area shape="rect" id="Node000019" href="$namespacela__lapack__s.html#a9dc871fc63224d09fc6b3575cd46c87d" title="SORM2R: overwrites the general real m by n matrix C with Q * C if SIDE = &#39;L&#39; and TRANS = &#39;N&#39;,..." alt="" coords="909,299,1080,324"/>
+<area shape="poly" id="edge32_Node000018_Node000019" title=" " alt="" coords="827,273,921,293,920,298,826,279"/>
+<area shape="poly" id="edge33_Node000019_Node000006" title=" " alt="" coords="1050,296,1084,284,1142,252,1190,219,1193,224,1145,257,1086,288,1052,301"/>
+<area shape="rect" id="Node000022" href="$namespacela__lapack__w.html#afe083d798f58cda5a2d21d6cb1c0fbff" title="ZGGRQF: computes a generalized RQ factorization of an M&#45;by&#45;N matrix A and a P&#45;by&#45;N matrix B: A = R*Q,..." alt="" coords="453,444,627,469"/>
+<area shape="poly" id="edge37_Node000021_Node000022" title=" " alt="" coords="374,492,470,470,471,475,375,497"/>
+<area shape="rect" id="Node000033" href="$namespacela__lapack__w.html#a4556ddbc73e2e47b25919b0b9a51603d" title="ZUNMRQ: overwrites the general complex M&#45;by&#45;N matrix C with SIDE = &#39;L&#39; SIDE = &#39;R&#39; TRANS = &#39;N&#39;: Q * C ..." alt="" coords="675,545,856,571"/>
+<area shape="poly" id="edge66_Node000021_Node000033" title=" " alt="" coords="406,515,661,544,661,549,405,520"/>
+<area shape="rect" id="Node000035" href="$namespacela__lapack__w.html#ab8fe0ef58f0d6be01cddd44609d90be0" title="ZTRTRS: solves a triangular system of the form A * X = B, A**T * X = B, or A**H * X = B,..." alt="" coords="457,596,623,621"/>
+<area shape="poly" id="edge60_Node000021_Node000035" title=" " alt="" coords="343,518,454,574,490,589,488,594,452,579,341,523"/>
+<area shape="rect" id="Node000036" href="$namespacela__lapack__w.html#ae8f5d733d9e8b1320c0b929a54634099" title="ZUNMQR: overwrites the general complex M&#45;by&#45;N matrix C with SIDE = &#39;L&#39; SIDE = &#39;R&#39; TRANS = &#39;N&#39;: Q * C ..." alt="" coords="675,496,856,521"/>
+<area shape="poly" id="edge61_Node000021_Node000036" title=" " alt="" coords="406,505,661,506,661,511,406,510"/>
+<area shape="rect" id="Node000023" href="$namespacela__lapack__w.html#ad2d90e8dc2c3b73f6b284bdd2db3a846" title="ZGEQRF: computes a QR factorization of a complex M&#45;by&#45;N matrix A: A = Q * ( R ), ( 0 ) where: Q is a ..." alt="" coords="679,397,852,423"/>
+<area shape="poly" id="edge38_Node000022_Node000023" title=" " alt="" coords="602,441,689,423,691,428,603,447"/>
+<area shape="rect" id="Node000031" href="$namespacela__lapack__w.html#a43ff64838b6cfaa62bbc0eb9fb3e0a87" title="ZGERQF: computes an RQ factorization of a complex M&#45;by&#45;N matrix A: A = R * Q." alt="" coords="679,447,852,472"/>
+<area shape="poly" id="edge47_Node000022_Node000031" title=" " alt="" coords="627,455,665,455,665,461,627,460"/>
+<area shape="poly" id="edge54_Node000022_Node000033" title=" " alt="" coords="561,467,612,499,676,532,695,539,694,544,674,536,609,504,559,472"/>
+<area shape="rect" id="Node000024" href="$namespacela__lapack__w.html#ae0edc539557c258a783ace82889cafb9" title="ZGEQR2: computes a QR factorization of a complex m&#45;by&#45;n matrix A: A = Q * ( R ), ( 0 ) where: Q is a ..." alt="" coords="907,348,1083,373"/>
+<area shape="poly" id="edge39_Node000023_Node000024" title=" " alt="" coords="824,395,921,374,922,379,826,400"/>
+<area shape="rect" id="Node000028" href="$namespacela__lapack__w.html#a3f55478b3a303207019b864ee0d4a681" title="ZLARFB: applies a complex block reflector H or its transpose H**H to a complex M&#45;by&#45;N matrix C,..." alt="" coords="910,496,1079,521"/>
+<area shape="poly" id="edge44_Node000023_Node000028" title=" " alt="" coords="832,420,857,432,873,444,882,457,891,469,905,481,921,489,918,493,903,486,887,473,878,460,869,448,855,436,830,425"/>
+<area shape="rect" id="Node000030" href="$namespacela__lapack__w.html#a4cea003e99f9bfb30c57e71d1ae63cb0" title="ZLARFT: forms the triangular factor T of a complex block reflector H of order n, which is defined as ..." alt="" coords="912,447,1077,472"/>
+<area shape="poly" id="edge46_Node000023_Node000030" title=" " alt="" coords="826,420,922,441,921,446,824,425"/>
+<area shape="rect" id="Node000025" href="$namespacela__lapack__w.html#ab2f5450aa341432c5faa2bc8ca33821a" title="ZLARF: applies a complex elementary reflector H to a complex M&#45;by&#45;N matrix C, from either the left or..." alt="" coords="1140,421,1301,447"/>
+<area shape="poly" id="edge40_Node000024_Node000025" title=" " alt="" coords="1048,371,1086,382,1175,414,1173,419,1085,387,1046,376"/>
+<area shape="rect" id="Node000026" href="$namespacela__lapack__w.html#aa9eb79b853bd27197cc061402a74d006" title="ZLARFG: generates a complex elementary reflector H of order n, such that H**H * ( alpha ) = ( beta ),..." alt="" coords="1136,348,1305,373"/>
+<area shape="poly" id="edge41_Node000024_Node000026" title=" " alt="" coords="1083,358,1122,358,1122,363,1083,363"/>
+<area shape="rect" id="Node000027" href="$namespacela__lapack__w.html#a256289e251e51bb1c01d2fe45fe134fa" title="ZLADIV: := X / Y, where X and Y are complex. The computation of X / Y will not overflow on an interme..." alt="" coords="1356,348,1527,373"/>
+<area shape="poly" id="edge42_Node000026_Node000027" title=" " alt="" coords="1306,358,1342,358,1342,363,1306,363"/>
+<area shape="poly" id="edge43_Node000027_Node000027" title=" " alt="" coords="1406,350,1398,340,1402,330,1417,324,1441,321,1472,325,1484,334,1481,338,1470,330,1441,327,1418,329,1406,334,1403,339,1410,346"/>
+<area shape="rect" id="Node000029" href="$namespacela__lapack__w.html#af9fd634fd795490b65aee72c58533e2f" title="ZLACGV: conjugates a complex vector of length N." alt="" coords="1133,496,1308,521"/>
+<area shape="poly" id="edge45_Node000028_Node000029" title=" " alt="" coords="1080,506,1119,506,1119,511,1080,511"/>
+<area shape="poly" id="edge52_Node000031_Node000028" title=" " alt="" coords="826,469,922,490,921,496,824,475"/>
+<area shape="poly" id="edge53_Node000031_Node000030" title=" " alt="" coords="852,457,898,457,898,462,852,462"/>
+<area shape="rect" id="Node000032" href="$namespacela__lapack__w.html#ac6ae5f9c5e8b6dccbc7d90797dfc8dfd" title="ZGERQ2: computes an RQ factorization of a complex m by n matrix A: A = R * Q." alt="" coords="907,397,1083,423"/>
+<area shape="poly" id="edge48_Node000031_Node000032" title=" " alt="" coords="824,444,921,423,922,428,826,449"/>
+<area shape="poly" id="edge50_Node000032_Node000025" title=" " alt="" coords="1083,417,1127,421,1126,427,1083,422"/>
+<area shape="poly" id="edge51_Node000032_Node000026" title=" " alt="" coords="1053,395,1148,374,1149,379,1054,400"/>
+<area shape="poly" id="edge49_Node000032_Node000029" title=" " alt="" coords="1053,420,1086,432,1187,487,1185,491,1084,436,1051,425"/>
+<area shape="poly" id="edge55_Node000033_Node000028" title=" " alt="" coords="824,543,921,522,922,527,826,548"/>
+<area shape="poly" id="edge56_Node000033_Node000030" title=" " alt="" coords="830,543,855,532,869,520,878,507,887,494,903,481,915,475,917,480,905,486,891,498,882,510,873,523,857,536,832,548"/>
+<area shape="rect" id="Node000034" href="$namespacela__lapack__w.html#ab965f5f34ed862827d4c9152888166eb" title="ZUNMR2: overwrites the general complex m&#45;by&#45;n matrix C with Q * C if SIDE = &#39;L&#39; and TRANS = &#39;N&#39;,..." alt="" coords="904,595,1085,620"/>
+<area shape="poly" id="edge57_Node000033_Node000034" title=" " alt="" coords="826,568,922,589,921,594,824,573"/>
+<area shape="poly" id="edge59_Node000034_Node000025" title=" " alt="" coords="1066,592,1084,581,1102,558,1108,534,1115,509,1131,482,1152,464,1174,450,1177,455,1155,468,1135,485,1119,511,1114,536,1106,561,1087,585,1069,597"/>
+<area shape="poly" id="edge58_Node000034_Node000029" title=" " alt="" coords="1051,592,1084,581,1140,554,1187,526,1190,531,1142,559,1086,586,1053,597"/>
+<area shape="poly" id="edge62_Node000036_Node000028" title=" " alt="" coords="856,506,896,506,896,511,856,511"/>
+<area shape="poly" id="edge63_Node000036_Node000030" title=" " alt="" coords="824,493,921,472,922,478,826,499"/>
+<area shape="rect" id="Node000037" href="$namespacela__lapack__w.html#ae3f61ffc017c52e00fb2520c0dd7ea40" title="ZUNM2R: overwrites the general complex m&#45;by&#45;n matrix C with Q * C if SIDE = &#39;L&#39; and TRANS = &#39;N&#39;,..." alt="" coords="904,545,1085,571"/>
+<area shape="poly" id="edge64_Node000036_Node000037" title=" " alt="" coords="826,519,922,540,921,545,824,524"/>
+<area shape="poly" id="edge65_Node000037_Node000025" title=" " alt="" coords="1060,543,1084,532,1099,520,1108,508,1117,495,1132,481,1179,451,1182,455,1135,485,1121,499,1112,512,1103,524,1087,536,1062,548"/>
+</map>

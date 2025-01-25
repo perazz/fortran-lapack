@@ -1,0 +1,15 @@
+<map id="la_lapack_w::la_whptrf" name="la_lapack_w::la_whptrf">
+<area shape="rect" id="Node000001" title="ZHPTRF: computes the factorization of a complex Hermitian packed matrix A using the Bunch&#45;Kaufman dia..." alt="" coords="5,67,176,92"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__q.html#a582984249eedf0398706ec14537bf429" title="DLAPY2: returns sqrt(x**2+y**2), taking care not to cause unnecessary overflow and unnecessary underf..." alt="" coords="224,67,395,92"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="176,77,210,77,210,82,176,82"/>
+<area shape="poly" id="edge8_Node000002_Node000002" title=" " alt="" coords="274,68,266,58,270,48,285,42,309,40,340,44,352,53,349,57,338,49,309,45,286,47,274,52,271,58,278,65"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__q.html#a905710846630796d062c866934101635" title="DISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="445,29,615,55"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="385,64,441,54,442,60,386,69"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__q.html#a5435a74c593174c3ab375e653a46f8fe" title="DLAMCH: determines quad precision machine parameters." alt="" coords="443,103,617,128"/>
+<area shape="poly" id="edge6_Node000002_Node000005" title=" " alt="" coords="388,89,439,98,438,103,387,95"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="494,31,487,21,491,11,505,5,530,3,560,6,572,15,569,20,558,11,530,8,507,10,494,15,492,20,498,28"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__q.html#a70bf73297aef7307a374d805b9ea5736" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in DISNAN...." alt="" coords="665,29,847,55"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="615,39,652,39,652,45,615,45"/>
+<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="719,31,712,21,716,11,731,5,756,3,788,7,800,16,796,20,786,11,756,8,732,10,719,15,717,20,724,27"/>
+<area shape="poly" id="edge7_Node000005_Node000005" title=" " alt="" coords="494,104,487,94,491,84,505,78,530,76,560,80,572,89,569,93,558,85,530,81,507,83,494,88,492,94,498,101"/>
+</map>

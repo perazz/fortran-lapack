@@ -1,0 +1,32 @@
+<map id="la_lapack_s::la_stgsja" name="la_lapack_s::la_stgsja">
+<area shape="rect" id="Node000001" title="STGSJA: computes the generalized singular value decomposition (GSVD) of two real upper triangular (or..." alt="" coords="5,81,169,107"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#a3b0f54424bf91a63b1e27bd4bcbd7a67" title="SLAGS2: computes 2&#45;by&#45;2 orthogonal matrices U, V and Q, such that if ( UPPER ) then U**T A*Q = U**T *..." alt="" coords="217,56,384,81"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="169,82,204,77,204,83,170,87"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__s.html#aabd68a5bad03276a397dd6b4efd2bd83" title="!" alt="" coords="432,5,595,31"/>
+<area shape="poly" id="edge17_Node000001_Node000003" title=" " alt="" coords="114,79,161,59,217,41,320,24,418,17,418,22,321,29,218,46,163,64,116,84"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__s.html#af168a136abe81d226254ca0be0a90539" title="Given two column vectors X and Y, let A = ( X Y ). The subroutine first computes the QR factorization..." alt="" coords="221,107,381,132"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="170,101,207,106,207,111,169,106"/>
+<area shape="rect" id="Node000012" href="$namespacela__lapack__s.html#a3eaa56062a507046ea65b05c77c0104f" title="SLASET: initializes an m&#45;by&#45;n matrix A to BETA on the diagonal and ALPHA on the offdiagonals." alt="" coords="219,156,383,181"/>
+<area shape="poly" id="edge18_Node000001_Node000012" title=" " alt="" coords="121,104,218,141,244,149,242,154,216,146,119,109"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="354,53,446,31,447,36,356,58"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__s.html#ac8a4879231fd3b2289e6beb335def092" title="SLASV2: computes the singular value decomposition of a 2&#45;by&#45;2 triangular matrix [ F G ] [ 0 H ]...." alt="" coords="643,56,810,81"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="384,66,630,66,630,71,384,71"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__s.html#abbe0ae24f069ddbf134ff3e404a19878" title="SLAMCH: determines single precision machine parameters." alt="" coords="859,107,1031,132"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="783,79,877,101,876,106,782,84"/>
+<area shape="poly" id="edge5_Node000005_Node000005" title=" " alt="" coords="909,108,902,98,906,88,920,82,945,80,975,84,987,93,983,97,973,89,945,85,922,87,909,92,907,98,913,105"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__s.html#a7abfbd65886bc302a2f9526f8de41388" title="SLARFG: generates a real elementary reflector H of order n, such that H * ( alpha ) = ( beta ),..." alt="" coords="432,107,595,132"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="381,117,418,117,418,122,381,122"/>
+<area shape="rect" id="Node000011" href="$namespacela__lapack__s.html#a6032a4f9106611866bbc0a0000807ddf" title="SLAS2: computes the singular values of the 2&#45;by&#45;2 matrix [ F G ] [ 0 H ]. On return,..." alt="" coords="434,156,593,181"/>
+<area shape="poly" id="edge16_Node000006_Node000011" title=" " alt="" coords="357,129,445,150,444,155,355,135"/>
+<area shape="poly" id="edge8_Node000007_Node000005" title=" " alt="" coords="595,117,845,117,845,122,595,122"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__s.html#a9e70d6d165ba95d10e4f8592c02475c7" title="SLAPY2: returns sqrt(x**2+y**2), taking care not to cause unnecessary overflow and unnecessary underf..." alt="" coords="643,181,811,207"/>
+<area shape="poly" id="edge9_Node000007_Node000008" title=" " alt="" coords="560,130,596,141,683,174,681,179,594,146,558,135"/>
+<area shape="poly" id="edge14_Node000008_Node000005" title=" " alt="" coords="759,179,858,142,885,133,886,139,860,147,761,184"/>
+<area shape="poly" id="edge15_Node000008_Node000008" title=" " alt="" coords="692,183,684,173,688,163,703,157,727,155,756,158,768,167,765,172,754,163,727,160,704,162,692,167,689,172,696,180"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__s.html#af8d4b806648873f614d26ba3f9d00512" title="SISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="861,181,1028,207"/>
+<area shape="poly" id="edge10_Node000008_Node000009" title=" " alt="" coords="811,191,847,191,847,197,811,197"/>
+<area shape="poly" id="edge11_Node000009_Node000009" title=" " alt="" coords="909,183,902,173,906,163,920,157,945,155,975,158,987,167,983,172,973,163,945,160,922,162,909,167,907,172,913,180"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__s.html#ab716c1e999e316ce29c31703ef379eb1" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in SISNAN...." alt="" coords="1079,181,1257,207"/>
+<area shape="poly" id="edge12_Node000009_Node000010" title=" " alt="" coords="1028,191,1065,191,1065,197,1028,197"/>
+<area shape="poly" id="edge13_Node000010_Node000010" title=" " alt="" coords="1132,183,1124,173,1128,163,1143,157,1168,155,1199,158,1211,167,1208,172,1197,163,1168,160,1144,162,1132,167,1129,172,1136,180"/>
+</map>

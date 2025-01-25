@@ -1,0 +1,11 @@
+<map id="la_lapack::getrs::sgetrs" name="la_lapack::getrs::sgetrs">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,31,179,56"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#a7d34fe45d34864828857d33f89e8498d" title="SGETRS: solves a system of linear equations A * X = B or A**T * X = B with a general N&#45;by&#45;N matrix A ..." alt="" coords="230,5,395,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="179,31,216,26,217,32,179,36"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__w.html#a5f96916da5342da53ee793280d899f65" title="ZGETRS: solves a system of linear equations A * X = B, A**T * X = B, or A**H * X = B with a general N..." alt="" coords="227,55,399,80"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="179,50,213,54,213,59,179,55"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__s.html#a32210a3155cf4bcf4884b373e585f34f" title="SLASWP: performs a series of row interchanges on the matrix A. One row interchange is initiated for e..." alt="" coords="450,5,621,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="396,15,436,15,436,21,396,21"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__w.html#a7d9aeb6077250b10504a6646cae28c9f" title="ZLASWP: performs a series of row interchanges on the matrix A. One row interchange is initiated for e..." alt="" coords="447,55,624,80"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="399,65,433,65,433,70,399,70"/>
+</map>

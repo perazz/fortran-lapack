@@ -1,0 +1,27 @@
+<map id="la_lapack_c::la_clatsqr" name="la_lapack_c::la_clatsqr">
+<area shape="rect" id="Node000001" title="CLATSQR: computes a blocked Tall&#45;Skinny QR factorization of a complex M&#45;by&#45;N matrix A for M &gt;= N: A =..." alt="" coords="5,153,175,179"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__c.html#adda87e730d08f589617b2357f2b0a63e" title="CGEQRT: computes a blocked QR factorization of a complex M&#45;by&#45;N matrix A using the compact WY represe..." alt="" coords="223,104,389,129"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="146,151,236,130,237,135,147,156"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__c.html#ab434f7d420912ab8205479b9a0d2089d" title="CTPQRT: computes a blocked QR factorization of a complex &quot;triangular&#45;pentagonal&quot; matrix C,..." alt="" coords="225,177,387,203"/>
+<area shape="poly" id="edge11_Node000001_Node000009" title=" " alt="" coords="175,173,211,177,211,182,175,178"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__c.html#ac330a97d77a921e62714b3a09ae09161" title="CGEQRT2: computes a QR factorization of a complex M&#45;by&#45;N matrix A, using the compact WY representatio..." alt="" coords="437,128,612,153"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="390,123,424,127,423,132,389,128"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__c.html#ab3ffd82d7d87d6ed0e286a54992c71ca" title="CGEQRT3: recursively computes a QR factorization of a complex M&#45;by&#45;N matrix A, using the compact WY r..." alt="" coords="437,79,612,104"/>
+<area shape="poly" id="edge6_Node000002_Node000006" title=" " alt="" coords="389,104,423,100,424,106,390,110"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__c.html#a10abe089dc232f3eb9b9f490a3462130" title="CLARFB: applies a complex block reflector H or its transpose H**H to a complex M&#45;by&#45;N matrix C,..." alt="" coords="443,5,606,31"/>
+<area shape="poly" id="edge9_Node000002_Node000007" title=" " alt="" coords="325,102,374,71,436,40,456,32,458,37,438,44,376,76,327,106"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__c.html#a12e172bbfbe3a52b09166d7ba722dac7" title="CLARFG: generates a complex elementary reflector H of order n, such that H**H * ( alpha ) = ( beta ),..." alt="" coords="662,128,825,153"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="613,138,648,138,648,143,613,143"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__c.html#a6e1497c47c4ec8521fd6c8d29fc75e98" title="CLADIV: := X / Y, where X and Y are complex. The computation of X / Y will not overflow on an interme..." alt="" coords="875,128,1039,153"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="825,138,861,138,861,143,825,143"/>
+<area shape="poly" id="edge5_Node000005_Node000005" title=" " alt="" coords="922,130,914,120,918,110,933,104,957,101,986,105,998,114,995,118,984,110,957,107,934,109,922,114,919,119,926,126"/>
+<area shape="poly" id="edge8_Node000006_Node000004" title=" " alt="" coords="582,101,674,122,672,128,581,107"/>
+<area shape="poly" id="edge7_Node000006_Node000006" title=" " alt="" coords="489,80,481,70,485,60,500,54,525,52,555,56,567,65,564,69,553,61,525,57,501,59,489,64,486,70,493,77"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__c.html#a458ee49506ae512d1c2d93ad1fdcbc11" title="CLACGV: conjugates a complex vector of length N." alt="" coords="660,5,827,31"/>
+<area shape="poly" id="edge10_Node000007_Node000008" title=" " alt="" coords="606,15,646,15,646,21,606,21"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__c.html#a606ee7fd5254d2a6e937a8588c2a9904" title="CTPQRT2: computes a QR factorization of a complex &quot;triangular&#45;pentagonal&quot; matrix C,..." alt="" coords="439,227,610,252"/>
+<area shape="poly" id="edge12_Node000009_Node000010" title=" " alt="" coords="364,200,455,221,454,226,362,205"/>
+<area shape="rect" id="Node000011" href="$namespacela__lapack__c.html#abc94fb0d819034c2a95628d99fde1c49" title="CTPRFB: applies a complex &quot;triangular&#45;pentagonal&quot; block reflector H or its conjugate transpose H**H t..." alt="" coords="443,177,606,203"/>
+<area shape="poly" id="edge14_Node000009_Node000011" title=" " alt="" coords="388,187,429,187,429,193,388,193"/>
+<area shape="poly" id="edge13_Node000010_Node000004" title=" " alt="" coords="579,224,611,213,664,186,710,159,713,163,667,191,613,218,580,229"/>
+</map>

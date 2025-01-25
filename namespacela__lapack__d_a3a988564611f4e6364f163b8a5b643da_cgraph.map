@@ -1,0 +1,5 @@
+<map id="la_lapack_d::la_dlarfx" name="la_lapack_d::la_dlarfx">
+<area shape="rect" id="Node000001" title="DLARFX: applies a real elementary reflector H to a real m by n matrix C, from either the left or the ..." alt="" coords="5,5,169,31"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__d.html#a3741bc70f5c5819f1435cdee2c1304d5" title="DLARF: applies a real elementary reflector H to a real m by n matrix C, from either the left or the r..." alt="" coords="217,5,373,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="170,15,203,15,203,21,170,21"/>
+</map>

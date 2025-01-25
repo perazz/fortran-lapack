@@ -1,0 +1,41 @@
+<map id="la_lapack::hetrd_hb2st::chetrd_hb2st" name="la_lapack::hetrd_hb2st::chetrd_hb2st">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,219,175,259"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__c.html#af6792d953313a357ae3c8765a4e1c0be" title="CHETRD_HB2ST: reduces a complex Hermitian band matrix A to real symmetric tridiagonal form T by a uni..." alt="" coords="226,162,393,202"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="166,217,219,203,220,208,168,222"/>
+<area shape="rect" id="Node000011" href="$namespacela__lapack__w.html#a4e435e705397880e2e565feca01033c6" title="ZHETRD_HB2ST: reduces a complex Hermitian band matrix A to real symmetric tridiagonal form T by a uni..." alt="" coords="223,251,396,291"/>
+<area shape="poly" id="edge11_Node000001_Node000011" title=" " alt="" coords="175,249,210,254,209,259,175,254"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__c.html#ac3d7429d9af7ce422ae8861b590273c6" title="CHB2ST_KERNELS: is an internal routine used by the CHETRD_HB2ST subroutine." alt="" coords="447,71,615,111"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="354,159,443,121,461,114,463,119,445,126,356,164"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__c.html#a94f50f05cdea6ccd3a055c994a570fcd" title="CLACPY: copies all or part of a two&#45;dimensional matrix A to another matrix B." alt="" coords="448,136,615,161"/>
+<area shape="poly" id="edge9_Node000002_Node000009" title=" " alt="" coords="393,167,434,161,435,166,393,172"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__c.html#aa8f6d9028437b79ec8870cf960266a8d" title="CLASET: initializes a 2&#45;D array A to BETA on the diagonal and ALPHA on the offdiagonals." alt="" coords="449,185,613,211"/>
+<area shape="poly" id="edge10_Node000002_Node000010" title=" " alt="" coords="393,185,436,188,435,194,393,191"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__c.html#a12e172bbfbe3a52b09166d7ba722dac7" title="CLARFG: generates a complex elementary reflector H of order n, such that H**H * ( alpha ) = ( beta ),..." alt="" coords="670,29,833,55"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="615,70,680,55,681,60,616,75"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__c.html#adb287e76b7ff428e7ac9e0ffa722bc44" title="CLARFX: applies a complex elementary reflector H to a complex m by n matrix C, from either the left o..." alt="" coords="670,79,833,104"/>
+<area shape="poly" id="edge6_Node000003_Node000006" title=" " alt="" coords="615,89,656,89,656,94,615,94"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__c.html#a2d70a88a9dd889f92b76ce831629738d" title="CLARFY: applies an elementary reflector, or Householder matrix, H, to an n x n Hermitian matrix C,..." alt="" coords="671,128,832,153"/>
+<area shape="poly" id="edge8_Node000003_Node000008" title=" " alt="" coords="616,108,681,122,680,127,615,113"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__c.html#a6e1497c47c4ec8521fd6c8d29fc75e98" title="CLADIV: := X / Y, where X and Y are complex. The computation of X / Y will not overflow on an interme..." alt="" coords="887,29,1051,55"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="833,39,874,39,874,45,833,45"/>
+<area shape="poly" id="edge5_Node000005_Node000005" title=" " alt="" coords="934,31,926,21,930,11,945,5,969,3,999,6,1011,15,1008,20,997,11,969,8,946,10,934,15,932,20,938,28"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__c.html#a51b81937dc202033ec70fc927336aabc" title="CLARF: applies a complex elementary reflector H to a complex M&#45;by&#45;N matrix C, from either the left or..." alt="" coords="892,79,1047,104"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="833,89,878,89,878,94,833,94"/>
+<area shape="rect" id="Node000012" href="$namespacela__lapack__w.html#a242b8c0b6c006cda434cee2abd0da091" title="ZHB2ST_KERNELS: is an internal routine used by the ZHETRD_HB2ST subroutine." alt="" coords="444,235,619,275"/>
+<area shape="poly" id="edge12_Node000011_Node000012" title=" " alt="" coords="396,262,430,260,431,265,396,268"/>
+<area shape="rect" id="Node000018" href="$namespacela__lapack__w.html#a2bdb179a3947a0d642455755afe72807" title="ZLACPY: copies all or part of a two&#45;dimensional matrix A to another matrix B." alt="" coords="444,300,619,325"/>
+<area shape="poly" id="edge19_Node000011_Node000018" title=" " alt="" coords="397,285,449,295,448,300,396,290"/>
+<area shape="rect" id="Node000019" href="$namespacela__lapack__w.html#a511f532e396be36dddfb639d4e9f31a9" title="ZLASET: initializes a 2&#45;D array A to BETA on the diagonal and ALPHA on the offdiagonals." alt="" coords="446,349,617,375"/>
+<area shape="poly" id="edge20_Node000011_Node000019" title=" " alt="" coords="347,289,393,313,445,336,466,343,464,348,443,340,391,318,345,294"/>
+<area shape="rect" id="Node000013" href="$namespacela__lapack__w.html#aa9eb79b853bd27197cc061402a74d006" title="ZLARFG: generates a complex elementary reflector H of order n, such that H**H * ( alpha ) = ( beta ),..." alt="" coords="667,193,836,219"/>
+<area shape="poly" id="edge13_Node000012_Node000013" title=" " alt="" coords="619,233,680,219,681,224,620,238"/>
+<area shape="rect" id="Node000015" href="$namespacela__lapack__w.html#a4214b241889b4f5f5197d841c55e6b9c" title="ZLARFX: applies a complex elementary reflector H to a complex m by n matrix C, from either the left o..." alt="" coords="667,243,836,268"/>
+<area shape="poly" id="edge16_Node000012_Node000015" title=" " alt="" coords="619,253,653,253,653,258,619,258"/>
+<area shape="rect" id="Node000017" href="$namespacela__lapack__w.html#ab698d8fcda110b0f855ec6a06a087f0e" title="ZLARFY: applies an elementary reflector, or Householder matrix, H, to an n x n Hermitian matrix C,..." alt="" coords="667,292,835,317"/>
+<area shape="poly" id="edge18_Node000012_Node000017" title=" " alt="" coords="620,272,681,286,680,292,619,278"/>
+<area shape="rect" id="Node000014" href="$namespacela__lapack__w.html#a256289e251e51bb1c01d2fe45fe134fa" title="ZLADIV: := X / Y, where X and Y are complex. The computation of X / Y will not overflow on an interme..." alt="" coords="884,193,1055,219"/>
+<area shape="poly" id="edge14_Node000013_Node000014" title=" " alt="" coords="837,203,870,203,870,209,837,209"/>
+<area shape="poly" id="edge15_Node000014_Node000014" title=" " alt="" coords="934,195,926,185,930,175,945,169,969,167,999,170,1011,179,1008,184,997,175,969,172,946,174,934,179,932,184,938,192"/>
+<area shape="rect" id="Node000016" href="$namespacela__lapack__w.html#ab2f5450aa341432c5faa2bc8ca33821a" title="ZLARF: applies a complex elementary reflector H to a complex M&#45;by&#45;N matrix C, from either the left or..." alt="" coords="889,243,1050,268"/>
+<area shape="poly" id="edge17_Node000015_Node000016" title=" " alt="" coords="837,253,875,253,875,258,837,258"/>
+</map>

@@ -1,0 +1,11 @@
+<map id="la_lapack_d::la_dpotri" name="la_lapack_d::la_dpotri">
+<area shape="rect" id="Node000001" title="DPOTRI: computes the inverse of a real symmetric positive definite matrix A using the Cholesky factor..." alt="" coords="5,31,169,56"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__d.html#a15270d7b0288cb8a4a757ed2de1dca77" title="DLAUUM: computes the product U * U**T or L**T * L, where the triangular factor U or L is stored in th..." alt="" coords="217,5,392,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="170,31,203,27,204,32,170,36"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__d.html#a7d8be88dd251c306dbaae7f21a4ca3e6" title="DTRTRI: computes the inverse of a real upper or lower triangular matrix A. This is the Level 3 BLAS v..." alt="" coords="225,55,384,80"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="170,50,212,54,212,60,170,55"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__d.html#adb79b1e143c016ef384e4db84b54ff2d" title="DLAUU2: computes the product U * U**T or L**T * L, where the triangular factor U or L is stored in th..." alt="" coords="440,5,611,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="392,15,427,15,427,21,392,21"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__d.html#ac4c9da07c1e66ebf410ac438f4c045bf" title="DTRTI2: computes the inverse of a real upper or lower triangular matrix. This is the Level 2 BLAS ver..." alt="" coords="445,55,606,80"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="384,65,431,65,431,70,384,70"/>
+</map>

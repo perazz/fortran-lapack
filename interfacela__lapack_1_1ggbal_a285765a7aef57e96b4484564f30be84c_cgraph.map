@@ -1,0 +1,13 @@
+<map id="la_lapack::ggbal::dggbal" name="la_lapack::ggbal::dggbal">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,67,185,92"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__d.html#a92de248a05d702b7ed9937f272cc5c8e" title="DGGBAL: balances a pair of general real matrices (A,B). This involves, first, permuting A and B by si..." alt="" coords="233,36,404,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="185,64,220,60,220,65,186,70"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__q.html#ae1650bbfea1dc29548167a2e75f5fcb3" title="DGGBAL: balances a pair of general real matrices (A,B). This involves, first, permuting A and B by si..." alt="" coords="233,91,404,116"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="186,86,220,90,219,95,185,92"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__d.html#af258e93ce5d1d461c745335332ff184b" title="DLAMCH: determines double precision machine parameters." alt="" coords="452,29,627,55"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="404,43,438,42,438,48,404,49"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="504,31,496,21,500,11,515,5,539,3,570,6,582,15,579,20,568,11,539,8,516,10,504,15,501,20,508,28"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__q.html#a5435a74c593174c3ab375e653a46f8fe" title="DLAMCH: determines quad precision machine parameters." alt="" coords="452,103,627,128"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="404,105,439,107,438,113,404,111"/>
+<area shape="poly" id="edge6_Node000005_Node000005" title=" " alt="" coords="504,104,496,94,500,84,515,78,539,76,570,80,582,89,579,93,568,85,539,81,516,83,504,88,501,94,508,101"/>
+</map>

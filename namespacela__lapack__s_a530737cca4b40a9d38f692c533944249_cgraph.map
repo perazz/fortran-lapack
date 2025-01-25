@@ -1,0 +1,18 @@
+<map id="la_lapack_s::la_ssytd2" name="la_lapack_s::la_ssytd2">
+<area shape="rect" id="Node000001" title="SSYTD2: reduces a real symmetric matrix A to symmetric tridiagonal form T by an orthogonal similarity..." alt="" coords="5,65,173,91"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#a7abfbd65886bc302a2f9526f8de41388" title="SLARFG: generates a real elementary reflector H of order n, such that H * ( alpha ) = ( beta ),..." alt="" coords="221,65,384,91"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="174,75,208,75,208,81,174,81"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__s.html#abbe0ae24f069ddbf134ff3e404a19878" title="SLAMCH: determines single precision machine parameters." alt="" coords="648,29,820,55"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="384,69,634,48,635,53,384,74"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__s.html#a9e70d6d165ba95d10e4f8592c02475c7" title="SLAPY2: returns sqrt(x**2+y**2), taking care not to cause unnecessary overflow and unnecessary underf..." alt="" coords="432,103,600,128"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="376,88,430,98,429,103,375,93"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="699,31,691,21,695,11,710,5,734,3,764,6,776,15,773,20,762,11,734,8,711,10,699,15,696,20,703,28"/>
+<area shape="poly" id="edge9_Node000004_Node000003" title=" " alt="" coords="550,100,647,65,674,56,676,61,649,70,551,105"/>
+<area shape="poly" id="edge10_Node000004_Node000004" title=" " alt="" coords="481,104,474,94,477,84,492,78,516,76,546,80,557,89,554,93,544,85,516,81,493,83,481,88,479,94,485,101"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__s.html#af8d4b806648873f614d26ba3f9d00512" title="SISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="651,103,817,128"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="601,113,637,113,637,118,601,118"/>
+<area shape="poly" id="edge6_Node000005_Node000005" title=" " alt="" coords="699,104,691,94,695,84,710,78,734,76,764,80,776,89,773,93,762,85,734,81,711,83,699,88,696,94,703,101"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__s.html#ab716c1e999e316ce29c31703ef379eb1" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in SISNAN...." alt="" coords="868,103,1047,128"/>
+<area shape="poly" id="edge7_Node000005_Node000006" title=" " alt="" coords="818,113,854,113,854,118,818,118"/>
+<area shape="poly" id="edge8_Node000006_Node000006" title=" " alt="" coords="921,104,913,94,917,84,932,78,957,76,988,80,1000,89,997,93,986,85,957,81,934,83,921,88,919,94,925,101"/>
+</map>

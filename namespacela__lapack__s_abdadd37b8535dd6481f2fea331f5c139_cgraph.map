@@ -1,0 +1,15 @@
+<map id="la_lapack_s::la_ssysv_rook" name="la_lapack_s::la_ssysv_rook">
+<area shape="rect" id="Node000001" title="SSYSV_ROOK: computes the solution to a real system of linear equations A * X = B, where A is an N&#45;by&#45;..." alt="" coords="5,55,204,80"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#a924dc023316d51a09504295f7565700e" title="SSYTRF_ROOK: computes the factorization of a real symmetric matrix A using the bounded Bunch&#45;Kaufman ..." alt="" coords="253,29,451,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="204,55,239,51,239,56,204,60"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__s.html#a84c553a9036dfa3167c15614ab476486" title="SSYTRS_ROOK: solves a system of linear equations A*X = B with a real symmetric matrix A using the fac..." alt="" coords="252,79,452,104"/>
+<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="204,74,239,78,238,83,204,80"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__s.html#a4c937c58f7811181b8f0d1b2d0540b8e" title="SLASYF_ROOK: computes a partial factorization of a real symmetric matrix A using the bounded Bunch&#45;Ka..." alt="" coords="501,5,701,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="451,30,487,26,487,32,452,35"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__s.html#a8d69369e783031f0d68b34dd94a79834" title="SSYTF2_ROOK: computes the factorization of a real symmetric matrix A using the bounded Bunch&#45;Kaufman ..." alt="" coords="500,55,701,80"/>
+<area shape="poly" id="edge5_Node000002_Node000005" title=" " alt="" coords="452,49,487,53,486,58,451,55"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__s.html#abbe0ae24f069ddbf134ff3e404a19878" title="SLAMCH: determines single precision machine parameters." alt="" coords="749,31,921,56"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="701,26,736,30,736,35,700,31"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="797,32,789,22,793,12,809,6,835,4,868,8,881,17,878,22,866,13,835,9,810,11,797,16,794,22,801,29"/>
+<area shape="poly" id="edge6_Node000005_Node000004" title=" " alt="" coords="701,54,735,51,736,56,702,60"/>
+</map>

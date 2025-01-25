@@ -1,0 +1,14 @@
+<map id="la_lapack_d::la_dlaln2" name="la_lapack_d::la_dlaln2">
+<area shape="rect" id="Node000001" title="DLALN2: solves a system of the form (ca A &#45; w D ) X = s B or (ca A**T &#45; w D) X = s B with possible sc..." alt="" coords="5,77,172,103"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__d.html#a6dab16c0b7a0043918dbda8b2de83620" title="DLADIV: performs complex division in real arithmetic a + i*b p + i*q = &#45;&#45;&#45;&#45;&#45;&#45;— c + i*d The algorithm ..." alt="" coords="220,52,387,77"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="172,77,206,73,206,79,173,83"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__d.html#af258e93ce5d1d461c745335332ff184b" title="DLAMCH: determines double precision machine parameters." alt="" coords="435,103,609,128"/>
+<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="172,92,421,107,421,112,172,97"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__d.html#aafcd10a669a532dc4d212ebec6d08041" title=" " alt="" coords="435,29,609,55"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="387,53,421,50,421,55,387,59"/>
+<area shape="poly" id="edge5_Node000002_Node000005" title=" " alt="" coords="360,75,454,97,453,102,359,80"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__d.html#a5592a3e7aa43d1a1337e40e7406ee95d" title=" " alt="" coords="657,29,832,55"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="610,39,644,39,644,45,610,45"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="709,31,701,21,705,11,720,5,745,3,775,6,788,15,784,20,773,11,745,8,721,10,708,15,706,20,713,28"/>
+<area shape="poly" id="edge6_Node000005_Node000005" title=" " alt="" coords="486,104,479,94,483,84,497,78,522,76,552,80,564,89,561,93,550,85,522,81,499,83,486,88,484,94,490,101"/>
+</map>

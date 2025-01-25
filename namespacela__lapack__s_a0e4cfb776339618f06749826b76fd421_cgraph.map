@@ -1,0 +1,14 @@
+<map id="la_lapack_s::la_slaln2" name="la_lapack_s::la_slaln2">
+<area shape="rect" id="Node000001" title="SLALN2: solves a system of the form (ca A &#45; w D ) X = s B or (ca A**T &#45; w D) X = s B with possible sc..." alt="" coords="5,77,169,103"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#ad98aeb3fda13e720406014580920e7f9" title="SLADIV: performs complex division in real arithmetic a + i*b p + i*q = &#45;&#45;&#45;&#45;&#45;&#45;— c + i*d The algorithm ..." alt="" coords="217,52,381,77"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="169,78,204,73,204,79,170,83"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__s.html#abbe0ae24f069ddbf134ff3e404a19878" title="SLAMCH: determines single precision machine parameters." alt="" coords="429,103,601,128"/>
+<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="170,92,416,107,416,112,170,97"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__s.html#ac9ab950f8fe8695b02b6f6f53d8168cf" title=" " alt="" coords="429,29,601,55"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="382,53,415,50,416,55,382,59"/>
+<area shape="poly" id="edge5_Node000002_Node000005" title=" " alt="" coords="355,75,448,97,447,102,354,80"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__s.html#ab17f6c0e0bd931bc884ab7f8a0648d74" title=" " alt="" coords="649,29,821,55"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="602,39,636,39,636,45,602,45"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="700,31,692,21,696,11,711,5,735,3,766,6,778,15,775,20,764,11,735,8,712,10,700,15,697,20,704,28"/>
+<area shape="poly" id="edge6_Node000005_Node000005" title=" " alt="" coords="480,104,472,94,476,84,491,78,515,76,545,80,557,89,554,93,543,85,515,81,492,83,480,88,478,94,484,101"/>
+</map>

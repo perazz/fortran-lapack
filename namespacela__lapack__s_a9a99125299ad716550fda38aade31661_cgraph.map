@@ -1,0 +1,26 @@
+<map id="la_lapack_s::la_sgerqf" name="la_lapack_s::la_sgerqf">
+<area shape="rect" id="Node000001" title="SGERQF: computes an RQ factorization of a real M&#45;by&#45;N matrix A: A = R * Q." alt="" coords="5,89,172,115"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#a7cff8cd10058f41bb912a786ebe67d1f" title="SGERQ2: computes an RQ factorization of a real m by n matrix A: A = R * Q." alt="" coords="220,40,389,65"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="144,87,235,66,236,71,146,92"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__s.html#a88f424ab78fa97dff58d431a8ab51b7c" title="SLARFB: applies a real block reflector H or its transpose H**T to a real m by n matrix C,..." alt="" coords="223,89,386,115"/>
+<area shape="poly" id="edge13_Node000001_Node000009" title=" " alt="" coords="172,99,210,99,210,105,172,105"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__s.html#a94b9ff2c43c13daa04cd1985c67d4216" title="SLARFT: forms the triangular factor T of a real block reflector H of order n, which is defined as a p..." alt="" coords="225,139,384,164"/>
+<area shape="poly" id="edge14_Node000001_Node000010" title=" " alt="" coords="146,112,236,133,235,138,144,117"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__s.html#afe74baa9cec84eae9cb50ed04c85340c" title="SLARF: applies a real elementary reflector H to a real m by n matrix C, from either the left or the r..." alt="" coords="441,16,596,41"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="389,41,427,36,428,41,390,46"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__s.html#a7abfbd65886bc302a2f9526f8de41388" title="SLARFG: generates a real elementary reflector H of order n, such that H * ( alpha ) = ( beta ),..." alt="" coords="437,65,600,91"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="390,60,424,64,424,69,389,65"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__s.html#abbe0ae24f069ddbf134ff3e404a19878" title="SLAMCH: determines single precision machine parameters." alt="" coords="864,29,1036,55"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="600,69,850,48,851,53,600,74"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__s.html#a9e70d6d165ba95d10e4f8592c02475c7" title="SLAPY2: returns sqrt(x**2+y**2), taking care not to cause unnecessary overflow and unnecessary underf..." alt="" coords="648,103,816,128"/>
+<area shape="poly" id="edge6_Node000004_Node000006" title=" " alt="" coords="592,88,646,98,645,103,591,93"/>
+<area shape="poly" id="edge5_Node000005_Node000005" title=" " alt="" coords="915,31,907,21,911,11,926,5,950,3,980,6,992,15,989,20,978,11,950,8,927,10,915,15,912,20,919,28"/>
+<area shape="poly" id="edge11_Node000006_Node000005" title=" " alt="" coords="766,100,863,65,890,56,892,61,865,70,767,105"/>
+<area shape="poly" id="edge12_Node000006_Node000006" title=" " alt="" coords="697,104,690,94,693,84,708,78,732,76,762,80,773,89,770,93,760,85,732,81,709,83,697,88,695,94,701,101"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__s.html#af8d4b806648873f614d26ba3f9d00512" title="SISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="867,103,1033,128"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="817,113,853,113,853,118,817,118"/>
+<area shape="poly" id="edge8_Node000007_Node000007" title=" " alt="" coords="915,104,907,94,911,84,926,78,950,76,980,80,992,89,989,93,978,85,950,81,927,83,915,88,912,94,919,101"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__s.html#ab716c1e999e316ce29c31703ef379eb1" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in SISNAN...." alt="" coords="1084,103,1263,128"/>
+<area shape="poly" id="edge9_Node000007_Node000008" title=" " alt="" coords="1034,113,1070,113,1070,118,1034,118"/>
+<area shape="poly" id="edge10_Node000008_Node000008" title=" " alt="" coords="1137,104,1129,94,1133,84,1148,78,1173,76,1204,80,1216,89,1213,93,1202,85,1173,81,1150,83,1137,88,1135,94,1141,101"/>
+</map>

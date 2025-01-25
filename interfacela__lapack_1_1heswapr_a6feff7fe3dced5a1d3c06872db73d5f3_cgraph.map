@@ -1,0 +1,7 @@
+<map id="la_lapack::heswapr::cheswapr" name="la_lapack::heswapr::cheswapr">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,23,152,63"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__c.html#a1985c751f9e83536b6d3ff51ed6a9cdb" title="CHESWAPR: applies an elementary permutation on the rows and the columns of a hermitian matrix." alt="" coords="204,5,391,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="152,32,190,28,191,33,153,37"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__w.html#a48ef3e4eca7b8334738d4d34b524fd9f" title="ZHESWAPR: applies an elementary permutation on the rows and the columns of a hermitian matrix." alt="" coords="200,55,395,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="153,49,187,53,186,58,152,54"/>
+</map>

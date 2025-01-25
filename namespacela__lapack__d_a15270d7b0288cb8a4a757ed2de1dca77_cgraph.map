@@ -1,0 +1,5 @@
+<map id="la_lapack_d::la_dlauum" name="la_lapack_d::la_dlauum">
+<area shape="rect" id="Node000001" title="DLAUUM: computes the product U * U**T or L**T * L, where the triangular factor U or L is stored in th..." alt="" coords="5,5,180,31"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__d.html#adb79b1e143c016ef384e4db84b54ff2d" title="DLAUU2: computes the product U * U**T or L**T * L, where the triangular factor U or L is stored in th..." alt="" coords="228,5,399,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="180,15,215,15,215,21,180,21"/>
+</map>

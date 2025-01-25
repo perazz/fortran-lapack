@@ -1,0 +1,25 @@
+<map id="la_lapack_s::la_slahqr" name="la_lapack_s::la_slahqr">
+<area shape="rect" id="Node000001" title="SLAHQR: is an auxiliary routine called by SHSEQR to update the eigenvalues and Schur decomposition al..." alt="" coords="5,81,171,107"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#a8c70bc25650d02927495d8a3635d03f8" title="SLABAD: takes as input the values computed by SLAMCH for underflow and overflow, and returns the squa..." alt="" coords="219,5,387,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="124,79,252,33,254,38,126,84"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__s.html#abbe0ae24f069ddbf134ff3e404a19878" title="SLAMCH: determines single precision machine parameters." alt="" coords="651,108,823,133"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="171,89,368,88,485,92,603,99,642,104,641,109,602,105,485,97,368,94,171,94"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__s.html#a624b6bcc941f0e0c25cf8585878a3e6c" title="SLANV2: computes the Schur factorization of a real 2&#45;by&#45;2 nonsymmetric matrix in standard form: [ A B..." alt="" coords="219,181,387,207"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="118,104,263,173,261,178,115,109"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__s.html#a7abfbd65886bc302a2f9526f8de41388" title="SLARFG: generates a real elementary reflector H of order n, such that H * ( alpha ) = ( beta ),..." alt="" coords="221,107,384,132"/>
+<area shape="poly" id="edge13_Node000001_Node000008" title=" " alt="" coords="171,101,208,106,208,111,170,106"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="701,110,694,100,698,90,712,84,737,81,767,85,779,94,775,98,765,90,737,87,714,89,701,94,699,99,705,106"/>
+<area shape="poly" id="edge5_Node000004_Node000003" title=" " alt="" coords="335,204,388,222,457,237,494,240,531,238,567,231,601,217,618,201,625,183,632,162,649,143,657,137,660,142,652,147,637,165,630,185,623,204,604,222,569,236,532,243,494,245,456,242,387,227,333,209"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__s.html#a9e70d6d165ba95d10e4f8592c02475c7" title="SLAPY2: returns sqrt(x**2+y**2), taking care not to cause unnecessary overflow and unnecessary underf..." alt="" coords="435,181,603,207"/>
+<area shape="poly" id="edge6_Node000004_Node000005" title=" " alt="" coords="387,191,421,191,421,197,387,197"/>
+<area shape="poly" id="edge11_Node000005_Node000003" title=" " alt="" coords="550,179,650,142,674,135,675,140,652,147,552,184"/>
+<area shape="poly" id="edge12_Node000005_Node000005" title=" " alt="" coords="483,183,476,173,480,163,494,157,519,155,549,158,561,167,557,172,547,163,519,160,496,162,483,167,481,172,487,180"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__s.html#af8d4b806648873f614d26ba3f9d00512" title="SISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="653,181,820,207"/>
+<area shape="poly" id="edge7_Node000005_Node000006" title=" " alt="" coords="603,191,639,191,639,197,603,197"/>
+<area shape="poly" id="edge8_Node000006_Node000006" title=" " alt="" coords="701,183,694,173,698,163,712,157,737,155,767,158,779,167,775,172,765,163,737,160,714,162,701,167,699,172,705,180"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__s.html#ab716c1e999e316ce29c31703ef379eb1" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in SISNAN...." alt="" coords="871,181,1049,207"/>
+<area shape="poly" id="edge9_Node000006_Node000007" title=" " alt="" coords="820,191,857,191,857,197,820,197"/>
+<area shape="poly" id="edge10_Node000007_Node000007" title=" " alt="" coords="924,183,916,173,920,163,935,157,960,155,991,158,1003,167,1000,172,989,163,960,160,936,162,924,167,921,172,928,180"/>
+<area shape="poly" id="edge14_Node000008_Node000003" title=" " alt="" coords="384,117,637,118,637,123,384,122"/>
+<area shape="poly" id="edge15_Node000008_Node000005" title=" " alt="" coords="342,130,469,174,467,179,340,135"/>
+</map>

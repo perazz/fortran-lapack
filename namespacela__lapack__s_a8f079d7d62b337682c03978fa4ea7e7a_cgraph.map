@@ -1,0 +1,5 @@
+<map id="la_lapack_s::la_strtri" name="la_lapack_s::la_strtri">
+<area shape="rect" id="Node000001" title="STRTRI: computes the inverse of a real upper or lower triangular matrix A. This is the Level 3 BLAS v..." alt="" coords="5,5,161,31"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#a1825d3e253eed70022be6e45f2e69121" title="STRTI2: computes the inverse of a real upper or lower triangular matrix. This is the Level 2 BLAS ver..." alt="" coords="209,5,368,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="162,15,195,15,195,21,162,21"/>
+</map>

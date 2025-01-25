@@ -1,0 +1,26 @@
+<map id="la_lapack_q::la_qgeqlf" name="la_lapack_q::la_qgeqlf">
+<area shape="rect" id="Node000001" title="DGEQLF: computes a QL factorization of a real M&#45;by&#45;N matrix A: A = Q * L." alt="" coords="5,89,172,115"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__q.html#a00514b39ee517d87529fadb19aa23fd2" title="DGEQL2: computes a QL factorization of a real m by n matrix A: A = Q * L." alt="" coords="220,40,391,65"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="145,87,235,66,236,71,146,92"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__q.html#a6d6545414096e224dc6a743f7e19a9c4" title="DLARFB: applies a real block reflector H or its transpose H**T to a real m by n matrix C,..." alt="" coords="223,89,387,115"/>
+<area shape="poly" id="edge13_Node000001_Node000009" title=" " alt="" coords="172,99,210,99,210,105,172,105"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__q.html#a08c830771b9ca56ac460f071709d5463" title="DLARFT: forms the triangular factor T of a real block reflector H of order n, which is defined as a p..." alt="" coords="225,139,385,164"/>
+<area shape="poly" id="edge14_Node000001_Node000010" title=" " alt="" coords="146,112,236,133,235,138,145,117"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__q.html#a39c834931d846e142003d8b0be6f80d5" title="DLARF: applies a real elementary reflector H to a real m by n matrix C, from either the left or the r..." alt="" coords="443,16,599,41"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="390,41,429,36,429,42,391,46"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__q.html#a6fa4a60ea6daa6fa31435aa628181099" title="DLARFG: generates a real elementary reflector H of order n, such that H * ( alpha ) = ( beta ),..." alt="" coords="439,65,603,91"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="391,60,425,64,425,69,390,65"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__q.html#a5435a74c593174c3ab375e653a46f8fe" title="DLAMCH: determines quad precision machine parameters." alt="" coords="869,29,1044,55"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="603,69,855,48,856,53,603,74"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__q.html#a582984249eedf0398706ec14537bf429" title="DLAPY2: returns sqrt(x**2+y**2), taking care not to cause unnecessary overflow and unnecessary underf..." alt="" coords="651,103,821,128"/>
+<area shape="poly" id="edge6_Node000004_Node000006" title=" " alt="" coords="595,88,649,98,648,103,594,93"/>
+<area shape="poly" id="edge5_Node000005_Node000005" title=" " alt="" coords="921,31,913,21,917,11,932,5,957,3,987,6,999,15,996,20,985,11,957,8,933,10,921,15,918,20,925,28"/>
+<area shape="poly" id="edge11_Node000006_Node000005" title=" " alt="" coords="770,100,868,65,896,56,898,61,870,70,772,105"/>
+<area shape="poly" id="edge12_Node000006_Node000006" title=" " alt="" coords="701,104,694,94,697,84,712,78,736,76,766,80,777,89,774,93,764,85,736,81,713,83,701,88,699,94,705,101"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__q.html#a905710846630796d062c866934101635" title="DISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="872,103,1041,128"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="822,113,858,113,858,118,822,118"/>
+<area shape="poly" id="edge8_Node000007_Node000007" title=" " alt="" coords="921,104,913,94,917,84,932,78,957,76,987,80,999,89,996,93,985,85,957,81,933,83,921,88,918,94,925,101"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__q.html#a70bf73297aef7307a374d805b9ea5736" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in DISNAN...." alt="" coords="1092,103,1273,128"/>
+<area shape="poly" id="edge9_Node000007_Node000008" title=" " alt="" coords="1042,113,1078,113,1078,118,1042,118"/>
+<area shape="poly" id="edge10_Node000008_Node000008" title=" " alt="" coords="1146,104,1138,94,1142,84,1158,78,1183,76,1214,80,1226,89,1223,93,1212,85,1183,81,1159,83,1146,88,1143,94,1150,101"/>
+</map>

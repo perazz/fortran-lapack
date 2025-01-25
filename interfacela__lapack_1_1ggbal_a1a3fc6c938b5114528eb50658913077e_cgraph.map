@@ -1,0 +1,8 @@
+<map id="la_lapack::ggbal::cggbal" name="la_lapack::ggbal::cggbal">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,29,184,55"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__c.html#a80fcd950a4c713f9534996ccef046977" title="CGGBAL: balances a pair of general complex matrices (A,B). This involves, first, permuting A and B by..." alt="" coords="232,29,400,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="184,39,218,39,218,45,184,45"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__s.html#abbe0ae24f069ddbf134ff3e404a19878" title="SLAMCH: determines single precision machine parameters." alt="" coords="448,29,620,55"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="401,39,434,39,434,45,401,45"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="499,31,491,21,495,11,510,5,534,3,564,6,576,15,573,20,562,11,534,8,511,10,499,15,496,20,503,28"/>
+</map>

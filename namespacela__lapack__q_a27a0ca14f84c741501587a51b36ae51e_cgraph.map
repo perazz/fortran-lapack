@@ -1,0 +1,27 @@
+<map id="la_lapack_q::la_qlasd8" name="la_lapack_q::la_qlasd8">
+<area shape="rect" id="Node000001" title="DLASD8: finds the square roots of the roots of the secular equation, as defined by the values in DSIG..." alt="" coords="5,107,175,132"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__q.html#ac64a08638988d176d7035b66c9af8311" title=" " alt="" coords="223,32,397,57"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="121,104,222,66,246,59,247,64,224,71,123,109"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__q.html#a4638c824a5da25cfe2a9f5a34df6f40c" title="DLASCL: multiplies the M by N real matrix A by the real scalar CTO/CFROM. This is done without over/u..." alt="" coords="228,81,392,107"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="174,107,214,102,215,108,175,112"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__q.html#a1d43b20f4baed9f50c1357c5c4fc5621" title="This subroutine computes the square root of the I&#45;th updated eigenvalue of a positive symmetric rank&#45;..." alt="" coords="225,131,395,156"/>
+<area shape="poly" id="edge10_Node000001_Node000007" title=" " alt="" coords="175,126,212,130,212,135,174,131"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__q.html#aea8c25dcc46ceaf8d39ba10cb1584312" title="DLASET: initializes an m&#45;by&#45;n matrix A to BETA on the diagonal and ALPHA on the offdiagonals." alt="" coords="227,180,393,205"/>
+<area shape="poly" id="edge15_Node000001_Node000010" title=" " alt="" coords="125,130,224,165,251,173,249,179,222,170,124,135"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="274,34,267,24,271,14,285,8,310,5,340,9,352,18,349,22,338,14,310,11,287,13,274,18,272,23,278,30"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__q.html#a905710846630796d062c866934101635" title="DISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="446,29,615,55"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="364,79,462,55,464,60,365,84"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__q.html#a5435a74c593174c3ab375e653a46f8fe" title="DLAMCH: determines quad precision machine parameters." alt="" coords="667,131,842,156"/>
+<area shape="poly" id="edge8_Node000003_Node000006" title=" " alt="" coords="393,99,616,122,654,127,654,132,616,127,392,104"/>
+<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="495,31,487,21,491,11,506,5,531,3,561,6,573,15,570,20,559,11,531,8,507,10,495,15,492,20,499,28"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__q.html#a70bf73297aef7307a374d805b9ea5736" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in DISNAN...." alt="" coords="664,29,845,55"/>
+<area shape="poly" id="edge6_Node000004_Node000005" title=" " alt="" coords="616,39,650,39,650,45,616,45"/>
+<area shape="poly" id="edge7_Node000005_Node000005" title=" " alt="" coords="718,31,710,21,714,11,730,5,755,3,786,7,798,16,795,20,784,11,755,8,731,10,718,15,715,20,722,27"/>
+<area shape="poly" id="edge9_Node000006_Node000006" title=" " alt="" coords="718,132,710,122,714,112,730,106,755,104,786,108,798,117,795,121,784,113,755,109,731,111,718,116,715,122,722,129"/>
+<area shape="poly" id="edge13_Node000007_Node000006" title=" " alt="" coords="395,141,653,141,653,146,395,146"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__q.html#a55d92e91347cbaea0903fc5b260982b3" title="DLAED6: computes the positive or negative root (closest to the origin) of z(1) z(2) z(3) f(x) = rho +..." alt="" coords="445,181,616,207"/>
+<area shape="poly" id="edge11_Node000007_Node000008" title=" " alt="" coords="367,154,462,176,461,181,366,159"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__q.html#ab8adf27e08e942a2ab172bde62a40408" title="This subroutine computes the square root of the I&#45;th eigenvalue of a positive symmetric rank&#45;one modi..." alt="" coords="446,231,615,256"/>
+<area shape="poly" id="edge14_Node000007_Node000009" title=" " alt="" coords="374,154,399,165,414,178,424,191,432,204,447,216,461,223,459,228,444,220,428,207,419,194,410,182,396,170,372,158"/>
+<area shape="poly" id="edge12_Node000008_Node000006" title=" " alt="" coords="587,179,684,156,685,162,588,184"/>
+</map>

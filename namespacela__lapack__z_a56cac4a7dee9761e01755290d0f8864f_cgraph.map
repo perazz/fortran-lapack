@@ -1,0 +1,22 @@
+<map id="la_lapack_z::la_zstedc" name="la_lapack_z::la_zstedc">
+<area shape="rect" id="Node000001" title="ZSTEDC: computes all eigenvalues and, optionally, eigenvectors of a symmetric tridiagonal matrix usin..." alt="" coords="5,22,172,48"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__z.html#afa7bb9c2f7c700a9e54ea7fff6f31f06" title="ZLACPY: copies all or part of a two&#45;dimensional matrix A to another matrix B." alt="" coords="869,22,1036,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="154,20,220,11,395,3,571,5,729,13,856,23,855,28,729,19,570,11,396,9,220,16,155,25"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__z.html#a807fea493a5da065c618c06c52f8cf8a" title="ZLACRM: performs a very simple matrix&#45;matrix multiplication: C := A * B, where A is M by N and comple..." alt="" coords="652,48,821,73"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="172,30,369,29,487,32,604,39,643,43,643,49,604,44,487,37,369,34,172,35"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__z.html#ae37798f4961c7111ccff77d537922bda" title="Using the divide and conquer method, ZLAED0: computes all eigenvalues of a symmetric tridiagonal matr..." alt="" coords="220,48,388,73"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="173,42,207,46,206,52,172,48"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__z.html#a455a77d288b43be945c9584f2e89c232" title="ZSTEQR: computes all eigenvalues and, optionally, eigenvectors of a symmetric tridiagonal matrix usin..." alt="" coords="221,148,387,173"/>
+<area shape="poly" id="edge9_Node000001_Node000007" title=" " alt="" coords="113,46,271,139,268,143,110,50"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="388,58,638,58,638,63,388,63"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__z.html#a427af4425ba7863164694aa6b33abef8" title="ZLAED7: computes the updated eigensystem of a diagonal matrix after modification by a rank&#45;one symmet..." alt="" coords="436,98,604,124"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="360,71,453,93,451,98,359,76"/>
+<area shape="poly" id="edge6_Node000005_Node000003" title=" " alt="" coords="575,96,668,74,669,79,576,101"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__z.html#a9b38be92d208945bfe56eaeff6855900" title="ZLAED8 merges the two sets of eigenvalues together into a single sorted set. Then it tries to deflate..." alt="" coords="653,97,821,122"/>
+<area shape="poly" id="edge7_Node000005_Node000006" title=" " alt="" coords="604,108,639,108,639,113,604,113"/>
+<area shape="poly" id="edge8_Node000006_Node000002" title=" " alt="" coords="781,95,820,82,906,50,908,55,822,87,783,100"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__z.html#ada8f2094a60baf8a1bb838f3cdc0d1ad" title="ZLASET: initializes a 2&#45;D array A to BETA on the diagonal and ALPHA on the offdiagonals." alt="" coords="438,148,602,173"/>
+<area shape="poly" id="edge10_Node000007_Node000008" title=" " alt="" coords="387,158,424,158,424,163,387,163"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__z.html#ab3958e3bded1327552fcdd49bfcf269d" title="ZLASR: applies a sequence of real plane rotations to a complex matrix A, from either the left or the ..." alt="" coords="442,197,598,222"/>
+<area shape="poly" id="edge11_Node000007_Node000009" title=" " alt="" coords="361,171,451,191,450,197,360,176"/>
+</map>

@@ -1,0 +1,20 @@
+<map id="la_lapack_s::la_sormtr" name="la_lapack_s::la_sormtr">
+<area shape="rect" id="Node000001" title="SORMTR: overwrites the general real M&#45;by&#45;N matrix C with SIDE = &#39;L&#39; SIDE = &#39;R&#39; TRANS = &#39;N&#39;: Q * C C *..." alt="" coords="5,80,173,105"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#ae6ed351d67c1567ceae04239031dd04f" title="SORMQL: overwrites the general real M&#45;by&#45;N matrix C with SIDE = &#39;L&#39; SIDE = &#39;R&#39; TRANS = &#39;N&#39;: Q * C C *..." alt="" coords="221,55,392,80"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="173,80,208,76,208,81,174,86"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__s.html#a675207ce317df13db048b8579ed02740" title="SORMQR: overwrites the general real M&#45;by&#45;N matrix C with SIDE = &#39;L&#39; SIDE = &#39;R&#39; TRANS = &#39;N&#39;: Q * C C *..." alt="" coords="221,104,392,129"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="174,99,208,103,208,108,173,105"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__s.html#a88f424ab78fa97dff58d431a8ab51b7c" title="SLARFB: applies a real block reflector H or its transpose H**T to a real m by n matrix C,..." alt="" coords="444,55,607,80"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="392,65,430,65,430,70,392,70"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__s.html#a94b9ff2c43c13daa04cd1985c67d4216" title="SLARFT: forms the triangular factor T of a real block reflector H of order n, which is defined as a p..." alt="" coords="446,104,605,129"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="364,77,456,98,454,104,363,83"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__s.html#a962e8d2786dff3f5cd5f35e645f4e300" title="SORM2L: overwrites the general real m by n matrix C with Q * C if SIDE = &#39;L&#39; and TRANS = &#39;N&#39;,..." alt="" coords="440,5,611,31"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="363,52,454,31,456,36,364,57"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__s.html#afe74baa9cec84eae9cb50ed04c85340c" title="SLARF: applies a real elementary reflector H to a real m by n matrix C, from either the left or the r..." alt="" coords="659,80,813,105"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="575,28,612,39,694,72,692,77,610,45,574,33"/>
+<area shape="poly" id="edge7_Node000007_Node000003" title=" " alt="" coords="363,101,454,80,456,86,364,107"/>
+<area shape="poly" id="edge8_Node000007_Node000004" title=" " alt="" coords="392,114,432,114,432,119,392,119"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__s.html#a9dc871fc63224d09fc6b3575cd46c87d" title="SORM2R: overwrites the general real m by n matrix C with Q * C if SIDE = &#39;L&#39; and TRANS = &#39;N&#39;,..." alt="" coords="440,153,611,179"/>
+<area shape="poly" id="edge9_Node000007_Node000008" title=" " alt="" coords="364,127,456,148,454,153,363,132"/>
+<area shape="poly" id="edge10_Node000008_Node000006" title=" " alt="" coords="574,151,610,139,691,108,693,113,612,145,575,156"/>
+</map>

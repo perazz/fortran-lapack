@@ -1,0 +1,31 @@
+<map id="la_lapack_w::la_wgtsvx" name="la_lapack_w::la_wgtsvx">
+<area shape="rect" id="Node000001" title="ZGTSVX: uses the LU factorization to compute the solution to a complex system of linear equations A *..." alt="" coords="5,179,180,204"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__q.html#a5435a74c593174c3ab375e653a46f8fe" title="DLAMCH: determines quad precision machine parameters." alt="" coords="452,29,627,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="101,177,149,120,185,88,227,64,279,46,334,36,388,31,438,31,438,36,388,36,335,41,281,51,229,68,188,93,153,124,105,180"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__w.html#a4220123ab603f628c0128ff563fbe8ac" title="ZGTCON: estimates the reciprocal of the condition number of a complex tridiagonal matrix A using the ..." alt="" coords="228,128,403,153"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="149,176,245,154,246,159,150,181"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__w.html#ad1d0ff505e1049c8f48795741fb29157" title="ZGTTRS: solves one of the systems of equations A * X = B, A**T * X = B, or A**H * X = B,..." alt="" coords="455,177,624,203"/>
+<area shape="poly" id="edge13_Node000001_Node000004" title=" " alt="" coords="180,188,441,188,441,193,180,194"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__w.html#a3696bca885b72d8e6801e0cfa5b8bb3c" title="ZGTRFS: improves the computed solution to a system of linear equations when the coefficient matrix is..." alt="" coords="231,79,400,104"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="112,176,163,145,227,113,247,106,249,111,229,118,165,150,115,181"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__w.html#aecef379bc1ef76c43867a5c007d3a87f" title="ZGTTRF: computes an LU factorization of a complex tridiagonal matrix A using elimination with partial..." alt="" coords="232,229,399,255"/>
+<area shape="poly" id="edge12_Node000001_Node000009" title=" " alt="" coords="150,202,246,224,245,229,149,207"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__w.html#a2bdb179a3947a0d642455755afe72807" title="ZLACPY: copies all or part of a two&#45;dimensional matrix A to another matrix B." alt="" coords="228,279,403,304"/>
+<area shape="poly" id="edge14_Node000001_Node000010" title=" " alt="" coords="115,202,166,232,229,264,252,272,250,277,227,268,163,237,112,206"/>
+<area shape="rect" id="Node000011" href="$namespacela__lapack__w.html#a8b4291834fafa52282c17e3b2ddae4d5" title="ZLANGT: returns the value of the one norm, or the Frobenius norm, or the infinity norm,..." alt="" coords="229,352,401,377"/>
+<area shape="poly" id="edge15_Node000001_Node000011" title=" " alt="" coords="108,202,158,254,230,315,277,343,274,348,226,319,155,258,104,206"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="503,31,495,21,499,11,514,5,539,3,570,6,582,15,579,20,568,11,539,8,516,10,503,15,501,20,507,28"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="374,151,468,172,467,177,373,156"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__w.html#a181e3ce6202dd4d6e6a0104746779391" title="ZLACN2: estimates the 1&#45;norm of a square, complex matrix A. Reverse communication is used for evaluat..." alt="" coords="452,128,627,153"/>
+<area shape="poly" id="edge6_Node000003_Node000006" title=" " alt="" coords="403,138,438,138,438,143,403,143"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__w.html#a514efd2517f7046ca6f4a70bdb82a52b" title="ZGTTS2: solves one of the systems of equations A * X = B, A**T * X = B, or A**H * X = B,..." alt="" coords="676,177,848,203"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="624,187,662,187,662,193,624,193"/>
+<area shape="poly" id="edge8_Node000007_Node000002" title=" " alt="" coords="373,76,467,55,468,60,374,81"/>
+<area shape="poly" id="edge9_Node000007_Node000004" title=" " alt="" coords="379,102,404,113,420,126,429,138,438,151,452,162,467,170,465,175,449,167,434,154,425,142,416,129,401,118,377,107"/>
+<area shape="poly" id="edge10_Node000007_Node000006" title=" " alt="" coords="374,101,468,122,467,128,373,107"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__w.html#ab8f67ee58601f9b484ba2422272cd3e9" title="ZLAGTM: performs a matrix&#45;vector product of the form B := alpha * A * X + beta * B where A is a tridi..." alt="" coords="451,79,628,104"/>
+<area shape="poly" id="edge11_Node000007_Node000008" title=" " alt="" coords="400,89,437,89,437,94,400,94"/>
+<area shape="poly" id="edge16_Node000011_Node000011" title=" " alt="" coords="279,354,271,344,275,334,290,328,315,325,346,329,358,338,355,342,344,334,315,331,292,333,279,338,277,343,283,350"/>
+<area shape="rect" id="Node000012" href="$namespacela__lapack__w.html#a2bf5a64bcaccd3676164dbf3aee36bb5" title="!" alt="" coords="453,352,626,377"/>
+<area shape="poly" id="edge17_Node000011_Node000012" title=" " alt="" coords="402,362,439,362,439,367,402,367"/>
+</map>

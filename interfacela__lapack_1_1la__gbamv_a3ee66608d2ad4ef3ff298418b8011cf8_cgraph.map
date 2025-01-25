@@ -1,0 +1,13 @@
+<map id="la_lapack::la_gbamv::dla_gbamv" name="la_lapack::la_gbamv::dla_gbamv">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,59,161,99"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__d.html#a5066b7066a547d0b1054d03e0cf15f4a" title="DLA_GBAMV: performs one of the matrix&#45;vector operations y := alpha*abs(A)*abs(x) + beta*abs(y),..." alt="" coords="209,25,356,65"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="161,63,195,57,196,62,162,68"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__q.html#aaa62c9ff65b1347084d1150edfb802f4" title="DLA_GBAMV: performs one of the matrix&#45;vector operations y := alpha*abs(A)*abs(x) + beta*abs(y),..." alt="" coords="209,91,356,131"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="162,89,196,95,195,100,161,95"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__d.html#af258e93ce5d1d461c745335332ff184b" title="DLAMCH: determines double precision machine parameters." alt="" coords="404,29,579,55"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="356,41,390,41,390,46,356,46"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="457,31,450,21,454,11,468,5,491,3,520,6,532,15,528,20,518,11,491,8,469,10,457,15,455,20,461,28"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__q.html#a5435a74c593174c3ab375e653a46f8fe" title="DLAMCH: determines quad precision machine parameters." alt="" coords="404,103,579,128"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="356,110,390,111,390,116,356,115"/>
+<area shape="poly" id="edge6_Node000005_Node000005" title=" " alt="" coords="457,104,450,94,454,84,468,78,491,76,520,80,532,89,528,93,518,85,491,81,469,83,457,88,455,94,461,101"/>
+</map>

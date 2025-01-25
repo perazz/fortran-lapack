@@ -1,0 +1,12 @@
+<map id="la_lapack_w::la_wtplqt" name="la_lapack_w::la_wtplqt">
+<area shape="rect" id="Node000001" title="ZTPLQT: computes a blocked LQ factorization of a complex &quot;triangular&#45;pentagonal&quot; matrix C,..." alt="" coords="5,55,175,80"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__w.html#a597d773c7a3f9363855106db3f21237a" title="ZTPLQT2: computes a LQ a factorization of a complex &quot;triangular&#45;pentagonal&quot; matrix C,..." alt="" coords="223,29,400,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="175,55,208,51,209,56,176,60"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__w.html#a71d546591b52c26a9f34f39357be4557" title="ZTPRFB: applies a complex &quot;triangular&#45;pentagonal&quot; block reflector H or its conjugate transpose H**H t..." alt="" coords="226,79,397,104"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="176,74,213,78,212,83,175,79"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__w.html#aa9eb79b853bd27197cc061402a74d006" title="ZLARFG: generates a complex elementary reflector H of order n, such that H**H * ( alpha ) = ( beta ),..." alt="" coords="448,29,617,55"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="400,39,434,39,434,45,400,45"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__w.html#a256289e251e51bb1c01d2fe45fe134fa" title="ZLADIV: := X / Y, where X and Y are complex. The computation of X / Y will not overflow on an interme..." alt="" coords="665,29,836,55"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="618,39,651,39,651,45,618,45"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="715,31,708,21,712,11,726,5,751,3,781,6,793,15,789,20,779,11,751,8,728,10,715,15,713,20,719,28"/>
+</map>

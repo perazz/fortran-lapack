@@ -1,0 +1,10 @@
+<map id="la_lapack_s::la_sgbrfs" name="la_lapack_s::la_sgbrfs">
+<area shape="rect" id="Node000001" title="SGBRFS: improves the computed solution to a system of linear equations when the coefficient matrix is..." alt="" coords="5,55,171,80"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#a30f617d917ac43140e6e413894e5d055" title="SGBTRS: solves a system of linear equations A * X = B or A**T * X = B with a general band matrix A us..." alt="" coords="222,5,387,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="144,52,234,31,236,36,145,57"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__s.html#a7f5f2af31221a1cf8d74880aedc775ca" title="SLACN2: estimates the 1&#45;norm of a square, real matrix A. Reverse communication is used for evaluating..." alt="" coords="221,55,388,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="171,65,207,65,207,70,171,70"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__s.html#abbe0ae24f069ddbf134ff3e404a19878" title="SLAMCH: determines single precision machine parameters." alt="" coords="219,128,391,153"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="127,78,254,121,252,126,126,83"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="269,130,262,120,266,110,280,104,305,101,335,105,347,114,343,118,333,110,305,107,282,109,269,114,267,119,273,126"/>
+</map>

@@ -1,0 +1,6 @@
+<map id="la_lapack_c::la_cla_geamv" name="la_lapack_c::la_cla_geamv">
+<area shape="rect" id="Node000001" title="CLA_GEAMV: performs one of the matrix&#45;vector operations y := alpha*abs(A)*abs(x) + beta*abs(y),..." alt="" coords="5,22,149,62"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#abbe0ae24f069ddbf134ff3e404a19878" title="SLAMCH: determines single precision machine parameters." alt="" coords="197,29,369,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="150,39,184,39,184,45,150,45"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="250,31,242,21,246,11,260,5,283,3,312,6,323,15,320,20,310,11,283,8,261,10,250,15,248,20,254,28"/>
+</map>

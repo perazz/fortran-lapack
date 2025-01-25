@@ -1,0 +1,7 @@
+<map id="la_lapack_c::la_ctrexc" name="la_lapack_c::la_ctrexc">
+<area shape="rect" id="Node000001" title="CTREXC: reorders the Schur factorization of a complex matrix A = Q*T*Q**H, so that the diagonal eleme..." alt="" coords="5,31,171,56"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__c.html#a5abbf350b2d24dd9b3d62a839ee4527d" title="!" alt="" coords="219,5,381,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="171,31,205,27,205,32,171,36"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__c.html#a1022d6940953e2aeeab21638d4722932" title="CROT: applies a plane rotation, where the cos (C) is real and the sin (S) is complex,..." alt="" coords="225,55,375,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="171,50,211,55,211,60,171,55"/>
+</map>
