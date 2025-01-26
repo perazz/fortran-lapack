@@ -115,6 +115,9 @@ EXTENSION_MAPPING      = .F90=Fortran
 
 MARKDOWN_SUPPORT       = YES
 
+# Point to your README.md file
+USE_MDFILE_AS_MAINPAGE = "../../README.md"
+
 # When the TOC_INCLUDE_HEADINGS tag is set to a non-zero value, all headings up
 # to that level are automatically included in the table of contents, even if
 # they do not have an id attribute.
@@ -201,6 +204,10 @@ WARN_LOGFILE            = "/Users/federico/Documents/GitHub/fortran-lapack/proje
 # configuration options related to the input files
 #---------------------------------------------------------------------------
 INPUT                  = "../../src/" 
+
+# Include the README.md in the input for documentation generation
+INPUT                 += "../../README.md"
+
 INPUT_ENCODING         = UTF-8
 
 # If the value of the INPUT tag contains directories, you can use the

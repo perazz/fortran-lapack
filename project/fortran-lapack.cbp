@@ -70,7 +70,7 @@
 			<Option weight="5" />
 		</Unit>
 		<Unit filename="../src/la_cholesky.f90">
-			<Option weight="0" />
+			<Option weight="17" />
 		</Unit>
 		<Unit filename="../src/la_constants.f90">
 			<Option weight="0" />
@@ -116,6 +116,9 @@
 		</Unit>
 		<Unit filename="../src/la_norms.f90">
 			<Option weight="17" />
+		</Unit>
+		<Unit filename="../src/la_pca.f90">
+			<Option weight="0" />
 		</Unit>
 		<Unit filename="../src/la_pinv.f90">
 			<Option weight="18" />
@@ -177,6 +180,7 @@
 		<Unit filename="../test/test_la_svd.f90">
 			<Option weight="20" />
 		</Unit>
+		<Unit filename="doxygen/Doxyfile" />
 		<Extensions>
 			<DoxyBlocks>
 				<comment_style block="2" line="3" />
