@@ -298,7 +298,7 @@ EXCLUDE_SYMBOLS    += la_blas_w
 EXCLUDE_SYMBOLS    += la_blas_aux 
 EXCLUDE_SYMBOLS    += la_lapack_aux 
 
-EXAMPLE_PATH           =
+EXAMPLE_PATH           = "../../example/"
 EXAMPLE_PATTERNS       =
 EXAMPLE_RECURSIVE      = NO
 IMAGE_PATH             =
