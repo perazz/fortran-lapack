@@ -398,5 +398,6 @@ var searchData=
   ['cunmrz_395',['cunmrz',['../interfacela__lapack_1_1unmrz.html#ab85123c8fd2b7d3879532e54b1024331',1,'la_lapack::unmrz']]],
   ['cunmtr_396',['cunmtr',['../interfacela__lapack_1_1unmtr.html#afe43fc6d9883b98bda594a922334aec7',1,'la_lapack::unmtr']]],
   ['cupgtr_397',['cupgtr',['../interfacela__lapack_1_1upgtr.html#a581f8689544ad420a376096a421a2f0b',1,'la_lapack::upgtr']]],
-  ['cupmtr_398',['cupmtr',['../interfacela__lapack_1_1upmtr.html#a09f124c20151ce070c5121f4d5c52546',1,'la_lapack::upmtr']]]
+  ['cupmtr_398',['cupmtr',['../interfacela__lapack_1_1upmtr.html#a09f124c20151ce070c5121f4d5c52546',1,'la_lapack::upmtr']]],
+  ['current_20api_399',['Current API',['../index.html#autotoc_md5',1,'']]]
 ];

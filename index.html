@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>fortran-lapack: Main Page</title>
+<title>fortran-lapack: fortran-lapack</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -89,16 +89,128 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 </div>
 </div>
 
-<div class="header">
-  <div class="headertitle"><div class="title">fortran-lapack Documentation</div></div>
+<div><div class="header">
+  <div class="headertitle"><div class="title">fortran-lapack </div></div>
 </div><!--header-->
 <div class="contents">
+<div class="textblock"><p><a class="anchor" id="md__2home_2runner_2work_2fortran-lapack_2fortran-lapack_2_r_e_a_d_m_e"></a>This package provides precision-agnostic, high-level linear algebra APIs for <code>real</code> and <code>complex</code> arguments in Modern Fortran. The APIs are similar to NumPy/SciPy operations, and leverage a Modern Fortran implementation of the <a href="http://github.com/reference-LAPACK">Reference-LAPACK</a> library.</p>
+<p>A full and standardized implementation of the present library has been integrated into the <a href="http://stdlib.fortran-lang.org/">Fortran Standard Library</a>, and as such, most users should seek to access the functionality from <code>stdlib</code>. The present library is kept in place for those who seek a compact implementation of it.</p>
+<h1><a class="anchor" id="autotoc_md5"></a>
+Current API</h1>
+<p><a href="https://perazz.github.io/fortran-lapack/index.html">The documentation site</a> contains full documentation for the library.</p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Procedure   </th><th class="markdownTableHeadNone">Type   </th><th class="markdownTableHeadNone">Description   </th><th class="markdownTableHeadNone">Optional arguments    </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><code>solve(A,b)</code>   </td><td class="markdownTableBodyNone">function   </td><td class="markdownTableBodyNone">Solve linear systems - one (<code>b(:)</code>) or many (<code>b(:,:)</code>)   </td><td class="markdownTableBodyNone"><code>solve(A,b,overwrite_a,err)</code>: option to let A be destroyed, return state handler <code>err</code>    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><code>lstsq(A,b)</code>   </td><td class="markdownTableBodyNone">function   </td><td class="markdownTableBodyNone">Solve non-square systems in a least squares sense - one (<code>b(:)</code>) or many (<code>b(:,:)</code>)   </td><td class="markdownTableBodyNone"><code>lstsq(A,b,cond,overwrite_a,rank,err)</code>: <code>cond</code> is optional SVD cutoff; <code>rank</code> to return matrix rank, <code>err</code> to return state handler    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><code>det(A)</code>   </td><td class="markdownTableBodyNone">function   </td><td class="markdownTableBodyNone">Determinant of a scalar or square matrix   </td><td class="markdownTableBodyNone"><code>det(A,overwrite_a,err=err)</code>: option to let A be destroyed, return state handler <code>err</code>    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><code>inv(A)</code>   </td><td class="markdownTableBodyNone">function   </td><td class="markdownTableBodyNone">Inverse of a scalar or square matrix   </td><td class="markdownTableBodyNone"><code>inv(A,err=err)</code>: A is not destroyed; return state handler <code>err</code>    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><code>pinv(A)</code>   </td><td class="markdownTableBodyNone">function   </td><td class="markdownTableBodyNone">Moore-Penrose Pseudo-Inverse of a matrix   </td><td class="markdownTableBodyNone"><code>pinv(A,rtol,err=err)</code>: A is not destroyed; optional singular value threshold <code>rtol</code>; return state handler <code>err</code>    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><code>invert(A)</code>   </td><td class="markdownTableBodyNone">subroutine   </td><td class="markdownTableBodyNone">In-place inverse of a scalar or square matrix   </td><td class="markdownTableBodyNone"><code>call invert(A,err=err)</code>: A is replaced with $A^{-1}$, return state handler <code>err</code>    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><code>.inv.A</code>   </td><td class="markdownTableBodyNone">operator   </td><td class="markdownTableBodyNone">Inverse of a scalar or square matrix   </td><td class="markdownTableBodyNone">A is replaced with $A^{-1}$    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><code>.pinv.A</code>   </td><td class="markdownTableBodyNone">operator   </td><td class="markdownTableBodyNone">Moore-Penrose Pseudo-Inverse   </td><td class="markdownTableBodyNone">A is replaced with $A^{-1}$    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><code>svd(A)</code>   </td><td class="markdownTableBodyNone">subroutine   </td><td class="markdownTableBodyNone">Singular value decomposition of $A = U S V^t$   </td><td class="markdownTableBodyNone"><code>call svd(A,s,u,vt,full_matrices=.false.,err=state)</code>, all optional arguments but <code>A,s</code>    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><code>svdvals(A)</code>   </td><td class="markdownTableBodyNone">function   </td><td class="markdownTableBodyNone">Singular values $S$ from $A = U S V^t$   </td><td class="markdownTableBodyNone"><code>s = svdvals(A)</code>, real array with same precision as <code>A</code>    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><code>eye(m)</code>   </td><td class="markdownTableBodyNone">function   </td><td class="markdownTableBodyNone">Identity matrix of size <code>m</code>   </td><td class="markdownTableBodyNone"><code>eye(m,n,mold,err)</code>: Optional column size <code>n</code>, datatype <code>dtype</code> (default: real64), error handler    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><code>eigvals(A)</code>   </td><td class="markdownTableBodyNone">function   </td><td class="markdownTableBodyNone">Eigenvalues of matrix $A$   </td><td class="markdownTableBodyNone"><code>eigvals(A,err)</code>: Optional state handler <code>err</code>    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><code>eig(A,lambda)</code>   </td><td class="markdownTableBodyNone">subroutine   </td><td class="markdownTableBodyNone">Eigenproblem of matrix $A$   </td><td class="markdownTableBodyNone"><code>eig(A,lambda,left,right,overwrite_a,err)</code>: optional output eigenvector matrices (left and/or right)    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><code>eigvalsh(A)</code>   </td><td class="markdownTableBodyNone">function   </td><td class="markdownTableBodyNone">Eigenvalues of symmetric or hermitian matrix $A$   </td><td class="markdownTableBodyNone"><code>eigvalsh(A,upper_a,err)</code>: Choose to use upper or lower triangle; optional state handler <code>err</code>    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><code>eigh(A,lambda)</code>   </td><td class="markdownTableBodyNone">subroutine   </td><td class="markdownTableBodyNone">Eigenproblem of symmetric or hermitianmatrix $A$   </td><td class="markdownTableBodyNone"><code>eigh(A,lambda,vector,upper_a,overwrite_a,err)</code>: optional output eigenvectors    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><code>diag(n,source)</code>   </td><td class="markdownTableBodyNone">function   </td><td class="markdownTableBodyNone">Diagonal matrix from scalar input value   </td><td class="markdownTableBodyNone"><code>diag(n,source,err)</code>: Optional error handler    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><code>diag(source)</code>   </td><td class="markdownTableBodyNone">function   </td><td class="markdownTableBodyNone">Diagonal matrix from array input values   </td><td class="markdownTableBodyNone"><code>diag(source,err)</code>: Optional error handler    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><code>qr(A,Q,R)</code>   </td><td class="markdownTableBodyNone">subroutine   </td><td class="markdownTableBodyNone">QR factorization   </td><td class="markdownTableBodyNone"><code>qr(A,Q,R,storage=work,err=err)</code>: Optional pre-allocated working storage, error handler    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><code>qr_space(A,lwork)</code>   </td><td class="markdownTableBodyNone">subroutine   </td><td class="markdownTableBodyNone">QR Working space size   </td><td class="markdownTableBodyNone"><code>qr_space(A,lwork,err)</code>: Optional error handler   </td></tr>
+</table>
+<p>All procedures work with all types (<code>real</code>, <code>complex</code>) and kinds (32, 64, 128-bit floats).</p>
+<h1><a class="anchor" id="autotoc_md6"></a>
+BLAS, LAPACK</h1>
+<p>Modern Fortran modules with full explicit typing features are available as modules <code><a class="el" href="namespacela__blas.html">la_blas</a></code> and <code><a class="el" href="namespacela__lapack.html">la_lapack</a></code>. The reference Fortran-77 library, forked from Release 3.10.1, was automatically processed and modernized. The following refactorings are applied:</p><ul>
+<li>All datatypes and accuracy constants standardized into a module (<code>stdlib</code>-compatible names)</li>
+<li>Both libraries available for 32, 64 and 128-bit floats</li>
+<li>Free format, lower-case style</li>
+<li><code>implicit none(type, external)</code> everywhere</li>
+<li>all <code>pure</code> procedures where possible</li>
+<li><code>intent</code> added to all procedure arguments</li>
+<li>Removed <code>DO 10 .... 10 CONTINUE</code>, replaced with <code>do..end do</code> loops or labelled <code>loop_10: do ... cycle loop_10 ... end do loop_10</code> in case control statements are present</li>
+<li>BLAS modularized into a single-file module</li>
+<li>LAPACK modularized into a single-file module</li>
+<li>All procedures prefixed (with <code>stdlib_</code>, currently).</li>
+<li>F77-style <code>parameter</code>s removed, and numeric constants moved to the top of each module.</li>
+<li>Ambiguity in single vs. double precision constants (<code>0.0</code>, <code>0.d0</code>, <code>(1.0,0.0)</code>) removed</li>
+<li>preprocessor-based OpenMP directives retained.</li>
+</ul>
+<p>The single-source module structure hopefully allows for cross-procedural inlining which is otherwise impossible without link-time optimization.</p>
+<h1><a class="anchor" id="autotoc_md7"></a>
+Building</h1>
+<p>An automated build is currently available via the <a href="https://fpm.fortran-lang.org">Fortran Package Manager</a>. To add fortran-lapack to your project, simply add it as a dependency:</p>
+<div class="fragment"><div class="line">[dependencies]</div>
+<div class="line">fortran-lapack = { git=&quot;https://github.com/perazz/fortran-lapack.git&quot; }</div>
+</div><!-- fragment --><p><code>fortran-lapack</code> is compatible with the LAPACK API. If high-performance external BLAS/LAPACK libraries are available, it is sufficient to define macros</p>
+<div class="fragment"><div class="line">[dependencies]</div>
+<div class="line">fortran-lapack = { git=&quot;https://github.com/perazz/fortran-lapack.git&quot;, preprocess.cpp.macros=[&quot;LA_EXTERNAL_BLAS&quot;, &quot;LA_EXTERNAL_LAPACK&quot;] }</div>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md8"></a>
+Extension to external BLAS/LAPACK libraries</h1>
+<p>Generic interfaces to most BLAS/LAPACK functions are exposed to modules <code><a class="el" href="namespacela__blas.html">la_blas</a></code> and <code><a class="el" href="namespacela__lapack.html">la_lapack</a></code>. These interfaces drop the initial letter to wrap a precision-agnostic version. For example, <code>axpy</code> is a precision-agnostic interface to <code>saxpy</code>, <code>daxpy</code>, <code>caxpy</code>, <code>zaxpy</code>, <code>qaxpy</code>, <code>waxpy</code>. The naming convention is:</p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Type   </th><th class="markdownTableHeadNone">32-bit   </th><th class="markdownTableHeadNone">64-bit   </th><th class="markdownTableHeadNone">128-bit    </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">real   </td><td class="markdownTableBodyNone"><code>s</code>   </td><td class="markdownTableBodyNone"><code>d</code>   </td><td class="markdownTableBodyNone"><code>q</code>    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">complex   </td><td class="markdownTableBodyNone"><code>c</code>   </td><td class="markdownTableBodyNone"><code>z</code>   </td><td class="markdownTableBodyNone"><code>w</code>   </td></tr>
+</table>
+<p>All public interfaces in <code><a class="el" href="namespacela__blas.html">la_blas</a></code> and <code><a class="el" href="namespacela__lapack.html">la_lapack</a></code> allow seamless linking against external libraries via a simple pre-processor flag. When an external library is available, just define macros <code>LA_EXTERNAL_BLAS</code> and <code>LA_EXTERNAL_LAPACK</code>. The kind-agnostic interface will just point to the external function. All such interfaces follow this template: <br  />
+</p>
+<div class="fragment"><div class="line"><span class="keyword">interface</span> axpy</div>
+<div class="line"><span class="preprocessor">#ifdef LA_EXTERNAL_BLAS</span></div>
+<div class="line"><span class="preprocessor"></span>    <span class="comment">! Use external library</span></div>
+<div class="line">    <span class="keywordtype">pure</span> <span class="keyword">subroutine </span>saxpy(n, a, x, incx, y, incy)</div>
+<div class="line">      <span class="keywordtype">import </span>:: ik, sp</div>
+<div class="line">      <span class="keywordtype">integer</span>, <span class="keywordtype">parameter</span> :: wp = sp</div>
+<div class="line">      <span class="keywordtype">integer(ik)</span>, <span class="keywordtype">intent(in)</span> :: n</div>
+<div class="line"><span class="keywordtype">      real</span>(wp), <span class="keywordtype">intent(in)</span> :: a</div>
+<div class="line"><span class="keywordtype">      real</span>(wp), <span class="keywordtype">intent(in)</span> :: x(*)</div>
+<div class="line">      <span class="keywordtype">integer(ik)</span>, <span class="keywordtype">intent(in)</span> :: incx</div>
+<div class="line"><span class="keywordtype">      real</span>(wp), <span class="keywordtype">intent(inout)</span> :: y(*)</div>
+<div class="line">      <span class="keywordtype">integer(ik)</span>, <span class="keywordtype">intent(in)</span> :: incy</div>
+<div class="line">    <span class="keyword">end subroutine </span>saxpy</div>
+<div class="line"><span class="preprocessor">#else</span></div>
+<div class="line"><span class="preprocessor"></span>    <span class="comment">! Use internal implementation</span></div>
+<div class="line">    <span class="keyword">module procedure</span> la_saxpy</div>
+<div class="line"><span class="preprocessor">#endif</span></div>
+<div class="line"><span class="preprocessor"></span><span class="keyword">end interface</span></div>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md9"></a>
+Licensing</h1>
+<p>LAPACK is a freely-available software package. It is available from <a href="https://www.netlib.org/lapack/">netlib</a> via anonymous ftp and the World Wide Web. Thus, it can be included in commercial software packages (and has been). Credit for the library should be given to the <a href="https://www.netlib.org/lapack/contributor-list.html">LAPACK authors</a>. The license used for the software is the <a href="https://www.netlib.org/lapack/LICENSE.txt">modified BSD license</a>. According to the original license, we changed the name of the routines and commented the changes made to the original.</p>
+<h1><a class="anchor" id="autotoc_md10"></a>
+Acknowledgments</h1>
+<p>Part of this work was supported by the <a href="https://www.sovereigntechfund.de">Sovereign Tech Fund</a>. </p>
+</div></div><!-- PageDoc -->
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sat Jan 25 2025 19:32:18 for fortran-lapack by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sun Jan 26 2025 11:04:31 for fortran-lapack by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>
