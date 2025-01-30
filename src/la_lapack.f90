@@ -1,3 +1,4 @@
+!> Precision-agnostic LAPACK interface
 module la_lapack
      use la_constants
      use la_blas

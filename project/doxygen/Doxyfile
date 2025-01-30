@@ -289,14 +289,14 @@ EXCLUDE_PATTERNS       =
 # Note that the wildcards are matched against the file with absolute path, so to
 # exclude all test directories use the pattern */test/*
 
-EXCLUDE_SYMBOLS     = la_blas_s 
-EXCLUDE_SYMBOLS    += la_blas_d 
-EXCLUDE_SYMBOLS    += la_blas_q 
-EXCLUDE_SYMBOLS    += la_blas_c 
-EXCLUDE_SYMBOLS    += la_blas_z
-EXCLUDE_SYMBOLS    += la_blas_w 
-EXCLUDE_SYMBOLS    += la_blas_aux 
-EXCLUDE_SYMBOLS    += la_lapack_aux 
+#EXCLUDE_SYMBOLS     = la_blas_s 
+#EXCLUDE_SYMBOLS    += la_blas_d 
+#EXCLUDE_SYMBOLS    += la_blas_q 
+#EXCLUDE_SYMBOLS    += la_blas_c 
+#EXCLUDE_SYMBOLS    += la_blas_z
+#EXCLUDE_SYMBOLS    += la_blas_w 
+#EXCLUDE_SYMBOLS    += la_blas_aux 
+#EXCLUDE_SYMBOLS    += la_lapack_aux 
 
 EXAMPLE_PATH           = "../../example/"
 EXAMPLE_PATTERNS       =
