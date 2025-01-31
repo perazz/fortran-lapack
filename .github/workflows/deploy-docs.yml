@@ -6,6 +6,12 @@ on:
     branches:
       - main  # Trigger the workflow on changes to the `main` branch
 
+inputs:
+  doxygen_version:
+    description: 'Doxygen version to install'
+    required: true
+    default: '1.13.2'  
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -16,21 +22,28 @@ jobs:
         uses: actions/checkout@v3
 
       # Step 2: Set up Doxygen
-      - name: Install Doxygen and Graphviz
+      - name: Install Dependencies
         run: |
           sudo apt-get update
-          sudo apt-cache show doxygen | grep Version
-          sudo apt-get install doxygen=1.13.2 graphviz -y
+          sudo apt-get install graphviz -y
 
-      # Step 3: Generate Doxygen documentation
+      # Step 3: Install Doxygen
+      - name: Install Doxygen v${{ inputs.doxygen_version }}
+        run: |
+          transformed_version=$(echo "${{ inputs.doxygen_version }}" | tr '.' '_')
+          wget https://github.com/doxygen/doxygen/releases/download/Release_${transformed_version}/doxygen-${{ inputs.doxygen_version }}.linux.bin.tar.gz
+          tar -xzf doxygen-${{ inputs.doxygen_version }}.linux.bin.tar.gz
+          sudo mv doxygen-${{ inputs.doxygen_version }}/bin/doxygen /usr/local/bin/doxygen
+
+      # Step 4: Generate Doxygen documentation
       - name: Generate Doxygen Documentation
         run: cd project/doxygen && doxygen 
 
-      # Step 4: Ensure no Jekyll is present  
+      # Step 5: Ensure no Jekyll is present  
       - name: Create .nojekyll file
         run: echo "" > ./project/doxygen/html/.nojekyll
 
-      # Step 5: Deploy to `gh-pages` branch
+      # Step 6: Deploy to `gh-pages` branch
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
