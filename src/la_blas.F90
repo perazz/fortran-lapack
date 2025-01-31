@@ -1,3 +1,4 @@
+!> Precision-agnostic BLAS interface
 module la_blas
      use la_constants
      use la_blas_aux

@@ -8,12 +8,29 @@ module la_solve
      implicit none(type,external)
      private
 
-     !> Solve a linear system
+     !> @brief Solve a system of linear equations A * X = B.
+     !!
+     !! This function computes the solution to a real system of linear equations:
+     !!
+     !! \f$ A \cdot X = B \f$
+     !!
+     !! where A is an `n x n` square matrix, and B is either a vector (`n`) or a matrix (`n x nrhs`).
+     !! The solution X is returned as an allocatable array.
+     !!
+     !! @param[in,out] A The input square matrix of size `n x n`. If `overwrite_a` is true,
+     !!                  the contents of A may be modified during computation.
+     !! @param[in] B The right-hand side vector (size `n`) or matrix (size `n x nrhs`).
+     !! @param[in] overwrite_a (Optional) If true, A may be overwritten and destroyed. Default is false.
+     !! @param[out] err (Optional) A state return flag. If an error occurs and `err` is not provided,
+     !!                 the function will stop execution.
+     !!
+     !! @return Solution matrix X of size `n` (for a single right-hand side) or `n x nrhs`.
+     !!
+     !! @note This function relies on LAPACK LU decomposition based solvers `*GESV`.
+     !!
+     !! @warning If `overwrite_a` is enabled, the original contents of A may be lost.
+     !!
      public :: solve
-
-
-     ! Scipy: solve(a, b, lower=False, overwrite_a=False, overwrite_b=False, check_finite=True, assume_a='gen', transposed=False)[source]#
-     ! IMSL: lu_solve(a, b, transpose=False)
 
      interface solve
         #:for nd,ndsuf,nde in ALL_RANKS
@@ -55,7 +72,7 @@ module la_solve
 
      #:for nd,ndsuf,nde in ALL_RANKS
      #:for rk,rt,ri in ALL_KINDS_TYPES
-     ! Compute the solution to a real system of linear equations A * X = B
+     !> Linear system solve, ${ndsuf}$, ${rt}$
      function la_${ri}$solve${ndsuf}$(a,b,overwrite_a,err) result(x)
          !> Input matrix a[n,n]
          ${rt}$,                     intent(inout), target :: a(:,:)

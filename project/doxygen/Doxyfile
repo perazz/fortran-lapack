@@ -40,7 +40,7 @@ ABBREVIATE_BRIEF       = "The $name class" \
                          an \
                          the
 
-ALWAYS_DETAILED_SEC    = NO
+ALWAYS_DETAILED_SEC    = YES
 INLINE_INHERITED_MEMB  = NO
 FULL_PATH_NAMES        = NO
 STRIP_FROM_PATH        =
@@ -104,6 +104,7 @@ OPTIMIZE_OUTPUT_VHDL   = NO
 
 
 EXTENSION_MAPPING      = .F90=Fortran
+EXTENSION_MAPPING     += .f90=Fortran
 
 # If the MARKDOWN_SUPPORT tag is enabled then doxygen pre-processes all comments
 # according to the Markdown format, which allows for more readable
@@ -289,14 +290,16 @@ EXCLUDE_PATTERNS       =
 # Note that the wildcards are matched against the file with absolute path, so to
 # exclude all test directories use the pattern */test/*
 
-EXCLUDE_SYMBOLS     = la_blas_s 
-EXCLUDE_SYMBOLS    += la_blas_d 
-EXCLUDE_SYMBOLS    += la_blas_q 
-EXCLUDE_SYMBOLS    += la_blas_c 
-EXCLUDE_SYMBOLS    += la_blas_z
-EXCLUDE_SYMBOLS    += la_blas_w 
-EXCLUDE_SYMBOLS    += la_blas_aux 
-EXCLUDE_SYMBOLS    += la_lapack_aux 
+EXCLUDE_SYMBOLS       = 
+
+#EXCLUDE_SYMBOLS     = la_blas_s 
+#EXCLUDE_SYMBOLS    += la_blas_d 
+#EXCLUDE_SYMBOLS    += la_blas_q 
+#EXCLUDE_SYMBOLS    += la_blas_c 
+#EXCLUDE_SYMBOLS    += la_blas_z
+#EXCLUDE_SYMBOLS    += la_blas_w 
+#EXCLUDE_SYMBOLS    += la_blas_aux 
+#EXCLUDE_SYMBOLS    += la_lapack_aux 
 
 EXAMPLE_PATH           = "../../example/"
 EXAMPLE_PATTERNS       =
@@ -407,7 +410,8 @@ PAPER_TYPE             = a4
 # If left blank no extra packages will be included.
 # This tag requires that the tag GENERATE_LATEX is set to YES.
 
-EXTRA_PACKAGES         ={amsmath,amssymb}
+EXTRA_PACKAGES         = {amsmath}
+EXTRA_PACKAGES        += {amssymb}
 
 LATEX_HEADER           =
 PDF_HYPERLINKS         = YES

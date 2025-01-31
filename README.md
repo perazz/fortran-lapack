@@ -5,29 +5,163 @@ A full and standardized implementation of the present library has been integrate
 
 # Current API
 
-[The documentation site](https://perazz.github.io/fortran-lapack/index.html) contains full documentation for the library.
+## [`solve`](@ref la_solve::solve) - Solves a linear matrix equation or a linear system of equations.
 
-Procedure   | Type | Description | Optional arguments
----        | ---         | --- | ---
-`solve(A,b)` | function | Solve linear systems - one (`b(:)`) or many (`b(:,:)`) | `solve(A,b,overwrite_a,err)`: option to let A be destroyed, return state handler `err`
-`lstsq(A,b)` | function | Solve non-square systems in a least squares sense - one (`b(:)`) or many (`b(:,:)`) | `lstsq(A,b,cond,overwrite_a,rank,err)`: `cond` is optional SVD cutoff; `rank` to return matrix rank, `err` to return state handler
-`det(A)` | function | Determinant of a scalar or square matrix | `det(A,overwrite_a,err=err)`: option to let A be destroyed, return state handler `err`
-`inv(A)` | function | Inverse of a scalar or square matrix | `inv(A,err=err)`: A is not destroyed; return state handler `err`
-`pinv(A)` | function | Moore-Penrose Pseudo-Inverse of a matrix | `pinv(A,rtol,err=err)`: A is not destroyed; optional singular value threshold `rtol`; return state handler `err`
-`invert(A)` | subroutine | In-place inverse of a scalar or square matrix | `call invert(A,err=err)`: A is replaced with $A^{-1}$, return state handler `err`
-`.inv.A` | operator | Inverse of a scalar or square matrix | A is replaced with $A^{-1}$
-`.pinv.A` | operator | Moore-Penrose Pseudo-Inverse | A is replaced with $A^{-1}$
-`svd(A)` | subroutine | Singular value decomposition of $A = U S V^t$ | `call svd(A,s,u,vt,full_matrices=.false.,err=state)`, all optional arguments but `A,s`
-`svdvals(A)` | function | Singular values $S$ from $A = U S V^t$ | `s = svdvals(A)`, real array with same precision as `A`
-`eye(m)` | function | Identity matrix of size `m` | `eye(m,n,mold,err)`: Optional column size `n`, datatype `dtype` (default: real64), error handler
-`eigvals(A)` | function | Eigenvalues of matrix $A$ | `eigvals(A,err)`: Optional state handler `err`
-`eig(A,lambda)` | subroutine | Eigenproblem of matrix $A$ | `eig(A,lambda,left,right,overwrite_a,err)`: optional output eigenvector matrices (left and/or right)
-`eigvalsh(A)` | function | Eigenvalues of symmetric or hermitian matrix $A$ | `eigvalsh(A,upper_a,err)`: Choose to use upper or lower triangle; optional state handler `err`
-`eigh(A,lambda)` | subroutine | Eigenproblem of symmetric or hermitianmatrix $A$ | `eigh(A,lambda,vector,upper_a,overwrite_a,err)`: optional output eigenvectors 
-`diag(n,source)` | function | Diagonal matrix from scalar input value | `diag(n,source,err)`: Optional error handler
-`diag(source)` | function | Diagonal matrix from array input values | `diag(source,err)`: Optional error handler
-`qr(A,Q,R)` | subroutine | QR factorization | `qr(A,Q,R,storage=work,err=err)`: Optional pre-allocated working storage, error handler
-`qr_space(A,lwork)` | subroutine | QR Working space size | `qr_space(A,lwork,err)`: Optional error handler
+### Syntax
+
+`x = solve(a, b [, overwrite_a] [, err])`  
+
+### Description
+
+Solve linear systems - one (`b(:)`) or many (`b(:,:)`).  
+
+### Arguments
+
+- `a`: A `real` or `complex` coefficient matrix. If `overwrite_a=.true.`, it is destroyed by the call.
+- `b`: A rank-1 (one system) or rank-2 (many systems) array of the same kind as `a`, containing the right-hand-side vector(s).
+- `overwrite_a` (optional, default = `.false.`): If `.true.`, input matrix `a` will be used as temporary storage and overwritten, to avoid internal data allocation.
+- `err` (optional): A [`type(la_state)`](@ref la_state_type::la_state) variable. 
+
+### Return value
+
+For a full-rank matrix, returns an array value that represents the solution to the linear system of equations.
+
+### Errors
+
+- Raises [`LINALG_ERROR`](@ref la_state_type::linalg_error) if the matrix is singular to working precision.
+- Raises [`LINALG_VALUE_ERROR`](@ref la_state_type::linalg_value_error) if the matrix and rhs vectors have invalid/incompatible sizes.
+- If `err` is not present, exceptions trigger an `error stop`.
+
+
+## `lstsq(A, b)`
+**Type**: Function  
+**Description**: Solve non-square systems in a least squares sense - one (`b(:)`) or many (`b(:,:)`).  
+**Optional arguments**:  
+- `cond`: Optional SVD cutoff.  
+- `overwrite_a`: Option to let A be destroyed.  
+- `rank`: Return matrix rank.  
+- `err`: Return state handler.
+
+## `det(A)`
+**Type**: Function  
+**Description**: Determinant of a scalar or square matrix.  
+**Optional arguments**:  
+- `overwrite_a`: Option to let A be destroyed.  
+- `err`: Return state handler.
+
+## `inv(A)`
+**Type**: Function  
+**Description**: Inverse of a scalar or square matrix.  
+**Optional arguments**:  
+- `err`: Return state handler.
+
+## `pinv(A)`
+**Type**: Function  
+**Description**: Moore-Penrose Pseudo-Inverse of a matrix.  
+**Optional arguments**:  
+- `rtol`: Optional singular value threshold.  
+- `err`: Return state handler.
+
+## `invert(A)`
+**Type**: Subroutine  
+**Description**: In-place inverse of a scalar or square matrix.  
+**Optional arguments**:  
+- `err`: Return state handler.  
+
+**Usage**: `call invert(A, err=err)` where `A` is replaced with $A^{-1}$.
+
+## `.inv.A`
+**Type**: Operator  
+**Description**: Inverse of a scalar or square matrix.  
+
+**Effect**: `A` is replaced with $A^{-1}$.
+
+## `.pinv.A`
+**Type**: Operator  
+**Description**: Moore-Penrose Pseudo-Inverse.  
+
+**Effect**: `A` is replaced with $A^{-1}$.
+
+## `svd(A)`
+**Type**: Subroutine  
+**Description**: Singular value decomposition of $A = U S V^t$.  
+**Optional arguments**:  
+- `s`: Singular values.  
+- `u`: Left singular vectors.  
+- `vt`: Right singular vectors.  
+- `full_matrices`: Defaults to `.false.`.  
+- `err`: State handler.  
+
+**Usage**: `call svd(A, s, u, vt, full_matrices=.false., err=state)`.
+
+## `svdvals(A)`
+**Type**: Function  
+**Description**: Singular values $S$ from $A = U S V^t$.  
+**Usage**: `s = svdvals(A)` where `s` is a real array with the same precision as `A`.
+
+## `eye(m)`
+**Type**: Function  
+**Description**: Identity matrix of size `m`.  
+**Optional arguments**:  
+- `n`: Optional column size.  
+- `mold`: Optional datatype (default: real64).  
+- `err`: Error handler.
+
+## `eigvals(A)`
+**Type**: Function  
+**Description**: Eigenvalues of matrix $A$.  
+**Optional arguments**:  
+- `err`: State handler.
+
+## `eig(A, lambda)`
+**Type**: Subroutine  
+**Description**: Eigenproblem of matrix $A`.  
+**Optional arguments**:  
+- `left`: Output left eigenvector matrix.  
+- `right`: Output right eigenvector matrix.  
+- `overwrite_a`: Option to let A be destroyed.  
+- `err`: Return state handler.
+
+## `eigvalsh(A)`
+**Type**: Function  
+**Description**: Eigenvalues of symmetric or Hermitian matrix $A$.  
+**Optional arguments**:  
+- `upper_a`: Choose to use upper or lower triangle.  
+- `err`: State handler.
+
+## `eigh(A, lambda)`
+**Type**: Subroutine  
+**Description**: Eigenproblem of symmetric or Hermitian matrix $A`.  
+**Optional arguments**:  
+- `vector`: Output eigenvectors.  
+- `upper_a`: Choose to use upper or lower triangle.  
+- `overwrite_a`: Option to let A be destroyed.  
+- `err`: Return state handler.
+
+## `diag(n, source)`
+**Type**: Function  
+**Description**: Diagonal matrix from scalar input value.  
+**Optional arguments**:  
+- `err`: Error handler.
+
+## `diag(source)`
+**Type**: Function  
+**Description**: Diagonal matrix from array input values.  
+**Optional arguments**:  
+- `err`: Error handler.
+
+## `qr(A, Q, R)`
+**Type**: Subroutine  
+**Description**: QR factorization.  
+**Optional arguments**:  
+- `storage`: Pre-allocated working storage.  
+- `err`: Error handler.
+
+## `qr_space(A, lwork)`
+**Type**: Subroutine  
+**Description**: QR Working space size.  
+**Optional arguments**:  
+- `err`: Error handler.
 
 All procedures work with all types (`real`, `complex`) and kinds (32, 64, 128-bit floats).
 

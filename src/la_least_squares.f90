@@ -1,3 +1,4 @@
+!> Least squares solution interface
 module la_least_squares
      use la_constants
      use la_blas
@@ -7,12 +8,35 @@ module la_least_squares
      implicit none(type,external)
      private
 
-     !> Compute a least squares solution to system Ax=b, i.e. such that the 2-norm abs(b-Ax) is minimized.
+     !> @brief Compute a least squares solution to system \f$ A \cdot x = b \f$,
+     !!  i.e. such that the 2-norm \f$ \|b - A \cdot x\| \f$ is minimized.
+     !!
+     !! This function computes the least-squares solution to a real system of linear equations:
+     !!
+     !! \f$ A \cdot x = b \f$
+     !!
+     !! where A is an `n x n` matrix and b is either a vector (`n`) or a matrix (`n x nrhs`).
+     !! The solution `x` is returned as an allocatable array.
+     !!
+     !! @param[in,out] a The input matrix of size `n x n`. If `overwrite_a` is true,
+     !!                  the contents of A may be modified during computation.
+     !! @param[in] b The right-hand side vector (`n`) or matrix (`n x nrhs`).
+     !! @param[in] cond (Optional) A cutoff for rank evaluation: singular values \f$ s(i) \f$ such that
+     !!                \f$ s(i) \leq \text{cond} \cdot \max(s) \f$ are considered zero.
+     !! @param[in] overwrite_a (Optional) If true, A and B may be overwritten and destroyed. Default is false.
+     !! @param[out] rank (Optional) The rank of the matrix A.
+     !! @param[out] err (Optional) A state return flag. If an error occurs and `err` is not provided,
+     !!                    the function will stop execution.
+     !!
+     !! @return Solution matrix `x` of size `n` (for a single right-hand side) or `n x nrhs`.
+     !!
+     !! @note This function relies on LAPACK least-squares solvers such as `[*GELSS](@ref la_lapack::gelss)`.
+     !!
+     !! @warning If `overwrite_a` is enabled, the original contents of A and B may be lost.
+     !!
      public :: lstsq
 
-     ! NumPy: lstsq(a, b, rcond='warn')
-     ! Scipy: lstsq(a, b, cond=None, overwrite_a=False, overwrite_b=False, check_finite=True, lapack_driver=None)
-     ! IMSL: Result = IMSL_QRSOL(B, [A] [, AUXQR] [, BASIS] [, /DOUBLE] [, QR] [, PIVOT] [, RESIDUAL] [, TOLERANCE])
+     public :: lstsq
 
      interface lstsq
         module procedure la_slstsq_one
@@ -31,7 +55,7 @@ module la_least_squares
 
      contains
 
-     ! Workspace needed by gesv
+     !> Workspace needed by gesv
      subroutine sgesv_space(m,n,nrhs,lrwork,liwork,lcwork)
          integer(ilp),intent(in) :: m,n,nrhs
          integer(ilp),intent(out) :: lrwork,liwork,lcwork
@@ -63,7 +87,7 @@ module la_least_squares
 
      end subroutine sgesv_space
 
-     ! Workspace needed by gesv
+     !> Workspace needed by gesv
      subroutine dgesv_space(m,n,nrhs,lrwork,liwork,lcwork)
          integer(ilp),intent(in) :: m,n,nrhs
          integer(ilp),intent(out) :: lrwork,liwork,lcwork
@@ -95,7 +119,7 @@ module la_least_squares
 
      end subroutine dgesv_space
 
-     ! Workspace needed by gesv
+     !> Workspace needed by gesv
      subroutine qgesv_space(m,n,nrhs,lrwork,liwork,lcwork)
          integer(ilp),intent(in) :: m,n,nrhs
          integer(ilp),intent(out) :: lrwork,liwork,lcwork
@@ -127,7 +151,7 @@ module la_least_squares
 
      end subroutine qgesv_space
 
-     ! Workspace needed by gesv
+     !> Workspace needed by gesv
      subroutine cgesv_space(m,n,nrhs,lrwork,liwork,lcwork)
          integer(ilp),intent(in) :: m,n,nrhs
          integer(ilp),intent(out) :: lrwork,liwork,lcwork
@@ -159,7 +183,7 @@ module la_least_squares
 
      end subroutine cgesv_space
 
-     ! Workspace needed by gesv
+     !> Workspace needed by gesv
      subroutine zgesv_space(m,n,nrhs,lrwork,liwork,lcwork)
          integer(ilp),intent(in) :: m,n,nrhs
          integer(ilp),intent(out) :: lrwork,liwork,lcwork
@@ -191,7 +215,7 @@ module la_least_squares
 
      end subroutine zgesv_space
 
-     ! Workspace needed by gesv
+     !> Workspace needed by gesv
      subroutine wgesv_space(m,n,nrhs,lrwork,liwork,lcwork)
          integer(ilp),intent(in) :: m,n,nrhs
          integer(ilp),intent(out) :: lrwork,liwork,lcwork
@@ -223,7 +247,7 @@ module la_least_squares
 
      end subroutine wgesv_space
 
-     ! Compute the least-squares solution to a real system of linear equations Ax = B
+     !> Compute the least-squares solution to a real system of linear equations Ax = B
      function la_slstsq_one(a,b,cond,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          real(sp),intent(inout),target :: a(:,:)
@@ -329,7 +353,7 @@ module la_least_squares
 
      end function la_slstsq_one
 
-     ! Compute the least-squares solution to a real system of linear equations Ax = B
+     !> Compute the least-squares solution to a real system of linear equations Ax = B
      function la_dlstsq_one(a,b,cond,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          real(dp),intent(inout),target :: a(:,:)
@@ -435,7 +459,7 @@ module la_least_squares
 
      end function la_dlstsq_one
 
-     ! Compute the least-squares solution to a real system of linear equations Ax = B
+     !> Compute the least-squares solution to a real system of linear equations Ax = B
      function la_qlstsq_one(a,b,cond,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          real(qp),intent(inout),target :: a(:,:)
@@ -541,7 +565,7 @@ module la_least_squares
 
      end function la_qlstsq_one
 
-     ! Compute the least-squares solution to a real system of linear equations Ax = B
+     !> Compute the least-squares solution to a real system of linear equations Ax = B
      function la_clstsq_one(a,b,cond,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          complex(sp),intent(inout),target :: a(:,:)
@@ -647,7 +671,7 @@ module la_least_squares
 
      end function la_clstsq_one
 
-     ! Compute the least-squares solution to a real system of linear equations Ax = B
+     !> Compute the least-squares solution to a real system of linear equations Ax = B
      function la_zlstsq_one(a,b,cond,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          complex(dp),intent(inout),target :: a(:,:)
@@ -753,7 +777,7 @@ module la_least_squares
 
      end function la_zlstsq_one
 
-     ! Compute the least-squares solution to a real system of linear equations Ax = B
+     !> Compute the least-squares solution to a real system of linear equations Ax = B
      function la_wlstsq_one(a,b,cond,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          complex(qp),intent(inout),target :: a(:,:)
@@ -859,7 +883,7 @@ module la_least_squares
 
      end function la_wlstsq_one
 
-     ! Compute the least-squares solution to a real system of linear equations Ax = B
+     !> Compute the least-squares solution to a real system of linear equations Ax = B
      function la_slstsq_multiple(a,b,cond,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          real(sp),intent(inout),target :: a(:,:)
@@ -965,7 +989,7 @@ module la_least_squares
 
      end function la_slstsq_multiple
 
-     ! Compute the least-squares solution to a real system of linear equations Ax = B
+     !> Compute the least-squares solution to a real system of linear equations Ax = B
      function la_dlstsq_multiple(a,b,cond,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          real(dp),intent(inout),target :: a(:,:)
@@ -1071,7 +1095,7 @@ module la_least_squares
 
      end function la_dlstsq_multiple
 
-     ! Compute the least-squares solution to a real system of linear equations Ax = B
+     !> Compute the least-squares solution to a real system of linear equations Ax = B
      function la_qlstsq_multiple(a,b,cond,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          real(qp),intent(inout),target :: a(:,:)
@@ -1177,7 +1201,7 @@ module la_least_squares
 
      end function la_qlstsq_multiple
 
-     ! Compute the least-squares solution to a real system of linear equations Ax = B
+     !> Compute the least-squares solution to a real system of linear equations Ax = B
      function la_clstsq_multiple(a,b,cond,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          complex(sp),intent(inout),target :: a(:,:)
@@ -1283,7 +1307,7 @@ module la_least_squares
 
      end function la_clstsq_multiple
 
-     ! Compute the least-squares solution to a real system of linear equations Ax = B
+     !> Compute the least-squares solution to a real system of linear equations Ax = B
      function la_zlstsq_multiple(a,b,cond,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          complex(dp),intent(inout),target :: a(:,:)
@@ -1389,7 +1413,7 @@ module la_least_squares
 
      end function la_zlstsq_multiple
 
-     ! Compute the least-squares solution to a real system of linear equations Ax = B
+     !> Compute the least-squares solution to a real system of linear equations Ax = B
      function la_wlstsq_multiple(a,b,cond,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          complex(qp),intent(inout),target :: a(:,:)
