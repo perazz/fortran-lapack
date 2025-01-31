@@ -134,7 +134,7 @@ Arguments</h3>
 <li><code>a</code>: A <code>real</code> or <code>complex</code> coefficient matrix. If <code>overwrite_a=.true.</code>, it is destroyed by the call.</li>
 <li><code>b</code>: A rank-1 (one system) or rank-2 (many systems) array of the same kind as <code>a</code>, containing the right-hand-side vector(s).</li>
 <li><code>overwrite_a</code> (optional, default = <code>.false.</code>): If <code>.true.</code>, input matrix <code>a</code> will be used as temporary storage and overwritten, to avoid internal data allocation.</li>
-<li><code>err</code> (optional): A <a class="el" href="structla__state__type_1_1la__state.html"><code>type(la_state)</code></a> variable.</li>
+<li><code>err</code> (optional): A <a class="el" href="structla__state__type_1_1la__state.html">type(la_state)</a> variable.</li>
 </ul>
 <h3><a class="anchor" id="autotoc_md10"></a>
 Return value</h3>
@@ -142,8 +142,8 @@ Return value</h3>
 <h3><a class="anchor" id="autotoc_md11"></a>
 Errors</h3>
 <ul>
-<li>Raises <a class="el" href="namespacela__state__type.html#af5b55841ca3045c3345d9ab019e0797d"><code>LINALG_ERROR</code></a> if the matrix is singular to working precision.</li>
-<li>Raises <a class="el" href="namespacela__state__type.html#ad9888f2f7d4e692e7d3b8fd532baa903"><code>LINALG_VALUE_ERROR</code></a> if the matrix and rhs vectors have invalid/incompatible sizes.</li>
+<li>Raises <a class="el" href="namespacela__state__type.html#af5b55841ca3045c3345d9ab019e0797d">LINALG_ERROR</a> if the matrix is singular to working precision.</li>
+<li>Raises <a class="el" href="namespacela__state__type.html#ad9888f2f7d4e692e7d3b8fd532baa903">LINALG_VALUE_ERROR</a> if the matrix and rhs vectors have invalid/incompatible sizes.</li>
 <li>If <code>err</code> is not present, exceptions trigger an <code>error stop</code>.</li>
 </ul>
 <h2><a class="anchor" id="autotoc_md12"></a>
@@ -163,7 +163,7 @@ Arguments</h3>
 <li><code>cond</code> (optional): A cutoff for rank evaluation. Singular values \( s(i) \) such that \( s(i) \leq \text{cond} \cdot \max(s) \) are considered zero.</li>
 <li><code>overwrite_a</code> (optional, default = <code>.false.</code>): If <code>.true.</code>, both <code>a</code> and <code>b</code> may be overwritten and destroyed during computation.</li>
 <li><code>rank</code> (optional): An integer variable that returns the rank of the matrix \( A \).</li>
-<li><code>err</code> (optional): A <a class="el" href="structla__state__type_1_1la__state.html"><code>type(la_state)</code></a> variable that returns the error state. If <code>err</code> is not provided, the function will stop execution on error.</li>
+<li><code>err</code> (optional): A <a class="el" href="structla__state__type_1_1la__state.html">type(la_state)</a> variable that returns the error state. If <code>err</code> is not provided, the function will stop execution on error.</li>
 </ul>
 <h3><a class="anchor" id="autotoc_md16"></a>
 Return value</h3>
@@ -171,8 +171,8 @@ Return value</h3>
 <h3><a class="anchor" id="autotoc_md17"></a>
 Errors</h3>
 <ul>
-<li>Raises <a class="el" href="namespacela__state__type.html#af5b55841ca3045c3345d9ab019e0797d"><code>LINALG_ERROR</code></a> if the matrix \( A \) is singular to working precision.</li>
-<li>Raises <a class="el" href="namespacela__state__type.html#ad9888f2f7d4e692e7d3b8fd532baa903"><code>LINALG_VALUE_ERROR</code></a> if the matrix <code>a</code> and the right-hand side <code>b</code> have incompatible sizes.</li>
+<li>Raises <a class="el" href="namespacela__state__type.html#af5b55841ca3045c3345d9ab019e0797d">LINALG_ERROR</a> if the matrix \( A \) is singular to working precision.</li>
+<li>Raises <a class="el" href="namespacela__state__type.html#ad9888f2f7d4e692e7d3b8fd532baa903">LINALG_VALUE_ERROR</a> if the matrix <code>a</code> and the right-hand side <code>b</code> have incompatible sizes.</li>
 <li>If <code>err</code> is not provided, the function stops execution on error.</li>
 </ul>
 <h3><a class="anchor" id="autotoc_md18"></a>
@@ -200,16 +200,6 @@ Notes</h3>
 <li><code>err</code>: Return state handler.</li>
 </ul>
 <h2><a class="anchor" id="autotoc_md21"></a>
-<code>pinv(A)</code></h2>
-<p><b>Type</b>: Function <br  />
- <b>Description</b>: Moore-Penrose Pseudo-Inverse of a matrix. <br  />
- <b>Optional arguments</b>: <br  />
-</p><ul>
-<li><code>rtol</code>: Optional singular value threshold. <br  />
-</li>
-<li><code>err</code>: Return state handler.</li>
-</ul>
-<h2><a class="anchor" id="autotoc_md22"></a>
 <code>invert(A)</code></h2>
 <p><b>Type</b>: Subroutine <br  />
  <b>Description</b>: In-place inverse of a scalar or square matrix. <br  />
@@ -219,19 +209,145 @@ Notes</h3>
 </li>
 </ul>
 <p><b>Usage</b>: <code>call invert(A, err=err)</code> where <code>A</code> is replaced with $A^{-1}$.</p>
-<h2><a class="anchor" id="autotoc_md23"></a>
+<h2><a class="anchor" id="autotoc_md22"></a>
 <code>.inv.A</code></h2>
 <p><b>Type</b>: Operator <br  />
  <b>Description</b>: Inverse of a scalar or square matrix. <br  />
 </p>
 <p><b>Effect</b>: <code>A</code> is replaced with $A^{-1}$.</p>
-<h2><a class="anchor" id="autotoc_md24"></a>
-<code>.pinv.A</code></h2>
-<p><b>Type</b>: Operator <br  />
- <b>Description</b>: Moore-Penrose Pseudo-Inverse. <br  />
+<h2><a class="anchor" id="autotoc_md23"></a>
+<a class="el" href="interfacela__pseudoinverse_1_1pseudoinvert.html">pseudoinvert</a> - Moore-Penrose pseudo-inverse of a matrix.</h2>
+<h3><a class="anchor" id="autotoc_md24"></a>
+Syntax</h3>
+<p><code>call pseudoinvert(a, pinva [, rtol] [, err])</code></p>
+<h3><a class="anchor" id="autotoc_md25"></a>
+Description</h3>
+<p>This subroutine computes the Moore-Penrose pseudo-inverse \( A^+ \) of a real or complex matrix \( A \) using Singular Value Decomposition (SVD). The pseudo-inverse is a generalization of the matrix inverse that can be computed for non-square and singular matrices. It is particularly useful for solving least-squares problems and underdetermined systems.</p>
+<p>The computation is based on the singular value decomposition (SVD):</p>
+<p class="formulaDsp">
+\[A = U \Sigma V^T
+\]
 </p>
-<p><b>Effect</b>: <code>A</code> is replaced with $A^{-1}$.</p>
-<h2><a class="anchor" id="autotoc_md25"></a>
+<p>where \( U \) and \( V \) are orthogonal matrices, and \( \Sigma \) is a diagonal matrix containing the singular values. The pseudo-inverse is computed as:</p>
+<p class="formulaDsp">
+\[A^+ = V \Sigma^+ U^T
+\]
+</p>
+<p>where \( \Sigma^+ \) is obtained by inverting the nonzero singular values.</p>
+<h3><a class="anchor" id="autotoc_md26"></a>
+Arguments</h3>
+<ul>
+<li><code>a</code>: A <code>real</code> or <code>complex</code> matrix of size \( [m,n] \), representing the input matrix to be inverted.</li>
+<li><code>pinva</code>: A <code>real</code> or <code>complex</code> matrix of size \( [n,m] \), representing the pseudo-inverse of <code>a</code>. This is an output argument.</li>
+<li><code>rtol</code> (optional): A real scalar specifying the relative tolerance for singular value truncation. Singular values smaller than <code>rtol * max(singular_values(A))</code> are set to zero. If not provided, a default machine-precision-based tolerance is used.</li>
+<li><code>err</code> (optional): A <a class="el" href="structla__state__type_1_1la__state.html">type(la_state)</a> variable that returns the error state. If not provided, the function will stop execution on error.</li>
+</ul>
+<h3><a class="anchor" id="autotoc_md27"></a>
+Return value</h3>
+<p>The pseudo-inverse of the input matrix <code>a</code> is returned in <code>pinva</code>.</p>
+<h3><a class="anchor" id="autotoc_md28"></a>
+Errors</h3>
+<ul>
+<li>Raises <a class="el" href="namespacela__state__type.html#ad9888f2f7d4e692e7d3b8fd532baa903">LINALG_VALUE_ERROR</a> if the dimensions of <code>pinva</code> do not match the expected output size.</li>
+<li>Raises <a class="el" href="namespacela__state__type.html#af5b55841ca3045c3345d9ab019e0797d">LINALG_ERROR</a> if the SVD decomposition fails.</li>
+<li>If <code>err</code> is not provided, exceptions will trigger an <code>error stop</code>.</li>
+</ul>
+<h3><a class="anchor" id="autotoc_md29"></a>
+Notes</h3>
+<ul>
+<li>This subroutine computes the pseudo-inverse using LAPACK’s SVD decomposition routine <a class="el" href="interfacela__lapack_1_1gesvd.html"><code>*GESVD</code></a>.</li>
+<li>The choice of <code>rtol</code> affects numerical stability and rank estimation: setting it too high may result in an inaccurate inverse, while setting it too low may amplify numerical noise.</li>
+<li>This version requires <code>pinva</code> to be pre-allocated. To obtain the required size before allocation, use <code>pseudoinvert_space</code>.</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md30"></a>
+<a class="el" href="interfacela__pseudoinverse_1_1pinv.html">pinv</a> - Moore-Penrose pseudo-inverse of a matrix (function).</h2>
+<h3><a class="anchor" id="autotoc_md31"></a>
+Syntax</h3>
+<p><code>pinva = pinv(a [, rtol] [, err])</code></p>
+<h3><a class="anchor" id="autotoc_md32"></a>
+Description</h3>
+<p>This function computes the Moore-Penrose pseudo-inverse \( A^+ \) of a real or complex matrix \( A \) using Singular Value Decomposition (SVD). The pseudo-inverse provides a generalization of the inverse for non-square and singular matrices, making it useful for solving least-squares problems and underdetermined systems.</p>
+<p>The computation is based on the singular value decomposition (SVD):</p>
+<p class="formulaDsp">
+\[A = U \Sigma V^T
+\]
+</p>
+<p>where \( U \) and \( V \) are orthogonal matrices, and \( \Sigma \) is a diagonal matrix containing the singular values. The pseudo-inverse is computed as:</p>
+<p class="formulaDsp">
+\[A^+ = V \Sigma^+ U^T
+\]
+</p>
+<p>where \( \Sigma^+ \) is obtained by inverting the nonzero singular values.</p>
+<h3><a class="anchor" id="autotoc_md33"></a>
+Arguments</h3>
+<ul>
+<li><code>a</code>: A <code>real</code> or <code>complex</code> matrix of size \( [m,n] \), representing the input matrix to be inverted.</li>
+<li><code>rtol</code> (optional): A real scalar specifying the relative tolerance for singular value truncation. Singular values smaller than <code>rtol * max(singular_values(A))</code> are set to zero. If not provided, a default machine-precision-based tolerance is used.</li>
+<li><code>err</code> (optional): A <a class="el" href="structla__state__type_1_1la__state.html">type(la_state)</a> variable that returns the error state. If not provided, the function will stop execution on error.</li>
+</ul>
+<h3><a class="anchor" id="autotoc_md34"></a>
+Return value</h3>
+<ul>
+<li><code>pinva</code>: A <code>real</code> or <code>complex</code> matrix of size \( [n,m] \), representing the pseudo-inverse of <code>a</code>.</li>
+</ul>
+<h3><a class="anchor" id="autotoc_md35"></a>
+Errors</h3>
+<ul>
+<li>Raises <a class="el" href="namespacela__state__type.html#ad9888f2f7d4e692e7d3b8fd532baa903">LINALG_VALUE_ERROR</a> if the SVD decomposition fails or the input matrix has invalid dimensions.</li>
+<li>Raises <a class="el" href="namespacela__state__type.html#af5b55841ca3045c3345d9ab019e0797d">LINALG_ERROR</a> if numerical instability prevents inversion.</li>
+<li>If <code>err</code> is not provided, exceptions will trigger an <code>error stop</code>.</li>
+</ul>
+<h3><a class="anchor" id="autotoc_md36"></a>
+Notes</h3>
+<ul>
+<li>This function computes the pseudo-inverse using LAPACK’s SVD decomposition routine <a class="el" href="interfacela__lapack_1_1gesvd.html"><code>*GESVD</code></a>.</li>
+<li>The choice of <code>rtol</code> affects numerical stability and rank estimation: setting it too high may result in an inaccurate inverse, while setting it too low may amplify numerical noise.</li>
+<li>This function returns a newly allocated matrix. For an in-place version, use <a class="el" href="interfacela__pseudoinverse_1_1pseudoinvert.html"><code>pseudoinvert</code></a>.</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md37"></a>
+la_pseudoinverse::operator(.pinv.) "operator(.pinv.)" - Compute the Moore-Penrose pseudo-inverse of a matrix.</h2>
+<h3><a class="anchor" id="autotoc_md38"></a>
+Syntax</h3>
+<p><code>pinva = .pinv. a</code></p>
+<h3><a class="anchor" id="autotoc_md39"></a>
+Description</h3>
+<p>This operator computes the Moore-Penrose pseudo-inverse \( A^+ \) of a real or complex matrix \( A \) using Singular Value Decomposition (SVD). The pseudo-inverse is useful for solving least-squares problems and handling singular or underdetermined systems.</p>
+<p>Given the singular value decomposition (SVD):</p>
+<p class="formulaDsp">
+\[A = U \Sigma V^T
+\]
+</p>
+<p>the pseudo-inverse is computed as:</p>
+<p class="formulaDsp">
+\[A^+ = V \Sigma^+ U^T
+\]
+</p>
+<p>where \( \Sigma^+ \) is the inverse of the nonzero singular values in \( \Sigma \).</p>
+<h3><a class="anchor" id="autotoc_md40"></a>
+Arguments</h3>
+<ul>
+<li><code>a</code>: A <code>real</code> or <code>complex</code> matrix of size \( [m,n] \), representing the input matrix to be inverted.</li>
+</ul>
+<h3><a class="anchor" id="autotoc_md41"></a>
+Return value</h3>
+<ul>
+<li><code>pinva</code>: A <code>real</code> or <code>complex</code> matrix of size \( [n,m] \), representing the pseudo-inverse of <code>a</code>.</li>
+</ul>
+<h3><a class="anchor" id="autotoc_md42"></a>
+Errors</h3>
+<ul>
+<li>Raises <a class="el" href="namespacela__state__type.html#ad9888f2f7d4e692e7d3b8fd532baa903">LINALG_VALUE_ERROR</a> if the SVD decomposition fails or the input matrix has invalid dimensions.</li>
+<li>Raises <a class="el" href="namespacela__state__type.html#af5b55841ca3045c3345d9ab019e0797d">LINALG_ERROR</a> if numerical instability prevents inversion.</li>
+<li>If an error occurs, execution will stop.</li>
+</ul>
+<h3><a class="anchor" id="autotoc_md43"></a>
+Notes</h3>
+<ul>
+<li>This operator internally calls <a class="el" href="interfacela__pseudoinverse_1_1pinv.html">pinv</a> and behaves identically.</li>
+<li>The pseudo-inverse is computed using LAPACK’s SVD decomposition routine <a class="el" href="interfacela__lapack_1_1gesvd.html"><code>*GESVD</code></a>.</li>
+<li>This operator is a convenient shorthand for calling the functional interface <code>pinv(a)</code>.</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md44"></a>
 <code>svd(A)</code></h2>
 <p><b>Type</b>: Subroutine <br  />
  <b>Description</b>: Singular value decomposition of $A = U S V^t$. <br  />
@@ -249,12 +365,12 @@ Notes</h3>
 </li>
 </ul>
 <p><b>Usage</b>: <code>call svd(A, s, u, vt, full_matrices=.false., err=state)</code>.</p>
-<h2><a class="anchor" id="autotoc_md26"></a>
+<h2><a class="anchor" id="autotoc_md45"></a>
 <code>svdvals(A)</code></h2>
 <p><b>Type</b>: Function <br  />
  <b>Description</b>: Singular values $S$ from $A = U S V^t$. <br  />
  <b>Usage</b>: <code>s = svdvals(A)</code> where <code>s</code> is a real array with the same precision as <code>A</code>.</p>
-<h2><a class="anchor" id="autotoc_md27"></a>
+<h2><a class="anchor" id="autotoc_md46"></a>
 <code>eye(m)</code></h2>
 <p><b>Type</b>: Function <br  />
  <b>Description</b>: Identity matrix of size <code>m</code>. <br  />
@@ -266,7 +382,7 @@ Notes</h3>
 </li>
 <li><code>err</code>: Error handler.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md28"></a>
+<h2><a class="anchor" id="autotoc_md47"></a>
 <code>eigvals(A)</code></h2>
 <p><b>Type</b>: Function <br  />
  <b>Description</b>: Eigenvalues of matrix $A$. <br  />
@@ -274,11 +390,11 @@ Notes</h3>
 </p><ul>
 <li><code>err</code>: State handler.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md29"></a>
+<h2><a class="anchor" id="autotoc_md48"></a>
 <code>eig(A, lambda)</code></h2>
 <p><b>Type</b>: Subroutine <br  />
  <b>Description</b>: Eigenproblem of matrix $A<code>. \ilinebr&lt;br&gt; **Optional arguments**: \ilinebr&lt;br&gt; -</code>left<code>: Output left eigenvector matrix. \ilinebr&lt;br&gt; -</code>right<code>: Output right eigenvector matrix. \ilinebr&lt;br&gt; -</code>overwrite_a<code>: Option to let A be destroyed. \ilinebr&lt;br&gt; -</code>err`: Return state handler.</p>
-<h2><a class="anchor" id="autotoc_md30"></a>
+<h2><a class="anchor" id="autotoc_md49"></a>
 <code>eigvalsh(A)</code></h2>
 <p><b>Type</b>: Function <br  />
  <b>Description</b>: Eigenvalues of symmetric or Hermitian matrix $A$. <br  />
@@ -288,11 +404,11 @@ Notes</h3>
 </li>
 <li><code>err</code>: State handler.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md31"></a>
+<h2><a class="anchor" id="autotoc_md50"></a>
 <code>eigh(A, lambda)</code></h2>
 <p><b>Type</b>: Subroutine <br  />
  <b>Description</b>: Eigenproblem of symmetric or Hermitian matrix $A<code>. \ilinebr&lt;br&gt; **Optional arguments**: \ilinebr&lt;br&gt; -</code>vector<code>: Output eigenvectors. \ilinebr&lt;br&gt; -</code>upper_a<code>: Choose to use upper or lower triangle. \ilinebr&lt;br&gt; -</code>overwrite_a<code>: Option to let A be destroyed. \ilinebr&lt;br&gt; -</code>err`: Return state handler.</p>
-<h2><a class="anchor" id="autotoc_md32"></a>
+<h2><a class="anchor" id="autotoc_md51"></a>
 <code>diag(n, source)</code></h2>
 <p><b>Type</b>: Function <br  />
  <b>Description</b>: Diagonal matrix from scalar input value. <br  />
@@ -300,7 +416,7 @@ Notes</h3>
 </p><ul>
 <li><code>err</code>: Error handler.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md33"></a>
+<h2><a class="anchor" id="autotoc_md52"></a>
 <code>diag(source)</code></h2>
 <p><b>Type</b>: Function <br  />
  <b>Description</b>: Diagonal matrix from array input values. <br  />
@@ -308,12 +424,12 @@ Notes</h3>
 </p><ul>
 <li><code>err</code>: Error handler.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md34"></a>
+<h2><a class="anchor" id="autotoc_md53"></a>
 <a class="el" href="interfacela__qr_1_1qr.html">qr</a> - Compute the QR factorization of a matrix.</h2>
-<h3><a class="anchor" id="autotoc_md35"></a>
+<h3><a class="anchor" id="autotoc_md54"></a>
 Syntax</h3>
 <p><code>call qr(a, q, r [, overwrite_a] [, storage] [, err])</code></p>
-<h3><a class="anchor" id="autotoc_md36"></a>
+<h3><a class="anchor" id="autotoc_md55"></a>
 Description</h3>
 <p>This subroutine computes the QR factorization of a <code>real</code> or <code>complex</code> matrix \( A = Q \cdot R \), where \( Q \) is orthonormal and \( R \) is upper-triangular. The matrix \( A \) has size \( [m,n] \) with \( m \ge n \). The result is returned in the output matrices \( Q \) and \( R \), which have the same type and kind as \( A \).</p>
 <p>Given \( k = \min(m, n) \), the matrix \( A \) can be written as:</p>
@@ -325,7 +441,7 @@ Description</h3>
 <li>For full matrices (<code>shape(Q) == [m,m]</code>, <code>shape(R) == [m,n]</code>), the full problem is solved.</li>
 <li>For reduced matrices (<code>shape(Q) == [m,k]</code>, <code>shape(R) == [k,n]</code>), the reduced problem is solved.</li>
 </ul>
-<h3><a class="anchor" id="autotoc_md37"></a>
+<h3><a class="anchor" id="autotoc_md56"></a>
 Arguments</h3>
 <ul>
 <li><code>a</code>: A <code>real</code> or <code>complex</code> matrix of size \( [m,n] \), representing the coefficient matrix. If <code>overwrite_a = .false.</code>, this is an input argument. If <code>overwrite_a = .true.</code>, it is an <code>inout</code> argument and is overwritten upon return.</li>
@@ -333,56 +449,56 @@ Arguments</h3>
 <li><code>r</code>: A rank-2 array of the same type and kind as <code>a</code>, representing the upper-triangular matrix \( R \). This is an output argument with shape \( [m,n] \) (for the full problem) or \( [k,n] \) (for the reduced problem).</li>
 <li><code>storage</code> (optional): A rank-1 array of the same type and kind as <code>a</code>, providing working storage for the solver. Its minimum size can be determined by a call to <a class="el" href="interfacela__qr_1_1qr__space.html"><code>qr_space</code></a>. This is an output argument.</li>
 <li><code>overwrite_a</code> (optional, default = <code>.false.</code>): A logical flag that determines whether the input matrix <code>a</code> can be overwritten. If <code>.true.</code>, the matrix <code>a</code> is used as temporary storage and overwritten to avoid internal memory allocation. This is an input argument.</li>
-<li><code>err</code> (optional): A <a class="el" href="structla__state__type_1_1la__state.html"><code>type(la_state)</code></a> variable that returns the error state. If not provided, the function will stop execution on error.</li>
+<li><code>err</code> (optional): A <a class="el" href="structla__state__type_1_1la__state.html">type(la_state)</a> variable that returns the error state. If not provided, the function will stop execution on error.</li>
 </ul>
-<h3><a class="anchor" id="autotoc_md38"></a>
+<h3><a class="anchor" id="autotoc_md57"></a>
 Return value</h3>
 <p>The QR factorization matrices \( Q \) and \( R \) are returned in the corresponding arguments.</p>
-<h3><a class="anchor" id="autotoc_md39"></a>
+<h3><a class="anchor" id="autotoc_md58"></a>
 Errors</h3>
 <ul>
-<li>Raises <a class="el" href="namespacela__state__type.html#ad9888f2f7d4e692e7d3b8fd532baa903"><code>LINALG_VALUE_ERROR</code></a> if the sizes of the matrices are incompatible with the full/reduced problem.</li>
-<li>Raises <a class="el" href="namespacela__state__type.html#af5b55841ca3045c3345d9ab019e0797d"><code>LINALG_ERROR</code></a> if there is insufficient storage space.</li>
+<li>Raises <a class="el" href="namespacela__state__type.html#ad9888f2f7d4e692e7d3b8fd532baa903">LINALG_VALUE_ERROR</a> if the sizes of the matrices are incompatible with the full/reduced problem.</li>
+<li>Raises <a class="el" href="namespacela__state__type.html#af5b55841ca3045c3345d9ab019e0797d">LINALG_ERROR</a> if there is insufficient storage space.</li>
 <li>If <code>err</code> is not provided, exceptions will trigger an <code>error stop</code>.</li>
 </ul>
-<h3><a class="anchor" id="autotoc_md40"></a>
+<h3><a class="anchor" id="autotoc_md59"></a>
 Notes</h3>
 <ul>
 <li>This subroutine computes the QR factorization using LAPACK's QR decomposition algorithm <a class="el" href="interfacela__lapack_1_1geqrf.html"><code>*GEQRF</code></a>.</li>
 <li>If <code>overwrite_a</code> is enabled, the input matrix <code>a</code> will be modified during computation.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md41"></a>
+<h2><a class="anchor" id="autotoc_md60"></a>
 <a class="el" href="interfacela__qr_1_1qr__space.html">qr_space</a> - Workspace size for QR operations.</h2>
-<h3><a class="anchor" id="autotoc_md42"></a>
+<h3><a class="anchor" id="autotoc_md61"></a>
 Syntax</h3>
 <p><code>call qr_space(a, lwork [, err])</code></p>
-<h3><a class="anchor" id="autotoc_md43"></a>
+<h3><a class="anchor" id="autotoc_md62"></a>
 Description</h3>
 <p>This subroutine computes the minimum workspace size required for performing QR factorization. The size of the workspace array needed for both QR factorization and solving the reduced problem is determined based on the input matrix \( A \).</p>
 <p>The input matrix \( A \) has size \( [m,n] \), and the output value \( lwork \) represents the minimum size of the workspace array that should be allocated for QR operations.</p>
-<h3><a class="anchor" id="autotoc_md44"></a>
+<h3><a class="anchor" id="autotoc_md63"></a>
 Arguments</h3>
 <ul>
 <li><code>a</code>: A <code>real</code> or <code>complex</code> matrix of size \( [m,n] \), representing the input matrix used to determine the required workspace size.</li>
 <li><code>lwork</code>: An integer variable that will return the minimum workspace size required for QR factorization.</li>
-<li><code>err</code> (optional): A <a class="el" href="structla__state__type_1_1la__state.html"><code>type(la_state)</code></a> variable that returns the error state. If not provided, the function will stop execution on error.</li>
+<li><code>err</code> (optional): A <a class="el" href="structla__state__type_1_1la__state.html">type(la_state)</a> variable that returns the error state. If not provided, the function will stop execution on error.</li>
 </ul>
-<h3><a class="anchor" id="autotoc_md45"></a>
+<h3><a class="anchor" id="autotoc_md64"></a>
 Return value</h3>
 <p>The workspace size \( lwork \) that should be allocated before calling the QR factorization routine is returned.</p>
-<h3><a class="anchor" id="autotoc_md46"></a>
+<h3><a class="anchor" id="autotoc_md65"></a>
 Errors</h3>
 <ul>
-<li>Raises <a class="el" href="namespacela__state__type.html#af5b55841ca3045c3345d9ab019e0797d"><code>LINALG_ERROR</code></a> if there is an issue determining the required workspace size.</li>
+<li>Raises <a class="el" href="namespacela__state__type.html#af5b55841ca3045c3345d9ab019e0797d">LINALG_ERROR</a> if there is an issue determining the required workspace size.</li>
 <li>If <code>err</code> is not provided, exceptions will trigger an <code>error stop</code>.</li>
 </ul>
-<h3><a class="anchor" id="autotoc_md47"></a>
+<h3><a class="anchor" id="autotoc_md66"></a>
 Notes</h3>
 <ul>
 <li>This subroutine is useful for preallocating memory for QR factorization in large systems.</li>
 <li>It is important to ensure that the workspace size is correctly allocated before proceeding with QR factorization to avoid memory issues.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md48"></a>
+<h1><a class="anchor" id="autotoc_md67"></a>
 BLAS, LAPACK</h1>
 <p>Modern Fortran modules with full explicit typing features are available as modules <code><a class="el" href="namespacela__blas.html" title="Precision-agnostic BLAS interface.">la_blas</a></code> and <code><a class="el" href="namespacela__lapack.html">la_lapack</a></code>. The reference Fortran-77 library, forked from Release 3.10.1, was automatically processed and modernized. The following refactorings are applied:</p><ul>
 <li>All datatypes and accuracy constants standardized into a module (<code>stdlib</code>-compatible names)</li>
@@ -400,7 +516,7 @@ BLAS, LAPACK</h1>
 <li>preprocessor-based OpenMP directives retained.</li>
 </ul>
 <p>The single-source module structure hopefully allows for cross-procedural inlining which is otherwise impossible without link-time optimization.</p>
-<h1><a class="anchor" id="autotoc_md49"></a>
+<h1><a class="anchor" id="autotoc_md68"></a>
 Building</h1>
 <p>An automated build is currently available via the <a href="https://fpm.fortran-lang.org">Fortran Package Manager</a>. To add fortran-lapack to your project, simply add it as a dependency:</p>
 <div class="fragment"><div class="line">[dependencies]</div>
@@ -408,7 +524,7 @@ Building</h1>
 </div><!-- fragment --><p><code>fortran-lapack</code> is compatible with the LAPACK API. If high-performance external BLAS/LAPACK libraries are available, it is sufficient to define macros</p>
 <div class="fragment"><div class="line">[dependencies]</div>
 <div class="line">fortran-lapack = { git=&quot;https://github.com/perazz/fortran-lapack.git&quot;, preprocess.cpp.macros=[&quot;LA_EXTERNAL_BLAS&quot;, &quot;LA_EXTERNAL_LAPACK&quot;] }</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md50"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md69"></a>
 Extension to external BLAS/LAPACK libraries</h1>
 <p>Generic interfaces to most BLAS/LAPACK functions are exposed to modules <code><a class="el" href="namespacela__blas.html" title="Precision-agnostic BLAS interface.">la_blas</a></code> and <code><a class="el" href="namespacela__lapack.html">la_lapack</a></code>. These interfaces drop the initial letter to wrap a precision-agnostic version. For example, <code>axpy</code> is a precision-agnostic interface to <code>saxpy</code>, <code>daxpy</code>, <code>caxpy</code>, <code>zaxpy</code>, <code>qaxpy</code>, <code>waxpy</code>. The naming convention is:</p>
 <table class="markdownTable">
@@ -439,10 +555,10 @@ Extension to external BLAS/LAPACK libraries</h1>
 <div class="line">    <span class="keyword">module procedure</span> la_saxpy</div>
 <div class="line"><span class="preprocessor">#endif</span></div>
 <div class="line"><span class="preprocessor"></span><span class="keyword">end interface</span></div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md51"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md70"></a>
 Licensing</h1>
 <p>LAPACK is a freely-available software package. It is available from <a href="https://www.netlib.org/lapack/">netlib</a> via anonymous ftp and the World Wide Web. Thus, it can be included in commercial software packages (and has been). Credit for the library should be given to the <a href="https://www.netlib.org/lapack/contributor-list.html">LAPACK authors</a>. The license used for the software is the <a href="https://www.netlib.org/lapack/LICENSE.txt">modified BSD license</a>. According to the original license, we changed the name of the routines and commented the changes made to the original.</p>
-<h1><a class="anchor" id="autotoc_md52"></a>
+<h1><a class="anchor" id="autotoc_md71"></a>
 Acknowledgments</h1>
 <p>Part of this work was supported by the <a href="https://www.sovereigntechfund.de">Sovereign Tech Fund</a>. </p>
 </div></div><!-- PageDoc -->

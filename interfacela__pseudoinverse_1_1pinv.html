@@ -116,7 +116,7 @@ $(function(){initNavTree('interfacela__pseudoinverse_1_1pinv.html',''); initResi
 </div><!--header-->
 <div class="contents">
 
-<p>Pseudo-inverse: Function interface.  
+<p>Compute the pseudo-inverse of a matrix.  
  <a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
@@ -135,8 +135,64 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a87be58d0ecc275a5da40653f1af86b76"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Pseudo-inverse: Function interface. </p>
-<p>Pseudo-inverse: Subroutine interface (pre-allocated) Operator interface: .pinv.A returns the pseudo-inverse of A </p>
+<div class="textblock"><p>Compute the pseudo-inverse of a matrix. </p>
+<p>This function computes the Moore-Penrose pseudo-inverse of a real or complex matrix \( A \). The pseudo-inverse is computed using Singular Value Decomposition (SVD):</p>
+<p>\( A^+ = V \Sigma^+ U^T \)</p>
+<p>where \( U \) and \( V \) are unitary matrices, and \( \Sigma^+ \) is the pseudo-inverse of the singular values.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">A</td><td>The input matrix of size \( [m, n] \). </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">rtol</td><td>(Optional) Relative tolerance for singular value truncation. If not provided, a default value is used. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>(Optional) A state return flag. If an error occurs and <code>err</code> is not provided, the function will stop execution.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The pseudo-inverse matrix \( A^+ \) of size \( [n, m] \).</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This function relies on LAPACK's SVD routines (<a class="el" href="interfacela__lapack_1_1gesvd.html">GESVD</a> or <a class="el" href="interfacela__lapack_1_1gesdd.html">GESDD</a>). </dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>If <code>rtol</code> is too large, important singular values may be discarded, leading to inaccurate results.</dd></dl>
+<p>Compute the pseudo-inverse of a matrix (subroutine version).</p>
+<p>This subroutine computes the Moore-Penrose pseudo-inverse of a real or complex matrix \( A \), storing the result in a pre-allocated output matrix \( A^+ \). The computation is based on Singular Value Decomposition (SVD):</p>
+<p>\( A^+ = V \Sigma^+ U^T \)</p>
+<p>where \( U \) and \( V \) are unitary matrices, and \( \Sigma^+ \) is the pseudo-inverse of the singular values.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">A</td><td>The input matrix of size \( [m, n] \). Its contents may be modified. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">pinva</td><td>The output pseudo-inverse matrix of size \( [n, m] \). </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">rtol</td><td>(Optional) Relative tolerance for singular value truncation. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>(Optional) A state return flag. If an error occurs and <code>err</code> is not provided, the function will stop execution.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>This subroutine is useful when the output matrix <code>pinva</code> is already allocated and avoids memory allocation inside the routine. </dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>The input matrix <code>A</code> may be modified during computation.</dd></dl>
+<p>Compute the pseudo-inverse of a matrix using the <code>.pinv.</code> operator.</p>
+<p>This operator computes the Moore-Penrose pseudo-inverse of a real or complex matrix \( A \) using Singular Value Decomposition (SVD):</p>
+<p>\( A^+ = V \Sigma^+ U^T \)</p>
+<p>where \( U \) and \( V \) are unitary matrices, and \( \Sigma^+ \) is the pseudo-inverse of the singular values.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">A</td><td>The input matrix of size \( [m, n] \).</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The pseudo-inverse matrix \( A^+ \) of size \( [n, m] \).</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This operator is a shorthand for calling <code>pinv(A)</code>, allowing expressions such as: \( X = .pinv.A \) </dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>The accuracy of the pseudo-inverse depends on the condition number of \( A \).</dd></dl>
+<p>Compute the pseudo-inverse of a matrix.</p>
+<p>This function computes the Moore-Penrose pseudo-inverse of a real or complex matrix \( A \). The pseudo-inverse is computed using Singular Value Decomposition (SVD):</p>
+<p>\( A^+ = V \Sigma^+ U^T \)</p>
+<p>where \( U \) and \( V \) are unitary matrices, and \( \Sigma^+ \) is the pseudo-inverse of the singular values.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">A</td><td>The input matrix of size \( [m, n] \). </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">rtol</td><td>(Optional) Relative tolerance for singular value truncation. If not provided, a default value is used. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>(Optional) A state return flag. If an error occurs and <code>err</code> is not provided, the function will stop execution.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The pseudo-inverse matrix \( A^+ \) of size \( [n, m] \).</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This function relies on LAPACK's SVD routines (<code>*GESVD</code> or <code>*GESDD</code>). </dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>If <code>rtol</code> is too large, important singular values may be discarded, leading to inaccurate results. </dd></dl>
 </div><h2 class="groupheader">Member Function/Subroutine Documentation</h2>
 <a id="a159393badbaa22baa3df03cb30f22707" name="a159393badbaa22baa3df03cb30f22707"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a159393badbaa22baa3df03cb30f22707">&#9670;&#160;</a></span>la_pseudoinverse_c()</h2>

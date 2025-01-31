@@ -115,6 +115,9 @@ $(function(){initNavTree('interfacela__pseudoinverse_1_1pseudoinvert.html',''); 
   <div class="headertitle"><div class="title">la_pseudoinverse::pseudoinvert Interface Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Compute the pseudo-inverse of a matrix (subroutine version).  
+ <a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -131,7 +134,23 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:acbb620c208583e905873c1dc9c39cef6" id="r_acbb620c208583e905873c1dc9c39cef6"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acbb620c208583e905873c1dc9c39cef6">la_pseudoinvert_w</a> (a, pinva, rtol, err)</td></tr>
 <tr class="separator:acbb620c208583e905873c1dc9c39cef6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Function/Subroutine Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Compute the pseudo-inverse of a matrix (subroutine version). </p>
+<p>This subroutine computes the Moore-Penrose pseudo-inverse of a real or complex matrix \( A \), storing the result in a pre-allocated output matrix \( A^+ \). The computation is based on Singular Value Decomposition (SVD):</p>
+<p>\( A^+ = V \Sigma^+ U^T \)</p>
+<p>where \( U \) and \( V \) are unitary matrices, and \( \Sigma^+ \) is the pseudo-inverse of the singular values.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">A</td><td>The input matrix of size \( [m, n] \). Its contents may be modified. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">pinva</td><td>The output pseudo-inverse matrix of size \( [n, m] \). </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">rtol</td><td>(Optional) Relative tolerance for singular value truncation. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>(Optional) A state return flag. If an error occurs and <code>err</code> is not provided, the function will stop execution.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>This subroutine is useful when the output matrix <code>pinva</code> is already allocated and avoids memory allocation inside the routine. </dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>The input matrix <code>A</code> may be modified during computation. </dd></dl>
+</div><h2 class="groupheader">Member Function/Subroutine Documentation</h2>
 <a id="a26de8f68534b8f7ec657ecaad2939c94" name="a26de8f68534b8f7ec657ecaad2939c94"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a26de8f68534b8f7ec657ecaad2939c94">&#9670;&#160;</a></span>la_pseudoinvert_c()</h2>
 

@@ -115,6 +115,9 @@ $(function(){initNavTree('interfacela__pseudoinverse_1_1operator_07_8pinv_8_08.h
   <div class="headertitle"><div class="title">la_pseudoinverse::operator(.pinv.) Interface Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Compute the pseudo-inverse of a matrix using the <code>.pinv.</code> operator.  
+ <a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -131,7 +134,21 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:af91f79793eea5030f5b31f16780a99c5" id="r_af91f79793eea5030f5b31f16780a99c5"><td class="memItemLeft" align="right" valign="top">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>) function, dimension(size(a, 2, kind=<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), size(a, 1, kind=<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>))&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af91f79793eea5030f5b31f16780a99c5">la_pinv_w_operator</a> (a)</td></tr>
 <tr class="separator:af91f79793eea5030f5b31f16780a99c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Function/Subroutine Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Compute the pseudo-inverse of a matrix using the <code>.pinv.</code> operator. </p>
+<p>This operator computes the Moore-Penrose pseudo-inverse of a real or complex matrix \( A \) using Singular Value Decomposition (SVD):</p>
+<p>\( A^+ = V \Sigma^+ U^T \)</p>
+<p>where \( U \) and \( V \) are unitary matrices, and \( \Sigma^+ \) is the pseudo-inverse of the singular values.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">A</td><td>The input matrix of size \( [m, n] \).</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The pseudo-inverse matrix \( A^+ \) of size \( [n, m] \).</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This operator is a shorthand for calling <code>pinv(A)</code>, allowing expressions such as: \( X = .pinv.A \) </dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>The accuracy of the pseudo-inverse depends on the condition number of \( A \). </dd></dl>
+</div><h2 class="groupheader">Member Function/Subroutine Documentation</h2>
 <a id="a4da75daa4463ae03b47a1509ba45ef09" name="a4da75daa4463ae03b47a1509ba45ef09"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4da75daa4463ae03b47a1509ba45ef09">&#9670;&#160;</a></span>la_pinv_c_operator()</h2>
 
