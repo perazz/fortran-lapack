@@ -37,8 +37,6 @@ module la_least_squares
      !!
      public :: lstsq
 
-     public :: lstsq
-
      interface lstsq
         #:for nd,ndsuf,nde in ALL_RANKS
         #:for rk,rt,ri in ALL_KINDS_TYPES
@@ -51,7 +49,7 @@ module la_least_squares
      contains
 
      #:for rk,rt,ri in ALL_KINDS_TYPES
-     !> Workspace needed by gesv
+     !> Workspace needed by ${rt}$ gesv
      subroutine ${ri}$gesv_space(m,n,nrhs,lrwork,liwork,lcwork)
          integer(ilp), intent(in) :: m,n,nrhs
          integer(ilp), intent(out) :: lrwork,liwork,lcwork
@@ -92,7 +90,7 @@ module la_least_squares
      #:for nd,ndsuf,nde in ALL_RANKS
      #:for rk,rt,ri in ALL_KINDS_TYPES
 
-     !> Compute the least-squares solution to a real system of linear equations Ax = B
+     !> Compute the least-squares solution to a ${rt}$ system of linear equations Ax = B
      function la_${ri}$lstsq${ndsuf}$(a,b,cond,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          ${rt}$,                     intent(inout), target :: a(:,:)
@@ -131,7 +129,7 @@ module la_least_squares
 
          if (lda<1 .or. n<1 .or. ldb<1 .or. ldb/=m) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],',&
-                                                                       'b=[',ldb,',',nrhs,']')
+                                                                   'b=[',ldb,',',nrhs,']')
             allocate(x(${nde}$))
             arank = 0
             goto 1
@@ -155,7 +153,7 @@ module la_least_squares
          allocate(x,source=b)
          xmat(1:n,1:nrhs) => x
 
-         ! Singular values array (in degreasing order)
+         ! Singular values array (in decreasing order)
          allocate(singular(mnmin))
 
          ! rcond is used to determine the effective rank of A.
@@ -191,7 +189,7 @@ module la_least_squares
             case (0)
                 ! Success
             case (:-1)
-                err0 = la_state(this,LINALG_VALUE_ERROR,'invalid problem size a=[',lda,',',n,'], b[',ldb,',',nrhs,']')
+                err0 = la_state(this,LINALG_VALUE_ERROR,'invalid problem size a=',[lda,n],', b=',[ldb,nrhs])
             case (1:)
                 err0 = la_state(this,LINALG_ERROR,'SVD did not converge.')
             case default

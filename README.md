@@ -3,7 +3,7 @@ This package provides precision-agnostic, high-level linear algebra APIs for `re
 
 A full and standardized implementation of the present library has been integrated into the [Fortran Standard Library](http://stdlib.fortran-lang.org/), and as such, most users should seek to access the functionality from `stdlib`. The present library is kept in place for those who seek a compact implementation of it.
 
-# Current API
+# Browse API
 
 ## [`solve`](@ref la_solve::solve) - Solves a linear matrix equation or a linear system of equations.
 
@@ -32,15 +32,41 @@ For a full-rank matrix, returns an array value that represents the solution to t
 - Raises [`LINALG_VALUE_ERROR`](@ref la_state_type::linalg_value_error) if the matrix and rhs vectors have invalid/incompatible sizes.
 - If `err` is not present, exceptions trigger an `error stop`.
 
+## [`lstsq`](@ref la_least_squares::lstsq) - Computes a least squares solution to a system of linear equations.
 
-## `lstsq(A, b)`
-**Type**: Function  
-**Description**: Solve non-square systems in a least squares sense - one (`b(:)`) or many (`b(:,:)`).  
-**Optional arguments**:  
-- `cond`: Optional SVD cutoff.  
-- `overwrite_a`: Option to let A be destroyed.  
-- `rank`: Return matrix rank.  
-- `err`: Return state handler.
+### Syntax
+
+`x = lstsq(a, b [, cond] [, overwrite_a] [, rank] [, err])`
+
+### Description
+
+Solves the least-squares problem for the system \f$ A \cdot x = b \f$, where \f$ A \f$ is a square matrix of size \f$ n \times n \f$ and \f$ b \f$ is either a vector of size \f$ n \f$ or a matrix of size \f$ n \times nrhs \f$. The function minimizes the 2-norm \f$ \|b - A \cdot x\| \f$ by solving for \f$ x \f$. 
+
+The result \f$ x \f$ is returned as an allocatable array, and it is either a vector (for a single right-hand side) or a matrix (for multiple right-hand sides).
+
+### Arguments
+
+- `a`: A `real` matrix of size \f$ n \times n \f$ representing the coefficient matrix. If `overwrite_a = .true.`, the contents of `a` may be modified during the computation.
+- `b`: A `real` vector or matrix representing the right-hand side. The size should be \f$ n \f$ (for a single right-hand side) or \f$ n \times nrhs \f$ (for multiple right-hand sides).
+- `cond` (optional): A cutoff for rank evaluation. Singular values \f$ s(i) \f$ such that \f$ s(i) \leq \text{cond} \cdot \max(s) \f$ are considered zero. 
+- `overwrite_a` (optional, default = `.false.`): If `.true.`, both `a` and `b` may be overwritten and destroyed during computation. 
+- `rank` (optional): An integer variable that returns the rank of the matrix \f$ A \f$.
+- `err` (optional): A [`type(la_state)`](@ref la_state_type::la_state) variable that returns the error state. If `err` is not provided, the function will stop execution on error.
+
+### Return value
+
+Returns the solution array \f$ x \f$ with size \f$ n \f$ (for a single right-hand side) or \f$ n \times nrhs \f$ (for multiple right-hand sides).
+
+### Errors
+
+- Raises [`LINALG_ERROR`](@ref la_state_type::linalg_error) if the matrix \f$ A \f$ is singular to working precision.
+- Raises [`LINALG_VALUE_ERROR`](@ref la_state_type::linalg_value_error) if the matrix `a` and the right-hand side `b` have incompatible sizes.
+- If `err` is not provided, the function stops execution on error.
+
+### Notes
+
+- This function relies on LAPACK's least-squares solvers, such as [`*GELSS`](@ref la_lapack::gelss).
+- If `overwrite_a` is enabled, the original contents of `a` and `b` may be lost.
 
 ## `det(A)`
 **Type**: Function  
