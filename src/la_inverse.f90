@@ -1,4 +1,4 @@
-! Compute matrix inverse
+!> Inverse of a square matrix
 module la_inverse
      use la_constants
      use la_blas
@@ -8,16 +8,56 @@ module la_inverse
      implicit none(type,external)
      private
 
-     !> Function interface return the matrix inverse
+     !> @brief Compute the inverse of a square matrix.
+     !!
+     !! This function computes the inverse of a real or complex square matrix \f$ A \f$.
+     !! The inverse is computed using an LU decomposition with partial pivoting.
+     !!
+     !! @param[in] A The input square matrix of size \f$ [n, n] \f$.
+     !! @param[out] err (Optional) A state return flag. If an error occurs and `err` is not provided,
+     !!                 the function will stop execution.
+     !!
+     !! @return The inverse matrix \f$ A^{-1} \f$ of size \f$ [n, n] \f$.
+     !!
+     !! @note This function relies on LAPACK's LU decomposition routines ([GETRF](@ref la_lapack::getrf)
+     !!       and [GETRI](@ref la_lapack::getri)).
+     !! @warning The matrix \f$ A \f$ must be non-singular. If it is singular or nearly singular,
+     !!          the function will fail.
+     !!
      public :: inv
-     !> Subroutine interface: invert matrix inplace
-     public :: invert
-     !> Operator interface: .inv.A returns the matrix inverse of A
-     public :: operator(.inv.)
 
-     ! Numpy: inv(a)
-     ! Scipy: inv(a, overwrite_a=False, check_finite=True)
-     ! IMSL: .i.a
+
+     !> @brief Compute the inverse of a square matrix in-place.
+     !!
+     !! This subroutine computes the inverse of a real or complex square matrix \f$ A \f$ in-place.
+     !! The inverse is computed using an LU decomposition with partial pivoting.
+     !!
+     !! @param[in,out] A The input square matrix of size \f$ [n, n] \f$. It is replaced by its inverse \f$ A^{-1} \f$.
+     !! @param[out] err (Optional) A state return flag. If an error occurs and `err` is not provided,
+     !!                 the function will stop execution.
+     !!
+     !! @note This subroutine is useful when memory efficiency is a priority, as it avoids additional allocations.
+     !! @warning The matrix \f$ A \f$ must be non-singular. If it is singular or nearly singular,
+     !!          the computation will fail.
+     !!
+     public :: invert
+
+
+     !> @brief Compute the inverse of a square matrix using the `.inv.` operator.
+     !!
+     !! This operator computes the inverse of a real or complex square matrix \f$ A \f$ using
+     !! an LU decomposition with partial pivoting.
+     !!
+     !! @param[in] A The input square matrix of size \f$ [n, n] \f$.
+     !!
+     !! @return The inverse matrix \f$ A^{-1} \f$ of size \f$ [n, n] \f$.
+     !!
+     !! @note This operator is a shorthand for calling `inv(A)`, allowing expressions such as:
+     !!       \f$ X = .inv.A \f$
+     !! @warning The matrix \f$ A \f$ must be non-singular. If it is singular or nearly singular,
+     !!          the computation will fail.
+     !!
+     public :: operator(.inv.)
 
      ! Function interface
      interface inv

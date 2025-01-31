@@ -100,73 +100,128 @@ The function returns a `real` scalar value representing the determinant of the i
 - The determinant of the matrix is computed using the LAPACK [getrf](@ref la_lapack::getrf) backend.
 - If `overwrite_a` is enabled, the input matrix `a` will be destroyed during the computation process.
 
-## `inv(A)`
-**Type**: Function  
-**Description**: Inverse of a scalar or square matrix.  
-**Optional arguments**:  
-- `err`: Return state handler.
 
-## `invert(A)`
-**Type**: Subroutine  
-**Description**: In-place inverse of a scalar or square matrix.  
-**Optional arguments**:  
-- `err`: Return state handler.  
 
-**Usage**: `call invert(A, err=err)` where `A` is replaced with $A^{-1}$.
-
-## `.inv.A`
-**Type**: Operator  
-**Description**: Inverse of a scalar or square matrix.  
-
-**Effect**: `A` is replaced with $A^{-1}$.
-
-## [pseudoinvert](@ref la_pseudoinverse::pseudoinvert) - Moore-Penrose pseudo-inverse of a matrix.
+## [inv](@ref la_inverse::inv) - Inverse of a square matrix.
 
 ### Syntax
 
-`call pseudoinvert(a, pinva [, rtol] [, err])`
+`inv_a = inv(a [, err])`
 
 ### Description
 
-This subroutine computes the Moore-Penrose pseudo-inverse \f$ A^+ \f$ of a real or complex matrix \f$ A \f$ using Singular Value Decomposition (SVD). The pseudo-inverse is a generalization of the matrix inverse that can be computed for non-square and singular matrices. It is particularly useful for solving least-squares problems and underdetermined systems.
-
-The computation is based on the singular value decomposition (SVD):
-
-\f[
-A = U \Sigma V^T
-\f]
-
-where \f$ U \f$ and \f$ V \f$ are orthogonal matrices, and \f$ \Sigma \f$ is a diagonal matrix containing the singular values. The pseudo-inverse is computed as:
+This function computes the inverse \f$ A^{-1} \f$ of a real or complex square matrix \f$ A \f$, provided that \f$ A \f$ is non-singular. 
+The inverse of a matrix is defined as:
 
 \f[
-A^+ = V \Sigma^+ U^T
+A A^{-1} = A^{-1} A = I
 \f]
 
-where \f$ \Sigma^+ \f$ is obtained by inverting the nonzero singular values.
+where \f$ I \f$ is the identity matrix of the same size as \f$ A \f$. The inverse exists only if \f$ A \f$ is square and has full rank (i.e., all its singular values are nonzero).
+
+The computation is performed using LU decomposition.
 
 ### Arguments
 
-- `a`: A `real` or `complex` matrix of size \f$ [m,n] \f$, representing the input matrix to be inverted.
-- `pinva`: A `real` or `complex` matrix of size \f$ [n,m] \f$, representing the pseudo-inverse of `a`. This is an output argument.
-- `rtol` (optional): A real scalar specifying the relative tolerance for singular value truncation. Singular values smaller than `rtol * max(singular_values(A))` are set to zero. If not provided, a default machine-precision-based tolerance is used.
+- `a`: A `real` or `complex` square matrix of size \f$ [n,n] \f$, representing the matrix to be inverted.
 - `err` (optional): A [type(la_state)](@ref la_state_type::la_state) variable that returns the error state. If not provided, the function will stop execution on error.
 
 ### Return value
 
-The pseudo-inverse of the input matrix `a` is returned in `pinva`.
+- `inv_a`: A `real` or `complex` square matrix of size \f$ [n,n] \f$, representing the inverse of `a`.
 
 ### Errors
 
-- Raises [LINALG_VALUE_ERROR](@ref la_state_type::linalg_value_error) if the dimensions of `pinva` do not match the expected output size.
-- Raises [LINALG_ERROR](@ref la_state_type::linalg_error) if the SVD decomposition fails.
+- Raises [LINALG_VALUE_ERROR](@ref la_state_type::linalg_value_error) if `a` is singular or has invalid size.
 - If `err` is not provided, exceptions will trigger an `error stop`.
 
 ### Notes
 
-- This subroutine computes the pseudo-inverse using LAPACK’s SVD decomposition routine [`*GESVD`](@ref la_lapack::gesvd).
-- The choice of `rtol` affects numerical stability and rank estimation: setting it too high may result in an inaccurate inverse, while setting it too low may amplify numerical noise.
-- This version requires `pinva` to be pre-allocated. To obtain the required size before allocation, use [`pseudoinvert_space`](@ref la_pseudoinvert::pseudoinvert_space).
+- This function computes the inverse using LAPACK's LU decomposition routine [GETRF](@ref la_lapack::getrf) followed by [GETRI](@ref la_lapack::getri).
+- The inverse should be used with caution in numerical computations. For solving linear systems, using [solve](@ref la_solve::solve) is usually more stable and efficient than explicitly computing the inverse.
 
+## [invert](@ref la_inverse::invert) - In-place matrix inversion
+
+### Syntax
+
+`call invert(a [, err])`
+
+### Description
+
+This subroutine computes the inverse \\( A^{-1} \\) of a real or complex square matrix \\( A \\) **in-place**, modifying `a` directly. It uses the LU decomposition method via LAPACK's [GETRF](@ref la_lapack::getrf) and [GETRI](@ref la_lapack::getri) routines.
+
+Given a square matrix \\( A \\), the LU decomposition factorizes it as:
+
+\f[
+A = P L U
+\f]
+
+where:
+- \\( P \\) is a permutation matrix,
+- \\( L \\) is a lower triangular matrix with unit diagonal,
+- \\( U \\) is an upper triangular matrix.
+
+The inverse is then obtained by solving \\( A X = I \\) using the LU factors.
+
+### Arguments
+
+- `a`: A `real` or `complex` square matrix of size \\( [n,n] \\). On output, it is replaced with its inverse \\( A^{-1} \\).
+- `err` (optional): A [type(la_state)](@ref la_state_type::la_state) variable that returns the error state. If not provided, the function will stop execution on error.
+
+### Errors
+
+- Raises [LINALG_ERROR](@ref la_state_type::linalg_error) if the matrix is singular.
+- Raises [LINALG_VALUE_ERROR](@ref la_state_type::linalg_value_error) if `a` has invalid size.
+- If `err` is not provided, exceptions will trigger an `error stop`.
+
+### Notes
+
+- This subroutine modifies `a` in-place. If the original matrix needs to be preserved, use [inv](@ref la_inverse::inv) instead.
+- The determinant of `a` can be computed before inversion using [det](@ref la_determinant::det) to check for singularity.
+- The computational complexity is \\( O(n^3) \\), making it expensive for large matrices.
+- It is recommended to use matrix factorizations (e.g., LU or QR) for solving linear systems instead of computing the inverse explicitly, as it is numerically more stable and efficient.
+
+
+## [operator(.inv.)](@ref la_inverse::operator(.inv.)) - Compute the inverse of a square matrix.
+
+### Syntax
+
+```fortran
+invA = .inv. A
+```
+
+### Description
+
+This operator computes the inverse \f$ A^{-1} \f$ of a square, non-singular real or complex matrix \f$ A \f$ using an LU decomposition. The inversion satisfies:
+
+\f[
+A A^{-1} = I
+\f]
+
+where \f$ I \f$ is the identity matrix of appropriate size.
+
+This operator is functionally equivalent to [inv](@ref la_inverse::inv) but provides a more convenient syntax. It supports operator chaining, allowing multiple inversions within expressions:
+
+### Arguments
+
+- `A`: A `real` or `complex` square matrix of size \f$ [n,n] \f$, representing the input matrix to be inverted.
+
+### Return value
+
+- `invA`: A `real` or `complex` square matrix of size \f$ [n,n] \f$, and same kind as `A` representing its inverse.  
+- If `A` is singular or the inversion fails, an **empty matrix** (size \f$ [0,0] \f$) is returned instead of raising an error.
+
+### Errors
+
+- Unlike [inv](@ref la_inverse::inv), this operator **does not provide explicit error handling**.
+- If `A` is singular or an error occurs during inversion, the function **returns an empty matrix** (size \f$ [0,0] \f$) instead of raising an exception.
+- The caller should check the size of the returned matrix to determine if inversion was successful.
+
+### Notes
+
+- This operator internally calls LAPACK's LU decomposition routine [GETRF](@ref la_lapack::getrf) followed by [GETRI](@ref la_lapack::getri).
+- The chaining property allows for concise expressions but requires caution: if any intermediate inversion fails, subsequent operations may propagate errors due to empty matrix results.
+- If strict error handling is required, use [inv](@ref la_inverse::inv) instead.
 
 ## [pinv](@ref la_pseudoinverse::pinv) - Moore-Penrose pseudo-inverse of a matrix (function).
 
@@ -210,7 +265,7 @@ where \f$ \Sigma^+ \f$ is obtained by inverting the nonzero singular values.
 
 ### Notes
 
-- This function computes the pseudo-inverse using LAPACK’s SVD decomposition routine [`*GESVD`](@ref la_lapack::gesvd).
+- This function computes the pseudo-inverse using LAPACK's SVD decomposition routine [`*GESVD`](@ref la_lapack::gesvd).
 - The choice of `rtol` affects numerical stability and rank estimation: setting it too high may result in an inaccurate inverse, while setting it too low may amplify numerical noise.
 - This function returns a newly allocated matrix. For an in-place version, use [`pseudoinvert`](@ref la_pseudoinverse::pseudoinvert).
 
@@ -255,7 +310,7 @@ where \f$ \Sigma^+ \f$ is the inverse of the nonzero singular values in \f$ \Sig
 ### Notes
 
 - This operator internally calls [pinv](@ref la_pseudoinverse::pinv) and behaves identically.
-- The pseudo-inverse is computed using LAPACK’s SVD decomposition routine [GESVD](@ref la_lapack::gesvd).
+- The pseudo-inverse is computed using LAPACK's SVD decomposition routine [GESVD](@ref la_lapack::gesvd).
 - This operator is a convenient shorthand for calling the functional interface `pinv(a)`.
 
 
