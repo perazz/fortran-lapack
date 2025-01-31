@@ -17,7 +17,8 @@ jobs:
 
       # Step 2: Set up Doxygen
       - name: Install Doxygen and Graphviz
-        run: sudo apt-get install doxygen graphviz -y
+        run: sudo apt-get update
+        run: sudo apt-get install doxygen=1.13.2-1ubuntu1 graphviz -y
 
       # Step 3: Generate Doxygen documentation
       - name: Generate Doxygen Documentation
