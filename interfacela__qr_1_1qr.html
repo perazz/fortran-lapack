@@ -19,6 +19,13 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
@@ -130,27 +137,27 @@ Public Member Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Compute the QR factorization of a matrix. </p>
 <p>This subroutine computes the QR factorization of a real or complex matrix:</p>
-<p><img class="formulaInl" alt="$ A = Q \cdot R $" src="form_4.png" width="90" height="20"/></p>
-<p>where <img class="formulaInl" alt="$ A $" src="form_5.png" width="16" height="16"/> is a matrix of size <img class="formulaInl" alt="$ [m,n] $" src="form_6.png" width="48" height="22"/> with <img class="formulaInl" alt="$ m \ge n $" src="form_7.png" width="58" height="18"/>, <img class="formulaInl" alt="$ Q $" src="form_8.png" width="16" height="20"/> is an orthonormal matrix, and <img class="formulaInl" alt="$ R $" src="form_9.png" width="16" height="16"/> is an upper-triangular matrix. The result is returned in the output matrices <img class="formulaInl" alt="$ Q $" src="form_8.png" width="16" height="20"/> and <img class="formulaInl" alt="$ R $" src="form_9.png" width="16" height="16"/>, which are of the same type and kind as <img class="formulaInl" alt="$ A $" src="form_5.png" width="16" height="16"/>. The function can solve both full and reduced problems depending on the sizes of the matrices.</p>
+<p>\( A = Q \cdot R \)</p>
+<p>where \( A \) is a matrix of size \( [m,n] \) with \( m \ge n \), \( Q \) is an orthonormal matrix, and \( R \) is an upper-triangular matrix. The result is returned in the output matrices \( Q \) and \( R \), which are of the same type and kind as \( A \). The function can solve both full and reduced problems depending on the sizes of the matrices.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>The input matrix of size <img class="formulaInl" alt="$ [m,n] $" src="form_6.png" width="48" height="22"/>. If <code>overwrite_a</code> is true, the contents of <code>a</code> may be modified during computation. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">q</td><td>The orthonormal matrix <img class="formulaInl" alt="$ Q $" src="form_8.png" width="16" height="20"/>, with shape <img class="formulaInl" alt="$ [m,m] $" src="form_10.png" width="52" height="22"/> for the full problem or <img class="formulaInl" alt="$ [m,k] $" src="form_11.png" width="46" height="22"/> for the reduced problem. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">r</td><td>The upper-triangular matrix <img class="formulaInl" alt="$ R $" src="form_9.png" width="16" height="16"/>, with shape <img class="formulaInl" alt="$ [m,n] $" src="form_6.png" width="48" height="22"/> for the full problem or <img class="formulaInl" alt="$ [k,n] $" src="form_12.png" width="40" height="22"/> for the reduced problem. </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>The input matrix of size \( [m,n] \). If <code>overwrite_a</code> is true, the contents of <code>a</code> may be modified during computation. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">q</td><td>The orthonormal matrix \( Q \), with shape \( [m,m] \) for the full problem or \( [m,k] \) for the reduced problem. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">r</td><td>The upper-triangular matrix \( R \), with shape \( [m,n] \) for the full problem or \( [k,n] \) for the reduced problem. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>(Optional) A logical flag that determines whether matrix <code>a</code> may be overwritten. Default is false. </td></tr>
     <tr><td class="paramdir">[in,out]</td><td class="paramname">storage</td><td>(Optional) Pre-allocated workspace array for intermediate calculations. Its size is checked with <a class="el" href="interfacela__qr_1_1qr__space.html"><code>qr_space</code></a>. </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>(Optional) A state return flag. If an error occurs and <code>err</code> is not provided, the function will stop execution.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The QR factorization matrices <img class="formulaInl" alt="$ Q $" src="form_8.png" width="16" height="20"/> and <img class="formulaInl" alt="$ R $" src="form_9.png" width="16" height="16"/> are returned in the corresponding output arguments.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The QR factorization matrices \( Q \) and \( R \) are returned in the corresponding output arguments.</dd></dl>
 <dl class="section note"><dt>Note</dt><dd>This subroutine uses LAPACK's QR decomposition algorithm <a class="el" href="interfacela__lapack_1_1geqrf.html"><code>*GEQRF</code></a> to compute the factorization.</dd></dl>
 <dl class="section warning"><dt>Warning</dt><dd>If <code>overwrite_a</code> is enabled, the original contents of <code>a</code> may be lost during computation.</dd></dl>
 <p>Get the required workspace size for QR factorization.</p>
 <p>This subroutine returns the minimum workspace size required for performing QR factorization. It computes the size of the workspace array that is necessary for both QR factorization and solving the reduced problem, depending on the input matrix.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">a</td><td>The input matrix of size <img class="formulaInl" alt="$ [m,n] $" src="form_6.png" width="48" height="22"/>. This matrix is used to determine the required workspace size. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">a</td><td>The input matrix of size \( [m,n] \). This matrix is used to determine the required workspace size. </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">lwork</td><td>The minimum size of the workspace array needed for QR operations. </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>(Optional) A state return flag. If an error occurs and <code>err</code> is not provided, the function will stop execution.</td></tr>
   </table>

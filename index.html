@@ -19,6 +19,13 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
@@ -112,7 +119,7 @@ $(function(){initNavTree('index.html',''); initResizable(true); });
 Browse API</h1>
 <p>All procedures work with all types (<code>real</code>, <code>complex</code>) and kinds (32, 64, 128-bit floats).</p>
 <h2><a class="anchor" id="autotoc_md6"></a>
-<a class="el" href="interfacela__solve_1_1solve.html"><code>solve</code></a> - Solve a linear matrix equation or a linear system of equations.</h2>
+<a class="el" href="interfacela__solve_1_1solve.html">solve</a> - Solve a linear matrix equation or a linear system of equations.</h2>
 <h3><a class="anchor" id="autotoc_md7"></a>
 Syntax</h3>
 <p><code>x = solve(a, b [, overwrite_a] [, err])</code> <br  />
@@ -140,31 +147,31 @@ Errors</h3>
 <li>If <code>err</code> is not present, exceptions trigger an <code>error stop</code>.</li>
 </ul>
 <h2><a class="anchor" id="autotoc_md12"></a>
-<a class="el" href="interfacela__least__squares_1_1lstsq.html"><code>lstsq</code></a> - Compute a least squares solution to a system of linear equations.</h2>
+<a class="el" href="interfacela__least__squares_1_1lstsq.html">lstsq</a> - Compute a least squares solution to a system of linear equations.</h2>
 <h3><a class="anchor" id="autotoc_md13"></a>
 Syntax</h3>
 <p><code>x = lstsq(a, b [, cond] [, overwrite_a] [, rank] [, err])</code></p>
 <h3><a class="anchor" id="autotoc_md14"></a>
 Description</h3>
-<p>Solves the least-squares problem for the system <img class="formulaInl" alt="$ A \cdot x = b $" src="form_0.png" width="78" height="16"/>, where <img class="formulaInl" alt="$ A $" src="form_5.png" width="16" height="16"/> is a square matrix of size <img class="formulaInl" alt="$ n \times n $" src="form_14.png" width="50" height="12"/> and <img class="formulaInl" alt="$ b $" src="form_15.png" width="8" height="16"/> is either a vector of size <img class="formulaInl" alt="$ n $" src="form_16.png" width="14" height="10"/> or a matrix of size <img class="formulaInl" alt="$ n \times nrhs $" src="form_17.png" width="80" height="16"/>. The function minimizes the 2-norm <img class="formulaInl" alt="$ \|b - A \cdot x\| $" src="form_1.png" width="92" height="22"/> by solving for <img class="formulaInl" alt="$ x $" src="form_18.png" width="12" height="10"/>.</p>
-<p>The result <img class="formulaInl" alt="$ x $" src="form_18.png" width="12" height="10"/> is returned as an allocatable array, and it is either a vector (for a single right-hand side) or a matrix (for multiple right-hand sides).</p>
+<p>Solves the least-squares problem for the system \( A \cdot x = b \), where \( A \) is a square matrix of size \( n \times n \) and \( b \) is either a vector of size \( n \) or a matrix of size \( n \times nrhs \). The function minimizes the 2-norm \( \|b - A \cdot x\| \) by solving for \( x \).</p>
+<p>The result \( x \) is returned as an allocatable array, and it is either a vector (for a single right-hand side) or a matrix (for multiple right-hand sides).</p>
 <h3><a class="anchor" id="autotoc_md15"></a>
 Arguments</h3>
 <ul>
-<li><code>a</code>: A <code>real</code> matrix of size <img class="formulaInl" alt="$ n \times n $" src="form_14.png" width="50" height="12"/> representing the coefficient matrix. If <code>overwrite_a = .true.</code>, the contents of <code>a</code> may be modified during the computation.</li>
-<li><code>b</code>: A <code>real</code> vector or matrix representing the right-hand side. The size should be <img class="formulaInl" alt="$ n $" src="form_16.png" width="14" height="10"/> (for a single right-hand side) or <img class="formulaInl" alt="$ n \times nrhs $" src="form_17.png" width="80" height="16"/> (for multiple right-hand sides).</li>
-<li><code>cond</code> (optional): A cutoff for rank evaluation. Singular values <img class="formulaInl" alt="$ s(i) $" src="form_2.png" width="30" height="22"/> such that <img class="formulaInl" alt="$ s(i) \leq \text{cond} \cdot \max(s) $" src="form_3.png" width="174" height="22"/> are considered zero.</li>
+<li><code>a</code>: A <code>real</code> matrix of size \( n \times n \) representing the coefficient matrix. If <code>overwrite_a = .true.</code>, the contents of <code>a</code> may be modified during the computation.</li>
+<li><code>b</code>: A <code>real</code> vector or matrix representing the right-hand side. The size should be \( n \) (for a single right-hand side) or \( n \times nrhs \) (for multiple right-hand sides).</li>
+<li><code>cond</code> (optional): A cutoff for rank evaluation. Singular values \( s(i) \) such that \( s(i) \leq \text{cond} \cdot \max(s) \) are considered zero.</li>
 <li><code>overwrite_a</code> (optional, default = <code>.false.</code>): If <code>.true.</code>, both <code>a</code> and <code>b</code> may be overwritten and destroyed during computation.</li>
-<li><code>rank</code> (optional): An integer variable that returns the rank of the matrix <img class="formulaInl" alt="$ A $" src="form_5.png" width="16" height="16"/>.</li>
+<li><code>rank</code> (optional): An integer variable that returns the rank of the matrix \( A \).</li>
 <li><code>err</code> (optional): A <a class="el" href="structla__state__type_1_1la__state.html"><code>type(la_state)</code></a> variable that returns the error state. If <code>err</code> is not provided, the function will stop execution on error.</li>
 </ul>
 <h3><a class="anchor" id="autotoc_md16"></a>
 Return value</h3>
-<p>Returns the solution array <img class="formulaInl" alt="$ x $" src="form_18.png" width="12" height="10"/> with size <img class="formulaInl" alt="$ n $" src="form_16.png" width="14" height="10"/> (for a single right-hand side) or <img class="formulaInl" alt="$ n \times nrhs $" src="form_17.png" width="80" height="16"/> (for multiple right-hand sides).</p>
+<p>Returns the solution array \( x \) with size \( n \) (for a single right-hand side) or \( n \times nrhs \) (for multiple right-hand sides).</p>
 <h3><a class="anchor" id="autotoc_md17"></a>
 Errors</h3>
 <ul>
-<li>Raises <a class="el" href="namespacela__state__type.html#af5b55841ca3045c3345d9ab019e0797d"><code>LINALG_ERROR</code></a> if the matrix <img class="formulaInl" alt="$ A $" src="form_5.png" width="16" height="16"/> is singular to working precision.</li>
+<li>Raises <a class="el" href="namespacela__state__type.html#af5b55841ca3045c3345d9ab019e0797d"><code>LINALG_ERROR</code></a> if the matrix \( A \) is singular to working precision.</li>
 <li>Raises <a class="el" href="namespacela__state__type.html#ad9888f2f7d4e692e7d3b8fd532baa903"><code>LINALG_VALUE_ERROR</code></a> if the matrix <code>a</code> and the right-hand side <code>b</code> have incompatible sizes.</li>
 <li>If <code>err</code> is not provided, the function stops execution on error.</li>
 </ul>
@@ -302,35 +309,35 @@ Notes</h3>
 <li><code>err</code>: Error handler.</li>
 </ul>
 <h2><a class="anchor" id="autotoc_md34"></a>
-<a class="el" href="interfacela__qr_1_1qr.html"><code>qr</code></a> - Compute the QR factorization of a matrix.</h2>
+<a class="el" href="interfacela__qr_1_1qr.html">qr</a> - Compute the QR factorization of a matrix.</h2>
 <h3><a class="anchor" id="autotoc_md35"></a>
 Syntax</h3>
 <p><code>call qr(a, q, r [, overwrite_a] [, storage] [, err])</code></p>
 <h3><a class="anchor" id="autotoc_md36"></a>
 Description</h3>
-<p>This subroutine computes the QR factorization of a <code>real</code> or <code>complex</code> matrix <img class="formulaInl" alt="$ A = Q \cdot R $" src="form_4.png" width="90" height="20"/>, where <img class="formulaInl" alt="$ Q $" src="form_8.png" width="16" height="20"/> is orthonormal and <img class="formulaInl" alt="$ R $" src="form_9.png" width="16" height="16"/> is upper-triangular. The matrix <img class="formulaInl" alt="$ A $" src="form_5.png" width="16" height="16"/> has size <img class="formulaInl" alt="$ [m,n] $" src="form_6.png" width="48" height="22"/> with <img class="formulaInl" alt="$ m \ge n $" src="form_7.png" width="58" height="18"/>. The result is returned in the output matrices <img class="formulaInl" alt="$ Q $" src="form_8.png" width="16" height="20"/> and <img class="formulaInl" alt="$ R $" src="form_9.png" width="16" height="16"/>, which have the same type and kind as <img class="formulaInl" alt="$ A $" src="form_5.png" width="16" height="16"/>.</p>
-<p>Given <img class="formulaInl" alt="$ k = \min(m, n) $" src="form_19.png" width="124" height="22"/>, the matrix <img class="formulaInl" alt="$ A $" src="form_5.png" width="16" height="16"/> can be written as:</p>
+<p>This subroutine computes the QR factorization of a <code>real</code> or <code>complex</code> matrix \( A = Q \cdot R \), where \( Q \) is orthonormal and \( R \) is upper-triangular. The matrix \( A \) has size \( [m,n] \) with \( m \ge n \). The result is returned in the output matrices \( Q \) and \( R \), which have the same type and kind as \( A \).</p>
+<p>Given \( k = \min(m, n) \), the matrix \( A \) can be written as:</p>
 <p class="formulaDsp">
-<img class="formulaDsp" alt="\[A = \left( \begin{array}{cc} Q_1 &amp; Q_2 \end{array} \right) \cdot \left( \begin{array}{cc} R_1 &amp; 0 \end{array} \right)
-\]" src="form_20.png" width="254" height="26"/>
+\[A = \left( \begin{array}{cc} Q_1 &amp; Q_2 \end{array} \right) \cdot \left( \begin{array}{cc} R_1 &amp; 0 \end{array} \right)
+\]
 </p>
-<p>Because the lower rows of <img class="formulaInl" alt="$ R $" src="form_9.png" width="16" height="16"/> are zeros, a reduced problem <img class="formulaInl" alt="$ A = Q_1 R_1 $" src="form_21.png" width="90" height="20"/> can be solved. The size of the input matrices determines which problem is solved:</p><ul>
+<p>Because the lower rows of \( R \) are zeros, a reduced problem \( A = Q_1 R_1 \) can be solved. The size of the input matrices determines which problem is solved:</p><ul>
 <li>For full matrices (<code>shape(Q) == [m,m]</code>, <code>shape(R) == [m,n]</code>), the full problem is solved.</li>
 <li>For reduced matrices (<code>shape(Q) == [m,k]</code>, <code>shape(R) == [k,n]</code>), the reduced problem is solved.</li>
 </ul>
 <h3><a class="anchor" id="autotoc_md37"></a>
 Arguments</h3>
 <ul>
-<li><code>a</code>: A <code>real</code> or <code>complex</code> matrix of size <img class="formulaInl" alt="$ [m,n] $" src="form_6.png" width="48" height="22"/>, representing the coefficient matrix. If <code>overwrite_a = .false.</code>, this is an input argument. If <code>overwrite_a = .true.</code>, it is an <code>inout</code> argument and is overwritten upon return.</li>
-<li><code>q</code>: A rank-2 array of the same type and kind as <code>a</code>, representing the orthonormal matrix <img class="formulaInl" alt="$ Q $" src="form_8.png" width="16" height="20"/>. This is an output argument with shape <img class="formulaInl" alt="$ [m,m] $" src="form_10.png" width="52" height="22"/> (for the full problem) or <img class="formulaInl" alt="$ [m,k] $" src="form_11.png" width="46" height="22"/> (for the reduced problem).</li>
-<li><code>r</code>: A rank-2 array of the same type and kind as <code>a</code>, representing the upper-triangular matrix <img class="formulaInl" alt="$ R $" src="form_9.png" width="16" height="16"/>. This is an output argument with shape <img class="formulaInl" alt="$ [m,n] $" src="form_6.png" width="48" height="22"/> (for the full problem) or <img class="formulaInl" alt="$ [k,n] $" src="form_12.png" width="40" height="22"/> (for the reduced problem).</li>
+<li><code>a</code>: A <code>real</code> or <code>complex</code> matrix of size \( [m,n] \), representing the coefficient matrix. If <code>overwrite_a = .false.</code>, this is an input argument. If <code>overwrite_a = .true.</code>, it is an <code>inout</code> argument and is overwritten upon return.</li>
+<li><code>q</code>: A rank-2 array of the same type and kind as <code>a</code>, representing the orthonormal matrix \( Q \). This is an output argument with shape \( [m,m] \) (for the full problem) or \( [m,k] \) (for the reduced problem).</li>
+<li><code>r</code>: A rank-2 array of the same type and kind as <code>a</code>, representing the upper-triangular matrix \( R \). This is an output argument with shape \( [m,n] \) (for the full problem) or \( [k,n] \) (for the reduced problem).</li>
 <li><code>storage</code> (optional): A rank-1 array of the same type and kind as <code>a</code>, providing working storage for the solver. Its minimum size can be determined by a call to <a class="el" href="interfacela__qr_1_1qr__space.html"><code>qr_space</code></a>. This is an output argument.</li>
 <li><code>overwrite_a</code> (optional, default = <code>.false.</code>): A logical flag that determines whether the input matrix <code>a</code> can be overwritten. If <code>.true.</code>, the matrix <code>a</code> is used as temporary storage and overwritten to avoid internal memory allocation. This is an input argument.</li>
 <li><code>err</code> (optional): A <a class="el" href="structla__state__type_1_1la__state.html"><code>type(la_state)</code></a> variable that returns the error state. If not provided, the function will stop execution on error.</li>
 </ul>
 <h3><a class="anchor" id="autotoc_md38"></a>
 Return value</h3>
-<p>The QR factorization matrices <img class="formulaInl" alt="$ Q $" src="form_8.png" width="16" height="20"/> and <img class="formulaInl" alt="$ R $" src="form_9.png" width="16" height="16"/> are returned in the corresponding arguments.</p>
+<p>The QR factorization matrices \( Q \) and \( R \) are returned in the corresponding arguments.</p>
 <h3><a class="anchor" id="autotoc_md39"></a>
 Errors</h3>
 <ul>
@@ -345,24 +352,24 @@ Notes</h3>
 <li>If <code>overwrite_a</code> is enabled, the input matrix <code>a</code> will be modified during computation.</li>
 </ul>
 <h2><a class="anchor" id="autotoc_md41"></a>
-<a class="el" href="interfacela__qr_1_1qr__space.html"><code>qr_space</code></a> - Workspace size for QR operations.</h2>
+<a class="el" href="interfacela__qr_1_1qr__space.html">qr_space</a> - Workspace size for QR operations.</h2>
 <h3><a class="anchor" id="autotoc_md42"></a>
 Syntax</h3>
 <p><code>call qr_space(a, lwork [, err])</code></p>
 <h3><a class="anchor" id="autotoc_md43"></a>
 Description</h3>
-<p>This subroutine computes the minimum workspace size required for performing QR factorization. The size of the workspace array needed for both QR factorization and solving the reduced problem is determined based on the input matrix <img class="formulaInl" alt="$ A $" src="form_5.png" width="16" height="16"/>.</p>
-<p>The input matrix <img class="formulaInl" alt="$ A $" src="form_5.png" width="16" height="16"/> has size <img class="formulaInl" alt="$ [m,n] $" src="form_6.png" width="48" height="22"/>, and the output value <img class="formulaInl" alt="$ lwork $" src="form_22.png" width="50" height="16"/> represents the minimum size of the workspace array that should be allocated for QR operations.</p>
+<p>This subroutine computes the minimum workspace size required for performing QR factorization. The size of the workspace array needed for both QR factorization and solving the reduced problem is determined based on the input matrix \( A \).</p>
+<p>The input matrix \( A \) has size \( [m,n] \), and the output value \( lwork \) represents the minimum size of the workspace array that should be allocated for QR operations.</p>
 <h3><a class="anchor" id="autotoc_md44"></a>
 Arguments</h3>
 <ul>
-<li><code>a</code>: A <code>real</code> or <code>complex</code> matrix of size <img class="formulaInl" alt="$ [m,n] $" src="form_6.png" width="48" height="22"/>, representing the input matrix used to determine the required workspace size.</li>
+<li><code>a</code>: A <code>real</code> or <code>complex</code> matrix of size \( [m,n] \), representing the input matrix used to determine the required workspace size.</li>
 <li><code>lwork</code>: An integer variable that will return the minimum workspace size required for QR factorization.</li>
 <li><code>err</code> (optional): A <a class="el" href="structla__state__type_1_1la__state.html"><code>type(la_state)</code></a> variable that returns the error state. If not provided, the function will stop execution on error.</li>
 </ul>
 <h3><a class="anchor" id="autotoc_md45"></a>
 Return value</h3>
-<p>The workspace size <img class="formulaInl" alt="$ lwork $" src="form_22.png" width="50" height="16"/> that should be allocated before calling the QR factorization routine is returned.</p>
+<p>The workspace size \( lwork \) that should be allocated before calling the QR factorization routine is returned.</p>
 <h3><a class="anchor" id="autotoc_md46"></a>
 Errors</h3>
 <ul>

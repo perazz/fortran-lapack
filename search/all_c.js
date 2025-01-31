@@ -1,10 +1,10 @@
 var searchData=
 [
-  ['of_20a_20matrix_0',['@ref la_qr::qr &quot;&lt;tt&gt;qr&lt;/tt&gt;&quot; - Compute the QR factorization of a matrix.',['../index.html#autotoc_md34',1,'']]],
-  ['of_20equations_1',['@ref la_solve::solve &quot;&lt;tt&gt;solve&lt;/tt&gt;&quot; - Solve a linear matrix equation or a linear system of equations.',['../index.html#autotoc_md6',1,'']]],
-  ['of_20linear_20equations_2',['@ref la_least_squares::lstsq &quot;&lt;tt&gt;lstsq&lt;/tt&gt;&quot; - Compute a least squares solution to a system of linear equations.',['../index.html#autotoc_md12',1,'']]],
+  ['of_20a_20matrix_0',['@ref la_qr::qr &quot;qr&quot; - Compute the QR factorization of a matrix.',['../index.html#autotoc_md34',1,'']]],
+  ['of_20equations_1',['@ref la_solve::solve &quot;solve&quot; - Solve a linear matrix equation or a linear system of equations.',['../index.html#autotoc_md6',1,'']]],
+  ['of_20linear_20equations_2',['@ref la_least_squares::lstsq &quot;lstsq&quot; - Compute a least squares solution to a system of linear equations.',['../index.html#autotoc_md12',1,'']]],
   ['ok_3',['ok',['../structla__state__type_1_1la__state.html#a7cbd8a858eb21bff269f3f582b1d881e',1,'la_state_type::la_state']]],
-  ['operations_4',['@ref la_qr::qr_space &quot;&lt;tt&gt;qr_space&lt;/tt&gt;&quot; - Workspace size for QR operations.',['../index.html#autotoc_md41',1,'']]],
+  ['operations_4',['@ref la_qr::qr_space &quot;qr_space&quot; - Workspace size for QR operations.',['../index.html#autotoc_md41',1,'']]],
   ['operator_28_2einv_2e_29_5',['operator(.inv.)',['../interfacela__inverse_1_1operator_07_8inv_8_08.html',1,'la_inverse']]],
   ['operator_28_2epinv_2e_29_6',['operator(.pinv.)',['../interfacela__pseudoinverse_1_1operator_07_8pinv_8_08.html',1,'la_pseudoinverse']]],
   ['operator_28_2f_3d_29_7',['operator(/=)',['../interfacela__state__type_1_1operator_07_2_0a_08.html',1,'la_state_type']]],
@@ -15,7 +15,7 @@ var searchData=
   ['operator_28_3e_3d_29_12',['operator(&gt;=)',['../interfacela__state__type_1_1operator_07_4_0a_08.html',1,'la_state_type']]],
   ['opgtr_13',['opgtr',['../interfacela__lapack_1_1opgtr.html',1,'la_lapack']]],
   ['opmtr_14',['opmtr',['../interfacela__lapack_1_1opmtr.html',1,'la_lapack']]],
-  ['or_20a_20linear_20system_20of_20equations_15',['@ref la_solve::solve &quot;&lt;tt&gt;solve&lt;/tt&gt;&quot; - Solve a linear matrix equation or a linear system of equations.',['../index.html#autotoc_md6',1,'']]],
+  ['or_20a_20linear_20system_20of_20equations_15',['@ref la_solve::solve &quot;solve&quot; - Solve a linear matrix equation or a linear system of equations.',['../index.html#autotoc_md6',1,'']]],
   ['orbdb_16',['orbdb',['../interfacela__lapack_1_1orbdb.html',1,'la_lapack']]],
   ['orbdb1_17',['orbdb1',['../interfacela__lapack_1_1orbdb1.html',1,'la_lapack']]],
   ['orbdb2_18',['orbdb2',['../interfacela__lapack_1_1orbdb2.html',1,'la_lapack']]],
