@@ -1,0 +1,11 @@
+<map id="la_lapack_s::la_slarfx" name="la_lapack_s::la_slarfx">
+<area shape="rect" id="Node000001" title="SLARFX: applies a real elementary reflector H to a real m by n matrix C, from either the left or the ..." alt="" coords="5,67,168,92"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#afe74baa9cec84eae9cb50ed04c85340c" title="SLARF: applies a real elementary reflector H to a real m by n matrix C, from either the left or the r..." alt="" coords="216,67,371,92"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="168,77,202,77,202,82,168,82"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__aux.html#ab982c17ecc1d9fcfd510bef30fe083be" title="ILASLC: scans A for its last non&#45;zero column." alt="" coords="419,29,595,55"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="366,64,420,54,421,60,367,69"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__aux.html#a1abc101c5f65760eafb8b98e3f41e083" title="ILASLR: scans A for its last non&#45;zero row." alt="" coords="419,103,594,128"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="369,89,418,98,417,103,368,95"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="472,31,464,21,468,11,483,5,507,3,536,6,548,15,545,20,534,11,507,8,484,10,472,15,469,20,476,28"/>
+<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="472,104,464,94,468,84,483,78,507,76,536,80,548,89,545,93,534,85,507,81,484,83,472,88,469,94,476,101"/>
+</map>

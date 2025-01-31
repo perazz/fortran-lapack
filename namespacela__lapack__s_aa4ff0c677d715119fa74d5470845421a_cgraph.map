@@ -1,0 +1,17 @@
+<map id="la_lapack_s::la_sgetri" name="la_lapack_s::la_sgetri">
+<area shape="rect" id="Node000001" title="SGETRI: computes the inverse of a matrix using the LU factorization computed by SGETRF...." alt="" coords="5,89,168,115"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__aux.html#aa361c7114aef95e10b685247a1b75114" title="ILAENV: is called from the LAPACK routines to choose problem&#45;dependent parameters for the local envir..." alt="" coords="420,65,603,91"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="168,95,406,81,406,87,169,100"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__s.html#a8f079d7d62b337682c03978fa4ea7e7a" title="STRTRI: computes the inverse of a real upper or lower triangular matrix A. This is the Level 3 BLAS v..." alt="" coords="216,115,372,140"/>
+<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="169,109,203,114,202,119,168,115"/>
+<area shape="poly" id="edge4_Node000002_Node000002" title=" " alt="" coords="476,67,468,57,472,47,487,41,511,39,541,42,553,51,550,56,539,47,511,44,488,46,476,51,474,56,480,64"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__aux.html#a72541275ada30b0ca556fbc0d3959719" title="IEEECK: is called from the ILAENV to verify that Infinity and possibly NaN arithmetic is safe (i...." alt="" coords="652,29,837,55"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="594,63,648,54,649,59,594,68"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__aux.html#ace38ae70bb7022cae6ecabe992145fda" title="This program sets problem and machine dependent parameters useful for xHSEQR and related subroutines ..." alt="" coords="651,103,839,128"/>
+<area shape="poly" id="edge5_Node000002_Node000004" title=" " alt="" coords="592,88,652,98,651,103,591,93"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="707,31,699,21,703,11,719,5,745,3,777,7,790,16,786,20,775,11,745,8,720,10,707,15,704,20,711,27"/>
+<area shape="poly" id="edge6_Node000004_Node000004" title=" " alt="" coords="707,104,699,94,703,84,719,78,745,76,777,80,790,89,786,94,775,85,745,81,720,83,707,88,704,94,711,101"/>
+<area shape="poly" id="edge8_Node000005_Node000002" title=" " alt="" coords="350,112,441,91,442,96,351,117"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__s.html#a1825d3e253eed70022be6e45f2e69121" title="STRTI2: computes the inverse of a real upper or lower triangular matrix. This is the Level 2 BLAS ver..." alt="" coords="432,115,591,140"/>
+<area shape="poly" id="edge9_Node000005_Node000006" title=" " alt="" coords="372,125,418,125,418,130,372,130"/>
+</map>

@@ -1,0 +1,13 @@
+<map id="la_lapack::gbequb::dgbequb" name="la_lapack::gbequb::dgbequb">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,59,153,99"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__d.html#ac2e7aee00bff3925584fa3a59fa6b5f2" title="DGBEQUB: computes row and column scalings intended to equilibrate an M&#45;by&#45;N matrix A and reduce its c..." alt="" coords="201,36,384,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="153,66,190,61,191,66,154,71"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__q.html#a62759a0702c954f8d166c87ade162860" title="DGBEQUB: computes row and column scalings intended to equilibrate an M&#45;by&#45;N matrix A and reduce its c..." alt="" coords="201,91,384,116"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="154,85,188,89,188,94,153,90"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__d.html#af258e93ce5d1d461c745335332ff184b" title="DLAMCH: determines double precision machine parameters." alt="" coords="432,29,607,55"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="384,43,418,42,418,48,385,49"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="482,31,474,21,479,11,494,5,519,3,551,7,563,16,560,20,549,11,519,8,495,10,482,15,480,20,486,27"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__q.html#a5435a74c593174c3ab375e653a46f8fe" title="DLAMCH: determines quad precision machine parameters." alt="" coords="432,103,607,128"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="385,106,418,107,418,113,384,111"/>
+<area shape="poly" id="edge6_Node000005_Node000005" title=" " alt="" coords="482,104,474,94,479,84,494,78,519,76,551,80,563,89,560,93,549,85,519,81,495,83,482,88,480,94,486,101"/>
+</map>

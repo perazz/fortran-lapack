@@ -1,0 +1,9 @@
+<map id="la_lapack_w::la_wla_gbamv" name="la_lapack_w::la_wla_gbamv">
+<area shape="rect" id="Node000001" title="ZLA_GBAMV: performs one of the matrix&#45;vector operations y := alpha*abs(A)*abs(x) + beta*abs(y),..." alt="" coords="5,59,156,99"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__aux.html#ad063c781b15b262a8e05abdbbf0f00c0" title="This subroutine translates from a character string specifying a transposition operation to the releva..." alt="" coords="204,29,395,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="156,64,211,54,211,60,157,69"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__q.html#a5435a74c593174c3ab375e653a46f8fe" title="DLAMCH: determines quad precision machine parameters." alt="" coords="212,103,387,128"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="157,89,208,98,208,103,156,94"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="264,31,256,21,260,11,275,5,299,3,330,6,342,15,339,20,328,11,299,8,276,10,264,15,261,20,268,28"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="264,104,256,94,260,84,275,78,299,76,330,80,342,89,339,93,328,85,299,81,276,83,264,88,261,94,268,101"/>
+</map>

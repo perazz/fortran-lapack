@@ -1,0 +1,36 @@
+<map id="la_lapack_d::la_dormtr" name="la_lapack_d::la_dormtr">
+<area shape="rect" id="Node000001" title="DORMTR: overwrites the general real M&#45;by&#45;N matrix C with SIDE = &#39;L&#39; SIDE = &#39;R&#39; TRANS = &#39;N&#39;: Q * C C *..." alt="" coords="5,165,176,191"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__d.html#aa0dabdafa3a5d2246f8ecda400e50328" title="DORMQL: overwrites the general real M&#45;by&#45;N matrix C with SIDE = &#39;L&#39; SIDE = &#39;R&#39; TRANS = &#39;N&#39;: Q * C C *..." alt="" coords="225,140,397,165"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="176,166,211,161,211,167,176,171"/>
+<area shape="rect" id="Node000012" href="$namespacela__lapack__d.html#a513cb4e1f6d107878a4185c9ec5109ba" title="DORMQR: overwrites the general real M&#45;by&#45;N matrix C with SIDE = &#39;L&#39; SIDE = &#39;R&#39; TRANS = &#39;N&#39;: Q * C C *..." alt="" coords="224,189,397,215"/>
+<area shape="poly" id="edge16_Node000001_Node000012" title=" " alt="" coords="176,185,211,188,210,194,176,190"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__d.html#a7c993a9b006074abbe4e51f11d15c32d" title="DLARFB: applies a real block reflector H or its transpose H**T to a real m by n matrix C,..." alt="" coords="455,164,619,189"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="397,159,442,164,441,169,397,164"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__d.html#abe4ab35a3a4f535ce709b92d660cfd11" title="DLARFT: forms the triangular factor T of a real block reflector H of order n, which is defined as a p..." alt="" coords="457,213,617,239"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="364,163,398,174,446,198,471,207,470,212,444,203,396,179,363,168"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__d.html#a1444e15badf3fdea820c18a8d61473b3" title="DORM2L: overwrites the general real m by n matrix C with Q * C if SIDE = &#39;L&#39; and TRANS = &#39;N&#39;,..." alt="" coords="451,115,623,140"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="397,140,437,136,438,141,397,146"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__aux.html#aa361c7114aef95e10b685247a1b75114" title="ILAENV: is called from the LAPACK routines to choose problem&#45;dependent parameters for the local envir..." alt="" coords="445,65,628,91"/>
+<area shape="poly" id="edge10_Node000002_Node000009" title=" " alt="" coords="342,137,444,99,470,92,472,97,446,105,344,142"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__d.html#a3741bc70f5c5819f1435cdee2c1304d5" title="DLARF: applies a real elementary reflector H to a real m by n matrix C, from either the left or the r..." alt="" coords="692,189,848,215"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="589,137,629,149,724,182,722,187,627,154,588,143"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__aux.html#a845d7f5885e62862eb1bcf34846710e9" title="ILADLC: scans A for its last non&#45;zero column." alt="" coords="912,152,1089,177"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="848,187,908,177,909,182,849,192"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__aux.html#aafd792571e06ccf234fa3b824c1cc524" title="ILADLR: scans A for its last non&#45;zero row." alt="" coords="913,225,1088,251"/>
+<area shape="poly" id="edge8_Node000006_Node000008" title=" " alt="" coords="849,212,906,221,905,226,848,217"/>
+<area shape="poly" id="edge7_Node000007_Node000007" title=" " alt="" coords="963,154,955,144,959,134,975,128,1001,125,1033,129,1045,139,1042,143,1031,134,1001,131,976,133,963,138,960,143,967,150"/>
+<area shape="poly" id="edge9_Node000008_Node000008" title=" " alt="" coords="963,227,955,217,959,207,975,201,1001,199,1033,203,1045,212,1042,216,1031,207,1001,204,976,206,963,211,960,216,967,223"/>
+<area shape="poly" id="edge13_Node000009_Node000009" title=" " alt="" coords="500,67,492,57,496,47,512,41,537,39,568,43,580,52,577,56,566,47,537,44,513,46,500,51,497,56,504,63"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__aux.html#a72541275ada30b0ca556fbc0d3959719" title="IEEECK: is called from the ILAENV to verify that Infinity and possibly NaN arithmetic is safe (i...." alt="" coords="677,29,863,55"/>
+<area shape="poly" id="edge11_Node000009_Node000010" title=" " alt="" coords="619,63,673,54,674,59,620,68"/>
+<area shape="rect" id="Node000011" href="$namespacela__lapack__aux.html#ace38ae70bb7022cae6ecabe992145fda" title="This program sets problem and machine dependent parameters useful for xHSEQR and related subroutines ..." alt="" coords="676,103,864,128"/>
+<area shape="poly" id="edge14_Node000009_Node000011" title=" " alt="" coords="617,88,677,98,676,103,616,93"/>
+<area shape="poly" id="edge12_Node000010_Node000010" title=" " alt="" coords="733,31,725,21,729,11,744,5,770,3,802,7,815,16,811,20,800,11,770,8,745,10,732,15,730,20,737,27"/>
+<area shape="poly" id="edge15_Node000011_Node000011" title=" " alt="" coords="733,104,725,94,729,84,744,78,770,76,802,80,815,89,811,94,800,85,770,81,745,83,732,88,730,94,737,101"/>
+<area shape="poly" id="edge17_Node000012_Node000003" title=" " alt="" coords="397,190,441,185,441,190,398,195"/>
+<area shape="poly" id="edge18_Node000012_Node000004" title=" " alt="" coords="398,209,443,213,443,219,397,214"/>
+<area shape="poly" id="edge21_Node000012_Node000009" title=" " alt="" coords="373,187,396,175,411,157,419,138,427,119,444,100,453,94,455,99,447,104,431,122,424,140,416,160,399,179,375,192"/>
+<area shape="rect" id="Node000013" href="$namespacela__lapack__d.html#a840a31a062a8aead0c392ac0bb99ad84" title="DORM2R: overwrites the general real m by n matrix C with Q * C if SIDE = &#39;L&#39; and TRANS = &#39;N&#39;,..." alt="" coords="450,263,623,288"/>
+<area shape="poly" id="edge19_Node000012_Node000013" title=" " alt="" coords="345,212,446,249,472,256,470,261,445,254,343,217"/>
+<area shape="poly" id="edge20_Node000013_Node000006" title=" " alt="" coords="588,260,627,249,721,217,723,222,629,254,589,265"/>
+</map>

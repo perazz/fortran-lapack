@@ -1,0 +1,67 @@
+<map id="la_lapack_s::la_ssbgv" name="la_lapack_s::la_ssbgv">
+<area shape="rect" id="Node000001" title="SSBGV: computes all the eigenvalues, and optionally, the eigenvectors of a real generalized symmetric..." alt="" coords="5,153,168,179"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#a1663e08908f892dd84e289066a92f437" title="SPBSTF: computes a split Cholesky factorization of a real symmetric positive definite band matrix A...." alt="" coords="217,55,382,80"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="105,151,154,120,215,89,234,82,235,87,217,94,156,125,108,155"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__s.html#a7a754bf0d9d016e6f2d25e8bf33cefab" title="SSBGST: reduces a real symmetric&#45;definite banded generalized eigenproblem A*x = lambda*B*x to standar..." alt="" coords="216,104,383,129"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="141,151,230,130,231,135,143,156"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__s.html#a2a9da39d658551b30e6d7771e78da9a5" title="SSBTRD: reduces a real symmetric band matrix A to symmetric tridiagonal form T by an orthogonal simil..." alt="" coords="217,153,382,179"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="169,163,203,163,203,169,169,169"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__s.html#afa6c89197d420409e760bc62c0f1d805" title="SSTEQR: computes all eigenvalues and, optionally, eigenvectors of a symmetric tridiagonal matrix usin..." alt="" coords="217,353,382,379"/>
+<area shape="poly" id="edge14_Node000001_Node000010" title=" " alt="" coords="104,177,276,342,273,345,100,181"/>
+<area shape="rect" id="Node000022" href="$namespacela__lapack__s.html#ab9eca67d333b238ec42119aff95df00a" title="SSTERF: computes all eigenvalues of a symmetric tridiagonal matrix using the Pal&#45;Walker&#45;Kahan variant..." alt="" coords="218,501,381,527"/>
+<area shape="poly" id="edge37_Node000001_Node000022" title=" " alt="" coords="97,178,147,266,218,389,284,489,279,491,214,391,142,269,93,180"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__s.html#a70949165fbe181dd558de03a8557e7aa" title="SLAR2V: applies a vector of real plane rotations from both sides to a sequence of 2&#45;by&#45;2 real symmetr..." alt="" coords="432,5,597,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="355,101,381,89,396,77,404,65,414,52,429,40,441,33,444,38,432,44,418,56,409,68,399,81,384,94,357,106"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__s.html#a03705cc4581f4ed3a18e88ff00b9b0d1" title="SLARGV: generates a vector of real plane rotations, determined by elements of the real vectors x and ..." alt="" coords="432,55,597,80"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="355,101,445,80,446,86,356,107"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__s.html#aabd68a5bad03276a397dd6b4efd2bd83" title="!" alt="" coords="433,203,596,228"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="359,127,384,138,399,151,409,164,418,176,432,188,446,195,444,200,429,192,414,180,405,167,396,155,381,143,357,132"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__s.html#a882e0bd87f6174696069158f796f1e50" title="SLARTV: applies a vector of real plane rotations to elements of the real vectors x and y...." alt="" coords="433,104,596,129"/>
+<area shape="poly" id="edge6_Node000003_Node000007" title=" " alt="" coords="383,114,419,114,419,119,383,119"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__s.html#a3eaa56062a507046ea65b05c77c0104f" title="SLASET: initializes an m&#45;by&#45;n matrix A to BETA on the diagonal and ALPHA on the offdiagonals." alt="" coords="433,153,597,179"/>
+<area shape="poly" id="edge7_Node000003_Node000008" title=" " alt="" coords="356,127,446,148,445,153,355,132"/>
+<area shape="poly" id="edge9_Node000009_Node000004" title=" " alt="" coords="361,151,381,139,392,127,398,115,404,91,410,65,417,52,429,40,435,35,439,39,432,44,422,56,415,67,409,92,403,117,396,130,384,143,364,155"/>
+<area shape="poly" id="edge10_Node000009_Node000005" title=" " alt="" coords="355,151,381,138,396,127,404,114,414,102,429,89,441,83,444,87,432,94,418,105,409,117,399,130,384,143,357,156"/>
+<area shape="poly" id="edge11_Node000009_Node000006" title=" " alt="" coords="356,176,446,197,445,202,355,181"/>
+<area shape="poly" id="edge12_Node000009_Node000007" title=" " alt="" coords="355,151,445,130,446,135,356,156"/>
+<area shape="poly" id="edge13_Node000009_Node000008" title=" " alt="" coords="382,163,419,163,419,169,382,169"/>
+<area shape="poly" id="edge30_Node000010_Node000006" title=" " alt="" coords="308,351,356,296,391,264,429,237,442,231,444,235,432,242,394,269,360,300,312,355"/>
+<area shape="poly" id="edge34_Node000010_Node000008" title=" " alt="" coords="304,352,321,319,348,275,385,228,429,188,438,182,441,187,432,192,388,232,353,278,326,321,309,354"/>
+<area shape="rect" id="Node000011" href="$namespacela__lapack__s.html#a97354bef5f34975536b39d5e7438cf22" title="SLAE2: computes the eigenvalues of a 2&#45;by&#45;2 symmetric matrix [ A B ] [ B C ]. On return,..." alt="" coords="435,452,595,477"/>
+<area shape="poly" id="edge15_Node000010_Node000011" title=" " alt="" coords="322,377,371,406,432,437,453,445,451,450,430,442,368,411,319,381"/>
+<area shape="rect" id="Node000012" href="$namespacela__lapack__s.html#a72b5963df7f28fc439de8f0c7f8a01fa" title="SLAEV2: computes the eigendecomposition of a 2&#45;by&#45;2 symmetric matrix [ A B ] [ B C ]...." alt="" coords="431,252,599,277"/>
+<area shape="poly" id="edge16_Node000010_Node000012" title=" " alt="" coords="322,351,430,294,464,280,466,285,432,299,324,356"/>
+<area shape="rect" id="Node000013" href="$namespacela__lapack__s.html#abbe0ae24f069ddbf134ff3e404a19878" title="SLAMCH: determines single precision machine parameters." alt="" coords="647,477,819,503"/>
+<area shape="poly" id="edge17_Node000010_Node000013" title=" " alt="" coords="332,351,385,335,453,322,490,319,528,320,565,326,600,338,640,364,674,397,701,433,721,464,716,467,697,436,670,401,637,368,598,343,563,331,527,326,490,324,454,327,387,340,334,356"/>
+<area shape="rect" id="Node000014" href="$namespacela__lapack__s.html#ad65960283d55ea3ff6efa385dcd72354" title="SLANST: returns the value of the one norm, or the Frobenius norm, or the infinity norm,..." alt="" coords="433,700,597,725"/>
+<area shape="poly" id="edge19_Node000010_Node000014" title=" " alt="" coords="313,377,348,424,385,488,395,514,400,538,403,580,410,620,418,640,433,663,449,679,468,692,465,696,446,683,429,666,413,643,404,621,398,581,395,539,390,516,380,490,344,427,309,380"/>
+<area shape="rect" id="Node000018" href="$namespacela__lapack__s.html#a9e70d6d165ba95d10e4f8592c02475c7" title="SLAPY2: returns sqrt(x**2+y**2), taking care not to cause unnecessary overflow and unnecessary underf..." alt="" coords="431,627,599,652"/>
+<area shape="poly" id="edge26_Node000010_Node000018" title=" " alt="" coords="312,377,433,536,496,614,491,617,429,540,308,381"/>
+<area shape="rect" id="Node000019" href="$namespacela__lapack__s.html#acd9dd0fd241334b15353e5b245ff6477" title="SLASCL: multiplies the M by N real matrix A by the real scalar CTO/CFROM. This is done without over/u..." alt="" coords="433,403,596,428"/>
+<area shape="poly" id="edge31_Node000010_Node000019" title=" " alt="" coords="356,376,446,397,445,402,355,381"/>
+<area shape="rect" id="Node000020" href="$namespacela__lapack__s.html#ad91ca475ec1636210600a15006c7ff78" title="SLASR: applies a sequence of plane rotations to a real matrix A, from either the left or the right...." alt="" coords="437,353,593,379"/>
+<area shape="poly" id="edge35_Node000010_Node000020" title=" " alt="" coords="382,363,423,363,423,369,382,369"/>
+<area shape="rect" id="Node000021" href="$namespacela__lapack__s.html#a19beb351a658d51a9494b0b24abb22bd" title="Sort the numbers in D in increasing order (if ID = &#39;I&#39;) or in decreasing order (if ID = &#39;D&#39; )...." alt="" coords="434,501,595,527"/>
+<area shape="poly" id="edge36_Node000010_Node000021" title=" " alt="" coords="313,377,361,430,394,460,432,486,447,494,445,499,429,491,391,464,357,434,309,381"/>
+<area shape="poly" id="edge18_Node000013_Node000013" title=" " alt="" coords="697,479,690,469,694,459,708,453,733,451,763,454,775,463,771,468,761,459,733,456,710,458,697,463,695,468,701,476"/>
+<area shape="poly" id="edge24_Node000014_Node000014" title=" " alt="" coords="480,702,472,692,476,682,491,676,515,673,544,677,556,686,553,690,542,682,515,679,492,681,480,686,477,691,484,698"/>
+<area shape="rect" id="Node000015" href="$namespacela__lapack__s.html#af8d4b806648873f614d26ba3f9d00512" title="SISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="649,627,816,652"/>
+<area shape="poly" id="edge20_Node000014_Node000015" title=" " alt="" coords="553,697,680,654,682,659,554,702"/>
+<area shape="rect" id="Node000017" href="$namespacela__lapack__s.html#a67ffb8da40d4b0e1ec3c776507a088cc" title="!" alt="" coords="649,700,816,725"/>
+<area shape="poly" id="edge25_Node000014_Node000017" title=" " alt="" coords="597,710,636,710,636,715,597,715"/>
+<area shape="poly" id="edge21_Node000015_Node000015" title=" " alt="" coords="697,628,690,618,694,608,708,602,733,600,763,604,775,613,771,617,761,609,733,605,710,607,697,612,695,618,701,625"/>
+<area shape="rect" id="Node000016" href="$namespacela__lapack__s.html#ab716c1e999e316ce29c31703ef379eb1" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in SISNAN...." alt="" coords="867,627,1045,652"/>
+<area shape="poly" id="edge22_Node000015_Node000016" title=" " alt="" coords="816,637,853,637,853,642,816,642"/>
+<area shape="poly" id="edge23_Node000016_Node000016" title=" " alt="" coords="920,628,912,618,916,608,931,602,956,600,987,604,999,613,996,617,985,609,956,605,932,607,920,612,917,618,924,625"/>
+<area shape="poly" id="edge28_Node000018_Node000013" title=" " alt="" coords="534,624,597,581,701,508,704,513,600,586,537,629"/>
+<area shape="poly" id="edge27_Node000018_Node000015" title=" " alt="" coords="599,637,635,637,635,642,599,642"/>
+<area shape="poly" id="edge29_Node000018_Node000018" title=" " alt="" coords="480,628,472,618,476,608,491,602,515,600,544,604,556,613,553,617,542,609,515,605,492,607,480,612,477,618,484,625"/>
+<area shape="poly" id="edge33_Node000019_Node000013" title=" " alt="" coords="563,426,600,437,688,470,686,475,598,442,562,431"/>
+<area shape="poly" id="edge32_Node000019_Node000015" title=" " alt="" coords="580,426,600,437,619,455,629,472,649,513,717,614,713,617,644,515,624,474,614,458,597,441,577,430"/>
+<area shape="poly" id="edge38_Node000022_Node000011" title=" " alt="" coords="355,499,445,478,446,483,356,504"/>
+<area shape="poly" id="edge39_Node000022_Node000013" title=" " alt="" coords="356,524,408,533,469,540,534,541,598,535,647,523,691,506,693,511,649,528,599,541,534,547,468,545,407,538,356,529"/>
+<area shape="poly" id="edge40_Node000022_Node000014" title=" " alt="" coords="312,525,360,588,394,627,432,663,476,691,473,696,429,667,390,630,356,592,307,529"/>
+<area shape="poly" id="edge41_Node000022_Node000018" title=" " alt="" coords="324,524,482,618,479,622,321,529"/>
+<area shape="poly" id="edge42_Node000022_Node000019" title=" " alt="" coords="318,499,368,468,430,437,448,430,450,435,432,442,370,473,321,503"/>
+<area shape="poly" id="edge43_Node000022_Node000021" title=" " alt="" coords="381,511,420,511,420,517,381,517"/>
+</map>

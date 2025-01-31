@@ -1,0 +1,10 @@
+<map id="la_lapack_s::la_sgesc2" name="la_lapack_s::la_sgesc2">
+<area shape="rect" id="Node000001" title="SGESC2: solves a system of linear equations A * X = scale* RHS with a general N&#45;by&#45;N matrix A using t..." alt="" coords="5,79,176,104"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#a8c70bc25650d02927495d8a3635d03f8" title="SLABAD: takes as input the values computed by SLAMCH for underflow and overflow, and returns the squa..." alt="" coords="226,5,394,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="123,76,223,39,247,32,248,37,225,45,125,81"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__s.html#abbe0ae24f069ddbf134ff3e404a19878" title="SLAMCH: determines single precision machine parameters." alt="" coords="224,79,396,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="176,89,210,89,210,94,176,94"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__s.html#a32210a3155cf4bcf4884b373e585f34f" title="SLASWP: performs a series of row interchanges on the matrix A. One row interchange is initiated for e..." alt="" coords="225,128,395,153"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="148,101,240,122,239,128,147,107"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="274,80,267,70,271,60,285,54,310,52,340,56,352,65,349,69,338,61,310,57,287,59,274,64,272,70,278,77"/>
+</map>

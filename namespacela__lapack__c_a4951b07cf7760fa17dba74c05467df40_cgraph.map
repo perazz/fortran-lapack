@@ -1,0 +1,5 @@
+<map id="la_lapack_c::la_claed8" name="la_lapack_c::la_claed8">
+<area shape="rect" id="Node000001" title="CLAED8: merges the two sets of eigenvalues together into a single sorted set. Then it tries to deflat..." alt="" coords="5,5,173,31"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__c.html#a94f50f05cdea6ccd3a055c994a570fcd" title="CLACPY: copies all or part of a two&#45;dimensional matrix A to another matrix B." alt="" coords="221,5,388,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="173,15,207,15,207,21,173,21"/>
+</map>

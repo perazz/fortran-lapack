@@ -1,0 +1,50 @@
+<map id="la_lapack_q::la_qposvx" name="la_lapack_q::la_qposvx">
+<area shape="rect" id="Node000001" title="DPOSVX: uses the Cholesky factorization A = U**T*U or A = L*L**T to compute the solution to a real sy..." alt="" coords="5,356,179,381"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__q.html#ac66f60e6670c48505b22e28c7d8cd3d3" title="DLACPY: copies all or part of a two&#45;dimensional matrix A to another matrix B." alt="" coords="229,5,399,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="92,355,103,300,126,218,143,173,165,128,192,86,225,48,244,35,247,39,228,52,196,89,170,131,148,175,131,220,108,301,98,356"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__q.html#a5435a74c593174c3ab375e653a46f8fe" title="DLAMCH: determines quad precision machine parameters." alt="" coords="671,181,845,207"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="97,354,143,275,180,226,225,183,281,143,329,120,381,105,449,91,498,82,537,77,576,79,624,91,657,107,689,127,737,169,734,173,685,131,655,111,622,97,575,84,537,82,498,87,450,97,383,110,331,125,284,148,228,187,184,230,148,278,102,357"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__q.html#a5c661ac3817d54c454e8ba662d39ffb2" title="DLANSY: returns the value of the one norm, or the Frobenius norm, or the infinity norm,..." alt="" coords="229,531,399,556"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="107,380,158,431,228,492,276,522,274,526,225,496,154,435,103,383"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__q.html#a9414f6b78b3fcdee99761ab7abf7b11d" title="DLAQSY: equilibrates a symmetric matrix A using the scaling factors in the vector S." alt="" coords="451,107,621,132"/>
+<area shape="poly" id="edge11_Node000001_Node000008" title=" " alt="" coords="102,354,153,302,187,271,225,242,284,206,333,183,448,141,470,133,472,139,450,146,335,188,287,211,228,247,191,275,156,306,106,358"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__q.html#adeb3d74834f98763bdd8b77b0d5b9d4e" title="DPOCON: estimates the reciprocal of the condition number (in the 1&#45;norm) of a real symmetric positive..." alt="" coords="227,257,401,283"/>
+<area shape="poly" id="edge13_Node000001_Node000009" title=" " alt="" coords="120,354,271,286,273,291,123,358"/>
+<area shape="rect" id="Node000014" href="$namespacela__lapack__q.html#a0665e3be4dd11a0aaae059a06dae7156" title="DPOEQU: computes row and column scalings intended to equilibrate a symmetric positive definite matrix..." alt="" coords="227,580,401,605"/>
+<area shape="poly" id="edge21_Node000001_Node000014" title=" " alt="" coords="101,381,117,417,144,467,181,520,204,544,228,565,239,572,236,577,225,569,200,548,177,523,139,470,112,420,96,383"/>
+<area shape="rect" id="Node000015" href="$namespacela__lapack__q.html#a6f67c2f924c2ec15fd3da36063ea51fc" title="DPORFS: improves the computed solution to a system of linear equations when the coefficient matrix is..." alt="" coords="231,356,397,381"/>
+<area shape="poly" id="edge22_Node000001_Node000015" title=" " alt="" coords="179,366,217,366,217,371,179,371"/>
+<area shape="rect" id="Node000016" href="$namespacela__lapack__q.html#a9b443a188fbe9a1e7d12f4badf9a5a75" title="DPOTRS: solves a system of linear equations A*X = B with a symmetric positive definite matrix A using..." alt="" coords="453,408,619,433"/>
+<area shape="poly" id="edge30_Node000001_Node000016" title=" " alt="" coords="158,379,227,390,439,411,438,417,226,395,157,384"/>
+<area shape="rect" id="Node000017" href="$namespacela__lapack__q.html#a09ba894cd4e182f73f3bb3a8761f5731" title="DPOTRF: computes the Cholesky factorization of a real symmetric positive definite matrix A...." alt="" coords="231,457,397,483"/>
+<area shape="poly" id="edge26_Node000001_Node000017" title=" " alt="" coords="117,379,228,436,264,450,262,455,226,440,115,384"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="722,183,714,173,718,163,733,157,758,155,789,158,801,167,798,172,787,163,758,160,734,162,722,167,719,172,726,180"/>
+<area shape="poly" id="edge9_Node000004_Node000004" title=" " alt="" coords="278,532,270,522,274,512,289,506,314,504,345,508,357,517,354,521,343,513,314,509,290,511,278,516,275,522,282,529"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__q.html#a905710846630796d062c866934101635" title="DISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="673,531,843,556"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="374,553,450,565,536,570,622,565,684,556,685,561,623,570,536,575,449,570,373,559"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__q.html#ae52696bd9e5bb3687dcfdc6176da6ea5" title="!" alt="" coords="452,531,620,556"/>
+<area shape="poly" id="edge10_Node000004_Node000007" title=" " alt="" coords="399,541,438,541,438,546,399,546"/>
+<area shape="poly" id="edge6_Node000005_Node000005" title=" " alt="" coords="722,532,714,522,718,512,733,506,758,504,789,508,801,517,798,521,787,513,758,509,734,511,722,516,719,522,726,529"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__q.html#a70bf73297aef7307a374d805b9ea5736" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in DISNAN...." alt="" coords="893,531,1075,556"/>
+<area shape="poly" id="edge7_Node000005_Node000006" title=" " alt="" coords="843,541,880,541,880,546,843,546"/>
+<area shape="poly" id="edge8_Node000006_Node000006" title=" " alt="" coords="947,532,940,522,944,512,959,506,984,504,1016,508,1028,517,1024,521,1014,513,984,509,960,511,947,516,945,522,952,529"/>
+<area shape="poly" id="edge12_Node000008_Node000003" title=" " alt="" coords="586,130,624,141,713,174,712,179,622,146,585,135"/>
+<area shape="poly" id="edge15_Node000009_Node000003" title=" " alt="" coords="380,255,449,242,662,206,663,212,450,247,381,260"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__q.html#aeea11d99daa996e31dda1dbc449bfb44" title="DLACN2: estimates the 1&#45;norm of a square, real matrix A. Reverse communication is used for evaluating..." alt="" coords="451,307,621,332"/>
+<area shape="poly" id="edge14_Node000009_Node000010" title=" " alt="" coords="372,280,465,301,464,306,371,285"/>
+<area shape="rect" id="Node000011" href="$namespacela__lapack__q.html#a7a5b8691869f187a905c99dcce81fc26" title="DLATRS: solves one of the triangular systems A *x = s*b or A**T *x = s*b with scaling to prevent over..." alt="" coords="455,156,617,181"/>
+<area shape="poly" id="edge16_Node000009_Node000011" title=" " alt="" coords="337,255,448,198,484,184,486,189,450,203,339,260"/>
+<area shape="rect" id="Node000012" href="$namespacela__lapack__q.html#a39f7433386019ca47ea18d31cf1bdaa7" title="DRSCL: multiplies an n&#45;element real vector x by the real scalar 1/a. This is done without overflow or..." alt="" coords="457,257,615,283"/>
+<area shape="poly" id="edge18_Node000009_Node000012" title=" " alt="" coords="401,267,444,267,444,273,401,273"/>
+<area shape="poly" id="edge17_Node000011_Node000003" title=" " alt="" coords="618,175,657,180,657,185,617,181"/>
+<area shape="poly" id="edge20_Node000012_Node000003" title=" " alt="" coords="573,255,706,209,708,214,575,260"/>
+<area shape="rect" id="Node000013" href="$namespacela__lapack__q.html#ac3259935fc628e89592bb9c7046ae53f" title="DLABAD: takes as input the values computed by DLAMCH for underflow and overflow, and returns the squa..." alt="" coords="673,257,843,283"/>
+<area shape="poly" id="edge19_Node000012_Node000013" title=" " alt="" coords="615,267,659,267,659,273,615,273"/>
+<area shape="poly" id="edge24_Node000015_Node000003" title=" " alt="" coords="385,379,441,383,503,381,565,368,594,357,621,341,633,331,640,320,647,296,652,270,669,243,689,225,712,211,715,215,693,229,673,246,657,272,652,298,645,322,637,334,624,346,596,361,566,373,503,386,441,388,385,384"/>
+<area shape="poly" id="edge23_Node000015_Node000010" title=" " alt="" coords="371,353,464,332,465,338,372,359"/>
+<area shape="poly" id="edge25_Node000015_Node000016" title=" " alt="" coords="370,379,469,402,467,407,368,384"/>
+<area shape="rect" id="Node000018" href="$namespacela__lapack__q.html#afc2702d399262b7fb8bda8a557cff713" title="DPOTRF2: computes the Cholesky factorization of a real symmetric positive definite matrix A using the..." alt="" coords="449,481,623,507"/>
+<area shape="poly" id="edge27_Node000017_Node000018" title=" " alt="" coords="397,476,436,481,436,486,397,482"/>
+<area shape="poly" id="edge28_Node000018_Node000005" title=" " alt="" coords="594,504,687,525,686,530,593,509"/>
+<area shape="poly" id="edge29_Node000018_Node000018" title=" " alt="" coords="500,483,492,473,496,463,511,457,536,455,567,458,579,467,576,472,565,463,536,460,512,462,500,467,497,472,504,480"/>
+</map>

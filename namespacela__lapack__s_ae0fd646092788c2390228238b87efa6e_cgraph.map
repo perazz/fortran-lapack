@@ -1,0 +1,5 @@
+<map id="la_lapack_s::la_sormr3" name="la_lapack_s::la_sormr3">
+<area shape="rect" id="Node000001" title="SORMR3: overwrites the general real m by n matrix C with Q * C if SIDE = &#39;L&#39; and TRANS = &#39;N&#39;,..." alt="" coords="5,5,176,31"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#a58f538d72c282a7a4e223456d1c14e8c" title="SLARZ: applies a real elementary reflector H to a real M&#45;by&#45;N matrix C, from either the left or the r..." alt="" coords="224,5,380,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="176,15,210,15,210,21,176,21"/>
+</map>

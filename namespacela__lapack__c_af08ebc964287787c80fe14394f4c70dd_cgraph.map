@@ -1,0 +1,18 @@
+<map id="la_lapack_c::la_cunbdb4" name="la_lapack_c::la_cunbdb4">
+<area shape="rect" id="Node000001" title="CUNBDB4: simultaneously bidiagonalizes the blocks of a tall and skinny matrix X with orthonomal colum..." alt="" coords="5,80,185,105"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__c.html#a458ee49506ae512d1c2d93ad1fdcbc11" title="CLACGV: conjugates a complex vector of length N." alt="" coords="240,5,407,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="128,77,232,39,258,32,260,37,234,45,129,82"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__c.html#a51b81937dc202033ec70fc927336aabc" title="CLARF: applies a complex elementary reflector H to a complex M&#45;by&#45;N matrix C, from either the left or..." alt="" coords="246,55,401,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="185,80,232,75,233,80,186,85"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__c.html#a2869f7bc80e3500d54332c39b29bfb0a" title="CLARFGP: generates a complex elementary reflector H of order n, such that H**H * ( alpha ) = ( beta )..." alt="" coords="238,104,409,129"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="186,100,225,104,224,109,185,105"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__c.html#a1543cf882f996deafaae6d8e004721e6" title="CUNBDB5: orthogonalizes the column vector X = [ X1 ] [ X2 ] with respect to the columns of Q = [ Q1 ]..." alt="" coords="233,153,413,179"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="132,103,234,138,263,147,262,152,233,143,130,108"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__c.html#a6e1497c47c4ec8521fd6c8d29fc75e98" title="CLADIV: := X / Y, where X and Y are complex. The computation of X / Y will not overflow on an interme..." alt="" coords="469,104,633,129"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="409,114,456,114,456,119,409,119"/>
+<area shape="poly" id="edge5_Node000005_Node000005" title=" " alt="" coords="515,106,507,96,511,86,526,80,551,77,582,81,594,90,591,94,580,86,551,83,528,85,515,90,513,95,519,102"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__c.html#aa998088a3dc70b0b21d4fa0bfbf8e433" title="CUNBDB6: orthogonalizes the column vector X = [ X1 ] [ X2 ] with respect to the columns of Q = [ Q1 ]..." alt="" coords="461,153,641,179"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="414,163,448,163,448,169,414,169"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__c.html#a9238bcdce69d7296d0322567095afa73" title="!" alt="" coords="689,153,856,179"/>
+<area shape="poly" id="edge8_Node000007_Node000008" title=" " alt="" coords="642,163,676,163,676,169,642,169"/>
+</map>

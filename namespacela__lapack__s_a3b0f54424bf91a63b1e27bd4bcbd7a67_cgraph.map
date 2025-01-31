@@ -1,0 +1,10 @@
+<map id="la_lapack_s::la_slags2" name="la_lapack_s::la_slags2">
+<area shape="rect" id="Node000001" title="SLAGS2: computes 2&#45;by&#45;2 orthogonal matrices U, V and Q, such that if ( UPPER ) then U**T A*Q = U**T *..." alt="" coords="5,31,172,56"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#aabd68a5bad03276a397dd6b4efd2bd83" title="!" alt="" coords="222,5,385,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="172,31,208,27,209,32,173,36"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__s.html#ac8a4879231fd3b2289e6beb335def092" title="SLASV2: computes the singular value decomposition of a 2&#45;by&#45;2 triangular matrix [ F G ] [ 0 H ]...." alt="" coords="220,55,387,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="173,50,206,54,206,59,172,55"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__s.html#abbe0ae24f069ddbf134ff3e404a19878" title="SLAMCH: determines single precision machine parameters." alt="" coords="435,55,607,80"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="387,65,421,65,421,70,387,70"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="485,56,478,46,482,36,496,30,521,28,551,32,563,41,559,45,549,37,521,33,498,35,485,40,483,46,489,53"/>
+</map>

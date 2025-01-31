@@ -1,0 +1,6 @@
+<map id="la_lapack_q::la_qlaqgb" name="la_lapack_q::la_qlaqgb">
+<area shape="rect" id="Node000001" title="DLAQGB: equilibrates a general M by N band matrix A with KL subdiagonals and KU superdiagonals using ..." alt="" coords="5,29,176,55"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__q.html#a5435a74c593174c3ab375e653a46f8fe" title="DLAMCH: determines quad precision machine parameters." alt="" coords="224,29,399,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="176,39,210,39,210,45,176,45"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="276,31,268,21,272,11,287,5,311,3,342,6,354,15,351,20,340,11,311,8,288,10,276,15,273,20,280,28"/>
+</map>

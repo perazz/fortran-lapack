@@ -1,0 +1,6 @@
+<map id="la_lapack_q::la_qla_lin_berr" name="la_lapack_q::la_qla_lin_berr">
+<area shape="rect" id="Node000001" title="DLA_LIN_BERR: computes component&#45;wise relative backward error from the formula max(i) ( abs(R(i)) / (..." alt="" coords="5,22,152,62"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__q.html#a5435a74c593174c3ab375e653a46f8fe" title="DLAMCH: determines quad precision machine parameters." alt="" coords="200,29,375,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="152,39,186,39,186,45,152,45"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="253,31,246,21,250,11,264,5,287,3,316,6,328,15,324,20,314,11,287,8,265,10,253,15,251,20,257,28"/>
+</map>

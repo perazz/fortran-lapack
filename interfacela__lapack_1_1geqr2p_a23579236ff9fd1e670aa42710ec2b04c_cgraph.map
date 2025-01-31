@@ -1,0 +1,37 @@
+<map id="la_lapack::geqr2p::sgeqr2p" name="la_lapack::geqr2p::sgeqr2p">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,207,151,247"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#ace554156ef38f159c7259eb8097ef7fa" title="SGEQR2P: computes a QR factorization of a real m&#45;by&#45;n matrix A: A = Q * ( R ), ( 0 ) where: Q is a m&#45;..." alt="" coords="202,177,379,203"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="151,212,204,202,205,208,151,217"/>
+<area shape="rect" id="Node000011" href="$namespacela__lapack__w.html#a08ac790fa5c80d00076f5cb110187aed" title="ZGEQR2P: computes a QR factorization of a complex m&#45;by&#45;n matrix A: A = Q * ( R ), ( 0 ) where: Q is a..." alt="" coords="199,239,383,264"/>
+<area shape="poly" id="edge17_Node000001_Node000011" title=" " alt="" coords="151,233,185,237,185,242,151,238"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__s.html#afe74baa9cec84eae9cb50ed04c85340c" title="SLARF: applies a real elementary reflector H to a real m by n matrix C, from either the left or the r..." alt="" coords="442,103,597,128"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="330,175,466,130,468,135,332,180"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__s.html#a715453b9a55a7e212287986b22e5f960" title="SLARFGP: generates a real elementary reflector H of order n, such that H * ( alpha ) = ( beta ),..." alt="" coords="434,177,605,203"/>
+<area shape="poly" id="edge7_Node000002_Node000006" title=" " alt="" coords="379,187,420,187,420,193,379,193"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__aux.html#ab982c17ecc1d9fcfd510bef30fe083be" title="ILASLC: scans A for its last non&#45;zero column." alt="" coords="656,29,832,55"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="552,100,655,63,680,56,682,61,657,69,554,105"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__aux.html#a1abc101c5f65760eafb8b98e3f41e083" title="ILASLR: scans A for its last non&#45;zero row." alt="" coords="657,103,831,128"/>
+<area shape="poly" id="edge5_Node000003_Node000005" title=" " alt="" coords="597,113,643,113,643,118,597,118"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="708,31,700,21,704,11,719,5,744,3,775,6,787,15,784,20,773,11,744,8,720,10,708,15,705,20,712,28"/>
+<area shape="poly" id="edge6_Node000005_Node000005" title=" " alt="" coords="708,104,700,94,704,84,719,78,744,76,775,80,787,89,784,93,773,85,744,81,720,83,708,88,705,94,712,101"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__s.html#abbe0ae24f069ddbf134ff3e404a19878" title="SLAMCH: determines single precision machine parameters." alt="" coords="880,155,1052,180"/>
+<area shape="poly" id="edge8_Node000006_Node000007" title=" " alt="" coords="605,183,866,170,866,175,605,188"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__s.html#a9e70d6d165ba95d10e4f8592c02475c7" title="SLAPY2: returns sqrt(x**2+y**2), taking care not to cause unnecessary overflow and unnecessary underf..." alt="" coords="660,228,828,253"/>
+<area shape="poly" id="edge10_Node000006_Node000008" title=" " alt="" coords="577,200,675,222,673,228,576,205"/>
+<area shape="poly" id="edge9_Node000007_Node000007" title=" " alt="" coords="930,156,922,146,926,136,941,130,966,128,997,132,1009,141,1006,145,995,137,966,133,942,135,930,140,927,146,934,153"/>
+<area shape="poly" id="edge15_Node000008_Node000007" title=" " alt="" coords="777,225,879,189,904,181,905,186,881,194,779,230"/>
+<area shape="poly" id="edge16_Node000008_Node000008" title=" " alt="" coords="708,230,700,220,704,210,719,204,744,201,775,205,787,214,784,218,773,210,744,207,720,209,708,214,705,219,712,226"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__s.html#af8d4b806648873f614d26ba3f9d00512" title="SISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="883,228,1049,253"/>
+<area shape="poly" id="edge11_Node000008_Node000009" title=" " alt="" coords="828,238,869,238,869,243,828,243"/>
+<area shape="poly" id="edge12_Node000009_Node000009" title=" " alt="" coords="930,230,922,220,926,210,941,204,966,201,997,205,1009,214,1006,218,995,210,966,207,942,209,930,214,927,219,934,226"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__s.html#ab716c1e999e316ce29c31703ef379eb1" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in SISNAN...." alt="" coords="1100,228,1279,253"/>
+<area shape="poly" id="edge13_Node000009_Node000010" title=" " alt="" coords="1050,238,1086,238,1086,243,1050,243"/>
+<area shape="poly" id="edge14_Node000010_Node000010" title=" " alt="" coords="1153,230,1145,220,1149,210,1164,204,1189,201,1220,205,1232,214,1229,218,1218,210,1189,207,1166,209,1153,214,1151,219,1157,226"/>
+<area shape="rect" id="Node000012" href="$namespacela__lapack__w.html#ab2f5450aa341432c5faa2bc8ca33821a" title="ZLARF: applies a complex elementary reflector H to a complex M&#45;by&#45;N matrix C, from either the left or..." alt="" coords="439,239,600,264"/>
+<area shape="poly" id="edge18_Node000011_Node000012" title=" " alt="" coords="383,249,425,249,425,254,383,254"/>
+<area shape="rect" id="Node000013" href="$namespacela__lapack__w.html#a9b5a3405eb358ad696e976f9367b519d" title="ZLARFGP: generates a complex elementary reflector H of order n, such that H**H * ( alpha ) = ( beta )..." alt="" coords="431,295,608,320"/>
+<area shape="poly" id="edge19_Node000011_Node000013" title=" " alt="" coords="344,261,454,289,453,294,343,267"/>
+<area shape="rect" id="Node000014" href="$namespacela__lapack__w.html#a256289e251e51bb1c01d2fe45fe134fa" title="ZLADIV: := X / Y, where X and Y are complex. The computation of X / Y will not overflow on an interme..." alt="" coords="659,301,829,327"/>
+<area shape="poly" id="edge20_Node000013_Node000014" title=" " alt="" coords="608,307,645,308,645,314,608,313"/>
+<area shape="poly" id="edge21_Node000014_Node000014" title=" " alt="" coords="708,303,700,293,704,283,719,277,744,275,775,278,787,287,784,292,773,283,744,280,720,282,708,287,705,292,712,300"/>
+</map>

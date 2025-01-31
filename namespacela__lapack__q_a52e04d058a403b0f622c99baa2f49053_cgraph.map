@@ -1,0 +1,23 @@
+<map id="la_lapack_q::la_qgelqt" name="la_lapack_q::la_qgelqt">
+<area shape="rect" id="Node000001" title="DGELQT: computes a blocked LQ factorization of a real M&#45;by&#45;N matrix A using the compact WY representa..." alt="" coords="5,91,172,116"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__q.html#ac283edb9134a78536e7c7ac36a436e86" title="DGELQT3: recursively computes a LQ factorization of a real M&#45;by&#45;N matrix A, using the compact WY repr..." alt="" coords="220,65,395,91"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="172,91,206,87,207,92,173,96"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__q.html#a6d6545414096e224dc6a743f7e19a9c4" title="DLARFB: applies a real block reflector H or its transpose H**T to a real m by n matrix C,..." alt="" coords="225,115,389,140"/>
+<area shape="poly" id="edge13_Node000001_Node000008" title=" " alt="" coords="173,110,212,114,211,119,172,115"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="272,67,264,57,268,47,283,41,307,39,337,42,349,51,346,56,335,47,307,44,284,46,272,51,270,56,276,64"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__q.html#a6fa4a60ea6daa6fa31435aa628181099" title="DLARFG: generates a real elementary reflector H of order n, such that H * ( alpha ) = ( beta ),..." alt="" coords="443,65,607,91"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="395,75,429,75,429,81,395,81"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__q.html#a5435a74c593174c3ab375e653a46f8fe" title="DLAMCH: determines quad precision machine parameters." alt="" coords="873,29,1048,55"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="607,69,859,48,860,53,607,74"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__q.html#a582984249eedf0398706ec14537bf429" title="DLAPY2: returns sqrt(x**2+y**2), taking care not to cause unnecessary overflow and unnecessary underf..." alt="" coords="655,103,825,128"/>
+<area shape="poly" id="edge6_Node000003_Node000005" title=" " alt="" coords="599,88,653,98,652,103,598,93"/>
+<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="925,31,917,21,921,11,936,5,961,3,991,6,1003,15,1000,20,989,11,961,8,937,10,925,15,922,20,929,28"/>
+<area shape="poly" id="edge11_Node000005_Node000004" title=" " alt="" coords="774,100,872,65,900,56,902,61,874,70,776,105"/>
+<area shape="poly" id="edge12_Node000005_Node000005" title=" " alt="" coords="705,104,698,94,701,84,716,78,740,76,770,80,781,89,778,93,768,85,740,81,717,83,705,88,703,94,709,101"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__q.html#a905710846630796d062c866934101635" title="DISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="876,103,1045,128"/>
+<area shape="poly" id="edge7_Node000005_Node000006" title=" " alt="" coords="826,113,862,113,862,118,826,118"/>
+<area shape="poly" id="edge8_Node000006_Node000006" title=" " alt="" coords="925,104,917,94,921,84,936,78,961,76,991,80,1003,89,1000,93,989,85,961,81,937,83,925,88,922,94,929,101"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__q.html#a70bf73297aef7307a374d805b9ea5736" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in DISNAN...." alt="" coords="1096,103,1277,128"/>
+<area shape="poly" id="edge9_Node000006_Node000007" title=" " alt="" coords="1046,113,1082,113,1082,118,1046,118"/>
+<area shape="poly" id="edge10_Node000007_Node000007" title=" " alt="" coords="1150,104,1142,94,1146,84,1162,78,1187,76,1218,80,1230,89,1227,93,1216,85,1187,81,1163,83,1150,88,1147,94,1154,101"/>
+</map>

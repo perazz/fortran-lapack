@@ -1,0 +1,9 @@
+<map id="la_lapack_c::la_csytrf_rook" name="la_lapack_c::la_csytrf_rook">
+<area shape="rect" id="Node000001" title="CSYTRF_ROOK: computes the factorization of a complex symmetric matrix A using the bounded Bunch&#45;Kaufm..." alt="" coords="5,31,204,56"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__c.html#ac0e4a73a5f6ff98bd613d1fce3765859" title="CLASYF_ROOK: computes a partial factorization of a complex symmetric matrix A using the bounded Bunch..." alt="" coords="253,5,453,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="204,31,238,27,239,32,204,36"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__c.html#a3ef804bdd6b5aa5b1f4125696367fb1c" title="CSYTF2_ROOK: computes the factorization of a complex symmetric matrix A using the bounded Bunch&#45;Kaufm..." alt="" coords="252,55,453,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="204,50,239,54,238,59,204,56"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__c.html#ac45a6dcf9a38d34ba7230edc0a017ec3" title="CSYR: performs the symmetric rank 1 operation A := alpha*x*x**H + A, where alpha is a complex scalar,..." alt="" coords="501,55,653,80"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="454,65,488,65,488,70,454,70"/>
+</map>

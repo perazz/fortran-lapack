@@ -1,0 +1,13 @@
+<map id="la_lapack::disna::ddisna" name="la_lapack::disna::ddisna">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,67,184,92"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__d.html#a3ba2b1f766803b84cf7d12f00b58bbf9" title="DDISNA: computes the reciprocal condition numbers for the eigenvectors of a real symmetric or complex..." alt="" coords="232,36,401,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="184,64,218,60,219,65,185,70"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__q.html#ab13478667c3dd76fa992245df93e6917" title="DDISNA: computes the reciprocal condition numbers for the eigenvectors of a real symmetric or complex..." alt="" coords="232,91,401,116"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="185,86,219,90,218,95,184,92"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__d.html#af258e93ce5d1d461c745335332ff184b" title="DLAMCH: determines double precision machine parameters." alt="" coords="449,29,624,55"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="401,43,436,42,436,48,401,49"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="501,31,493,21,497,11,512,5,537,3,567,6,579,15,576,20,565,11,537,8,513,10,501,15,498,20,505,28"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__q.html#a5435a74c593174c3ab375e653a46f8fe" title="DLAMCH: determines quad precision machine parameters." alt="" coords="449,103,624,128"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="402,105,436,107,436,113,401,111"/>
+<area shape="poly" id="edge6_Node000005_Node000005" title=" " alt="" coords="501,104,493,94,497,84,512,78,537,76,567,80,579,89,576,93,565,85,537,81,513,83,501,88,498,94,505,101"/>
+</map>

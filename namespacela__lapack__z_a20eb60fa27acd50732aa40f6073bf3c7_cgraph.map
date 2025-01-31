@@ -1,0 +1,19 @@
+<map id="la_lapack_z::la_zgerqf" name="la_lapack_z::la_zgerqf">
+<area shape="rect" id="Node000001" title="ZGERQF: computes an RQ factorization of a complex M&#45;by&#45;N matrix A: A = R * Q." alt="" coords="5,55,172,80"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__z.html#adecaeb8d7c188b0d7099c139c2222042" title="ZGERQ2: computes an RQ factorization of a complex m by n matrix A: A = R * Q." alt="" coords="220,55,389,80"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="172,65,206,65,206,70,172,70"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__z.html#a89ca818141c4c205f623d6ebd7677226" title="ZLARFB: applies a complex block reflector H or its transpose H**H to a complex M&#45;by&#45;N matrix C,..." alt="" coords="223,5,386,31"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="144,52,235,31,236,36,146,57"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__z.html#abddc23a5d0d82cde2fb9da9cf0075d58" title="ZLARFT: forms the triangular factor T of a complex block reflector H of order n, which is defined as ..." alt="" coords="225,104,384,129"/>
+<area shape="poly" id="edge9_Node000001_Node000008" title=" " alt="" coords="146,77,236,98,235,104,144,83"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__z.html#ab5e8ff36e5e3ba9ba5c24f6b2fb59e1d" title="ZLACGV: conjugates a complex vector of length N." alt="" coords="437,5,604,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="360,52,451,31,452,36,362,57"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__z.html#a59733b970b2732c5282dcfe8c94eb300" title="ZLARF: applies a complex elementary reflector H to a complex M&#45;by&#45;N matrix C, from either the left or..." alt="" coords="443,55,598,80"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="390,65,430,65,430,70,390,70"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__z.html#afc90d2ed189c3dd43e3d1dff70e1415a" title="ZLARFG: generates a complex elementary reflector H of order n, such that H**H * ( alpha ) = ( beta ),..." alt="" coords="439,104,602,129"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="362,77,452,98,451,104,360,83"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__z.html#a84c15ce60f44f9d3a7b7da3357063087" title="ZLADIV = X / Y, where X and Y are complex. The computation of X / Y will not overflow on an intermedi..." alt="" coords="652,104,816,129"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="602,114,638,114,638,119,602,119"/>
+<area shape="poly" id="edge6_Node000006_Node000006" title=" " alt="" coords="699,106,692,96,695,86,710,80,734,77,764,81,775,90,772,94,762,86,734,83,711,85,699,90,697,95,703,102"/>
+<area shape="poly" id="edge8_Node000007_Node000003" title=" " alt="" coords="386,15,424,15,424,21,386,21"/>
+</map>

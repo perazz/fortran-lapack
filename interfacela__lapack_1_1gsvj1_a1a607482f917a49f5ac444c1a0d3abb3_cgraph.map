@@ -1,0 +1,33 @@
+<map id="la_lapack::gsvj1::dgsvj1" name="la_lapack::gsvj1::dgsvj1">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,171,184,196"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__d.html#af496c5a1399c074545816e79678ac787" title="DGSVJ1: is called from DGESVJ as a pre&#45;processor and that is its main purpose. It applies Jacobi rota..." alt="" coords="232,145,401,171"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="184,170,218,167,219,172,185,176"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__q.html#a677ec02f8a20e8f97dd1caaeadd7cab6" title="DGSVJ1: is called from DGESVJ as a pre&#45;processor and that is its main purpose. It applies Jacobi rota..." alt="" coords="232,195,401,220"/>
+<area shape="poly" id="edge10_Node000001_Node000008" title=" " alt="" coords="185,190,219,194,218,199,184,196"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__d.html#acc61a9bdce7f4ceeff1baff7a15c786c" title="DLASCL: multiplies the M by N real matrix A by the real scalar CTO/CFROM. This is done without over/u..." alt="" coords="451,96,615,121"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="373,143,463,122,464,127,374,148"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__d.html#a8394aa9e5f035af22f7c18e48e8c619d" title="!" alt="" coords="449,145,617,171"/>
+<area shape="poly" id="edge9_Node000002_Node000007" title=" " alt="" coords="401,155,436,155,436,161,401,161"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__d.html#a4a9c9cc2b970e1644f2f475aff87fb6e" title="DISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="668,29,837,55"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="571,93,665,63,690,56,692,61,666,69,573,98"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__d.html#af258e93ce5d1d461c745335332ff184b" title="DLAMCH: determines double precision machine parameters." alt="" coords="665,103,840,128"/>
+<area shape="poly" id="edge7_Node000003_Node000006" title=" " alt="" coords="615,108,652,110,651,115,615,114"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="717,31,709,21,713,11,728,5,753,3,783,6,795,15,792,20,781,11,753,8,729,10,717,15,714,20,721,28"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__d.html#a7d6ce8ad80e116b4b65bc05ac5012e74" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in DISNAN...." alt="" coords="888,29,1069,55"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="838,39,874,39,874,45,838,45"/>
+<area shape="poly" id="edge6_Node000005_Node000005" title=" " alt="" coords="942,31,934,21,938,11,954,5,979,3,1010,7,1022,16,1019,20,1008,11,979,8,955,10,942,15,939,20,946,27"/>
+<area shape="poly" id="edge8_Node000006_Node000006" title=" " alt="" coords="717,104,709,94,713,84,728,78,753,76,783,80,795,89,792,93,781,85,753,81,729,83,717,88,714,94,721,101"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__q.html#a4638c824a5da25cfe2a9f5a34df6f40c" title="DLASCL: multiplies the M by N real matrix A by the real scalar CTO/CFROM. This is done without over/u..." alt="" coords="451,195,615,220"/>
+<area shape="poly" id="edge11_Node000008_Node000009" title=" " alt="" coords="401,205,438,205,438,210,401,210"/>
+<area shape="rect" id="Node000013" href="$namespacela__lapack__q.html#ae52696bd9e5bb3687dcfdc6176da6ea5" title="!" alt="" coords="449,244,617,269"/>
+<area shape="poly" id="edge18_Node000008_Node000013" title=" " alt="" coords="374,217,464,238,463,244,373,223"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__q.html#a905710846630796d062c866934101635" title="DISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="668,188,837,213"/>
+<area shape="poly" id="edge12_Node000009_Node000010" title=" " alt="" coords="615,202,654,201,654,206,615,208"/>
+<area shape="rect" id="Node000012" href="$namespacela__lapack__q.html#a5435a74c593174c3ab375e653a46f8fe" title="DLAMCH: determines quad precision machine parameters." alt="" coords="665,261,840,287"/>
+<area shape="poly" id="edge16_Node000009_Node000012" title=" " alt="" coords="580,218,618,229,700,255,699,260,617,234,579,223"/>
+<area shape="poly" id="edge13_Node000010_Node000010" title=" " alt="" coords="717,190,709,180,713,170,728,164,753,161,783,165,795,174,792,178,781,170,753,167,729,169,717,174,714,179,721,186"/>
+<area shape="rect" id="Node000011" href="$namespacela__lapack__q.html#a70bf73297aef7307a374d805b9ea5736" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in DISNAN...." alt="" coords="888,188,1069,213"/>
+<area shape="poly" id="edge14_Node000010_Node000011" title=" " alt="" coords="838,198,874,198,874,203,838,203"/>
+<area shape="poly" id="edge15_Node000011_Node000011" title=" " alt="" coords="942,190,934,180,938,170,954,164,979,161,1010,165,1022,175,1019,179,1008,170,979,167,955,169,942,174,939,179,946,186"/>
+<area shape="poly" id="edge17_Node000012_Node000012" title=" " alt="" coords="717,263,709,253,713,243,728,237,753,235,783,238,795,247,792,252,781,243,753,240,729,242,717,247,714,252,721,260"/>
+</map>

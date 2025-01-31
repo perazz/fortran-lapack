@@ -1,0 +1,5 @@
+<map id="la_lapack_s::la_spttrs" name="la_lapack_s::la_spttrs">
+<area shape="rect" id="Node000001" title="SPTTRS: solves a tridiagonal system of the form A * X = B using the L*D*L**T factorization of A compu..." alt="" coords="5,5,168,31"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#aa98d21053f7ac4eacd2ef221b82b8b2c" title="SPTTS2: solves a tridiagonal system of the form A * X = B using the L*D*L**T factorization of A compu..." alt="" coords="216,5,381,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="168,15,202,15,202,21,168,21"/>
+</map>

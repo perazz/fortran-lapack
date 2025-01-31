@@ -1,0 +1,23 @@
+<map id="la_lapack_w::la_wgtrfs" name="la_lapack_w::la_wgtrfs">
+<area shape="rect" id="Node000001" title="ZGTRFS: improves the computed solution to a system of linear equations when the coefficient matrix is..." alt="" coords="5,115,175,140"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__q.html#a5435a74c593174c3ab375e653a46f8fe" title="DLAMCH: determines quad precision machine parameters." alt="" coords="224,40,399,65"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="121,112,222,74,247,67,248,72,224,79,123,117"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__w.html#ad1d0ff505e1049c8f48795741fb29157" title="ZGTTRS: solves one of the systems of equations A * X = B, A**T * X = B, or A**H * X = B,..." alt="" coords="227,89,396,115"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="175,115,213,111,213,116,176,120"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__w.html#a181e3ce6202dd4d6e6a0104746779391" title="ZLACN2: estimates the 1&#45;norm of a square, complex matrix A. Reverse communication is used for evaluat..." alt="" coords="224,139,399,164"/>
+<area shape="poly" id="edge11_Node000001_Node000008" title=" " alt="" coords="176,134,210,138,210,143,175,139"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__w.html#ab8f67ee58601f9b484ba2422272cd3e9" title="ZLAGTM: performs a matrix&#45;vector product of the form B := alpha * A * X + beta * B where A is a tridi..." alt="" coords="223,188,400,213"/>
+<area shape="poly" id="edge12_Node000001_Node000009" title=" " alt="" coords="124,138,224,174,248,182,247,187,222,179,122,143"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="275,42,267,32,271,22,286,16,311,13,342,17,354,26,351,30,340,22,311,19,288,21,275,26,273,31,279,38"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__aux.html#aa361c7114aef95e10b685247a1b75114" title="ILAENV: is called from the LAPACK routines to choose problem&#45;dependent parameters for the local envir..." alt="" coords="448,65,631,91"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="396,90,434,86,435,92,397,96"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__w.html#a514efd2517f7046ca6f4a70bdb82a52b" title="ZGTTS2: solves one of the systems of equations A * X = B, A**T * X = B, or A**H * X = B,..." alt="" coords="453,115,625,140"/>
+<area shape="poly" id="edge10_Node000003_Node000007" title=" " alt="" coords="397,109,440,114,439,119,396,114"/>
+<area shape="poly" id="edge7_Node000004_Node000004" title=" " alt="" coords="502,67,494,57,499,47,514,41,539,39,571,43,583,52,580,56,569,47,539,44,515,46,502,51,500,56,506,63"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__aux.html#a72541275ada30b0ca556fbc0d3959719" title="IEEECK: is called from the ILAENV to verify that Infinity and possibly NaN arithmetic is safe (i...." alt="" coords="680,29,865,55"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="622,63,676,54,677,59,622,68"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__aux.html#ace38ae70bb7022cae6ecabe992145fda" title="This program sets problem and machine dependent parameters useful for xHSEQR and related subroutines ..." alt="" coords="679,103,867,128"/>
+<area shape="poly" id="edge8_Node000004_Node000006" title=" " alt="" coords="620,88,680,98,679,103,619,93"/>
+<area shape="poly" id="edge6_Node000005_Node000005" title=" " alt="" coords="735,31,727,21,731,11,747,5,773,3,805,7,818,16,814,20,803,11,773,8,748,10,735,15,732,20,739,27"/>
+<area shape="poly" id="edge9_Node000006_Node000006" title=" " alt="" coords="735,104,727,94,731,84,747,78,773,76,805,80,818,89,814,94,803,85,773,81,748,83,735,88,732,94,739,101"/>
+</map>

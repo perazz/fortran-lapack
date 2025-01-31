@@ -1,0 +1,10 @@
+<map id="la_lapack_q::la_qptrfs" name="la_lapack_q::la_qptrfs">
+<area shape="rect" id="Node000001" title="DPTRFS: improves the computed solution to a system of linear equations when the coefficient matrix is..." alt="" coords="5,55,169,80"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__q.html#a5435a74c593174c3ab375e653a46f8fe" title="DLAMCH: determines quad precision machine parameters." alt="" coords="217,29,392,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="170,55,203,51,204,56,170,60"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__q.html#a048ca18e32034253beaef44699cd5e53" title="DPTTRS: solves a tridiagonal system of the form A * X = B using the L*D*L**T factorization of A compu..." alt="" coords="223,79,387,104"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="170,74,209,78,209,83,170,79"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="269,31,262,21,266,11,280,5,305,3,335,6,347,15,343,20,333,11,305,8,282,10,269,15,267,20,273,28"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__q.html#a02c8fdcd74ce699cf0cf602efd555229" title="DPTTS2: solves a tridiagonal system of the form A * X = B using the L*D*L**T factorization of A compu..." alt="" coords="440,79,607,104"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="387,89,426,89,426,94,387,94"/>
+</map>

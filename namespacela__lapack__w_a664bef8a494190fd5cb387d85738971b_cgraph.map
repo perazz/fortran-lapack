@@ -1,0 +1,22 @@
+<map id="la_lapack_w::la_wtrcon" name="la_lapack_w::la_wtrcon">
+<area shape="rect" id="Node000001" title="ZTRCON: estimates the reciprocal of the condition number of a triangular matrix A,..." alt="" coords="5,132,177,157"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__w.html#a3aa05f9d735b03bcd39306b7aeedad97" title="ZDRSCL: multiplies an n&#45;element complex vector x by the real scalar 1/a. This is done without overflo..." alt="" coords="227,45,398,71"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="115,129,165,105,224,80,246,72,248,77,226,84,167,110,118,134"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__w.html#a181e3ce6202dd4d6e6a0104746779391" title="ZLACN2: estimates the 1&#45;norm of a square, complex matrix A. Reverse communication is used for evaluat..." alt="" coords="225,95,400,120"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="167,129,223,120,224,125,168,135"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__w.html#abe07bd687f7e3add5f441154f4bcda5c" title="ZLANTR: returns the value of the one norm, or the Frobenius norm, or the infinity norm,..." alt="" coords="228,168,397,193"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="170,155,221,163,220,168,169,160"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__w.html#af9826209e64772b2a39b497fd5c0063e" title="ZLATRS: solves one of the triangular systems A * x = s*b, A**T * x = s*b, or A**H * x = s*b,..." alt="" coords="229,223,397,248"/>
+<area shape="poly" id="edge9_Node000001_Node000008" title=" " alt="" coords="120,155,226,202,262,216,260,221,224,207,118,160"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__q.html#ac3259935fc628e89592bb9c7046ae53f" title="DLABAD: takes as input the values computed by DLAMCH for underflow and overflow, and returns the squa..." alt="" coords="450,5,621,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="384,43,450,31,451,36,385,48"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__q.html#a5435a74c593174c3ab375e653a46f8fe" title="DLAMCH: determines quad precision machine parameters." alt="" coords="448,79,623,104"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="398,68,437,74,436,79,397,73"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="499,80,491,70,495,60,510,54,535,52,566,56,578,65,575,69,564,61,535,57,512,59,499,64,497,70,503,77"/>
+<area shape="poly" id="edge7_Node000006_Node000006" title=" " alt="" coords="277,170,269,160,273,150,288,144,313,141,343,145,356,154,352,158,341,150,313,147,289,149,276,154,274,159,281,166"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__w.html#a2bf5a64bcaccd3676164dbf3aee36bb5" title="!" alt="" coords="449,161,622,187"/>
+<area shape="poly" id="edge8_Node000006_Node000007" title=" " alt="" coords="398,175,435,174,435,180,398,181"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__w.html#a256289e251e51bb1c01d2fe45fe134fa" title="ZLADIV: := X / Y, where X and Y are complex. The computation of X / Y will not overflow on an interme..." alt="" coords="450,235,621,260"/>
+<area shape="poly" id="edge10_Node000008_Node000009" title=" " alt="" coords="397,237,437,239,436,245,397,243"/>
+<area shape="poly" id="edge11_Node000009_Node000009" title=" " alt="" coords="499,236,491,226,495,216,510,210,535,208,566,212,578,221,575,225,564,217,535,213,512,215,499,220,497,226,503,233"/>
+</map>

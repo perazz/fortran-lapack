@@ -1,0 +1,16 @@
+<map id="la_lapack_d::la_dlarfgp" name="la_lapack_d::la_dlarfgp">
+<area shape="rect" id="Node000001" title="DLARFGP: generates a real elementary reflector H of order n, such that H * ( alpha ) = ( beta ),..." alt="" coords="5,65,177,91"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__d.html#af258e93ce5d1d461c745335332ff184b" title="DLAMCH: determines double precision machine parameters." alt="" coords="444,29,619,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="177,68,430,48,431,53,178,74"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__d.html#a3c4f675d0639f59f0786eb3019043624" title="DLAPY2: returns sqrt(x**2+y**2), taking care not to cause unnecessary overflow and unnecessary underf..." alt="" coords="225,103,396,128"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="167,88,223,98,222,103,166,93"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="496,31,488,21,492,11,507,5,531,3,562,6,574,15,571,20,560,11,531,8,508,10,496,15,493,20,500,28"/>
+<area shape="poly" id="edge8_Node000003_Node000002" title=" " alt="" coords="345,100,443,65,471,56,472,61,445,70,346,105"/>
+<area shape="poly" id="edge9_Node000003_Node000003" title=" " alt="" coords="275,104,267,94,271,84,286,78,311,76,341,80,353,89,350,93,339,85,311,81,287,83,275,88,272,94,279,101"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__d.html#a4a9c9cc2b970e1644f2f475aff87fb6e" title="DISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="447,103,616,128"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="396,113,433,113,433,118,396,118"/>
+<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="496,104,488,94,492,84,507,78,531,76,562,80,574,89,571,93,560,85,531,81,508,83,496,88,493,94,500,101"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__d.html#a7d6ce8ad80e116b4b65bc05ac5012e74" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in DISNAN...." alt="" coords="667,103,848,128"/>
+<area shape="poly" id="edge6_Node000004_Node000005" title=" " alt="" coords="616,113,653,113,653,118,616,118"/>
+<area shape="poly" id="edge7_Node000005_Node000005" title=" " alt="" coords="721,104,713,94,717,84,732,78,757,76,789,80,801,89,798,93,787,85,757,81,733,83,721,88,718,94,725,101"/>
+</map>

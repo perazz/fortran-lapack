@@ -1,0 +1,11 @@
+<map id="la_lapack_d::la_dlamswlq" name="la_lapack_d::la_dlamswlq">
+<area shape="rect" id="Node000001" title="DLAMSWLQ: overwrites the general real M&#45;by&#45;N matrix C with SIDE = &#39;L&#39; SIDE = &#39;R&#39; TRANS = &#39;N&#39;: Q * C C..." alt="" coords="5,31,195,56"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__d.html#a266fc7aa07ed9e15f7a69f79f0cba51d" title="DGEMLQT: overwrites the general real M&#45;by&#45;N matrix C with SIDE = &#39;L&#39; SIDE = &#39;R&#39; TRANS = &#39;N&#39;: Q C C Q ..." alt="" coords="243,5,423,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="195,30,229,27,229,32,195,36"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__d.html#ad73ad3574fb922ffb43c0610d8befdcb" title="DTPMQRT applies a real orthogonal matrix Q obtained from a &quot;triangular&#45;pentagonal&quot; real block reflect..." alt="" coords="244,55,421,80"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="195,50,231,54,230,59,195,56"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__d.html#a7c993a9b006074abbe4e51f11d15c32d" title="DLARFB: applies a real block reflector H or its transpose H**T to a real m by n matrix C,..." alt="" coords="471,5,635,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="423,15,458,15,458,21,423,21"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__d.html#a25465115f8963f6e2364325b7a318071" title="DTPRFB: applies a real &quot;triangular&#45;pentagonal&quot; block reflector H or its transpose H**T to a real matr..." alt="" coords="471,55,636,80"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="421,65,457,65,457,70,421,70"/>
+</map>

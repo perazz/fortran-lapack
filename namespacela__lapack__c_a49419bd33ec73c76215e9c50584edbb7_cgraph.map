@@ -1,0 +1,12 @@
+<map id="la_lapack_c::la_ctplqt" name="la_lapack_c::la_ctplqt">
+<area shape="rect" id="Node000001" title="CTPLQT: computes a blocked LQ factorization of a complex &quot;triangular&#45;pentagonal&quot; matrix C,..." alt="" coords="5,55,168,80"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__c.html#ab232f24025fee76356438cd4d4a9319d" title="CTPLQT2: computes a LQ a factorization of a complex &quot;triangular&#45;pentagonal&quot; matrix C,..." alt="" coords="216,29,387,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="168,55,202,51,203,56,168,60"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__c.html#abc94fb0d819034c2a95628d99fde1c49" title="CTPRFB: applies a complex &quot;triangular&#45;pentagonal&quot; block reflector H or its conjugate transpose H**H t..." alt="" coords="220,79,383,104"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="168,74,206,78,206,83,168,79"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__c.html#a12e172bbfbe3a52b09166d7ba722dac7" title="CLARFG: generates a complex elementary reflector H of order n, such that H**H * ( alpha ) = ( beta ),..." alt="" coords="435,29,597,55"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="387,39,421,39,421,45,387,45"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__c.html#a6e1497c47c4ec8521fd6c8d29fc75e98" title="CLADIV: := X / Y, where X and Y are complex. The computation of X / Y will not overflow on an interme..." alt="" coords="645,29,809,55"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="597,39,632,39,632,45,597,45"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="693,31,685,21,689,11,704,5,727,3,757,6,768,15,765,20,755,11,727,8,705,10,693,15,691,20,697,28"/>
+</map>

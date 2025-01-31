@@ -1,0 +1,24 @@
+<map id="la_lapack_c::la_ctrsen" name="la_lapack_c::la_ctrsen">
+<area shape="rect" id="Node000001" title="CTRSEN: reorders the Schur factorization of a complex matrix A = Q*T*Q**H, so that a selected cluster..." alt="" coords="5,104,171,129"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__c.html#aa8a18fed030896d19839b3aef3aa48ca" title="CLACN2: estimates the 1&#45;norm of a square, complex matrix A. Reverse communication is used for evaluat..." alt="" coords="219,5,385,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="107,102,156,71,218,40,236,32,238,37,220,44,159,76,110,106"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__c.html#a94f50f05cdea6ccd3a055c994a570fcd" title="CLACPY: copies all or part of a two&#45;dimensional matrix A to another matrix B." alt="" coords="219,55,385,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="143,101,232,81,233,86,144,107"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__c.html#a88c4bea66ffb256ca466bbeddff88037" title="CLANGE: returns the value of the one norm, or the Frobenius norm, or the infinity norm,..." alt="" coords="433,177,601,203"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="153,127,219,139,420,173,419,178,218,145,152,132"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__c.html#aa7cbb2088abfb65649a9a15da092d113" title="CTREXC: reorders the Schur factorization of a complex matrix A = Q*T*Q**H, so that the diagonal eleme..." alt="" coords="219,104,385,129"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="171,114,206,114,206,119,171,119"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__c.html#a66b56ead1eb554743b1308c053fe464d" title="CTRSYL: solves the complex Sylvester matrix equation: op(A)*X + X*op(B) = scale*C or op(A)*X &#45; X*op(B..." alt="" coords="221,205,383,231"/>
+<area shape="poly" id="edge9_Node000001_Node000009" title=" " alt="" coords="113,127,220,184,253,198,251,203,218,188,110,132"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="482,179,475,169,479,159,493,153,517,151,547,154,559,163,556,168,545,159,517,156,495,158,483,163,480,168,487,176"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__c.html#a9238bcdce69d7296d0322567095afa73" title="!" alt="" coords="649,177,816,203"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="601,187,635,187,635,193,601,193"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__c.html#a5abbf350b2d24dd9b3d62a839ee4527d" title="!" alt="" coords="436,104,599,129"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="385,114,422,114,422,119,385,119"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__c.html#a1022d6940953e2aeeab21638d4722932" title="CROT: applies a plane rotation, where the cos (C) is real and the sin (S) is complex,..." alt="" coords="442,55,593,80"/>
+<area shape="poly" id="edge8_Node000006_Node000008" title=" " alt="" coords="357,101,447,80,449,86,359,107"/>
+<area shape="poly" id="edge12_Node000009_Node000004" title=" " alt="" coords="383,205,420,200,420,205,383,210"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__c.html#a6e1497c47c4ec8521fd6c8d29fc75e98" title="CLADIV: := X / Y, where X and Y are complex. The computation of X / Y will not overflow on an interme..." alt="" coords="435,251,599,276"/>
+<area shape="poly" id="edge10_Node000009_Node000010" title=" " alt="" coords="364,228,444,245,442,250,363,233"/>
+<area shape="poly" id="edge11_Node000010_Node000010" title=" " alt="" coords="482,252,475,242,479,232,493,226,517,224,547,228,559,237,556,241,545,233,517,229,495,231,483,236,480,242,487,249"/>
+</map>

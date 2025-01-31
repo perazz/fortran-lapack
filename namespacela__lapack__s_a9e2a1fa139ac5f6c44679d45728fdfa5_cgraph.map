@@ -1,0 +1,12 @@
+<map id="la_lapack_s::la_slaqz1" name="la_lapack_s::la_slaqz1">
+<area shape="rect" id="Node000001" title="Given a 3&#45;by&#45;3 matrix pencil (A,B), SLAQZ1: sets v to a scalar multiple of the first column of the pr..." alt="" coords="5,67,172,92"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#af8d4b806648873f614d26ba3f9d00512" title="SISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="223,29,389,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="163,64,218,54,219,60,164,69"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__s.html#abbe0ae24f069ddbf134ff3e404a19878" title="SLAMCH: determines single precision machine parameters." alt="" coords="220,103,392,128"/>
+<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="166,89,216,98,215,103,165,95"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="271,31,263,21,267,11,282,5,306,3,336,6,348,15,345,20,334,11,306,8,283,10,271,15,268,20,275,28"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__s.html#ab716c1e999e316ce29c31703ef379eb1" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in SISNAN...." alt="" coords="440,29,619,55"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="390,39,426,39,426,45,390,45"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="493,31,485,21,489,11,504,5,529,3,560,6,572,15,569,20,558,11,529,8,506,10,493,15,491,20,497,28"/>
+<area shape="poly" id="edge6_Node000004_Node000004" title=" " alt="" coords="271,104,263,94,267,84,282,78,306,76,336,80,348,89,345,93,334,85,306,81,283,83,271,88,268,94,275,101"/>
+</map>

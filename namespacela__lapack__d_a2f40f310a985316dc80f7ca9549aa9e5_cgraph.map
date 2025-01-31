@@ -1,0 +1,17 @@
+<map id="la_lapack_d::la_dgetri" name="la_lapack_d::la_dgetri">
+<area shape="rect" id="Node000001" title="DGETRI: computes the inverse of a matrix using the LU factorization computed by DGETRF...." alt="" coords="5,53,169,79"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__d.html#a7d8be88dd251c306dbaae7f21a4ca3e6" title="DTRTRI: computes the inverse of a real upper or lower triangular matrix A. This is the Level 3 BLAS v..." alt="" coords="217,28,376,53"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="169,53,204,49,204,55,170,59"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__aux.html#aa361c7114aef95e10b685247a1b75114" title="ILAENV: is called from the LAPACK routines to choose problem&#45;dependent parameters for the local envir..." alt="" coords="424,79,607,104"/>
+<area shape="poly" id="edge9_Node000001_Node000004" title=" " alt="" coords="170,68,410,82,410,88,170,73"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__d.html#ac4c9da07c1e66ebf410ac438f4c045bf" title="DTRTI2: computes the inverse of a real upper or lower triangular matrix. This is the Level 2 BLAS ver..." alt="" coords="435,5,596,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="376,30,421,25,421,30,377,35"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="353,51,447,73,446,78,352,56"/>
+<area shape="poly" id="edge6_Node000004_Node000004" title=" " alt="" coords="480,80,472,70,476,60,491,54,515,52,546,56,558,65,555,69,544,61,515,57,492,59,480,64,477,70,484,77"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__aux.html#a72541275ada30b0ca556fbc0d3959719" title="IEEECK: is called from the ILAENV to verify that Infinity and possibly NaN arithmetic is safe (i...." alt="" coords="656,41,841,67"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="595,76,655,66,656,72,596,81"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__aux.html#ace38ae70bb7022cae6ecabe992145fda" title="This program sets problem and machine dependent parameters useful for xHSEQR and related subroutines ..." alt="" coords="655,115,843,140"/>
+<area shape="poly" id="edge7_Node000004_Node000006" title=" " alt="" coords="598,101,653,110,652,115,598,107"/>
+<area shape="poly" id="edge5_Node000005_Node000005" title=" " alt="" coords="711,43,703,33,707,23,723,17,749,15,781,19,794,28,790,32,779,23,749,20,724,22,711,27,708,32,715,39"/>
+<area shape="poly" id="edge8_Node000006_Node000006" title=" " alt="" coords="711,116,703,106,707,96,723,90,749,88,781,92,794,101,790,106,779,97,749,93,724,95,711,100,708,106,715,113"/>
+</map>

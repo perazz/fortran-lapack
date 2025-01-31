@@ -1,0 +1,7 @@
+<map id="la_lapack_s::la_ssytrs_aa" name="la_lapack_s::la_ssytrs_aa">
+<area shape="rect" id="Node000001" title="SSYTRS_AA: solves a system of linear equations A*X = B with a real symmetric matrix A using the facto..." alt="" coords="5,31,192,56"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#a786cb553ad22aed722de150137aa1469" title="SGTSV: solves the equation A*X = B, where A is an n by n tridiagonal matrix, by Gaussian elimination ..." alt="" coords="243,5,403,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="192,30,230,26,230,31,193,35"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__s.html#aaf1967e81244ac5e46fcdee355359852" title="SLACPY: copies all or part of a two&#45;dimensional matrix A to another matrix B." alt="" coords="240,55,407,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="193,51,227,54,226,60,192,56"/>
+</map>

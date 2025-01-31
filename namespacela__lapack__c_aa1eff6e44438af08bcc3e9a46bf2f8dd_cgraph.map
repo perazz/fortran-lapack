@@ -1,0 +1,18 @@
+<map id="la_lapack_c::la_ctgsja" name="la_lapack_c::la_ctgsja">
+<area shape="rect" id="Node000001" title="CTGSJA: computes the generalized singular value decomposition (GSVD) of two complex upper triangular ..." alt="" coords="5,80,169,105"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__c.html#a810b9f487ce7de9b14045cfb7c0bd11c" title="CLAGS2: computes 2&#45;by&#45;2 unitary matrices U, V and Q, such that if ( UPPER ) then U**H *A*Q = U**H *( ..." alt="" coords="217,5,384,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="118,77,216,39,239,32,241,37,218,45,120,82"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__c.html#a6a3ed4a18b4026b967471fe6f3ac2b56" title="Given two column vectors X and Y, let A = ( X Y ). The subroutine first computes the QR factorization..." alt="" coords="221,55,381,80"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="169,80,207,76,207,81,170,86"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__c.html#aa8f6d9028437b79ec8870cf960266a8d" title="CLASET: initializes a 2&#45;D array A to BETA on the diagonal and ALPHA on the offdiagonals." alt="" coords="219,104,383,129"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="170,99,205,103,205,109,169,105"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__c.html#a1022d6940953e2aeeab21638d4722932" title="CROT: applies a plane rotation, where the cos (C) is real and the sin (S) is complex,..." alt="" coords="225,153,376,179"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="122,103,218,138,245,147,243,152,216,143,120,108"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__c.html#a5abbf350b2d24dd9b3d62a839ee4527d" title="!" alt="" coords="432,5,595,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="384,15,418,15,418,21,384,21"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__c.html#a12e172bbfbe3a52b09166d7ba722dac7" title="CLARFG: generates a complex elementary reflector H of order n, such that H**H * ( alpha ) = ( beta ),..." alt="" coords="432,55,595,80"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="381,65,418,65,418,70,381,70"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__c.html#a6e1497c47c4ec8521fd6c8d29fc75e98" title="CLADIV: := X / Y, where X and Y are complex. The computation of X / Y will not overflow on an interme..." alt="" coords="643,55,807,80"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="595,65,629,65,629,70,595,70"/>
+<area shape="poly" id="edge6_Node000006_Node000006" title=" " alt="" coords="690,56,683,46,687,36,701,30,725,28,754,32,766,41,762,45,752,37,725,33,702,35,690,40,688,46,694,53"/>
+</map>

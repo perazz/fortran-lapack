@@ -1,0 +1,7 @@
+<map id="la_lapack_q::la_qgghrd" name="la_lapack_q::la_qgghrd">
+<area shape="rect" id="Node000001" title="DGGHRD: reduces a pair of real matrices (A,B) to generalized upper Hessenberg form using orthogonal t..." alt="" coords="5,31,176,56"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__q.html#a4052efe340c0e142ec6f49add576bbf0" title="!" alt="" coords="225,5,389,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="176,31,211,27,212,32,177,36"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__q.html#aea8c25dcc46ceaf8d39ba10cb1584312" title="DLASET: initializes an m&#45;by&#45;n matrix A to BETA on the diagonal and ALPHA on the offdiagonals." alt="" coords="224,55,391,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="177,50,211,54,210,59,176,55"/>
+</map>

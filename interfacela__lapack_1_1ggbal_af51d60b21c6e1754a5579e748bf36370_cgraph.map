@@ -1,0 +1,8 @@
+<map id="la_lapack::ggbal::zggbal" name="la_lapack::ggbal::zggbal">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,29,184,55"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__z.html#a8f5724b126776e22316db7fd8b8a3aef" title="ZGGBAL: balances a pair of general complex matrices (A,B). This involves, first, permuting A and B by..." alt="" coords="232,29,400,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="184,39,218,39,218,45,184,45"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__d.html#af258e93ce5d1d461c745335332ff184b" title="DLAMCH: determines double precision machine parameters." alt="" coords="448,29,623,55"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="400,39,434,39,434,45,400,45"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="500,31,492,21,496,11,511,5,535,3,566,6,578,15,575,20,564,11,535,8,512,10,500,15,497,20,504,28"/>
+</map>

@@ -1,0 +1,11 @@
+<map id="la_lapack_s::la_sorgr2" name="la_lapack_s::la_sorgr2">
+<area shape="rect" id="Node000001" title="SORGR2: generates an m by n real matrix Q with orthonormal rows, which is defined as the last m rows ..." alt="" coords="5,67,172,92"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#afe74baa9cec84eae9cb50ed04c85340c" title="SLARF: applies a real elementary reflector H to a real m by n matrix C, from either the left or the r..." alt="" coords="220,67,375,92"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="172,77,206,77,206,82,172,82"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__aux.html#ab982c17ecc1d9fcfd510bef30fe083be" title="ILASLC: scans A for its last non&#45;zero column." alt="" coords="423,29,599,55"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="370,64,424,54,425,60,371,69"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__aux.html#a1abc101c5f65760eafb8b98e3f41e083" title="ILASLR: scans A for its last non&#45;zero row." alt="" coords="423,103,598,128"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="373,89,422,98,421,103,372,95"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="476,31,468,21,472,11,487,5,511,3,540,6,552,15,549,20,538,11,511,8,488,10,476,15,473,20,480,28"/>
+<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="476,104,468,94,472,84,487,78,511,76,540,80,552,89,549,93,538,85,511,81,488,83,476,88,473,94,480,101"/>
+</map>

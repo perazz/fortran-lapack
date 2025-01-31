@@ -1,0 +1,36 @@
+<map id="la_lapack_d::la_dtgsy2" name="la_lapack_d::la_dtgsy2">
+<area shape="rect" id="Node000001" title="DTGSY2: solves the generalized Sylvester equation: A * R &#45; L * B = scale * C (1) D * R &#45; L * E = scal..." alt="" coords="5,107,176,132"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__d.html#a289eeb0ff32fff4f7f0f075d477e832c" title="DGESC2: solves a system of linear equations A * X = scale* RHS with a general N&#45;by&#45;N matrix A using t..." alt="" coords="439,81,611,107"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="176,112,425,97,426,102,176,117"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__d.html#a8a8e3f78dd2eb4a66de5aa25ee4d0c91" title="DGETC2: computes an LU factorization with complete pivoting of the n&#45;by&#45;n matrix A...." alt="" coords="661,5,831,31"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="139,104,223,85,450,49,646,25,647,31,451,54,225,90,140,109"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__d.html#a6aa4157c4aad8803eff98a121c555c6b" title="DLASET: initializes an m&#45;by&#45;n matrix A to BETA on the diagonal and ALPHA on the offdiagonals." alt="" coords="224,181,391,207"/>
+<area shape="poly" id="edge9_Node000001_Node000007" title=" " alt="" coords="124,130,225,167,248,175,246,180,223,173,122,135"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__d.html#af4bd44423cb8e31f29174c1d6c2fc7c3" title="DLATDF: uses the LU factorization of the n&#45;by&#45;n matrix Z computed by DGETC2 and computes a contributi..." alt="" coords="225,132,389,157"/>
+<area shape="poly" id="edge10_Node000001_Node000008" title=" " alt="" coords="177,127,212,131,211,136,176,132"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__d.html#aa5488e8cb6689a9ea38a8b10398ffb62" title="DLABAD: takes as input the values computed by DLAMCH for underflow and overflow, and returns the squa..." alt="" coords="882,56,1053,81"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="611,86,868,72,869,77,612,92"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__d.html#af258e93ce5d1d461c745335332ff184b" title="DLAMCH: determines double precision machine parameters." alt="" coords="880,207,1055,232"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="612,98,719,114,777,127,833,143,890,169,937,197,935,201,887,174,831,149,775,132,718,119,611,103"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__d.html#ad2d61391ed0eea60ae22ecadcf0767ba" title="DLASWP: performs a series of row interchanges on the matrix A. One row interchange is initiated for e..." alt="" coords="660,157,832,183"/>
+<area shape="poly" id="edge5_Node000002_Node000005" title=" " alt="" coords="573,104,613,117,661,136,699,150,697,155,659,140,611,122,571,109"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="931,208,923,198,927,188,942,182,967,180,998,184,1010,193,1007,197,996,189,967,185,944,187,931,192,929,198,935,205"/>
+<area shape="poly" id="edge7_Node000006_Node000003" title=" " alt="" coords="803,28,899,50,897,56,802,33"/>
+<area shape="poly" id="edge8_Node000006_Node000004" title=" " alt="" coords="763,29,944,195,940,199,760,33"/>
+<area shape="poly" id="edge19_Node000008_Node000002" title=" " alt="" coords="362,129,456,107,458,112,364,134"/>
+<area shape="poly" id="edge21_Node000008_Node000005" title=" " alt="" coords="366,155,439,166,546,172,646,171,646,177,545,177,438,171,365,160"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__d.html#ac3bc3e0931f2bcdca1fab33fb428ec91" title="DGECON: estimates the reciprocal of the condition number of a general real matrix A,..." alt="" coords="439,256,612,281"/>
+<area shape="poly" id="edge11_Node000008_Node000009" title=" " alt="" coords="363,155,392,168,417,188,440,211,493,246,490,251,437,215,414,192,389,172,361,160"/>
+<area shape="rect" id="Node000013" href="$namespacela__lapack__d.html#a8394aa9e5f035af22f7c18e48e8c619d" title="!" alt="" coords="441,131,609,156"/>
+<area shape="poly" id="edge20_Node000008_Node000013" title=" " alt="" coords="389,141,428,141,428,147,389,147"/>
+<area shape="poly" id="edge13_Node000009_Node000004" title=" " alt="" coords="572,279,625,291,690,300,761,301,831,291,861,281,889,268,937,238,940,243,892,272,863,286,833,297,762,307,690,305,624,296,570,284"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__d.html#ae42ad3a826b8dcf34dffab0b71c5baeb" title="DLACN2: estimates the 1&#45;norm of a square, real matrix A. Reverse communication is used for evaluating..." alt="" coords="661,256,831,281"/>
+<area shape="poly" id="edge12_Node000009_Node000010" title=" " alt="" coords="612,266,647,266,647,271,612,271"/>
+<area shape="rect" id="Node000011" href="$namespacela__lapack__d.html#a3472993b72f31510d85b23c91a51982c" title="DLATRS: solves one of the triangular systems A *x = s*b or A**T *x = s*b with scaling to prevent over..." alt="" coords="665,357,827,383"/>
+<area shape="poly" id="edge14_Node000009_Node000011" title=" " alt="" coords="551,279,661,336,696,350,694,355,659,340,548,284"/>
+<area shape="rect" id="Node000012" href="$namespacela__lapack__d.html#aeed41a5ba7c240c0498f9dd83ff1116e" title="DRSCL: multiplies an n&#45;element real vector x by the real scalar 1/a. This is done without overflow or..." alt="" coords="667,207,825,232"/>
+<area shape="poly" id="edge16_Node000009_Node000012" title=" " alt="" coords="582,253,674,232,676,238,583,259"/>
+<area shape="poly" id="edge15_Node000011_Node000004" title=" " alt="" coords="789,355,831,336,894,288,943,240,947,244,898,292,833,340,791,360"/>
+<area shape="poly" id="edge17_Node000012_Node000003" title=" " alt="" coords="805,204,831,193,865,170,897,142,945,90,949,94,901,146,868,174,833,198,807,209"/>
+<area shape="poly" id="edge18_Node000012_Node000004" title=" " alt="" coords="825,217,866,217,866,222,825,222"/>
+</map>

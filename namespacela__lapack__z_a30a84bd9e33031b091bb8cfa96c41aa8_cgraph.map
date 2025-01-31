@@ -1,0 +1,15 @@
+<map id="la_lapack_z::la_zlalsd" name="la_lapack_z::la_zlalsd">
+<area shape="rect" id="Node000001" title="ZLALSD: uses the singular value decomposition of A to solve the least squares problem of finding X to..." alt="" coords="5,62,168,87"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__z.html#afa7bb9c2f7c700a9e54ea7fff6f31f06" title="ZLACPY: copies all or part of a two&#45;dimensional matrix A to another matrix B." alt="" coords="639,12,805,38"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="111,59,158,38,215,21,325,7,435,3,538,5,625,11,625,17,538,11,435,8,325,12,217,26,160,43,113,64"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__z.html#a197707c932d4ba326afa8ab77bbd20ea" title="ZLALSA: is an itermediate step in solving the least squares problem by computing the SVD of the coeff..." alt="" coords="217,36,379,62"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="168,62,203,58,203,63,168,67"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__z.html#a5509410e47d6dcefd409565d92e720cd" title="ZLASCL: multiplies the M by N complex matrix A by the real scalar CTO/CFROM. This is done without ove..." alt="" coords="641,62,803,87"/>
+<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="168,72,627,72,627,77,168,77"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__z.html#ada8f2094a60baf8a1bb838f3cdc0d1ad" title="ZLASET: initializes a 2&#45;D array A to BETA on the diagonal and ALPHA on the offdiagonals." alt="" coords="216,138,380,163"/>
+<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="124,85,250,130,248,135,122,90"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__z.html#a0abe93330b08f50b27f70909b34f82e6" title="ZLALS0: applies back the multiplying factors of either the left or the right singular vector matrix o..." alt="" coords="428,36,591,62"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="379,46,414,46,414,52,379,52"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="591,37,625,33,626,39,592,43"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="592,56,628,61,627,66,591,61"/>
+</map>

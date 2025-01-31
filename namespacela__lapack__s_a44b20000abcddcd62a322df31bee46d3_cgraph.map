@@ -1,0 +1,46 @@
+<map id="la_lapack_s::la_sppsvx" name="la_lapack_s::la_sppsvx">
+<area shape="rect" id="Node000001" title="SPPSVX: uses the Cholesky factorization A = U**T*U or A = L*L**T to compute the solution to a real sy..." alt="" coords="5,307,176,332"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#aaf1967e81244ac5e46fcdee355359852" title="SLACPY: copies all or part of a two&#45;dimensional matrix A to another matrix B." alt="" coords="227,79,393,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="95,305,112,269,139,220,176,168,222,121,245,107,248,112,226,125,180,171,144,223,116,272,100,307"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__s.html#abbe0ae24f069ddbf134ff3e404a19878" title="SLAMCH: determines single precision machine parameters." alt="" coords="662,143,834,168"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="127,329,217,356,275,368,340,378,408,382,478,378,546,366,609,341,633,326,654,308,690,264,717,218,735,180,740,182,722,221,695,267,658,311,636,330,612,346,547,371,478,384,408,387,339,383,274,373,215,361,126,335"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__s.html#a3501d72356f7d50b8a7aaa993b6f197a" title="SLANSP: returns the value of the one norm, or the Frobenius norm, or the infinity norm,..." alt="" coords="227,432,393,457"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="115,330,276,423,274,427,113,334"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__s.html#a8c277f93eac102815803d813c75c80b5" title="SLAQSP: equilibrates a symmetric matrix A using the scaling factors in the vector S." alt="" coords="444,5,611,31"/>
+<area shape="poly" id="edge11_Node000001_Node000008" title=" " alt="" coords="97,305,144,239,180,199,223,165,247,152,270,145,311,140,351,135,372,127,394,113,410,96,417,78,425,59,442,40,450,35,453,39,446,44,430,61,422,80,415,99,398,117,374,132,352,140,311,146,271,150,249,157,225,170,184,203,148,242,102,308"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__s.html#a46d4e85de91e5a7de32e047017a7fe53" title="SPPCON: estimates the reciprocal of the condition number (in the 1&#45;norm) of a real symmetric positive..." alt="" coords="225,180,395,205"/>
+<area shape="poly" id="edge13_Node000001_Node000009" title=" " alt="" coords="113,304,274,210,276,215,115,309"/>
+<area shape="rect" id="Node000014" href="$namespacela__lapack__s.html#ace2b0c9cd6cc366e2169550591665295" title="SPPEQU: computes row and column scalings intended to equilibrate a symmetric positive definite matrix..." alt="" coords="224,481,396,507"/>
+<area shape="poly" id="edge21_Node000001_Node000014" title=" " alt="" coords="102,331,149,396,184,434,225,466,239,474,236,478,223,471,181,438,145,399,98,334"/>
+<area shape="rect" id="Node000015" href="$namespacela__lapack__s.html#a7f4d507c347afb03a1eedcb96836f4ad" title="SPPRFS: improves the computed solution to a system of linear equations when the coefficient matrix is..." alt="" coords="227,256,393,281"/>
+<area shape="poly" id="edge22_Node000001_Node000015" title=" " alt="" coords="146,304,241,282,242,287,147,309"/>
+<area shape="rect" id="Node000016" href="$namespacela__lapack__s.html#ac7e831b32e78bdf05281d5382653c697" title="SPPTRS: solves a system of linear equations A*X = B with a symmetric positive definite matrix A in pa..." alt="" coords="445,307,610,332"/>
+<area shape="poly" id="edge27_Node000001_Node000016" title=" " alt="" coords="176,317,431,317,431,322,176,322"/>
+<area shape="rect" id="Node000017" href="$namespacela__lapack__s.html#a0bcf5f1bc5532f89f40ba857a9074185" title="SPPTRF: computes the Cholesky factorization of a real symmetric positive definite matrix A stored in ..." alt="" coords="229,531,391,556"/>
+<area shape="poly" id="edge26_Node000001_Node000017" title=" " alt="" coords="99,331,115,368,142,419,179,472,201,496,226,517,234,523,231,527,222,521,197,500,175,475,137,421,110,371,94,333"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="712,144,705,134,709,124,723,118,748,116,778,120,790,129,787,133,776,125,748,121,725,123,712,128,710,134,716,141"/>
+<area shape="poly" id="edge9_Node000004_Node000004" title=" " alt="" coords="275,434,267,424,271,414,286,408,310,405,340,409,352,418,349,422,338,414,310,411,287,413,275,418,272,423,279,430"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__s.html#af8d4b806648873f614d26ba3f9d00512" title="SISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="444,432,611,457"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="394,442,430,442,430,447,394,447"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__s.html#a67ffb8da40d4b0e1ec3c776507a088cc" title="!" alt="" coords="444,481,611,507"/>
+<area shape="poly" id="edge10_Node000004_Node000007" title=" " alt="" coords="367,455,458,476,457,481,366,460"/>
+<area shape="poly" id="edge6_Node000005_Node000005" title=" " alt="" coords="492,434,484,424,488,414,503,408,527,405,557,409,569,418,566,422,555,414,527,411,504,413,492,418,490,423,496,430"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__s.html#ab716c1e999e316ce29c31703ef379eb1" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in SISNAN...." alt="" coords="659,432,837,457"/>
+<area shape="poly" id="edge7_Node000005_Node000006" title=" " alt="" coords="611,442,645,442,645,447,611,447"/>
+<area shape="poly" id="edge8_Node000006_Node000006" title=" " alt="" coords="712,434,705,424,709,414,723,408,748,405,778,409,790,418,787,422,776,414,748,411,725,413,712,418,710,423,716,430"/>
+<area shape="poly" id="edge12_Node000008_Node000003" title=" " alt="" coords="587,28,612,40,628,52,638,63,660,89,717,133,714,137,657,93,634,67,624,55,609,44,585,33"/>
+<area shape="poly" id="edge15_Node000009_Node000003" title=" " alt="" coords="344,177,443,141,497,134,551,132,652,138,652,144,551,138,497,140,445,146,346,182"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__s.html#a7f5f2af31221a1cf8d74880aedc775ca" title="SLACN2: estimates the 1&#45;norm of a square, real matrix A. Reverse communication is used for evaluating..." alt="" coords="444,205,611,231"/>
+<area shape="poly" id="edge14_Node000009_Node000010" title=" " alt="" coords="396,200,431,204,430,209,395,205"/>
+<area shape="rect" id="Node000011" href="$namespacela__lapack__s.html#a15d15a6a15413139e7a29806148075d5" title="SLATPS: solves one of the triangular systems A *x = s*b or A**T*x = s*b with scaling to prevent overf..." alt="" coords="445,156,609,181"/>
+<area shape="poly" id="edge16_Node000009_Node000011" title=" " alt="" coords="395,181,431,177,432,182,396,186"/>
+<area shape="rect" id="Node000012" href="$namespacela__lapack__s.html#a783c8ae4ebd73b3e7afebebd367a6492" title="SRSCL: multiplies an n&#45;element real vector x by the real scalar 1/a. This is done without overflow or..." alt="" coords="450,55,605,80"/>
+<area shape="poly" id="edge18_Node000009_Node000012" title=" " alt="" coords="357,178,394,159,409,144,418,129,427,113,442,97,467,83,470,88,446,101,431,116,422,131,413,147,398,163,360,182"/>
+<area shape="poly" id="edge17_Node000011_Node000003" title=" " alt="" coords="610,161,648,159,649,164,610,166"/>
+<area shape="poly" id="edge20_Node000012_Node000003" title=" " alt="" coords="563,78,612,97,705,135,703,140,610,102,561,83"/>
+<area shape="rect" id="Node000013" href="$namespacela__lapack__s.html#a8c70bc25650d02927495d8a3635d03f8" title="SLABAD: takes as input the values computed by SLAMCH for underflow and overflow, and returns the squa..." alt="" coords="664,55,832,80"/>
+<area shape="poly" id="edge19_Node000012_Node000013" title=" " alt="" coords="605,65,650,65,650,70,605,70"/>
+<area shape="poly" id="edge24_Node000015_Node000003" title=" " alt="" coords="393,269,498,263,555,254,610,239,641,226,671,209,720,174,723,179,674,214,643,231,612,245,556,259,499,269,393,274"/>
+<area shape="poly" id="edge23_Node000015_Node000010" title=" " alt="" coords="365,253,459,231,460,236,366,258"/>
+<area shape="poly" id="edge25_Node000015_Node000016" title=" " alt="" coords="366,279,460,301,459,306,365,284"/>
+</map>

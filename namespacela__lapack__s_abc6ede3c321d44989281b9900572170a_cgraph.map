@@ -1,0 +1,20 @@
+<map id="la_lapack_s::la_sormrz" name="la_lapack_s::la_sormrz">
+<area shape="rect" id="Node000001" title="SORMRZ: overwrites the general real M&#45;by&#45;N matrix C with SIDE = &#39;L&#39; SIDE = &#39;R&#39; TRANS = &#39;N&#39;: Q * C C *..." alt="" coords="5,140,176,165"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__aux.html#aa361c7114aef95e10b685247a1b75114" title="ILAENV: is called from the LAPACK routines to choose problem&#45;dependent parameters for the local envir..." alt="" coords="224,65,407,91"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="122,137,223,99,248,92,250,97,225,105,124,142"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__s.html#a1702e83db974f3933e2a270be395d5f2" title="SLARZB: applies a real block reflector H or its transpose H**T to a real distributed M&#45;by&#45;N C from th..." alt="" coords="233,115,397,140"/>
+<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="176,140,219,135,220,141,177,146"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__s.html#ac841da88a7f0a81f617adc32fb32f387" title="SLARZT: forms the triangular factor T of a real block reflector H of order &gt; n, which is defined as a..." alt="" coords="235,164,396,189"/>
+<area shape="poly" id="edge8_Node000001_Node000006" title=" " alt="" coords="177,159,221,164,221,169,176,164"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__s.html#ae0fd646092788c2390228238b87efa6e" title="SORMR3: overwrites the general real m by n matrix C with Q * C if SIDE = &#39;L&#39; and TRANS = &#39;N&#39;,..." alt="" coords="230,213,401,239"/>
+<area shape="poly" id="edge9_Node000001_Node000007" title=" " alt="" coords="126,163,225,198,254,207,252,212,223,203,124,168"/>
+<area shape="poly" id="edge4_Node000002_Node000002" title=" " alt="" coords="279,67,271,57,275,47,290,41,315,39,347,43,359,52,356,56,345,47,315,44,291,46,279,51,276,56,283,63"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__aux.html#a72541275ada30b0ca556fbc0d3959719" title="IEEECK: is called from the ILAENV to verify that Infinity and possibly NaN arithmetic is safe (i...." alt="" coords="456,29,641,55"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="398,63,452,54,453,59,398,68"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__aux.html#ace38ae70bb7022cae6ecabe992145fda" title="This program sets problem and machine dependent parameters useful for xHSEQR and related subroutines ..." alt="" coords="455,103,643,128"/>
+<area shape="poly" id="edge5_Node000002_Node000004" title=" " alt="" coords="396,88,456,98,455,103,395,93"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="511,31,503,21,507,11,523,5,549,3,581,7,594,16,590,20,579,11,549,8,524,10,511,15,508,20,515,27"/>
+<area shape="poly" id="edge6_Node000004_Node000004" title=" " alt="" coords="511,104,503,94,507,84,523,78,549,76,581,80,594,89,590,94,579,85,549,81,524,83,511,88,508,94,515,101"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__s.html#a58f538d72c282a7a4e223456d1c14e8c" title="SLARZ: applies a real elementary reflector H to a real M&#45;by&#45;N matrix C, from either the left or the r..." alt="" coords="471,213,627,239"/>
+<area shape="poly" id="edge10_Node000007_Node000008" title=" " alt="" coords="401,223,457,223,457,229,401,229"/>
+</map>

@@ -1,0 +1,8 @@
+<map id="la_lapack_s::la_srscl" name="la_lapack_s::la_srscl">
+<area shape="rect" id="Node000001" title="SRSCL: multiplies an n&#45;element real vector x by the real scalar 1/a. This is done without overflow or..." alt="" coords="5,43,160,68"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#a8c70bc25650d02927495d8a3635d03f8" title="SLABAD: takes as input the values computed by SLAMCH for underflow and overflow, and returns the squa..." alt="" coords="210,5,378,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="155,40,208,30,209,36,156,45"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__s.html#abbe0ae24f069ddbf134ff3e404a19878" title="SLAMCH: determines single precision machine parameters." alt="" coords="208,79,380,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="158,65,206,74,205,79,157,71"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="259,80,252,70,256,60,270,54,294,52,323,56,335,65,332,69,321,61,294,57,272,59,260,64,257,70,264,77"/>
+</map>

@@ -1,0 +1,21 @@
+<map id="la_lapack_d::la_dpotri" name="la_lapack_d::la_dpotri">
+<area shape="rect" id="Node000001" title="DPOTRI: computes the inverse of a real symmetric positive definite matrix A using the Cholesky factor..." alt="" coords="5,80,169,105"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__d.html#a15270d7b0288cb8a4a757ed2de1dca77" title="DLAUUM: computes the product U * U**T or L**T * L, where the triangular factor U or L is stored in th..." alt="" coords="217,55,392,80"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="170,80,203,76,204,82,170,86"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__d.html#a7d8be88dd251c306dbaae7f21a4ca3e6" title="DTRTRI: computes the inverse of a real upper or lower triangular matrix A. This is the Level 3 BLAS v..." alt="" coords="225,104,384,129"/>
+<area shape="poly" id="edge9_Node000001_Node000007" title=" " alt="" coords="170,99,212,104,212,109,170,104"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__d.html#adb79b1e143c016ef384e4db84b54ff2d" title="DLAUU2: computes the product U * U**T or L**T * L, where the triangular factor U or L is stored in th..." alt="" coords="446,5,617,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="363,52,458,31,459,36,364,57"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__aux.html#aa361c7114aef95e10b685247a1b75114" title="ILAENV: is called from the LAPACK routines to choose problem&#45;dependent parameters for the local envir..." alt="" coords="440,79,623,104"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="393,74,427,78,426,83,392,79"/>
+<area shape="poly" id="edge6_Node000004_Node000004" title=" " alt="" coords="494,80,486,70,491,60,506,54,531,52,563,56,575,65,572,69,561,61,531,57,507,59,494,64,492,70,498,77"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__aux.html#a72541275ada30b0ca556fbc0d3959719" title="IEEECK: is called from the ILAENV to verify that Infinity and possibly NaN arithmetic is safe (i...." alt="" coords="672,43,857,68"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="614,76,668,68,669,73,614,81"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__aux.html#ace38ae70bb7022cae6ecabe992145fda" title="This program sets problem and machine dependent parameters useful for xHSEQR and related subroutines ..." alt="" coords="671,116,859,141"/>
+<area shape="poly" id="edge7_Node000004_Node000006" title=" " alt="" coords="612,101,672,111,671,116,611,107"/>
+<area shape="poly" id="edge5_Node000005_Node000005" title=" " alt="" coords="727,44,719,34,723,24,739,18,765,16,797,20,810,29,806,34,795,25,765,21,740,23,727,28,724,34,731,41"/>
+<area shape="poly" id="edge8_Node000006_Node000006" title=" " alt="" coords="727,118,719,108,723,98,739,92,765,89,797,93,810,103,806,107,795,98,765,95,740,97,727,102,724,107,731,114"/>
+<area shape="poly" id="edge11_Node000007_Node000004" title=" " alt="" coords="384,105,426,100,427,106,385,110"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__d.html#ac4c9da07c1e66ebf410ac438f4c045bf" title="DTRTI2: computes the inverse of a real upper or lower triangular matrix. This is the Level 2 BLAS ver..." alt="" coords="451,128,612,153"/>
+<area shape="poly" id="edge10_Node000007_Node000008" title=" " alt="" coords="385,122,438,128,437,133,384,128"/>
+</map>

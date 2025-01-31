@@ -1,0 +1,12 @@
+<map id="la_lapack_q::la_qlantp" name="la_lapack_q::la_qlantp">
+<area shape="rect" id="Node000001" title="DLANTP: returns the value of the one norm, or the Frobenius norm, or the infinity norm,..." alt="" coords="5,55,172,80"/>
+<area shape="poly" id="edge5_Node000001_Node000001" title=" " alt="" coords="53,56,46,46,50,36,64,30,89,28,119,32,131,41,127,45,117,37,89,33,66,35,53,40,51,46,57,53"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__q.html#a905710846630796d062c866934101635" title="DISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="220,29,389,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="172,55,206,51,206,56,173,60"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__q.html#ae52696bd9e5bb3687dcfdc6176da6ea5" title="!" alt="" coords="221,79,389,104"/>
+<area shape="poly" id="edge6_Node000001_Node000004" title=" " alt="" coords="173,74,207,78,207,83,172,79"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="269,31,262,21,266,11,280,5,305,3,335,6,347,15,343,20,333,11,305,8,282,10,269,15,267,20,273,28"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__q.html#a70bf73297aef7307a374d805b9ea5736" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in DISNAN...." alt="" coords="437,29,619,55"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="389,39,424,39,424,45,389,45"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="492,31,484,21,488,11,503,5,528,3,559,6,571,15,568,20,557,11,528,8,504,10,492,15,489,20,496,28"/>
+</map>

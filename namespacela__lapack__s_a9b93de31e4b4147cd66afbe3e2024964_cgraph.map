@@ -1,0 +1,14 @@
+<map id="la_lapack_s::la_sgemlq" name="la_lapack_s::la_sgemlq">
+<area shape="rect" id="Node000001" title="SGEMLQ: overwrites the general real M&#45;by&#45;N matrix C with SIDE = &#39;L&#39; SIDE = &#39;R&#39; TRANS = &#39;N&#39;: Q * C C *..." alt="" coords="5,29,179,55"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#ae960ee808a7063af5a4954b3f218f1a7" title="DGEMLQT overwrites the general real M&#45;by&#45;N matrix C with SIDE = &#39;L&#39; SIDE = &#39;R&#39; TRANS = &#39;N&#39;: Q C C Q T..." alt="" coords="461,5,640,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="179,35,447,21,448,26,179,40"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__s.html#a9d4a3e29c1f59649a6e7179edbd496d0" title="SLAMSWLQ: overwrites the general real M&#45;by&#45;N matrix C with SIDE = &#39;L&#39; SIDE = &#39;R&#39; TRANS = &#39;N&#39;: Q * C C..." alt="" coords="227,55,413,80"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="179,49,213,53,213,58,179,54"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__s.html#a88f424ab78fa97dff58d431a8ab51b7c" title="SLARFB: applies a real block reflector H or its transpose H**T to a real m by n matrix C,..." alt="" coords="688,5,851,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="640,15,674,15,674,21,640,21"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="379,52,477,31,478,36,381,57"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__s.html#adc5eb71b9fe848c7e199635f3022c444" title="STPMLQT: applies a real orthogonal matrix Q obtained from a &quot;triangular&#45;pentagonal&quot; real block reflec..." alt="" coords="463,55,638,80"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="413,65,450,65,450,70,413,70"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__s.html#a3c5dcc0b6f70342c48aa1525aa0d0df8" title="STPRFB: applies a real &quot;triangular&#45;pentagonal&quot; block reflector H or its conjugate transpose H^H to a ..." alt="" coords="688,55,851,80"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="639,65,674,65,674,70,639,70"/>
+</map>

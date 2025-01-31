@@ -1,0 +1,9 @@
+<map id="la_lapack_c::la_checon_rook" name="la_lapack_c::la_checon_rook">
+<area shape="rect" id="Node000001" title="CHECON_ROOK: estimates the reciprocal of the condition number of a complex Hermitian matrix A using t..." alt="" coords="5,31,212,56"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__c.html#aed4b31e876fc730b896387a5e0155ed2" title="CHETRS_ROOK: solves a system of linear equations A*X = B with a complex Hermitian matrix A using the ..." alt="" coords="260,5,461,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="212,30,246,27,247,32,212,36"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__c.html#aa8a18fed030896d19839b3aef3aa48ca" title="CLACN2: estimates the 1&#45;norm of a square, complex matrix A. Reverse communication is used for evaluat..." alt="" coords="277,55,444,80"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="212,51,264,55,264,61,212,56"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__c.html#a458ee49506ae512d1c2d93ad1fdcbc11" title="CLACGV: conjugates a complex vector of length N." alt="" coords="509,5,676,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="462,15,496,15,496,21,462,21"/>
+</map>

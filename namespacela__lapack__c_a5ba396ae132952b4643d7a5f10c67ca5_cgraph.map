@@ -1,0 +1,6 @@
+<map id="la_lapack_c::la_clantp" name="la_lapack_c::la_clantp">
+<area shape="rect" id="Node000001" title="CLANTP: returns the value of the one norm, or the Frobenius norm, or the infinity norm,..." alt="" coords="5,29,171,55"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="53,31,46,21,49,11,64,5,88,3,118,6,129,15,126,20,116,11,88,8,65,10,53,15,51,20,57,28"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__c.html#a9238bcdce69d7296d0322567095afa73" title="!" alt="" coords="219,29,385,55"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="171,39,205,39,205,45,171,45"/>
+</map>

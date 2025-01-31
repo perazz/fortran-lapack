@@ -1,0 +1,11 @@
+<map id="la_lapack_c::la_ctgex2" name="la_lapack_c::la_ctgex2">
+<area shape="rect" id="Node000001" title="CTGEX2: swaps adjacent diagonal 1 by 1 blocks (A11,B11) and (A22,B22) in an upper triangular matrix p..." alt="" coords="5,80,175,105"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__c.html#a94f50f05cdea6ccd3a055c994a570fcd" title="CLACPY: copies all or part of a two&#45;dimensional matrix A to another matrix B." alt="" coords="223,5,389,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="121,77,222,39,245,32,246,37,224,45,123,82"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__c.html#a5abbf350b2d24dd9b3d62a839ee4527d" title="!" alt="" coords="225,55,387,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="175,80,211,76,211,81,175,85"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__c.html#a9238bcdce69d7296d0322567095afa73" title="!" alt="" coords="223,104,389,129"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="175,99,210,103,209,109,175,105"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__c.html#a1022d6940953e2aeeab21638d4722932" title="CROT: applies a plane rotation, where the cos (C) is real and the sin (S) is complex,..." alt="" coords="231,153,381,179"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="126,103,224,138,250,147,248,152,222,143,124,108"/>
+</map>

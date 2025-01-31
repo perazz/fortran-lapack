@@ -1,0 +1,13 @@
+<map id="la_lapack_d::la_dlapy2" name="la_lapack_d::la_dlapy2">
+<area shape="rect" id="Node000001" title="DLAPY2: returns sqrt(x**2+y**2), taking care not to cause unnecessary overflow and unnecessary underf..." alt="" coords="5,67,176,92"/>
+<area shape="poly" id="edge7_Node000001_Node000001" title=" " alt="" coords="55,68,47,58,51,48,66,42,91,40,121,44,133,53,130,57,119,49,91,45,67,47,55,52,52,58,59,65"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__d.html#a4a9c9cc2b970e1644f2f475aff87fb6e" title="DISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="227,29,396,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="166,64,222,54,223,60,167,69"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__d.html#af258e93ce5d1d461c745335332ff184b" title="DLAMCH: determines double precision machine parameters." alt="" coords="224,103,399,128"/>
+<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="169,89,220,98,219,103,168,95"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="276,31,268,21,272,11,287,5,311,3,342,6,354,15,351,20,340,11,311,8,288,10,276,15,273,20,280,28"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__d.html#a7d6ce8ad80e116b4b65bc05ac5012e74" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in DISNAN...." alt="" coords="447,29,628,55"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="396,39,433,39,433,45,396,45"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="501,31,493,21,497,11,512,5,537,3,569,7,581,16,578,20,567,11,537,8,513,10,501,15,498,20,505,27"/>
+<area shape="poly" id="edge6_Node000004_Node000004" title=" " alt="" coords="276,104,268,94,272,84,287,78,311,76,342,80,354,89,351,93,340,85,311,81,288,83,276,88,273,94,280,101"/>
+</map>

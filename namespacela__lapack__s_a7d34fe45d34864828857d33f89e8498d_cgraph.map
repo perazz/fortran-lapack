@@ -1,0 +1,5 @@
+<map id="la_lapack_s::la_sgetrs" name="la_lapack_s::la_sgetrs">
+<area shape="rect" id="Node000001" title="SGETRS: solves a system of linear equations A * X = B or A**T * X = B with a general N&#45;by&#45;N matrix A ..." alt="" coords="5,5,171,31"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#a32210a3155cf4bcf4884b373e585f34f" title="SLASWP: performs a series of row interchanges on the matrix A. One row interchange is initiated for e..." alt="" coords="219,5,389,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="171,15,205,15,205,21,171,21"/>
+</map>

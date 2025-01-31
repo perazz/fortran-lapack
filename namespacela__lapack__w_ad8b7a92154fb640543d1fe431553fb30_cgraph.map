@@ -1,0 +1,21 @@
+<map id="la_lapack_w::la_wtzrzf" name="la_lapack_w::la_wtzrzf">
+<area shape="rect" id="Node000001" title="ZTZRZF: reduces the M&#45;by&#45;N ( M&lt;=N ) complex upper trapezoidal matrix A to upper triangular form by me..." alt="" coords="5,56,173,81"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__w.html#ab2548474705e3173b4e16c8055d3bd55" title="ZLARZB: applies a complex block reflector H or its transpose H**H to a complex distributed M&#45;by&#45;N C f..." alt="" coords="437,5,608,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="149,53,221,41,325,29,423,21,424,26,326,34,222,46,149,59"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__w.html#ae4bc3d854e119445d3e728c55bb87299" title="ZLARZT: forms the triangular factor T of a complex block reflector H of order &gt; n,..." alt="" coords="221,56,389,81"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="174,66,208,66,208,71,174,71"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__w.html#adddf7968d039d58cbbcec6e0f5343900" title="ZLATRZ: factors the M&#45;by&#45;(M+L) complex upper trapezoidal matrix [ A1 A2 ] = [ A(1:M,..." alt="" coords="221,132,389,157"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="127,79,256,125,255,130,125,84"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__w.html#af9fd634fd795490b65aee72c58533e2f" title="ZLACGV: conjugates a complex vector of length N." alt="" coords="656,81,831,107"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="561,28,693,74,692,79,560,33"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="390,71,642,86,642,91,389,76"/>
+<area shape="poly" id="edge6_Node000005_Node000003" title=" " alt="" coords="389,132,642,103,643,108,390,138"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__w.html#aa9eb79b853bd27197cc061402a74d006" title="ZLARFG: generates a complex elementary reflector H of order n, such that H**H * ( alpha ) = ( beta ),..." alt="" coords="438,207,607,232"/>
+<area shape="poly" id="edge7_Node000005_Node000006" title=" " alt="" coords="340,155,438,191,465,200,463,205,436,197,338,160"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__w.html#a080aff03ae0d102285e7418028b632a5" title="ZLARZ: applies a complex elementary reflector H to a complex M&#45;by&#45;N matrix C, from either the left or..." alt="" coords="441,157,604,183"/>
+<area shape="poly" id="edge10_Node000005_Node000008" title=" " alt="" coords="390,152,428,156,427,162,389,157"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__w.html#a256289e251e51bb1c01d2fe45fe134fa" title="ZLADIV: := X / Y, where X and Y are complex. The computation of X / Y will not overflow on an interme..." alt="" coords="658,207,829,232"/>
+<area shape="poly" id="edge8_Node000006_Node000007" title=" " alt="" coords="608,217,644,217,644,222,608,222"/>
+<area shape="poly" id="edge9_Node000007_Node000007" title=" " alt="" coords="708,208,700,198,704,188,719,182,743,180,774,184,786,193,783,197,772,189,743,185,720,187,708,192,705,198,712,205"/>
+<area shape="poly" id="edge11_Node000008_Node000003" title=" " alt="" coords="560,155,692,109,693,114,561,160"/>
+</map>

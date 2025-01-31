@@ -1,0 +1,16 @@
+<map id="la_lapack_s::la_slarfg" name="la_lapack_s::la_slarfg">
+<area shape="rect" id="Node000001" title="SLARFG: generates a real elementary reflector H of order n, such that H * ( alpha ) = ( beta ),..." alt="" coords="5,65,168,91"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#abbe0ae24f069ddbf134ff3e404a19878" title="SLAMCH: determines single precision machine parameters." alt="" coords="432,29,604,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="168,69,418,48,419,53,168,74"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__s.html#a9e70d6d165ba95d10e4f8592c02475c7" title="SLAPY2: returns sqrt(x**2+y**2), taking care not to cause unnecessary overflow and unnecessary underf..." alt="" coords="216,103,384,128"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="160,88,214,98,213,103,159,93"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="483,31,475,21,479,11,494,5,518,3,548,6,560,15,557,20,546,11,518,8,495,10,483,15,480,20,487,28"/>
+<area shape="poly" id="edge8_Node000003_Node000002" title=" " alt="" coords="334,100,431,65,458,56,460,61,433,70,335,105"/>
+<area shape="poly" id="edge9_Node000003_Node000003" title=" " alt="" coords="265,104,258,94,261,84,276,78,300,76,330,80,341,89,338,93,328,85,300,81,277,83,265,88,263,94,269,101"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__s.html#af8d4b806648873f614d26ba3f9d00512" title="SISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="435,103,601,128"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="385,113,421,113,421,118,385,118"/>
+<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="483,104,475,94,479,84,494,78,518,76,548,80,560,89,557,93,546,85,518,81,495,83,483,88,480,94,487,101"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__s.html#ab716c1e999e316ce29c31703ef379eb1" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in SISNAN...." alt="" coords="652,103,831,128"/>
+<area shape="poly" id="edge6_Node000004_Node000005" title=" " alt="" coords="602,113,638,113,638,118,602,118"/>
+<area shape="poly" id="edge7_Node000005_Node000005" title=" " alt="" coords="705,104,697,94,701,84,716,78,741,76,772,80,784,89,781,93,770,85,741,81,718,83,705,88,703,94,709,101"/>
+</map>

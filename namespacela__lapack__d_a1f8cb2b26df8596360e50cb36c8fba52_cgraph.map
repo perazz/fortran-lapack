@@ -1,0 +1,5 @@
+<map id="la_lapack_d::la_dpftrs" name="la_lapack_d::la_dpftrs">
+<area shape="rect" id="Node000001" title="DPFTRS: solves a system of linear equations A*X = B with a symmetric positive definite matrix A using..." alt="" coords="5,5,168,31"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__d.html#a4654ebbb8eadbf67c38cd20f3b494919" title="Level 3 BLAS like routine for A in RFP Format. DTFSM: solves the matrix equation op( A )*X = alpha*B ..." alt="" coords="216,5,380,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="168,15,202,15,202,21,168,21"/>
+</map>

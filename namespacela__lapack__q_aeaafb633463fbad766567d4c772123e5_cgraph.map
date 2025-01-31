@@ -1,0 +1,14 @@
+<map id="la_lapack_q::la_qgttrs" name="la_lapack_q::la_qgttrs">
+<area shape="rect" id="Node000001" title="DGTTRS: solves one of the systems of equations A*X = B or A**T*X = B, with a tridiagonal matrix A usi..." alt="" coords="5,91,169,116"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__aux.html#aa361c7114aef95e10b685247a1b75114" title="ILAENV: is called from the LAPACK routines to choose problem&#45;dependent parameters for the local envir..." alt="" coords="217,65,400,91"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="169,91,204,87,204,93,170,97"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__q.html#a72ef9407406deda757c3b90c4cbcd2e3" title="DGTTS2: solves one of the systems of equations A*X = B or A**T*X = B, with a tridiagonal matrix A usi..." alt="" coords="225,115,392,140"/>
+<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="170,110,212,114,211,119,169,115"/>
+<area shape="poly" id="edge4_Node000002_Node000002" title=" " alt="" coords="273,67,265,57,269,47,284,41,309,39,339,42,352,51,348,56,337,47,309,44,285,46,272,51,270,56,277,64"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__aux.html#a72541275ada30b0ca556fbc0d3959719" title="IEEECK: is called from the ILAENV to verify that Infinity and possibly NaN arithmetic is safe (i...." alt="" coords="449,29,635,55"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="391,63,445,54,446,59,392,68"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__aux.html#ace38ae70bb7022cae6ecabe992145fda" title="This program sets problem and machine dependent parameters useful for xHSEQR and related subroutines ..." alt="" coords="448,103,636,128"/>
+<area shape="poly" id="edge5_Node000002_Node000004" title=" " alt="" coords="389,88,449,98,448,103,388,93"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="504,31,496,21,500,11,516,5,542,3,575,7,587,16,584,20,573,11,542,8,517,10,504,15,501,20,508,27"/>
+<area shape="poly" id="edge6_Node000004_Node000004" title=" " alt="" coords="504,104,496,94,500,84,516,78,542,76,575,80,587,89,584,94,573,85,542,81,517,83,504,88,501,94,508,101"/>
+</map>

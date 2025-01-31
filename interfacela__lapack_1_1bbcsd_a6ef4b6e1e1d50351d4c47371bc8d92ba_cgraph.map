@@ -1,0 +1,35 @@
+<map id="la_lapack::bbcsd::sbbcsd" name="la_lapack::bbcsd::sbbcsd">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,235,188,261"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#acb1f5ba59e82bea7199124279527aaa5" title="SBBCSD: computes the CS decomposition of an orthogonal matrix in bidiagonal&#45;block form,..." alt="" coords="239,110,410,135"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="120,233,287,140,290,144,122,238"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__w.html#aee699b35361cdb25d43ec38fc5a14cb5" title="ZBBCSD: computes the CS decomposition of a unitary matrix in bidiagonal&#45;block form,..." alt="" coords="236,310,413,335"/>
+<area shape="poly" id="edge11_Node000001_Node000008" title=" " alt="" coords="138,258,273,303,272,308,136,263"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__s.html#abbe0ae24f069ddbf134ff3e404a19878" title="SLAMCH: determines single precision machine parameters." alt="" coords="901,34,1073,59"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="341,107,392,73,425,55,460,40,567,12,612,5,654,3,741,8,852,19,918,29,918,34,852,24,741,13,654,8,612,11,568,17,462,45,428,59,395,77,344,112"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__s.html#af339f24767ab40f6bc796ff5c5560f7c" title="SLARTGP: generates a plane rotation so that [ CS SN ] . [ F ] = [ R ] where CS**2 + SN**2 = 1...." alt="" coords="681,34,851,59"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="352,107,402,87,461,69,566,53,666,45,667,51,567,58,462,75,404,92,354,112"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__s.html#af1b7812ea3bd288d96512934061140fa" title="SLARTGS: generates a plane rotation designed to introduce a bulge in Golub&#45;Reinsch&#45;style implicit QR ..." alt="" coords="462,85,631,110"/>
+<area shape="poly" id="edge6_Node000002_Node000005" title=" " alt="" coords="410,110,448,106,448,111,410,116"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__s.html#a6032a4f9106611866bbc0a0000807ddf" title="SLAS2: computes the singular values of the 2&#45;by&#45;2 matrix [ F G ] [ 0 H ]. On return,..." alt="" coords="467,134,626,159"/>
+<area shape="poly" id="edge9_Node000002_Node000006" title=" " alt="" coords="410,129,454,134,453,139,410,134"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__s.html#ad91ca475ec1636210600a15006c7ff78" title="SLASR: applies a sequence of plane rotations to a real matrix A, from either the left or the right...." alt="" coords="469,183,625,209"/>
+<area shape="poly" id="edge10_Node000002_Node000007" title=" " alt="" coords="361,133,462,168,489,177,488,182,460,173,359,138"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="951,36,943,26,947,16,962,9,987,7,1018,11,1030,20,1027,24,1016,16,987,13,964,15,951,19,949,25,955,32"/>
+<area shape="poly" id="edge5_Node000004_Node000003" title=" " alt="" coords="852,44,888,44,888,49,852,49"/>
+<area shape="poly" id="edge7_Node000005_Node000003" title=" " alt="" coords="631,89,737,81,852,68,908,59,909,64,852,73,737,86,632,95"/>
+<area shape="poly" id="edge8_Node000005_Node000004" title=" " alt="" coords="602,82,697,60,698,65,603,87"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__q.html#a5435a74c593174c3ab375e653a46f8fe" title="DLAMCH: determines quad precision machine parameters." alt="" coords="900,285,1075,310"/>
+<area shape="poly" id="edge12_Node000008_Node000009" title=" " alt="" coords="372,307,461,288,570,271,656,262,742,262,852,269,918,279,918,285,852,275,742,267,656,268,571,276,462,293,373,312"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__q.html#a83c0341e7066c93fa532880dbfbf51d3" title="DLARTGP: generates a plane rotation so that [ CS SN ] . [ F ] = [ R ] where CS**2 + SN**2 = 1...." alt="" coords="680,285,852,310"/>
+<area shape="poly" id="edge14_Node000008_Node000010" title=" " alt="" coords="414,315,666,300,667,306,414,320"/>
+<area shape="rect" id="Node000011" href="$namespacela__lapack__q.html#a7af3150488a5c0d6291b21fa5f4ec4b4" title="DLARTGS: generates a plane rotation designed to introduce a bulge in Golub&#45;Reinsch&#45;style implicit QR ..." alt="" coords="461,335,632,361"/>
+<area shape="poly" id="edge16_Node000008_Node000011" title=" " alt="" coords="414,330,448,334,447,339,414,335"/>
+<area shape="rect" id="Node000012" href="$namespacela__lapack__q.html#a06dc512da87939cc61fe95b1c822bf31" title="DLAS2: computes the singular values of the 2&#45;by&#45;2 matrix [ F G ] [ 0 H ]. On return,..." alt="" coords="466,385,627,410"/>
+<area shape="poly" id="edge19_Node000008_Node000012" title=" " alt="" coords="359,333,462,371,486,378,484,383,460,376,357,338"/>
+<area shape="rect" id="Node000013" href="$namespacela__lapack__w.html#ae21aaa57862c846b56b2a72ab2d300a7" title="ZLASR: applies a sequence of real plane rotations to a complex matrix A, from either the left or the ..." alt="" coords="465,434,628,459"/>
+<area shape="poly" id="edge20_Node000008_Node000013" title=" " alt="" coords="342,334,393,376,427,400,463,420,478,427,476,432,460,425,424,404,389,380,338,338"/>
+<area shape="poly" id="edge13_Node000009_Node000009" title=" " alt="" coords="951,286,943,276,947,266,962,260,987,258,1018,262,1030,271,1027,275,1016,267,987,263,964,265,951,270,949,276,955,283"/>
+<area shape="poly" id="edge15_Node000010_Node000009" title=" " alt="" coords="853,295,886,295,886,300,853,300"/>
+<area shape="poly" id="edge17_Node000011_Node000009" title=" " alt="" coords="632,341,737,333,852,320,912,310,913,315,852,325,738,338,632,346"/>
+<area shape="poly" id="edge18_Node000011_Node000010" title=" " alt="" coords="602,333,697,310,698,316,603,338"/>
+</map>

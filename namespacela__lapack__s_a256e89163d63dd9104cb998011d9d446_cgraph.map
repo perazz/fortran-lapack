@@ -1,0 +1,58 @@
+<map id="la_lapack_s::la_slarre" name="la_lapack_s::la_slarre">
+<area shape="rect" id="Node000001" title="To find the desired eigenvalues of a given real symmetric tridiagonal matrix T, SLARRE: sets any &quot;sma..." alt="" coords="5,421,168,446"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#abbe0ae24f069ddbf134ff3e404a19878" title="SLAMCH: determines single precision machine parameters." alt="" coords="901,294,1073,319"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="90,419,133,324,170,262,214,203,265,149,310,110,360,80,430,55,548,19,599,8,647,3,694,5,743,16,794,36,851,67,879,88,903,114,941,173,967,232,982,280,977,281,962,234,936,175,899,117,875,92,848,71,792,41,741,21,694,11,647,9,600,14,549,25,432,60,363,85,313,114,269,153,218,207,174,265,138,326,95,421"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__s.html#af116985d3651befccd08a9bf078fa45d" title="SLARNV: returns a vector of n random real numbers from a uniform or normal distribution." alt="" coords="217,494,382,519"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="121,443,217,479,243,487,242,492,215,484,120,448"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__s.html#abd8eacaceb11cbb3eb55b5b225120b99" title="Compute the splitting points with threshold SPLTOL. SLARRA: sets any &quot;small&quot; off&#45;diagonal elements to..." alt="" coords="218,543,381,569"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="103,444,151,486,183,509,217,529,232,536,230,541,215,534,180,514,148,490,99,448"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__s.html#a6efa747fc5a31c48367c20f93d810762" title="Given the relatively robust representation(RRR) L D L^T, SLARRB: does &quot;limited&quot; bisection to refine t..." alt="" coords="218,445,381,470"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="169,440,205,444,204,449,168,445"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__s.html#a2e22da93c392e8a03fe0808ea1f4219d" title="Find the number of eigenvalues of the symmetric tridiagonal matrix T that are in the interval (VL,..." alt="" coords="219,593,380,618"/>
+<area shape="poly" id="edge13_Node000001_Node000010" title=" " alt="" coords="98,445,143,509,177,547,217,579,228,585,226,590,215,583,174,551,139,512,93,448"/>
+<area shape="rect" id="Node000011" href="$namespacela__lapack__s.html#abe54f1833376e6f38c12cbfa38ad1aeb" title="SLARRD: computes the eigenvalues of a symmetric tridiagonal matrix T to suitable accuracy...." alt="" coords="218,294,381,319"/>
+<area shape="poly" id="edge14_Node000001_Node000011" title=" " alt="" coords="108,418,263,324,266,329,111,423"/>
+<area shape="rect" id="Node000016" href="$namespacela__lapack__s.html#a53274bb800bf71a225801880a91b78d0" title="SLARRK: computes one eigenvalue of a symmetric tridiagonal matrix T to suitable accuracy...." alt="" coords="441,70,603,95"/>
+<area shape="poly" id="edge23_Node000001_Node000016" title=" " alt="" coords="95,419,142,356,177,316,214,279,285,223,359,172,483,99,486,104,362,177,288,227,218,283,180,320,147,359,99,422"/>
+<area shape="rect" id="Node000017" href="$namespacela__lapack__s.html#a73fb6a730c9eb9353a9816114e2c3825" title="SLASQ2: computes all the eigenvalues of the symmetric positive definite tridiagonal matrix associated..." alt="" coords="216,395,383,421"/>
+<area shape="poly" id="edge25_Node000001_Node000017" title=" " alt="" coords="168,421,202,417,203,422,169,426"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="949,295,941,286,945,276,961,269,987,267,1019,271,1031,280,1028,285,1017,276,987,273,962,275,949,279,946,285,953,292"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__s.html#ab9872d6f18e29e7384d488781ba9d128" title="SLARUV: returns a vector of n random real numbers from a uniform (0,1) distribution (n &lt;= 128)...." alt="" coords="439,593,605,618"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="357,517,384,530,399,542,409,555,418,567,432,579,445,585,442,590,429,583,414,571,404,558,396,546,381,534,355,522"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__s.html#adaea1672dc87c7003f60023e7d793892" title="SLANEG: computes the Sturm count, the number of negative pivots encountered while factoring tridiagon..." alt="" coords="438,543,606,569"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="352,467,384,479,408,491,432,506,486,534,483,539,429,510,406,496,382,484,350,472"/>
+<area shape="poly" id="edge12_Node000007_Node000007" title=" " alt="" coords="486,545,478,535,482,525,497,519,522,517,553,520,565,529,562,534,551,525,522,522,498,524,486,529,483,534,490,541"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__s.html#af8d4b806648873f614d26ba3f9d00512" title="SISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="672,594,839,619"/>
+<area shape="poly" id="edge8_Node000007_Node000008" title=" " alt="" coords="582,566,684,588,683,594,581,571"/>
+<area shape="poly" id="edge9_Node000008_Node000008" title=" " alt="" coords="718,595,710,586,714,576,730,569,755,567,788,571,800,580,797,585,786,576,755,573,731,575,718,579,715,585,722,592"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__s.html#ab716c1e999e316ce29c31703ef379eb1" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in SISNAN...." alt="" coords="897,594,1076,619"/>
+<area shape="poly" id="edge10_Node000008_Node000009" title=" " alt="" coords="839,604,884,604,884,609,839,609"/>
+<area shape="poly" id="edge11_Node000009_Node000009" title=" " alt="" coords="949,595,941,586,945,576,961,569,987,567,1019,571,1031,580,1028,585,1017,576,987,573,962,575,949,579,946,585,953,592"/>
+<area shape="poly" id="edge22_Node000011_Node000002" title=" " alt="" coords="381,304,887,304,887,309,381,309"/>
+<area shape="rect" id="Node000012" href="$namespacela__lapack__aux.html#aa361c7114aef95e10b685247a1b75114" title="ILAENV: is called from the LAPACK routines to choose problem&#45;dependent parameters for the local envir..." alt="" coords="431,218,613,243"/>
+<area shape="poly" id="edge15_Node000011_Node000012" title=" " alt="" coords="337,291,470,245,472,250,338,296"/>
+<area shape="rect" id="Node000015" href="$namespacela__lapack__s.html#a5ab4a4740485276da029afc52e98c9e7" title="SLAEBZ: contains the iteration loops which compute and use the function N(w), which is the count of e..." alt="" coords="439,319,605,345"/>
+<area shape="poly" id="edge21_Node000011_Node000015" title=" " alt="" coords="381,313,425,318,425,323,380,318"/>
+<area shape="poly" id="edge18_Node000012_Node000012" title=" " alt="" coords="486,219,478,210,482,200,497,193,522,191,553,195,565,204,562,208,551,200,522,197,498,199,486,203,483,209,490,216"/>
+<area shape="rect" id="Node000013" href="$namespacela__lapack__aux.html#a72541275ada30b0ca556fbc0d3959719" title="IEEECK: is called from the ILAENV to verify that Infinity and possibly NaN arithmetic is safe (i...." alt="" coords="663,145,848,170"/>
+<area shape="poly" id="edge16_Node000012_Node000013" title=" " alt="" coords="556,215,661,179,687,171,689,176,662,184,557,220"/>
+<area shape="rect" id="Node000014" href="$namespacela__lapack__aux.html#ace38ae70bb7022cae6ecabe992145fda" title="This program sets problem and machine dependent parameters useful for xHSEQR and related subroutines ..." alt="" coords="661,218,849,243"/>
+<area shape="poly" id="edge19_Node000012_Node000014" title=" " alt="" coords="614,228,647,228,647,233,614,233"/>
+<area shape="poly" id="edge17_Node000013_Node000013" title=" " alt="" coords="718,146,710,136,714,126,730,120,755,118,788,122,800,131,797,135,786,127,755,123,731,125,718,130,715,135,722,143"/>
+<area shape="poly" id="edge20_Node000014_Node000014" title=" " alt="" coords="718,219,710,210,714,200,730,193,755,191,788,195,800,204,797,209,786,200,755,197,731,199,718,203,715,209,722,216"/>
+<area shape="poly" id="edge24_Node000016_Node000002" title=" " alt="" coords="603,68,661,65,725,68,790,80,821,91,851,106,875,123,898,144,934,191,961,240,979,280,974,282,957,242,930,194,894,147,872,127,848,110,819,96,788,85,724,73,661,70,603,73"/>
+<area shape="poly" id="edge26_Node000017_Node000002" title=" " alt="" coords="383,393,886,318,887,324,383,398"/>
+<area shape="rect" id="Node000018" href="$namespacela__lapack__s.html#a2322cfc69fa42247a70d953ab8b1ea94" title="SLASQ3: checks for deflation, computes a shift (TAU) and calls dqds. In case of failure it changes sh..." alt="" coords="439,421,605,446"/>
+<area shape="poly" id="edge27_Node000017_Node000018" title=" " alt="" coords="384,415,425,420,425,425,383,420"/>
+<area shape="rect" id="Node000022" href="$namespacela__lapack__s.html#a19beb351a658d51a9494b0b24abb22bd" title="Sort the numbers in D in increasing order (if ID = &#39;I&#39;) or in decreasing order (if ID = &#39;D&#39; )...." alt="" coords="441,470,603,495"/>
+<area shape="poly" id="edge34_Node000017_Node000022" title=" " alt="" coords="351,418,384,429,432,455,456,463,454,468,430,460,382,434,349,423"/>
+<area shape="poly" id="edge29_Node000018_Node000002" title=" " alt="" coords="605,436,661,436,723,432,787,422,848,404,881,388,912,368,962,327,965,331,916,372,884,393,850,409,788,427,723,437,661,441,605,441"/>
+<area shape="poly" id="edge28_Node000018_Node000008" title=" " alt="" coords="596,444,615,455,627,468,635,480,641,506,647,531,663,557,683,573,705,586,703,590,680,577,659,560,642,533,636,507,630,482,623,471,612,459,594,448"/>
+<area shape="rect" id="Node000019" href="$namespacela__lapack__s.html#a520e58d706cfa18bca68b8a9f04f1e35" title="SLASQ4: computes an approximation TAU to the smallest eigenvalue using values of d from the previous ..." alt="" coords="672,521,839,546"/>
+<area shape="poly" id="edge30_Node000018_Node000019" title=" " alt="" coords="590,444,615,455,630,468,640,482,648,495,663,507,674,513,672,518,660,511,644,498,635,485,626,472,612,459,588,448"/>
+<area shape="rect" id="Node000020" href="$namespacela__lapack__s.html#a07492787fdbe2163cf26bc14982a24b1" title="SLASQ5: computes one dqds transform in ping&#45;pong form, one version for IEEE machines another for non ..." alt="" coords="672,370,839,395"/>
+<area shape="poly" id="edge31_Node000018_Node000020" title=" " alt="" coords="581,418,683,395,684,401,582,423"/>
+<area shape="rect" id="Node000021" href="$namespacela__lapack__s.html#a79c5909d93788d8a221de133dc7beafb" title="SLASQ6: computes one dqd (shift equal to zero) transform in ping&#45;pong form, with protection against u..." alt="" coords="672,471,839,497"/>
+<area shape="poly" id="edge32_Node000018_Node000021" title=" " alt="" coords="582,443,684,466,683,471,581,449"/>
+<area shape="poly" id="edge33_Node000021_Node000002" title=" " alt="" coords="807,469,848,450,885,421,918,389,967,329,971,332,922,392,888,425,851,454,809,474"/>
+</map>

@@ -1,0 +1,45 @@
+<map id="la_lapack_q::la_qbdsqr" name="la_lapack_q::la_qbdsqr">
+<area shape="rect" id="Node000001" title="DBDSQR: computes the singular values and, optionally, the right and/or left singular vectors from the..." alt="" coords="5,275,176,300"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__q.html#a5435a74c593174c3ab375e653a46f8fe" title="DLAMCH: determines quad precision machine parameters." alt="" coords="1097,275,1271,300"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="100,273,157,209,201,166,254,121,314,79,380,44,451,19,487,12,525,10,745,10,833,6,905,4,939,7,973,16,1008,33,1047,59,1068,82,1077,106,1083,131,1096,161,1132,216,1166,262,1162,265,1127,219,1091,163,1078,133,1072,107,1064,85,1044,63,1006,38,971,21,938,12,905,9,834,11,745,15,525,15,488,18,452,24,382,48,317,83,257,125,205,170,161,213,104,276"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__q.html#a4052efe340c0e142ec6f49add576bbf0" title="!" alt="" coords="227,199,391,224"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="127,272,257,226,259,231,129,277"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__q.html#a06dc512da87939cc61fe95b1c822bf31" title="DLAS2: computes the singular values of the 2&#45;by&#45;2 matrix [ F G ] [ 0 H ]. On return,..." alt="" coords="445,224,607,249"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="176,275,432,245,432,250,177,280"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__q.html#ac8c5bac3c596e8f99e2ca0416fdb2684" title="DLASQ1: computes the singular values of a real N&#45;by&#45;N bidiagonal matrix with diagonal D and off&#45;diago..." alt="" coords="224,300,393,325"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="177,295,211,299,210,304,176,300"/>
+<area shape="rect" id="Node000015" href="$namespacela__lapack__q.html#a485dcb9bae2fc766d9f711058c4d81e5" title="DLASR: applies a sequence of plane rotations to a real matrix A, from either the left or the right...." alt="" coords="229,349,388,375"/>
+<area shape="poly" id="edge25_Node000001_Node000015" title=" " alt="" coords="125,298,225,334,251,343,250,348,223,339,123,303"/>
+<area shape="rect" id="Node000016" href="$namespacela__lapack__q.html#ac11ac459c878b69fa5cbc97526ea944c" title="DLASV2: computes the singular value decomposition of a 2&#45;by&#45;2 triangular matrix [ F G ] [ 0 H ]...." alt="" coords="441,477,611,503"/>
+<area shape="poly" id="edge26_Node000001_Node000016" title=" " alt="" coords="108,298,158,339,225,384,285,412,348,436,460,471,459,476,346,441,283,417,223,388,155,344,104,302"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="1148,276,1140,266,1144,256,1159,250,1184,248,1215,252,1227,261,1224,265,1213,257,1184,253,1160,255,1148,260,1145,266,1152,273"/>
+<area shape="poly" id="edge6_Node000005_Node000002" title=" " alt="" coords="372,323,395,335,411,350,419,365,427,379,443,392,496,416,543,430,586,437,627,437,716,426,828,411,939,403,986,394,1044,374,1106,342,1156,306,1159,311,1109,346,1046,379,987,399,939,408,828,417,717,431,628,442,585,442,541,436,494,421,440,396,423,383,414,368,406,353,392,339,369,328"/>
+<area shape="poly" id="edge7_Node000005_Node000004" title=" " alt="" coords="345,297,475,251,477,256,347,302"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__q.html#a4638c824a5da25cfe2a9f5a34df6f40c" title="DLASCL: multiplies the M by N real matrix A by the real scalar CTO/CFROM. This is done without over/u..." alt="" coords="661,125,825,151"/>
+<area shape="poly" id="edge8_Node000005_Node000006" title=" " alt="" coords="393,308,444,303,500,294,556,280,609,258,644,237,675,211,722,160,726,163,679,215,647,241,612,263,558,285,501,300,445,309,394,314"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__q.html#a6e235e7fe3c5a043ae8a0b301a3b3a87" title="DLASQ2: computes all the eigenvalues of the symmetric positive definite tridiagonal matrix associated..." alt="" coords="441,325,611,351"/>
+<area shape="poly" id="edge14_Node000005_Node000009" title=" " alt="" coords="394,320,428,324,428,329,393,325"/>
+<area shape="rect" id="Node000014" href="$namespacela__lapack__q.html#a4a993bca3468b53abb1f7475886a0d48" title="Sort the numbers in D in increasing order (if ID = &#39;I&#39;) or in decreasing order (if ID = &#39;D&#39; )...." alt="" coords="662,376,825,401"/>
+<area shape="poly" id="edge24_Node000005_Node000014" title=" " alt="" coords="361,323,394,334,418,348,442,360,494,372,548,380,649,387,648,393,547,385,493,377,440,365,416,353,392,339,359,328"/>
+<area shape="poly" id="edge13_Node000006_Node000002" title=" " alt="" coords="766,123,819,98,890,75,930,68,970,66,1009,72,1047,86,1066,102,1076,119,1084,139,1096,161,1168,262,1163,265,1091,163,1079,141,1072,121,1062,105,1044,91,1008,77,970,72,930,73,892,80,821,103,769,128"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__q.html#a905710846630796d062c866934101635" title="DISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="876,125,1045,151"/>
+<area shape="poly" id="edge9_Node000006_Node000007" title=" " alt="" coords="826,135,862,135,862,141,826,141"/>
+<area shape="poly" id="edge10_Node000007_Node000007" title=" " alt="" coords="925,127,918,117,922,107,936,101,961,99,991,102,1003,111,999,116,989,107,961,104,938,106,925,111,923,116,929,124"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__q.html#a70bf73297aef7307a374d805b9ea5736" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in DISNAN...." alt="" coords="1093,125,1275,151"/>
+<area shape="poly" id="edge11_Node000007_Node000008" title=" " alt="" coords="1045,135,1080,135,1080,141,1045,141"/>
+<area shape="poly" id="edge12_Node000008_Node000008" title=" " alt="" coords="1148,127,1140,117,1144,107,1159,101,1184,99,1215,102,1227,111,1224,116,1213,107,1184,104,1160,106,1148,111,1145,116,1152,124"/>
+<area shape="poly" id="edge15_Node000009_Node000002" title=" " alt="" coords="611,343,876,359,962,367,998,368,1045,359,1075,349,1104,336,1153,306,1156,310,1107,340,1077,354,1046,365,999,373,961,373,876,365,611,348"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__q.html#a9e1edbfcb6b905e209d535e658ef4c7e" title="DLASQ3: checks for deflation, computes a shift (TAU) and calls dqds. In case of failure it changes sh..." alt="" coords="659,249,828,275"/>
+<area shape="poly" id="edge16_Node000009_Node000010" title=" " alt="" coords="562,323,692,277,694,282,564,328"/>
+<area shape="poly" id="edge23_Node000009_Node000014" title=" " alt="" coords="582,348,676,370,675,376,581,353"/>
+<area shape="poly" id="edge18_Node000010_Node000002" title=" " alt="" coords="828,264,1083,279,1083,284,828,270"/>
+<area shape="poly" id="edge17_Node000010_Node000007" title=" " alt="" coords="756,247,806,204,839,181,875,160,890,153,892,158,877,164,842,185,809,209,760,251"/>
+<area shape="rect" id="Node000011" href="$namespacela__lapack__q.html#a871d2b16034d750ebebda2e3d2d91442" title="DLASQ4: computes an approximation TAU to the smallest eigenvalue using values of d from the previous ..." alt="" coords="876,325,1045,351"/>
+<area shape="poly" id="edge19_Node000010_Node000011" title=" " alt="" coords="781,272,911,318,910,323,780,277"/>
+<area shape="rect" id="Node000012" href="$namespacela__lapack__q.html#a48e0336acb5a390e9dca1a61fecc6f02" title="DLASQ5: computes one dqds transform in ping&#45;pong form, one version for IEEE machines another for non ..." alt="" coords="876,175,1045,200"/>
+<area shape="poly" id="edge20_Node000010_Node000012" title=" " alt="" coords="775,247,875,209,898,201,900,207,877,214,777,252"/>
+<area shape="rect" id="Node000013" href="$namespacela__lapack__q.html#a0d16445f2bc2193032c027a5063f193c" title="DLASQ6: computes one dqd (shift equal to zero) transform in ping&#45;pong form, with protection against u..." alt="" coords="876,224,1045,249"/>
+<area shape="poly" id="edge21_Node000010_Node000013" title=" " alt="" coords="828,250,862,245,863,251,829,255"/>
+<area shape="poly" id="edge22_Node000013_Node000002" title=" " alt="" coords="1018,247,1115,269,1113,274,1017,252"/>
+<area shape="poly" id="edge27_Node000016_Node000002" title=" " alt="" coords="598,500,692,510,806,512,867,506,928,496,988,480,1044,456,1087,425,1122,386,1150,346,1169,311,1173,314,1154,349,1126,389,1090,429,1047,460,990,485,930,501,868,512,807,517,691,515,598,505"/>
+</map>

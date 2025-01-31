@@ -1,0 +1,19 @@
+<map id="la_lapack_q::la_qtrevc" name="la_lapack_q::la_qtrevc">
+<area shape="rect" id="Node000001" title="DTREVC: computes some or all of the right and/or left eigenvectors of a real upper quasi&#45;triangular m..." alt="" coords="5,91,172,116"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__q.html#ac3259935fc628e89592bb9c7046ae53f" title="DLABAD: takes as input the values computed by DLAMCH for underflow and overflow, and returns the squa..." alt="" coords="220,41,391,67"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="145,88,235,67,236,72,146,93"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__q.html#a2839b24d51d2ccf7585a58f499390b80" title="DLALN2: solves a system of the form (ca A &#45; w D ) X = s B or (ca A**T &#45; w D) X = s B with possible sc..." alt="" coords="222,91,389,116"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="172,101,208,101,208,106,172,106"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__q.html#a5435a74c593174c3ab375e653a46f8fe" title="DLAMCH: determines quad precision machine parameters." alt="" coords="653,103,828,128"/>
+<area shape="poly" id="edge10_Node000001_Node000007" title=" " alt="" coords="143,113,220,126,332,133,445,133,639,122,640,128,445,138,332,138,220,131,142,119"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__q.html#a8d1811c73f1d37c890c02782ac1d8317" title="DLADIV: performs complex division in real arithmetic a + i*b p + i*q = &#45;&#45;&#45;&#45;&#45;&#45;— c + i*d The algorithm ..." alt="" coords="439,40,605,65"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="360,88,453,66,454,71,361,93"/>
+<area shape="poly" id="edge9_Node000003_Node000007" title=" " alt="" coords="389,103,640,110,640,115,389,108"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__q.html#aff754bee3852f9a1ac3fa3026e329a68" title=" " alt="" coords="653,29,828,55"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="605,46,639,44,639,50,606,51"/>
+<area shape="poly" id="edge7_Node000004_Node000007" title=" " alt="" coords="568,63,683,96,682,101,566,68"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__q.html#ab4db5e6206b8b8120df40c77ed192e47" title=" " alt="" coords="876,29,1051,55"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="828,39,862,39,862,45,828,45"/>
+<area shape="poly" id="edge6_Node000006_Node000006" title=" " alt="" coords="927,31,919,21,923,11,938,5,963,3,994,6,1006,15,1003,20,992,11,963,8,940,10,927,15,925,20,931,28"/>
+<area shape="poly" id="edge8_Node000007_Node000007" title=" " alt="" coords="705,104,697,94,701,84,716,78,741,76,771,80,783,89,780,93,769,85,741,81,717,83,705,88,702,94,709,101"/>
+</map>

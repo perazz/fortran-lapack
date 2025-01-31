@@ -1,0 +1,26 @@
+<map id="la_lapack::getri::dgetri" name="la_lapack::getri::dgetri">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,92,173,117"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__d.html#a2f40f310a985316dc80f7ca9549aa9e5" title="DGETRI: computes the inverse of a matrix using the LU factorization computed by DGETRF...." alt="" coords="221,67,385,92"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="173,92,207,88,208,93,174,97"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__q.html#ad2b8e746d2c07e94ff5862bf1bb1d9a1" title="DGETRI: computes the inverse of a matrix using the LU factorization computed by DGETRF...." alt="" coords="221,117,385,143"/>
+<area shape="poly" id="edge11_Node000001_Node000008" title=" " alt="" coords="174,112,208,116,207,121,173,117"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__d.html#a7d8be88dd251c306dbaae7f21a4ca3e6" title="DTRTRI: computes the inverse of a real upper or lower triangular matrix A. This is the Level 3 BLAS v..." alt="" coords="433,16,592,41"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="356,64,446,42,447,47,357,69"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__aux.html#aa361c7114aef95e10b685247a1b75114" title="ILAENV: is called from the LAPACK routines to choose problem&#45;dependent parameters for the local envir..." alt="" coords="640,79,823,104"/>
+<area shape="poly" id="edge10_Node000002_Node000005" title=" " alt="" coords="386,79,626,86,626,91,386,84"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__d.html#ac4c9da07c1e66ebf410ac438f4c045bf" title="DTRTI2: computes the inverse of a real upper or lower triangular matrix. This is the Level 2 BLAS ver..." alt="" coords="651,5,812,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="592,22,637,20,637,25,593,27"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="558,39,674,72,672,77,557,44"/>
+<area shape="poly" id="edge7_Node000005_Node000005" title=" " alt="" coords="696,80,688,70,692,60,707,54,731,52,762,56,774,65,771,69,760,61,731,57,708,59,696,64,693,70,700,77"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__aux.html#a72541275ada30b0ca556fbc0d3959719" title="IEEECK: is called from the ILAENV to verify that Infinity and possibly NaN arithmetic is safe (i...." alt="" coords="872,41,1057,67"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="811,76,871,66,872,72,812,81"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__aux.html#ace38ae70bb7022cae6ecabe992145fda" title="This program sets problem and machine dependent parameters useful for xHSEQR and related subroutines ..." alt="" coords="871,115,1059,140"/>
+<area shape="poly" id="edge8_Node000005_Node000007" title=" " alt="" coords="814,101,869,110,868,115,814,107"/>
+<area shape="poly" id="edge6_Node000006_Node000006" title=" " alt="" coords="927,43,919,33,923,23,939,17,965,15,997,19,1010,28,1006,32,995,23,965,20,940,22,927,27,924,32,931,39"/>
+<area shape="poly" id="edge9_Node000007_Node000007" title=" " alt="" coords="927,116,919,106,923,96,939,90,965,88,997,92,1010,101,1006,106,995,97,965,93,940,95,927,100,924,106,931,113"/>
+<area shape="poly" id="edge12_Node000008_Node000005" title=" " alt="" coords="385,120,626,98,626,103,386,125"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__q.html#a8ef76d703e21670ad5f579a96374561e" title="DTRTRI: computes the inverse of a real upper or lower triangular matrix A. This is the Level 3 BLAS v..." alt="" coords="433,168,592,193"/>
+<area shape="poly" id="edge13_Node000008_Node000009" title=" " alt="" coords="357,140,447,162,446,167,356,145"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__q.html#a61bb45217819d84c321e2e1c96a92d62" title="DTRTI2: computes the inverse of a real upper or lower triangular matrix. This is the Level 2 BLAS ver..." alt="" coords="651,168,812,193"/>
+<area shape="poly" id="edge14_Node000009_Node000010" title=" " alt="" coords="593,178,637,178,637,183,593,183"/>
+</map>

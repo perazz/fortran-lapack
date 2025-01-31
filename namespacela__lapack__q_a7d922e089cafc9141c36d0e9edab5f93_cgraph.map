@@ -1,0 +1,5 @@
+<map id="la_lapack_q::la_qpptri" name="la_lapack_q::la_qpptri">
+<area shape="rect" id="Node000001" title="DPPTRI: computes the inverse of a real symmetric positive definite matrix A using the Cholesky factor..." alt="" coords="5,5,169,31"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__q.html#a634bb8192380517eadbfe561bad74d7d" title="DTPTRI: computes the inverse of a real upper or lower triangular matrix A stored in packed format." alt="" coords="217,5,379,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="170,15,204,15,204,21,170,21"/>
+</map>
