@@ -1,8 +1,0 @@
-<map id="la_lapack_d::la_dgetc2" name="la_lapack_d::la_dgetc2">
-<area shape="rect" id="Node000001" title="DGETC2: computes an LU factorization with complete pivoting of the n&#45;by&#45;n matrix A...." alt="" coords="5,43,176,68"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__d.html#aa5488e8cb6689a9ea38a8b10398ffb62" title="DLABAD: takes as input the values computed by DLAMCH for underflow and overflow, and returns the squa..." alt="" coords="226,5,397,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="166,40,222,30,223,36,167,45"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__d.html#af258e93ce5d1d461c745335332ff184b" title="DLAMCH: determines double precision machine parameters." alt="" coords="224,79,399,104"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="169,65,220,74,219,79,168,71"/>
-<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="276,80,268,70,272,60,287,54,311,52,342,56,354,65,351,69,340,61,311,57,288,59,276,64,273,70,280,77"/>
-</map>

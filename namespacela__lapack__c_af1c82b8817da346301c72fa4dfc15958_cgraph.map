@@ -1,7 +1,0 @@
-<map id="la_lapack_c::la_cungtsqr_row" name="la_lapack_c::la_cungtsqr_row">
-<area shape="rect" id="Node000001" title="CUNGTSQR_ROW: generates an M&#45;by&#45;N complex matrix Q_out with orthonormal columns from the output of CL..." alt="" coords="5,31,217,56"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__c.html#a816cb369b66c95b766117388ec748b50" title="CLARFB_GETT: applies a complex Householder block reflector H from the left to a complex (K+M)&#45;by&#45;N &quot;t..." alt="" coords="265,5,460,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="217,30,251,27,252,32,218,35"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__c.html#aa8f6d9028437b79ec8870cf960266a8d" title="CLASET: initializes a 2&#45;D array A to BETA on the diagonal and ALPHA on the offdiagonals." alt="" coords="281,55,445,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="218,51,267,56,267,61,217,56"/>
-</map>

@@ -1,7 +1,0 @@
-<map id="la_lapack_d::la_dspcon" name="la_lapack_d::la_dspcon">
-<area shape="rect" id="Node000001" title="DSPCON: estimates the reciprocal of the condition number (in the 1&#45;norm) of a real symmetric packed m..." alt="" coords="5,31,177,56"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__d.html#ae42ad3a826b8dcf34dffab0b71c5baeb" title="DLACN2: estimates the 1&#45;norm of a square, real matrix A. Reverse communication is used for evaluating..." alt="" coords="225,5,395,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="177,31,212,27,212,32,178,36"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__d.html#a1b18d9057bb8d3bf5f7e9c8c08986ebf" title="DSPTRS: solves a system of linear equations A*X = B with a real symmetric matrix A stored in packed f..." alt="" coords="227,55,393,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="178,50,214,54,213,59,177,55"/>
-</map>

@@ -1,5 +1,0 @@
-<map id="la_lapack::gtsv::cgtsv" name="la_lapack::gtsv::cgtsv">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,168,31"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__c.html#a32f0f0d1550e804f9bcf4aa49e84c9fb" title="CGTSV: solves the equation A*X = B, where A is an N&#45;by&#45;N tridiagonal matrix, by Gaussian elimination ..." alt="" coords="216,5,376,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="168,15,202,15,202,21,168,21"/>
-</map>

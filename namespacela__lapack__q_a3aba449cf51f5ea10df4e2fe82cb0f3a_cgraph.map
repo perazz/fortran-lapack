@@ -1,6 +1,0 @@
-<map id="la_lapack_q::la_qgetf2" name="la_lapack_q::la_qgetf2">
-<area shape="rect" id="Node000001" title="DGETF2: computes an LU factorization of a general m&#45;by&#45;n matrix A using partial pivoting with row int..." alt="" coords="5,29,173,55"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__q.html#a5435a74c593174c3ab375e653a46f8fe" title="DLAMCH: determines quad precision machine parameters." alt="" coords="221,29,396,55"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="174,39,208,39,208,45,174,45"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="273,31,265,21,269,11,284,5,309,3,339,6,351,15,348,20,337,11,309,8,285,10,273,15,270,20,277,28"/>
-</map>

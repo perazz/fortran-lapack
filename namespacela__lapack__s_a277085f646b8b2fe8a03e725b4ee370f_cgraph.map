@@ -1,6 +1,0 @@
-<map id="la_lapack_s::la_slarrr" name="la_lapack_s::la_slarrr">
-<area shape="rect" id="Node000001" title="Perform tests to decide whether the symmetric tridiagonal matrix T warrants expensive computations wh..." alt="" coords="5,29,164,55"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#abbe0ae24f069ddbf134ff3e404a19878" title="SLAMCH: determines single precision machine parameters." alt="" coords="212,29,384,55"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="164,39,198,39,198,45,164,45"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="263,31,256,21,259,11,274,5,298,3,328,6,339,15,336,20,326,11,298,8,275,10,263,15,261,20,267,28"/>
-</map>

@@ -1,7 +1,0 @@
-<map id="la_lapack::hetri_rook::chetri_rook" name="la_lapack::hetri_rook::chetri_rook">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,23,164,63"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__c.html#ab48cb9fe0fc5d27704f458232983cd7b" title="CHETRI_ROOK: computes the inverse of a complex Hermitian indefinite matrix A using the factorization ..." alt="" coords="215,5,414,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="164,32,202,28,202,33,165,37"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__w.html#ab07c71a839a4caa6aca3321adab632c8" title="ZHETRI_ROOK: computes the inverse of a complex Hermitian indefinite matrix A using the factorization ..." alt="" coords="212,55,417,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="165,49,198,53,198,58,164,54"/>
-</map>

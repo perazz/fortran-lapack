@@ -1,8 +1,23 @@
 var searchData=
 [
-  ['rot_0',['rot',['../interfacela__blas_1_1rot.html',1,'la_blas::rot'],['../interfacela__lapack_1_1rot.html',1,'la_lapack::rot']]],
-  ['rotg_1',['rotg',['../interfacela__blas_1_1rotg.html',1,'la_blas']]],
-  ['rotm_2',['rotm',['../interfacela__blas_1_1rotm.html',1,'la_blas']]],
-  ['rotmg_3',['rotmg',['../interfacela__blas_1_1rotmg.html',1,'la_blas']]],
-  ['rscl_4',['rscl',['../interfacela__lapack_1_1rscl.html',1,'la_lapack']]]
+  ['sbmv_0',['sbmv',['../interfacela__blas_1_1sbmv.html',1,'la_blas']]],
+  ['scal_1',['scal',['../interfacela__blas_1_1scal.html',1,'la_blas']]],
+  ['schur_2',['schur',['../interfacela__schur_1_1schur.html',1,'la_schur']]],
+  ['schur_5fspace_3',['schur_space',['../interfacela__schur_1_1schur__space.html',1,'la_schur']]],
+  ['sdot_4',['sdot',['../interfacela__blas_1_1sdot.html',1,'la_blas']]],
+  ['solve_5',['solve',['../interfacela__solve_1_1solve.html',1,'la_solve']]],
+  ['spmv_6',['spmv',['../interfacela__blas_1_1spmv.html',1,'la_blas']]],
+  ['spr_7',['spr',['../interfacela__blas_1_1spr.html',1,'la_blas']]],
+  ['spr2_8',['spr2',['../interfacela__blas_1_1spr2.html',1,'la_blas']]],
+  ['srot_9',['srot',['../interfacela__blas_1_1srot.html',1,'la_blas']]],
+  ['sscal_10',['sscal',['../interfacela__blas_1_1sscal.html',1,'la_blas']]],
+  ['svd_11',['svd',['../interfacela__svd_1_1svd.html',1,'la_svd']]],
+  ['svdvals_12',['svdvals',['../interfacela__svd_1_1svdvals.html',1,'la_svd']]],
+  ['swap_13',['swap',['../interfacela__blas_1_1swap.html',1,'la_blas']]],
+  ['symm_14',['symm',['../interfacela__blas_1_1symm.html',1,'la_blas']]],
+  ['symv_15',['symv',['../interfacela__blas_1_1symv.html',1,'la_blas']]],
+  ['syr_16',['syr',['../interfacela__blas_1_1syr.html',1,'la_blas']]],
+  ['syr2_17',['syr2',['../interfacela__blas_1_1syr2.html',1,'la_blas']]],
+  ['syr2k_18',['syr2k',['../interfacela__blas_1_1syr2k.html',1,'la_blas']]],
+  ['syrk_19',['syrk',['../interfacela__blas_1_1syrk.html',1,'la_blas']]]
 ];

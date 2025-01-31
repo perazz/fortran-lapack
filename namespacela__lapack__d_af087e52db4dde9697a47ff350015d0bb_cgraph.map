@@ -1,8 +1,0 @@
-<map id="la_lapack_d::la_dla_gbrcond" name="la_lapack_d::la_dla_gbrcond">
-<area shape="rect" id="Node000001" title="DLA_GBRCOND: Estimates the Skeel condition number of op(A) * op2(C) where op2 is determined by CMODE ..." alt="" coords="5,29,152,69"/>
-<area shape="poly" id="edge2_Node000001_Node000001" title=" " alt="" coords="40,30,38,20,44,11,58,5,79,3,103,6,116,13,113,18,101,11,79,8,59,10,47,15,43,21,45,28"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__d.html#aaf073aa1d4a5c717bff86e6161acf1e0" title="DGBTRS: solves a system of linear equations A * X = B or A**T * X = B with a general band matrix A us..." alt="" coords="201,11,368,37"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="152,38,188,33,188,39,153,43"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__d.html#ae42ad3a826b8dcf34dffab0b71c5baeb" title="DLACN2: estimates the 1&#45;norm of a square, real matrix A. Reverse communication is used for evaluating..." alt="" coords="200,61,369,86"/>
-<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="153,55,187,59,186,65,152,61"/>
-</map>

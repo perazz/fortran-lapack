@@ -1,7 +1,0 @@
-<map id="la_lapack_q::la_qsycon_rook" name="la_lapack_q::la_qsycon_rook">
-<area shape="rect" id="Node000001" title="DSYCON_ROOK: estimates the reciprocal of the condition number (in the 1&#45;norm) of a real symmetric mat..." alt="" coords="5,31,213,56"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__q.html#aeea11d99daa996e31dda1dbc449bfb44" title="DLACN2: estimates the 1&#45;norm of a square, real matrix A. Reverse communication is used for evaluating..." alt="" coords="278,5,447,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="213,30,264,25,265,30,214,36"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__q.html#ac650aeb025a2034f4a87f8b4f8ed852f" title="DSYTRS_ROOK: solves a system of linear equations A*X = B with a real symmetric matrix A using the fac..." alt="" coords="261,55,464,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="214,51,248,54,248,59,213,56"/>
-</map>

@@ -1,9 +1,0 @@
-<map id="la_lapack_z::la_zgghrd" name="la_lapack_z::la_zgghrd">
-<area shape="rect" id="Node000001" title="ZGGHRD: reduces a pair of complex matrices (A,B) to generalized upper Hessenberg form using unitary t..." alt="" coords="5,55,175,80"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__z.html#ab24869a854f908d0f48768f276f7e734" title="!" alt="" coords="223,5,386,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="145,52,235,31,236,36,147,57"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__z.html#ada8f2094a60baf8a1bb838f3cdc0d1ad" title="ZLASET: initializes a 2&#45;D array A to BETA on the diagonal and ALPHA on the offdiagonals." alt="" coords="223,55,387,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="175,65,209,65,209,70,175,70"/>
-<area shape="rect" id="Node000004" href="$namespacela__lapack__z.html#a411a43fc9f301021398bbc14fd53295b" title="ZROT: applies a plane rotation, where the cos (C) is real and the sin (S) is complex,..." alt="" coords="229,104,380,129"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="147,77,236,98,235,103,145,83"/>
-</map>

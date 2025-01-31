@@ -1,9 +1,0 @@
-<map id="la_lapack::isnan::sisnan" name="la_lapack::isnan::sisnan">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,29,183,55"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#af8d4b806648873f614d26ba3f9d00512" title="SISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="231,29,397,55"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="183,39,217,39,217,45,183,45"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="278,31,271,21,275,11,289,5,314,3,344,6,356,15,353,20,342,11,314,8,291,10,278,15,276,20,282,28"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__s.html#ab716c1e999e316ce29c31703ef379eb1" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in SISNAN...." alt="" coords="445,29,624,55"/>
-<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="398,39,431,39,431,45,398,45"/>
-<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="499,31,491,21,495,11,510,5,535,3,565,6,577,15,574,20,563,11,535,8,511,10,499,15,496,20,503,28"/>
-</map>

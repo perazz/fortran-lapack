@@ -1,6 +1,0 @@
-<map id="la_lapack_q::la_qlasyf_rook" name="la_lapack_q::la_qlasyf_rook">
-<area shape="rect" id="Node000001" title="DLASYF_ROOK: computes a partial factorization of a real symmetric matrix A using the bounded Bunch&#45;Ka..." alt="" coords="5,29,208,55"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__q.html#a5435a74c593174c3ab375e653a46f8fe" title="DLAMCH: determines quad precision machine parameters." alt="" coords="256,29,431,55"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="208,39,242,39,242,45,208,45"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="305,31,297,21,301,11,317,5,343,3,376,7,389,16,386,20,374,11,343,8,318,10,305,15,302,20,309,27"/>
-</map>

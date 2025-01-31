@@ -1,7 +1,0 @@
-<map id="la_lapack_c::la_cgetri" name="la_lapack_c::la_cgetri">
-<area shape="rect" id="Node000001" title="CGETRI: computes the inverse of a matrix using the LU factorization computed by CGETRF...." alt="" coords="5,5,168,31"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__c.html#a645078330530db03dbbe60bc7ca17c5c" title="CTRTRI: computes the inverse of a complex upper or lower triangular matrix A. This is the Level 3 BLA..." alt="" coords="216,5,372,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="168,15,202,15,202,21,168,21"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__c.html#a5a079b9aba4a731568b8484adc725a1c" title="CTRTI2: computes the inverse of a complex upper or lower triangular matrix. This is the Level 2 BLAS ..." alt="" coords="420,5,579,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="373,15,406,15,406,21,373,21"/>
-</map>

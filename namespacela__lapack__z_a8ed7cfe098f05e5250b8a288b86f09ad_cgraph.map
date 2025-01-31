@@ -1,8 +1,0 @@
-<map id="la_lapack_z::la_zlapll" name="la_lapack_z::la_zlapll">
-<area shape="rect" id="Node000001" title="Given two column vectors X and Y, let A = ( X Y ). The subroutine first computes the QR factorization..." alt="" coords="5,29,165,55"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__z.html#afc90d2ed189c3dd43e3d1dff70e1415a" title="ZLARFG: generates a complex elementary reflector H of order n, such that H**H * ( alpha ) = ( beta ),..." alt="" coords="213,29,376,55"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="165,39,200,39,200,45,165,45"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__z.html#a84c15ce60f44f9d3a7b7da3357063087" title="ZLADIV = X / Y, where X and Y are complex. The computation of X / Y will not overflow on an intermedi..." alt="" coords="424,29,588,55"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="376,39,410,39,410,45,376,45"/>
-<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="471,31,464,21,468,11,482,5,506,3,535,6,547,15,544,20,533,11,506,8,484,10,472,15,469,20,476,28"/>
-</map>

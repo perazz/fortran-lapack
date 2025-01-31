@@ -1,8 +1,0 @@
-<map id="la_lapack_w::la_wla_porcond_c" name="la_lapack_w::la_wla_porcond_c">
-<area shape="rect" id="Node000001" title="ZLA_PORCOND_C: Computes the infinity norm condition number of op(A) * inv(diag(C)) where C is a DOUBL..." alt="" coords="5,29,156,69"/>
-<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="41,30,39,20,45,10,59,5,81,3,105,6,119,13,116,18,104,11,81,8,60,10,48,15,44,21,46,28"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__w.html#a181e3ce6202dd4d6e6a0104746779391" title="ZLACN2: estimates the 1&#45;norm of a square, complex matrix A. Reverse communication is used for evaluat..." alt="" coords="204,11,379,37"/>
-<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="156,38,190,33,191,39,157,43"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__w.html#a99d941265d2684071642ae796f70229a" title="ZPOTRS: solves a system of linear equations A*X = B with a Hermitian positive definite matrix A using..." alt="" coords="205,61,377,86"/>
-<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="157,55,192,59,191,65,156,61"/>
-</map>

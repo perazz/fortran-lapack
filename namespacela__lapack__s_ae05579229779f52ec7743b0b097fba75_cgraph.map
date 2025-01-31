@@ -1,5 +1,0 @@
-<map id="la_lapack_s::la_spftrs" name="la_lapack_s::la_spftrs">
-<area shape="rect" id="Node000001" title="SPFTRS: solves a system of linear equations A*X = B with a symmetric positive definite matrix A using..." alt="" coords="5,5,167,31"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#a43896d2d7a562054297364d471d80d0d" title="Level 3 BLAS like routine for A in RFP Format. STFSM: solves the matrix equation op( A )*X = alpha*B ..." alt="" coords="215,5,377,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="167,15,201,15,201,21,167,21"/>
-</map>

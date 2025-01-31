@@ -1,7 +1,0 @@
-<map id="la_lapack_q::la_qorgtsqr_row" name="la_lapack_q::la_qorgtsqr_row">
-<area shape="rect" id="Node000001" title="DORGTSQR_ROW: generates an M&#45;by&#45;N real matrix Q_out with orthonormal columns from the output of DLATS..." alt="" coords="5,31,216,56"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__q.html#a30ede3d21968330268f6c539f4c40843" title="DLARFB_GETT: applies a real Householder block reflector H from the left to a real (K+M)&#45;by&#45;N &quot;triangu..." alt="" coords="264,5,461,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="216,30,250,27,251,32,217,35"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__q.html#aea8c25dcc46ceaf8d39ba10cb1584312" title="DLASET: initializes an m&#45;by&#45;n matrix A to BETA on the diagonal and ALPHA on the offdiagonals." alt="" coords="279,55,446,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="217,51,266,55,265,61,216,56"/>
-</map>

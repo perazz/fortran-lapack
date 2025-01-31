@@ -1,7 +1,0 @@
-<map id="la_lapack_q::la_qisnan" name="la_lapack_q::la_qisnan">
-<area shape="rect" id="Node000001" title="DISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="5,29,175,55"/>
-<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="54,31,46,21,50,11,65,5,90,3,121,6,133,15,130,20,119,11,90,8,66,10,54,15,51,20,58,28"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__q.html#a70bf73297aef7307a374d805b9ea5736" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in DISNAN...." alt="" coords="223,29,404,55"/>
-<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="175,39,209,39,209,45,175,45"/>
-<area shape="poly" id="edge3_Node000002_Node000002" title=" " alt="" coords="277,31,269,21,273,11,288,5,313,3,344,6,356,15,353,20,342,11,313,8,290,10,277,15,275,20,281,28"/>
-</map>

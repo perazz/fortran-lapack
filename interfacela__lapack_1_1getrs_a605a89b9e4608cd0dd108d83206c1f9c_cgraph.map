@@ -1,7 +1,0 @@
-<map id="la_lapack::getrs::cgetrs" name="la_lapack::getrs::cgetrs">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,179,31"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__c.html#ab1bb959e94a4e9fa33455a0e3682775b" title="CGETRS: solves a system of linear equations A * X = B, A**T * X = B, or A**H * X = B with a general N..." alt="" coords="227,5,392,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="179,15,213,15,213,21,179,21"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__c.html#a4ecaebae5feafdcc862f09bee12d6242" title="CLASWP: performs a series of row interchanges on the matrix A. One row interchange is initiated for e..." alt="" coords="440,5,611,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="393,15,426,15,426,21,393,21"/>
-</map>

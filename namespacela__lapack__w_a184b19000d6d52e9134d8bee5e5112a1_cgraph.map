@@ -1,6 +1,0 @@
-<map id="la_lapack_w::la_wlansb" name="la_lapack_w::la_wlansb">
-<area shape="rect" id="Node000001" title="ZLANSB: returns the value of the one norm, or the Frobenius norm, or the infinity norm,..." alt="" coords="5,29,180,55"/>
-<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="57,31,49,21,53,11,68,5,93,3,123,6,136,15,132,20,121,11,93,8,69,10,56,15,54,20,61,28"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__w.html#a2bf5a64bcaccd3676164dbf3aee36bb5" title="!" alt="" coords="228,29,401,55"/>
-<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="180,39,214,39,214,45,180,45"/>
-</map>

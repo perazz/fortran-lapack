@@ -1,8 +1,0 @@
-<map id="la_lapack_w::la_wgetc2" name="la_lapack_w::la_wgetc2">
-<area shape="rect" id="Node000001" title="ZGETC2: computes an LU factorization, using complete pivoting, of the n&#45;by&#45;n matrix A...." alt="" coords="5,43,180,68"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__q.html#ac3259935fc628e89592bb9c7046ae53f" title="DLABAD: takes as input the values computed by DLAMCH for underflow and overflow, and returns the squa..." alt="" coords="230,5,401,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="169,40,225,30,226,36,170,45"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__q.html#a5435a74c593174c3ab375e653a46f8fe" title="DLAMCH: determines quad precision machine parameters." alt="" coords="228,79,403,104"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="172,65,223,74,222,79,171,71"/>
-<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="279,80,271,70,275,60,290,54,315,52,346,56,358,65,355,69,344,61,315,57,292,59,279,64,277,70,283,77"/>
-</map>

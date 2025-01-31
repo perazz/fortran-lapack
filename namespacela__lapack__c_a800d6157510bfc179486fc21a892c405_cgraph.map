@@ -1,9 +1,0 @@
-<map id="la_lapack_c::la_cstemr" name="la_lapack_c::la_cstemr">
-<area shape="rect" id="Node000001" title="CSTEMR: computes selected eigenvalues and, optionally, eigenvectors of a real symmetric tridiagonal m..." alt="" coords="5,31,176,56"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__c.html#acd7c53abd241214b86dbf6fcbed422db" title="CLARRV: computes the eigenvectors of the tridiagonal matrix T = L D L**T given L, D and APPROXIMATION..." alt="" coords="224,31,387,56"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="176,41,210,41,210,46,176,46"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__c.html#afc6d6b9fcbb8fb601fadd0ad784e4bca" title="CLAR1V: computes the (scaled) r&#45;th column of the inverse of the sumbmatrix in rows B1 through BN of t..." alt="" coords="435,5,600,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="387,31,421,27,422,32,387,36"/>
-<area shape="rect" id="Node000004" href="$namespacela__lapack__c.html#aa8f6d9028437b79ec8870cf960266a8d" title="CLASET: initializes a 2&#45;D array A to BETA on the diagonal and ALPHA on the offdiagonals." alt="" coords="435,55,599,80"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="387,50,422,54,421,59,387,55"/>
-</map>

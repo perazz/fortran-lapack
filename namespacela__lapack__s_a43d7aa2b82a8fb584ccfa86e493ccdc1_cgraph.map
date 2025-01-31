@@ -1,8 +1,0 @@
-<map id="la_lapack_s::la_sgetc2" name="la_lapack_s::la_sgetc2">
-<area shape="rect" id="Node000001" title="SGETC2: computes an LU factorization with complete pivoting of the n&#45;by&#45;n matrix A...." alt="" coords="5,43,173,68"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#a8c70bc25650d02927495d8a3635d03f8" title="SLABAD: takes as input the values computed by SLAMCH for underflow and overflow, and returns the squa..." alt="" coords="223,5,391,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="164,40,219,30,220,36,165,45"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__s.html#abbe0ae24f069ddbf134ff3e404a19878" title="SLAMCH: determines single precision machine parameters." alt="" coords="221,79,393,104"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="167,65,217,74,216,79,166,71"/>
-<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="272,80,264,70,268,60,283,54,307,52,337,56,349,65,346,69,335,61,307,57,284,59,272,64,270,70,276,77"/>
-</map>

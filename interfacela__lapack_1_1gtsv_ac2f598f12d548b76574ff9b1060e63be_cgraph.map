@@ -1,7 +1,0 @@
-<map id="la_lapack::gtsv::sgtsv" name="la_lapack::gtsv::sgtsv">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,31,168,56"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#a786cb553ad22aed722de150137aa1469" title="SGTSV: solves the equation A*X = B, where A is an n by n tridiagonal matrix, by Gaussian elimination ..." alt="" coords="219,5,379,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="168,31,205,26,206,32,169,36"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__w.html#ae34ee8fca65c81f3ebaad36612a44fa9" title="ZGTSV: solves the equation A*X = B, where A is an N&#45;by&#45;N tridiagonal matrix, by Gaussian elimination ..." alt="" coords="216,55,383,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="169,50,203,54,202,59,168,55"/>
-</map>

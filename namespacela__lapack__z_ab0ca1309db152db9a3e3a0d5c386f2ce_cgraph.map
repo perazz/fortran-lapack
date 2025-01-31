@@ -1,5 +1,0 @@
-<map id="la_lapack_z::la_zheequb" name="la_lapack_z::la_zheequb">
-<area shape="rect" id="Node000001" title="ZHEEQUB: computes row and column scalings intended to equilibrate a Hermitian matrix A (with respect ..." alt="" coords="5,5,185,31"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__z.html#a046b85727b673119f4b2cad323fff534" title="!" alt="" coords="233,5,400,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="186,15,220,15,220,21,186,21"/>
-</map>

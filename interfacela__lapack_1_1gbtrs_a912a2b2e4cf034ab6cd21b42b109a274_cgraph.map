@@ -1,7 +1,0 @@
-<map id="la_lapack::gbtrs::cgbtrs" name="la_lapack::gbtrs::cgbtrs">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,179,31"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__c.html#a0d2667c260721a9614eecb5b11642bb4" title="CGBTRS: solves a system of linear equations A * X = B, A**T * X = B, or A**H * X = B with a general b..." alt="" coords="227,5,392,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="179,15,213,15,213,21,179,21"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__c.html#a458ee49506ae512d1c2d93ad1fdcbc11" title="CLACGV: conjugates a complex vector of length N." alt="" coords="440,5,607,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="392,15,426,15,426,21,392,21"/>
-</map>

@@ -1,6 +1,0 @@
-<map id="la_lapack_d::la_dlasv2" name="la_lapack_d::la_dlasv2">
-<area shape="rect" id="Node000001" title="DLASV2: computes the singular value decomposition of a 2&#45;by&#45;2 triangular matrix [ F G ] [ 0 H ]...." alt="" coords="5,29,175,55"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__d.html#af258e93ce5d1d461c745335332ff184b" title="DLAMCH: determines double precision machine parameters." alt="" coords="223,29,397,55"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="175,39,209,39,209,45,175,45"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="274,31,267,21,271,11,285,5,310,3,340,6,352,15,349,20,338,11,310,8,287,10,274,15,272,20,278,28"/>
-</map>

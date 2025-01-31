@@ -1,7 +1,7 @@
 var searchData=
 [
   ['m_20tt_0',['&lt;tt&gt;eye(m)&lt;/tt&gt;',['../index.html#autotoc_md21',1,'']]],
-  ['matrix_20equation_20or_20a_20linear_20system_20of_20equations_1',['@ref la_solve::solve &quot;`solve`&quot; - Solves a linear matrix equation or a linear system of equations.',['../index.html#autotoc_md6',1,'']]],
+  ['matrix_20equation_20or_20a_20linear_20system_20of_20equations_1',['@ref la_solve::solve &quot;&lt;tt&gt;solve&lt;/tt&gt;&quot; - Solves a linear matrix equation or a linear system of equations.',['../index.html#autotoc_md6',1,'']]],
   ['matrix_5fnorm_5f3d_5fto_5f1d_5fchar_5fc_2',['matrix_norm_3d_to_1d_char_c',['../interfacela__norms_1_1mnorm.html#a9354b14df1aa8903fba75101ee7df728',1,'la_norms::mnorm']]],
   ['matrix_5fnorm_5f3d_5fto_5f1d_5fchar_5fd_3',['matrix_norm_3d_to_1d_char_d',['../interfacela__norms_1_1mnorm.html#afb3793a80bcccf4415dca74e70a1551b',1,'la_norms::mnorm']]],
   ['matrix_5fnorm_5f3d_5fto_5f1d_5fchar_5fq_4',['matrix_norm_3d_to_1d_char_q',['../interfacela__norms_1_1mnorm.html#aa88786f27ba36c76c9c76e5cbf0f30cd',1,'la_norms::mnorm']]],

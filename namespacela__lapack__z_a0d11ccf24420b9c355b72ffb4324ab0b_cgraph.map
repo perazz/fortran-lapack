@@ -1,9 +1,0 @@
-<map id="la_lapack_z::la_zsprfs" name="la_lapack_z::la_zsprfs">
-<area shape="rect" id="Node000001" title="ZSPRFS: improves the computed solution to a system of linear equations when the coefficient matrix is..." alt="" coords="5,55,169,80"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__z.html#a6c902b7518c5ee698a5adae87c13a01f" title="ZLACN2: estimates the 1&#45;norm of a square, complex matrix A. Reverse communication is used for evaluat..." alt="" coords="218,5,385,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="142,52,231,31,233,36,144,57"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__z.html#aa9100cbcb344a3e69abf2bf962df78d0" title="ZSPMV: performs the matrix&#45;vector operation y := alpha*A*x + beta*y, where alpha and beta are scalars..." alt="" coords="217,55,385,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="170,65,203,65,203,70,170,70"/>
-<area shape="rect" id="Node000004" href="$namespacela__lapack__z.html#ad662c9b32719e405321022865b4440df" title="ZSPTRS: solves a system of linear equations A*X = B with a complex symmetric matrix A stored in packe..." alt="" coords="219,104,383,129"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="144,77,233,98,231,103,142,83"/>
-</map>

@@ -1,6 +1,0 @@
-<map id="la_lapack_d::la_dpoequb" name="la_lapack_d::la_dpoequb">
-<area shape="rect" id="Node000001" title="DPOEQUB: computes row and column scalings intended to equilibrate a symmetric positive definite matri..." alt="" coords="5,29,188,55"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__d.html#af258e93ce5d1d461c745335332ff184b" title="DLAMCH: determines double precision machine parameters." alt="" coords="236,29,411,55"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="188,39,222,39,222,45,188,45"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="286,31,278,21,283,11,298,5,323,3,355,7,367,16,364,20,353,11,323,8,299,10,286,15,284,20,290,27"/>
-</map>

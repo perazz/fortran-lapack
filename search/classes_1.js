@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['bbcsd_0',['bbcsd',['../interfacela__lapack_1_1bbcsd.html',1,'la_lapack']]],
-  ['bdsdc_1',['bdsdc',['../interfacela__lapack_1_1bdsdc.html',1,'la_lapack']]],
-  ['bdsqr_2',['bdsqr',['../interfacela__lapack_1_1bdsqr.html',1,'la_lapack']]]
+  ['chol_0',['chol',['../interfacela__cholesky_1_1chol.html',1,'la_cholesky']]],
+  ['cholesky_1',['cholesky',['../interfacela__cholesky_1_1cholesky.html',1,'la_cholesky']]],
+  ['copy_2',['copy',['../interfacela__blas_1_1copy.html',1,'la_blas']]]
 ];

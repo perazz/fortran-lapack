@@ -1,8 +1,0 @@
-<map id="la_lapack_c::la_cpstrf" name="la_lapack_c::la_cpstrf">
-<area shape="rect" id="Node000001" title="CPSTRF: computes the Cholesky factorization with complete pivoting of a complex Hermitian positive se..." alt="" coords="5,5,168,31"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__c.html#a458ee49506ae512d1c2d93ad1fdcbc11" title="CLACGV: conjugates a complex vector of length N." alt="" coords="429,5,596,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="168,15,415,15,415,21,168,21"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__c.html#a572f20c388d5bd917e4122a2a02d667a" title="CPSTF2: computes the Cholesky factorization with complete pivoting of a complex Hermitian positive se..." alt="" coords="216,31,381,56"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="169,25,203,29,202,35,168,30"/>
-<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="381,31,416,27,416,32,382,36"/>
-</map>

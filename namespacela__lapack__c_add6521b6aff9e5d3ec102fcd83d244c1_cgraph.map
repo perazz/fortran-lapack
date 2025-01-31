@@ -1,7 +1,0 @@
-<map id="la_lapack_c::la_clauum" name="la_lapack_c::la_clauum">
-<area shape="rect" id="Node000001" title="CLAUUM: computes the product U * U**H or L**H * L, where the triangular factor U or L is stored in th..." alt="" coords="5,5,179,31"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__c.html#a06e90ea8058ff7470c018512d2ae4713" title="CLAUU2: computes the product U * U**H or L**H * L, where the triangular factor U or L is stored in th..." alt="" coords="227,5,395,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="179,15,213,15,213,21,179,21"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__c.html#a458ee49506ae512d1c2d93ad1fdcbc11" title="CLACGV: conjugates a complex vector of length N." alt="" coords="443,5,609,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="395,15,429,15,429,21,395,21"/>
-</map>

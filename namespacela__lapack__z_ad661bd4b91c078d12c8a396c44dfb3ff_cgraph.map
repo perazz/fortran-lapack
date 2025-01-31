@@ -1,6 +1,0 @@
-<map id="la_lapack_z::la_zgeequ" name="la_lapack_z::la_zgeequ">
-<area shape="rect" id="Node000001" title="ZGEEQU: computes row and column scalings intended to equilibrate an M&#45;by&#45;N matrix A and reduce its co..." alt="" coords="5,29,177,55"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__d.html#af258e93ce5d1d461c745335332ff184b" title="DLAMCH: determines double precision machine parameters." alt="" coords="225,29,400,55"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="178,39,212,39,212,45,178,45"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="277,31,269,21,273,11,288,5,313,3,343,6,356,15,352,20,341,11,313,8,289,10,276,15,274,20,281,28"/>
-</map>

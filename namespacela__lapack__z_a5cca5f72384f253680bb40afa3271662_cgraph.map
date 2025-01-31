@@ -1,5 +1,0 @@
-<map id="la_lapack_z::la_zhegs2" name="la_lapack_z::la_zhegs2">
-<area shape="rect" id="Node000001" title="ZHEGS2: reduces a complex Hermitian&#45;definite generalized eigenproblem to standard form...." alt="" coords="5,5,176,31"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__z.html#ab5e8ff36e5e3ba9ba5c24f6b2fb59e1d" title="ZLACGV: conjugates a complex vector of length N." alt="" coords="224,5,391,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="177,15,210,15,210,21,177,21"/>
-</map>

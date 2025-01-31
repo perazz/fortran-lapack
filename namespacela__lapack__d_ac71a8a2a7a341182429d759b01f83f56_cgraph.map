@@ -1,5 +1,0 @@
-<map id="la_lapack_d::la_dorbdb6" name="la_lapack_d::la_dorbdb6">
-<area shape="rect" id="Node000001" title="DORBDB6: orthogonalizes the column vector X = [ X1 ] [ X2 ] with respect to the columns of Q = [ Q1 ]..." alt="" coords="5,5,184,31"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__d.html#a8394aa9e5f035af22f7c18e48e8c619d" title="!" alt="" coords="232,5,400,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="184,15,218,15,218,21,184,21"/>
-</map>

@@ -1,7 +1,0 @@
-<map id="la_lapack_c::la_cungl2" name="la_lapack_c::la_cungl2">
-<area shape="rect" id="Node000001" title="CUNGL2: generates an m&#45;by&#45;n complex matrix Q with orthonormal rows, which is defined as the first m r..." alt="" coords="5,31,173,56"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__c.html#a458ee49506ae512d1c2d93ad1fdcbc11" title="CLACGV: conjugates a complex vector of length N." alt="" coords="221,5,388,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="173,31,207,27,208,32,174,36"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__c.html#a51b81937dc202033ec70fc927336aabc" title="CLARF: applies a complex elementary reflector H to a complex M&#45;by&#45;N matrix C, from either the left or..." alt="" coords="227,55,382,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="174,50,214,55,214,60,173,55"/>
-</map>

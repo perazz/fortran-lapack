@@ -1,7 +1,0 @@
-<map id="la_lapack::hptri::chptri" name="la_lapack::hptri::chptri">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,31,172,56"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__c.html#aca54ee27860996069113aeb556fbd300" title="CHPTRI: computes the inverse of a complex Hermitian indefinite matrix A in packed storage using the f..." alt="" coords="223,5,386,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="172,31,209,26,210,32,173,36"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__w.html#a190e4aa5834977e41a5912c1fcdcf3e1" title="ZHPTRI: computes the inverse of a complex Hermitian indefinite matrix A in packed storage using the f..." alt="" coords="220,55,389,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="173,50,206,54,206,59,172,55"/>
-</map>

@@ -1,6 +1,0 @@
-<map id="la_lapack_q::la_qlagts" name="la_lapack_q::la_qlagts">
-<area shape="rect" id="Node000001" title="DLAGTS: may be used to solve one of the systems of equations (T &#45; lambda*I)*x = y or (T &#45; lambda*I)**..." alt="" coords="5,29,172,55"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__q.html#a5435a74c593174c3ab375e653a46f8fe" title="DLAMCH: determines quad precision machine parameters." alt="" coords="220,29,395,55"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="172,39,206,39,206,45,172,45"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="272,31,264,21,268,11,283,5,307,3,338,6,350,15,347,20,336,11,307,8,284,10,272,15,269,20,276,28"/>
-</map>

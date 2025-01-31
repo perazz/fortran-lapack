@@ -1,5 +1,0 @@
-<map id="la_lapack_z::la_zlaed8" name="la_lapack_z::la_zlaed8">
-<area shape="rect" id="Node000001" title="ZLAED8 merges the two sets of eigenvalues together into a single sorted set. Then it tries to deflate..." alt="" coords="5,5,173,31"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__z.html#afa7bb9c2f7c700a9e54ea7fff6f31f06" title="ZLACPY: copies all or part of a two&#45;dimensional matrix A to another matrix B." alt="" coords="221,5,388,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="173,15,207,15,207,21,173,21"/>
-</map>

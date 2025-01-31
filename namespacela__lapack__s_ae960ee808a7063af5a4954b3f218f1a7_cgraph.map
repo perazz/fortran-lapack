@@ -1,5 +1,0 @@
-<map id="la_lapack_s::la_sgemlqt" name="la_lapack_s::la_sgemlqt">
-<area shape="rect" id="Node000001" title="DGEMLQT overwrites the general real M&#45;by&#45;N matrix C with SIDE = &#39;L&#39; SIDE = &#39;R&#39; TRANS = &#39;N&#39;: Q C C Q T..." alt="" coords="5,5,184,31"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#a88f424ab78fa97dff58d431a8ab51b7c" title="SLARFB: applies a real block reflector H or its transpose H**T to a real m by n matrix C,..." alt="" coords="232,5,395,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="184,15,218,15,218,21,184,21"/>
-</map>

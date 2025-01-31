@@ -1,8 +1,0 @@
-<map id="la_lapack_c::la_cla_porcond_c" name="la_lapack_c::la_cla_porcond_c">
-<area shape="rect" id="Node000001" title="CLA_PORCOND_C: Computes the infinity norm condition number of op(A) * inv(diag(C)) where C is a REAL ..." alt="" coords="5,29,149,69"/>
-<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="39,30,37,20,43,11,57,5,77,3,101,6,114,13,111,18,99,11,77,8,58,10,46,15,42,21,44,28"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__c.html#aa8a18fed030896d19839b3aef3aa48ca" title="CLACN2: estimates the 1&#45;norm of a square, complex matrix A. Reverse communication is used for evaluat..." alt="" coords="197,11,364,37"/>
-<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="149,38,183,33,184,39,150,43"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__c.html#a49b4f24628660bbf5ea4e8274688bd06" title="CPOTRS: solves a system of linear equations A*X = B with a Hermitian positive definite matrix A using..." alt="" coords="198,61,363,86"/>
-<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="150,55,185,59,184,65,149,60"/>
-</map>

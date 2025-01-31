@@ -1,9 +1,0 @@
-<map id="la_lapack_w::la_wgsvj0" name="la_lapack_w::la_wgsvj0">
-<area shape="rect" id="Node000001" title="ZGSVJ0: is called from ZGESVJ as a pre&#45;processor and that is its main purpose. It applies Jacobi rota..." alt="" coords="5,55,180,80"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__w.html#ad1c85219234bb41f60311c720a8200f6" title="ZLASCL: multiplies the M by N complex matrix A by the real scalar CTO/CFROM. This is done without ove..." alt="" coords="230,5,399,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="150,52,243,31,244,36,151,57"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__w.html#a2bf5a64bcaccd3676164dbf3aee36bb5" title="!" alt="" coords="228,55,401,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="180,65,214,65,214,70,180,70"/>
-<area shape="rect" id="Node000004" href="$namespacela__lapack__w.html#a5eb5821fca8d8864b83cab2d6b2a9b70" title="ZROT: applies a plane rotation, where the cos (C) is real and the sin (S) is complex,..." alt="" coords="236,104,393,129"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="151,77,244,98,243,104,150,83"/>
-</map>

@@ -1,7 +1,0 @@
-<map id="la_lapack::ggbak::sggbak" name="la_lapack::ggbak::sggbak">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,31,192,56"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#ae9604697725af46684b3719e32cc41c0" title="SGGBAK: forms the right or left eigenvectors of a real generalized eigenvalue problem A*x = lambda*B*..." alt="" coords="243,5,415,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="192,30,230,26,230,32,192,36"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__w.html#a04a31f02fdf72749e97f03c01f0a3d06" title="ZGGBAK: forms the right or left eigenvectors of a complex generalized eigenvalue problem A*x = lambda..." alt="" coords="240,55,419,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="192,50,227,54,226,59,192,56"/>
-</map>

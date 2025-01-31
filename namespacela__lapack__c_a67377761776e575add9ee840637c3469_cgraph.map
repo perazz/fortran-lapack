@@ -1,9 +1,0 @@
-<map id="la_lapack_c::la_chetrs_aa" name="la_lapack_c::la_chetrs_aa">
-<area shape="rect" id="Node000001" title="CHETRS_AA: solves a system of linear equations A*X = B with a complex hermitian matrix A using the fa..." alt="" coords="5,55,193,80"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__c.html#a32f0f0d1550e804f9bcf4aa49e84c9fb" title="CGTSV: solves the equation A*X = B, where A is an N&#45;by&#45;N tridiagonal matrix, by Gaussian elimination ..." alt="" coords="245,5,405,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="157,52,252,31,253,36,159,57"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__c.html#a458ee49506ae512d1c2d93ad1fdcbc11" title="CLACGV: conjugates a complex vector of length N." alt="" coords="241,55,408,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="194,65,228,65,228,70,194,70"/>
-<area shape="rect" id="Node000004" href="$namespacela__lapack__c.html#a94f50f05cdea6ccd3a055c994a570fcd" title="CLACPY: copies all or part of a two&#45;dimensional matrix A to another matrix B." alt="" coords="241,104,408,129"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="159,77,253,98,252,104,157,83"/>
-</map>

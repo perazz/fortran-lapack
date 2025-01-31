@@ -1,5 +1,0 @@
-<map id="la_lapack_q::la_qormr3" name="la_lapack_q::la_qormr3">
-<area shape="rect" id="Node000001" title="DORMR3: overwrites the general real m by n matrix C with Q * C if SIDE = &#39;L&#39; and TRANS = &#39;N&#39;,..." alt="" coords="5,5,179,31"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__q.html#a65375e9ab58a0a1d1cd7864cf77bbc74" title="DLARZ: applies a real elementary reflector H to a real M&#45;by&#45;N matrix C, from either the left or the r..." alt="" coords="227,5,385,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="179,15,213,15,213,21,179,21"/>
-</map>

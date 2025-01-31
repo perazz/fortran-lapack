@@ -1,9 +1,0 @@
-<map id="la_lapack_s::la_sptsv" name="la_lapack_s::la_sptsv">
-<area shape="rect" id="Node000001" title="SPTSV: computes the solution to a real system of linear equations A*X = B, where A is an N&#45;by&#45;N symme..." alt="" coords="5,31,165,56"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#aa8191dd8d8f728b09d6b35af4c31dabd" title="SPTTRF: computes the L*D*L**T factorization of a real symmetric positive definite tridiagonal matrix ..." alt="" coords="215,5,375,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="165,31,201,27,201,32,166,36"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__s.html#a31326688c6441df71b20dcf0468740aa" title="SPTTRS: solves a tridiagonal system of the form A * X = B using the L*D*L**T factorization of A compu..." alt="" coords="213,55,376,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="166,50,200,54,199,59,165,55"/>
-<area shape="rect" id="Node000004" href="$namespacela__lapack__s.html#aa98d21053f7ac4eacd2ef221b82b8b2c" title="SPTTS2: solves a tridiagonal system of the form A * X = B using the L*D*L**T factorization of A compu..." alt="" coords="424,55,589,80"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="376,65,410,65,410,70,376,70"/>
-</map>

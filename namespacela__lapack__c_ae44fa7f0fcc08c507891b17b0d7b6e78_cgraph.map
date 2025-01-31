@@ -1,6 +1,0 @@
-<map id="la_lapack_c::la_clansy" name="la_lapack_c::la_clansy">
-<area shape="rect" id="Node000001" title="CLANSY: returns the value of the one norm, or the Frobenius norm, or the infinity norm,..." alt="" coords="5,29,172,55"/>
-<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="54,31,46,21,50,11,65,5,89,3,118,6,130,15,127,20,116,11,89,8,66,10,54,15,51,20,58,28"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__c.html#a9238bcdce69d7296d0322567095afa73" title="!" alt="" coords="220,29,387,55"/>
-<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="173,39,206,39,206,45,173,45"/>
-</map>

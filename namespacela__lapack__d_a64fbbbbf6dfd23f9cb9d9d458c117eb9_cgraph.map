@@ -1,6 +1,0 @@
-<map id="la_lapack_d::la_dlatps" name="la_lapack_d::la_dlatps">
-<area shape="rect" id="Node000001" title="DLATPS: solves one of the triangular systems A *x = s*b or A**T*x = s*b with scaling to prevent overf..." alt="" coords="5,29,172,55"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__d.html#af258e93ce5d1d461c745335332ff184b" title="DLAMCH: determines double precision machine parameters." alt="" coords="220,29,395,55"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="172,39,206,39,206,45,172,45"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="272,31,264,21,268,11,283,5,307,3,338,6,350,15,347,20,336,11,307,8,284,10,272,15,269,20,276,28"/>
-</map>

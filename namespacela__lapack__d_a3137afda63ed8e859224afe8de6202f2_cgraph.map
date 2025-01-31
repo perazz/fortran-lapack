@@ -1,7 +1,0 @@
-<map id="la_lapack_d::la_dppsv" name="la_lapack_d::la_dppsv">
-<area shape="rect" id="Node000001" title="DPPSV: computes the solution to a real system of linear equations A * X = B, where A is an N&#45;by&#45;N sym..." alt="" coords="5,31,171,56"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__d.html#aafeaa413607f1d6f737031738d241309" title="DPPTRF: computes the Cholesky factorization of a real symmetric positive definite matrix A stored in ..." alt="" coords="219,5,385,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="171,31,205,27,206,32,171,36"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__d.html#abb4a5c1aad77444b0b4557401c6d3c66" title="DPPTRS: solves a system of linear equations A*X = B with a symmetric positive definite matrix A in pa..." alt="" coords="219,55,385,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="171,50,205,54,205,59,171,55"/>
-</map>

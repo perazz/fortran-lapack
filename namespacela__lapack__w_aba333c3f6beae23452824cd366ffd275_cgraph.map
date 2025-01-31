@@ -1,7 +1,0 @@
-<map id="la_lapack_w::la_wpprfs" name="la_lapack_w::la_wpprfs">
-<area shape="rect" id="Node000001" title="ZPPRFS: improves the computed solution to a system of linear equations when the coefficient matrix is..." alt="" coords="5,31,177,56"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__w.html#a181e3ce6202dd4d6e6a0104746779391" title="ZLACN2: estimates the 1&#45;norm of a square, complex matrix A. Reverse communication is used for evaluat..." alt="" coords="225,5,400,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="178,31,212,27,212,32,178,36"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__w.html#a0d59c6b492593870eb9b2d90352f01a7" title="ZPPTRS: solves a system of linear equations A*X = B with a Hermitian positive definite matrix A in pa..." alt="" coords="227,55,399,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="178,50,213,54,213,59,178,55"/>
-</map>

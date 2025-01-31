@@ -1,5 +1,0 @@
-<map id="la_lapack_z::la_zsytf2_rk" name="la_lapack_z::la_zsytf2_rk">
-<area shape="rect" id="Node000001" title="ZSYTF2_RK: computes the factorization of a complex symmetric matrix A using the bounded Bunch&#45;Kaufman..." alt="" coords="5,5,191,31"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__z.html#a8cfffea4bf1df64f933ada447e46e0e7" title="ZSYR: performs the symmetric rank 1 operation A := alpha*x*x**H + A, where alpha is a complex scalar,..." alt="" coords="239,5,391,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="191,15,225,15,225,21,191,21"/>
-</map>

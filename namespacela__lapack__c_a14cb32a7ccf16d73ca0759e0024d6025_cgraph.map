@@ -1,8 +1,0 @@
-<map id="la_lapack_c::la_cpftrf" name="la_lapack_c::la_cpftrf">
-<area shape="rect" id="Node000001" title="CPFTRF: computes the Cholesky factorization of a complex Hermitian positive definite matrix A...." alt="" coords="5,29,164,55"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__c.html#aeec9d1998ec39bb58c8eda3bb3ce3b45" title="CPOTRF: computes the Cholesky factorization of a complex Hermitian positive definite matrix A...." alt="" coords="212,29,375,55"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="164,39,198,39,198,45,164,45"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__c.html#a2a99145c7777718f93ad3b3104de1011" title="CPOTRF2: computes the Cholesky factorization of a Hermitian positive definite matrix A using the recu..." alt="" coords="423,29,593,55"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="375,39,409,39,409,45,375,45"/>
-<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="473,31,466,21,469,11,484,5,508,3,538,6,549,15,546,20,536,11,508,8,485,10,473,15,471,20,477,28"/>
-</map>

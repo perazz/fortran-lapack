@@ -1,8 +1,0 @@
-<map id="la_lapack_s::la_strrfs" name="la_lapack_s::la_strrfs">
-<area shape="rect" id="Node000001" title="STRRFS: provides error bounds and backward error estimates for the solution to a system of linear equ..." alt="" coords="5,43,164,68"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#a7f5f2af31221a1cf8d74880aedc775ca" title="SLACN2: estimates the 1&#45;norm of a square, real matrix A. Reverse communication is used for evaluating..." alt="" coords="215,5,381,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="157,40,211,30,212,36,158,45"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__s.html#abbe0ae24f069ddbf134ff3e404a19878" title="SLAMCH: determines single precision machine parameters." alt="" coords="212,79,384,104"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="161,65,209,74,208,79,160,71"/>
-<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="263,80,256,70,259,60,274,54,298,52,328,56,339,65,336,69,326,61,298,57,275,59,263,64,261,70,267,77"/>
-</map>

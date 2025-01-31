@@ -1,5 +1,0 @@
-<map id="la_lapack_c::la_cunbdb6" name="la_lapack_c::la_cunbdb6">
-<area shape="rect" id="Node000001" title="CUNBDB6: orthogonalizes the column vector X = [ X1 ] [ X2 ] with respect to the columns of Q = [ Q1 ]..." alt="" coords="5,5,185,31"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__c.html#a9238bcdce69d7296d0322567095afa73" title="!" alt="" coords="233,5,400,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="186,15,220,15,220,21,186,21"/>
-</map>

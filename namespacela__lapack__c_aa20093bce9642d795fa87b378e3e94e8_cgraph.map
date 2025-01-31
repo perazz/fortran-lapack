@@ -1,7 +1,0 @@
-<map id="la_lapack_c::la_cporfs" name="la_lapack_c::la_cporfs">
-<area shape="rect" id="Node000001" title="CPORFS: improves the computed solution to a system of linear equations when the coefficient matrix is..." alt="" coords="5,31,171,56"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__c.html#aa8a18fed030896d19839b3aef3aa48ca" title="CLACN2: estimates the 1&#45;norm of a square, complex matrix A. Reverse communication is used for evaluat..." alt="" coords="219,5,385,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="171,31,205,27,206,32,171,36"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__c.html#a49b4f24628660bbf5ea4e8274688bd06" title="CPOTRS: solves a system of linear equations A*X = B with a Hermitian positive definite matrix A using..." alt="" coords="219,55,385,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="171,50,206,54,205,59,171,55"/>
-</map>

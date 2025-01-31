@@ -1,5 +1,0 @@
-<map id="la_lapack_q::la_qlasyf_aa" name="la_lapack_q::la_qlasyf_aa">
-<area shape="rect" id="Node000001" title="DLATRF_AA factorizes a panel of a real symmetric matrix A using the Aasen&#39;s algorithm...." alt="" coords="5,5,195,31"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__q.html#aea8c25dcc46ceaf8d39ba10cb1584312" title="DLASET: initializes an m&#45;by&#45;n matrix A to BETA on the diagonal and ALPHA on the offdiagonals." alt="" coords="243,5,409,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="195,15,229,15,229,21,195,21"/>
-</map>

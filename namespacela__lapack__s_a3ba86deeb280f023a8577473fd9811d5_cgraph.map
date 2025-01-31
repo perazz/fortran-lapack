@@ -1,6 +1,0 @@
-<map id="la_lapack_s::la_sggbal" name="la_lapack_s::la_sggbal">
-<area shape="rect" id="Node000001" title="SGGBAL: balances a pair of general real matrices (A,B). This involves, first, permuting A and B by si..." alt="" coords="5,29,173,55"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#abbe0ae24f069ddbf134ff3e404a19878" title="SLAMCH: determines single precision machine parameters." alt="" coords="221,29,393,55"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="174,39,208,39,208,45,174,45"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="272,31,264,21,268,11,283,5,307,3,337,6,349,15,346,20,335,11,307,8,284,10,272,15,270,20,276,28"/>
-</map>

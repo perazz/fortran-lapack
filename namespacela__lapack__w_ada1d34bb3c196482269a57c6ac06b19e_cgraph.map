@@ -1,8 +1,0 @@
-<map id="la_lapack_w::la_whetd2" name="la_lapack_w::la_whetd2">
-<area shape="rect" id="Node000001" title="ZHETD2: reduces a complex Hermitian matrix A to real symmetric tridiagonal form T by a unitary simila..." alt="" coords="5,29,181,55"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__w.html#aa9eb79b853bd27197cc061402a74d006" title="ZLARFG: generates a complex elementary reflector H of order n, such that H**H * ( alpha ) = ( beta ),..." alt="" coords="229,29,399,55"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="181,39,215,39,215,45,181,45"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__w.html#a256289e251e51bb1c01d2fe45fe134fa" title="ZLADIV: := X / Y, where X and Y are complex. The computation of X / Y will not overflow on an interme..." alt="" coords="447,29,617,55"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="399,39,433,39,433,45,399,45"/>
-<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="497,31,489,21,493,11,508,5,532,3,562,6,574,15,571,20,560,11,532,8,509,10,497,15,494,20,501,28"/>
-</map>

@@ -1,6 +1,0 @@
-<map id="la_lapack_c::la_claunhr_col_getrfnp" name="la_lapack_c::la_claunhr_col_getrfnp">
-<area shape="rect" id="Node000001" title="CLAUNHR_COL_GETRFNP: computes the modified LU factorization without pivoting of a complex general M&#45;b..." alt="" coords="5,29,179,69"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__c.html#a9cbc66460ad7dd32b2e61360c9818077" title="CLAUNHR_COL_GETRFNP2: computes the modified LU factorization without pivoting of a complex general M&#45;..." alt="" coords="227,29,400,69"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="179,47,213,47,213,52,179,52"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="272,30,269,20,276,10,291,5,313,3,339,6,353,13,351,18,338,11,313,8,292,10,279,15,275,21,277,28"/>
-</map>

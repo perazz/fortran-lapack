@@ -1,6 +1,0 @@
-<map id="la_lapack_s::la_slatbs" name="la_lapack_s::la_slatbs">
-<area shape="rect" id="Node000001" title="SLATBS: solves one of the triangular systems A *x = s*b or A**T*x = s*b with scaling to prevent overf..." alt="" coords="5,29,169,55"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#abbe0ae24f069ddbf134ff3e404a19878" title="SLAMCH: determines single precision machine parameters." alt="" coords="217,29,389,55"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="170,39,203,39,203,45,170,45"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="268,31,260,21,264,11,279,5,303,3,333,6,345,15,342,20,331,11,303,8,280,10,268,15,266,20,272,28"/>
-</map>

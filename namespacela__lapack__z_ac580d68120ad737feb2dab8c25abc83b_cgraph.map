@@ -1,7 +1,0 @@
-<map id="la_lapack_z::la_zptrfs" name="la_lapack_z::la_zptrfs">
-<area shape="rect" id="Node000001" title="ZPTRFS: improves the computed solution to a system of linear equations when the coefficient matrix is..." alt="" coords="5,5,168,31"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__z.html#abbfb615364f02798c7ed96dc42354b48" title="ZPTTRS: solves a tridiagonal system of the form A * X = B using the factorization A = U**H D U or A =..." alt="" coords="216,5,379,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="168,15,202,15,202,21,168,21"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__z.html#a7242ee436efa3c5933e58798f3f5ef10" title="ZPTTS2: solves a tridiagonal system of the form A * X = B using the factorization A = U**H *D*U or A ..." alt="" coords="427,5,592,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="379,15,413,15,413,21,379,21"/>
-</map>
