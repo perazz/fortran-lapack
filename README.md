@@ -70,12 +70,35 @@ Returns the solution array \f$ x \f$ with size \f$ n \f$ (for a single right-han
 - This function relies on LAPACK's least-squares solvers, such as [`*GELSS`](@ref la_lapack::gelss).
 - If `overwrite_a` is enabled, the original contents of `a` and `b` may be lost.
 
-## `det(A)`
-**Type**: Function  
-**Description**: Determinant of a scalar or square matrix.  
-**Optional arguments**:  
-- `overwrite_a`: Option to let A be destroyed.  
-- `err`: Return state handler.
+## [det](@ref la_linalg::det) - Determinant of a scalar or rectangular matrix.
+
+### Syntax
+
+`d = det(a [, overwrite_a] [, err])`
+
+### Description
+
+This function computes the determinant of a square matrix \f$ A \f$. The matrix must be a real matrix of size \f$ [m, n] \f$, and the determinant is computed using an efficient factorization method (e.g., LU decomposition).
+
+### Arguments
+
+- `a`: A real matrix of size \f$ [m, n] \f$, representing the rectangular matrix for which the determinant is calculated. If `overwrite_a`, it is an `inout` argument and may be modified during computation.
+- `overwrite_a` (optional, default = `.false.`): A logical flag that determines whether the input matrix `a` can be overwritten. If `.true.`, the matrix `a` may be destroyed and modified in place to save memory.
+- `err` (optional): A state return flag of  [type(la_state)](@ref la_state_type::la_state). If an error occurs and `err` is not provided, the function will stop execution.
+
+### Return value
+
+The function returns a scalar value representing the determinant of the input matrix \f$ A \f$. The return type is the same as the input matrix (real precision).
+
+### Errors
+
+- Raises [LINALG_VALUE_ERROR](@ref la_state_type::linalg_value_error) if the matrix `a` is not square.
+- If `err` is not provided, the function will stop execution on errors.
+
+### Notes
+
+- The determinant of the matrix is computed using the LAPACK [getrf](@ref la_lapack::getrf) backend.
+- If `overwrite_a` is enabled, the input matrix `a` will be destroyed during the computation process.
 
 ## `inv(A)`
 **Type**: Function  

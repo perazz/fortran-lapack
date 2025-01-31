@@ -13,10 +13,24 @@ module la_determinant
 
      character(*), parameter :: this = 'determinant'
 
-     ! Numpy: det(a)
-     ! Scipy: det(a, overwrite_a=False, check_finite=True)
-     ! IMSL: DET(a)
-
+     !> @brief Compute the determinant of a rectangular matrix.
+     !!
+     !! This function computes the determinant of a real or complex rectangular matrix \f$ A \f$.
+     !! The determinant is calculated using LU factorization.
+     !!
+     !! @param[in,out] A The input square matrix of size \f$ [m, n] \f$. If `overwrite_a` is true,
+     !!                  the contents of A may be modified during computation.
+     !! @param[in] overwrite_a (Optional) If `.true.`, A may be overwritten and destroyed. Default is `.false.`.
+     !! @param[out] err (Optional) A state return flag. If an error occurs and `err` is not provided, 
+     !!                 the function will stop execution.
+     !!
+     !! @return The determinant of the matrix \f$ A \f$. The result is a `real` scalar value of the same 
+     !!         kind as the input matrix.
+     !!
+     !! @note This function relies on a matrix factorization approach (e.g., LU decomposition) to compute
+     !!       the determinant efficiently from the [getrf](@ref la_lapack::getrf) backend.
+     !! @warning If `overwrite_a` is enabled, the original contents of A will be lost.
+     !!
      interface det
         #:for rk,rt,ri in ALL_KINDS_TYPES
         module procedure la_${ri}$determinant
