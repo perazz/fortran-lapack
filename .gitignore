@@ -7,3 +7,4 @@ assets/lapack_sources
 build/
 project/bin
 project/doxygen/html
+project/doxygen/doxygen.log

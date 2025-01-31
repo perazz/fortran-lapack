@@ -40,7 +40,7 @@ ABBREVIATE_BRIEF       = "The $name class" \
                          an \
                          the
 
-ALWAYS_DETAILED_SEC    = NO
+ALWAYS_DETAILED_SEC    = YES
 INLINE_INHERITED_MEMB  = NO
 FULL_PATH_NAMES        = NO
 STRIP_FROM_PATH        =
@@ -289,6 +289,8 @@ EXCLUDE_PATTERNS       =
 # Note that the wildcards are matched against the file with absolute path, so to
 # exclude all test directories use the pattern */test/*
 
+EXCLUDE_SYMBOLS       = 
+
 #EXCLUDE_SYMBOLS     = la_blas_s 
 #EXCLUDE_SYMBOLS    += la_blas_d 
 #EXCLUDE_SYMBOLS    += la_blas_q 
@@ -383,7 +385,7 @@ TREEVIEW_WIDTH         = 250
 EXT_LINKS_IN_WINDOW    = NO
 FORMULA_FONTSIZE       = 10
 FORMULA_TRANSPARENT    = YES
-USE_MATHJAX            = NO
+USE_MATHJAX            = YES
 MATHJAX_RELPATH        = http://www.mathjax.org/mathjax
 SEARCHENGINE           = YES
 SERVER_BASED_SEARCH    = NO
@@ -407,7 +409,8 @@ PAPER_TYPE             = a4
 # If left blank no extra packages will be included.
 # This tag requires that the tag GENERATE_LATEX is set to YES.
 
-EXTRA_PACKAGES         ={amsmath,amssymb}
+EXTRA_PACKAGES         = {amsmath}
+EXTRA_PACKAGES        += {amssymb}
 
 LATEX_HEADER           =
 PDF_HYPERLINKS         = YES

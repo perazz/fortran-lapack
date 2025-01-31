@@ -5,19 +5,33 @@ A full and standardized implementation of the present library has been integrate
 
 # Current API
 
-# fortran-lapack
-This package provides precision-agnostic, high-level linear algebra APIs for `real` and `complex` arguments in Modern Fortran. The APIs are similar to NumPy/SciPy operations, and leverage a Modern Fortran implementation of the [Reference-LAPACK](http://github.com/reference-LAPACK) library.
+## [`solve`](@ref la_solve::solve) - Solves a linear matrix equation or a linear system of equations.
 
-A full and standardized implementation of the present library has been integrated into the [Fortran Standard Library](http://stdlib.fortran-lang.org/), and as such, most users should seek to access the functionality from `stdlib`. The present library is kept in place for those who seek a compact implementation of it.
+### Syntax
 
-# Current API
+`x = solve(a, b [, overwrite_a] [, err])`  
 
-## `solve(A, b)`
-**Type**: Function  
-**Description**: Solve linear systems - one (`b(:)`) or many (`b(:,:)`).  
-**Optional arguments**:  
-- `overwrite_a`: Option to let A be destroyed.  
-- `err`: Return state handler.
+### Description
+
+Solve linear systems - one (`b(:)`) or many (`b(:,:)`).  
+
+### Arguments
+
+- `a`: A `real` or `complex` coefficient matrix. If `overwrite_a=.true.`, it is destroyed by the call.
+- `b`: A rank-1 (one system) or rank-2 (many systems) array of the same kind as `a`, containing the right-hand-side vector(s).
+- `overwrite_a` (optional, default = `.false.`): If `.true.`, input matrix `a` will be used as temporary storage and overwritten, to avoid internal data allocation.
+- `err` (optional): A [`type(la_state)`](@ref la_state_type::la_state) variable. 
+
+### Return value
+
+For a full-rank matrix, returns an array value that represents the solution to the linear system of equations.
+
+### Errors
+
+- Raises [`LINALG_ERROR`](@ref la_state_type::linalg_error) if the matrix is singular to working precision.
+- Raises [`LINALG_VALUE_ERROR`](@ref la_state_type::linalg_value_error) if the matrix and rhs vectors have invalid/incompatible sizes.
+- If `err` is not present, exceptions trigger an `error stop`.
+
 
 ## `lstsq(A, b)`
 **Type**: Function  
