@@ -1,5 +1,15 @@
 var NAVTREEINDEX45 =
 {
+"namespacela__blas__w.html#a461cbdf3cdc0e24cef77761807e45d08":[6,0,6,27],
+"namespacela__blas__w.html#a4fd0c96ece7138f231a7afed7e64cf34":[6,0,6,8],
+"namespacela__blas__w.html#a53169bd7bab2e6a82aff7d8a9d39db3d":[6,0,6,28],
+"namespacela__blas__w.html#a5967aba7340a1f3f44bb014d847c379b":[6,0,6,21],
+"namespacela__blas__w.html#a6aa48ddad499f3151c9457730b87dac7":[6,0,6,7],
+"namespacela__blas__w.html#a706dd407105e0951519d26c24035eec7":[6,0,6,17],
+"namespacela__blas__w.html#a71789fe60cc4d3577b89e2d5883fb40e":[6,0,6,34],
+"namespacela__blas__w.html#a77f3d4c9927775043b48541917d3605a":[6,0,6,9],
+"namespacela__blas__w.html#a78b4ac864853ad17bf08ffa5edee3915":[6,0,6,11],
+"namespacela__blas__w.html#a85b90ddd5f29badcc25a61bbfd7255a7":[6,0,6,1],
 "namespacela__blas__w.html#a87a82204f8e28782b97bdfd474d6e8b2":[6,0,6,30],
 "namespacela__blas__w.html#a8dc7416e21575b2f2cd91709c946700f":[6,0,6,0],
 "namespacela__blas__w.html#a9af42e2319a5c9d0c26f64e642b6a790":[6,0,6,10],
@@ -239,15 +249,5 @@ var NAVTREEINDEX45 =
 "namespacela__lapack__c.html#a4b0bd415668ce4f6afe55c4c0eee8d7f":[6,0,16,102],
 "namespacela__lapack__c.html#a4c4e2558e0787b7ff2ca44ed71437ba1":[6,0,16,153],
 "namespacela__lapack__c.html#a4cb9b55c5f126f9b35f4c3643195b961":[6,0,16,187],
-"namespacela__lapack__c.html#a4d7e807317b4fef9a892da53f4e3810e":[6,0,16,171],
-"namespacela__lapack__c.html#a4e081c2c4690fcc9c16659c577854ce3":[6,0,16,162],
-"namespacela__lapack__c.html#a4e84834b3a95f188b52a5077e873a0aa":[6,0,16,197],
-"namespacela__lapack__c.html#a4ecaebae5feafdcc862f09bee12d6242":[6,0,16,264],
-"namespacela__lapack__c.html#a5003452af6a48cb6e04c7531645352fc":[6,0,16,373],
-"namespacela__lapack__c.html#a500f576d980cd1a022dcb0d3925f087d":[6,0,16,365],
-"namespacela__lapack__c.html#a50503b061ba9770e565289d9c192c86e":[6,0,16,112],
-"namespacela__lapack__c.html#a51b81937dc202033ec70fc927336aabc":[6,0,16,243],
-"namespacela__lapack__c.html#a5248324acbf3b6bd74d31dad7fc73b06":[6,0,16,406],
-"namespacela__lapack__c.html#a52f6c4f325a491ce733df7f321ee86ff":[6,0,16,423],
-"namespacela__lapack__c.html#a52fe7bfadef6924c88de36978b1dbea7":[6,0,16,40]
+"namespacela__lapack__c.html#a4d7e807317b4fef9a892da53f4e3810e":[6,0,16,171]
 };

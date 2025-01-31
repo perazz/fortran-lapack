@@ -1,5 +1,15 @@
 var NAVTREEINDEX16 =
 {
+"interfacela__lapack_1_1lagtf.html#a277f9a4bf436b272e48ec72b269238da":[6,0,14,170,3],
+"interfacela__lapack_1_1lagtf.html#a277f9a4bf436b272e48ec72b269238da":[7,0,6,170,3],
+"interfacela__lapack_1_1lagtf.html#a3fe35994472b49c5b6594a0473a998b8":[6,0,14,170,2],
+"interfacela__lapack_1_1lagtf.html#a3fe35994472b49c5b6594a0473a998b8":[7,0,6,170,2],
+"interfacela__lapack_1_1lagtf.html#a46d80739d396d87ab6dc2ff211ed61a1":[6,0,14,170,0],
+"interfacela__lapack_1_1lagtf.html#a46d80739d396d87ab6dc2ff211ed61a1":[7,0,6,170,0],
+"interfacela__lapack_1_1lagtf.html#adad9b818d5f11b7c829b83f3a63c3609":[6,0,14,170,4],
+"interfacela__lapack_1_1lagtf.html#adad9b818d5f11b7c829b83f3a63c3609":[7,0,6,170,4],
+"interfacela__lapack_1_1lagtm.html":[6,0,14,171],
+"interfacela__lapack_1_1lagtm.html":[7,0,6,171],
 "interfacela__lapack_1_1lagtm.html#a08c50ad3669059d4fbffe6109a350673":[6,0,14,171,1],
 "interfacela__lapack_1_1lagtm.html#a08c50ad3669059d4fbffe6109a350673":[7,0,6,171,1],
 "interfacela__lapack_1_1lagtm.html#a0d616c886dc11912418d9cfe9424a4fc":[6,0,14,171,9],
@@ -239,15 +249,5 @@ var NAVTREEINDEX16 =
 "interfacela__lapack_1_1lamtsqr.html":[6,0,14,185],
 "interfacela__lapack_1_1lamtsqr.html":[7,0,6,185],
 "interfacela__lapack_1_1lamtsqr.html#a08b9e6e79d02663f4604f4b1bce111b6":[6,0,14,185,4],
-"interfacela__lapack_1_1lamtsqr.html#a08b9e6e79d02663f4604f4b1bce111b6":[7,0,6,185,4],
-"interfacela__lapack_1_1lamtsqr.html#a2f04840d6d4bf338d149a9209499ca09":[6,0,14,185,5],
-"interfacela__lapack_1_1lamtsqr.html#a2f04840d6d4bf338d149a9209499ca09":[7,0,6,185,5],
-"interfacela__lapack_1_1lamtsqr.html#a3ebf48e9c5de4dc6546b18a1a9a48530":[6,0,14,185,0],
-"interfacela__lapack_1_1lamtsqr.html#a3ebf48e9c5de4dc6546b18a1a9a48530":[7,0,6,185,0],
-"interfacela__lapack_1_1lamtsqr.html#a5de539d0e34d1f3e563d5fc3d9d657a1":[6,0,14,185,1],
-"interfacela__lapack_1_1lamtsqr.html#a5de539d0e34d1f3e563d5fc3d9d657a1":[7,0,6,185,1],
-"interfacela__lapack_1_1lamtsqr.html#a648fbba4398f73442d9983cca7630dee":[6,0,14,185,2],
-"interfacela__lapack_1_1lamtsqr.html#a648fbba4398f73442d9983cca7630dee":[7,0,6,185,2],
-"interfacela__lapack_1_1lamtsqr.html#a740f019291d7223c42855d0ba123be48":[6,0,14,185,7],
-"interfacela__lapack_1_1lamtsqr.html#a740f019291d7223c42855d0ba123be48":[7,0,6,185,7]
+"interfacela__lapack_1_1lamtsqr.html#a08b9e6e79d02663f4604f4b1bce111b6":[7,0,6,185,4]
 };

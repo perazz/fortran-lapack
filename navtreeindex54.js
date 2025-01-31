@@ -1,5 +1,15 @@
 var NAVTREEINDEX54 =
 {
+"namespacela__lapack__w.html#aa4332064966ec9f1ec7d8787e3bcce2c":[6,0,20,198],
+"namespacela__lapack__w.html#aa485b514c1c5862b810183599df2df4e":[6,0,20,257],
+"namespacela__lapack__w.html#aa49ac8898733795eba74efe6ef1015ec":[6,0,20,205],
+"namespacela__lapack__w.html#aa60d7cf70ce413021b3d89d529b436d6":[6,0,20,157],
+"namespacela__lapack__w.html#aa6682e1f6838db3e9c7e97f68b7d1c0d":[6,0,20,163],
+"namespacela__lapack__w.html#aa6855f13a4ba68cf047365f5ebbcb345":[6,0,20,226],
+"namespacela__lapack__w.html#aa7154dfba6f0874621378f9ff8f62f47":[6,0,20,272],
+"namespacela__lapack__w.html#aa7dee937b980a103219aeea44e830494":[6,0,20,70],
+"namespacela__lapack__w.html#aa81ae76399481533d5179342a219c4ac":[6,0,20,126],
+"namespacela__lapack__w.html#aa937b01dda4d5bb2e4d9d824812c9506":[6,0,20,83],
 "namespacela__lapack__w.html#aa9627d1b6f14a42b4a1f51daf11e1215":[6,0,20,427],
 "namespacela__lapack__w.html#aa9eb79b853bd27197cc061402a74d006":[6,0,20,250],
 "namespacela__lapack__w.html#aaab095b09f9e63311dd60db77dea0383":[6,0,20,74],
@@ -239,15 +249,5 @@ var NAVTREEINDEX54 =
 "namespacela__lapack__z.html#a30a84bd9e33031b091bb8cfa96c41aa8":[6,0,21,203],
 "namespacela__lapack__z.html#a30b431d81574aad550a24665ff9f4e71":[6,0,21,406],
 "namespacela__lapack__z.html#a31145e7c68fc727bcecea97f86d11e3a":[6,0,21,308],
-"namespacela__lapack__z.html#a31238ca369ef85a1e476a8b8a0a8d94d":[6,0,21,12],
-"namespacela__lapack__z.html#a32430fcfa381f8404b50559fd4b29143":[6,0,21,159],
-"namespacela__lapack__z.html#a32c2d61b47ed48ab36afeb89edee04d1":[6,0,21,87],
-"namespacela__lapack__z.html#a33d354cec60fb4d56075dd746aa798dd":[6,0,21,173],
-"namespacela__lapack__z.html#a34a36cd2af248f0aa12302a99230d6e6":[6,0,21,298],
-"namespacela__lapack__z.html#a3556a2214481295810b64cf03e90bcde":[6,0,21,78],
-"namespacela__lapack__z.html#a3763fd70c60b2e3f31e14089a8da6568":[6,0,21,2],
-"namespacela__lapack__z.html#a379d500d8dd0e0ba4614f18f1bf87bf8":[6,0,21,40],
-"namespacela__lapack__z.html#a38e1140a3cfaeb7bfd433d80a6f33401":[6,0,21,208],
-"namespacela__lapack__z.html#a394203282f6839ce207dc2a9f9a9fce8":[6,0,21,104],
-"namespacela__lapack__z.html#a39d6ff8aa54ea577d7822b84fb45a533":[6,0,21,341]
+"namespacela__lapack__z.html#a31238ca369ef85a1e476a8b8a0a8d94d":[6,0,21,12]
 };

@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['n_20source_20tt_0',['&lt;tt&gt;diag(n, source)&lt;/tt&gt;',['../index.html#autotoc_md57',1,'']]],
+  ['n_20source_20tt_0',['&lt;tt&gt;diag(n, source)&lt;/tt&gt;',['../index.html#autotoc_md67',1,'']]],
   ['new_5fstate_1',['new_state',['../structla__state__type_1_1la__state.html#ad7c312aae941318ec6a87337ec5602e9',1,'la_state_type::la_state']]],
   ['new_5fstate_5fnowhere_2',['new_state_nowhere',['../structla__state__type_1_1la__state.html#a31552dd610542d2a6504a9574840516a',1,'la_state_type::la_state']]],
   ['norm_3',['norm',['../interfacela__norms_1_1norm.html',1,'la_norms']]],
@@ -160,6 +160,6 @@ var searchData=
   ['norm_5f7d_5fto_5f6d_5fint_5fs_157',['norm_7d_to_6d_int_s',['../interfacela__norms_1_1get__norm.html#aaf7a7306c07b070a2f856839957012f6',1,'la_norms::get_norm']]],
   ['norm_5f7d_5fto_5f6d_5fint_5fw_158',['norm_7d_to_6d_int_w',['../interfacela__norms_1_1get__norm.html#aa768d2c4c0425ff8c048e675b1b3c7e7',1,'la_norms::get_norm']]],
   ['norm_5f7d_5fto_5f6d_5fint_5fz_159',['norm_7d_to_6d_int_z',['../interfacela__norms_1_1get__norm.html#a08e13c90f1aea4e088fc696b677edbc5',1,'la_norms::get_norm']]],
-  ['notes_160',['Notes',['../index.html#autotoc_md18',1,'Notes'],['../index.html#autotoc_md25',1,'Notes'],['../index.html#autotoc_md35',1,'Notes'],['../index.html#autotoc_md42',1,'Notes'],['../index.html#autotoc_md49',1,'Notes'],['../index.html#autotoc_md65',1,'Notes'],['../index.html#autotoc_md72',1,'Notes']]],
+  ['notes_160',['Notes',['../index.html#autotoc_md18',1,'Notes'],['../index.html#autotoc_md25',1,'Notes'],['../index.html#autotoc_md32',1,'Notes'],['../index.html#autotoc_md38',1,'Notes'],['../index.html#autotoc_md45',1,'Notes'],['../index.html#autotoc_md52',1,'Notes'],['../index.html#autotoc_md59',1,'Notes'],['../index.html#autotoc_md75',1,'Notes'],['../index.html#autotoc_md82',1,'Notes']]],
   ['nrm2_161',['nrm2',['../interfacela__blas_1_1nrm2.html',1,'la_blas']]]
 ];

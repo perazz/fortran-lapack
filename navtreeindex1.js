@@ -1,5 +1,15 @@
 var NAVTREEINDEX1 =
 {
+"interfacela__blas_1_1hemm.html#a9342dfd793f123e23ab284820b8552eb":[6,0,0,12,2],
+"interfacela__blas_1_1hemm.html#a9342dfd793f123e23ab284820b8552eb":[7,0,0,12,2],
+"interfacela__blas_1_1hemv.html":[6,0,0,13],
+"interfacela__blas_1_1hemv.html":[7,0,0,13],
+"interfacela__blas_1_1hemv.html#aa413d88e3ee2272a64cf1946e0cc6c7a":[6,0,0,13,2],
+"interfacela__blas_1_1hemv.html#aa413d88e3ee2272a64cf1946e0cc6c7a":[7,0,0,13,2],
+"interfacela__blas_1_1hemv.html#ab466d491eae6b4de4b6f672c57871965":[6,0,0,13,1],
+"interfacela__blas_1_1hemv.html#ab466d491eae6b4de4b6f672c57871965":[7,0,0,13,1],
+"interfacela__blas_1_1hemv.html#ada94c3e3a4c70feabdbcc4a9ab64f4f7":[6,0,0,13,0],
+"interfacela__blas_1_1hemv.html#ada94c3e3a4c70feabdbcc4a9ab64f4f7":[7,0,0,13,0],
 "interfacela__blas_1_1her.html":[6,0,0,14],
 "interfacela__blas_1_1her.html":[7,0,0,14],
 "interfacela__blas_1_1her.html#a3d5806941193c315dd281970f13404c3":[6,0,0,14,1],
@@ -239,15 +249,5 @@ var NAVTREEINDEX1 =
 "interfacela__blas_1_1swap.html#ae72ff674cf74f0ae0ca654d07f746550":[6,0,0,34,6],
 "interfacela__blas_1_1swap.html#ae72ff674cf74f0ae0ca654d07f746550":[7,0,0,34,6],
 "interfacela__blas_1_1symm.html":[6,0,0,35],
-"interfacela__blas_1_1symm.html":[7,0,0,35],
-"interfacela__blas_1_1symm.html#a0ab44f6fd4f1c7dc7773daf80e9985d3":[6,0,0,35,5],
-"interfacela__blas_1_1symm.html#a0ab44f6fd4f1c7dc7773daf80e9985d3":[7,0,0,35,5],
-"interfacela__blas_1_1symm.html#a3b2978af26f46a766b8de673321903c7":[6,0,0,35,4],
-"interfacela__blas_1_1symm.html#a3b2978af26f46a766b8de673321903c7":[7,0,0,35,4],
-"interfacela__blas_1_1symm.html#a5744d9c709020705a48d32ea6fbc9d13":[6,0,0,35,6],
-"interfacela__blas_1_1symm.html#a5744d9c709020705a48d32ea6fbc9d13":[7,0,0,35,6],
-"interfacela__blas_1_1symm.html#a6897897e951aba238bd805b56cba3374":[6,0,0,35,8],
-"interfacela__blas_1_1symm.html#a6897897e951aba238bd805b56cba3374":[7,0,0,35,8],
-"interfacela__blas_1_1symm.html#aaff238fb415d9e03ed6bf6ae0458742d":[6,0,0,35,9],
-"interfacela__blas_1_1symm.html#aaff238fb415d9e03ed6bf6ae0458742d":[7,0,0,35,9]
+"interfacela__blas_1_1symm.html":[7,0,0,35]
 };
