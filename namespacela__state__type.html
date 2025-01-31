@@ -118,8 +118,8 @@ $(function(){initNavTree('namespacela__state__type.html',''); initResizable(true
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Data Types</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">interface &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structla__state__type_1_1la__state.html">la_state</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code><a class="el" href="structla__state__type_1_1la__state.html" title="la_state defines a state return type for a linear algebra routine. State contains a status flag,...">la_state</a></code> defines a state return type for a linear algebra routine. State contains a status flag, a comment, and a procedure specifier that can be used to mark where the error happened  <a href="structla__state__type_1_1la__state.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">module &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structla__state__type_1_1la__state.html">la_state</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">state return type for a linear algebra routine. State contains a status flag, a comment, and a procedure specifier that can be used to mark where the error happened  <a href="structla__state__type_1_1la__state.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">interface &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interfacela__state__type_1_1operator_07_2_0a_08.html">operator(/=)</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -141,10 +141,13 @@ Variables</h2></td></tr>
 <tr class="memdesc:a4154653ac385c86c754a0a31d5a0d783"><td class="mdescLeft">&#160;</td><td class="mdescRight">Public interfaces.  <br /></td></tr>
 <tr class="separator:a4154653ac385c86c754a0a31d5a0d783"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad9888f2f7d4e692e7d3b8fd532baa903" id="r_ad9888f2f7d4e692e7d3b8fd532baa903"><td class="memItemLeft" align="right" valign="top">integer(ilp), parameter, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad9888f2f7d4e692e7d3b8fd532baa903">linalg_value_error</a> = -1_ilp</td></tr>
+<tr class="memdesc:ad9888f2f7d4e692e7d3b8fd532baa903"><td class="mdescLeft">&#160;</td><td class="mdescRight">Value error.  <br /></td></tr>
 <tr class="separator:ad9888f2f7d4e692e7d3b8fd532baa903"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af5b55841ca3045c3345d9ab019e0797d" id="r_af5b55841ca3045c3345d9ab019e0797d"><td class="memItemLeft" align="right" valign="top">integer(ilp), parameter, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af5b55841ca3045c3345d9ab019e0797d">linalg_error</a> = -2_ilp</td></tr>
+<tr class="memdesc:af5b55841ca3045c3345d9ab019e0797d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Algebra error.  <br /></td></tr>
 <tr class="separator:af5b55841ca3045c3345d9ab019e0797d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a485a91bf0aa7819f644f5b2abab0eb09" id="r_a485a91bf0aa7819f644f5b2abab0eb09"><td class="memItemLeft" align="right" valign="top">integer(ilp), parameter, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a485a91bf0aa7819f644f5b2abab0eb09">linalg_internal_error</a> = -3_ilp</td></tr>
+<tr class="memdesc:a485a91bf0aa7819f644f5b2abab0eb09"><td class="mdescLeft">&#160;</td><td class="mdescRight">Internal error (should never happen)  <br /></td></tr>
 <tr class="separator:a485a91bf0aa7819f644f5b2abab0eb09"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Variable Documentation</h2>
@@ -160,6 +163,8 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Algebra error. </p>
+
 </div>
 </div>
 <a id="a485a91bf0aa7819f644f5b2abab0eb09" name="a485a91bf0aa7819f644f5b2abab0eb09"></a>
@@ -173,6 +178,8 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Internal error (should never happen) </p>
 
 </div>
 </div>
@@ -189,7 +196,7 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Public interfaces. </p>
-<p>State return types </p>
+<p>Successful return </p>
 
 </div>
 </div>
@@ -204,6 +211,8 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Value error. </p>
 
 </div>
 </div>
