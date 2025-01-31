@@ -6,15 +6,12 @@ on:
     branches:
       - main  # Trigger the workflow on changes to the `main` branch
 
-inputs:
-  doxygen_version:
-    description: 'Doxygen version to install'
-    required: true
-    default: '1.13.2'  
-
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+
+    env:
+      DOXYGEN_VERSION: '1.13.2' 
 
     steps:
       # Step 1: Checkout the repository
@@ -28,12 +25,12 @@ jobs:
           sudo apt-get install graphviz -y
 
       # Step 3: Install Doxygen
-      - name: Install Doxygen v${{ inputs.doxygen_version }}
+      - name: Install Doxygen v${{ env.DOXYGEN_VERSION }}  
         run: |
-          transformed_version=$(echo "${{ inputs.doxygen_version }}" | tr '.' '_')
-          wget https://github.com/doxygen/doxygen/releases/download/Release_${transformed_version}/doxygen-${{ inputs.doxygen_version }}.linux.bin.tar.gz
-          tar -xzf doxygen-${{ inputs.doxygen_version }}.linux.bin.tar.gz
-          sudo mv doxygen-${{ inputs.doxygen_version }}/bin/doxygen /usr/local/bin/doxygen
+          transformed_version=$(echo "${{ env.DOXYGEN_VERSION }}" | tr '.' '_')
+          wget https://github.com/doxygen/doxygen/releases/download/Release_${transformed_version}/doxygen-${{ env.DOXYGEN_VERSION }}.linux.bin.tar.gz
+          tar -xzf doxygen-${{ env.DOXYGEN_VERSION }}.linux.bin.tar.gz
+          sudo mv doxygen-${{ env.DOXYGEN_VERSION }}/bin/doxygen /usr/local/bin/doxygen
 
       # Step 4: Generate Doxygen documentation
       - name: Generate Doxygen Documentation
