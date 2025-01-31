@@ -67,10 +67,10 @@ Returns the solution array \f$ x \f$ with size \f$ n \f$ (for a single right-han
 
 ### Notes
 
-- This function relies on LAPACK's least-squares solvers, such as [`*GELSS`](@ref la_lapack::gelss).
+- This function relies on LAPACK's least-squares solvers, such as [GELSS](@ref la_lapack::gelss).
 - If `overwrite_a` is enabled, the original contents of `a` and `b` may be lost.
 
-## [det](@ref la_linalg::det) - Determinant of a scalar or rectangular matrix.
+## [det](@ref la_determinant::det) - Determinant of a scalar or rectangular matrix.
 
 ### Syntax
 
@@ -88,7 +88,7 @@ This function computes the determinant of a square matrix \f$ A \f$. The matrix 
 
 ### Return value
 
-The function returns a scalar value representing the determinant of the input matrix \f$ A \f$. The return type is the same as the input matrix (real precision).
+The function returns a `real` scalar value representing the determinant of the input matrix \f$ A \f$, with the same kind as \f$ A \f$.
 
 ### Errors
 
@@ -255,7 +255,7 @@ where \f$ \Sigma^+ \f$ is the inverse of the nonzero singular values in \f$ \Sig
 ### Notes
 
 - This operator internally calls [pinv](@ref la_pseudoinverse::pinv) and behaves identically.
-- The pseudo-inverse is computed using LAPACK’s SVD decomposition routine [`*GESVD`](@ref la_lapack::gesvd).
+- The pseudo-inverse is computed using LAPACK’s SVD decomposition routine [GESVD](@ref la_lapack::gesvd).
 - This operator is a convenient shorthand for calling the functional interface `pinv(a)`.
 
 
@@ -352,7 +352,7 @@ Because the lower rows of \f$ R \f$ are zeros, a reduced problem \f$ A = Q_1 R_1
 - `a`: A `real` or `complex` matrix of size \f$ [m,n] \f$, representing the coefficient matrix. If `overwrite_a = .false.`, this is an input argument. If `overwrite_a = .true.`, it is an `inout` argument and is overwritten upon return.
 - `q`: A rank-2 array of the same type and kind as `a`, representing the orthonormal matrix \f$ Q \f$. This is an output argument with shape \f$ [m,m] \f$ (for the full problem) or \f$ [m,k] \f$ (for the reduced problem).
 - `r`: A rank-2 array of the same type and kind as `a`, representing the upper-triangular matrix \f$ R \f$. This is an output argument with shape \f$ [m,n] \f$ (for the full problem) or \f$ [k,n] \f$ (for the reduced problem).
-- `storage` (optional): A rank-1 array of the same type and kind as `a`, providing working storage for the solver. Its minimum size can be determined by a call to [`qr_space`](@ref la_qr::qr_space). This is an output argument.
+- `storage` (optional): A rank-1 array of the same type and kind as `a`, providing working storage for the solver. Its minimum size can be determined by a call to [qr_space](@ref la_qr::qr_space). This is an output argument.
 - `overwrite_a` (optional, default = `.false.`): A logical flag that determines whether the input matrix `a` can be overwritten. If `.true.`, the matrix `a` is used as temporary storage and overwritten to avoid internal memory allocation. This is an input argument.
 - `err` (optional): A [type(la_state)](@ref la_state_type::la_state) variable that returns the error state. If not provided, the function will stop execution on error.
 
