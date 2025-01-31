@@ -2208,7 +2208,7 @@ module la_eig
 
              ! Compute workspace size
              allocate (rwork(2*n))
-
+             
              lwork = -1_ilp
             
              call geev(task_u,task_v,n,amat,lda, &
@@ -2428,8 +2428,8 @@ module la_eig
              ldv = size(vmat,1,kind=ilp)
 
              ! Compute workspace size
-             allocate (rwork(2*n))
-
+             allocate (rwork(8*n))
+             
              lwork = -1_ilp
             
              call ggev(task_u,task_v,n,amat,lda, &
@@ -2797,7 +2797,7 @@ module la_eig
 
              ! Compute workspace size
              allocate (rwork(2*n))
-
+             
              lwork = -1_ilp
             
              call geev(task_u,task_v,n,amat,lda, &
@@ -3017,8 +3017,8 @@ module la_eig
              ldv = size(vmat,1,kind=ilp)
 
              ! Compute workspace size
-             allocate (rwork(2*n))
-
+             allocate (rwork(8*n))
+             
              lwork = -1_ilp
             
              call ggev(task_u,task_v,n,amat,lda, &
@@ -3386,7 +3386,7 @@ module la_eig
 
              ! Compute workspace size
              allocate (rwork(2*n))
-
+             
              lwork = -1_ilp
             
              call geev(task_u,task_v,n,amat,lda, &
@@ -3606,8 +3606,8 @@ module la_eig
              ldv = size(vmat,1,kind=ilp)
 
              ! Compute workspace size
-             allocate (rwork(2*n))
-
+             allocate (rwork(8*n))
+             
              lwork = -1_ilp
             
              call ggev(task_u,task_v,n,amat,lda, &

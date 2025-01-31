@@ -78789,7 +78789,7 @@ module la_lapack_s
      !> (stopping criterion). Few tuning parameters (marked by [TP]) are
      !> available for the implementer.
      !> Further Details
-     !> ~~~~~~~~~~~~~~~
+     !> 
      !> SGSVJ1 applies few sweeps of Jacobi rotations in the column space of
      !> the input M-by-N matrix A. The pivot pairs are taken from the (1,2)
      !> off-diagonal block in the corresponding N-by-N Gram matrix A^T * A. The
