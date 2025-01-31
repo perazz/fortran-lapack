@@ -330,7 +330,7 @@ IGNORE_PREFIX          =
 GENERATE_HTML          = YES
 HTML_OUTPUT            = html
 HTML_FILE_EXTENSION    = .html
-HTML_HEADER            =
+HTML_HEADER            = header.html
 HTML_FOOTER            =
 HTML_STYLESHEET        =
 HTML_COLORSTYLE        = LIGHT # required with Doxygen >= 1.9.5
@@ -350,6 +350,7 @@ HTML_COLORSTYLE_GAMMA  = 80
 HTML_DYNAMIC_MENUS     = YES
 
 HTML_DYNAMIC_SECTIONS  = NO
+HTML_EXTRA_FILES       = doxygen-awesome-darkmode-toggle.js
 HTML_EXTRA_STYLESHEET  = doxygen-awesome.css
 GENERATE_DOCSET        = NO
 DOCSET_FEEDNAME        = "Doxygen generated docs"
