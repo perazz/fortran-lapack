@@ -10,17 +10,16 @@ module la_state_type
      public :: operator(<),operator(<=)
      public :: operator(>),operator(>=)
 
-     !> State return types
-     integer(ilp),parameter,public :: LINALG_SUCCESS        = 0_ilp
-     integer(ilp),parameter,public :: LINALG_VALUE_ERROR    = -1_ilp
-     integer(ilp),parameter,public :: LINALG_ERROR          = -2_ilp
-     integer(ilp),parameter,public :: LINALG_INTERNAL_ERROR = -3_ilp
+     integer(ilp),parameter,public :: LINALG_SUCCESS        =  0_ilp  !<  Successful return
+     integer(ilp),parameter,public :: LINALG_VALUE_ERROR    = -1_ilp  !<  Value error
+     integer(ilp),parameter,public :: LINALG_ERROR          = -2_ilp  !<  Algebra error
+     integer(ilp),parameter,public :: LINALG_INTERNAL_ERROR = -3_ilp  !<  Internal error (should never happen)
 
      !> Use fixed-size character storage for performance
-     integer(ilp),parameter :: MSG_LENGTH  = 512_ilp
+     integer(ilp),parameter :: MSG_LENGTH  = 512_ilp                  
      integer(ilp),parameter :: NAME_LENGTH =  32_ilp
 
-     !> `la_state` defines a state return type for a
+     !> \class `la_state` defines a state return type for a
      !> linear algebra routine. State contains a status flag, a comment, and a
      !> procedure specifier that can be used to mark where the error happened
      type,public :: la_state
@@ -43,7 +42,7 @@ module la_state_type
             procedure :: handle => linalg_error_handling
 
             !> Print error message
-            procedure :: print => state_print
+            procedure :: print     => state_print
             procedure :: print_msg => state_message
 
             !> State properties
