@@ -74,42 +74,7 @@ module la_solve
 
      end subroutine handle_gesv_info
 
-     !> @brief Solves a system of linear equations A * X = B.
-     !!
-     !! This function computes the solution to a real system of linear equations:
-     !!
-     !!     A * X = B
-     !!
-     !! where A is an `n x n` square matrix, and B is either a vector (`n`) or a matrix (`n x nrhs`).
-     !! The solution X is returned as an allocatable array.
-     !!
-     !! @tparam T Data type of the matrix and vectors (real or complex).
-     !! @tparam N Size of the square matrix A.
-     !! @tparam NRHS Number of right-hand sides (optional, default is 1).
-     !!
-     !! @param[in,out] A The input square matrix of size `n x n`. If `overwrite_a` is true,
-     !!                  the contents of A may be modified during computation.
-     !! @param[in] B The right-hand side vector (size `n`) or matrix (size `n x nrhs`).
-     !! @param[in] overwrite_a (Optional) If true, A may be overwritten and destroyed. Default is false.
-     !! @param[out] err (Optional) A state return flag. If an error occurs and `err` is not provided,
-     !!                 the function will stop execution.
-     !!
-     !! @return Solution matrix X of size `n` (for a single right-hand side) or `n x nrhs`.
-     !!
-     !! @note This function relies on LAPACK LU decomposition based solvers `*GESV`.
-     !!
-     !! @warning If `overwrite_a` is enabled, the original contents of A may be lost.
-     !!
-     !! @example
-     !!
-     !!     real(kind=dp), allocatable :: A(:,:), B(:), X(:)
-     !!     allocate(A(3,3), B(3))
-     !!     A = reshape([3.0_dp, 2.0_dp, -1.0_dp, &
-     !!                  2.0_dp, -2.0_dp, 4.0_dp, &
-     !!                 -1.0_dp, 0.5_dp, -1.0_dp], [3,3])
-     !!     B = [1.0_dp, -2.0_dp, 0.0_dp]
-     !!     X = solve(A, B)
-     !!
+     !> Linear system solve, _one, real(sp)
      function la_ssolve_one(a,b,overwrite_a,err) result(x)
          !> Input matrix a[n,n]
          real(sp),intent(inout),target :: a(:,:)
@@ -177,42 +142,7 @@ module la_solve
 
      end function la_ssolve_one
 
-     !> @brief Solves a system of linear equations A * X = B.
-     !!
-     !! This function computes the solution to a real system of linear equations:
-     !!
-     !!     A * X = B
-     !!
-     !! where A is an `n x n` square matrix, and B is either a vector (`n`) or a matrix (`n x nrhs`).
-     !! The solution X is returned as an allocatable array.
-     !!
-     !! @tparam T Data type of the matrix and vectors (real or complex).
-     !! @tparam N Size of the square matrix A.
-     !! @tparam NRHS Number of right-hand sides (optional, default is 1).
-     !!
-     !! @param[in,out] A The input square matrix of size `n x n`. If `overwrite_a` is true,
-     !!                  the contents of A may be modified during computation.
-     !! @param[in] B The right-hand side vector (size `n`) or matrix (size `n x nrhs`).
-     !! @param[in] overwrite_a (Optional) If true, A may be overwritten and destroyed. Default is false.
-     !! @param[out] err (Optional) A state return flag. If an error occurs and `err` is not provided,
-     !!                 the function will stop execution.
-     !!
-     !! @return Solution matrix X of size `n` (for a single right-hand side) or `n x nrhs`.
-     !!
-     !! @note This function relies on LAPACK LU decomposition based solvers `*GESV`.
-     !!
-     !! @warning If `overwrite_a` is enabled, the original contents of A may be lost.
-     !!
-     !! @example
-     !!
-     !!     real(kind=dp), allocatable :: A(:,:), B(:), X(:)
-     !!     allocate(A(3,3), B(3))
-     !!     A = reshape([3.0_dp, 2.0_dp, -1.0_dp, &
-     !!                  2.0_dp, -2.0_dp, 4.0_dp, &
-     !!                 -1.0_dp, 0.5_dp, -1.0_dp], [3,3])
-     !!     B = [1.0_dp, -2.0_dp, 0.0_dp]
-     !!     X = solve(A, B)
-     !!
+     !> Linear system solve, _one, real(dp)
      function la_dsolve_one(a,b,overwrite_a,err) result(x)
          !> Input matrix a[n,n]
          real(dp),intent(inout),target :: a(:,:)
@@ -280,42 +210,7 @@ module la_solve
 
      end function la_dsolve_one
 
-     !> @brief Solves a system of linear equations A * X = B.
-     !!
-     !! This function computes the solution to a real system of linear equations:
-     !!
-     !!     A * X = B
-     !!
-     !! where A is an `n x n` square matrix, and B is either a vector (`n`) or a matrix (`n x nrhs`).
-     !! The solution X is returned as an allocatable array.
-     !!
-     !! @tparam T Data type of the matrix and vectors (real or complex).
-     !! @tparam N Size of the square matrix A.
-     !! @tparam NRHS Number of right-hand sides (optional, default is 1).
-     !!
-     !! @param[in,out] A The input square matrix of size `n x n`. If `overwrite_a` is true,
-     !!                  the contents of A may be modified during computation.
-     !! @param[in] B The right-hand side vector (size `n`) or matrix (size `n x nrhs`).
-     !! @param[in] overwrite_a (Optional) If true, A may be overwritten and destroyed. Default is false.
-     !! @param[out] err (Optional) A state return flag. If an error occurs and `err` is not provided,
-     !!                 the function will stop execution.
-     !!
-     !! @return Solution matrix X of size `n` (for a single right-hand side) or `n x nrhs`.
-     !!
-     !! @note This function relies on LAPACK LU decomposition based solvers `*GESV`.
-     !!
-     !! @warning If `overwrite_a` is enabled, the original contents of A may be lost.
-     !!
-     !! @example
-     !!
-     !!     real(kind=dp), allocatable :: A(:,:), B(:), X(:)
-     !!     allocate(A(3,3), B(3))
-     !!     A = reshape([3.0_dp, 2.0_dp, -1.0_dp, &
-     !!                  2.0_dp, -2.0_dp, 4.0_dp, &
-     !!                 -1.0_dp, 0.5_dp, -1.0_dp], [3,3])
-     !!     B = [1.0_dp, -2.0_dp, 0.0_dp]
-     !!     X = solve(A, B)
-     !!
+     !> Linear system solve, _one, real(qp)
      function la_qsolve_one(a,b,overwrite_a,err) result(x)
          !> Input matrix a[n,n]
          real(qp),intent(inout),target :: a(:,:)
@@ -383,42 +278,7 @@ module la_solve
 
      end function la_qsolve_one
 
-     !> @brief Solves a system of linear equations A * X = B.
-     !!
-     !! This function computes the solution to a real system of linear equations:
-     !!
-     !!     A * X = B
-     !!
-     !! where A is an `n x n` square matrix, and B is either a vector (`n`) or a matrix (`n x nrhs`).
-     !! The solution X is returned as an allocatable array.
-     !!
-     !! @tparam T Data type of the matrix and vectors (real or complex).
-     !! @tparam N Size of the square matrix A.
-     !! @tparam NRHS Number of right-hand sides (optional, default is 1).
-     !!
-     !! @param[in,out] A The input square matrix of size `n x n`. If `overwrite_a` is true,
-     !!                  the contents of A may be modified during computation.
-     !! @param[in] B The right-hand side vector (size `n`) or matrix (size `n x nrhs`).
-     !! @param[in] overwrite_a (Optional) If true, A may be overwritten and destroyed. Default is false.
-     !! @param[out] err (Optional) A state return flag. If an error occurs and `err` is not provided,
-     !!                 the function will stop execution.
-     !!
-     !! @return Solution matrix X of size `n` (for a single right-hand side) or `n x nrhs`.
-     !!
-     !! @note This function relies on LAPACK LU decomposition based solvers `*GESV`.
-     !!
-     !! @warning If `overwrite_a` is enabled, the original contents of A may be lost.
-     !!
-     !! @example
-     !!
-     !!     real(kind=dp), allocatable :: A(:,:), B(:), X(:)
-     !!     allocate(A(3,3), B(3))
-     !!     A = reshape([3.0_dp, 2.0_dp, -1.0_dp, &
-     !!                  2.0_dp, -2.0_dp, 4.0_dp, &
-     !!                 -1.0_dp, 0.5_dp, -1.0_dp], [3,3])
-     !!     B = [1.0_dp, -2.0_dp, 0.0_dp]
-     !!     X = solve(A, B)
-     !!
+     !> Linear system solve, _one, complex(sp)
      function la_csolve_one(a,b,overwrite_a,err) result(x)
          !> Input matrix a[n,n]
          complex(sp),intent(inout),target :: a(:,:)
@@ -486,42 +346,7 @@ module la_solve
 
      end function la_csolve_one
 
-     !> @brief Solves a system of linear equations A * X = B.
-     !!
-     !! This function computes the solution to a real system of linear equations:
-     !!
-     !!     A * X = B
-     !!
-     !! where A is an `n x n` square matrix, and B is either a vector (`n`) or a matrix (`n x nrhs`).
-     !! The solution X is returned as an allocatable array.
-     !!
-     !! @tparam T Data type of the matrix and vectors (real or complex).
-     !! @tparam N Size of the square matrix A.
-     !! @tparam NRHS Number of right-hand sides (optional, default is 1).
-     !!
-     !! @param[in,out] A The input square matrix of size `n x n`. If `overwrite_a` is true,
-     !!                  the contents of A may be modified during computation.
-     !! @param[in] B The right-hand side vector (size `n`) or matrix (size `n x nrhs`).
-     !! @param[in] overwrite_a (Optional) If true, A may be overwritten and destroyed. Default is false.
-     !! @param[out] err (Optional) A state return flag. If an error occurs and `err` is not provided,
-     !!                 the function will stop execution.
-     !!
-     !! @return Solution matrix X of size `n` (for a single right-hand side) or `n x nrhs`.
-     !!
-     !! @note This function relies on LAPACK LU decomposition based solvers `*GESV`.
-     !!
-     !! @warning If `overwrite_a` is enabled, the original contents of A may be lost.
-     !!
-     !! @example
-     !!
-     !!     real(kind=dp), allocatable :: A(:,:), B(:), X(:)
-     !!     allocate(A(3,3), B(3))
-     !!     A = reshape([3.0_dp, 2.0_dp, -1.0_dp, &
-     !!                  2.0_dp, -2.0_dp, 4.0_dp, &
-     !!                 -1.0_dp, 0.5_dp, -1.0_dp], [3,3])
-     !!     B = [1.0_dp, -2.0_dp, 0.0_dp]
-     !!     X = solve(A, B)
-     !!
+     !> Linear system solve, _one, complex(dp)
      function la_zsolve_one(a,b,overwrite_a,err) result(x)
          !> Input matrix a[n,n]
          complex(dp),intent(inout),target :: a(:,:)
@@ -589,42 +414,7 @@ module la_solve
 
      end function la_zsolve_one
 
-     !> @brief Solves a system of linear equations A * X = B.
-     !!
-     !! This function computes the solution to a real system of linear equations:
-     !!
-     !!     A * X = B
-     !!
-     !! where A is an `n x n` square matrix, and B is either a vector (`n`) or a matrix (`n x nrhs`).
-     !! The solution X is returned as an allocatable array.
-     !!
-     !! @tparam T Data type of the matrix and vectors (real or complex).
-     !! @tparam N Size of the square matrix A.
-     !! @tparam NRHS Number of right-hand sides (optional, default is 1).
-     !!
-     !! @param[in,out] A The input square matrix of size `n x n`. If `overwrite_a` is true,
-     !!                  the contents of A may be modified during computation.
-     !! @param[in] B The right-hand side vector (size `n`) or matrix (size `n x nrhs`).
-     !! @param[in] overwrite_a (Optional) If true, A may be overwritten and destroyed. Default is false.
-     !! @param[out] err (Optional) A state return flag. If an error occurs and `err` is not provided,
-     !!                 the function will stop execution.
-     !!
-     !! @return Solution matrix X of size `n` (for a single right-hand side) or `n x nrhs`.
-     !!
-     !! @note This function relies on LAPACK LU decomposition based solvers `*GESV`.
-     !!
-     !! @warning If `overwrite_a` is enabled, the original contents of A may be lost.
-     !!
-     !! @example
-     !!
-     !!     real(kind=dp), allocatable :: A(:,:), B(:), X(:)
-     !!     allocate(A(3,3), B(3))
-     !!     A = reshape([3.0_dp, 2.0_dp, -1.0_dp, &
-     !!                  2.0_dp, -2.0_dp, 4.0_dp, &
-     !!                 -1.0_dp, 0.5_dp, -1.0_dp], [3,3])
-     !!     B = [1.0_dp, -2.0_dp, 0.0_dp]
-     !!     X = solve(A, B)
-     !!
+     !> Linear system solve, _one, complex(qp)
      function la_wsolve_one(a,b,overwrite_a,err) result(x)
          !> Input matrix a[n,n]
          complex(qp),intent(inout),target :: a(:,:)
@@ -692,42 +482,7 @@ module la_solve
 
      end function la_wsolve_one
 
-     !> @brief Solves a system of linear equations A * X = B.
-     !!
-     !! This function computes the solution to a real system of linear equations:
-     !!
-     !!     A * X = B
-     !!
-     !! where A is an `n x n` square matrix, and B is either a vector (`n`) or a matrix (`n x nrhs`).
-     !! The solution X is returned as an allocatable array.
-     !!
-     !! @tparam T Data type of the matrix and vectors (real or complex).
-     !! @tparam N Size of the square matrix A.
-     !! @tparam NRHS Number of right-hand sides (optional, default is 1).
-     !!
-     !! @param[in,out] A The input square matrix of size `n x n`. If `overwrite_a` is true,
-     !!                  the contents of A may be modified during computation.
-     !! @param[in] B The right-hand side vector (size `n`) or matrix (size `n x nrhs`).
-     !! @param[in] overwrite_a (Optional) If true, A may be overwritten and destroyed. Default is false.
-     !! @param[out] err (Optional) A state return flag. If an error occurs and `err` is not provided,
-     !!                 the function will stop execution.
-     !!
-     !! @return Solution matrix X of size `n` (for a single right-hand side) or `n x nrhs`.
-     !!
-     !! @note This function relies on LAPACK LU decomposition based solvers `*GESV`.
-     !!
-     !! @warning If `overwrite_a` is enabled, the original contents of A may be lost.
-     !!
-     !! @example
-     !!
-     !!     real(kind=dp), allocatable :: A(:,:), B(:), X(:)
-     !!     allocate(A(3,3), B(3))
-     !!     A = reshape([3.0_dp, 2.0_dp, -1.0_dp, &
-     !!                  2.0_dp, -2.0_dp, 4.0_dp, &
-     !!                 -1.0_dp, 0.5_dp, -1.0_dp], [3,3])
-     !!     B = [1.0_dp, -2.0_dp, 0.0_dp]
-     !!     X = solve(A, B)
-     !!
+     !> Linear system solve, _multiple, real(sp)
      function la_ssolve_multiple(a,b,overwrite_a,err) result(x)
          !> Input matrix a[n,n]
          real(sp),intent(inout),target :: a(:,:)
@@ -795,42 +550,7 @@ module la_solve
 
      end function la_ssolve_multiple
 
-     !> @brief Solves a system of linear equations A * X = B.
-     !!
-     !! This function computes the solution to a real system of linear equations:
-     !!
-     !!     A * X = B
-     !!
-     !! where A is an `n x n` square matrix, and B is either a vector (`n`) or a matrix (`n x nrhs`).
-     !! The solution X is returned as an allocatable array.
-     !!
-     !! @tparam T Data type of the matrix and vectors (real or complex).
-     !! @tparam N Size of the square matrix A.
-     !! @tparam NRHS Number of right-hand sides (optional, default is 1).
-     !!
-     !! @param[in,out] A The input square matrix of size `n x n`. If `overwrite_a` is true,
-     !!                  the contents of A may be modified during computation.
-     !! @param[in] B The right-hand side vector (size `n`) or matrix (size `n x nrhs`).
-     !! @param[in] overwrite_a (Optional) If true, A may be overwritten and destroyed. Default is false.
-     !! @param[out] err (Optional) A state return flag. If an error occurs and `err` is not provided,
-     !!                 the function will stop execution.
-     !!
-     !! @return Solution matrix X of size `n` (for a single right-hand side) or `n x nrhs`.
-     !!
-     !! @note This function relies on LAPACK LU decomposition based solvers `*GESV`.
-     !!
-     !! @warning If `overwrite_a` is enabled, the original contents of A may be lost.
-     !!
-     !! @example
-     !!
-     !!     real(kind=dp), allocatable :: A(:,:), B(:), X(:)
-     !!     allocate(A(3,3), B(3))
-     !!     A = reshape([3.0_dp, 2.0_dp, -1.0_dp, &
-     !!                  2.0_dp, -2.0_dp, 4.0_dp, &
-     !!                 -1.0_dp, 0.5_dp, -1.0_dp], [3,3])
-     !!     B = [1.0_dp, -2.0_dp, 0.0_dp]
-     !!     X = solve(A, B)
-     !!
+     !> Linear system solve, _multiple, real(dp)
      function la_dsolve_multiple(a,b,overwrite_a,err) result(x)
          !> Input matrix a[n,n]
          real(dp),intent(inout),target :: a(:,:)
@@ -898,42 +618,7 @@ module la_solve
 
      end function la_dsolve_multiple
 
-     !> @brief Solves a system of linear equations A * X = B.
-     !!
-     !! This function computes the solution to a real system of linear equations:
-     !!
-     !!     A * X = B
-     !!
-     !! where A is an `n x n` square matrix, and B is either a vector (`n`) or a matrix (`n x nrhs`).
-     !! The solution X is returned as an allocatable array.
-     !!
-     !! @tparam T Data type of the matrix and vectors (real or complex).
-     !! @tparam N Size of the square matrix A.
-     !! @tparam NRHS Number of right-hand sides (optional, default is 1).
-     !!
-     !! @param[in,out] A The input square matrix of size `n x n`. If `overwrite_a` is true,
-     !!                  the contents of A may be modified during computation.
-     !! @param[in] B The right-hand side vector (size `n`) or matrix (size `n x nrhs`).
-     !! @param[in] overwrite_a (Optional) If true, A may be overwritten and destroyed. Default is false.
-     !! @param[out] err (Optional) A state return flag. If an error occurs and `err` is not provided,
-     !!                 the function will stop execution.
-     !!
-     !! @return Solution matrix X of size `n` (for a single right-hand side) or `n x nrhs`.
-     !!
-     !! @note This function relies on LAPACK LU decomposition based solvers `*GESV`.
-     !!
-     !! @warning If `overwrite_a` is enabled, the original contents of A may be lost.
-     !!
-     !! @example
-     !!
-     !!     real(kind=dp), allocatable :: A(:,:), B(:), X(:)
-     !!     allocate(A(3,3), B(3))
-     !!     A = reshape([3.0_dp, 2.0_dp, -1.0_dp, &
-     !!                  2.0_dp, -2.0_dp, 4.0_dp, &
-     !!                 -1.0_dp, 0.5_dp, -1.0_dp], [3,3])
-     !!     B = [1.0_dp, -2.0_dp, 0.0_dp]
-     !!     X = solve(A, B)
-     !!
+     !> Linear system solve, _multiple, real(qp)
      function la_qsolve_multiple(a,b,overwrite_a,err) result(x)
          !> Input matrix a[n,n]
          real(qp),intent(inout),target :: a(:,:)
@@ -1001,42 +686,7 @@ module la_solve
 
      end function la_qsolve_multiple
 
-     !> @brief Solves a system of linear equations A * X = B.
-     !!
-     !! This function computes the solution to a real system of linear equations:
-     !!
-     !!     A * X = B
-     !!
-     !! where A is an `n x n` square matrix, and B is either a vector (`n`) or a matrix (`n x nrhs`).
-     !! The solution X is returned as an allocatable array.
-     !!
-     !! @tparam T Data type of the matrix and vectors (real or complex).
-     !! @tparam N Size of the square matrix A.
-     !! @tparam NRHS Number of right-hand sides (optional, default is 1).
-     !!
-     !! @param[in,out] A The input square matrix of size `n x n`. If `overwrite_a` is true,
-     !!                  the contents of A may be modified during computation.
-     !! @param[in] B The right-hand side vector (size `n`) or matrix (size `n x nrhs`).
-     !! @param[in] overwrite_a (Optional) If true, A may be overwritten and destroyed. Default is false.
-     !! @param[out] err (Optional) A state return flag. If an error occurs and `err` is not provided,
-     !!                 the function will stop execution.
-     !!
-     !! @return Solution matrix X of size `n` (for a single right-hand side) or `n x nrhs`.
-     !!
-     !! @note This function relies on LAPACK LU decomposition based solvers `*GESV`.
-     !!
-     !! @warning If `overwrite_a` is enabled, the original contents of A may be lost.
-     !!
-     !! @example
-     !!
-     !!     real(kind=dp), allocatable :: A(:,:), B(:), X(:)
-     !!     allocate(A(3,3), B(3))
-     !!     A = reshape([3.0_dp, 2.0_dp, -1.0_dp, &
-     !!                  2.0_dp, -2.0_dp, 4.0_dp, &
-     !!                 -1.0_dp, 0.5_dp, -1.0_dp], [3,3])
-     !!     B = [1.0_dp, -2.0_dp, 0.0_dp]
-     !!     X = solve(A, B)
-     !!
+     !> Linear system solve, _multiple, complex(sp)
      function la_csolve_multiple(a,b,overwrite_a,err) result(x)
          !> Input matrix a[n,n]
          complex(sp),intent(inout),target :: a(:,:)
@@ -1104,42 +754,7 @@ module la_solve
 
      end function la_csolve_multiple
 
-     !> @brief Solves a system of linear equations A * X = B.
-     !!
-     !! This function computes the solution to a real system of linear equations:
-     !!
-     !!     A * X = B
-     !!
-     !! where A is an `n x n` square matrix, and B is either a vector (`n`) or a matrix (`n x nrhs`).
-     !! The solution X is returned as an allocatable array.
-     !!
-     !! @tparam T Data type of the matrix and vectors (real or complex).
-     !! @tparam N Size of the square matrix A.
-     !! @tparam NRHS Number of right-hand sides (optional, default is 1).
-     !!
-     !! @param[in,out] A The input square matrix of size `n x n`. If `overwrite_a` is true,
-     !!                  the contents of A may be modified during computation.
-     !! @param[in] B The right-hand side vector (size `n`) or matrix (size `n x nrhs`).
-     !! @param[in] overwrite_a (Optional) If true, A may be overwritten and destroyed. Default is false.
-     !! @param[out] err (Optional) A state return flag. If an error occurs and `err` is not provided,
-     !!                 the function will stop execution.
-     !!
-     !! @return Solution matrix X of size `n` (for a single right-hand side) or `n x nrhs`.
-     !!
-     !! @note This function relies on LAPACK LU decomposition based solvers `*GESV`.
-     !!
-     !! @warning If `overwrite_a` is enabled, the original contents of A may be lost.
-     !!
-     !! @example
-     !!
-     !!     real(kind=dp), allocatable :: A(:,:), B(:), X(:)
-     !!     allocate(A(3,3), B(3))
-     !!     A = reshape([3.0_dp, 2.0_dp, -1.0_dp, &
-     !!                  2.0_dp, -2.0_dp, 4.0_dp, &
-     !!                 -1.0_dp, 0.5_dp, -1.0_dp], [3,3])
-     !!     B = [1.0_dp, -2.0_dp, 0.0_dp]
-     !!     X = solve(A, B)
-     !!
+     !> Linear system solve, _multiple, complex(dp)
      function la_zsolve_multiple(a,b,overwrite_a,err) result(x)
          !> Input matrix a[n,n]
          complex(dp),intent(inout),target :: a(:,:)
@@ -1207,42 +822,7 @@ module la_solve
 
      end function la_zsolve_multiple
 
-     !> @brief Solves a system of linear equations A * X = B.
-     !!
-     !! This function computes the solution to a real system of linear equations:
-     !!
-     !!     A * X = B
-     !!
-     !! where A is an `n x n` square matrix, and B is either a vector (`n`) or a matrix (`n x nrhs`).
-     !! The solution X is returned as an allocatable array.
-     !!
-     !! @tparam T Data type of the matrix and vectors (real or complex).
-     !! @tparam N Size of the square matrix A.
-     !! @tparam NRHS Number of right-hand sides (optional, default is 1).
-     !!
-     !! @param[in,out] A The input square matrix of size `n x n`. If `overwrite_a` is true,
-     !!                  the contents of A may be modified during computation.
-     !! @param[in] B The right-hand side vector (size `n`) or matrix (size `n x nrhs`).
-     !! @param[in] overwrite_a (Optional) If true, A may be overwritten and destroyed. Default is false.
-     !! @param[out] err (Optional) A state return flag. If an error occurs and `err` is not provided,
-     !!                 the function will stop execution.
-     !!
-     !! @return Solution matrix X of size `n` (for a single right-hand side) or `n x nrhs`.
-     !!
-     !! @note This function relies on LAPACK LU decomposition based solvers `*GESV`.
-     !!
-     !! @warning If `overwrite_a` is enabled, the original contents of A may be lost.
-     !!
-     !! @example
-     !!
-     !!     real(kind=dp), allocatable :: A(:,:), B(:), X(:)
-     !!     allocate(A(3,3), B(3))
-     !!     A = reshape([3.0_dp, 2.0_dp, -1.0_dp, &
-     !!                  2.0_dp, -2.0_dp, 4.0_dp, &
-     !!                 -1.0_dp, 0.5_dp, -1.0_dp], [3,3])
-     !!     B = [1.0_dp, -2.0_dp, 0.0_dp]
-     !!     X = solve(A, B)
-     !!
+     !> Linear system solve, _multiple, complex(qp)
      function la_wsolve_multiple(a,b,overwrite_a,err) result(x)
          !> Input matrix a[n,n]
          complex(qp),intent(inout),target :: a(:,:)

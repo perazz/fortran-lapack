@@ -104,6 +104,7 @@ OPTIMIZE_OUTPUT_VHDL   = NO
 
 
 EXTENSION_MAPPING      = .F90=Fortran
+EXTENSION_MAPPING     += .f90=Fortran
 
 # If the MARKDOWN_SUPPORT tag is enabled then doxygen pre-processes all comments
 # according to the Markdown format, which allows for more readable
@@ -385,7 +386,7 @@ TREEVIEW_WIDTH         = 250
 EXT_LINKS_IN_WINDOW    = NO
 FORMULA_FONTSIZE       = 10
 FORMULA_TRANSPARENT    = YES
-USE_MATHJAX            = YES
+USE_MATHJAX            = NO
 MATHJAX_RELPATH        = http://www.mathjax.org/mathjax
 SEARCHENGINE           = YES
 SERVER_BASED_SEARCH    = NO
