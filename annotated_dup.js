@@ -573,6 +573,20 @@ var annotated_dup =
       [ "upgtr", "interfacela__lapack_1_1upgtr.html", "interfacela__lapack_1_1upgtr" ],
       [ "upmtr", "interfacela__lapack_1_1upmtr.html", "interfacela__lapack_1_1upmtr" ]
     ] ],
+    [ "la_lapack_aux", "namespacela__lapack__aux.html", [
+      [ "la_selctg_c", "interfacela__lapack__aux_1_1la__selctg__c.html", "interfacela__lapack__aux_1_1la__selctg__c" ],
+      [ "la_selctg_d", "interfacela__lapack__aux_1_1la__selctg__d.html", "interfacela__lapack__aux_1_1la__selctg__d" ],
+      [ "la_selctg_q", "interfacela__lapack__aux_1_1la__selctg__q.html", "interfacela__lapack__aux_1_1la__selctg__q" ],
+      [ "la_selctg_s", "interfacela__lapack__aux_1_1la__selctg__s.html", "interfacela__lapack__aux_1_1la__selctg__s" ],
+      [ "la_selctg_w", "interfacela__lapack__aux_1_1la__selctg__w.html", "interfacela__lapack__aux_1_1la__selctg__w" ],
+      [ "la_selctg_z", "interfacela__lapack__aux_1_1la__selctg__z.html", "interfacela__lapack__aux_1_1la__selctg__z" ],
+      [ "la_select_c", "interfacela__lapack__aux_1_1la__select__c.html", "interfacela__lapack__aux_1_1la__select__c" ],
+      [ "la_select_d", "interfacela__lapack__aux_1_1la__select__d.html", "interfacela__lapack__aux_1_1la__select__d" ],
+      [ "la_select_q", "interfacela__lapack__aux_1_1la__select__q.html", "interfacela__lapack__aux_1_1la__select__q" ],
+      [ "la_select_s", "interfacela__lapack__aux_1_1la__select__s.html", "interfacela__lapack__aux_1_1la__select__s" ],
+      [ "la_select_w", "interfacela__lapack__aux_1_1la__select__w.html", "interfacela__lapack__aux_1_1la__select__w" ],
+      [ "la_select_z", "interfacela__lapack__aux_1_1la__select__z.html", "interfacela__lapack__aux_1_1la__select__z" ]
+    ] ],
     [ "la_least_squares", "namespacela__least__squares.html", [
       [ "lstsq", "interfacela__least__squares_1_1lstsq.html", "interfacela__least__squares_1_1lstsq" ]
     ] ],

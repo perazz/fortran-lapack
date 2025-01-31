@@ -1,0 +1,7 @@
+<map id="la_blas::rot::drot" name="la_blas::rot::drot">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,31,133,56"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__d.html#a634a5fa010ee5ac738740e469309288b" title="DROT: applies a plane rotation." alt="" coords="181,5,317,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="133,32,167,27,168,32,134,37"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__q.html#a04f23c1d19ab365fa02ac1ec56ee43a3" title="DROT: applies a plane rotation." alt="" coords="181,55,317,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="134,49,168,54,167,59,133,55"/>
+</map>

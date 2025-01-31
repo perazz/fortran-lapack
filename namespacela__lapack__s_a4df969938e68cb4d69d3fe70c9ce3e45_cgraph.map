@@ -1,5 +1,11 @@
 <map id="la_lapack_s::la_sormr2" name="la_lapack_s::la_sormr2">
-<area shape="rect" id="Node000001" title="SORMR2: overwrites the general real m by n matrix C with Q * C if SIDE = &#39;L&#39; and TRANS = &#39;N&#39;,..." alt="" coords="5,5,176,31"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#afe74baa9cec84eae9cb50ed04c85340c" title="SLARF: applies a real elementary reflector H to a real m by n matrix C, from either the left or the r..." alt="" coords="224,5,379,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="176,15,210,15,210,21,176,21"/>
+<area shape="rect" id="Node000001" title="SORMR2: overwrites the general real m by n matrix C with Q * C if SIDE = &#39;L&#39; and TRANS = &#39;N&#39;,..." alt="" coords="5,67,176,92"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#afe74baa9cec84eae9cb50ed04c85340c" title="SLARF: applies a real elementary reflector H to a real m by n matrix C, from either the left or the r..." alt="" coords="224,67,379,92"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="176,77,210,77,210,82,176,82"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__aux.html#ab982c17ecc1d9fcfd510bef30fe083be" title="ILASLC: scans A for its last non&#45;zero column." alt="" coords="427,29,603,55"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="374,64,428,54,429,60,375,69"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__aux.html#a1abc101c5f65760eafb8b98e3f41e083" title="ILASLR: scans A for its last non&#45;zero row." alt="" coords="427,103,602,128"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="377,89,426,98,425,103,376,95"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="480,31,472,21,476,11,491,5,515,3,544,6,556,15,553,20,542,11,515,8,492,10,480,15,477,20,484,28"/>
+<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="480,104,472,94,476,84,491,78,515,76,544,80,556,89,553,93,542,85,515,81,492,83,480,88,477,94,484,101"/>
 </map>

@@ -97,38 +97,67 @@ $(document).ready(function(){initNavTree('interfacela__least__squares_1_1lstsq.h
 </div><!--header-->
 <div class="contents">
 
-<p>Compute a least squares solution to system Ax=b, i.e. such that the 2-norm abs(b-Ax) is minimized.  
+<p>Compute a least squares solution to system <img class="formulaInl" alt="$ A \cdot x = b $" src="form_0.png"/>, i.e. such that the 2-norm <img class="formulaInl" alt="$ \|b - A \cdot x\| $" src="form_1.png"/> is minimized.  
  <a href="interfacela__least__squares_1_1lstsq.html#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:ad3b34041db003841927ea57897e62a9a" id="r_ad3b34041db003841927ea57897e62a9a"><td class="memItemLeft" align="right" valign="top">real(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>) function, dimension(:), allocatable, target&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interfacela__least__squares_1_1lstsq.html#ad3b34041db003841927ea57897e62a9a">la_slstsq_one</a> (a, b, cond, overwrite_a, rank, err)</td></tr>
+<tr class="memdesc:ad3b34041db003841927ea57897e62a9a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the least-squares solution to a real system of linear equations Ax = B.  <br /></td></tr>
 <tr class="separator:ad3b34041db003841927ea57897e62a9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7e4b86e65629ac300c398ec8f73dc8f7" id="r_a7e4b86e65629ac300c398ec8f73dc8f7"><td class="memItemLeft" align="right" valign="top">real(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>) function, dimension(:), allocatable, target&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interfacela__least__squares_1_1lstsq.html#a7e4b86e65629ac300c398ec8f73dc8f7">la_dlstsq_one</a> (a, b, cond, overwrite_a, rank, err)</td></tr>
+<tr class="memdesc:a7e4b86e65629ac300c398ec8f73dc8f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the least-squares solution to a real system of linear equations Ax = B.  <br /></td></tr>
 <tr class="separator:a7e4b86e65629ac300c398ec8f73dc8f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a661b4415d27cad031b366292cb6a35c4" id="r_a661b4415d27cad031b366292cb6a35c4"><td class="memItemLeft" align="right" valign="top">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>) function, dimension(:), allocatable, target&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interfacela__least__squares_1_1lstsq.html#a661b4415d27cad031b366292cb6a35c4">la_qlstsq_one</a> (a, b, cond, overwrite_a, rank, err)</td></tr>
+<tr class="memdesc:a661b4415d27cad031b366292cb6a35c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the least-squares solution to a real system of linear equations Ax = B.  <br /></td></tr>
 <tr class="separator:a661b4415d27cad031b366292cb6a35c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a98291f09401d13b7615dd7abe7ac4f8c" id="r_a98291f09401d13b7615dd7abe7ac4f8c"><td class="memItemLeft" align="right" valign="top">complex(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>) function, dimension(:), allocatable, target&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interfacela__least__squares_1_1lstsq.html#a98291f09401d13b7615dd7abe7ac4f8c">la_clstsq_one</a> (a, b, cond, overwrite_a, rank, err)</td></tr>
+<tr class="memdesc:a98291f09401d13b7615dd7abe7ac4f8c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the least-squares solution to a real system of linear equations Ax = B.  <br /></td></tr>
 <tr class="separator:a98291f09401d13b7615dd7abe7ac4f8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0c0d6f6b26a48fd1c8b49acc7d8be98b" id="r_a0c0d6f6b26a48fd1c8b49acc7d8be98b"><td class="memItemLeft" align="right" valign="top">complex(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>) function, dimension(:), allocatable, target&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interfacela__least__squares_1_1lstsq.html#a0c0d6f6b26a48fd1c8b49acc7d8be98b">la_zlstsq_one</a> (a, b, cond, overwrite_a, rank, err)</td></tr>
+<tr class="memdesc:a0c0d6f6b26a48fd1c8b49acc7d8be98b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the least-squares solution to a real system of linear equations Ax = B.  <br /></td></tr>
 <tr class="separator:a0c0d6f6b26a48fd1c8b49acc7d8be98b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7cebd49e27f13de32703813dbaff9d70" id="r_a7cebd49e27f13de32703813dbaff9d70"><td class="memItemLeft" align="right" valign="top">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>) function, dimension(:), allocatable, target&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interfacela__least__squares_1_1lstsq.html#a7cebd49e27f13de32703813dbaff9d70">la_wlstsq_one</a> (a, b, cond, overwrite_a, rank, err)</td></tr>
+<tr class="memdesc:a7cebd49e27f13de32703813dbaff9d70"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the least-squares solution to a real system of linear equations Ax = B.  <br /></td></tr>
 <tr class="separator:a7cebd49e27f13de32703813dbaff9d70"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab2914f19bd154b9a2368c86c87c6eae9" id="r_ab2914f19bd154b9a2368c86c87c6eae9"><td class="memItemLeft" align="right" valign="top">real(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>) function, dimension(:,:), allocatable, target&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interfacela__least__squares_1_1lstsq.html#ab2914f19bd154b9a2368c86c87c6eae9">la_slstsq_multiple</a> (a, b, cond, overwrite_a, rank, err)</td></tr>
+<tr class="memdesc:ab2914f19bd154b9a2368c86c87c6eae9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the least-squares solution to a real system of linear equations Ax = B.  <br /></td></tr>
 <tr class="separator:ab2914f19bd154b9a2368c86c87c6eae9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab68bfbfada3e5ee4363d87e3d2c8551a" id="r_ab68bfbfada3e5ee4363d87e3d2c8551a"><td class="memItemLeft" align="right" valign="top">real(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>) function, dimension(:,:), allocatable, target&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interfacela__least__squares_1_1lstsq.html#ab68bfbfada3e5ee4363d87e3d2c8551a">la_dlstsq_multiple</a> (a, b, cond, overwrite_a, rank, err)</td></tr>
+<tr class="memdesc:ab68bfbfada3e5ee4363d87e3d2c8551a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the least-squares solution to a real system of linear equations Ax = B.  <br /></td></tr>
 <tr class="separator:ab68bfbfada3e5ee4363d87e3d2c8551a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0748396b893be0d2ef1b28e35babb30f" id="r_a0748396b893be0d2ef1b28e35babb30f"><td class="memItemLeft" align="right" valign="top">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>) function, dimension(:,:), allocatable, target&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interfacela__least__squares_1_1lstsq.html#a0748396b893be0d2ef1b28e35babb30f">la_qlstsq_multiple</a> (a, b, cond, overwrite_a, rank, err)</td></tr>
+<tr class="memdesc:a0748396b893be0d2ef1b28e35babb30f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the least-squares solution to a real system of linear equations Ax = B.  <br /></td></tr>
 <tr class="separator:a0748396b893be0d2ef1b28e35babb30f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9a3bdc9c451634cc0ea3954e67cac6b8" id="r_a9a3bdc9c451634cc0ea3954e67cac6b8"><td class="memItemLeft" align="right" valign="top">complex(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>) function, dimension(:,:), allocatable, target&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interfacela__least__squares_1_1lstsq.html#a9a3bdc9c451634cc0ea3954e67cac6b8">la_clstsq_multiple</a> (a, b, cond, overwrite_a, rank, err)</td></tr>
+<tr class="memdesc:a9a3bdc9c451634cc0ea3954e67cac6b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the least-squares solution to a real system of linear equations Ax = B.  <br /></td></tr>
 <tr class="separator:a9a3bdc9c451634cc0ea3954e67cac6b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac716e8f1f980b78e20f37a4d23d06e61" id="r_ac716e8f1f980b78e20f37a4d23d06e61"><td class="memItemLeft" align="right" valign="top">complex(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>) function, dimension(:,:), allocatable, target&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interfacela__least__squares_1_1lstsq.html#ac716e8f1f980b78e20f37a4d23d06e61">la_zlstsq_multiple</a> (a, b, cond, overwrite_a, rank, err)</td></tr>
+<tr class="memdesc:ac716e8f1f980b78e20f37a4d23d06e61"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the least-squares solution to a real system of linear equations Ax = B.  <br /></td></tr>
 <tr class="separator:ac716e8f1f980b78e20f37a4d23d06e61"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac21f5d10ba3c7546239bdcfb7d1bc570" id="r_ac21f5d10ba3c7546239bdcfb7d1bc570"><td class="memItemLeft" align="right" valign="top">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>) function, dimension(:,:), allocatable, target&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interfacela__least__squares_1_1lstsq.html#ac21f5d10ba3c7546239bdcfb7d1bc570">la_wlstsq_multiple</a> (a, b, cond, overwrite_a, rank, err)</td></tr>
+<tr class="memdesc:ac21f5d10ba3c7546239bdcfb7d1bc570"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the least-squares solution to a real system of linear equations Ax = B.  <br /></td></tr>
 <tr class="separator:ac21f5d10ba3c7546239bdcfb7d1bc570"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Compute a least squares solution to system Ax=b, i.e. such that the 2-norm abs(b-Ax) is minimized. </p>
+<div class="textblock"><p>Compute a least squares solution to system <img class="formulaInl" alt="$ A \cdot x = b $" src="form_0.png"/>, i.e. such that the 2-norm <img class="formulaInl" alt="$ \|b - A \cdot x\| $" src="form_1.png"/> is minimized. </p>
+<p>This function computes the least-squares solution to a real system of linear equations:</p>
+<p><img class="formulaInl" alt="$ A \cdot x = b $" src="form_0.png"/></p>
+<p>where A is an <code>n x n</code> matrix and b is either a vector (<code>n</code>) or a matrix (<code>n x nrhs</code>). The solution <code>x</code> is returned as an allocatable array.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>The input matrix of size <code>n x n</code>. If <code>overwrite_a</code> is true, the contents of A may be modified during computation. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>The right-hand side vector (<code>n</code>) or matrix (<code>n x nrhs</code>). </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">cond</td><td>(Optional) A cutoff for rank evaluation: singular values <img class="formulaInl" alt="$ s(i) $" src="form_2.png"/> such that <img class="formulaInl" alt="$ s(i) \leq \text{cond} \cdot \max(s) $" src="form_3.png"/> are considered zero. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>(Optional) If true, A and B may be overwritten and destroyed. Default is false. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">rank</td><td>(Optional) The rank of the matrix A. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>(Optional) A state return flag. If an error occurs and <code>err</code> is not provided, the function will stop execution.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Solution matrix <code>x</code> of size <code>n</code> (for a single right-hand side) or <code>n x nrhs</code>.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This function relies on LAPACK least-squares solvers such as <code>[*GELSS](@ref <a class="el" href="interfacela__lapack_1_1gelss.html" title="GELSS: computes the minimum norm solution to a complex linear least squares problem: Minimize 2-norm(...">la_lapack::gelss</a>)</code>.</dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>If <code>overwrite_a</code> is enabled, the original contents of A and B may be lost. </dd></dl>
 </div><h2 class="groupheader">Member Function/Subroutine Documentation</h2>
 <a id="a9a3bdc9c451634cc0ea3954e67cac6b8" name="a9a3bdc9c451634cc0ea3954e67cac6b8"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9a3bdc9c451634cc0ea3954e67cac6b8">&#9670;&#160;</a></span>la_clstsq_multiple()</h2>
@@ -179,14 +208,16 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Compute the least-squares solution to a real system of linear equations Ax = B. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[n,n]</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>Right hand side vector or array, b[n] or b[n,nrhs]</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">cond</td><td>[optional] cutoff for rank evaluation: singular values s(i)&lt;=cond*maxval(s) are considered 0.</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A,b data be overwritten and destroyed?</td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">rank</td><td>[optional] Return rank of A</td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop</td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[n,n] </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>Right hand side vector or array, b[n] or b[n,nrhs] </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">cond</td><td>[optional] cutoff for rank evaluation: singular values s(i)&lt;=cond*maxval(s) are considered 0. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A,b data be overwritten and destroyed? </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">rank</td><td>[optional] Return rank of A </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop </td></tr>
   </table>
   </dd>
 </dl>
@@ -243,14 +274,16 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Compute the least-squares solution to a real system of linear equations Ax = B. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[n,n]</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>Right hand side vector or array, b[n] or b[n,nrhs]</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">cond</td><td>[optional] cutoff for rank evaluation: singular values s(i)&lt;=cond*maxval(s) are considered 0.</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A,b data be overwritten and destroyed?</td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">rank</td><td>[optional] Return rank of A</td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop</td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[n,n] </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>Right hand side vector or array, b[n] or b[n,nrhs] </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">cond</td><td>[optional] cutoff for rank evaluation: singular values s(i)&lt;=cond*maxval(s) are considered 0. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A,b data be overwritten and destroyed? </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">rank</td><td>[optional] Return rank of A </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop </td></tr>
   </table>
   </dd>
 </dl>
@@ -307,14 +340,16 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Compute the least-squares solution to a real system of linear equations Ax = B. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[n,n]</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>Right hand side vector or array, b[n] or b[n,nrhs]</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">cond</td><td>[optional] cutoff for rank evaluation: singular values s(i)&lt;=cond*maxval(s) are considered 0.</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A,b data be overwritten and destroyed?</td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">rank</td><td>[optional] Return rank of A</td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop</td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[n,n] </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>Right hand side vector or array, b[n] or b[n,nrhs] </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">cond</td><td>[optional] cutoff for rank evaluation: singular values s(i)&lt;=cond*maxval(s) are considered 0. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A,b data be overwritten and destroyed? </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">rank</td><td>[optional] Return rank of A </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop </td></tr>
   </table>
   </dd>
 </dl>
@@ -371,14 +406,16 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Compute the least-squares solution to a real system of linear equations Ax = B. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[n,n]</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>Right hand side vector or array, b[n] or b[n,nrhs]</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">cond</td><td>[optional] cutoff for rank evaluation: singular values s(i)&lt;=cond*maxval(s) are considered 0.</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A,b data be overwritten and destroyed?</td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">rank</td><td>[optional] Return rank of A</td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop</td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[n,n] </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>Right hand side vector or array, b[n] or b[n,nrhs] </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">cond</td><td>[optional] cutoff for rank evaluation: singular values s(i)&lt;=cond*maxval(s) are considered 0. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A,b data be overwritten and destroyed? </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">rank</td><td>[optional] Return rank of A </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop </td></tr>
   </table>
   </dd>
 </dl>
@@ -435,14 +472,16 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Compute the least-squares solution to a real system of linear equations Ax = B. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[n,n]</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>Right hand side vector or array, b[n] or b[n,nrhs]</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">cond</td><td>[optional] cutoff for rank evaluation: singular values s(i)&lt;=cond*maxval(s) are considered 0.</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A,b data be overwritten and destroyed?</td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">rank</td><td>[optional] Return rank of A</td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop</td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[n,n] </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>Right hand side vector or array, b[n] or b[n,nrhs] </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">cond</td><td>[optional] cutoff for rank evaluation: singular values s(i)&lt;=cond*maxval(s) are considered 0. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A,b data be overwritten and destroyed? </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">rank</td><td>[optional] Return rank of A </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop </td></tr>
   </table>
   </dd>
 </dl>
@@ -499,14 +538,16 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Compute the least-squares solution to a real system of linear equations Ax = B. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[n,n]</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>Right hand side vector or array, b[n] or b[n,nrhs]</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">cond</td><td>[optional] cutoff for rank evaluation: singular values s(i)&lt;=cond*maxval(s) are considered 0.</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A,b data be overwritten and destroyed?</td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">rank</td><td>[optional] Return rank of A</td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop</td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[n,n] </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>Right hand side vector or array, b[n] or b[n,nrhs] </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">cond</td><td>[optional] cutoff for rank evaluation: singular values s(i)&lt;=cond*maxval(s) are considered 0. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A,b data be overwritten and destroyed? </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">rank</td><td>[optional] Return rank of A </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop </td></tr>
   </table>
   </dd>
 </dl>
@@ -563,14 +604,16 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Compute the least-squares solution to a real system of linear equations Ax = B. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[n,n]</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>Right hand side vector or array, b[n] or b[n,nrhs]</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">cond</td><td>[optional] cutoff for rank evaluation: singular values s(i)&lt;=cond*maxval(s) are considered 0.</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A,b data be overwritten and destroyed?</td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">rank</td><td>[optional] Return rank of A</td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop</td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[n,n] </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>Right hand side vector or array, b[n] or b[n,nrhs] </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">cond</td><td>[optional] cutoff for rank evaluation: singular values s(i)&lt;=cond*maxval(s) are considered 0. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A,b data be overwritten and destroyed? </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">rank</td><td>[optional] Return rank of A </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop </td></tr>
   </table>
   </dd>
 </dl>
@@ -627,14 +670,16 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Compute the least-squares solution to a real system of linear equations Ax = B. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[n,n]</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>Right hand side vector or array, b[n] or b[n,nrhs]</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">cond</td><td>[optional] cutoff for rank evaluation: singular values s(i)&lt;=cond*maxval(s) are considered 0.</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A,b data be overwritten and destroyed?</td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">rank</td><td>[optional] Return rank of A</td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop</td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[n,n] </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>Right hand side vector or array, b[n] or b[n,nrhs] </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">cond</td><td>[optional] cutoff for rank evaluation: singular values s(i)&lt;=cond*maxval(s) are considered 0. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A,b data be overwritten and destroyed? </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">rank</td><td>[optional] Return rank of A </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop </td></tr>
   </table>
   </dd>
 </dl>
@@ -691,14 +736,16 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Compute the least-squares solution to a real system of linear equations Ax = B. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[n,n]</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>Right hand side vector or array, b[n] or b[n,nrhs]</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">cond</td><td>[optional] cutoff for rank evaluation: singular values s(i)&lt;=cond*maxval(s) are considered 0.</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A,b data be overwritten and destroyed?</td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">rank</td><td>[optional] Return rank of A</td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop</td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[n,n] </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>Right hand side vector or array, b[n] or b[n,nrhs] </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">cond</td><td>[optional] cutoff for rank evaluation: singular values s(i)&lt;=cond*maxval(s) are considered 0. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A,b data be overwritten and destroyed? </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">rank</td><td>[optional] Return rank of A </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop </td></tr>
   </table>
   </dd>
 </dl>
@@ -755,14 +802,16 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Compute the least-squares solution to a real system of linear equations Ax = B. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[n,n]</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>Right hand side vector or array, b[n] or b[n,nrhs]</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">cond</td><td>[optional] cutoff for rank evaluation: singular values s(i)&lt;=cond*maxval(s) are considered 0.</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A,b data be overwritten and destroyed?</td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">rank</td><td>[optional] Return rank of A</td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop</td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[n,n] </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>Right hand side vector or array, b[n] or b[n,nrhs] </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">cond</td><td>[optional] cutoff for rank evaluation: singular values s(i)&lt;=cond*maxval(s) are considered 0. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A,b data be overwritten and destroyed? </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">rank</td><td>[optional] Return rank of A </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop </td></tr>
   </table>
   </dd>
 </dl>
@@ -819,14 +868,16 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Compute the least-squares solution to a real system of linear equations Ax = B. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[n,n]</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>Right hand side vector or array, b[n] or b[n,nrhs]</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">cond</td><td>[optional] cutoff for rank evaluation: singular values s(i)&lt;=cond*maxval(s) are considered 0.</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A,b data be overwritten and destroyed?</td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">rank</td><td>[optional] Return rank of A</td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop</td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[n,n] </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>Right hand side vector or array, b[n] or b[n,nrhs] </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">cond</td><td>[optional] cutoff for rank evaluation: singular values s(i)&lt;=cond*maxval(s) are considered 0. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A,b data be overwritten and destroyed? </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">rank</td><td>[optional] Return rank of A </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop </td></tr>
   </table>
   </dd>
 </dl>
@@ -883,14 +934,16 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Compute the least-squares solution to a real system of linear equations Ax = B. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[n,n]</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>Right hand side vector or array, b[n] or b[n,nrhs]</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">cond</td><td>[optional] cutoff for rank evaluation: singular values s(i)&lt;=cond*maxval(s) are considered 0.</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A,b data be overwritten and destroyed?</td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">rank</td><td>[optional] Return rank of A</td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop</td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[n,n] </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>Right hand side vector or array, b[n] or b[n,nrhs] </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">cond</td><td>[optional] cutoff for rank evaluation: singular values s(i)&lt;=cond*maxval(s) are considered 0. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A,b data be overwritten and destroyed? </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">rank</td><td>[optional] Return rank of A </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop </td></tr>
   </table>
   </dd>
 </dl>
@@ -907,7 +960,7 @@ Public Member Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacela__least__squares.html">la_least_squares</a></li><li class="navelem"><a class="el" href="interfacela__least__squares_1_1lstsq.html">lstsq</a></li>
-    <li class="footer">Generated on Thu Jan 30 2025 10:58:07 for fortran-lapack by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Fri Jan 31 2025 10:05:01 for fortran-lapack by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

@@ -1,26 +1,32 @@
 <map id="la_lapack_s::la_sorbdb3" name="la_lapack_s::la_sorbdb3">
-<area shape="rect" id="Node000001" title="SORBDB3: simultaneously bidiagonalizes the blocks of a tall and skinny matrix X with orthonomal colum..." alt="" coords="5,103,183,128"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#afe74baa9cec84eae9cb50ed04c85340c" title="SLARF: applies a real elementary reflector H to a real m by n matrix C, from either the left or the r..." alt="" coords="242,53,397,79"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="152,100,247,79,248,84,153,105"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__s.html#a715453b9a55a7e212287986b22e5f960" title="SLARFGP: generates a real elementary reflector H of order n, such that H * ( alpha ) = ( beta ),..." alt="" coords="234,103,405,128"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="183,113,220,113,220,118,183,118"/>
-<area shape="rect" id="Node000008" href="$namespacela__lapack__s.html#ae229dc9dd25a842dc5492fb9bcbbd49f" title="SORBDB5: orthogonalizes the column vector X = [ X1 ] [ X2 ] with respect to the columns of Q = [ Q1 ]..." alt="" coords="231,152,408,177"/>
-<area shape="poly" id="edge12_Node000001_Node000008" title=" " alt="" coords="153,125,248,146,247,152,152,131"/>
-<area shape="rect" id="Node000004" href="$namespacela__lapack__s.html#abbe0ae24f069ddbf134ff3e404a19878" title="SLAMCH: determines single precision machine parameters." alt="" coords="681,29,853,55"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="370,100,407,88,431,75,455,63,509,51,564,44,667,37,667,43,565,49,510,57,457,69,433,80,409,92,371,105"/>
-<area shape="rect" id="Node000005" href="$namespacela__lapack__s.html#a9e70d6d165ba95d10e4f8592c02475c7" title="SLAPY2: returns sqrt(x**2+y**2), taking care not to cause unnecessary overflow and unnecessary underf..." alt="" coords="461,103,629,128"/>
-<area shape="poly" id="edge5_Node000003_Node000005" title=" " alt="" coords="405,113,447,113,447,118,405,118"/>
-<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="731,31,723,21,727,11,742,5,767,3,798,6,810,15,807,20,796,11,767,8,744,10,731,15,729,20,735,28"/>
-<area shape="poly" id="edge10_Node000005_Node000004" title=" " alt="" coords="578,100,680,63,705,56,707,61,682,69,580,105"/>
-<area shape="poly" id="edge11_Node000005_Node000005" title=" " alt="" coords="509,104,501,94,505,84,520,78,545,76,575,80,588,89,584,93,573,85,545,81,521,83,508,88,506,94,513,101"/>
-<area shape="rect" id="Node000006" href="$namespacela__lapack__s.html#af8d4b806648873f614d26ba3f9d00512" title="SISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="684,103,851,128"/>
-<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="629,113,670,113,670,118,629,118"/>
-<area shape="poly" id="edge7_Node000006_Node000006" title=" " alt="" coords="731,104,723,94,727,84,742,78,767,76,798,80,810,89,807,93,796,85,767,81,744,83,731,88,729,94,735,101"/>
-<area shape="rect" id="Node000007" href="$namespacela__lapack__s.html#ab716c1e999e316ce29c31703ef379eb1" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in SISNAN...." alt="" coords="901,103,1080,128"/>
-<area shape="poly" id="edge8_Node000006_Node000007" title=" " alt="" coords="851,113,888,113,888,118,851,118"/>
-<area shape="poly" id="edge9_Node000007_Node000007" title=" " alt="" coords="955,104,947,94,951,84,966,78,991,76,1021,80,1034,89,1030,93,1019,85,991,81,967,83,954,88,952,94,959,101"/>
-<area shape="rect" id="Node000009" href="$namespacela__lapack__s.html#a32a59f910776990e959d955a767c7323" title="SORBDB6: orthogonalizes the column vector X = [ X1 ] [ X2 ] with respect to the columns of Q = [ Q1 ]..." alt="" coords="456,152,633,177"/>
-<area shape="poly" id="edge13_Node000008_Node000009" title=" " alt="" coords="408,162,442,162,442,167,408,167"/>
-<area shape="rect" id="Node000010" href="$namespacela__lapack__s.html#a67ffb8da40d4b0e1ec3c776507a088cc" title="!" alt="" coords="684,152,851,177"/>
-<area shape="poly" id="edge14_Node000009_Node000010" title=" " alt="" coords="634,162,670,162,670,167,634,167"/>
+<area shape="rect" id="Node000001" title="SORBDB3: simultaneously bidiagonalizes the blocks of a tall and skinny matrix X with orthonomal colum..." alt="" coords="5,191,183,216"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#afe74baa9cec84eae9cb50ed04c85340c" title="SLARF: applies a real elementary reflector H to a real m by n matrix C, from either the left or the r..." alt="" coords="242,103,397,128"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="127,188,272,131,274,135,129,193"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__s.html#a715453b9a55a7e212287986b22e5f960" title="SLARFGP: generates a real elementary reflector H of order n, such that H * ( alpha ) = ( beta ),..." alt="" coords="234,191,405,216"/>
+<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="183,201,220,201,220,206,183,206"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__s.html#ae229dc9dd25a842dc5492fb9bcbbd49f" title="SORBDB5: orthogonalizes the column vector X = [ X1 ] [ X2 ] with respect to the columns of Q = [ Q1 ]..." alt="" coords="231,240,408,265"/>
+<area shape="poly" id="edge16_Node000001_Node000010" title=" " alt="" coords="153,213,248,234,247,240,152,219"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__aux.html#ab982c17ecc1d9fcfd510bef30fe083be" title="ILASLC: scans A for its last non&#45;zero column." alt="" coords="457,29,633,55"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="352,100,455,63,480,56,482,61,457,69,354,105"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__aux.html#a1abc101c5f65760eafb8b98e3f41e083" title="ILASLR: scans A for its last non&#45;zero row." alt="" coords="457,103,632,128"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="397,113,443,113,443,118,397,118"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="509,31,501,21,505,11,520,5,545,3,575,6,588,15,584,20,573,11,545,8,521,10,508,15,506,20,513,28"/>
+<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="509,104,501,94,505,84,520,78,545,76,575,80,588,89,584,93,573,85,545,81,521,83,508,88,506,94,513,101"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__s.html#abbe0ae24f069ddbf134ff3e404a19878" title="SLAMCH: determines single precision machine parameters." alt="" coords="681,155,853,180"/>
+<area shape="poly" id="edge7_Node000005_Node000006" title=" " alt="" coords="405,193,456,189,667,172,668,177,456,194,405,198"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__s.html#a9e70d6d165ba95d10e4f8592c02475c7" title="SLAPY2: returns sqrt(x**2+y**2), taking care not to cause unnecessary overflow and unnecessary underf..." alt="" coords="461,228,629,253"/>
+<area shape="poly" id="edge9_Node000005_Node000007" title=" " alt="" coords="397,213,454,223,454,228,396,219"/>
+<area shape="poly" id="edge8_Node000006_Node000006" title=" " alt="" coords="731,156,723,146,727,136,742,130,767,128,798,132,810,141,807,145,796,137,767,133,744,135,731,140,729,146,735,153"/>
+<area shape="poly" id="edge14_Node000007_Node000006" title=" " alt="" coords="578,225,680,189,705,181,707,186,682,194,580,230"/>
+<area shape="poly" id="edge15_Node000007_Node000007" title=" " alt="" coords="509,230,501,220,505,210,520,204,545,201,575,205,588,214,584,218,573,210,545,207,521,209,508,214,506,219,513,226"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__s.html#af8d4b806648873f614d26ba3f9d00512" title="SISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="684,228,851,253"/>
+<area shape="poly" id="edge10_Node000007_Node000008" title=" " alt="" coords="629,238,670,238,670,243,629,243"/>
+<area shape="poly" id="edge11_Node000008_Node000008" title=" " alt="" coords="731,230,723,220,727,210,742,204,767,201,798,205,810,214,807,218,796,210,767,207,744,209,731,214,729,219,735,226"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__s.html#ab716c1e999e316ce29c31703ef379eb1" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in SISNAN...." alt="" coords="901,228,1080,253"/>
+<area shape="poly" id="edge12_Node000008_Node000009" title=" " alt="" coords="851,238,888,238,888,243,851,243"/>
+<area shape="poly" id="edge13_Node000009_Node000009" title=" " alt="" coords="955,230,947,220,951,210,966,204,991,201,1021,205,1034,214,1030,218,1019,210,991,207,967,209,954,214,952,219,959,226"/>
+<area shape="rect" id="Node000011" href="$namespacela__lapack__s.html#a32a59f910776990e959d955a767c7323" title="SORBDB6: orthogonalizes the column vector X = [ X1 ] [ X2 ] with respect to the columns of Q = [ Q1 ]..." alt="" coords="456,277,633,303"/>
+<area shape="poly" id="edge17_Node000010_Node000011" title=" " alt="" coords="397,263,454,272,454,278,396,268"/>
+<area shape="rect" id="Node000012" href="$namespacela__lapack__s.html#a67ffb8da40d4b0e1ec3c776507a088cc" title="!" alt="" coords="684,277,851,303"/>
+<area shape="poly" id="edge18_Node000011_Node000012" title=" " alt="" coords="634,287,670,287,670,293,634,293"/>
 </map>

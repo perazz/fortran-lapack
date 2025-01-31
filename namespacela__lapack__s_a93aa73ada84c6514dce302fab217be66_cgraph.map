@@ -1,9 +1,18 @@
 <map id="la_lapack_s::la_sgtcon" name="la_lapack_s::la_sgtcon">
-<area shape="rect" id="Node000001" title="SGTCON: estimates the reciprocal of the condition number of a real tridiagonal matrix A using the LU ..." alt="" coords="5,31,173,56"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#a992250d92f6d8ca4bacfbe5c7ec6dad8" title="SGTTRS: solves one of the systems of equations A*X = B or A**T*X = B, with a tridiagonal matrix A usi..." alt="" coords="223,5,386,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="173,31,209,27,210,32,174,36"/>
-<area shape="rect" id="Node000004" href="$namespacela__lapack__s.html#a7f5f2af31221a1cf8d74880aedc775ca" title="SLACN2: estimates the 1&#45;norm of a square, real matrix A. Reverse communication is used for evaluating..." alt="" coords="221,55,388,80"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="174,50,208,54,207,59,173,55"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__s.html#a580597865c1dd0decf74221c205778bc" title="SGTTS2: solves one of the systems of equations A*X = B or A**T*X = B, with a tridiagonal matrix A usi..." alt="" coords="436,5,601,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="386,15,422,15,422,21,386,21"/>
+<area shape="rect" id="Node000001" title="SGTCON: estimates the reciprocal of the condition number of a real tridiagonal matrix A using the LU ..." alt="" coords="5,115,173,140"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#a992250d92f6d8ca4bacfbe5c7ec6dad8" title="SGTTRS: solves one of the systems of equations A*X = B or A**T*X = B, with a tridiagonal matrix A usi..." alt="" coords="223,89,386,115"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="173,115,209,111,210,116,174,120"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__s.html#a7f5f2af31221a1cf8d74880aedc775ca" title="SLACN2: estimates the 1&#45;norm of a square, real matrix A. Reverse communication is used for evaluating..." alt="" coords="221,139,388,164"/>
+<area shape="poly" id="edge9_Node000001_Node000007" title=" " alt="" coords="174,134,208,138,207,143,173,139"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__aux.html#aa361c7114aef95e10b685247a1b75114" title="ILAENV: is called from the LAPACK routines to choose problem&#45;dependent parameters for the local envir..." alt="" coords="436,65,619,91"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="386,91,422,87,423,92,386,96"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__s.html#a580597865c1dd0decf74221c205778bc" title="SGTTS2: solves one of the systems of equations A*X = B or A**T*X = B, with a tridiagonal matrix A usi..." alt="" coords="445,115,610,140"/>
+<area shape="poly" id="edge8_Node000002_Node000006" title=" " alt="" coords="386,109,431,114,431,119,386,114"/>
+<area shape="poly" id="edge5_Node000003_Node000003" title=" " alt="" coords="491,67,483,57,487,47,502,41,527,39,558,42,570,51,567,56,556,47,527,44,504,46,491,51,489,56,495,64"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__aux.html#a72541275ada30b0ca556fbc0d3959719" title="IEEECK: is called from the ILAENV to verify that Infinity and possibly NaN arithmetic is safe (i...." alt="" coords="668,29,853,55"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="610,63,664,54,665,59,610,68"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__aux.html#ace38ae70bb7022cae6ecabe992145fda" title="This program sets problem and machine dependent parameters useful for xHSEQR and related subroutines ..." alt="" coords="667,103,855,128"/>
+<area shape="poly" id="edge6_Node000003_Node000005" title=" " alt="" coords="608,88,668,98,667,103,607,93"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="723,31,715,21,719,11,735,5,761,3,793,7,806,16,802,20,791,11,761,8,736,10,723,15,720,20,727,27"/>
+<area shape="poly" id="edge7_Node000005_Node000005" title=" " alt="" coords="723,104,715,94,719,84,735,78,761,76,793,80,806,89,802,94,791,85,761,81,736,83,723,88,720,94,727,101"/>
 </map>

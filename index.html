@@ -97,53 +97,197 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <p>A full and standardized implementation of the present library has been integrated into the <a href="http://stdlib.fortran-lang.org/">Fortran Standard Library</a>, and as such, most users should seek to access the functionality from <code>stdlib</code>. The present library is kept in place for those who seek a compact implementation of it.</p>
 <h1><a class="anchor" id="autotoc_md5"></a>
 Current API</h1>
-<p><a href="https://perazz.github.io/fortran-lapack/index.html">The documentation site</a> contains full documentation for the library.</p>
-<table class="markdownTable">
-<tr class="markdownTableHead">
-<th class="markdownTableHeadNone">Procedure   </th><th class="markdownTableHeadNone">Type   </th><th class="markdownTableHeadNone">Description   </th><th class="markdownTableHeadNone">Optional arguments    </th></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><code>solve(A,b)</code>   </td><td class="markdownTableBodyNone">function   </td><td class="markdownTableBodyNone">Solve linear systems - one (<code>b(:)</code>) or many (<code>b(:,:)</code>)   </td><td class="markdownTableBodyNone"><code>solve(A,b,overwrite_a,err)</code>: option to let A be destroyed, return state handler <code>err</code>    </td></tr>
-<tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><code>lstsq(A,b)</code>   </td><td class="markdownTableBodyNone">function   </td><td class="markdownTableBodyNone">Solve non-square systems in a least squares sense - one (<code>b(:)</code>) or many (<code>b(:,:)</code>)   </td><td class="markdownTableBodyNone"><code>lstsq(A,b,cond,overwrite_a,rank,err)</code>: <code>cond</code> is optional SVD cutoff; <code>rank</code> to return matrix rank, <code>err</code> to return state handler    </td></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><code>det(A)</code>   </td><td class="markdownTableBodyNone">function   </td><td class="markdownTableBodyNone">Determinant of a scalar or square matrix   </td><td class="markdownTableBodyNone"><code>det(A,overwrite_a,err=err)</code>: option to let A be destroyed, return state handler <code>err</code>    </td></tr>
-<tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><code>inv(A)</code>   </td><td class="markdownTableBodyNone">function   </td><td class="markdownTableBodyNone">Inverse of a scalar or square matrix   </td><td class="markdownTableBodyNone"><code>inv(A,err=err)</code>: A is not destroyed; return state handler <code>err</code>    </td></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><code>pinv(A)</code>   </td><td class="markdownTableBodyNone">function   </td><td class="markdownTableBodyNone">Moore-Penrose Pseudo-Inverse of a matrix   </td><td class="markdownTableBodyNone"><code>pinv(A,rtol,err=err)</code>: A is not destroyed; optional singular value threshold <code>rtol</code>; return state handler <code>err</code>    </td></tr>
-<tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><code>invert(A)</code>   </td><td class="markdownTableBodyNone">subroutine   </td><td class="markdownTableBodyNone">In-place inverse of a scalar or square matrix   </td><td class="markdownTableBodyNone"><code>call invert(A,err=err)</code>: A is replaced with $A^{-1}$, return state handler <code>err</code>    </td></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><code>.inv.A</code>   </td><td class="markdownTableBodyNone">operator   </td><td class="markdownTableBodyNone">Inverse of a scalar or square matrix   </td><td class="markdownTableBodyNone">A is replaced with $A^{-1}$    </td></tr>
-<tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><code>.pinv.A</code>   </td><td class="markdownTableBodyNone">operator   </td><td class="markdownTableBodyNone">Moore-Penrose Pseudo-Inverse   </td><td class="markdownTableBodyNone">A is replaced with $A^{-1}$    </td></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><code>svd(A)</code>   </td><td class="markdownTableBodyNone">subroutine   </td><td class="markdownTableBodyNone">Singular value decomposition of $A = U S V^t$   </td><td class="markdownTableBodyNone"><code>call svd(A,s,u,vt,full_matrices=.false.,err=state)</code>, all optional arguments but <code>A,s</code>    </td></tr>
-<tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><code>svdvals(A)</code>   </td><td class="markdownTableBodyNone">function   </td><td class="markdownTableBodyNone">Singular values $S$ from $A = U S V^t$   </td><td class="markdownTableBodyNone"><code>s = svdvals(A)</code>, real array with same precision as <code>A</code>    </td></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><code>eye(m)</code>   </td><td class="markdownTableBodyNone">function   </td><td class="markdownTableBodyNone">Identity matrix of size <code>m</code>   </td><td class="markdownTableBodyNone"><code>eye(m,n,mold,err)</code>: Optional column size <code>n</code>, datatype <code>dtype</code> (default: real64), error handler    </td></tr>
-<tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><code>eigvals(A)</code>   </td><td class="markdownTableBodyNone">function   </td><td class="markdownTableBodyNone">Eigenvalues of matrix $A$   </td><td class="markdownTableBodyNone"><code>eigvals(A,err)</code>: Optional state handler <code>err</code>    </td></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><code>eig(A,lambda)</code>   </td><td class="markdownTableBodyNone">subroutine   </td><td class="markdownTableBodyNone">Eigenproblem of matrix $A$   </td><td class="markdownTableBodyNone"><code>eig(A,lambda,left,right,overwrite_a,err)</code>: optional output eigenvector matrices (left and/or right)    </td></tr>
-<tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><code>eigvalsh(A)</code>   </td><td class="markdownTableBodyNone">function   </td><td class="markdownTableBodyNone">Eigenvalues of symmetric or hermitian matrix $A$   </td><td class="markdownTableBodyNone"><code>eigvalsh(A,upper_a,err)</code>: Choose to use upper or lower triangle; optional state handler <code>err</code>    </td></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><code>eigh(A,lambda)</code>   </td><td class="markdownTableBodyNone">subroutine   </td><td class="markdownTableBodyNone">Eigenproblem of symmetric or hermitianmatrix $A$   </td><td class="markdownTableBodyNone"><code>eigh(A,lambda,vector,upper_a,overwrite_a,err)</code>: optional output eigenvectors    </td></tr>
-<tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><code>diag(n,source)</code>   </td><td class="markdownTableBodyNone">function   </td><td class="markdownTableBodyNone">Diagonal matrix from scalar input value   </td><td class="markdownTableBodyNone"><code>diag(n,source,err)</code>: Optional error handler    </td></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><code>diag(source)</code>   </td><td class="markdownTableBodyNone">function   </td><td class="markdownTableBodyNone">Diagonal matrix from array input values   </td><td class="markdownTableBodyNone"><code>diag(source,err)</code>: Optional error handler    </td></tr>
-<tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><code>qr(A,Q,R)</code>   </td><td class="markdownTableBodyNone">subroutine   </td><td class="markdownTableBodyNone">QR factorization   </td><td class="markdownTableBodyNone"><code>qr(A,Q,R,storage=work,err=err)</code>: Optional pre-allocated working storage, error handler    </td></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><code>qr_space(A,lwork)</code>   </td><td class="markdownTableBodyNone">subroutine   </td><td class="markdownTableBodyNone">QR Working space size   </td><td class="markdownTableBodyNone"><code>qr_space(A,lwork,err)</code>: Optional error handler   </td></tr>
-</table>
+<h2><a class="anchor" id="autotoc_md6"></a>
+@ref la_solve::solve "`solve`" - Solves a linear matrix equation or a linear system of equations.</h2>
+<h3><a class="anchor" id="autotoc_md7"></a>
+Syntax</h3>
+<p><code>x = solve(a, b [, overwrite_a] [, err])</code> <br  />
+</p>
+<h3><a class="anchor" id="autotoc_md8"></a>
+Description</h3>
+<p>Solve linear systems - one (<code>b(:)</code>) or many (<code>b(:,:)</code>). <br  />
+</p>
+<h3><a class="anchor" id="autotoc_md9"></a>
+Arguments</h3>
+<ul>
+<li><code>a</code>: A <code>real</code> or <code>complex</code> coefficient matrix. If <code>overwrite_a=.true.</code>, it is destroyed by the call.</li>
+<li><code>b</code>: A rank-1 (one system) or rank-2 (many systems) array of the same kind as <code>a</code>, containing the right-hand-side vector(s).</li>
+<li><code>overwrite_a</code> (optional, default = <code>.false.</code>): If <code>.true.</code>, input matrix <code>a</code> will be used as temporary storage and overwritten, to avoid internal data allocation.</li>
+<li><code>err</code> (optional): A <a class="el" href="structla__state__type_1_1la__state.html">`type(la_state)`</a> variable.</li>
+</ul>
+<h3><a class="anchor" id="autotoc_md10"></a>
+Return value</h3>
+<p>For a full-rank matrix, returns an array value that represents the solution to the linear system of equations.</p>
+<h3><a class="anchor" id="autotoc_md11"></a>
+Errors</h3>
+<ul>
+<li>Raises <a class="el" href="namespacela__state__type.html#af5b55841ca3045c3345d9ab019e0797d">`LINALG_ERROR`</a> if the matrix is singular to working precision.</li>
+<li>Raises <a class="el" href="namespacela__state__type.html#ad9888f2f7d4e692e7d3b8fd532baa903">`LINALG_VALUE_ERROR`</a> if the matrix and rhs vectors have invalid/incompatible sizes.</li>
+<li>If <code>err</code> is not present, exceptions trigger an <code>error stop</code>.</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md12"></a>
+&lt;tt&gt;lstsq(A, b)&lt;/tt&gt;</h2>
+<p><b>Type</b>: Function <br  />
+ <b>Description</b>: Solve non-square systems in a least squares sense - one (<code>b(:)</code>) or many (<code>b(:,:)</code>). <br  />
+ <b>Optional arguments</b>: <br  />
+</p><ul>
+<li><code>cond</code>: Optional SVD cutoff. <br  />
+</li>
+<li><code>overwrite_a</code>: Option to let A be destroyed. <br  />
+</li>
+<li><code>rank</code>: Return matrix rank. <br  />
+</li>
+<li><code>err</code>: Return state handler.</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md13"></a>
+&lt;tt&gt;det(A)&lt;/tt&gt;</h2>
+<p><b>Type</b>: Function <br  />
+ <b>Description</b>: Determinant of a scalar or square matrix. <br  />
+ <b>Optional arguments</b>: <br  />
+</p><ul>
+<li><code>overwrite_a</code>: Option to let A be destroyed. <br  />
+</li>
+<li><code>err</code>: Return state handler.</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md14"></a>
+&lt;tt&gt;inv(A)&lt;/tt&gt;</h2>
+<p><b>Type</b>: Function <br  />
+ <b>Description</b>: Inverse of a scalar or square matrix. <br  />
+ <b>Optional arguments</b>: <br  />
+</p><ul>
+<li><code>err</code>: Return state handler.</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md15"></a>
+&lt;tt&gt;pinv(A)&lt;/tt&gt;</h2>
+<p><b>Type</b>: Function <br  />
+ <b>Description</b>: Moore-Penrose Pseudo-Inverse of a matrix. <br  />
+ <b>Optional arguments</b>: <br  />
+</p><ul>
+<li><code>rtol</code>: Optional singular value threshold. <br  />
+</li>
+<li><code>err</code>: Return state handler.</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md16"></a>
+&lt;tt&gt;invert(A)&lt;/tt&gt;</h2>
+<p><b>Type</b>: Subroutine <br  />
+ <b>Description</b>: In-place inverse of a scalar or square matrix. <br  />
+ <b>Optional arguments</b>: <br  />
+</p><ul>
+<li><code>err</code>: Return state handler. <br  />
+</li>
+</ul>
+<p><b>Usage</b>: <code>call invert(A, err=err)</code> where <code>A</code> is replaced with $A^{-1}$.</p>
+<h2><a class="anchor" id="autotoc_md17"></a>
+&lt;tt&gt;.inv.A&lt;/tt&gt;</h2>
+<p><b>Type</b>: Operator <br  />
+ <b>Description</b>: Inverse of a scalar or square matrix. <br  />
+</p>
+<p><b>Effect</b>: <code>A</code> is replaced with $A^{-1}$.</p>
+<h2><a class="anchor" id="autotoc_md18"></a>
+&lt;tt&gt;.pinv.A&lt;/tt&gt;</h2>
+<p><b>Type</b>: Operator <br  />
+ <b>Description</b>: Moore-Penrose Pseudo-Inverse. <br  />
+</p>
+<p><b>Effect</b>: <code>A</code> is replaced with $A^{-1}$.</p>
+<h2><a class="anchor" id="autotoc_md19"></a>
+&lt;tt&gt;svd(A)&lt;/tt&gt;</h2>
+<p><b>Type</b>: Subroutine <br  />
+ <b>Description</b>: Singular value decomposition of $A = U S V^t$. <br  />
+ <b>Optional arguments</b>: <br  />
+</p><ul>
+<li><code>s</code>: Singular values. <br  />
+</li>
+<li><code>u</code>: Left singular vectors. <br  />
+</li>
+<li><code>vt</code>: Right singular vectors. <br  />
+</li>
+<li><code>full_matrices</code>: Defaults to <code>.false.</code>. <br  />
+</li>
+<li><code>err</code>: State handler. <br  />
+</li>
+</ul>
+<p><b>Usage</b>: <code>call svd(A, s, u, vt, full_matrices=.false., err=state)</code>.</p>
+<h2><a class="anchor" id="autotoc_md20"></a>
+&lt;tt&gt;svdvals(A)&lt;/tt&gt;</h2>
+<p><b>Type</b>: Function <br  />
+ <b>Description</b>: Singular values $S$ from $A = U S V^t$. <br  />
+ <b>Usage</b>: <code>s = svdvals(A)</code> where <code>s</code> is a real array with the same precision as <code>A</code>.</p>
+<h2><a class="anchor" id="autotoc_md21"></a>
+&lt;tt&gt;eye(m)&lt;/tt&gt;</h2>
+<p><b>Type</b>: Function <br  />
+ <b>Description</b>: Identity matrix of size <code>m</code>. <br  />
+ <b>Optional arguments</b>: <br  />
+</p><ul>
+<li><code>n</code>: Optional column size. <br  />
+</li>
+<li><code>mold</code>: Optional datatype (default: real64). <br  />
+</li>
+<li><code>err</code>: Error handler.</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md22"></a>
+&lt;tt&gt;eigvals(A)&lt;/tt&gt;</h2>
+<p><b>Type</b>: Function <br  />
+ <b>Description</b>: Eigenvalues of matrix $A$. <br  />
+ <b>Optional arguments</b>: <br  />
+</p><ul>
+<li><code>err</code>: State handler.</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md23"></a>
+&lt;tt&gt;eig(A, lambda)&lt;/tt&gt;</h2>
+<p><b>Type</b>: Subroutine <br  />
+ <b>Description</b>: Eigenproblem of matrix $A<code>. &lt;br&gt; **Optional arguments**: &lt;br&gt; -</code>left<code>: Output left eigenvector matrix. &lt;br&gt; -</code>right<code>: Output right eigenvector matrix. &lt;br&gt; -</code>overwrite_a<code>: Option to let A be destroyed. &lt;br&gt; -</code>err`: Return state handler.</p>
+<h2><a class="anchor" id="autotoc_md24"></a>
+&lt;tt&gt;eigvalsh(A)&lt;/tt&gt;</h2>
+<p><b>Type</b>: Function <br  />
+ <b>Description</b>: Eigenvalues of symmetric or Hermitian matrix $A$. <br  />
+ <b>Optional arguments</b>: <br  />
+</p><ul>
+<li><code>upper_a</code>: Choose to use upper or lower triangle. <br  />
+</li>
+<li><code>err</code>: State handler.</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md25"></a>
+&lt;tt&gt;eigh(A, lambda)&lt;/tt&gt;</h2>
+<p><b>Type</b>: Subroutine <br  />
+ <b>Description</b>: Eigenproblem of symmetric or Hermitian matrix $A<code>. &lt;br&gt; **Optional arguments**: &lt;br&gt; -</code>vector<code>: Output eigenvectors. &lt;br&gt; -</code>upper_a<code>: Choose to use upper or lower triangle. &lt;br&gt; -</code>overwrite_a<code>: Option to let A be destroyed. &lt;br&gt; -</code>err`: Return state handler.</p>
+<h2><a class="anchor" id="autotoc_md26"></a>
+&lt;tt&gt;diag(n, source)&lt;/tt&gt;</h2>
+<p><b>Type</b>: Function <br  />
+ <b>Description</b>: Diagonal matrix from scalar input value. <br  />
+ <b>Optional arguments</b>: <br  />
+</p><ul>
+<li><code>err</code>: Error handler.</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md27"></a>
+&lt;tt&gt;diag(source)&lt;/tt&gt;</h2>
+<p><b>Type</b>: Function <br  />
+ <b>Description</b>: Diagonal matrix from array input values. <br  />
+ <b>Optional arguments</b>: <br  />
+</p><ul>
+<li><code>err</code>: Error handler.</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md28"></a>
+&lt;tt&gt;qr(A, Q, R)&lt;/tt&gt;</h2>
+<p><b>Type</b>: Subroutine <br  />
+ <b>Description</b>: QR factorization. <br  />
+ <b>Optional arguments</b>: <br  />
+</p><ul>
+<li><code>storage</code>: Pre-allocated working storage. <br  />
+</li>
+<li><code>err</code>: Error handler.</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md29"></a>
+&lt;tt&gt;qr_space(A, lwork)&lt;/tt&gt;</h2>
+<p><b>Type</b>: Subroutine <br  />
+ <b>Description</b>: QR Working space size. <br  />
+ <b>Optional arguments</b>: <br  />
+</p><ul>
+<li><code>err</code>: Error handler.</li>
+</ul>
 <p>All procedures work with all types (<code>real</code>, <code>complex</code>) and kinds (32, 64, 128-bit floats).</p>
-<h1><a class="anchor" id="autotoc_md6"></a>
+<h1><a class="anchor" id="autotoc_md30"></a>
 BLAS, LAPACK</h1>
-<p>Modern Fortran modules with full explicit typing features are available as modules <code><a class="el" href="namespacela__blas.html">la_blas</a></code> and <code><a class="el" href="namespacela__lapack.html">la_lapack</a></code>. The reference Fortran-77 library, forked from Release 3.10.1, was automatically processed and modernized. The following refactorings are applied:</p><ul>
+<p>Modern Fortran modules with full explicit typing features are available as modules <code><a class="el" href="namespacela__blas.html" title="Precision-agnostic BLAS interface.">la_blas</a></code> and <code><a class="el" href="namespacela__lapack.html" title="Precision-agnostic LAPACK interface.">la_lapack</a></code>. The reference Fortran-77 library, forked from Release 3.10.1, was automatically processed and modernized. The following refactorings are applied:</p><ul>
 <li>All datatypes and accuracy constants standardized into a module (<code>stdlib</code>-compatible names)</li>
 <li>Both libraries available for 32, 64 and 128-bit floats</li>
 <li>Free format, lower-case style</li>
@@ -159,7 +303,7 @@ BLAS, LAPACK</h1>
 <li>preprocessor-based OpenMP directives retained.</li>
 </ul>
 <p>The single-source module structure hopefully allows for cross-procedural inlining which is otherwise impossible without link-time optimization.</p>
-<h1><a class="anchor" id="autotoc_md7"></a>
+<h1><a class="anchor" id="autotoc_md31"></a>
 Building</h1>
 <p>An automated build is currently available via the <a href="https://fpm.fortran-lang.org">Fortran Package Manager</a>. To add fortran-lapack to your project, simply add it as a dependency:</p>
 <div class="fragment"><div class="line">[dependencies]</div>
@@ -167,9 +311,9 @@ Building</h1>
 </div><!-- fragment --><p><code>fortran-lapack</code> is compatible with the LAPACK API. If high-performance external BLAS/LAPACK libraries are available, it is sufficient to define macros</p>
 <div class="fragment"><div class="line">[dependencies]</div>
 <div class="line">fortran-lapack = { git=&quot;https://github.com/perazz/fortran-lapack.git&quot;, preprocess.cpp.macros=[&quot;LA_EXTERNAL_BLAS&quot;, &quot;LA_EXTERNAL_LAPACK&quot;] }</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md8"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md32"></a>
 Extension to external BLAS/LAPACK libraries</h1>
-<p>Generic interfaces to most BLAS/LAPACK functions are exposed to modules <code><a class="el" href="namespacela__blas.html">la_blas</a></code> and <code><a class="el" href="namespacela__lapack.html">la_lapack</a></code>. These interfaces drop the initial letter to wrap a precision-agnostic version. For example, <code>axpy</code> is a precision-agnostic interface to <code>saxpy</code>, <code>daxpy</code>, <code>caxpy</code>, <code>zaxpy</code>, <code>qaxpy</code>, <code>waxpy</code>. The naming convention is:</p>
+<p>Generic interfaces to most BLAS/LAPACK functions are exposed to modules <code><a class="el" href="namespacela__blas.html" title="Precision-agnostic BLAS interface.">la_blas</a></code> and <code><a class="el" href="namespacela__lapack.html" title="Precision-agnostic LAPACK interface.">la_lapack</a></code>. These interfaces drop the initial letter to wrap a precision-agnostic version. For example, <code>axpy</code> is a precision-agnostic interface to <code>saxpy</code>, <code>daxpy</code>, <code>caxpy</code>, <code>zaxpy</code>, <code>qaxpy</code>, <code>waxpy</code>. The naming convention is:</p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
 <th class="markdownTableHeadNone">Type   </th><th class="markdownTableHeadNone">32-bit   </th><th class="markdownTableHeadNone">64-bit   </th><th class="markdownTableHeadNone">128-bit    </th></tr>
@@ -178,7 +322,7 @@ Extension to external BLAS/LAPACK libraries</h1>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">complex   </td><td class="markdownTableBodyNone"><code>c</code>   </td><td class="markdownTableBodyNone"><code>z</code>   </td><td class="markdownTableBodyNone"><code>w</code>   </td></tr>
 </table>
-<p>All public interfaces in <code><a class="el" href="namespacela__blas.html">la_blas</a></code> and <code><a class="el" href="namespacela__lapack.html">la_lapack</a></code> allow seamless linking against external libraries via a simple pre-processor flag. When an external library is available, just define macros <code>LA_EXTERNAL_BLAS</code> and <code>LA_EXTERNAL_LAPACK</code>. The kind-agnostic interface will just point to the external function. All such interfaces follow this template: <br  />
+<p>All public interfaces in <code><a class="el" href="namespacela__blas.html" title="Precision-agnostic BLAS interface.">la_blas</a></code> and <code><a class="el" href="namespacela__lapack.html" title="Precision-agnostic LAPACK interface.">la_lapack</a></code> allow seamless linking against external libraries via a simple pre-processor flag. When an external library is available, just define macros <code>LA_EXTERNAL_BLAS</code> and <code>LA_EXTERNAL_LAPACK</code>. The kind-agnostic interface will just point to the external function. All such interfaces follow this template: <br  />
 </p>
 <div class="fragment"><div class="line"><span class="keyword">interface</span> axpy</div>
 <div class="line"><span class="preprocessor">#ifdef LA_EXTERNAL_BLAS</span></div>
@@ -198,10 +342,10 @@ Extension to external BLAS/LAPACK libraries</h1>
 <div class="line">    <span class="keyword">module procedure</span> la_saxpy</div>
 <div class="line"><span class="preprocessor">#endif</span></div>
 <div class="line"><span class="preprocessor"></span><span class="keyword">end interface</span></div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md9"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md33"></a>
 Licensing</h1>
 <p>LAPACK is a freely-available software package. It is available from <a href="https://www.netlib.org/lapack/">netlib</a> via anonymous ftp and the World Wide Web. Thus, it can be included in commercial software packages (and has been). Credit for the library should be given to the <a href="https://www.netlib.org/lapack/contributor-list.html">LAPACK authors</a>. The license used for the software is the <a href="https://www.netlib.org/lapack/LICENSE.txt">modified BSD license</a>. According to the original license, we changed the name of the routines and commented the changes made to the original.</p>
-<h1><a class="anchor" id="autotoc_md10"></a>
+<h1><a class="anchor" id="autotoc_md34"></a>
 Acknowledgments</h1>
 <p>Part of this work was supported by the <a href="https://www.sovereigntechfund.de">Sovereign Tech Fund</a>. </p>
 </div></div><!-- PageDoc -->
@@ -210,7 +354,7 @@ Acknowledgments</h1>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Thu Jan 30 2025 10:58:07 for fortran-lapack by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Fri Jan 31 2025 10:05:01 for fortran-lapack by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

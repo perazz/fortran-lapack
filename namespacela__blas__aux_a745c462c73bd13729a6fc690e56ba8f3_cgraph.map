@@ -1,0 +1,7 @@
+<map id="la_blas_aux::la_icamax" name="la_blas_aux::la_icamax">
+<area shape="rect" id="Node000001" title="ICAMAX: finds the index of the first element having maximum |Re(.)| + |Im(.)|." alt="" coords="5,29,180,55"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="57,31,49,21,53,11,68,5,93,3,123,6,135,15,132,20,121,11,93,8,69,10,57,15,54,20,61,28"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__aux.html#a5cdaa4eb6de0902d42a840357101ae38" title="SCABS1: computes |Re(.)| + |Im(.)| of a complex number." alt="" coords="228,29,399,55"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="180,39,215,39,215,45,180,45"/>
+<area shape="poly" id="edge3_Node000002_Node000002" title=" " alt="" coords="278,31,270,21,274,11,289,5,313,3,344,6,356,15,353,20,342,11,313,8,290,10,278,15,275,20,282,28"/>
+</map>

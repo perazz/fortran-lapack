@@ -1,12 +1,21 @@
 <map id="la_lapack_w::la_wgetrf" name="la_lapack_w::la_wgetrf">
-<area shape="rect" id="Node000001" title="ZGETRF: computes an LU factorization of a general M&#45;by&#45;N matrix A using partial pivoting with row int..." alt="" coords="5,55,176,80"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__w.html#a841bd3a978ed0645620dc7164aa57233" title="ZGETRF2: computes an LU factorization of a general M&#45;by&#45;N matrix A using partial pivoting with row in..." alt="" coords="224,29,403,55"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="176,55,210,51,211,56,177,60"/>
-<area shape="rect" id="Node000004" href="$namespacela__lapack__w.html#a7d9aeb6077250b10504a6646cae28c9f" title="ZLASWP: performs a series of row interchanges on the matrix A. One row interchange is initiated for e..." alt="" coords="451,79,628,104"/>
-<area shape="poly" id="edge6_Node000001_Node000004" title=" " alt="" coords="177,69,437,83,437,89,176,75"/>
-<area shape="poly" id="edge4_Node000002_Node000002" title=" " alt="" coords="277,31,269,21,273,11,288,5,313,3,344,6,356,15,353,20,342,11,313,8,290,10,277,15,275,20,281,28"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__q.html#a5435a74c593174c3ab375e653a46f8fe" title="DLAMCH: determines quad precision machine parameters." alt="" coords="452,29,627,55"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="403,39,438,39,438,45,403,45"/>
-<area shape="poly" id="edge5_Node000002_Node000004" title=" " alt="" coords="373,52,468,73,466,78,372,57"/>
-<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="503,31,495,21,499,11,514,5,539,3,571,7,583,16,580,20,569,11,539,8,515,10,503,15,500,20,507,27"/>
+<area shape="rect" id="Node000001" title="ZGETRF: computes an LU factorization of a general M&#45;by&#45;N matrix A using partial pivoting with row int..." alt="" coords="5,176,176,201"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__aux.html#aa361c7114aef95e10b685247a1b75114" title="ILAENV: is called from the LAPACK routines to choose problem&#45;dependent parameters for the local envir..." alt="" coords="224,103,407,128"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="123,173,223,137,249,129,250,134,225,142,125,178"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__w.html#a841bd3a978ed0645620dc7164aa57233" title="ZGETRF2: computes an LU factorization of a general M&#45;by&#45;N matrix A using partial pivoting with row in..." alt="" coords="226,176,405,201"/>
+<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="177,186,213,186,213,191,177,191"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__w.html#a7d9aeb6077250b10504a6646cae28c9f" title="ZLASWP: performs a series of row interchanges on the matrix A. One row interchange is initiated for e..." alt="" coords="460,225,637,251"/>
+<area shape="poly" id="edge12_Node000001_Node000007" title=" " alt="" coords="151,199,224,211,339,223,447,231,446,236,339,229,224,217,150,204"/>
+<area shape="poly" id="edge4_Node000002_Node000002" title=" " alt="" coords="279,104,271,94,275,84,290,78,315,76,347,80,359,89,356,93,345,85,315,81,291,83,279,88,276,94,283,101"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__aux.html#a72541275ada30b0ca556fbc0d3959719" title="IEEECK: is called from the ILAENV to verify that Infinity and possibly NaN arithmetic is safe (i...." alt="" coords="456,29,641,55"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="349,100,454,63,481,56,482,61,455,69,351,105"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__aux.html#ace38ae70bb7022cae6ecabe992145fda" title="This program sets problem and machine dependent parameters useful for xHSEQR and related subroutines ..." alt="" coords="455,103,643,128"/>
+<area shape="poly" id="edge5_Node000002_Node000004" title=" " alt="" coords="407,113,441,113,441,118,407,118"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="511,31,503,21,507,11,523,5,549,3,581,7,594,16,590,20,579,11,549,8,524,10,511,15,508,20,515,27"/>
+<area shape="poly" id="edge6_Node000004_Node000004" title=" " alt="" coords="511,104,503,94,507,84,523,78,549,76,581,80,594,89,590,94,579,85,549,81,524,83,511,88,508,94,515,101"/>
+<area shape="poly" id="edge10_Node000005_Node000005" title=" " alt="" coords="279,178,271,168,275,158,290,152,315,149,347,153,359,163,356,167,345,158,315,155,291,157,279,162,276,167,283,174"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__q.html#a5435a74c593174c3ab375e653a46f8fe" title="DLAMCH: determines quad precision machine parameters." alt="" coords="461,176,636,201"/>
+<area shape="poly" id="edge8_Node000005_Node000006" title=" " alt="" coords="405,186,448,186,448,191,405,191"/>
+<area shape="poly" id="edge11_Node000005_Node000007" title=" " alt="" coords="377,199,475,220,474,225,376,204"/>
+<area shape="poly" id="edge9_Node000006_Node000006" title=" " alt="" coords="511,178,503,168,507,158,523,152,549,149,581,153,594,163,590,167,579,158,549,155,524,157,511,162,508,167,515,174"/>
 </map>

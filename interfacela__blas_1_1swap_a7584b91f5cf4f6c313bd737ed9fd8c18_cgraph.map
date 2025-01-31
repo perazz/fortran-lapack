@@ -1,0 +1,7 @@
+<map id="la_blas::swap::dswap" name="la_blas::swap::dswap">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,31,165,56"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__d.html#a0f50103172bbdd75226dff6418742a02" title="DSWAP: interchanges two vectors. uses unrolled loops for increments equal to 1." alt="" coords="213,5,365,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="165,31,200,26,200,32,166,36"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__q.html#a5b65bc1d3ef624af0ce18e0457b11b1b" title="DSWAP: interchanges two vectors. uses unrolled loops for increments equal to 1." alt="" coords="213,55,365,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="166,50,200,54,200,59,165,55"/>
+</map>

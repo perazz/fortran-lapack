@@ -1,0 +1,7 @@
+<map id="la_blas::scal::sscal" name="la_blas::scal::sscal">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,31,148,56"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__s.html#aacdbd82df96be7e518a78624e1e70b95" title="SSCAL: scales a vector by a constant. uses unrolled loops for increment equal to 1." alt="" coords="199,5,342,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="148,31,185,26,186,32,149,37"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__w.html#aa9aa468ae6bca7e18fa68b82c3242d82" title="ZSCAL: scales a vector by a constant." alt="" coords="196,55,345,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="148,49,183,54,182,59,148,55"/>
+</map>

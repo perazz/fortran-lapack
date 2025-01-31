@@ -1,0 +1,9 @@
+<map id="la_blas::sdot::dsdot" name="la_blas::sdot::dsdot">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,67,153,92"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__d.html#af8b42d0a6fdb9f892d310f5d6d4bed3f" title="Compute the inner product of two vectors with extended precision accumulation and result...." alt="" coords="201,29,348,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="146,64,194,55,195,60,147,69"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__q.html#a1d16bd5a7dc8e0b8b5e3f8479dca9eee" title="Compute the inner product of two vectors with extended precision accumulation and result...." alt="" coords="201,103,348,128"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="149,89,193,98,192,103,148,95"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="243,31,236,21,239,11,253,5,275,3,301,6,313,15,309,19,299,11,275,8,254,10,243,15,241,20,247,28"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="243,104,236,94,239,84,253,78,275,76,301,80,313,88,309,93,299,84,275,81,254,83,243,88,241,94,247,101"/>
+</map>

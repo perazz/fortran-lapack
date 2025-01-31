@@ -1,15 +1,24 @@
 <map id="la_lapack_s::la_ssysv_rk" name="la_lapack_s::la_ssysv_rk">
-<area shape="rect" id="Node000001" title="SSYSV_RK: computes the solution to a real system of linear equations A * X = B, where A is an N&#45;by&#45;N ..." alt="" coords="5,55,188,80"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#a37dcfe095251eff4fb3eeff6eb3db5f9" title="SSYTRF_RK: computes the factorization of a real symmetric matrix A using the bounded Bunch&#45;Kaufman (r..." alt="" coords="236,29,419,55"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="188,55,222,51,223,56,188,60"/>
-<area shape="rect" id="Node000006" href="$namespacela__lapack__s.html#a2909f3201b0e17fe76d1e183c7d6c904" title="SSYTRS_3: solves a system of linear equations A * X = B with a real symmetric matrix A using the fact..." alt="" coords="238,79,417,104"/>
-<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="188,74,224,78,224,83,188,79"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__s.html#a2f3be3b1edcf81e67869fdb142475b01" title="SLASYF_RK: computes a partial factorization of a real symmetric matrix A using the bounded Bunch&#45;Kauf..." alt="" coords="467,5,651,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="419,30,454,26,454,32,420,35"/>
-<area shape="rect" id="Node000005" href="$namespacela__lapack__s.html#a31c026e58aab17c10053b29bf999c2d9" title="SSYTF2_RK: computes the factorization of a real symmetric matrix A using the bounded Bunch&#45;Kaufman (r..." alt="" coords="467,55,652,80"/>
-<area shape="poly" id="edge5_Node000002_Node000005" title=" " alt="" coords="420,49,453,53,453,58,419,55"/>
-<area shape="rect" id="Node000004" href="$namespacela__lapack__s.html#abbe0ae24f069ddbf134ff3e404a19878" title="SLAMCH: determines single precision machine parameters." alt="" coords="700,31,872,56"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="652,26,687,30,686,35,651,31"/>
-<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="749,32,741,22,745,12,761,6,786,4,818,8,830,17,827,21,816,13,786,9,762,11,749,16,746,22,753,29"/>
-<area shape="poly" id="edge6_Node000005_Node000004" title=" " alt="" coords="652,55,686,51,687,57,653,60"/>
+<area shape="rect" id="Node000001" title="SSYSV_RK: computes the solution to a real system of linear equations A * X = B, where A is an N&#45;by&#45;N ..." alt="" coords="5,171,188,196"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#a37dcfe095251eff4fb3eeff6eb3db5f9" title="SSYTRF_RK: computes the factorization of a real symmetric matrix A using the bounded Bunch&#45;Kaufman (r..." alt="" coords="236,145,419,171"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="188,171,222,167,223,172,188,176"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__s.html#a2909f3201b0e17fe76d1e183c7d6c904" title="SSYTRS_3: solves a system of linear equations A * X = B with a real symmetric matrix A using the fact..." alt="" coords="238,195,417,220"/>
+<area shape="poly" id="edge13_Node000001_Node000009" title=" " alt="" coords="188,190,224,194,224,199,188,195"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__aux.html#aa361c7114aef95e10b685247a1b75114" title="ILAENV: is called from the LAPACK routines to choose problem&#45;dependent parameters for the local envir..." alt="" coords="468,96,651,121"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="387,143,485,122,486,127,388,148"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__s.html#a2f3be3b1edcf81e67869fdb142475b01" title="SLASYF_RK: computes a partial factorization of a real symmetric matrix A using the bounded Bunch&#45;Kauf..." alt="" coords="467,145,651,171"/>
+<area shape="poly" id="edge8_Node000002_Node000006" title=" " alt="" coords="419,155,454,155,454,161,419,161"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__s.html#a31c026e58aab17c10053b29bf999c2d9" title="SSYTF2_RK: computes the factorization of a real symmetric matrix A using the bounded Bunch&#45;Kaufman (r..." alt="" coords="467,195,652,220"/>
+<area shape="poly" id="edge11_Node000002_Node000008" title=" " alt="" coords="388,168,486,189,485,194,387,173"/>
+<area shape="poly" id="edge5_Node000003_Node000003" title=" " alt="" coords="522,98,513,88,518,78,533,72,559,69,592,73,604,83,601,87,590,78,559,75,534,77,521,82,519,87,526,94"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__aux.html#a72541275ada30b0ca556fbc0d3959719" title="IEEECK: is called from the ILAENV to verify that Infinity and possibly NaN arithmetic is safe (i...." alt="" coords="701,29,887,55"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="600,93,699,63,728,56,730,61,701,69,602,98"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__aux.html#ace38ae70bb7022cae6ecabe992145fda" title="This program sets problem and machine dependent parameters useful for xHSEQR and related subroutines ..." alt="" coords="700,103,888,128"/>
+<area shape="poly" id="edge6_Node000003_Node000005" title=" " alt="" coords="651,109,686,110,686,115,651,114"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="756,31,748,21,752,11,768,5,794,3,827,7,840,16,836,20,825,11,794,8,769,10,755,15,753,20,760,27"/>
+<area shape="poly" id="edge7_Node000005_Node000005" title=" " alt="" coords="756,104,748,94,752,84,768,78,794,76,827,80,840,89,836,94,825,85,794,81,769,83,755,88,753,94,760,101"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__s.html#abbe0ae24f069ddbf134ff3e404a19878" title="SLAMCH: determines single precision machine parameters." alt="" coords="708,183,880,208"/>
+<area shape="poly" id="edge9_Node000006_Node000007" title=" " alt="" coords="640,168,701,178,700,183,639,173"/>
+<area shape="poly" id="edge10_Node000007_Node000007" title=" " alt="" coords="756,184,748,174,752,164,768,158,794,156,827,160,840,169,836,174,825,165,794,161,769,163,755,168,753,174,760,181"/>
+<area shape="poly" id="edge12_Node000008_Node000007" title=" " alt="" coords="652,200,694,198,694,203,652,205"/>
 </map>

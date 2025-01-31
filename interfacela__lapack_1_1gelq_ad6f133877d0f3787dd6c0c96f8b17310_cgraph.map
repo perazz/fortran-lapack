@@ -1,63 +1,72 @@
 <map id="la_lapack::gelq::sgelq" name="la_lapack::gelq::sgelq">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,189,168,215"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#a4a97222427f57c4e84495323b15223c2" title="SGELQ: computes an LQ factorization of a real M&#45;by&#45;N matrix A: A = ( L 0 ) * Q where: Q is a N&#45;by&#45;N o..." alt="" coords="219,129,379,155"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="132,187,240,156,241,161,133,192"/>
-<area shape="rect" id="Node000015" href="$namespacela__lapack__w.html#a4b82ae7eece18274db6d6a4b62690446" title="ZGELQ: computes an LQ factorization of a complex M&#45;by&#45;N matrix A: A = ( L 0 ) * Q where: Q is a N&#45;by&#45;..." alt="" coords="216,215,383,240"/>
-<area shape="poly" id="edge22_Node000001_Node000015" title=" " alt="" coords="169,209,203,213,202,218,168,214"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__s.html#a4205f3ed703474a4618bc652f2cf23a2" title="DGELQT computes a blocked LQ factorization of a real M&#45;by&#45;N matrix A using the compact WY representat..." alt="" coords="663,79,829,104"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="358,127,430,114,544,101,649,94,650,99,544,107,431,119,359,132"/>
-<area shape="rect" id="Node000011" href="$namespacela__lapack__s.html#a110d0f37ecb979187f6aca60887e423f" title="SLASWLQ: computes a blocked Tall&#45;Skinny LQ factorization of a real M&#45;by&#45;N matrix A for M &lt;= N: A = ( ..." alt="" coords="434,129,609,155"/>
-<area shape="poly" id="edge16_Node000002_Node000011" title=" " alt="" coords="380,139,420,139,420,145,380,145"/>
-<area shape="rect" id="Node000004" href="$namespacela__lapack__s.html#a22f287ca945cb62e9550aff50759528c" title="SGELQT3: recursively computes a LQ factorization of a real M&#45;by&#45;N matrix A, using the compact WY repr..." alt="" coords="883,29,1057,55"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="804,76,898,55,899,60,805,81"/>
-<area shape="rect" id="Node000010" href="$namespacela__lapack__s.html#a88f424ab78fa97dff58d431a8ab51b7c" title="SLARFB: applies a real block reflector H or its transpose H**T to a real m by n matrix C,..." alt="" coords="889,79,1051,104"/>
-<area shape="poly" id="edge15_Node000003_Node000010" title=" " alt="" coords="829,89,875,89,875,94,829,94"/>
-<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="933,31,926,21,930,11,945,5,970,3,1002,7,1014,16,1010,20,1000,11,970,8,946,10,933,15,931,20,938,27"/>
-<area shape="rect" id="Node000005" href="$namespacela__lapack__s.html#a7abfbd65886bc302a2f9526f8de41388" title="SLARFG: generates a real elementary reflector H of order n, such that H * ( alpha ) = ( beta ),..." alt="" coords="1114,79,1277,104"/>
-<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="1029,52,1124,73,1123,78,1028,57"/>
-<area shape="rect" id="Node000006" href="$namespacela__lapack__s.html#abbe0ae24f069ddbf134ff3e404a19878" title="SLAMCH: determines single precision machine parameters." alt="" coords="1549,104,1721,129"/>
-<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="1277,93,1535,108,1535,114,1277,99"/>
-<area shape="rect" id="Node000007" href="$namespacela__lapack__s.html#a9e70d6d165ba95d10e4f8592c02475c7" title="SLAPY2: returns sqrt(x**2+y**2), taking care not to cause unnecessary overflow and unnecessary underf..." alt="" coords="1332,53,1500,79"/>
-<area shape="poly" id="edge8_Node000005_Node000007" title=" " alt="" coords="1277,79,1318,75,1319,80,1278,85"/>
-<area shape="poly" id="edge7_Node000006_Node000006" title=" " alt="" coords="1600,106,1592,96,1596,86,1611,80,1635,77,1666,81,1678,90,1675,94,1664,86,1635,83,1612,85,1600,90,1597,95,1604,102"/>
-<area shape="poly" id="edge13_Node000007_Node000006" title=" " alt="" coords="1473,76,1567,98,1566,103,1471,81"/>
-<area shape="poly" id="edge14_Node000007_Node000007" title=" " alt="" coords="1380,55,1373,45,1377,35,1391,29,1416,27,1446,30,1458,39,1455,44,1444,35,1416,32,1393,34,1380,39,1378,44,1384,52"/>
-<area shape="rect" id="Node000008" href="$namespacela__lapack__s.html#af8d4b806648873f614d26ba3f9d00512" title="SISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="1552,31,1719,56"/>
-<area shape="poly" id="edge9_Node000007_Node000008" title=" " alt="" coords="1500,55,1538,51,1539,56,1501,60"/>
-<area shape="poly" id="edge10_Node000008_Node000008" title=" " alt="" coords="1600,32,1592,22,1596,12,1611,6,1635,4,1666,8,1678,17,1675,21,1664,13,1635,9,1612,11,1600,16,1597,22,1604,29"/>
-<area shape="rect" id="Node000009" href="$namespacela__lapack__s.html#ab716c1e999e316ce29c31703ef379eb1" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in SISNAN...." alt="" coords="1769,31,1948,56"/>
-<area shape="poly" id="edge11_Node000008_Node000009" title=" " alt="" coords="1719,41,1756,41,1756,46,1719,46"/>
-<area shape="poly" id="edge12_Node000009_Node000009" title=" " alt="" coords="1823,32,1815,22,1819,12,1834,6,1859,4,1889,8,1902,17,1898,21,1887,13,1859,9,1835,11,1822,16,1820,22,1827,29"/>
-<area shape="poly" id="edge17_Node000011_Node000003" title=" " alt="" coords="578,127,675,104,677,110,579,132"/>
-<area shape="rect" id="Node000012" href="$namespacela__lapack__s.html#a041bffce0b09aadd8d1972958d4e28b2" title="STPLQT: computes a blocked LQ factorization of a real &quot;triangular&#45;pentagonal&quot; matrix C,..." alt="" coords="665,129,827,155"/>
-<area shape="poly" id="edge18_Node000011_Node000012" title=" " alt="" coords="609,139,651,139,651,145,609,145"/>
-<area shape="rect" id="Node000013" href="$namespacela__lapack__s.html#aa81523005c9d3974dfd80aa5d361feaa" title="STPLQT2: computes a LQ a factorization of a real &quot;triangular&#45;pentagonal&quot; matrix C,..." alt="" coords="885,128,1055,153"/>
-<area shape="poly" id="edge19_Node000012_Node000013" title=" " alt="" coords="828,139,871,139,871,144,828,144"/>
-<area shape="rect" id="Node000014" href="$namespacela__lapack__s.html#a3c5dcc0b6f70342c48aa1525aa0d0df8" title="STPRFB: applies a real &quot;triangular&#45;pentagonal&quot; block reflector H or its conjugate transpose H^H to a ..." alt="" coords="889,177,1051,203"/>
-<area shape="poly" id="edge21_Node000012_Node000014" title=" " alt="" coords="807,152,897,172,896,177,806,157"/>
-<area shape="poly" id="edge20_Node000013_Node000005" title=" " alt="" coords="1028,125,1123,104,1124,110,1029,131"/>
-<area shape="rect" id="Node000016" href="$namespacela__lapack__w.html#a78724654184dbbbeef658afa25cd974c" title="ZGELQT: computes a blocked LQ factorization of a complex M&#45;by&#45;N matrix A using the compact WY represe..." alt="" coords="660,264,832,289"/>
-<area shape="poly" id="edge23_Node000015_Node000016" title=" " alt="" coords="383,229,492,237,612,250,669,259,668,264,612,255,492,243,383,234"/>
-<area shape="rect" id="Node000022" href="$namespacela__lapack__w.html#a3293876ea511500d1e19389099f5f388" title="ZLASWLQ: computes a blocked Tall&#45;Skinny LQ factorization of a complexx M&#45;by&#45;N matrix A for M &lt;= N: A ..." alt="" coords="431,265,612,291"/>
-<area shape="poly" id="edge31_Node000015_Node000022" title=" " alt="" coords="357,238,452,260,451,265,355,243"/>
-<area shape="rect" id="Node000017" href="$namespacela__lapack__w.html#af69f76216ee3dc0908ecf60d96e89004" title="ZGELQT3: recursively computes a LQ factorization of a complex M&#45;by&#45;N matrix A, using the compact WY r..." alt="" coords="880,300,1060,325"/>
-<area shape="poly" id="edge24_Node000016_Node000017" title=" " alt="" coords="826,287,877,295,877,300,825,292"/>
-<area shape="rect" id="Node000020" href="$namespacela__lapack__w.html#a3f55478b3a303207019b864ee0d4a681" title="ZLARFB: applies a complex block reflector H or its transpose H**H to a complex M&#45;by&#45;N matrix C,..." alt="" coords="885,227,1055,252"/>
-<area shape="poly" id="edge29_Node000016_Node000020" title=" " alt="" coords="822,261,879,252,880,257,823,267"/>
-<area shape="poly" id="edge25_Node000017_Node000017" title=" " alt="" coords="933,302,926,292,930,282,945,276,970,273,1002,277,1014,287,1010,291,1000,282,970,279,946,281,933,286,931,291,938,298"/>
-<area shape="rect" id="Node000018" href="$namespacela__lapack__w.html#aa9eb79b853bd27197cc061402a74d006" title="ZLARFG: generates a complex elementary reflector H of order n, such that H**H * ( alpha ) = ( beta ),..." alt="" coords="1111,324,1280,349"/>
-<area shape="poly" id="edge26_Node000017_Node000018" title=" " alt="" coords="1061,320,1097,324,1097,329,1060,325"/>
-<area shape="rect" id="Node000019" href="$namespacela__lapack__w.html#a256289e251e51bb1c01d2fe45fe134fa" title="ZLADIV: := X / Y, where X and Y are complex. The computation of X / Y will not overflow on an interme..." alt="" coords="1331,324,1501,349"/>
-<area shape="poly" id="edge27_Node000018_Node000019" title=" " alt="" coords="1280,334,1317,334,1317,339,1280,339"/>
-<area shape="poly" id="edge28_Node000019_Node000019" title=" " alt="" coords="1380,326,1373,316,1377,306,1391,300,1416,297,1446,301,1458,310,1455,314,1444,306,1416,303,1393,305,1380,310,1378,315,1384,322"/>
-<area shape="rect" id="Node000021" href="$namespacela__lapack__w.html#af9fd634fd795490b65aee72c58533e2f" title="ZLACGV: conjugates a complex vector of length N." alt="" coords="1108,227,1283,252"/>
-<area shape="poly" id="edge30_Node000020_Node000021" title=" " alt="" coords="1055,237,1094,237,1094,242,1055,242"/>
-<area shape="poly" id="edge32_Node000022_Node000016" title=" " alt="" coords="612,275,646,275,646,280,612,280"/>
-<area shape="rect" id="Node000023" href="$namespacela__lapack__w.html#ab8f1b6ec424e4001b2198a9eaefd0469" title="ZTPLQT: computes a blocked LQ factorization of a complex &quot;triangular&#45;pentagonal&quot; matrix C,..." alt="" coords="661,349,831,375"/>
-<area shape="poly" id="edge33_Node000022_Node000023" title=" " alt="" coords="557,288,699,342,698,347,555,293"/>
-<area shape="rect" id="Node000024" href="$namespacela__lapack__w.html#a597d773c7a3f9363855106db3f21237a" title="ZTPLQT2: computes a LQ a factorization of a complex &quot;triangular&#45;pentagonal&quot; matrix C,..." alt="" coords="881,349,1059,375"/>
-<area shape="poly" id="edge34_Node000023_Node000024" title=" " alt="" coords="831,359,867,359,867,365,831,365"/>
-<area shape="rect" id="Node000025" href="$namespacela__lapack__w.html#a71d546591b52c26a9f34f39357be4557" title="ZTPRFB: applies a complex &quot;triangular&#45;pentagonal&quot; block reflector H or its conjugate transpose H**H t..." alt="" coords="885,399,1055,424"/>
-<area shape="poly" id="edge36_Node000023_Node000025" title=" " alt="" coords="805,372,899,393,898,398,804,377"/>
-<area shape="poly" id="edge35_Node000024_Node000018" title=" " alt="" coords="1058,349,1097,345,1097,350,1059,355"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,300,168,325"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#a4a97222427f57c4e84495323b15223c2" title="SGELQ: computes an LQ factorization of a real M&#45;by&#45;N matrix A: A = ( L 0 ) * Q where: Q is a N&#45;by&#45;N o..." alt="" coords="219,189,379,215"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="111,298,260,219,263,223,113,302"/>
+<area shape="rect" id="Node000015" href="$namespacela__lapack__w.html#a4b82ae7eece18274db6d6a4b62690446" title="ZGELQ: computes an LQ factorization of a complex M&#45;by&#45;N matrix A: A = ( L 0 ) * Q where: Q is a N&#45;by&#45;..." alt="" coords="216,335,383,360"/>
+<area shape="poly" id="edge22_Node000001_Node000015" title=" " alt="" coords="165,323,208,330,207,335,165,328"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__s.html#a4205f3ed703474a4618bc652f2cf23a2" title="DGELQT computes a blocked LQ factorization of a real M&#45;by&#45;N matrix A using the compact WY representat..." alt="" coords="673,164,838,189"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="379,195,659,179,659,185,380,200"/>
+<area shape="rect" id="Node000011" href="$namespacela__lapack__s.html#a110d0f37ecb979187f6aca60887e423f" title="SLASWLQ: computes a blocked Tall&#45;Skinny LQ factorization of a real M&#45;by&#45;N matrix A for M &lt;= N: A = ( ..." alt="" coords="435,139,609,164"/>
+<area shape="poly" id="edge16_Node000002_Node000011" title=" " alt="" coords="356,187,452,164,453,170,357,192"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__s.html#a22f287ca945cb62e9550aff50759528c" title="SGELQT3: recursively computes a LQ factorization of a real M&#45;by&#45;N matrix A, using the compact WY repr..." alt="" coords="901,139,1074,164"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="838,165,887,160,887,165,838,170"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__s.html#a88f424ab78fa97dff58d431a8ab51b7c" title="SLARFB: applies a real block reflector H or its transpose H**T to a real m by n matrix C,..." alt="" coords="906,188,1069,213"/>
+<area shape="poly" id="edge15_Node000003_Node000010" title=" " alt="" coords="838,183,893,188,892,194,838,188"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="951,140,943,130,947,120,962,114,987,112,1019,116,1031,125,1028,129,1017,121,987,117,963,119,951,124,948,130,955,137"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__s.html#a7abfbd65886bc302a2f9526f8de41388" title="SLARFG: generates a real elementary reflector H of order n, such that H * ( alpha ) = ( beta ),..." alt="" coords="1131,77,1294,103"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="1034,136,1151,104,1153,109,1036,141"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__s.html#abbe0ae24f069ddbf134ff3e404a19878" title="SLAMCH: determines single precision machine parameters." alt="" coords="1567,103,1739,128"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="1294,92,1553,107,1553,112,1294,97"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__s.html#a9e70d6d165ba95d10e4f8592c02475c7" title="SLAPY2: returns sqrt(x**2+y**2), taking care not to cause unnecessary overflow and unnecessary underf..." alt="" coords="1349,52,1517,77"/>
+<area shape="poly" id="edge8_Node000005_Node000007" title=" " alt="" coords="1294,78,1335,73,1336,79,1295,83"/>
+<area shape="poly" id="edge7_Node000006_Node000006" title=" " alt="" coords="1617,104,1609,94,1613,84,1628,78,1653,76,1683,80,1695,89,1692,93,1681,85,1653,81,1629,83,1617,88,1614,94,1621,101"/>
+<area shape="poly" id="edge13_Node000007_Node000006" title=" " alt="" coords="1490,75,1585,97,1583,102,1489,80"/>
+<area shape="poly" id="edge14_Node000007_Node000007" title=" " alt="" coords="1398,54,1390,44,1394,34,1409,28,1433,25,1464,29,1476,38,1473,42,1462,34,1433,31,1410,33,1398,38,1395,43,1402,50"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__s.html#af8d4b806648873f614d26ba3f9d00512" title="SISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="1569,29,1736,55"/>
+<area shape="poly" id="edge9_Node000007_Node000008" title=" " alt="" coords="1518,53,1555,49,1556,55,1518,59"/>
+<area shape="poly" id="edge10_Node000008_Node000008" title=" " alt="" coords="1617,31,1609,21,1613,11,1628,5,1653,3,1683,6,1695,15,1692,20,1681,11,1653,8,1629,10,1617,15,1614,20,1621,28"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__s.html#ab716c1e999e316ce29c31703ef379eb1" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in SISNAN...." alt="" coords="1787,29,1965,55"/>
+<area shape="poly" id="edge11_Node000008_Node000009" title=" " alt="" coords="1736,39,1773,39,1773,45,1736,45"/>
+<area shape="poly" id="edge12_Node000009_Node000009" title=" " alt="" coords="1840,31,1832,21,1836,11,1851,5,1876,3,1907,6,1919,15,1916,20,1905,11,1876,8,1852,10,1840,15,1837,20,1844,28"/>
+<area shape="poly" id="edge17_Node000011_Node000003" title=" " alt="" coords="610,158,659,164,659,169,610,163"/>
+<area shape="rect" id="Node000012" href="$namespacela__lapack__s.html#a041bffce0b09aadd8d1972958d4e28b2" title="STPLQT: computes a blocked LQ factorization of a real &quot;triangular&#45;pentagonal&quot; matrix C,..." alt="" coords="674,65,837,91"/>
+<area shape="poly" id="edge18_Node000011_Node000012" title=" " alt="" coords="563,136,700,92,702,97,564,141"/>
+<area shape="rect" id="Node000013" href="$namespacela__lapack__s.html#aa81523005c9d3974dfd80aa5d361feaa" title="STPLQT2: computes a LQ a factorization of a real &quot;triangular&#45;pentagonal&quot; matrix C,..." alt="" coords="902,16,1073,41"/>
+<area shape="poly" id="edge19_Node000012_Node000013" title=" " alt="" coords="815,63,913,42,914,47,816,68"/>
+<area shape="rect" id="Node000014" href="$namespacela__lapack__s.html#a3c5dcc0b6f70342c48aa1525aa0d0df8" title="STPRFB: applies a real &quot;triangular&#45;pentagonal&quot; block reflector H or its conjugate transpose H^H to a ..." alt="" coords="906,65,1069,91"/>
+<area shape="poly" id="edge21_Node000012_Node000014" title=" " alt="" coords="837,75,892,75,892,81,837,81"/>
+<area shape="poly" id="edge20_Node000013_Node000005" title=" " alt="" coords="1037,39,1078,50,1153,71,1152,76,1077,55,1035,44"/>
+<area shape="rect" id="Node000016" href="$namespacela__lapack__aux.html#aa361c7114aef95e10b685247a1b75114" title="ILAENV: is called from the LAPACK routines to choose problem&#45;dependent parameters for the local envir..." alt="" coords="431,433,613,459"/>
+<area shape="poly" id="edge23_Node000015_Node000016" title=" " alt="" coords="330,358,481,425,479,430,328,362"/>
+<area shape="rect" id="Node000019" href="$namespacela__lapack__w.html#a78724654184dbbbeef658afa25cd974c" title="ZGELQT: computes a blocked LQ factorization of a complex M&#45;by&#45;N matrix A using the compact WY represe..." alt="" coords="669,309,841,335"/>
+<area shape="poly" id="edge29_Node000015_Node000019" title=" " alt="" coords="383,340,655,325,655,330,383,345"/>
+<area shape="rect" id="Node000025" href="$namespacela__lapack__w.html#a3293876ea511500d1e19389099f5f388" title="ZLASWLQ: computes a blocked Tall&#45;Skinny LQ factorization of a complexx M&#45;by&#45;N matrix A for M &lt;= N: A ..." alt="" coords="431,360,613,385"/>
+<area shape="poly" id="edge37_Node000015_Node000025" title=" " alt="" coords="384,354,418,358,417,363,383,359"/>
+<area shape="poly" id="edge26_Node000016_Node000016" title=" " alt="" coords="486,435,478,425,482,415,497,409,522,407,553,410,565,419,562,424,551,415,522,412,498,414,486,419,483,424,490,432"/>
+<area shape="rect" id="Node000017" href="$namespacela__lapack__aux.html#a72541275ada30b0ca556fbc0d3959719" title="IEEECK: is called from the ILAENV to verify that Infinity and possibly NaN arithmetic is safe (i...." alt="" coords="663,433,848,459"/>
+<area shape="poly" id="edge24_Node000016_Node000017" title=" " alt="" coords="614,443,649,443,649,449,614,449"/>
+<area shape="rect" id="Node000018" href="$namespacela__lapack__aux.html#ace38ae70bb7022cae6ecabe992145fda" title="This program sets problem and machine dependent parameters useful for xHSEQR and related subroutines ..." alt="" coords="661,507,849,532"/>
+<area shape="poly" id="edge27_Node000016_Node000018" title=" " alt="" coords="564,456,702,500,700,505,563,461"/>
+<area shape="poly" id="edge25_Node000017_Node000017" title=" " alt="" coords="718,435,709,425,714,415,729,409,755,407,788,411,800,420,797,424,786,415,755,412,730,414,717,419,715,424,722,431"/>
+<area shape="poly" id="edge28_Node000018_Node000018" title=" " alt="" coords="718,508,709,498,714,488,729,482,755,480,788,484,800,493,797,498,786,489,755,485,730,487,717,492,715,498,722,505"/>
+<area shape="rect" id="Node000020" href="$namespacela__lapack__w.html#af69f76216ee3dc0908ecf60d96e89004" title="ZGELQT3: recursively computes a LQ factorization of a complex M&#45;by&#45;N matrix A, using the compact WY r..." alt="" coords="897,311,1077,336"/>
+<area shape="poly" id="edge30_Node000019_Node000020" title=" " alt="" coords="841,320,884,320,884,325,841,325"/>
+<area shape="rect" id="Node000023" href="$namespacela__lapack__w.html#a3f55478b3a303207019b864ee0d4a681" title="ZLARFB: applies a complex block reflector H or its transpose H**H to a complex M&#45;by&#45;N matrix C,..." alt="" coords="903,237,1072,263"/>
+<area shape="poly" id="edge35_Node000019_Node000023" title=" " alt="" coords="791,307,897,271,923,264,924,269,898,277,793,312"/>
+<area shape="poly" id="edge31_Node000020_Node000020" title=" " alt="" coords="951,312,943,302,947,292,962,286,987,284,1019,288,1031,297,1028,301,1017,293,987,289,963,291,951,296,948,302,955,309"/>
+<area shape="rect" id="Node000021" href="$namespacela__lapack__w.html#aa9eb79b853bd27197cc061402a74d006" title="ZLARFG: generates a complex elementary reflector H of order n, such that H**H * ( alpha ) = ( beta ),..." alt="" coords="1128,335,1297,360"/>
+<area shape="poly" id="edge32_Node000020_Node000021" title=" " alt="" coords="1078,330,1115,334,1114,340,1078,336"/>
+<area shape="rect" id="Node000022" href="$namespacela__lapack__w.html#a256289e251e51bb1c01d2fe45fe134fa" title="ZLADIV: := X / Y, where X and Y are complex. The computation of X / Y will not overflow on an interme..." alt="" coords="1348,335,1519,360"/>
+<area shape="poly" id="edge33_Node000021_Node000022" title=" " alt="" coords="1298,345,1334,345,1334,350,1298,350"/>
+<area shape="poly" id="edge34_Node000022_Node000022" title=" " alt="" coords="1398,336,1390,326,1394,316,1409,310,1433,308,1464,312,1476,321,1473,325,1462,317,1433,313,1410,315,1398,320,1395,326,1402,333"/>
+<area shape="rect" id="Node000024" href="$namespacela__lapack__w.html#af9fd634fd795490b65aee72c58533e2f" title="ZLACGV: conjugates a complex vector of length N." alt="" coords="1125,237,1300,263"/>
+<area shape="poly" id="edge36_Node000023_Node000024" title=" " alt="" coords="1072,247,1112,247,1112,253,1072,253"/>
+<area shape="poly" id="edge38_Node000025_Node000019" title=" " alt="" coords="581,357,683,335,684,340,582,362"/>
+<area shape="rect" id="Node000026" href="$namespacela__lapack__w.html#ab8f1b6ec424e4001b2198a9eaefd0469" title="ZTPLQT: computes a blocked LQ factorization of a complex &quot;triangular&#45;pentagonal&quot; matrix C,..." alt="" coords="671,360,840,385"/>
+<area shape="poly" id="edge39_Node000025_Node000026" title=" " alt="" coords="613,370,657,370,657,375,613,375"/>
+<area shape="rect" id="Node000027" href="$namespacela__lapack__w.html#a597d773c7a3f9363855106db3f21237a" title="ZTPLQT2: computes a LQ a factorization of a complex &quot;triangular&#45;pentagonal&quot; matrix C,..." alt="" coords="899,360,1076,385"/>
+<area shape="poly" id="edge40_Node000026_Node000027" title=" " alt="" coords="840,370,885,370,885,375,840,375"/>
+<area shape="rect" id="Node000028" href="$namespacela__lapack__w.html#a71d546591b52c26a9f34f39357be4557" title="ZTPRFB: applies a complex &quot;triangular&#45;pentagonal&quot; block reflector H or its conjugate transpose H**H t..." alt="" coords="902,409,1073,435"/>
+<area shape="poly" id="edge42_Node000026_Node000028" title=" " alt="" coords="816,383,914,404,913,409,815,388"/>
+<area shape="poly" id="edge41_Node000027_Node000021" title=" " alt="" coords="1076,360,1114,356,1115,361,1076,365"/>
 </map>

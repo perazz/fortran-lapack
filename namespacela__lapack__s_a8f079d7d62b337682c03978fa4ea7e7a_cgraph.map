@@ -1,5 +1,14 @@
 <map id="la_lapack_s::la_strtri" name="la_lapack_s::la_strtri">
-<area shape="rect" id="Node000001" title="STRTRI: computes the inverse of a real upper or lower triangular matrix A. This is the Level 3 BLAS v..." alt="" coords="5,5,161,31"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#a1825d3e253eed70022be6e45f2e69121" title="STRTI2: computes the inverse of a real upper or lower triangular matrix. This is the Level 2 BLAS ver..." alt="" coords="209,5,368,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="162,15,195,15,195,21,162,21"/>
+<area shape="rect" id="Node000001" title="STRTRI: computes the inverse of a real upper or lower triangular matrix A. This is the Level 3 BLAS v..." alt="" coords="5,91,161,116"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__aux.html#aa361c7114aef95e10b685247a1b75114" title="ILAENV: is called from the LAPACK routines to choose problem&#45;dependent parameters for the local envir..." alt="" coords="209,65,392,91"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="161,92,195,88,196,93,162,97"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__s.html#a1825d3e253eed70022be6e45f2e69121" title="STRTI2: computes the inverse of a real upper or lower triangular matrix. This is the Level 2 BLAS ver..." alt="" coords="221,115,380,140"/>
+<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="162,109,208,114,207,120,161,115"/>
+<area shape="poly" id="edge4_Node000002_Node000002" title=" " alt="" coords="265,67,258,57,262,47,276,41,301,39,331,42,343,51,339,56,329,47,301,44,278,46,265,51,263,56,269,64"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__aux.html#a72541275ada30b0ca556fbc0d3959719" title="IEEECK: is called from the ILAENV to verify that Infinity and possibly NaN arithmetic is safe (i...." alt="" coords="441,29,627,55"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="383,63,437,54,438,59,384,68"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__aux.html#ace38ae70bb7022cae6ecabe992145fda" title="This program sets problem and machine dependent parameters useful for xHSEQR and related subroutines ..." alt="" coords="440,103,628,128"/>
+<area shape="poly" id="edge5_Node000002_Node000004" title=" " alt="" coords="381,88,441,98,440,103,380,93"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="496,31,488,21,492,11,508,5,534,3,567,7,579,16,576,20,565,11,534,8,509,10,496,15,493,20,500,27"/>
+<area shape="poly" id="edge6_Node000004_Node000004" title=" " alt="" coords="496,104,488,94,492,84,508,78,534,76,567,80,579,89,576,94,565,85,534,81,509,83,496,88,493,94,500,101"/>
 </map>

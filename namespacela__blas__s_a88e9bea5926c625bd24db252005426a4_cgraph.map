@@ -1,0 +1,5 @@
+<map id="la_blas_s::la_sger" name="la_blas_s::la_sger">
+<area shape="rect" id="Node000001" title="SGER: performs the rank 1 operation A := alpha*x*y**T + A, where alpha is a scalar,..." alt="" coords="5,5,143,31"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="191,5,357,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="143,15,177,15,177,21,143,21"/>
+</map>

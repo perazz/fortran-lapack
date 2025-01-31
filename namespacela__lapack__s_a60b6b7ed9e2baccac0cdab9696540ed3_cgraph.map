@@ -1,5 +1,11 @@
 <map id="la_lapack_s::la_sorgl2" name="la_lapack_s::la_sorgl2">
-<area shape="rect" id="Node000001" title="SORGL2: generates an m by n real matrix Q with orthonormal rows, which is defined as the first m rows..." alt="" coords="5,5,171,31"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#afe74baa9cec84eae9cb50ed04c85340c" title="SLARF: applies a real elementary reflector H to a real m by n matrix C, from either the left or the r..." alt="" coords="219,5,373,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="171,15,205,15,205,21,171,21"/>
+<area shape="rect" id="Node000001" title="SORGL2: generates an m by n real matrix Q with orthonormal rows, which is defined as the first m rows..." alt="" coords="5,67,171,92"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#afe74baa9cec84eae9cb50ed04c85340c" title="SLARF: applies a real elementary reflector H to a real m by n matrix C, from either the left or the r..." alt="" coords="219,67,373,92"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="171,77,205,77,205,82,171,82"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__aux.html#ab982c17ecc1d9fcfd510bef30fe083be" title="ILASLC: scans A for its last non&#45;zero column." alt="" coords="421,29,597,55"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="369,64,423,54,423,60,370,69"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__aux.html#a1abc101c5f65760eafb8b98e3f41e083" title="ILASLR: scans A for its last non&#45;zero row." alt="" coords="422,103,597,128"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="372,89,421,98,420,103,371,95"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="474,31,467,21,471,11,485,5,509,3,539,6,551,15,548,20,537,11,509,8,487,10,475,15,472,20,479,28"/>
+<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="474,104,467,94,471,84,485,78,509,76,539,80,551,89,548,93,537,85,509,81,487,83,475,88,472,94,479,101"/>
 </map>

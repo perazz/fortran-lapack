@@ -97,38 +97,65 @@ $(document).ready(function(){initNavTree('interfacela__solve_1_1solve.html','');
 </div><!--header-->
 <div class="contents">
 
-<p>Solve a linear system.  
+<p>Solve a system of linear equations A * X = B.  
  <a href="interfacela__solve_1_1solve.html#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a8a540eb6b3d444f01d046e6c561e6e27" id="r_a8a540eb6b3d444f01d046e6c561e6e27"><td class="memItemLeft" align="right" valign="top">real(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>) function, dimension(:), allocatable, target&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interfacela__solve_1_1solve.html#a8a540eb6b3d444f01d046e6c561e6e27">la_ssolve_one</a> (a, b, overwrite_a, err)</td></tr>
+<tr class="memdesc:a8a540eb6b3d444f01d046e6c561e6e27"><td class="mdescLeft">&#160;</td><td class="mdescRight">Linear system solve, _one, real(sp)  <br /></td></tr>
 <tr class="separator:a8a540eb6b3d444f01d046e6c561e6e27"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a568054147590198e1e924a68291b20a9" id="r_a568054147590198e1e924a68291b20a9"><td class="memItemLeft" align="right" valign="top">real(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>) function, dimension(:), allocatable, target&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interfacela__solve_1_1solve.html#a568054147590198e1e924a68291b20a9">la_dsolve_one</a> (a, b, overwrite_a, err)</td></tr>
+<tr class="memdesc:a568054147590198e1e924a68291b20a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Linear system solve, _one, real(dp)  <br /></td></tr>
 <tr class="separator:a568054147590198e1e924a68291b20a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a07f57100c231a1d8a04e542f31ff858b" id="r_a07f57100c231a1d8a04e542f31ff858b"><td class="memItemLeft" align="right" valign="top">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>) function, dimension(:), allocatable, target&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interfacela__solve_1_1solve.html#a07f57100c231a1d8a04e542f31ff858b">la_qsolve_one</a> (a, b, overwrite_a, err)</td></tr>
+<tr class="memdesc:a07f57100c231a1d8a04e542f31ff858b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Linear system solve, _one, real(qp)  <br /></td></tr>
 <tr class="separator:a07f57100c231a1d8a04e542f31ff858b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6627936489a5f3b284e9354afc556d1f" id="r_a6627936489a5f3b284e9354afc556d1f"><td class="memItemLeft" align="right" valign="top">complex(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>) function, dimension(:), allocatable, target&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interfacela__solve_1_1solve.html#a6627936489a5f3b284e9354afc556d1f">la_csolve_one</a> (a, b, overwrite_a, err)</td></tr>
+<tr class="memdesc:a6627936489a5f3b284e9354afc556d1f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Linear system solve, _one, complex(sp)  <br /></td></tr>
 <tr class="separator:a6627936489a5f3b284e9354afc556d1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab9072b0689f6a67deeeec4a90e60bee7" id="r_ab9072b0689f6a67deeeec4a90e60bee7"><td class="memItemLeft" align="right" valign="top">complex(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>) function, dimension(:), allocatable, target&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interfacela__solve_1_1solve.html#ab9072b0689f6a67deeeec4a90e60bee7">la_zsolve_one</a> (a, b, overwrite_a, err)</td></tr>
+<tr class="memdesc:ab9072b0689f6a67deeeec4a90e60bee7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Linear system solve, _one, complex(dp)  <br /></td></tr>
 <tr class="separator:ab9072b0689f6a67deeeec4a90e60bee7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abd02bcbaf432ca06e7a12a5a919b29ee" id="r_abd02bcbaf432ca06e7a12a5a919b29ee"><td class="memItemLeft" align="right" valign="top">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>) function, dimension(:), allocatable, target&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interfacela__solve_1_1solve.html#abd02bcbaf432ca06e7a12a5a919b29ee">la_wsolve_one</a> (a, b, overwrite_a, err)</td></tr>
+<tr class="memdesc:abd02bcbaf432ca06e7a12a5a919b29ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Linear system solve, _one, complex(qp)  <br /></td></tr>
 <tr class="separator:abd02bcbaf432ca06e7a12a5a919b29ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aedb30264a6d54c10180b4a9ff1c2097d" id="r_aedb30264a6d54c10180b4a9ff1c2097d"><td class="memItemLeft" align="right" valign="top">real(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>) function, dimension(:,:), allocatable, target&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interfacela__solve_1_1solve.html#aedb30264a6d54c10180b4a9ff1c2097d">la_ssolve_multiple</a> (a, b, overwrite_a, err)</td></tr>
+<tr class="memdesc:aedb30264a6d54c10180b4a9ff1c2097d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Linear system solve, _multiple, real(sp)  <br /></td></tr>
 <tr class="separator:aedb30264a6d54c10180b4a9ff1c2097d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a86309a4e8a06c4d44b8ae0e6fa5014c5" id="r_a86309a4e8a06c4d44b8ae0e6fa5014c5"><td class="memItemLeft" align="right" valign="top">real(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>) function, dimension(:,:), allocatable, target&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interfacela__solve_1_1solve.html#a86309a4e8a06c4d44b8ae0e6fa5014c5">la_dsolve_multiple</a> (a, b, overwrite_a, err)</td></tr>
+<tr class="memdesc:a86309a4e8a06c4d44b8ae0e6fa5014c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Linear system solve, _multiple, real(dp)  <br /></td></tr>
 <tr class="separator:a86309a4e8a06c4d44b8ae0e6fa5014c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a809320cd1ac2aa5ff4a2bc83c4ca69cc" id="r_a809320cd1ac2aa5ff4a2bc83c4ca69cc"><td class="memItemLeft" align="right" valign="top">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>) function, dimension(:,:), allocatable, target&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interfacela__solve_1_1solve.html#a809320cd1ac2aa5ff4a2bc83c4ca69cc">la_qsolve_multiple</a> (a, b, overwrite_a, err)</td></tr>
+<tr class="memdesc:a809320cd1ac2aa5ff4a2bc83c4ca69cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Linear system solve, _multiple, real(qp)  <br /></td></tr>
 <tr class="separator:a809320cd1ac2aa5ff4a2bc83c4ca69cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac744b72c0592bfb4447a7a404550e73f" id="r_ac744b72c0592bfb4447a7a404550e73f"><td class="memItemLeft" align="right" valign="top">complex(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>) function, dimension(:,:), allocatable, target&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interfacela__solve_1_1solve.html#ac744b72c0592bfb4447a7a404550e73f">la_csolve_multiple</a> (a, b, overwrite_a, err)</td></tr>
+<tr class="memdesc:ac744b72c0592bfb4447a7a404550e73f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Linear system solve, _multiple, complex(sp)  <br /></td></tr>
 <tr class="separator:ac744b72c0592bfb4447a7a404550e73f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a25cde927f6c85ed206512e63626a244c" id="r_a25cde927f6c85ed206512e63626a244c"><td class="memItemLeft" align="right" valign="top">complex(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>) function, dimension(:,:), allocatable, target&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interfacela__solve_1_1solve.html#a25cde927f6c85ed206512e63626a244c">la_zsolve_multiple</a> (a, b, overwrite_a, err)</td></tr>
+<tr class="memdesc:a25cde927f6c85ed206512e63626a244c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Linear system solve, _multiple, complex(dp)  <br /></td></tr>
 <tr class="separator:a25cde927f6c85ed206512e63626a244c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a36984a225fd6df86a6d7503706df5d5f" id="r_a36984a225fd6df86a6d7503706df5d5f"><td class="memItemLeft" align="right" valign="top">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>) function, dimension(:,:), allocatable, target&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interfacela__solve_1_1solve.html#a36984a225fd6df86a6d7503706df5d5f">la_wsolve_multiple</a> (a, b, overwrite_a, err)</td></tr>
+<tr class="memdesc:a36984a225fd6df86a6d7503706df5d5f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Linear system solve, _multiple, complex(qp)  <br /></td></tr>
 <tr class="separator:a36984a225fd6df86a6d7503706df5d5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Solve a linear system. </p>
+<div class="textblock"><p>Solve a system of linear equations A * X = B. </p>
+<p>This function computes the solution to a real system of linear equations:</p>
+<p><img class="formulaInl" alt="$ A \cdot X = B $" src="form_4.png"/></p>
+<p>where A is an <code>n x n</code> square matrix, and B is either a vector (<code>n</code>) or a matrix (<code>n x nrhs</code>). The solution X is returned as an allocatable array.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">A</td><td>The input square matrix of size <code>n x n</code>. If <code>overwrite_a</code> is true, the contents of A may be modified during computation. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">B</td><td>The right-hand side vector (size <code>n</code>) or matrix (size <code>n x nrhs</code>). </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>(Optional) If true, A may be overwritten and destroyed. Default is false. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>(Optional) A state return flag. If an error occurs and <code>err</code> is not provided, the function will stop execution.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Solution matrix X of size <code>n</code> (for a single right-hand side) or <code>n x nrhs</code>.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This function relies on LAPACK LU decomposition based solvers <code>*GESV</code>.</dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>If <code>overwrite_a</code> is enabled, the original contents of A may be lost. </dd></dl>
 </div><h2 class="groupheader">Member Function/Subroutine Documentation</h2>
 <a id="ac744b72c0592bfb4447a7a404550e73f" name="ac744b72c0592bfb4447a7a404550e73f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac744b72c0592bfb4447a7a404550e73f">&#9670;&#160;</a></span>la_csolve_multiple()</h2>
@@ -167,12 +194,14 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Linear system solve, _multiple, complex(sp) </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[n,n]</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>Right hand side vector or array, b[n] or b[n,nrhs]</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A data be overwritten and destroyed?</td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop</td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[n,n] </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>Right hand side vector or array, b[n] or b[n,nrhs] </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A data be overwritten and destroyed? </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop </td></tr>
   </table>
   </dd>
 </dl>
@@ -217,12 +246,14 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Linear system solve, _one, complex(sp) </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[n,n]</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>Right hand side vector or array, b[n] or b[n,nrhs]</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A data be overwritten and destroyed?</td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop</td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[n,n] </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>Right hand side vector or array, b[n] or b[n,nrhs] </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A data be overwritten and destroyed? </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop </td></tr>
   </table>
   </dd>
 </dl>
@@ -267,12 +298,14 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Linear system solve, _multiple, real(dp) </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[n,n]</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>Right hand side vector or array, b[n] or b[n,nrhs]</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A data be overwritten and destroyed?</td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop</td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[n,n] </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>Right hand side vector or array, b[n] or b[n,nrhs] </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A data be overwritten and destroyed? </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop </td></tr>
   </table>
   </dd>
 </dl>
@@ -317,12 +350,14 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Linear system solve, _one, real(dp) </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[n,n]</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>Right hand side vector or array, b[n] or b[n,nrhs]</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A data be overwritten and destroyed?</td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop</td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[n,n] </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>Right hand side vector or array, b[n] or b[n,nrhs] </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A data be overwritten and destroyed? </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop </td></tr>
   </table>
   </dd>
 </dl>
@@ -367,12 +402,14 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Linear system solve, _multiple, real(qp) </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[n,n]</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>Right hand side vector or array, b[n] or b[n,nrhs]</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A data be overwritten and destroyed?</td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop</td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[n,n] </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>Right hand side vector or array, b[n] or b[n,nrhs] </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A data be overwritten and destroyed? </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop </td></tr>
   </table>
   </dd>
 </dl>
@@ -417,12 +454,14 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Linear system solve, _one, real(qp) </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[n,n]</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>Right hand side vector or array, b[n] or b[n,nrhs]</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A data be overwritten and destroyed?</td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop</td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[n,n] </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>Right hand side vector or array, b[n] or b[n,nrhs] </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A data be overwritten and destroyed? </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop </td></tr>
   </table>
   </dd>
 </dl>
@@ -467,12 +506,14 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Linear system solve, _multiple, real(sp) </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[n,n]</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>Right hand side vector or array, b[n] or b[n,nrhs]</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A data be overwritten and destroyed?</td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop</td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[n,n] </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>Right hand side vector or array, b[n] or b[n,nrhs] </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A data be overwritten and destroyed? </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop </td></tr>
   </table>
   </dd>
 </dl>
@@ -517,12 +558,14 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Linear system solve, _one, real(sp) </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[n,n]</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>Right hand side vector or array, b[n] or b[n,nrhs]</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A data be overwritten and destroyed?</td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop</td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[n,n] </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>Right hand side vector or array, b[n] or b[n,nrhs] </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A data be overwritten and destroyed? </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop </td></tr>
   </table>
   </dd>
 </dl>
@@ -567,12 +610,14 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Linear system solve, _multiple, complex(qp) </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[n,n]</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>Right hand side vector or array, b[n] or b[n,nrhs]</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A data be overwritten and destroyed?</td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop</td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[n,n] </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>Right hand side vector or array, b[n] or b[n,nrhs] </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A data be overwritten and destroyed? </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop </td></tr>
   </table>
   </dd>
 </dl>
@@ -617,12 +662,14 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Linear system solve, _one, complex(qp) </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[n,n]</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>Right hand side vector or array, b[n] or b[n,nrhs]</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A data be overwritten and destroyed?</td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop</td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[n,n] </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>Right hand side vector or array, b[n] or b[n,nrhs] </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A data be overwritten and destroyed? </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop </td></tr>
   </table>
   </dd>
 </dl>
@@ -667,12 +714,14 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Linear system solve, _multiple, complex(dp) </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[n,n]</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>Right hand side vector or array, b[n] or b[n,nrhs]</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A data be overwritten and destroyed?</td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop</td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[n,n] </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>Right hand side vector or array, b[n] or b[n,nrhs] </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A data be overwritten and destroyed? </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop </td></tr>
   </table>
   </dd>
 </dl>
@@ -717,12 +766,14 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Linear system solve, _one, complex(dp) </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[n,n]</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>Right hand side vector or array, b[n] or b[n,nrhs]</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A data be overwritten and destroyed?</td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop</td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[n,n] </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>Right hand side vector or array, b[n] or b[n,nrhs] </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A data be overwritten and destroyed? </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop </td></tr>
   </table>
   </dd>
 </dl>
@@ -739,7 +790,7 @@ Public Member Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacela__solve.html">la_solve</a></li><li class="navelem"><a class="el" href="interfacela__solve_1_1solve.html">solve</a></li>
-    <li class="footer">Generated on Thu Jan 30 2025 10:58:07 for fortran-lapack by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Fri Jan 31 2025 10:05:01 for fortran-lapack by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

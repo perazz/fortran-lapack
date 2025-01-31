@@ -1,0 +1,5 @@
+<map id="la_blas::rotm::srotm" name="la_blas::rotm::srotm">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,159,31"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__s.html#a5d8c20013203fe619f3fabd1a8f24561" title="APPLY THE MODIFIED GIVENS TRANSFORMATION, H, TO THE 2 BY N MATRIX (SX**T) , WHERE **T INDICATES TRANS..." alt="" coords="207,5,353,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="159,15,193,15,193,21,159,21"/>
+</map>

@@ -1,0 +1,14 @@
+<map id="la_blas::symm::dsymm" name="la_blas::symm::dsymm">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,55,180,80"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__d.html#ab0cdf75109362e8a4046ca77b64486f0" title="DSYMM: performs one of the matrix&#45;matrix operations C := alpha*A*B + beta*C, or C := alpha*B*A + beta..." alt="" coords="228,29,387,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="180,54,214,50,214,56,181,60"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__q.html#a5187e7853d106b0d1ea2c75db480258c" title="DSYMM: performs one of the matrix&#45;matrix operations C := alpha*A*B + beta*C, or C := alpha*B*A + beta..." alt="" coords="228,79,387,104"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="181,74,214,78,214,84,180,80"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="435,29,601,55"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="387,39,421,39,421,45,387,45"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="435,79,601,104"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="363,52,450,73,449,78,362,57"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="483,31,476,21,480,11,494,5,518,3,547,6,559,15,556,20,545,11,518,8,496,10,484,15,481,20,488,28"/>
+<area shape="poly" id="edge6_Node000005_Node000003" title=" " alt="" coords="362,76,449,55,450,60,363,81"/>
+<area shape="poly" id="edge7_Node000005_Node000004" title=" " alt="" coords="387,89,421,89,421,94,387,94"/>
+</map>

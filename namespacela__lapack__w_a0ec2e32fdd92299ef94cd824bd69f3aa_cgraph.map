@@ -1,7 +1,16 @@
 <map id="la_lapack_w::la_whegst" name="la_lapack_w::la_whegst">
-<area shape="rect" id="Node000001" title="ZHEGST: reduces a complex Hermitian&#45;definite generalized eigenproblem to standard form...." alt="" coords="5,5,180,31"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__w.html#a9df7276cf0407073b350c9cffef435fb" title="ZHEGS2: reduces a complex Hermitian&#45;definite generalized eigenproblem to standard form...." alt="" coords="228,5,407,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="180,15,214,15,214,21,180,21"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__w.html#af9fd634fd795490b65aee72c58533e2f" title="ZLACGV: conjugates a complex vector of length N." alt="" coords="455,5,629,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="407,15,441,15,441,21,407,21"/>
+<area shape="rect" id="Node000001" title="ZHEGST: reduces a complex Hermitian&#45;definite generalized eigenproblem to standard form...." alt="" coords="5,128,180,153"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__aux.html#aa361c7114aef95e10b685247a1b75114" title="ILAENV: is called from the LAPACK routines to choose problem&#45;dependent parameters for the local envir..." alt="" coords="228,103,411,128"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="180,128,214,124,215,130,181,134"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__w.html#a9df7276cf0407073b350c9cffef435fb" title="ZHEGS2: reduces a complex Hermitian&#45;definite generalized eigenproblem to standard form...." alt="" coords="230,152,409,177"/>
+<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="181,147,217,151,216,156,180,153"/>
+<area shape="poly" id="edge4_Node000002_Node000002" title=" " alt="" coords="282,104,274,94,279,84,294,78,319,76,351,80,363,89,360,93,349,85,319,81,295,83,282,88,280,94,286,101"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__aux.html#a72541275ada30b0ca556fbc0d3959719" title="IEEECK: is called from the ILAENV to verify that Infinity and possibly NaN arithmetic is safe (i...." alt="" coords="460,29,645,55"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="353,100,458,63,485,56,486,61,459,69,355,105"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__aux.html#ace38ae70bb7022cae6ecabe992145fda" title="This program sets problem and machine dependent parameters useful for xHSEQR and related subroutines ..." alt="" coords="459,103,647,128"/>
+<area shape="poly" id="edge5_Node000002_Node000004" title=" " alt="" coords="411,113,445,113,445,118,411,118"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="515,31,507,21,511,11,527,5,553,3,585,7,598,16,594,20,583,11,553,8,528,10,515,15,512,20,519,27"/>
+<area shape="poly" id="edge6_Node000004_Node000004" title=" " alt="" coords="515,104,507,94,511,84,527,78,553,76,585,80,598,89,594,94,583,85,553,81,528,83,515,88,512,94,519,101"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__w.html#af9fd634fd795490b65aee72c58533e2f" title="ZLACGV: conjugates a complex vector of length N." alt="" coords="465,152,640,177"/>
+<area shape="poly" id="edge8_Node000005_Node000006" title=" " alt="" coords="409,162,452,162,452,167,409,167"/>
 </map>

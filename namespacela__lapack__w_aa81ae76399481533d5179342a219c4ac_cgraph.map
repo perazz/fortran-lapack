@@ -1,15 +1,24 @@
 <map id="la_lapack_w::la_whetrd" name="la_lapack_w::la_whetrd">
-<area shape="rect" id="Node000001" title="ZHETRD: reduces a complex Hermitian matrix A to real symmetric tridiagonal form T by a unitary simila..." alt="" coords="5,55,179,80"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__w.html#ada1d34bb3c196482269a57c6ac06b19e" title="ZHETD2: reduces a complex Hermitian matrix A to real symmetric tridiagonal form T by a unitary simila..." alt="" coords="227,29,403,55"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="179,55,213,51,213,56,179,60"/>
-<area shape="rect" id="Node000005" href="$namespacela__lapack__w.html#a5ee74ce01cebe74f0fcdfcdc2fcf4550" title="ZLATRD: reduces NB rows and columns of a complex Hermitian matrix A to Hermitian tridiagonal form by ..." alt="" coords="230,79,399,104"/>
-<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="179,74,217,78,216,83,179,79"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__w.html#aa9eb79b853bd27197cc061402a74d006" title="ZLARFG: generates a complex elementary reflector H of order n, such that H**H * ( alpha ) = ( beta ),..." alt="" coords="453,29,623,55"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="403,39,440,39,440,45,403,45"/>
-<area shape="rect" id="Node000004" href="$namespacela__lapack__w.html#a256289e251e51bb1c01d2fe45fe134fa" title="ZLADIV: := X / Y, where X and Y are complex. The computation of X / Y will not overflow on an interme..." alt="" coords="673,29,844,55"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="623,39,660,39,660,45,623,45"/>
-<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="723,31,715,21,719,11,734,5,759,3,789,6,801,15,798,20,787,11,759,8,735,10,723,15,720,20,727,28"/>
-<area shape="poly" id="edge7_Node000005_Node000003" title=" " alt="" coords="372,76,466,55,467,60,373,81"/>
-<area shape="rect" id="Node000006" href="$namespacela__lapack__w.html#af9fd634fd795490b65aee72c58533e2f" title="ZLACGV: conjugates a complex vector of length N." alt="" coords="451,79,625,104"/>
-<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="399,89,437,89,437,94,399,94"/>
+<area shape="rect" id="Node000001" title="ZHETRD: reduces a complex Hermitian matrix A to real symmetric tridiagonal form T by a unitary simila..." alt="" coords="5,152,179,177"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__aux.html#aa361c7114aef95e10b685247a1b75114" title="ILAENV: is called from the LAPACK routines to choose problem&#45;dependent parameters for the local envir..." alt="" coords="227,103,409,128"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="150,149,245,128,246,134,151,155"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__w.html#ada1d34bb3c196482269a57c6ac06b19e" title="ZHETD2: reduces a complex Hermitian matrix A to real symmetric tridiagonal form T by a unitary simila..." alt="" coords="230,152,406,177"/>
+<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="179,162,216,162,216,167,179,167"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__w.html#a5ee74ce01cebe74f0fcdfcdc2fcf4550" title="ZLATRD: reduces NB rows and columns of a complex Hermitian matrix A to Hermitian tridiagonal form by ..." alt="" coords="233,201,403,227"/>
+<area shape="poly" id="edge11_Node000001_Node000008" title=" " alt="" coords="151,175,246,196,245,201,150,180"/>
+<area shape="poly" id="edge4_Node000002_Node000002" title=" " alt="" coords="281,104,274,94,278,84,293,78,318,76,350,80,362,89,358,93,348,85,318,81,294,83,281,88,279,94,286,101"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__aux.html#a72541275ada30b0ca556fbc0d3959719" title="IEEECK: is called from the ILAENV to verify that Infinity and possibly NaN arithmetic is safe (i...." alt="" coords="459,29,644,55"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="352,100,457,63,483,56,485,61,458,69,353,105"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__aux.html#ace38ae70bb7022cae6ecabe992145fda" title="This program sets problem and machine dependent parameters useful for xHSEQR and related subroutines ..." alt="" coords="457,103,645,128"/>
+<area shape="poly" id="edge5_Node000002_Node000004" title=" " alt="" coords="410,113,443,113,443,118,410,118"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="514,31,506,21,511,11,526,5,551,3,583,7,595,16,592,20,581,11,551,8,527,10,514,15,512,20,518,27"/>
+<area shape="poly" id="edge6_Node000004_Node000004" title=" " alt="" coords="514,104,506,94,511,84,526,78,551,76,583,80,595,89,592,93,581,85,551,81,527,83,514,88,512,94,518,101"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__w.html#aa9eb79b853bd27197cc061402a74d006" title="ZLARFG: generates a complex elementary reflector H of order n, such that H**H * ( alpha ) = ( beta ),..." alt="" coords="467,152,636,177"/>
+<area shape="poly" id="edge8_Node000005_Node000006" title=" " alt="" coords="407,162,453,162,453,167,407,167"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__w.html#a256289e251e51bb1c01d2fe45fe134fa" title="ZLADIV: := X / Y, where X and Y are complex. The computation of X / Y will not overflow on an interme..." alt="" coords="693,152,864,177"/>
+<area shape="poly" id="edge9_Node000006_Node000007" title=" " alt="" coords="636,162,680,162,680,167,636,167"/>
+<area shape="poly" id="edge10_Node000007_Node000007" title=" " alt="" coords="742,154,734,144,738,134,753,128,779,125,811,129,823,139,819,143,809,134,779,131,754,133,742,138,739,143,746,150"/>
+<area shape="poly" id="edge13_Node000008_Node000006" title=" " alt="" coords="378,199,477,178,478,183,379,204"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__w.html#af9fd634fd795490b65aee72c58533e2f" title="ZLACGV: conjugates a complex vector of length N." alt="" coords="464,201,639,227"/>
+<area shape="poly" id="edge12_Node000008_Node000009" title=" " alt="" coords="403,211,450,211,450,217,403,217"/>
 </map>

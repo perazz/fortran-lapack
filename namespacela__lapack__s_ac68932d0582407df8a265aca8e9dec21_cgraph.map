@@ -1,5 +1,14 @@
 <map id="la_lapack_s::la_slauum" name="la_lapack_s::la_slauum">
-<area shape="rect" id="Node000001" title="SLAUUM: computes the product U * U**T or L**T * L, where the triangular factor U or L is stored in th..." alt="" coords="5,5,179,31"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#a38cd3b7f78ef835df9124f4e840e14d3" title="SLAUU2: computes the product U * U**T or L**T * L, where the triangular factor U or L is stored in th..." alt="" coords="227,5,395,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="179,15,213,15,213,21,179,21"/>
+<area shape="rect" id="Node000001" title="SLAUUM: computes the product U * U**T or L**T * L, where the triangular factor U or L is stored in th..." alt="" coords="5,91,179,116"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__aux.html#aa361c7114aef95e10b685247a1b75114" title="ILAENV: is called from the LAPACK routines to choose problem&#45;dependent parameters for the local envir..." alt="" coords="227,65,409,91"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="179,91,213,87,213,92,179,96"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__s.html#a38cd3b7f78ef835df9124f4e840e14d3" title="SLAUU2: computes the product U * U**T or L**T * L, where the triangular factor U or L is stored in th..." alt="" coords="234,115,402,140"/>
+<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="179,110,220,114,220,120,179,115"/>
+<area shape="poly" id="edge4_Node000002_Node000002" title=" " alt="" coords="281,67,274,57,278,47,293,41,318,39,350,43,362,52,358,56,348,47,318,44,294,46,281,51,279,56,286,63"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__aux.html#a72541275ada30b0ca556fbc0d3959719" title="IEEECK: is called from the ILAENV to verify that Infinity and possibly NaN arithmetic is safe (i...." alt="" coords="459,29,644,55"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="400,63,455,54,455,59,401,68"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__aux.html#ace38ae70bb7022cae6ecabe992145fda" title="This program sets problem and machine dependent parameters useful for xHSEQR and related subroutines ..." alt="" coords="457,103,645,128"/>
+<area shape="poly" id="edge5_Node000002_Node000004" title=" " alt="" coords="398,88,458,98,458,103,398,93"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="514,31,505,21,510,11,525,5,551,3,584,7,596,16,593,20,582,11,551,8,526,10,513,15,511,20,518,27"/>
+<area shape="poly" id="edge6_Node000004_Node000004" title=" " alt="" coords="514,104,505,94,510,84,525,78,551,76,584,80,596,89,593,94,582,85,551,81,526,83,513,88,511,94,518,101"/>
 </map>

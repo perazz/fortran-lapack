@@ -1,44 +1,59 @@
 <map id="la_lapack_s::la_sgeqp3" name="la_lapack_s::la_sgeqp3">
-<area shape="rect" id="Node000001" title="SGEQP3: computes a QR factorization with column pivoting of a matrix A: A*P = Q*R using Level 3 BLAS." alt="" coords="5,93,177,119"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#ae4ec775b671b37193a0422dffb6b684d" title="SGEQRF: computes a QR factorization of a real M&#45;by&#45;N matrix A: A = Q * ( R ), ( 0 ) where: Q is a M&#45;b..." alt="" coords="227,119,394,144"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="178,113,214,117,213,123,177,119"/>
-<area shape="rect" id="Node000012" href="$namespacela__lapack__s.html#afe9feaa614d185a4222a07e6659e514b" title="SLAQP2: computes a QR factorization with column pivoting of the block A(OFFSET+1:M,..." alt="" coords="445,55,613,80"/>
-<area shape="poly" id="edge16_Node000001_Node000012" title=" " alt="" coords="177,96,431,73,432,79,178,101"/>
-<area shape="rect" id="Node000013" href="$namespacela__lapack__s.html#aaff83b99bce6e7e2d03c353cd7866b92" title="SLAQPS: computes a step of QR factorization with column pivoting of a real M&#45;by&#45;N matrix A by using B..." alt="" coords="446,5,613,31"/>
-<area shape="poly" id="edge20_Node000001_Node000013" title=" " alt="" coords="133,91,225,66,332,45,432,29,433,34,333,50,226,71,134,96"/>
-<area shape="rect" id="Node000014" href="$namespacela__lapack__s.html#a675207ce317df13db048b8579ed02740" title="SORMQR: overwrites the general real M&#45;by&#45;N matrix C with SIDE = &#39;L&#39; SIDE = &#39;R&#39; TRANS = &#39;N&#39;: Q * C C *..." alt="" coords="225,180,396,205"/>
-<area shape="poly" id="edge23_Node000001_Node000014" title=" " alt="" coords="126,116,266,172,264,177,124,121"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__s.html#ad980098756b1e6a624184516e365ed45" title="SGEQR2: computes a QR factorization of a real m&#45;by&#45;n matrix A: A = Q * ( R ), ( 0 ) where: Q is a m&#45;b..." alt="" coords="445,104,614,129"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="394,123,431,121,431,126,394,128"/>
-<area shape="rect" id="Node000010" href="$namespacela__lapack__s.html#a88f424ab78fa97dff58d431a8ab51b7c" title="SLARFB: applies a real block reflector H or its transpose H**T to a real m by n matrix C,..." alt="" coords="448,203,611,228"/>
-<area shape="poly" id="edge14_Node000002_Node000010" title=" " alt="" coords="342,142,397,166,445,189,466,196,464,201,443,194,395,171,340,147"/>
-<area shape="rect" id="Node000011" href="$namespacela__lapack__s.html#a94b9ff2c43c13daa04cd1985c67d4216" title="SLARFT: forms the triangular factor T of a real block reflector H of order n, which is defined as a p..." alt="" coords="450,153,609,179"/>
-<area shape="poly" id="edge15_Node000002_Node000011" title=" " alt="" coords="392,141,437,149,436,154,391,147"/>
-<area shape="rect" id="Node000004" href="$namespacela__lapack__s.html#afe74baa9cec84eae9cb50ed04c85340c" title="SLARF: applies a real elementary reflector H to a real m by n matrix C, from either the left or the r..." alt="" coords="667,129,821,155"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="615,124,653,129,652,134,614,129"/>
-<area shape="rect" id="Node000005" href="$namespacela__lapack__s.html#a7abfbd65886bc302a2f9526f8de41388" title="SLARFG: generates a real elementary reflector H of order n, such that H * ( alpha ) = ( beta ),..." alt="" coords="663,80,825,105"/>
-<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="614,105,649,101,649,106,615,110"/>
-<area shape="rect" id="Node000006" href="$namespacela__lapack__s.html#abbe0ae24f069ddbf134ff3e404a19878" title="SLAMCH: determines single precision machine parameters." alt="" coords="1089,55,1261,80"/>
-<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="825,85,1076,70,1076,76,826,91"/>
-<area shape="rect" id="Node000007" href="$namespacela__lapack__s.html#a9e70d6d165ba95d10e4f8592c02475c7" title="SLAPY2: returns sqrt(x**2+y**2), taking care not to cause unnecessary overflow and unnecessary underf..." alt="" coords="873,155,1041,180"/>
-<area shape="poly" id="edge7_Node000005_Node000007" title=" " alt="" coords="791,103,826,114,914,147,912,152,824,119,789,108"/>
-<area shape="poly" id="edge6_Node000006_Node000006" title=" " alt="" coords="1140,56,1132,46,1136,36,1151,30,1175,28,1205,32,1217,41,1214,45,1203,37,1175,33,1152,35,1140,40,1138,46,1144,53"/>
-<area shape="poly" id="edge12_Node000007_Node000006" title=" " alt="" coords="985,152,1133,84,1135,88,988,157"/>
-<area shape="poly" id="edge13_Node000007_Node000007" title=" " alt="" coords="922,156,915,146,919,136,933,130,957,128,987,132,999,141,996,145,985,137,957,133,935,135,923,140,920,146,927,153"/>
-<area shape="rect" id="Node000008" href="$namespacela__lapack__s.html#af8d4b806648873f614d26ba3f9d00512" title="SISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="1092,155,1259,180"/>
-<area shape="poly" id="edge8_Node000007_Node000008" title=" " alt="" coords="1042,165,1078,165,1078,170,1042,170"/>
-<area shape="poly" id="edge9_Node000008_Node000008" title=" " alt="" coords="1140,156,1132,146,1136,136,1151,130,1175,128,1205,132,1217,141,1214,145,1203,137,1175,133,1152,135,1140,140,1138,146,1144,153"/>
-<area shape="rect" id="Node000009" href="$namespacela__lapack__s.html#ab716c1e999e316ce29c31703ef379eb1" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in SISNAN...." alt="" coords="1309,155,1488,180"/>
-<area shape="poly" id="edge10_Node000008_Node000009" title=" " alt="" coords="1259,165,1296,165,1296,170,1259,170"/>
-<area shape="poly" id="edge11_Node000009_Node000009" title=" " alt="" coords="1363,156,1355,146,1359,136,1374,130,1399,128,1429,132,1442,141,1438,145,1427,137,1399,133,1375,135,1362,140,1360,146,1367,153"/>
-<area shape="poly" id="edge18_Node000012_Node000004" title=" " alt="" coords="582,77,616,89,664,114,686,123,684,128,662,119,614,94,581,83"/>
-<area shape="poly" id="edge19_Node000012_Node000005" title=" " alt="" coords="614,75,649,79,649,84,614,80"/>
-<area shape="poly" id="edge17_Node000012_Node000006" title=" " alt="" coords="613,62,809,59,1041,59,1076,60,1076,66,1041,65,809,64,613,68"/>
-<area shape="poly" id="edge22_Node000013_Node000005" title=" " alt="" coords="579,28,616,39,701,72,699,77,614,45,578,33"/>
-<area shape="poly" id="edge21_Node000013_Node000006" title=" " alt="" coords="613,16,809,23,925,30,1042,41,1100,49,1099,55,1041,46,925,35,808,28,613,21"/>
-<area shape="poly" id="edge24_Node000014_Node000010" title=" " alt="" coords="396,199,435,203,434,208,396,204"/>
-<area shape="poly" id="edge25_Node000014_Node000011" title=" " alt="" coords="396,180,436,175,437,180,396,185"/>
-<area shape="rect" id="Node000015" href="$namespacela__lapack__s.html#a9dc871fc63224d09fc6b3575cd46c87d" title="SORM2R: overwrites the general real m by n matrix C with Q * C if SIDE = &#39;L&#39; and TRANS = &#39;N&#39;,..." alt="" coords="444,252,615,277"/>
-<area shape="poly" id="edge26_Node000014_Node000015" title=" " alt="" coords="346,203,445,238,469,245,467,251,443,243,344,208"/>
-<area shape="poly" id="edge27_Node000015_Node000004" title=" " alt="" coords="585,249,613,238,672,201,718,162,721,166,675,205,616,243,587,254"/>
+<area shape="rect" id="Node000001" title="SGEQP3: computes a QR factorization with column pivoting of a matrix A: A*P = Q*R using Level 3 BLAS." alt="" coords="5,105,177,131"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#ae4ec775b671b37193a0422dffb6b684d" title="SGEQRF: computes a QR factorization of a real M&#45;by&#45;N matrix A: A = Q * ( R ), ( 0 ) where: Q is a M&#45;b..." alt="" coords="227,131,394,156"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="178,125,214,129,213,135,177,131"/>
+<area shape="rect" id="Node000014" href="$namespacela__lapack__s.html#afe9feaa614d185a4222a07e6659e514b" title="SLAQP2: computes a QR factorization with column pivoting of the block A(OFFSET+1:M,..." alt="" coords="451,55,619,80"/>
+<area shape="poly" id="edge20_Node000001_Node000014" title=" " alt="" coords="177,106,437,76,438,81,178,111"/>
+<area shape="rect" id="Node000015" href="$namespacela__lapack__s.html#aaff83b99bce6e7e2d03c353cd7866b92" title="SLAQPS: computes a step of QR factorization with column pivoting of a real M&#45;by&#45;N matrix A by using B..." alt="" coords="452,5,619,31"/>
+<area shape="poly" id="edge24_Node000001_Node000015" title=" " alt="" coords="126,103,225,71,335,47,437,29,438,34,336,52,226,77,127,108"/>
+<area shape="rect" id="Node000016" href="$namespacela__lapack__s.html#a675207ce317df13db048b8579ed02740" title="SORMQR: overwrites the general real M&#45;by&#45;N matrix C with SIDE = &#39;L&#39; SIDE = &#39;R&#39; TRANS = &#39;N&#39;: Q * C C *..." alt="" coords="225,203,396,228"/>
+<area shape="poly" id="edge27_Node000001_Node000016" title=" " alt="" coords="122,128,270,195,267,199,120,133"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__s.html#ad980098756b1e6a624184516e365ed45" title="SGEQR2: computes a QR factorization of a real m&#45;by&#45;n matrix A: A = Q * ( R ), ( 0 ) where: Q is a m&#45;b..." alt="" coords="451,104,620,129"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="394,131,437,126,437,131,394,136"/>
+<area shape="rect" id="Node000012" href="$namespacela__lapack__s.html#a88f424ab78fa97dff58d431a8ab51b7c" title="SLARFB: applies a real block reflector H or its transpose H**T to a real m by n matrix C,..." alt="" coords="454,203,617,228"/>
+<area shape="poly" id="edge18_Node000002_Node000012" title=" " alt="" coords="347,154,445,187,475,196,473,202,443,193,345,159"/>
+<area shape="rect" id="Node000013" href="$namespacela__lapack__s.html#a94b9ff2c43c13daa04cd1985c67d4216" title="SLARFT: forms the triangular factor T of a real block reflector H of order n, which is defined as a p..." alt="" coords="456,153,615,179"/>
+<area shape="poly" id="edge19_Node000002_Node000013" title=" " alt="" coords="394,149,443,154,442,159,394,154"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__s.html#afe74baa9cec84eae9cb50ed04c85340c" title="SLARF: applies a real elementary reflector H to a real m by n matrix C, from either the left or the r..." alt="" coords="691,216,846,241"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="596,127,628,138,690,171,741,205,738,210,687,176,626,143,594,132"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__s.html#a7abfbd65886bc302a2f9526f8de41388" title="SLARFG: generates a real elementary reflector H of order n, such that H * ( alpha ) = ( beta ),..." alt="" coords="687,68,850,93"/>
+<area shape="poly" id="edge8_Node000003_Node000007" title=" " alt="" coords="618,101,673,93,674,98,618,107"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__aux.html#ab982c17ecc1d9fcfd510bef30fe083be" title="ILASLC: scans A for its last non&#45;zero column." alt="" coords="911,216,1087,241"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="846,226,897,226,897,231,846,231"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__aux.html#a1abc101c5f65760eafb8b98e3f41e083" title="ILASLR: scans A for its last non&#45;zero row." alt="" coords="911,289,1086,315"/>
+<area shape="poly" id="edge6_Node000004_Node000006" title=" " alt="" coords="810,239,946,283,944,288,809,244"/>
+<area shape="poly" id="edge5_Node000005_Node000005" title=" " alt="" coords="963,218,955,208,959,198,974,192,999,189,1029,193,1042,202,1038,206,1027,198,999,195,975,197,962,202,960,207,967,214"/>
+<area shape="poly" id="edge7_Node000006_Node000006" title=" " alt="" coords="963,291,955,281,959,271,974,265,999,263,1029,266,1042,275,1038,280,1027,271,999,268,975,270,962,275,960,280,967,288"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__s.html#abbe0ae24f069ddbf134ff3e404a19878" title="SLAMCH: determines single precision machine parameters." alt="" coords="1135,43,1307,68"/>
+<area shape="poly" id="edge9_Node000007_Node000008" title=" " alt="" coords="850,73,1120,58,1121,64,850,79"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__s.html#a9e70d6d165ba95d10e4f8592c02475c7" title="SLAPY2: returns sqrt(x**2+y**2), taking care not to cause unnecessary overflow and unnecessary underf..." alt="" coords="915,143,1083,168"/>
+<area shape="poly" id="edge11_Node000007_Node000009" title=" " alt="" coords="810,91,947,136,945,141,808,96"/>
+<area shape="poly" id="edge10_Node000008_Node000008" title=" " alt="" coords="1185,44,1177,34,1181,24,1196,18,1221,16,1251,20,1264,29,1260,33,1249,25,1221,21,1197,23,1184,28,1182,34,1189,41"/>
+<area shape="poly" id="edge16_Node000009_Node000008" title=" " alt="" coords="1027,140,1178,71,1180,76,1029,145"/>
+<area shape="poly" id="edge17_Node000009_Node000009" title=" " alt="" coords="963,144,955,134,959,124,974,118,999,116,1029,120,1042,129,1038,133,1027,125,999,121,975,123,962,128,960,134,967,141"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__s.html#af8d4b806648873f614d26ba3f9d00512" title="SISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="1137,143,1304,168"/>
+<area shape="poly" id="edge12_Node000009_Node000010" title=" " alt="" coords="1083,153,1124,153,1124,158,1083,158"/>
+<area shape="poly" id="edge13_Node000010_Node000010" title=" " alt="" coords="1185,144,1177,134,1181,124,1196,118,1221,116,1251,120,1264,129,1260,133,1249,125,1221,121,1197,123,1184,128,1182,134,1189,141"/>
+<area shape="rect" id="Node000011" href="$namespacela__lapack__s.html#ab716c1e999e316ce29c31703ef379eb1" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in SISNAN...." alt="" coords="1355,143,1533,168"/>
+<area shape="poly" id="edge14_Node000010_Node000011" title=" " alt="" coords="1304,153,1341,153,1341,158,1304,158"/>
+<area shape="poly" id="edge15_Node000011_Node000011" title=" " alt="" coords="1408,144,1400,134,1404,124,1419,118,1444,116,1475,120,1487,129,1484,133,1473,125,1444,121,1420,123,1408,128,1405,134,1412,141"/>
+<area shape="poly" id="edge22_Node000014_Node000004" title=" " alt="" coords="602,78,628,89,666,115,701,146,752,204,748,207,697,150,663,119,625,94,600,82"/>
+<area shape="poly" id="edge23_Node000014_Node000007" title=" " alt="" coords="620,69,674,73,674,78,620,75"/>
+<area shape="poly" id="edge21_Node000014_Node000008" title=" " alt="" coords="619,57,675,53,881,45,1087,47,1121,48,1121,54,1087,53,881,50,675,58,620,62"/>
+<area shape="poly" id="edge26_Node000015_Node000007" title=" " alt="" coords="585,28,627,39,709,62,707,67,626,45,584,33"/>
+<area shape="poly" id="edge25_Node000015_Node000008" title=" " alt="" coords="619,13,831,14,959,19,1087,29,1147,38,1147,43,1086,34,959,24,831,19,619,19"/>
+<area shape="poly" id="edge34_Node000016_Node000012" title=" " alt="" coords="397,213,440,213,440,218,397,218"/>
+<area shape="poly" id="edge35_Node000016_Node000013" title=" " alt="" coords="369,200,463,179,464,184,370,205"/>
+<area shape="rect" id="Node000017" href="$namespacela__lapack__aux.html#aa361c7114aef95e10b685247a1b75114" title="ILAENV: is called from the LAPACK routines to choose problem&#45;dependent parameters for the local envir..." alt="" coords="444,325,627,351"/>
+<area shape="poly" id="edge28_Node000016_Node000017" title=" " alt="" coords="336,226,445,286,500,316,497,321,443,291,334,230"/>
+<area shape="rect" id="Node000020" href="$namespacela__lapack__s.html#a9dc871fc63224d09fc6b3575cd46c87d" title="SORM2R: overwrites the general real m by n matrix C with Q * C if SIDE = &#39;L&#39; and TRANS = &#39;N&#39;,..." alt="" coords="450,252,621,277"/>
+<area shape="poly" id="edge36_Node000016_Node000020" title=" " alt="" coords="370,225,464,246,463,252,369,231"/>
+<area shape="poly" id="edge31_Node000017_Node000017" title=" " alt="" coords="499,327,491,317,495,307,510,301,535,299,567,303,579,312,576,316,565,307,535,304,511,306,499,311,496,316,503,323"/>
+<area shape="rect" id="Node000018" href="$namespacela__lapack__aux.html#a72541275ada30b0ca556fbc0d3959719" title="IEEECK: is called from the ILAENV to verify that Infinity and possibly NaN arithmetic is safe (i...." alt="" coords="676,313,861,339"/>
+<area shape="poly" id="edge29_Node000017_Node000018" title=" " alt="" coords="627,331,662,329,662,334,627,336"/>
+<area shape="rect" id="Node000019" href="$namespacela__lapack__aux.html#ace38ae70bb7022cae6ecabe992145fda" title="This program sets problem and machine dependent parameters useful for xHSEQR and related subroutines ..." alt="" coords="675,387,863,412"/>
+<area shape="poly" id="edge32_Node000017_Node000019" title=" " alt="" coords="585,348,707,381,706,386,584,353"/>
+<area shape="poly" id="edge30_Node000018_Node000018" title=" " alt="" coords="731,315,723,305,727,295,743,289,769,287,801,291,813,300,810,304,799,295,769,292,744,294,731,299,728,304,735,311"/>
+<area shape="poly" id="edge33_Node000019_Node000019" title=" " alt="" coords="731,388,723,378,727,368,743,362,769,360,801,364,813,373,810,378,799,369,769,365,744,367,731,372,728,378,735,385"/>
+<area shape="poly" id="edge37_Node000020_Node000004" title=" " alt="" coords="618,249,677,240,678,245,618,255"/>
 </map>

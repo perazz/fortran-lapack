@@ -1,0 +1,7 @@
+<map id="la_blas::rotm::drotm" name="la_blas::rotm::drotm">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,31,160,56"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__d.html#a4d71ad6f6d952a11d7957cbaefd3b0e5" title="APPLY THE MODIFIED GIVENS TRANSFORMATION, H, TO THE 2 BY N MATRIX (DX**T) , WHERE **T INDICATES TRANS..." alt="" coords="208,5,357,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="160,31,194,26,195,32,161,36"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__q.html#aad5e8914fc4f99e14a81701b66429411" title="APPLY THE MODIFIED GIVENS TRANSFORMATION, H, TO THE 2 BY N MATRIX (DX**T) , WHERE **T INDICATES TRANS..." alt="" coords="208,55,357,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="161,50,195,54,194,59,160,55"/>
+</map>

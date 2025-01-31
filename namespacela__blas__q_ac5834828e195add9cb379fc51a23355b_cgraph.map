@@ -1,0 +1,8 @@
+<map id="la_blas_q::la_qgemm" name="la_blas_q::la_qgemm">
+<area shape="rect" id="Node000001" title="DGEMM: performs one of the matrix&#45;matrix operations C := alpha*op( A )*op( B ) + beta*C,..." alt="" coords="5,55,165,80"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="213,29,380,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="165,55,200,51,200,56,166,60"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="213,79,380,104"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="166,74,200,78,200,83,165,79"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="262,31,255,21,259,11,273,5,297,3,326,6,338,15,334,20,324,11,297,8,274,10,262,15,260,20,266,28"/>
+</map>

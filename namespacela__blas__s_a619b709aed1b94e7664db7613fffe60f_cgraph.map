@@ -1,0 +1,8 @@
+<map id="la_blas_s::la_ssyrk" name="la_blas_s::la_ssyrk">
+<area shape="rect" id="Node000001" title="SSYRK: performs one of the symmetric rank k operations C := alpha*A*A**T + beta*C,..." alt="" coords="5,55,149,80"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="197,29,364,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="149,56,183,51,184,57,150,61"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="197,79,364,104"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="150,73,184,77,183,83,149,78"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="247,31,240,21,244,11,258,5,281,3,309,6,320,16,317,20,307,11,281,8,259,10,248,15,245,20,252,28"/>
+</map>

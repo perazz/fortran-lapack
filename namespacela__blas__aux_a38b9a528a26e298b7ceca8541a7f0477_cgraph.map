@@ -1,0 +1,7 @@
+<map id="la_blas_aux::la_iwamax" name="la_blas_aux::la_iwamax">
+<area shape="rect" id="Node000001" title="IZAMAX: finds the index of the first element having maximum |Re(.)| + |Im(.)|." alt="" coords="5,29,184,55"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="59,31,51,21,55,11,70,5,95,3,125,6,138,15,134,20,123,11,95,8,71,10,58,15,56,20,63,28"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__aux.html#a2c19bf75051669e20853bdcccda20e0d" title="DCABS1: computes |Re(.)| + |Im(.)| of a double complex number." alt="" coords="232,29,404,55"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="184,39,218,39,218,45,184,45"/>
+<area shape="poly" id="edge3_Node000002_Node000002" title=" " alt="" coords="282,31,274,21,278,11,293,5,318,3,349,6,361,15,358,20,347,11,318,8,294,10,282,15,279,20,286,28"/>
+</map>
