@@ -19,6 +19,7 @@ jobs:
       - name: Install Doxygen and Graphviz
         run: |
           sudo apt-get update
+          sudo apt-cache show doxygen | grep Version
           sudo apt-get install doxygen=1.13.2 graphviz -y
 
       # Step 3: Generate Doxygen documentation
