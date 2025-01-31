@@ -13,26 +13,26 @@ module la_lapack
      public
 
           !> BBCSD: computes the CS decomposition of a unitary matrix in
-          !> bidiagonal-block form,
-          !>     [ B11 | B12 0  0 ]
-          !>     [  0  |  0 -I  0 ]
-          !> X = [----------------]
-          !>     [ B21 | B22 0  0 ]
-          !>     [  0  |  0  0  I ]
-          !>     [  C  | -S  0  0 ]
-          !>   [ U1 |    ] [  0 |  0 -I  0 ] [ V1 |    ]**H
-          !> = [---------] [---------------] [---------]   .
-          !>   [    | U2 ] [  S |  C  0  0 ] [    | V2 ]
-          !>   [  0 |  0  0  I ]
-          !> X is M-by-M, its top-left block is P-by-Q, and Q must be no larger
-          !> than P, M-P, or M-Q. (If Q is not the smallest index, then X must be
-          !> transposed and/or permuted. This can be done in constant time using
-          !> the TRANS and SIGNS options. See CUNCSD for details.)
-          !> The bidiagonal matrices B11, B12, B21, and B22 are represented
-          !> implicitly by angles THETA(1:Q) and PHI(1:Q-1).
-          !> The unitary matrices U1, U2, V1T, and V2T are input/output.
-          !> The input matrices are pre- or post-multiplied by the appropriate
-          !> singular vector matrices.
+          !! bidiagonal-block form,
+          !!     [ B11 | B12 0  0 ]
+          !!     [  0  |  0 -I  0 ]
+          !! X = [----------------]
+          !!     [ B21 | B22 0  0 ]
+          !!     [  0  |  0  0  I ]
+          !!     [  C  | -S  0  0 ]
+          !!   [ U1 |    ] [  0 |  0 -I  0 ] [ V1 |    ]**H
+          !! = [---------] [---------------] [---------]   .
+          !!   [    | U2 ] [  S |  C  0  0 ] [    | V2 ]
+          !!   [  0 |  0  0  I ]
+          !! X is M-by-M, its top-left block is P-by-Q, and Q must be no larger
+          !! than P, M-P, or M-Q. (If Q is not the smallest index, then X must be
+          !! transposed and/or permuted. This can be done in constant time using
+          !! the TRANS and SIGNS options. See CUNCSD for details.)
+          !! The bidiagonal matrices B11, B12, B21, and B22 are represented
+          !! implicitly by angles THETA(1:Q) and PHI(1:Q-1).
+          !! The unitary matrices U1, U2, V1T, and V2T are input/output.
+          !! The input matrices are pre- or post-multiplied by the appropriate
+          !! singular vector matrices.
           interface bbcsd
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine cbbcsd(jobu1,jobu2,jobv1t,jobv2t,trans,m,p,q,theta,phi, &
