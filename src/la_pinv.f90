@@ -9,14 +9,96 @@ module la_pseudoinverse
      implicit none(type,external)
      private
 
-     !> Pseudo-inverse: Function interface
+
+     !> @brief Compute the pseudo-inverse of a matrix.
+     !!
+     !! This function computes the Moore-Penrose pseudo-inverse of a real or complex matrix \f$ A \f$.
+     !! The pseudo-inverse is computed using Singular Value Decomposition (SVD):
+     !!
+     !! \f$ A^+ = V \Sigma^+ U^T \f$
+     !!
+     !! where \f$ U \f$ and \f$ V \f$ are unitary matrices, and \f$ \Sigma^+ \f$ is the 
+     !! pseudo-inverse of the singular values.
+     !!
+     !! @param[in] A The input matrix of size \f$ [m, n] \f$.
+     !! @param[in] rtol (Optional) Relative tolerance for singular value truncation. If not provided, 
+     !!                 a default value is used.
+     !! @param[out] err (Optional) A state return flag. If an error occurs and `err` is not provided, 
+     !!                 the function will stop execution.
+     !!
+     !! @return The pseudo-inverse matrix \f$ A^+ \f$ of size \f$ [n, m] \f$.
+     !!
+     !! @note This function relies on LAPACK's SVD routines ([GESVD](@ref la_lapack::gesvd) or  [GESDD](@ref la_lapack::gesdd)).
+     !! @warning If `rtol` is too large, important singular values may be discarded, 
+     !!          leading to inaccurate results.
+     !!
      public :: pinv
-     !> Pseudo-inverse: Subroutine interface (pre-allocated)
+
+     !> @brief Compute the pseudo-inverse of a matrix (subroutine version).
+     !!
+     !! This subroutine computes the Moore-Penrose pseudo-inverse of a real or complex matrix \f$ A \f$,
+     !! storing the result in a pre-allocated output matrix \f$ A^+ \f$.
+     !! The computation is based on Singular Value Decomposition (SVD):
+     !!
+     !! \f$ A^+ = V \Sigma^+ U^T \f$
+     !!
+     !! where \f$ U \f$ and \f$ V \f$ are unitary matrices, and \f$ \Sigma^+ \f$ is the 
+     !! pseudo-inverse of the singular values.
+     !!
+     !! @param[in,out] A The input matrix of size \f$ [m, n] \f$. Its contents may be modified.
+     !! @param[out] pinva The output pseudo-inverse matrix of size \f$ [n, m] \f$.
+     !! @param[in] rtol (Optional) Relative tolerance for singular value truncation.
+     !! @param[out] err (Optional) A state return flag. If an error occurs and `err` is not provided, 
+     !!                 the function will stop execution.
+     !!
+     !! @note This subroutine is useful when the output matrix `pinva` is already allocated and avoids
+     !!       memory allocation inside the routine.
+     !! @warning The input matrix `A` may be modified during computation.
+     !!
      public :: pseudoinvert
-     !> Operator interface: .pinv.A returns the pseudo-inverse of A
+
+     !> @brief Compute the pseudo-inverse of a matrix using the `.pinv.` operator.
+     !!
+     !! This operator computes the Moore-Penrose pseudo-inverse of a real or complex matrix \f$ A \f$
+     !! using Singular Value Decomposition (SVD):
+     !!
+     !! \f$ A^+ = V \Sigma^+ U^T \f$
+     !!
+     !! where \f$ U \f$ and \f$ V \f$ are unitary matrices, and \f$ \Sigma^+ \f$ is the 
+     !! pseudo-inverse of the singular values.
+     !!
+     !! @param[in] A The input matrix of size \f$ [m, n] \f$.
+     !!
+     !! @return The pseudo-inverse matrix \f$ A^+ \f$ of size \f$ [n, m] \f$.
+     !!
+     !! @note This operator is a shorthand for calling `pinv(A)`, allowing expressions such as:
+     !!       \f$ X = .pinv.A \f$
+     !! @warning The accuracy of the pseudo-inverse depends on the condition number of \f$ A \f$.
+     !!
      public :: operator(.pinv.)
 
-     ! Function interface
+     !> @brief Compute the pseudo-inverse of a matrix.
+     !!
+     !! This function computes the Moore-Penrose pseudo-inverse of a real or complex matrix \f$ A \f$.
+     !! The pseudo-inverse is computed using Singular Value Decomposition (SVD):
+     !!
+     !! \f$ A^+ = V \Sigma^+ U^T \f$
+     !!
+     !! where \f$ U \f$ and \f$ V \f$ are unitary matrices, and \f$ \Sigma^+ \f$ is the 
+     !! pseudo-inverse of the singular values.
+     !!
+     !! @param[in] A The input matrix of size \f$ [m, n] \f$.
+     !! @param[in] rtol (Optional) Relative tolerance for singular value truncation. If not provided, 
+     !!                 a default value is used.
+     !! @param[out] err (Optional) A state return flag. If an error occurs and `err` is not provided, 
+     !!                 the function will stop execution.
+     !!
+     !! @return The pseudo-inverse matrix \f$ A^+ \f$ of size \f$ [n, m] \f$.
+     !!
+     !! @note This function relies on LAPACK's SVD routines (`*GESVD` or `*GESDD`).
+     !! @warning If `rtol` is too large, important singular values may be discarded, 
+     !!          leading to inaccurate results.
+     !!
      interface pinv
         module procedure la_pseudoinverse_s
         module procedure la_pseudoinverse_d
@@ -26,7 +108,27 @@ module la_pseudoinverse
         module procedure la_pseudoinverse_w
      end interface pinv
 
-     ! Subroutine interface
+     !> @brief Compute the pseudo-inverse of a matrix (subroutine version).
+     !!
+     !! This subroutine computes the Moore-Penrose pseudo-inverse of a real or complex matrix \f$ A \f$,
+     !! storing the result in a pre-allocated output matrix \f$ A^+ \f$.
+     !! The computation is based on Singular Value Decomposition (SVD):
+     !!
+     !! \f$ A^+ = V \Sigma^+ U^T \f$
+     !!
+     !! where \f$ U \f$ and \f$ V \f$ are unitary matrices, and \f$ \Sigma^+ \f$ is the 
+     !! pseudo-inverse of the singular values.
+     !!
+     !! @param[in,out] A The input matrix of size \f$ [m, n] \f$. Its contents may be modified.
+     !! @param[out] pinva The output pseudo-inverse matrix of size \f$ [n, m] \f$.
+     !! @param[in] rtol (Optional) Relative tolerance for singular value truncation.
+     !! @param[out] err (Optional) A state return flag. If an error occurs and `err` is not provided, 
+     !!                 the function will stop execution.
+     !!
+     !! @note This subroutine is useful when the output matrix `pinva` is already allocated and avoids
+     !!       memory allocation inside the routine.
+     !! @warning The input matrix `A` may be modified during computation.
+     !!
      interface pseudoinvert
         module procedure la_pseudoinvert_s
         module procedure la_pseudoinvert_d
@@ -36,7 +138,24 @@ module la_pseudoinverse
         module procedure la_pseudoinvert_w
      end interface pseudoinvert
 
-     ! Operator interface
+     !> @brief Compute the pseudo-inverse of a matrix using the `.pinv.` operator.
+     !!
+     !! This operator computes the Moore-Penrose pseudo-inverse of a real or complex matrix \f$ A \f$
+     !! using Singular Value Decomposition (SVD):
+     !!
+     !! \f$ A^+ = V \Sigma^+ U^T \f$
+     !!
+     !! where \f$ U \f$ and \f$ V \f$ are unitary matrices, and \f$ \Sigma^+ \f$ is the 
+     !! pseudo-inverse of the singular values.
+     !!
+     !! @param[in] A The input matrix of size \f$ [m, n] \f$.
+     !!
+     !! @return The pseudo-inverse matrix \f$ A^+ \f$ of size \f$ [n, m] \f$.
+     !!
+     !! @note This operator is a shorthand for calling `pinv(A)`, allowing expressions such as:
+     !!       \f$ X = .pinv.A \f$
+     !! @warning The accuracy of the pseudo-inverse depends on the condition number of \f$ A \f$.
+     !!
      interface operator(.pinv.)
         module procedure la_pinv_s_operator
         module procedure la_pinv_d_operator

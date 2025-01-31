@@ -22,7 +22,7 @@ Solve linear systems - one (`b(:)`) or many (`b(:,:)`).
 - `a`: A `real` or `complex` coefficient matrix. If `overwrite_a=.true.`, it is destroyed by the call.
 - `b`: A rank-1 (one system) or rank-2 (many systems) array of the same kind as `a`, containing the right-hand-side vector(s).
 - `overwrite_a` (optional, default = `.false.`): If `.true.`, input matrix `a` will be used as temporary storage and overwritten, to avoid internal data allocation.
-- `err` (optional): A [`type(la_state)`](@ref la_state_type::la_state) variable. 
+- `err` (optional): A [type(la_state)](@ref la_state_type::la_state) variable. 
 
 ### Return value
 
@@ -30,8 +30,8 @@ For a full-rank matrix, returns an array value that represents the solution to t
 
 ### Errors
 
-- Raises [`LINALG_ERROR`](@ref la_state_type::linalg_error) if the matrix is singular to working precision.
-- Raises [`LINALG_VALUE_ERROR`](@ref la_state_type::linalg_value_error) if the matrix and rhs vectors have invalid/incompatible sizes.
+- Raises [LINALG_ERROR](@ref la_state_type::linalg_error) if the matrix is singular to working precision.
+- Raises [LINALG_VALUE_ERROR](@ref la_state_type::linalg_value_error) if the matrix and rhs vectors have invalid/incompatible sizes.
 - If `err` is not present, exceptions trigger an `error stop`.
 
 ## [lstsq](@ref la_least_squares::lstsq) - Compute a least squares solution to a system of linear equations.
@@ -53,7 +53,7 @@ The result \f$ x \f$ is returned as an allocatable array, and it is either a vec
 - `cond` (optional): A cutoff for rank evaluation. Singular values \f$ s(i) \f$ such that \f$ s(i) \leq \text{cond} \cdot \max(s) \f$ are considered zero. 
 - `overwrite_a` (optional, default = `.false.`): If `.true.`, both `a` and `b` may be overwritten and destroyed during computation. 
 - `rank` (optional): An integer variable that returns the rank of the matrix \f$ A \f$.
-- `err` (optional): A [`type(la_state)`](@ref la_state_type::la_state) variable that returns the error state. If `err` is not provided, the function will stop execution on error.
+- `err` (optional): A [type(la_state)](@ref la_state_type::la_state) variable that returns the error state. If `err` is not provided, the function will stop execution on error.
 
 ### Return value
 
@@ -61,8 +61,8 @@ Returns the solution array \f$ x \f$ with size \f$ n \f$ (for a single right-han
 
 ### Errors
 
-- Raises [`LINALG_ERROR`](@ref la_state_type::linalg_error) if the matrix \f$ A \f$ is singular to working precision.
-- Raises [`LINALG_VALUE_ERROR`](@ref la_state_type::linalg_value_error) if the matrix `a` and the right-hand side `b` have incompatible sizes.
+- Raises [LINALG_ERROR](@ref la_state_type::linalg_error) if the matrix \f$ A \f$ is singular to working precision.
+- Raises [LINALG_VALUE_ERROR](@ref la_state_type::linalg_value_error) if the matrix `a` and the right-hand side `b` have incompatible sizes.
 - If `err` is not provided, the function stops execution on error.
 
 ### Notes
@@ -83,13 +83,6 @@ Returns the solution array \f$ x \f$ with size \f$ n \f$ (for a single right-han
 **Optional arguments**:  
 - `err`: Return state handler.
 
-## `pinv(A)`
-**Type**: Function  
-**Description**: Moore-Penrose Pseudo-Inverse of a matrix.  
-**Optional arguments**:  
-- `rtol`: Optional singular value threshold.  
-- `err`: Return state handler.
-
 ## `invert(A)`
 **Type**: Subroutine  
 **Description**: In-place inverse of a scalar or square matrix.  
@@ -104,11 +97,144 @@ Returns the solution array \f$ x \f$ with size \f$ n \f$ (for a single right-han
 
 **Effect**: `A` is replaced with $A^{-1}$.
 
-## `.pinv.A`
-**Type**: Operator  
-**Description**: Moore-Penrose Pseudo-Inverse.  
+## [pseudoinvert](@ref la_pseudoinverse::pseudoinvert) - Moore-Penrose pseudo-inverse of a matrix.
 
-**Effect**: `A` is replaced with $A^{-1}$.
+### Syntax
+
+`call pseudoinvert(a, pinva [, rtol] [, err])`
+
+### Description
+
+This subroutine computes the Moore-Penrose pseudo-inverse \f$ A^+ \f$ of a real or complex matrix \f$ A \f$ using Singular Value Decomposition (SVD). The pseudo-inverse is a generalization of the matrix inverse that can be computed for non-square and singular matrices. It is particularly useful for solving least-squares problems and underdetermined systems.
+
+The computation is based on the singular value decomposition (SVD):
+
+\f[
+A = U \Sigma V^T
+\f]
+
+where \f$ U \f$ and \f$ V \f$ are orthogonal matrices, and \f$ \Sigma \f$ is a diagonal matrix containing the singular values. The pseudo-inverse is computed as:
+
+\f[
+A^+ = V \Sigma^+ U^T
+\f]
+
+where \f$ \Sigma^+ \f$ is obtained by inverting the nonzero singular values.
+
+### Arguments
+
+- `a`: A `real` or `complex` matrix of size \f$ [m,n] \f$, representing the input matrix to be inverted.
+- `pinva`: A `real` or `complex` matrix of size \f$ [n,m] \f$, representing the pseudo-inverse of `a`. This is an output argument.
+- `rtol` (optional): A real scalar specifying the relative tolerance for singular value truncation. Singular values smaller than `rtol * max(singular_values(A))` are set to zero. If not provided, a default machine-precision-based tolerance is used.
+- `err` (optional): A [type(la_state)](@ref la_state_type::la_state) variable that returns the error state. If not provided, the function will stop execution on error.
+
+### Return value
+
+The pseudo-inverse of the input matrix `a` is returned in `pinva`.
+
+### Errors
+
+- Raises [LINALG_VALUE_ERROR](@ref la_state_type::linalg_value_error) if the dimensions of `pinva` do not match the expected output size.
+- Raises [LINALG_ERROR](@ref la_state_type::linalg_error) if the SVD decomposition fails.
+- If `err` is not provided, exceptions will trigger an `error stop`.
+
+### Notes
+
+- This subroutine computes the pseudo-inverse using LAPACK’s SVD decomposition routine [`*GESVD`](@ref la_lapack::gesvd).
+- The choice of `rtol` affects numerical stability and rank estimation: setting it too high may result in an inaccurate inverse, while setting it too low may amplify numerical noise.
+- This version requires `pinva` to be pre-allocated. To obtain the required size before allocation, use [`pseudoinvert_space`](@ref la_pseudoinvert::pseudoinvert_space).
+
+
+## [pinv](@ref la_pseudoinverse::pinv) - Moore-Penrose pseudo-inverse of a matrix (function).
+
+### Syntax
+
+`pinva = pinv(a [, rtol] [, err])`
+
+### Description
+
+This function computes the Moore-Penrose pseudo-inverse \f$ A^+ \f$ of a real or complex matrix \f$ A \f$ using Singular Value Decomposition (SVD). The pseudo-inverse provides a generalization of the inverse for non-square and singular matrices, making it useful for solving least-squares problems and underdetermined systems.
+
+The computation is based on the singular value decomposition (SVD):
+
+\f[
+A = U \Sigma V^T
+\f]
+
+where \f$ U \f$ and \f$ V \f$ are orthogonal matrices, and \f$ \Sigma \f$ is a diagonal matrix containing the singular values. The pseudo-inverse is computed as:
+
+\f[
+A^+ = V \Sigma^+ U^T
+\f]
+
+where \f$ \Sigma^+ \f$ is obtained by inverting the nonzero singular values.
+
+### Arguments
+
+- `a`: A `real` or `complex` matrix of size \f$ [m,n] \f$, representing the input matrix to be inverted.
+- `rtol` (optional): A real scalar specifying the relative tolerance for singular value truncation. Singular values smaller than `rtol * max(singular_values(A))` are set to zero. If not provided, a default machine-precision-based tolerance is used.
+- `err` (optional): A [type(la_state)](@ref la_state_type::la_state) variable that returns the error state. If not provided, the function will stop execution on error.
+
+### Return value
+
+- `pinva`: A `real` or `complex` matrix of size \f$ [n,m] \f$, representing the pseudo-inverse of `a`.
+
+### Errors
+
+- Raises [LINALG_VALUE_ERROR](@ref la_state_type::linalg_value_error) if the SVD decomposition fails or the input matrix has invalid dimensions.
+- Raises [LINALG_ERROR](@ref la_state_type::linalg_error) if numerical instability prevents inversion.
+- If `err` is not provided, exceptions will trigger an `error stop`.
+
+### Notes
+
+- This function computes the pseudo-inverse using LAPACK’s SVD decomposition routine [`*GESVD`](@ref la_lapack::gesvd).
+- The choice of `rtol` affects numerical stability and rank estimation: setting it too high may result in an inaccurate inverse, while setting it too low may amplify numerical noise.
+- This function returns a newly allocated matrix. For an in-place version, use [`pseudoinvert`](@ref la_pseudoinverse::pseudoinvert).
+
+## [operator(.pinv.)](@ref la_pseudoinverse::operator(.pinv.)) - Compute the Moore-Penrose pseudo-inverse of a matrix.
+
+### Syntax
+
+`pinva = .pinv. a`
+
+### Description
+
+This operator computes the Moore-Penrose pseudo-inverse \f$ A^+ \f$ of a real or complex matrix \f$ A \f$ using Singular Value Decomposition (SVD). The pseudo-inverse is useful for solving least-squares problems and handling singular or underdetermined systems.
+
+Given the singular value decomposition (SVD):
+
+\f[
+A = U \Sigma V^T
+\f]
+
+the pseudo-inverse is computed as:
+
+\f[
+A^+ = V \Sigma^+ U^T
+\f]
+
+where \f$ \Sigma^+ \f$ is the inverse of the nonzero singular values in \f$ \Sigma \f$.
+
+### Arguments
+
+- `a`: A `real` or `complex` matrix of size \f$ [m,n] \f$, representing the input matrix to be inverted.
+
+### Return value
+
+- `pinva`: A `real` or `complex` matrix of size \f$ [n,m] \f$, representing the pseudo-inverse of `a`.
+
+### Errors
+
+- Raises [LINALG_VALUE_ERROR](@ref la_state_type::linalg_value_error) if the SVD decomposition fails or the input matrix has invalid dimensions.
+- Raises [LINALG_ERROR](@ref la_state_type::linalg_error) if numerical instability prevents inversion.
+- If an error occurs, execution will stop.
+
+### Notes
+
+- This operator internally calls [pinv](@ref la_pseudoinverse::pinv) and behaves identically.
+- The pseudo-inverse is computed using LAPACK’s SVD decomposition routine [`*GESVD`](@ref la_lapack::gesvd).
+- This operator is a convenient shorthand for calling the functional interface `pinv(a)`.
+
 
 ## `svd(A)`
 **Type**: Subroutine  
@@ -205,7 +331,7 @@ Because the lower rows of \f$ R \f$ are zeros, a reduced problem \f$ A = Q_1 R_1
 - `r`: A rank-2 array of the same type and kind as `a`, representing the upper-triangular matrix \f$ R \f$. This is an output argument with shape \f$ [m,n] \f$ (for the full problem) or \f$ [k,n] \f$ (for the reduced problem).
 - `storage` (optional): A rank-1 array of the same type and kind as `a`, providing working storage for the solver. Its minimum size can be determined by a call to [`qr_space`](@ref la_qr::qr_space). This is an output argument.
 - `overwrite_a` (optional, default = `.false.`): A logical flag that determines whether the input matrix `a` can be overwritten. If `.true.`, the matrix `a` is used as temporary storage and overwritten to avoid internal memory allocation. This is an input argument.
-- `err` (optional): A [`type(la_state)`](@ref la_state_type::la_state) variable that returns the error state. If not provided, the function will stop execution on error.
+- `err` (optional): A [type(la_state)](@ref la_state_type::la_state) variable that returns the error state. If not provided, the function will stop execution on error.
 
 ### Return value
 
@@ -213,8 +339,8 @@ The QR factorization matrices \f$ Q \f$ and \f$ R \f$ are returned in the corres
 
 ### Errors
 
-- Raises [`LINALG_VALUE_ERROR`](@ref la_state_type::linalg_value_error) if the sizes of the matrices are incompatible with the full/reduced problem.
-- Raises [`LINALG_ERROR`](@ref la_state_type::linalg_error) if there is insufficient storage space.
+- Raises [LINALG_VALUE_ERROR](@ref la_state_type::linalg_value_error) if the sizes of the matrices are incompatible with the full/reduced problem.
+- Raises [LINALG_ERROR](@ref la_state_type::linalg_error) if there is insufficient storage space.
 - If `err` is not provided, exceptions will trigger an `error stop`.
 
 ### Notes
@@ -239,7 +365,7 @@ The input matrix \f$ A \f$ has size \f$ [m,n] \f$, and the output value \f$ lwor
 
 - `a`: A `real` or `complex` matrix of size \f$ [m,n] \f$, representing the input matrix used to determine the required workspace size.
 - `lwork`: An integer variable that will return the minimum workspace size required for QR factorization.
-- `err` (optional): A [`type(la_state)`](@ref la_state_type::la_state) variable that returns the error state. If not provided, the function will stop execution on error.
+- `err` (optional): A [type(la_state)](@ref la_state_type::la_state) variable that returns the error state. If not provided, the function will stop execution on error.
 
 ### Return value
 
@@ -247,7 +373,7 @@ The workspace size \f$ lwork \f$ that should be allocated before calling the QR 
 
 ### Errors
 
-- Raises [`LINALG_ERROR`](@ref la_state_type::linalg_error) if there is an issue determining the required workspace size.
+- Raises [LINALG_ERROR](@ref la_state_type::linalg_error) if there is an issue determining the required workspace size.
 - If `err` is not provided, exceptions will trigger an `error stop`.
 
 ### Notes
