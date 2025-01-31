@@ -11,7 +11,7 @@ var searchData=
   ['pftri_8',['pftri',['../interfacela__lapack_1_1pftri.html',1,'la_lapack']]],
   ['pftrs_9',['pftrs',['../interfacela__lapack_1_1pftrs.html',1,'la_lapack']]],
   ['pinv_10',['pinv',['../interfacela__pseudoinverse_1_1pinv.html',1,'la_pseudoinverse']]],
-  ['pinv_20a_20tt_11',['pinv A tt',['../index.html#autotoc_md18',1,'&lt;tt&gt;.pinv.A&lt;/tt&gt;'],['../index.html#autotoc_md15',1,'&lt;tt&gt;pinv(A)&lt;/tt&gt;']]],
+  ['pinv_20a_20tt_11',['pinv A tt',['../index.html#autotoc_md24',1,'&lt;tt&gt;.pinv.A&lt;/tt&gt;'],['../index.html#autotoc_md21',1,'&lt;tt&gt;pinv(A)&lt;/tt&gt;']]],
   ['pocon_12',['pocon',['../interfacela__lapack_1_1pocon.html',1,'la_lapack']]],
   ['poequ_13',['poequ',['../interfacela__lapack_1_1poequ.html',1,'la_lapack']]],
   ['poequb_14',['poequb',['../interfacela__lapack_1_1poequb.html',1,'la_lapack']]],

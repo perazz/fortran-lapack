@@ -104,9 +104,10 @@ $(function(){initNavTree('index.html',''); initResizable(true); });
 <p>This package provides precision-agnostic, high-level linear algebra APIs for <code>real</code> and <code>complex</code> arguments in Modern Fortran. The APIs are similar to NumPy/SciPy operations, and leverage a Modern Fortran implementation of the <a href="http://github.com/reference-LAPACK">Reference-LAPACK</a> library.</p>
 <p>A full and standardized implementation of the present library has been integrated into the <a href="http://stdlib.fortran-lang.org/">Fortran Standard Library</a>, and as such, most users should seek to access the functionality from <code>stdlib</code>. The present library is kept in place for those who seek a compact implementation of it.</p>
 <h1><a class="anchor" id="autotoc_md5"></a>
-Current API</h1>
+Browse API</h1>
+<p>All procedures work with all types (<code>real</code>, <code>complex</code>) and kinds (32, 64, 128-bit floats).</p>
 <h2><a class="anchor" id="autotoc_md6"></a>
-<a class="el" href="interfacela__solve_1_1solve.html"><code>solve</code></a> - Solves a linear matrix equation or a linear system of equations.</h2>
+<a class="el" href="interfacela__solve_1_1solve.html"><code>solve</code></a> - Solve a linear matrix equation or a linear system of equations.</h2>
 <h3><a class="anchor" id="autotoc_md7"></a>
 Syntax</h3>
 <p><code>x = solve(a, b [, overwrite_a] [, err])</code> <br  />
@@ -134,20 +135,41 @@ Errors</h3>
 <li>If <code>err</code> is not present, exceptions trigger an <code>error stop</code>.</li>
 </ul>
 <h2><a class="anchor" id="autotoc_md12"></a>
-<code>lstsq(A, b)</code></h2>
-<p><b>Type</b>: Function <br  />
- <b>Description</b>: Solve non-square systems in a least squares sense - one (<code>b(:)</code>) or many (<code>b(:,:)</code>). <br  />
- <b>Optional arguments</b>: <br  />
-</p><ul>
-<li><code>cond</code>: Optional SVD cutoff. <br  />
-</li>
-<li><code>overwrite_a</code>: Option to let A be destroyed. <br  />
-</li>
-<li><code>rank</code>: Return matrix rank. <br  />
-</li>
-<li><code>err</code>: Return state handler.</li>
+<a class="el" href="interfacela__least__squares_1_1lstsq.html"><code>lstsq</code></a> - Compute a least squares solution to a system of linear equations.</h2>
+<h3><a class="anchor" id="autotoc_md13"></a>
+Syntax</h3>
+<p><code>x = lstsq(a, b [, cond] [, overwrite_a] [, rank] [, err])</code></p>
+<h3><a class="anchor" id="autotoc_md14"></a>
+Description</h3>
+<p>Solves the least-squares problem for the system <img class="formulaInl" alt="$ A \cdot x = b $" src="form_0.png" width="78" height="16"/>, where <img class="formulaInl" alt="$ A $" src="form_5.png" width="16" height="16"/> is a square matrix of size <img class="formulaInl" alt="$ n \times n $" src="form_14.png" width="50" height="12"/> and <img class="formulaInl" alt="$ b $" src="form_15.png" width="8" height="16"/> is either a vector of size <img class="formulaInl" alt="$ n $" src="form_16.png" width="14" height="10"/> or a matrix of size <img class="formulaInl" alt="$ n \times nrhs $" src="form_17.png" width="80" height="16"/>. The function minimizes the 2-norm <img class="formulaInl" alt="$ \|b - A \cdot x\| $" src="form_1.png" width="92" height="22"/> by solving for <img class="formulaInl" alt="$ x $" src="form_18.png" width="12" height="10"/>.</p>
+<p>The result <img class="formulaInl" alt="$ x $" src="form_18.png" width="12" height="10"/> is returned as an allocatable array, and it is either a vector (for a single right-hand side) or a matrix (for multiple right-hand sides).</p>
+<h3><a class="anchor" id="autotoc_md15"></a>
+Arguments</h3>
+<ul>
+<li><code>a</code>: A <code>real</code> matrix of size <img class="formulaInl" alt="$ n \times n $" src="form_14.png" width="50" height="12"/> representing the coefficient matrix. If <code>overwrite_a = .true.</code>, the contents of <code>a</code> may be modified during the computation.</li>
+<li><code>b</code>: A <code>real</code> vector or matrix representing the right-hand side. The size should be <img class="formulaInl" alt="$ n $" src="form_16.png" width="14" height="10"/> (for a single right-hand side) or <img class="formulaInl" alt="$ n \times nrhs $" src="form_17.png" width="80" height="16"/> (for multiple right-hand sides).</li>
+<li><code>cond</code> (optional): A cutoff for rank evaluation. Singular values <img class="formulaInl" alt="$ s(i) $" src="form_2.png" width="30" height="22"/> such that <img class="formulaInl" alt="$ s(i) \leq \text{cond} \cdot \max(s) $" src="form_3.png" width="174" height="22"/> are considered zero.</li>
+<li><code>overwrite_a</code> (optional, default = <code>.false.</code>): If <code>.true.</code>, both <code>a</code> and <code>b</code> may be overwritten and destroyed during computation.</li>
+<li><code>rank</code> (optional): An integer variable that returns the rank of the matrix <img class="formulaInl" alt="$ A $" src="form_5.png" width="16" height="16"/>.</li>
+<li><code>err</code> (optional): A <a class="el" href="structla__state__type_1_1la__state.html"><code>type(la_state)</code></a> variable that returns the error state. If <code>err</code> is not provided, the function will stop execution on error.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md13"></a>
+<h3><a class="anchor" id="autotoc_md16"></a>
+Return value</h3>
+<p>Returns the solution array <img class="formulaInl" alt="$ x $" src="form_18.png" width="12" height="10"/> with size <img class="formulaInl" alt="$ n $" src="form_16.png" width="14" height="10"/> (for a single right-hand side) or <img class="formulaInl" alt="$ n \times nrhs $" src="form_17.png" width="80" height="16"/> (for multiple right-hand sides).</p>
+<h3><a class="anchor" id="autotoc_md17"></a>
+Errors</h3>
+<ul>
+<li>Raises <a class="el" href="namespacela__state__type.html#af5b55841ca3045c3345d9ab019e0797d"><code>LINALG_ERROR</code></a> if the matrix <img class="formulaInl" alt="$ A $" src="form_5.png" width="16" height="16"/> is singular to working precision.</li>
+<li>Raises <a class="el" href="namespacela__state__type.html#ad9888f2f7d4e692e7d3b8fd532baa903"><code>LINALG_VALUE_ERROR</code></a> if the matrix <code>a</code> and the right-hand side <code>b</code> have incompatible sizes.</li>
+<li>If <code>err</code> is not provided, the function stops execution on error.</li>
+</ul>
+<h3><a class="anchor" id="autotoc_md18"></a>
+Notes</h3>
+<ul>
+<li>This function relies on LAPACK's least-squares solvers, such as <a class="el" href="interfacela__lapack_1_1gelss.html"><code>*GELSS</code></a>.</li>
+<li>If <code>overwrite_a</code> is enabled, the original contents of <code>a</code> and <code>b</code> may be lost.</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md19"></a>
 <code>det(A)</code></h2>
 <p><b>Type</b>: Function <br  />
  <b>Description</b>: Determinant of a scalar or square matrix. <br  />
@@ -157,7 +179,7 @@ Errors</h3>
 </li>
 <li><code>err</code>: Return state handler.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md14"></a>
+<h2><a class="anchor" id="autotoc_md20"></a>
 <code>inv(A)</code></h2>
 <p><b>Type</b>: Function <br  />
  <b>Description</b>: Inverse of a scalar or square matrix. <br  />
@@ -165,7 +187,7 @@ Errors</h3>
 </p><ul>
 <li><code>err</code>: Return state handler.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md15"></a>
+<h2><a class="anchor" id="autotoc_md21"></a>
 <code>pinv(A)</code></h2>
 <p><b>Type</b>: Function <br  />
  <b>Description</b>: Moore-Penrose Pseudo-Inverse of a matrix. <br  />
@@ -175,7 +197,7 @@ Errors</h3>
 </li>
 <li><code>err</code>: Return state handler.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md16"></a>
+<h2><a class="anchor" id="autotoc_md22"></a>
 <code>invert(A)</code></h2>
 <p><b>Type</b>: Subroutine <br  />
  <b>Description</b>: In-place inverse of a scalar or square matrix. <br  />
@@ -185,19 +207,19 @@ Errors</h3>
 </li>
 </ul>
 <p><b>Usage</b>: <code>call invert(A, err=err)</code> where <code>A</code> is replaced with $A^{-1}$.</p>
-<h2><a class="anchor" id="autotoc_md17"></a>
+<h2><a class="anchor" id="autotoc_md23"></a>
 <code>.inv.A</code></h2>
 <p><b>Type</b>: Operator <br  />
  <b>Description</b>: Inverse of a scalar or square matrix. <br  />
 </p>
 <p><b>Effect</b>: <code>A</code> is replaced with $A^{-1}$.</p>
-<h2><a class="anchor" id="autotoc_md18"></a>
+<h2><a class="anchor" id="autotoc_md24"></a>
 <code>.pinv.A</code></h2>
 <p><b>Type</b>: Operator <br  />
  <b>Description</b>: Moore-Penrose Pseudo-Inverse. <br  />
 </p>
 <p><b>Effect</b>: <code>A</code> is replaced with $A^{-1}$.</p>
-<h2><a class="anchor" id="autotoc_md19"></a>
+<h2><a class="anchor" id="autotoc_md25"></a>
 <code>svd(A)</code></h2>
 <p><b>Type</b>: Subroutine <br  />
  <b>Description</b>: Singular value decomposition of $A = U S V^t$. <br  />
@@ -215,12 +237,12 @@ Errors</h3>
 </li>
 </ul>
 <p><b>Usage</b>: <code>call svd(A, s, u, vt, full_matrices=.false., err=state)</code>.</p>
-<h2><a class="anchor" id="autotoc_md20"></a>
+<h2><a class="anchor" id="autotoc_md26"></a>
 <code>svdvals(A)</code></h2>
 <p><b>Type</b>: Function <br  />
  <b>Description</b>: Singular values $S$ from $A = U S V^t$. <br  />
  <b>Usage</b>: <code>s = svdvals(A)</code> where <code>s</code> is a real array with the same precision as <code>A</code>.</p>
-<h2><a class="anchor" id="autotoc_md21"></a>
+<h2><a class="anchor" id="autotoc_md27"></a>
 <code>eye(m)</code></h2>
 <p><b>Type</b>: Function <br  />
  <b>Description</b>: Identity matrix of size <code>m</code>. <br  />
@@ -232,7 +254,7 @@ Errors</h3>
 </li>
 <li><code>err</code>: Error handler.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md22"></a>
+<h2><a class="anchor" id="autotoc_md28"></a>
 <code>eigvals(A)</code></h2>
 <p><b>Type</b>: Function <br  />
  <b>Description</b>: Eigenvalues of matrix $A$. <br  />
@@ -240,11 +262,11 @@ Errors</h3>
 </p><ul>
 <li><code>err</code>: State handler.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md23"></a>
+<h2><a class="anchor" id="autotoc_md29"></a>
 <code>eig(A, lambda)</code></h2>
 <p><b>Type</b>: Subroutine <br  />
  <b>Description</b>: Eigenproblem of matrix $A<code>. \ilinebr&lt;br&gt; **Optional arguments**: \ilinebr&lt;br&gt; -</code>left<code>: Output left eigenvector matrix. \ilinebr&lt;br&gt; -</code>right<code>: Output right eigenvector matrix. \ilinebr&lt;br&gt; -</code>overwrite_a<code>: Option to let A be destroyed. \ilinebr&lt;br&gt; -</code>err`: Return state handler.</p>
-<h2><a class="anchor" id="autotoc_md24"></a>
+<h2><a class="anchor" id="autotoc_md30"></a>
 <code>eigvalsh(A)</code></h2>
 <p><b>Type</b>: Function <br  />
  <b>Description</b>: Eigenvalues of symmetric or Hermitian matrix $A$. <br  />
@@ -254,11 +276,11 @@ Errors</h3>
 </li>
 <li><code>err</code>: State handler.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md25"></a>
+<h2><a class="anchor" id="autotoc_md31"></a>
 <code>eigh(A, lambda)</code></h2>
 <p><b>Type</b>: Subroutine <br  />
  <b>Description</b>: Eigenproblem of symmetric or Hermitian matrix $A<code>. \ilinebr&lt;br&gt; **Optional arguments**: \ilinebr&lt;br&gt; -</code>vector<code>: Output eigenvectors. \ilinebr&lt;br&gt; -</code>upper_a<code>: Choose to use upper or lower triangle. \ilinebr&lt;br&gt; -</code>overwrite_a<code>: Option to let A be destroyed. \ilinebr&lt;br&gt; -</code>err`: Return state handler.</p>
-<h2><a class="anchor" id="autotoc_md26"></a>
+<h2><a class="anchor" id="autotoc_md32"></a>
 <code>diag(n, source)</code></h2>
 <p><b>Type</b>: Function <br  />
  <b>Description</b>: Diagonal matrix from scalar input value. <br  />
@@ -266,7 +288,7 @@ Errors</h3>
 </p><ul>
 <li><code>err</code>: Error handler.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md27"></a>
+<h2><a class="anchor" id="autotoc_md33"></a>
 <code>diag(source)</code></h2>
 <p><b>Type</b>: Function <br  />
  <b>Description</b>: Diagonal matrix from array input values. <br  />
@@ -274,26 +296,81 @@ Errors</h3>
 </p><ul>
 <li><code>err</code>: Error handler.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md28"></a>
-<code>qr(A, Q, R)</code></h2>
-<p><b>Type</b>: Subroutine <br  />
- <b>Description</b>: QR factorization. <br  />
- <b>Optional arguments</b>: <br  />
-</p><ul>
-<li><code>storage</code>: Pre-allocated working storage. <br  />
-</li>
-<li><code>err</code>: Error handler.</li>
+<h2><a class="anchor" id="autotoc_md34"></a>
+<a class="el" href="interfacela__qr_1_1qr.html"><code>qr</code></a> - Compute the QR factorization of a matrix.</h2>
+<h3><a class="anchor" id="autotoc_md35"></a>
+Syntax</h3>
+<p><code>call qr(a, q, r [, overwrite_a] [, storage] [, err])</code></p>
+<h3><a class="anchor" id="autotoc_md36"></a>
+Description</h3>
+<p>This subroutine computes the QR factorization of a <code>real</code> or <code>complex</code> matrix <img class="formulaInl" alt="$ A = Q \cdot R $" src="form_4.png" width="90" height="20"/>, where <img class="formulaInl" alt="$ Q $" src="form_8.png" width="16" height="20"/> is orthonormal and <img class="formulaInl" alt="$ R $" src="form_9.png" width="16" height="16"/> is upper-triangular. The matrix <img class="formulaInl" alt="$ A $" src="form_5.png" width="16" height="16"/> has size <img class="formulaInl" alt="$ [m,n] $" src="form_6.png" width="48" height="22"/> with <img class="formulaInl" alt="$ m \ge n $" src="form_7.png" width="58" height="18"/>. The result is returned in the output matrices <img class="formulaInl" alt="$ Q $" src="form_8.png" width="16" height="20"/> and <img class="formulaInl" alt="$ R $" src="form_9.png" width="16" height="16"/>, which have the same type and kind as <img class="formulaInl" alt="$ A $" src="form_5.png" width="16" height="16"/>.</p>
+<p>Given <img class="formulaInl" alt="$ k = \min(m, n) $" src="form_19.png" width="124" height="22"/>, the matrix <img class="formulaInl" alt="$ A $" src="form_5.png" width="16" height="16"/> can be written as:</p>
+<p class="formulaDsp">
+<img class="formulaDsp" alt="\[A = \left( \begin{array}{cc} Q_1 &amp; Q_2 \end{array} \right) \cdot \left( \begin{array}{cc} R_1 &amp; 0 \end{array} \right)
+\]" src="form_20.png" width="254" height="26"/>
+</p>
+<p>Because the lower rows of <img class="formulaInl" alt="$ R $" src="form_9.png" width="16" height="16"/> are zeros, a reduced problem <img class="formulaInl" alt="$ A = Q_1 R_1 $" src="form_21.png" width="90" height="20"/> can be solved. The size of the input matrices determines which problem is solved:</p><ul>
+<li>For full matrices (<code>shape(Q) == [m,m]</code>, <code>shape(R) == [m,n]</code>), the full problem is solved.</li>
+<li>For reduced matrices (<code>shape(Q) == [m,k]</code>, <code>shape(R) == [k,n]</code>), the reduced problem is solved.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md29"></a>
-<code>qr_space(A, lwork)</code></h2>
-<p><b>Type</b>: Subroutine <br  />
- <b>Description</b>: QR Working space size. <br  />
- <b>Optional arguments</b>: <br  />
-</p><ul>
-<li><code>err</code>: Error handler.</li>
+<h3><a class="anchor" id="autotoc_md37"></a>
+Arguments</h3>
+<ul>
+<li><code>a</code>: A <code>real</code> or <code>complex</code> matrix of size <img class="formulaInl" alt="$ [m,n] $" src="form_6.png" width="48" height="22"/>, representing the coefficient matrix. If <code>overwrite_a = .false.</code>, this is an input argument. If <code>overwrite_a = .true.</code>, it is an <code>inout</code> argument and is overwritten upon return.</li>
+<li><code>q</code>: A rank-2 array of the same type and kind as <code>a</code>, representing the orthonormal matrix <img class="formulaInl" alt="$ Q $" src="form_8.png" width="16" height="20"/>. This is an output argument with shape <img class="formulaInl" alt="$ [m,m] $" src="form_10.png" width="52" height="22"/> (for the full problem) or <img class="formulaInl" alt="$ [m,k] $" src="form_11.png" width="46" height="22"/> (for the reduced problem).</li>
+<li><code>r</code>: A rank-2 array of the same type and kind as <code>a</code>, representing the upper-triangular matrix <img class="formulaInl" alt="$ R $" src="form_9.png" width="16" height="16"/>. This is an output argument with shape <img class="formulaInl" alt="$ [m,n] $" src="form_6.png" width="48" height="22"/> (for the full problem) or <img class="formulaInl" alt="$ [k,n] $" src="form_12.png" width="40" height="22"/> (for the reduced problem).</li>
+<li><code>storage</code> (optional): A rank-1 array of the same type and kind as <code>a</code>, providing working storage for the solver. Its minimum size can be determined by a call to <a class="el" href="interfacela__qr_1_1qr__space.html"><code>qr_space</code></a>. This is an output argument.</li>
+<li><code>overwrite_a</code> (optional, default = <code>.false.</code>): A logical flag that determines whether the input matrix <code>a</code> can be overwritten. If <code>.true.</code>, the matrix <code>a</code> is used as temporary storage and overwritten to avoid internal memory allocation. This is an input argument.</li>
+<li><code>err</code> (optional): A <a class="el" href="structla__state__type_1_1la__state.html"><code>type(la_state)</code></a> variable that returns the error state. If not provided, the function will stop execution on error.</li>
 </ul>
-<p>All procedures work with all types (<code>real</code>, <code>complex</code>) and kinds (32, 64, 128-bit floats).</p>
-<h1><a class="anchor" id="autotoc_md30"></a>
+<h3><a class="anchor" id="autotoc_md38"></a>
+Return value</h3>
+<p>The QR factorization matrices <img class="formulaInl" alt="$ Q $" src="form_8.png" width="16" height="20"/> and <img class="formulaInl" alt="$ R $" src="form_9.png" width="16" height="16"/> are returned in the corresponding arguments.</p>
+<h3><a class="anchor" id="autotoc_md39"></a>
+Errors</h3>
+<ul>
+<li>Raises <a class="el" href="namespacela__state__type.html#ad9888f2f7d4e692e7d3b8fd532baa903"><code>LINALG_VALUE_ERROR</code></a> if the sizes of the matrices are incompatible with the full/reduced problem.</li>
+<li>Raises <a class="el" href="namespacela__state__type.html#af5b55841ca3045c3345d9ab019e0797d"><code>LINALG_ERROR</code></a> if there is insufficient storage space.</li>
+<li>If <code>err</code> is not provided, exceptions will trigger an <code>error stop</code>.</li>
+</ul>
+<h3><a class="anchor" id="autotoc_md40"></a>
+Notes</h3>
+<ul>
+<li>This subroutine computes the QR factorization using LAPACK's QR decomposition algorithm <a class="el" href="interfacela__lapack_1_1geqrf.html"><code>*GEQRF</code></a>.</li>
+<li>If <code>overwrite_a</code> is enabled, the input matrix <code>a</code> will be modified during computation.</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md41"></a>
+<a class="el" href="interfacela__qr_1_1qr__space.html"><code>qr_space</code></a> - Workspace size for QR operations.</h2>
+<h3><a class="anchor" id="autotoc_md42"></a>
+Syntax</h3>
+<p><code>call qr_space(a, lwork [, err])</code></p>
+<h3><a class="anchor" id="autotoc_md43"></a>
+Description</h3>
+<p>This subroutine computes the minimum workspace size required for performing QR factorization. The size of the workspace array needed for both QR factorization and solving the reduced problem is determined based on the input matrix <img class="formulaInl" alt="$ A $" src="form_5.png" width="16" height="16"/>.</p>
+<p>The input matrix <img class="formulaInl" alt="$ A $" src="form_5.png" width="16" height="16"/> has size <img class="formulaInl" alt="$ [m,n] $" src="form_6.png" width="48" height="22"/>, and the output value <img class="formulaInl" alt="$ lwork $" src="form_22.png" width="50" height="16"/> represents the minimum size of the workspace array that should be allocated for QR operations.</p>
+<h3><a class="anchor" id="autotoc_md44"></a>
+Arguments</h3>
+<ul>
+<li><code>a</code>: A <code>real</code> or <code>complex</code> matrix of size <img class="formulaInl" alt="$ [m,n] $" src="form_6.png" width="48" height="22"/>, representing the input matrix used to determine the required workspace size.</li>
+<li><code>lwork</code>: An integer variable that will return the minimum workspace size required for QR factorization.</li>
+<li><code>err</code> (optional): A <a class="el" href="structla__state__type_1_1la__state.html"><code>type(la_state)</code></a> variable that returns the error state. If not provided, the function will stop execution on error.</li>
+</ul>
+<h3><a class="anchor" id="autotoc_md45"></a>
+Return value</h3>
+<p>The workspace size <img class="formulaInl" alt="$ lwork $" src="form_22.png" width="50" height="16"/> that should be allocated before calling the QR factorization routine is returned.</p>
+<h3><a class="anchor" id="autotoc_md46"></a>
+Errors</h3>
+<ul>
+<li>Raises <a class="el" href="namespacela__state__type.html#af5b55841ca3045c3345d9ab019e0797d"><code>LINALG_ERROR</code></a> if there is an issue determining the required workspace size.</li>
+<li>If <code>err</code> is not provided, exceptions will trigger an <code>error stop</code>.</li>
+</ul>
+<h3><a class="anchor" id="autotoc_md47"></a>
+Notes</h3>
+<ul>
+<li>This subroutine is useful for preallocating memory for QR factorization in large systems.</li>
+<li>It is important to ensure that the workspace size is correctly allocated before proceeding with QR factorization to avoid memory issues.</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md48"></a>
 BLAS, LAPACK</h1>
 <p>Modern Fortran modules with full explicit typing features are available as modules <code><a class="el" href="namespacela__blas.html" title="Precision-agnostic BLAS interface.">la_blas</a></code> and <code><a class="el" href="namespacela__lapack.html">la_lapack</a></code>. The reference Fortran-77 library, forked from Release 3.10.1, was automatically processed and modernized. The following refactorings are applied:</p><ul>
 <li>All datatypes and accuracy constants standardized into a module (<code>stdlib</code>-compatible names)</li>
@@ -311,7 +388,7 @@ BLAS, LAPACK</h1>
 <li>preprocessor-based OpenMP directives retained.</li>
 </ul>
 <p>The single-source module structure hopefully allows for cross-procedural inlining which is otherwise impossible without link-time optimization.</p>
-<h1><a class="anchor" id="autotoc_md31"></a>
+<h1><a class="anchor" id="autotoc_md49"></a>
 Building</h1>
 <p>An automated build is currently available via the <a href="https://fpm.fortran-lang.org">Fortran Package Manager</a>. To add fortran-lapack to your project, simply add it as a dependency:</p>
 <div class="fragment"><div class="line">[dependencies]</div>
@@ -319,7 +396,7 @@ Building</h1>
 </div><!-- fragment --><p><code>fortran-lapack</code> is compatible with the LAPACK API. If high-performance external BLAS/LAPACK libraries are available, it is sufficient to define macros</p>
 <div class="fragment"><div class="line">[dependencies]</div>
 <div class="line">fortran-lapack = { git=&quot;https://github.com/perazz/fortran-lapack.git&quot;, preprocess.cpp.macros=[&quot;LA_EXTERNAL_BLAS&quot;, &quot;LA_EXTERNAL_LAPACK&quot;] }</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md32"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md50"></a>
 Extension to external BLAS/LAPACK libraries</h1>
 <p>Generic interfaces to most BLAS/LAPACK functions are exposed to modules <code><a class="el" href="namespacela__blas.html" title="Precision-agnostic BLAS interface.">la_blas</a></code> and <code><a class="el" href="namespacela__lapack.html">la_lapack</a></code>. These interfaces drop the initial letter to wrap a precision-agnostic version. For example, <code>axpy</code> is a precision-agnostic interface to <code>saxpy</code>, <code>daxpy</code>, <code>caxpy</code>, <code>zaxpy</code>, <code>qaxpy</code>, <code>waxpy</code>. The naming convention is:</p>
 <table class="markdownTable">
@@ -350,10 +427,10 @@ Extension to external BLAS/LAPACK libraries</h1>
 <div class="line">    <span class="keyword">module procedure</span> la_saxpy</div>
 <div class="line"><span class="preprocessor">#endif</span></div>
 <div class="line"><span class="preprocessor"></span><span class="keyword">end interface</span></div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md33"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md51"></a>
 Licensing</h1>
 <p>LAPACK is a freely-available software package. It is available from <a href="https://www.netlib.org/lapack/">netlib</a> via anonymous ftp and the World Wide Web. Thus, it can be included in commercial software packages (and has been). Credit for the library should be given to the <a href="https://www.netlib.org/lapack/contributor-list.html">LAPACK authors</a>. The license used for the software is the <a href="https://www.netlib.org/lapack/LICENSE.txt">modified BSD license</a>. According to the original license, we changed the name of the routines and commented the changes made to the original.</p>
-<h1><a class="anchor" id="autotoc_md34"></a>
+<h1><a class="anchor" id="autotoc_md52"></a>
 Acknowledgments</h1>
 <p>Part of this work was supported by the <a href="https://www.sovereigntechfund.de">Sovereign Tech Fund</a>. </p>
 </div></div><!-- PageDoc -->

@@ -1,5 +1,24 @@
-\_form#0=49x10:$ A \cdot x = b $
-\_form#1=58x14:$ \|b - A \cdot x\| $
-\_form#2=19x14:$ s(i) $
-\_form#3=109x14:$ s(i) \leq \text{cond} \cdot \max(s) $
-\_form#4=58x10:$ A \cdot X = B $
+\_form#0=78x16:$ A \cdot x = b $
+\_form#1=92x22:$ \|b - A \cdot x\| $
+\_form#2=30x22:$ s(i) $
+\_form#3=174x22:$ s(i) \leq \text{cond} \cdot \max(s) $
+\_form#4=90x20:$ A = Q \cdot R $
+\_form#5=16x16:$ A $
+\_form#6=48x22:$ [m,n] $
+\_form#7=58x18:$ m \ge n $
+\_form#8=16x20:$ Q $
+\_form#9=16x16:$ R $
+\_form#10=52x22:$ [m,m] $
+\_form#11=46x22:$ [m,k] $
+\_form#12=40x22:$ [k,n] $
+\_form#13=92x16:$ A \cdot X = B $
+\_form#14=50x12:$ n \times n $
+\_form#15=8x16:$ b $
+\_form#16=14x10:$ n $
+\_form#17=80x16:$ n \times nrhs $
+\_form#18=12x10:$ x $
+\_form#19=124x22:$ k = \min(m, n) $
+\_form#20=254x26:\[A = \left( \begin{array}{cc} Q_1 & Q_2 \end{array} \right) \cdot \left( \begin{array}{cc} R_1 & 0 \end{array} \right)
+\]
+\_form#21=90x20:$ A = Q_1 R_1 $
+\_form#22=50x16:$ lwork $

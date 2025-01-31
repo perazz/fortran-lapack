@@ -1,14 +1,14 @@
 var searchData=
 [
-  ['a_20b_20tt_0',['&lt;tt&gt;lstsq(A, b)&lt;/tt&gt;',['../index.html#autotoc_md12',1,'']]],
-  ['a_20lambda_20tt_1',['A lambda tt',['../index.html#autotoc_md23',1,'&lt;tt&gt;eig(A, lambda)&lt;/tt&gt;'],['../index.html#autotoc_md25',1,'&lt;tt&gt;eigh(A, lambda)&lt;/tt&gt;']]],
-  ['a_20linear_20matrix_20equation_20or_20a_20linear_20system_20of_20equations_2',['@ref la_solve::solve &quot;&lt;tt&gt;solve&lt;/tt&gt;&quot; - Solves a linear matrix equation or a linear system of equations.',['../index.html#autotoc_md6',1,'']]],
-  ['a_20linear_20system_20of_20equations_3',['@ref la_solve::solve &quot;&lt;tt&gt;solve&lt;/tt&gt;&quot; - Solves a linear matrix equation or a linear system of equations.',['../index.html#autotoc_md6',1,'']]],
-  ['a_20lwork_20tt_4',['&lt;tt&gt;qr_space(A, lwork)&lt;/tt&gt;',['../index.html#autotoc_md29',1,'']]],
-  ['a_20q_20r_20tt_5',['&lt;tt&gt;qr(A, Q, R)&lt;/tt&gt;',['../index.html#autotoc_md28',1,'']]],
-  ['a_20tt_6',['A tt',['../index.html#autotoc_md17',1,'&lt;tt&gt;.inv.A&lt;/tt&gt;'],['../index.html#autotoc_md18',1,'&lt;tt&gt;.pinv.A&lt;/tt&gt;'],['../index.html#autotoc_md13',1,'&lt;tt&gt;det(A)&lt;/tt&gt;'],['../index.html#autotoc_md22',1,'&lt;tt&gt;eigvals(A)&lt;/tt&gt;'],['../index.html#autotoc_md24',1,'&lt;tt&gt;eigvalsh(A)&lt;/tt&gt;'],['../index.html#autotoc_md14',1,'&lt;tt&gt;inv(A)&lt;/tt&gt;'],['../index.html#autotoc_md16',1,'&lt;tt&gt;invert(A)&lt;/tt&gt;'],['../index.html#autotoc_md15',1,'&lt;tt&gt;pinv(A)&lt;/tt&gt;'],['../index.html#autotoc_md19',1,'&lt;tt&gt;svd(A)&lt;/tt&gt;'],['../index.html#autotoc_md20',1,'&lt;tt&gt;svdvals(A)&lt;/tt&gt;']]],
-  ['acknowledgments_7',['Acknowledgments',['../index.html#autotoc_md34',1,'']]],
-  ['api_8',['Current API',['../index.html#autotoc_md5',1,'']]],
-  ['arguments_9',['Arguments',['../index.html#autotoc_md9',1,'']]],
+  ['a_20lambda_20tt_0',['A lambda tt',['../index.html#autotoc_md29',1,'&lt;tt&gt;eig(A, lambda)&lt;/tt&gt;'],['../index.html#autotoc_md31',1,'&lt;tt&gt;eigh(A, lambda)&lt;/tt&gt;']]],
+  ['a_20least_20squares_20solution_20to_20a_20system_20of_20linear_20equations_1',['@ref la_least_squares::lstsq &quot;&lt;tt&gt;lstsq&lt;/tt&gt;&quot; - Compute a least squares solution to a system of linear equations.',['../index.html#autotoc_md12',1,'']]],
+  ['a_20linear_20matrix_20equation_20or_20a_20linear_20system_20of_20equations_2',['@ref la_solve::solve &quot;&lt;tt&gt;solve&lt;/tt&gt;&quot; - Solve a linear matrix equation or a linear system of equations.',['../index.html#autotoc_md6',1,'']]],
+  ['a_20linear_20system_20of_20equations_3',['@ref la_solve::solve &quot;&lt;tt&gt;solve&lt;/tt&gt;&quot; - Solve a linear matrix equation or a linear system of equations.',['../index.html#autotoc_md6',1,'']]],
+  ['a_20matrix_4',['@ref la_qr::qr &quot;&lt;tt&gt;qr&lt;/tt&gt;&quot; - Compute the QR factorization of a matrix.',['../index.html#autotoc_md34',1,'']]],
+  ['a_20system_20of_20linear_20equations_5',['@ref la_least_squares::lstsq &quot;&lt;tt&gt;lstsq&lt;/tt&gt;&quot; - Compute a least squares solution to a system of linear equations.',['../index.html#autotoc_md12',1,'']]],
+  ['a_20tt_6',['A tt',['../index.html#autotoc_md23',1,'&lt;tt&gt;.inv.A&lt;/tt&gt;'],['../index.html#autotoc_md24',1,'&lt;tt&gt;.pinv.A&lt;/tt&gt;'],['../index.html#autotoc_md19',1,'&lt;tt&gt;det(A)&lt;/tt&gt;'],['../index.html#autotoc_md28',1,'&lt;tt&gt;eigvals(A)&lt;/tt&gt;'],['../index.html#autotoc_md30',1,'&lt;tt&gt;eigvalsh(A)&lt;/tt&gt;'],['../index.html#autotoc_md20',1,'&lt;tt&gt;inv(A)&lt;/tt&gt;'],['../index.html#autotoc_md22',1,'&lt;tt&gt;invert(A)&lt;/tt&gt;'],['../index.html#autotoc_md21',1,'&lt;tt&gt;pinv(A)&lt;/tt&gt;'],['../index.html#autotoc_md25',1,'&lt;tt&gt;svd(A)&lt;/tt&gt;'],['../index.html#autotoc_md26',1,'&lt;tt&gt;svdvals(A)&lt;/tt&gt;']]],
+  ['acknowledgments_7',['Acknowledgments',['../index.html#autotoc_md52',1,'']]],
+  ['api_8',['Browse API',['../index.html#autotoc_md5',1,'']]],
+  ['arguments_9',['Arguments',['../index.html#autotoc_md9',1,'Arguments'],['../index.html#autotoc_md15',1,'Arguments'],['../index.html#autotoc_md37',1,'Arguments'],['../index.html#autotoc_md44',1,'Arguments']]],
   ['axpy_10',['axpy',['../interfacela__blas_1_1axpy.html',1,'la_blas']]]
 ];
