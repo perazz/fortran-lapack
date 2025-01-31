@@ -1,0 +1,5 @@
+\_form#0=49x10:$ A \cdot x = b $
+\_form#1=58x14:$ \|b - A \cdot x\| $
+\_form#2=19x14:$ s(i) $
+\_form#3=109x14:$ s(i) \leq \text{cond} \cdot \max(s) $
+\_form#4=58x10:$ A \cdot X = B $

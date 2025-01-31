@@ -104,7 +104,7 @@ $(function(){initNavTree('interfacela__least__squares_1_1lstsq.html',''); initRe
 </div><!--header-->
 <div class="contents">
 
-<p>Compute a least squares solution to system <img class="formulaInl" alt="$ A \cdot x = b $" src="form_0.png"/>, i.e. such that the 2-norm <img class="formulaInl" alt="$ \|b - A \cdot x\| $" src="form_1.png"/> is minimized.  
+<p>Compute a least squares solution to system <img class="formulaInl" alt="$ A \cdot x = b $" src="form_0.png" width="49" height="10"/>, i.e. such that the 2-norm <img class="formulaInl" alt="$ \|b - A \cdot x\| $" src="form_1.png" width="58" height="14"/> is minimized.  
  <a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
@@ -147,15 +147,15 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ac21f5d10ba3c7546239bdcfb7d1bc570"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Compute a least squares solution to system <img class="formulaInl" alt="$ A \cdot x = b $" src="form_0.png"/>, i.e. such that the 2-norm <img class="formulaInl" alt="$ \|b - A \cdot x\| $" src="form_1.png"/> is minimized. </p>
+<div class="textblock"><p>Compute a least squares solution to system <img class="formulaInl" alt="$ A \cdot x = b $" src="form_0.png" width="49" height="10"/>, i.e. such that the 2-norm <img class="formulaInl" alt="$ \|b - A \cdot x\| $" src="form_1.png" width="58" height="14"/> is minimized. </p>
 <p>This function computes the least-squares solution to a real system of linear equations:</p>
-<p><img class="formulaInl" alt="$ A \cdot x = b $" src="form_0.png"/></p>
+<p><img class="formulaInl" alt="$ A \cdot x = b $" src="form_0.png" width="49" height="10"/></p>
 <p>where A is an <code>n x n</code> matrix and b is either a vector (<code>n</code>) or a matrix (<code>n x nrhs</code>). The solution <code>x</code> is returned as an allocatable array.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>The input matrix of size <code>n x n</code>. If <code>overwrite_a</code> is true, the contents of A may be modified during computation. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>The right-hand side vector (<code>n</code>) or matrix (<code>n x nrhs</code>). </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">cond</td><td>(Optional) A cutoff for rank evaluation: singular values <img class="formulaInl" alt="$ s(i) $" src="form_2.png"/> such that <img class="formulaInl" alt="$ s(i) \leq \text{cond} \cdot \max(s) $" src="form_3.png"/> are considered zero. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">cond</td><td>(Optional) A cutoff for rank evaluation: singular values <img class="formulaInl" alt="$ s(i) $" src="form_2.png" width="19" height="14"/> such that <img class="formulaInl" alt="$ s(i) \leq \text{cond} \cdot \max(s) $" src="form_3.png" width="109" height="14"/> are considered zero. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>(Optional) If true, A and B may be overwritten and destroyed. Default is false. </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">rank</td><td>(Optional) The rank of the matrix A. </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>(Optional) A state return flag. If an error occurs and <code>err</code> is not provided, the function will stop execution.</td></tr>
