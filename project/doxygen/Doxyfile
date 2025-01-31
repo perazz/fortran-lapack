@@ -381,8 +381,8 @@ FULL_SIDEBAR           = NO
 TREEVIEW_WIDTH         = 250
 EXT_LINKS_IN_WINDOW    = NO
 FORMULA_FONTSIZE       = 16
-USE_MATHJAX            = NO
-MATHJAX_RELPATH        = http://www.mathjax.org/mathjax
+USE_MATHJAX            = YES
+MATHJAX_RELPATH        = https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/
 SEARCHENGINE           = YES
 SERVER_BASED_SEARCH    = NO
 #---------------------------------------------------------------------------

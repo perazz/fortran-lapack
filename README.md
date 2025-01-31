@@ -7,7 +7,7 @@ A full and standardized implementation of the present library has been integrate
 
 All procedures work with all types (`real`, `complex`) and kinds (32, 64, 128-bit floats).
 
-## [`solve`](@ref la_solve::solve) - Solve a linear matrix equation or a linear system of equations.
+## [solve](@ref la_solve::solve) - Solve a linear matrix equation or a linear system of equations.
 
 ### Syntax
 
@@ -34,7 +34,7 @@ For a full-rank matrix, returns an array value that represents the solution to t
 - Raises [`LINALG_VALUE_ERROR`](@ref la_state_type::linalg_value_error) if the matrix and rhs vectors have invalid/incompatible sizes.
 - If `err` is not present, exceptions trigger an `error stop`.
 
-## [`lstsq`](@ref la_least_squares::lstsq) - Compute a least squares solution to a system of linear equations.
+## [lstsq](@ref la_least_squares::lstsq) - Compute a least squares solution to a system of linear equations.
 
 ### Syntax
 
@@ -178,7 +178,7 @@ Returns the solution array \f$ x \f$ with size \f$ n \f$ (for a single right-han
 **Optional arguments**:  
 - `err`: Error handler.
 
-## [`qr`](@ref la_qr::qr) - Compute the QR factorization of a matrix.
+## [qr](@ref la_qr::qr) - Compute the QR factorization of a matrix.
 
 ### Syntax
 
@@ -223,7 +223,7 @@ The QR factorization matrices \f$ Q \f$ and \f$ R \f$ are returned in the corres
 - If `overwrite_a` is enabled, the input matrix `a` will be modified during computation.
 
 
-## [`qr_space`](@ref la_qr::qr_space) - Workspace size for QR operations.
+## [qr_space](@ref la_qr::qr_space) - Workspace size for QR operations.
 
 ### Syntax
 
