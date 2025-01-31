@@ -22,7 +22,7 @@ jobs:
       - name: Install Dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install graphviz -y
+          sudo apt-get install texlive graphviz -y
 
       # Step 3: Install Doxygen
       - name: Install Doxygen v${{ env.DOXYGEN_VERSION }}  
