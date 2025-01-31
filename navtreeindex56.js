@@ -1,5 +1,11 @@
 var NAVTREEINDEX56 =
 {
+"namespacela__lapack__z.html#ac5ae4a8f90f21553e5073c8e6fdf0f67":[6,0,21,318],
+"namespacela__lapack__z.html#ac5cc93577f10570054d9c169e5624840":[6,0,21,13],
+"namespacela__lapack__z.html#ac67dbf4233db59e9345493bd9d38a1ea":[6,0,21,200],
+"namespacela__lapack__z.html#ac6e5374b28470e6448465f97775bf0e7":[6,0,21,178],
+"namespacela__lapack__z.html#ac7274c16e688385f223b6e8fc9fbc1f5":[6,0,21,1],
+"namespacela__lapack__z.html#ac78affa04098edbde87f7e10e5140b8c":[6,0,21,146],
 "namespacela__lapack__z.html#ac7b052d115efe7ffd1cae4ac7fd1b5e4":[6,0,21,81],
 "namespacela__lapack__z.html#ac7d03727ebdf23c499a0b15489451011":[6,0,21,304],
 "namespacela__lapack__z.html#ac85b10f26685440d89187397b745e2f6":[6,0,21,371],

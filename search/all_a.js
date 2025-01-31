@@ -1,9 +1,9 @@
 var searchData=
 [
-  ['m_20tt_0',['&lt;tt&gt;eye(m)&lt;/tt&gt;',['../index.html#autotoc_md46',1,'']]],
-  ['matrix_1',['matrix',['../index.html#autotoc_md37',1,'@ref la_pseudoinverse::operator(.pinv.) &quot;operator(.pinv.)&quot; - Compute the Moore-Penrose pseudo-inverse of a matrix.'],['../index.html#autotoc_md23',1,'@ref la_pseudoinverse::pseudoinvert &quot;pseudoinvert&quot; - Moore-Penrose pseudo-inverse of a matrix.'],['../index.html#autotoc_md53',1,'@ref la_qr::qr &quot;qr&quot; - Compute the QR factorization of a matrix.']]],
+  ['m_20tt_0',['&lt;tt&gt;eye(m)&lt;/tt&gt;',['../index.html#autotoc_md52',1,'']]],
+  ['matrix_1',['matrix',['../index.html#autotoc_md19',1,'@ref la_determinant::det &quot;det&quot; - Determinant of a scalar or rectangular matrix.'],['../index.html#autotoc_md43',1,'@ref la_pseudoinverse::operator(.pinv.) &quot;operator(.pinv.)&quot; - Compute the Moore-Penrose pseudo-inverse of a matrix.'],['../index.html#autotoc_md29',1,'@ref la_pseudoinverse::pseudoinvert &quot;pseudoinvert&quot; - Moore-Penrose pseudo-inverse of a matrix.'],['../index.html#autotoc_md59',1,'@ref la_qr::qr &quot;qr&quot; - Compute the QR factorization of a matrix.']]],
   ['matrix_20equation_20or_20a_20linear_20system_20of_20equations_2',['@ref la_solve::solve &quot;solve&quot; - Solve a linear matrix equation or a linear system of equations.',['../index.html#autotoc_md6',1,'']]],
-  ['matrix_20function_3',['@ref la_pseudoinverse::pinv &quot;pinv&quot; - Moore-Penrose pseudo-inverse of a matrix (function).',['../index.html#autotoc_md30',1,'']]],
+  ['matrix_20function_3',['@ref la_pseudoinverse::pinv &quot;pinv&quot; - Moore-Penrose pseudo-inverse of a matrix (function).',['../index.html#autotoc_md36',1,'']]],
   ['matrix_5fnorm_5f3d_5fto_5f1d_5fchar_5fc_4',['matrix_norm_3d_to_1d_char_c',['../interfacela__norms_1_1mnorm.html#a9354b14df1aa8903fba75101ee7df728',1,'la_norms::mnorm']]],
   ['matrix_5fnorm_5f3d_5fto_5f1d_5fchar_5fd_5',['matrix_norm_3d_to_1d_char_d',['../interfacela__norms_1_1mnorm.html#afb3793a80bcccf4415dca74e70a1551b',1,'la_norms::mnorm']]],
   ['matrix_5fnorm_5f3d_5fto_5f1d_5fchar_5fq_6',['matrix_norm_3d_to_1d_char_q',['../interfacela__norms_1_1mnorm.html#aa88786f27ba36c76c9c76e5cbf0f30cd',1,'la_norms::mnorm']]],
@@ -78,6 +78,6 @@ var searchData=
   ['matrix_5fnorm_5fint_5fz_75',['matrix_norm_int_z',['../interfacela__norms_1_1mnorm.html#a67567d74e6665a649b4eb763cbb0acb4',1,'la_norms::mnorm']]],
   ['message_76',['message',['../structla__state__type_1_1la__state.html#a770dea48c5f4a6feca32e7b35fb7d73f',1,'la_state_type::la_state']]],
   ['mnorm_77',['mnorm',['../interfacela__norms_1_1mnorm.html',1,'la_norms']]],
-  ['moore_20penrose_20pseudo_20inverse_20of_20a_20matrix_78',['Moore Penrose pseudo inverse of a matrix',['../index.html#autotoc_md37',1,'@ref la_pseudoinverse::operator(.pinv.) &quot;operator(.pinv.)&quot; - Compute the Moore-Penrose pseudo-inverse of a matrix.'],['../index.html#autotoc_md23',1,'@ref la_pseudoinverse::pseudoinvert &quot;pseudoinvert&quot; - Moore-Penrose pseudo-inverse of a matrix.']]],
-  ['moore_20penrose_20pseudo_20inverse_20of_20a_20matrix_20function_79',['@ref la_pseudoinverse::pinv &quot;pinv&quot; - Moore-Penrose pseudo-inverse of a matrix (function).',['../index.html#autotoc_md30',1,'']]]
+  ['moore_20penrose_20pseudo_20inverse_20of_20a_20matrix_78',['Moore Penrose pseudo inverse of a matrix',['../index.html#autotoc_md43',1,'@ref la_pseudoinverse::operator(.pinv.) &quot;operator(.pinv.)&quot; - Compute the Moore-Penrose pseudo-inverse of a matrix.'],['../index.html#autotoc_md29',1,'@ref la_pseudoinverse::pseudoinvert &quot;pseudoinvert&quot; - Moore-Penrose pseudo-inverse of a matrix.']]],
+  ['moore_20penrose_20pseudo_20inverse_20of_20a_20matrix_20function_79',['@ref la_pseudoinverse::pinv &quot;pinv&quot; - Moore-Penrose pseudo-inverse of a matrix (function).',['../index.html#autotoc_md36',1,'']]]
 ];
