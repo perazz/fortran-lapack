@@ -36,8 +36,6 @@ module la_least_squares
      !!
      public :: lstsq
 
-     public :: lstsq
-
      interface lstsq
         module procedure la_slstsq_one
         module procedure la_dlstsq_one
@@ -55,7 +53,7 @@ module la_least_squares
 
      contains
 
-     !> Workspace needed by gesv
+     !> Workspace needed by real(sp) gesv
      subroutine sgesv_space(m,n,nrhs,lrwork,liwork,lcwork)
          integer(ilp),intent(in) :: m,n,nrhs
          integer(ilp),intent(out) :: lrwork,liwork,lcwork
@@ -87,7 +85,7 @@ module la_least_squares
 
      end subroutine sgesv_space
 
-     !> Workspace needed by gesv
+     !> Workspace needed by real(dp) gesv
      subroutine dgesv_space(m,n,nrhs,lrwork,liwork,lcwork)
          integer(ilp),intent(in) :: m,n,nrhs
          integer(ilp),intent(out) :: lrwork,liwork,lcwork
@@ -119,7 +117,7 @@ module la_least_squares
 
      end subroutine dgesv_space
 
-     !> Workspace needed by gesv
+     !> Workspace needed by real(qp) gesv
      subroutine qgesv_space(m,n,nrhs,lrwork,liwork,lcwork)
          integer(ilp),intent(in) :: m,n,nrhs
          integer(ilp),intent(out) :: lrwork,liwork,lcwork
@@ -151,7 +149,7 @@ module la_least_squares
 
      end subroutine qgesv_space
 
-     !> Workspace needed by gesv
+     !> Workspace needed by complex(sp) gesv
      subroutine cgesv_space(m,n,nrhs,lrwork,liwork,lcwork)
          integer(ilp),intent(in) :: m,n,nrhs
          integer(ilp),intent(out) :: lrwork,liwork,lcwork
@@ -183,7 +181,7 @@ module la_least_squares
 
      end subroutine cgesv_space
 
-     !> Workspace needed by gesv
+     !> Workspace needed by complex(dp) gesv
      subroutine zgesv_space(m,n,nrhs,lrwork,liwork,lcwork)
          integer(ilp),intent(in) :: m,n,nrhs
          integer(ilp),intent(out) :: lrwork,liwork,lcwork
@@ -215,7 +213,7 @@ module la_least_squares
 
      end subroutine zgesv_space
 
-     !> Workspace needed by gesv
+     !> Workspace needed by complex(qp) gesv
      subroutine wgesv_space(m,n,nrhs,lrwork,liwork,lcwork)
          integer(ilp),intent(in) :: m,n,nrhs
          integer(ilp),intent(out) :: lrwork,liwork,lcwork
@@ -247,7 +245,7 @@ module la_least_squares
 
      end subroutine wgesv_space
 
-     !> Compute the least-squares solution to a real system of linear equations Ax = B
+     !> Compute the least-squares solution to a real(sp) system of linear equations Ax = B
      function la_slstsq_one(a,b,cond,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          real(sp),intent(inout),target :: a(:,:)
@@ -286,7 +284,7 @@ module la_least_squares
 
          if (lda < 1 .or. n < 1 .or. ldb < 1 .or. ldb /= m) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
-                                                                       'b=[',ldb,',',nrhs,']')
+                                                                   'b=[',ldb,',',nrhs,']')
             allocate (x(0))
             arank = 0
             goto 1
@@ -310,7 +308,7 @@ module la_least_squares
          allocate (x,source=b)
          xmat(1:n,1:nrhs) => x
 
-         ! Singular values array (in degreasing order)
+         ! Singular values array (in decreasing order)
          allocate (singular(mnmin))
 
          ! rcond is used to determine the effective rank of A.
@@ -338,7 +336,7 @@ module la_least_squares
             case (0)
                 ! Success
             case (:-1)
-                err0 = la_state(this,LINALG_VALUE_ERROR,'invalid problem size a=[',lda,',',n,'], b[',ldb,',',nrhs,']')
+                err0 = la_state(this,LINALG_VALUE_ERROR,'invalid problem size a=', [lda,n],', b=', [ldb,nrhs])
             case (1:)
                 err0 = la_state(this,LINALG_ERROR,'SVD did not converge.')
             case default
@@ -353,7 +351,7 @@ module la_least_squares
 
      end function la_slstsq_one
 
-     !> Compute the least-squares solution to a real system of linear equations Ax = B
+     !> Compute the least-squares solution to a real(dp) system of linear equations Ax = B
      function la_dlstsq_one(a,b,cond,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          real(dp),intent(inout),target :: a(:,:)
@@ -392,7 +390,7 @@ module la_least_squares
 
          if (lda < 1 .or. n < 1 .or. ldb < 1 .or. ldb /= m) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
-                                                                       'b=[',ldb,',',nrhs,']')
+                                                                   'b=[',ldb,',',nrhs,']')
             allocate (x(0))
             arank = 0
             goto 1
@@ -416,7 +414,7 @@ module la_least_squares
          allocate (x,source=b)
          xmat(1:n,1:nrhs) => x
 
-         ! Singular values array (in degreasing order)
+         ! Singular values array (in decreasing order)
          allocate (singular(mnmin))
 
          ! rcond is used to determine the effective rank of A.
@@ -444,7 +442,7 @@ module la_least_squares
             case (0)
                 ! Success
             case (:-1)
-                err0 = la_state(this,LINALG_VALUE_ERROR,'invalid problem size a=[',lda,',',n,'], b[',ldb,',',nrhs,']')
+                err0 = la_state(this,LINALG_VALUE_ERROR,'invalid problem size a=', [lda,n],', b=', [ldb,nrhs])
             case (1:)
                 err0 = la_state(this,LINALG_ERROR,'SVD did not converge.')
             case default
@@ -459,7 +457,7 @@ module la_least_squares
 
      end function la_dlstsq_one
 
-     !> Compute the least-squares solution to a real system of linear equations Ax = B
+     !> Compute the least-squares solution to a real(qp) system of linear equations Ax = B
      function la_qlstsq_one(a,b,cond,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          real(qp),intent(inout),target :: a(:,:)
@@ -498,7 +496,7 @@ module la_least_squares
 
          if (lda < 1 .or. n < 1 .or. ldb < 1 .or. ldb /= m) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
-                                                                       'b=[',ldb,',',nrhs,']')
+                                                                   'b=[',ldb,',',nrhs,']')
             allocate (x(0))
             arank = 0
             goto 1
@@ -522,7 +520,7 @@ module la_least_squares
          allocate (x,source=b)
          xmat(1:n,1:nrhs) => x
 
-         ! Singular values array (in degreasing order)
+         ! Singular values array (in decreasing order)
          allocate (singular(mnmin))
 
          ! rcond is used to determine the effective rank of A.
@@ -550,7 +548,7 @@ module la_least_squares
             case (0)
                 ! Success
             case (:-1)
-                err0 = la_state(this,LINALG_VALUE_ERROR,'invalid problem size a=[',lda,',',n,'], b[',ldb,',',nrhs,']')
+                err0 = la_state(this,LINALG_VALUE_ERROR,'invalid problem size a=', [lda,n],', b=', [ldb,nrhs])
             case (1:)
                 err0 = la_state(this,LINALG_ERROR,'SVD did not converge.')
             case default
@@ -565,7 +563,7 @@ module la_least_squares
 
      end function la_qlstsq_one
 
-     !> Compute the least-squares solution to a real system of linear equations Ax = B
+     !> Compute the least-squares solution to a complex(sp) system of linear equations Ax = B
      function la_clstsq_one(a,b,cond,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          complex(sp),intent(inout),target :: a(:,:)
@@ -604,7 +602,7 @@ module la_least_squares
 
          if (lda < 1 .or. n < 1 .or. ldb < 1 .or. ldb /= m) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
-                                                                       'b=[',ldb,',',nrhs,']')
+                                                                   'b=[',ldb,',',nrhs,']')
             allocate (x(0))
             arank = 0
             goto 1
@@ -628,7 +626,7 @@ module la_least_squares
          allocate (x,source=b)
          xmat(1:n,1:nrhs) => x
 
-         ! Singular values array (in degreasing order)
+         ! Singular values array (in decreasing order)
          allocate (singular(mnmin))
 
          ! rcond is used to determine the effective rank of A.
@@ -656,7 +654,7 @@ module la_least_squares
             case (0)
                 ! Success
             case (:-1)
-                err0 = la_state(this,LINALG_VALUE_ERROR,'invalid problem size a=[',lda,',',n,'], b[',ldb,',',nrhs,']')
+                err0 = la_state(this,LINALG_VALUE_ERROR,'invalid problem size a=', [lda,n],', b=', [ldb,nrhs])
             case (1:)
                 err0 = la_state(this,LINALG_ERROR,'SVD did not converge.')
             case default
@@ -671,7 +669,7 @@ module la_least_squares
 
      end function la_clstsq_one
 
-     !> Compute the least-squares solution to a real system of linear equations Ax = B
+     !> Compute the least-squares solution to a complex(dp) system of linear equations Ax = B
      function la_zlstsq_one(a,b,cond,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          complex(dp),intent(inout),target :: a(:,:)
@@ -710,7 +708,7 @@ module la_least_squares
 
          if (lda < 1 .or. n < 1 .or. ldb < 1 .or. ldb /= m) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
-                                                                       'b=[',ldb,',',nrhs,']')
+                                                                   'b=[',ldb,',',nrhs,']')
             allocate (x(0))
             arank = 0
             goto 1
@@ -734,7 +732,7 @@ module la_least_squares
          allocate (x,source=b)
          xmat(1:n,1:nrhs) => x
 
-         ! Singular values array (in degreasing order)
+         ! Singular values array (in decreasing order)
          allocate (singular(mnmin))
 
          ! rcond is used to determine the effective rank of A.
@@ -762,7 +760,7 @@ module la_least_squares
             case (0)
                 ! Success
             case (:-1)
-                err0 = la_state(this,LINALG_VALUE_ERROR,'invalid problem size a=[',lda,',',n,'], b[',ldb,',',nrhs,']')
+                err0 = la_state(this,LINALG_VALUE_ERROR,'invalid problem size a=', [lda,n],', b=', [ldb,nrhs])
             case (1:)
                 err0 = la_state(this,LINALG_ERROR,'SVD did not converge.')
             case default
@@ -777,7 +775,7 @@ module la_least_squares
 
      end function la_zlstsq_one
 
-     !> Compute the least-squares solution to a real system of linear equations Ax = B
+     !> Compute the least-squares solution to a complex(qp) system of linear equations Ax = B
      function la_wlstsq_one(a,b,cond,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          complex(qp),intent(inout),target :: a(:,:)
@@ -816,7 +814,7 @@ module la_least_squares
 
          if (lda < 1 .or. n < 1 .or. ldb < 1 .or. ldb /= m) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
-                                                                       'b=[',ldb,',',nrhs,']')
+                                                                   'b=[',ldb,',',nrhs,']')
             allocate (x(0))
             arank = 0
             goto 1
@@ -840,7 +838,7 @@ module la_least_squares
          allocate (x,source=b)
          xmat(1:n,1:nrhs) => x
 
-         ! Singular values array (in degreasing order)
+         ! Singular values array (in decreasing order)
          allocate (singular(mnmin))
 
          ! rcond is used to determine the effective rank of A.
@@ -868,7 +866,7 @@ module la_least_squares
             case (0)
                 ! Success
             case (:-1)
-                err0 = la_state(this,LINALG_VALUE_ERROR,'invalid problem size a=[',lda,',',n,'], b[',ldb,',',nrhs,']')
+                err0 = la_state(this,LINALG_VALUE_ERROR,'invalid problem size a=', [lda,n],', b=', [ldb,nrhs])
             case (1:)
                 err0 = la_state(this,LINALG_ERROR,'SVD did not converge.')
             case default
@@ -883,7 +881,7 @@ module la_least_squares
 
      end function la_wlstsq_one
 
-     !> Compute the least-squares solution to a real system of linear equations Ax = B
+     !> Compute the least-squares solution to a real(sp) system of linear equations Ax = B
      function la_slstsq_multiple(a,b,cond,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          real(sp),intent(inout),target :: a(:,:)
@@ -922,7 +920,7 @@ module la_least_squares
 
          if (lda < 1 .or. n < 1 .or. ldb < 1 .or. ldb /= m) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
-                                                                       'b=[',ldb,',',nrhs,']')
+                                                                   'b=[',ldb,',',nrhs,']')
             allocate (x(0,0))
             arank = 0
             goto 1
@@ -946,7 +944,7 @@ module la_least_squares
          allocate (x,source=b)
          xmat(1:n,1:nrhs) => x
 
-         ! Singular values array (in degreasing order)
+         ! Singular values array (in decreasing order)
          allocate (singular(mnmin))
 
          ! rcond is used to determine the effective rank of A.
@@ -974,7 +972,7 @@ module la_least_squares
             case (0)
                 ! Success
             case (:-1)
-                err0 = la_state(this,LINALG_VALUE_ERROR,'invalid problem size a=[',lda,',',n,'], b[',ldb,',',nrhs,']')
+                err0 = la_state(this,LINALG_VALUE_ERROR,'invalid problem size a=', [lda,n],', b=', [ldb,nrhs])
             case (1:)
                 err0 = la_state(this,LINALG_ERROR,'SVD did not converge.')
             case default
@@ -989,7 +987,7 @@ module la_least_squares
 
      end function la_slstsq_multiple
 
-     !> Compute the least-squares solution to a real system of linear equations Ax = B
+     !> Compute the least-squares solution to a real(dp) system of linear equations Ax = B
      function la_dlstsq_multiple(a,b,cond,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          real(dp),intent(inout),target :: a(:,:)
@@ -1028,7 +1026,7 @@ module la_least_squares
 
          if (lda < 1 .or. n < 1 .or. ldb < 1 .or. ldb /= m) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
-                                                                       'b=[',ldb,',',nrhs,']')
+                                                                   'b=[',ldb,',',nrhs,']')
             allocate (x(0,0))
             arank = 0
             goto 1
@@ -1052,7 +1050,7 @@ module la_least_squares
          allocate (x,source=b)
          xmat(1:n,1:nrhs) => x
 
-         ! Singular values array (in degreasing order)
+         ! Singular values array (in decreasing order)
          allocate (singular(mnmin))
 
          ! rcond is used to determine the effective rank of A.
@@ -1080,7 +1078,7 @@ module la_least_squares
             case (0)
                 ! Success
             case (:-1)
-                err0 = la_state(this,LINALG_VALUE_ERROR,'invalid problem size a=[',lda,',',n,'], b[',ldb,',',nrhs,']')
+                err0 = la_state(this,LINALG_VALUE_ERROR,'invalid problem size a=', [lda,n],', b=', [ldb,nrhs])
             case (1:)
                 err0 = la_state(this,LINALG_ERROR,'SVD did not converge.')
             case default
@@ -1095,7 +1093,7 @@ module la_least_squares
 
      end function la_dlstsq_multiple
 
-     !> Compute the least-squares solution to a real system of linear equations Ax = B
+     !> Compute the least-squares solution to a real(qp) system of linear equations Ax = B
      function la_qlstsq_multiple(a,b,cond,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          real(qp),intent(inout),target :: a(:,:)
@@ -1134,7 +1132,7 @@ module la_least_squares
 
          if (lda < 1 .or. n < 1 .or. ldb < 1 .or. ldb /= m) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
-                                                                       'b=[',ldb,',',nrhs,']')
+                                                                   'b=[',ldb,',',nrhs,']')
             allocate (x(0,0))
             arank = 0
             goto 1
@@ -1158,7 +1156,7 @@ module la_least_squares
          allocate (x,source=b)
          xmat(1:n,1:nrhs) => x
 
-         ! Singular values array (in degreasing order)
+         ! Singular values array (in decreasing order)
          allocate (singular(mnmin))
 
          ! rcond is used to determine the effective rank of A.
@@ -1186,7 +1184,7 @@ module la_least_squares
             case (0)
                 ! Success
             case (:-1)
-                err0 = la_state(this,LINALG_VALUE_ERROR,'invalid problem size a=[',lda,',',n,'], b[',ldb,',',nrhs,']')
+                err0 = la_state(this,LINALG_VALUE_ERROR,'invalid problem size a=', [lda,n],', b=', [ldb,nrhs])
             case (1:)
                 err0 = la_state(this,LINALG_ERROR,'SVD did not converge.')
             case default
@@ -1201,7 +1199,7 @@ module la_least_squares
 
      end function la_qlstsq_multiple
 
-     !> Compute the least-squares solution to a real system of linear equations Ax = B
+     !> Compute the least-squares solution to a complex(sp) system of linear equations Ax = B
      function la_clstsq_multiple(a,b,cond,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          complex(sp),intent(inout),target :: a(:,:)
@@ -1240,7 +1238,7 @@ module la_least_squares
 
          if (lda < 1 .or. n < 1 .or. ldb < 1 .or. ldb /= m) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
-                                                                       'b=[',ldb,',',nrhs,']')
+                                                                   'b=[',ldb,',',nrhs,']')
             allocate (x(0,0))
             arank = 0
             goto 1
@@ -1264,7 +1262,7 @@ module la_least_squares
          allocate (x,source=b)
          xmat(1:n,1:nrhs) => x
 
-         ! Singular values array (in degreasing order)
+         ! Singular values array (in decreasing order)
          allocate (singular(mnmin))
 
          ! rcond is used to determine the effective rank of A.
@@ -1292,7 +1290,7 @@ module la_least_squares
             case (0)
                 ! Success
             case (:-1)
-                err0 = la_state(this,LINALG_VALUE_ERROR,'invalid problem size a=[',lda,',',n,'], b[',ldb,',',nrhs,']')
+                err0 = la_state(this,LINALG_VALUE_ERROR,'invalid problem size a=', [lda,n],', b=', [ldb,nrhs])
             case (1:)
                 err0 = la_state(this,LINALG_ERROR,'SVD did not converge.')
             case default
@@ -1307,7 +1305,7 @@ module la_least_squares
 
      end function la_clstsq_multiple
 
-     !> Compute the least-squares solution to a real system of linear equations Ax = B
+     !> Compute the least-squares solution to a complex(dp) system of linear equations Ax = B
      function la_zlstsq_multiple(a,b,cond,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          complex(dp),intent(inout),target :: a(:,:)
@@ -1346,7 +1344,7 @@ module la_least_squares
 
          if (lda < 1 .or. n < 1 .or. ldb < 1 .or. ldb /= m) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
-                                                                       'b=[',ldb,',',nrhs,']')
+                                                                   'b=[',ldb,',',nrhs,']')
             allocate (x(0,0))
             arank = 0
             goto 1
@@ -1370,7 +1368,7 @@ module la_least_squares
          allocate (x,source=b)
          xmat(1:n,1:nrhs) => x
 
-         ! Singular values array (in degreasing order)
+         ! Singular values array (in decreasing order)
          allocate (singular(mnmin))
 
          ! rcond is used to determine the effective rank of A.
@@ -1398,7 +1396,7 @@ module la_least_squares
             case (0)
                 ! Success
             case (:-1)
-                err0 = la_state(this,LINALG_VALUE_ERROR,'invalid problem size a=[',lda,',',n,'], b[',ldb,',',nrhs,']')
+                err0 = la_state(this,LINALG_VALUE_ERROR,'invalid problem size a=', [lda,n],', b=', [ldb,nrhs])
             case (1:)
                 err0 = la_state(this,LINALG_ERROR,'SVD did not converge.')
             case default
@@ -1413,7 +1411,7 @@ module la_least_squares
 
      end function la_zlstsq_multiple
 
-     !> Compute the least-squares solution to a real system of linear equations Ax = B
+     !> Compute the least-squares solution to a complex(qp) system of linear equations Ax = B
      function la_wlstsq_multiple(a,b,cond,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          complex(qp),intent(inout),target :: a(:,:)
@@ -1452,7 +1450,7 @@ module la_least_squares
 
          if (lda < 1 .or. n < 1 .or. ldb < 1 .or. ldb /= m) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
-                                                                       'b=[',ldb,',',nrhs,']')
+                                                                   'b=[',ldb,',',nrhs,']')
             allocate (x(0,0))
             arank = 0
             goto 1
@@ -1476,7 +1474,7 @@ module la_least_squares
          allocate (x,source=b)
          xmat(1:n,1:nrhs) => x
 
-         ! Singular values array (in degreasing order)
+         ! Singular values array (in decreasing order)
          allocate (singular(mnmin))
 
          ! rcond is used to determine the effective rank of A.
@@ -1504,7 +1502,7 @@ module la_least_squares
             case (0)
                 ! Success
             case (:-1)
-                err0 = la_state(this,LINALG_VALUE_ERROR,'invalid problem size a=[',lda,',',n,'], b[',ldb,',',nrhs,']')
+                err0 = la_state(this,LINALG_VALUE_ERROR,'invalid problem size a=', [lda,n],', b=', [ldb,nrhs])
             case (1:)
                 err0 = la_state(this,LINALG_ERROR,'SVD did not converge.')
             case default

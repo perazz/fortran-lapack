@@ -1,4 +1,5 @@
 #:include "common.fypp"
+!> QR factorization of a matrix
 module la_qr
      use la_constants
      use la_blas
@@ -8,12 +9,51 @@ module la_qr
      implicit none(type,external)
      private
 
-     !> QR factorization of a matrix
+     !> @brief Compute the QR factorization of a matrix.
+     !!
+     !! This subroutine computes the QR factorization of a real or complex matrix:
+     !!
+     !! \f$ A = Q \cdot R \f$
+     !!
+     !! where \f$ A \f$ is a matrix of size \f$ [m,n] \f$ with \f$ m \ge n \f$,
+     !! \f$ Q \f$ is an orthonormal matrix, and \f$ R \f$ is an upper-triangular matrix. 
+     !! The result is returned in the output matrices \f$ Q \f$ and \f$ R \f$, which are of the same type and kind as \f$ A \f$.
+     !! The function can solve both full and reduced problems depending on the sizes of the matrices.
+     !!
+     !! @param[in,out] a The input matrix of size \f$ [m,n] \f$. If `overwrite_a` is true, 
+     !!                   the contents of `a` may be modified during computation.
+     !! @param[out] q The orthonormal matrix \f$ Q \f$, with shape \f$ [m,m] \f$ for the full problem or \f$ [m,k] \f$ for the reduced problem.
+     !! @param[out] r The upper-triangular matrix \f$ R \f$, with shape \f$ [m,n] \f$ for the full problem or \f$ [k,n] \f$ for the reduced problem.
+     !! @param[in] overwrite_a (Optional) A logical flag that determines whether matrix `a` may be overwritten. Default is false.
+     !! @param[in,out] storage (Optional) Pre-allocated workspace array for intermediate calculations. Its size is checked with [`qr_space`](@ref la_qr::qr_space).
+     !! @param[out] err (Optional) A state return flag. If an error occurs and `err` is not provided, the function will stop execution.
+     !!
+     !! @return The QR factorization matrices \f$ Q \f$ and \f$ R \f$ are returned in the corresponding output arguments.
+     !!
+     !! @note This subroutine uses LAPACK's QR decomposition algorithm [`*GEQRF`](@ref la_lapack::geqrf) to compute the factorization.
+     !!
+     !! @warning If `overwrite_a` is enabled, the original contents of `a` may be lost during computation.
+     !!
      public :: qr
+     
+     
+     !> @brief Get the required workspace size for QR factorization.
+     !!
+     !! This subroutine returns the minimum workspace size required for performing QR factorization.
+     !! It computes the size of the workspace array that is necessary for both QR factorization 
+     !! and solving the reduced problem, depending on the input matrix.
+     !!
+     !! @param[in] a The input matrix of size \f$ [m,n] \f$. This matrix is used to determine the required workspace size.
+     !! @param[out] lwork The minimum size of the workspace array needed for QR operations.
+     !! @param[out] err (Optional) A state return flag. If an error occurs and `err` is not provided, the function will stop execution.
+     !!
+     !! @return The size of the workspace array `lwork` that should be allocated before calling the QR factorization routine.
+     !!
+     !! @note This subroutine is useful for preallocating memory for QR factorization in large systems.
+     !!
+     !! @warning If `err` is not provided, the function will stop execution on error.
+     !!
      public :: qr_space
-
-     ! Scipy: solve(a, b, lower=False, overwrite_a=False, overwrite_b=False, check_finite=True, assume_a='gen', transposed=False)[source]#
-     ! IMSL: lu_solve(a, b, transpose=False)
 
      interface qr
         #:for rk,rt,ri in ALL_KINDS_TYPES
