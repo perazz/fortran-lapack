@@ -1,5 +1,5 @@
 #:include "common.fypp"
-! Return a 2-D matrix with ones on the diagonal and zeros everywhere else
+!> Identity and diagonal matrices.
 module la_eye
      use la_constants
      use la_blas
@@ -9,21 +9,45 @@ module la_eye
      implicit none(type,external)
      private
 
-     !> Constructs the identity matrix.
-     !! This interface provides procedures to generate an identity matrix of a given size.
-     !! The resulting matrix has 1s on the diagonal and 0s elsewhere.
-     public :: eye
-     
-     public :: diag
+    !> @brief Construct an identity matrix of size \f$m \times n\f$.
+    !!
+    !! This function returns a diagonal identity matrix of size \f$m \times n\f$, where all diagonal elements
+    !! are set to 1 and all off-diagonal elements are set to 0. The number of rows and columns can be specified.
+    !! If only one parameter is provided, a square matrix of size \f$m \times m\f$ is returned.
+    !!
+    !! @param[in] m The number of rows of the identity matrix.
+    !! @param[in] n (Optional) The number of columns of the identity matrix. If omitted, the matrix is square (\f$m \times m\f$).
+    !! @param[in] mold (Optional) Data type to define the return type. Defaults to `real(real64)`.
+    !! 
+    !! @return The identity matrix with size \f$m \times n\f$.
+    !!
+    !! @note If the `mold` parameter is omitted, the default type is `real(real64)`. If specified, the return type
+    !!       matches the given type.
+    !!
+    !! @warning Ensure that the matrix dimensions are valid and consistent with the type definition.
+    public :: eye
 
+    !> @brief Return a square diagonal matrix with diagonal values.
+    !!
+    !! This function generates a square diagonal matrix where the diagonal elements are either
+    !! equal to the specified scalar value or populated by the input array.
+    !! The size of the matrix is determined by the input parameter \f$n\f$ or the size of the input array.
+    !!
+    !! @param[in] n The size of the square matrix (only used if a scalar is provided for the diagonal).
+    !! @param[in] source If a scalar, this value is used to populate the diagonal of the matrix.
+    !!                   If an array, the elements of the array are used for the diagonal.
+    !! @param[out] err (Optional) State return flag. If not provided, the function will stop on error.
+    !! @return The diagonal matrix with size \f$n \times n\f$, where the diagonal elements are populated by \f$source\f$.
+    !!
+    !! @note If a scalar value is passed, the diagonal elements of the matrix will all be equal to \f$source\f$.
+    !!       If an array is passed, its length determines the size of the matrix, and the array elements are placed
+    !!       along the diagonal. The `err` parameter is optional. If not requested, the code will stop on error.
+    !!       Otherwise, it returns the error state of the function.
+    !!
+    public :: diag
+
+     ! Identity matrix interface
      interface eye
-        !> Procedure for creating an identity matrix.
-        !! - **Inputs:**
-        !!   - `m` (integer): Number of rows.
-        !!   - `n` (integer, optional): Number of columns. Defaults to `m` if not provided.
-        !!   - `mold` (datatype, optional): Data type used to define the matrix elements. Defaults to `real(real64)`.
-        !! - **Outputs:**
-        !!   - Identity matrix of specified size and type.
         #:for epref,esuf,earg,epresent in FUNCTION_INTERFACES
         #:for rk,rt,ri in ALL_KINDS_TYPES
         module procedure la_eye_${ri}$${esuf}$
