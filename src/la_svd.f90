@@ -1,3 +1,4 @@
+!> Singular Value Decomposition
 module la_svd
      use la_constants
      use la_blas
@@ -7,13 +8,43 @@ module la_svd
      implicit none(type,external)
      private
 
-     !> Singular value decomposition
+     !> @brief Compute the Singular Value Decomposition (SVD) of a matrix.
+     !!
+     !! This subroutine computes the Singular Value Decomposition (SVD) of a matrix \f$ A \f$:
+     !! 
+     !! \f$ A = U \cdot S \cdot V^T \f$
+     !!
+     !! where \f$ A \f$ is a matrix of size \f$ [m,n] \f$, \f$ U \f$ is an orthogonal matrix of size \f$ [m,m] \f$, \f$ S \f$ is a diagonal matrix containing the singular values, and \f$ V^T \f$ is an orthogonal matrix of size \f$ [n,n] \f$. 
+     !! The subroutine computes the singular values and optionally the matrices \f$ U \f$ and \f$ V^T \f$.
+     !! 
+     !! @param[in,out] a The input matrix \f$ A \f$ of size \f$ [m,n] \f$. If `overwrite_a` is true, the contents of `a` may be modified during computation.
+     !! @param[out] s The array of singular values of size \f$ k = min(m,n) \f$.
+     !! @param[out] u (Optional) The left singular vectors of matrix \f$ A \f$, with shape \f$ [m,m] \f$ for the full problem or \f$ [m,k] \f$ for the reduced problem.
+     !! @param[out] vt (Optional) The right singular vectors of matrix \f$ A^T \f$, with shape \f$ [k,n] \f$ for the reduced problem or \f$ [n,n] \f$ for the full problem.
+     !! @param[in] overwrite_a (Optional) A logical flag that determines whether matrix `a` may be overwritten. Default is false.
+     !! @param[in] full_matrices (Optional) If true, computes the full-sized matrices \f$ U \f$ and \f$ V^T \f$. If false, computes the reduced matrices.
+     !! @param[out] err (Optional) A state return flag. If an error occurs and `err` is not provided, the function will stop execution.
+     !!
+     !! @note This subroutine performs the SVD computation using the LAPACK [gesdd](@ref la_lapack::gesdd) backend and can be used for both full and reduced decompositions.
+     !!
+     !! @warning If `overwrite_a` is enabled, the original contents of `a` may be lost during computation.
+     !!
      public :: svd
-     !> Singular values
+     
+     
+     !> @brief Compute the singular values of a matrix.
+     !!
+     !! This function returns the singular values of the input matrix \f$ A \f$.
+     !! The singular values are stored in a vector \f$ s \f$, which is an array of size \f$ k = min(m,n) \f$.
+     !!
+     !! @param[in] a The input matrix \f$ A \f$ of size \f$ [m,n] \f$.
+     !! @param[out] err (Optional) A state return flag. If an error occurs and `err` is not provided, the function will stop execution.
+     !! @return The singular values of matrix \f$ A \f$ are returned in the `real` array \f$ s \f$, with the same kind as the input matrix.
+     !!
+     !! @note This function returns only the singular values and does not compute the full SVD.
+     !!     
      public :: svdvals
 
-     ! Numpy: svd(a, full_matrices=True, compute_uv=True, hermitian=False)
-     ! Scipy: svd(a, full_matrices=True, compute_uv=True, overwrite_a=False, check_finite=True, lapack_driver='gesdd')
 
      interface svd
         module procedure la_svd_s

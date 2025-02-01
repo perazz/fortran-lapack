@@ -313,23 +313,96 @@ where \f$ \Sigma^+ \f$ is the inverse of the nonzero singular values in \f$ \Sig
 - The pseudo-inverse is computed using LAPACK's SVD decomposition routine [GESVD](@ref la_lapack::gesvd).
 - This operator is a convenient shorthand for calling the functional interface `pinv(a)`.
 
+## [svd](@ref la_svd::svd) - Singular Value Decomposition (SVD) of a matrix
 
-## `svd(A)`
-**Type**: Subroutine  
-**Description**: Singular value decomposition of $A = U S V^t$.  
-**Optional arguments**:  
-- `s`: Singular values.  
-- `u`: Left singular vectors.  
-- `vt`: Right singular vectors.  
-- `full_matrices`: Defaults to `.false.`.  
-- `err`: State handler.  
+### Syntax
 
-**Usage**: `call svd(A, s, u, vt, full_matrices=.false., err=state)`.
+`call svd(a, s [, u] [, vt] [, overwrite_a] [, full_matrices] [, err])`
 
-## `svdvals(A)`
-**Type**: Function  
-**Description**: Singular values $S$ from $A = U S V^t$.  
-**Usage**: `s = svdvals(A)` where `s` is a real array with the same precision as `A`.
+### Description
+
+This subroutine computes the Singular Value Decomposition (SVD) of a matrix \f$ A \f$:
+
+\f[
+A = U \cdot S \cdot V^T
+\f]
+
+where:
+- \f$ A \f$ is the input matrix of size \f$ [m,n] \f$.
+- \f$ U \f$ is an orthogonal matrix of size \f$ [m,m] \f$ (or \f$ [m,k] \f$ for the reduced problem), containing the left singular vectors of \f$ A \f$.
+- \f$ S \f$ is a diagonal matrix containing the singular values of size \f$ [k,k] \f$ with \f$ k = \min(m,n) \f$.
+- \f$ V^T \f$ is an orthogonal matrix of size \f$ [n,n] \f$ (or \f$ [k,n] \f$ for the reduced problem), containing the right singular vectors of \f$ A^T \f$.
+
+The singular values are returned in the array \f$ S \f$, and optionally, the matrices \f$ U \f$ and \f$ V^T \f$ are computed and returned.
+
+### Arguments
+
+- `a`: A `real` matrix of size \f$ [m,n] \f$ representing the input matrix \f$ A \f$. If `overwrite_a = .true.`, this matrix may be modified during computation. This is an `inout` argument.
+- `s`: A `real` array of size \f$ k = \min(m,n) \f$, containing the singular values of \f$ A \f$. This is an output argument.
+- `u`: An optional `real` matrix of the same type and kind as `a`, representing the left singular vectors of \f$ A \f$. This has shape \f$ [m,m] \f$ for the full problem or \f$ [m,k] \f$ for the reduced problem. This is an output argument.
+- `vt`: An optional `real` matrix of the same type and kind as `a`, representing the right singular vectors of \f$ A^T \f$. This has shape \f$ [n,n] \f$ for the full problem or \f$ [k,n] \f$ for the reduced problem. This is an output argument.
+- `overwrite_a`: (Optional, default = `.false.`) A logical flag indicating whether the input matrix `a` may be overwritten during computation. If `.true.`, `a` is overwritten to avoid additional memory allocation.
+- `full_matrices`: (Optional, default = `.true.`) A logical flag that determines whether to compute full-sized matrices \f$ U \f$ and \f$ V^T \f$ (shape \f$ [m,m] \f$ and \f$ [n,n] \f$). If `.false.`, computes reduced matrices of shape \f$ [m,k] \f$ and \f$ [k,n] \f$.
+- `err`: (Optional) A [type(la_state)](@ref la_state_type::la_state) variable to capture the error state. If not provided, the function will stop execution on error.
+
+### Return value
+
+The SVD of matrix \f$ A \f$ is returned in the corresponding output arguments, with the singular values in `s`, and optionally, the matrices \f$ U \f$ and \f$ V^T \f$.
+
+### Errors
+
+- Raises [LINALG_VALUE_ERROR](@ref la_state_type::linalg_value_error) if the sizes of the matrices are incompatible with the full/reduced problem.
+- Raises [LINALG_ERROR](@ref la_state_type::linalg_error) if there is insufficient storage space.
+- If `err` is not provided, exceptions will trigger an `error stop`.
+
+### Notes
+
+- This subroutine computes the Singular Value Decomposition using LAPACK's [GESDD](@ref la_lapack::gesdd) algorithm.
+- If `overwrite_a` is enabled, the input matrix `a` may be overwritten during computation.
+
+## [svdvals](@ref la_svd::svdvals) - Singular Values Computation (function).
+
+### Syntax
+
+`s = svdvals(a [, err])`
+
+### Description
+
+This function computes the singular values of a `real` or `complex` matrix \f$ A \f$ and returns them in a vector \f$ s \f$, where \f$ s \f$ is an array of size \f$ k = \min(m, n) \f$. 
+Singular values are non-negative values that provide important insights into the properties of the matrix, such as its rank and conditioning.
+
+This function does not compute the full Singular Value Decomposition ([SVD](@ref la_svd::svd)); instead, it directly calculates and returns only the singular values of matrix \f$ A \f$.
+
+The Singular Value Decomposition of a matrix \f$ A \f$ is expressed as:
+
+\f[
+A = U \cdot S \cdot V^T
+\f]
+
+where:
+- \f$ A \f$ is the input matrix of size \f$ [m,n] \f$,
+- \f$ U \f$ and \f$ V \f$ are orthogonal matrices,
+- \f$ S \f$ is a diagonal matrix with the singular values of \f$ A \f$.
+
+### Arguments
+
+- `a`: A `real` or `complex` matrix of size \f$ [m,n] \f$, representing the input matrix whose singular values are to be computed.
+- `err` (optional): A [type(la_state)](@ref la_state_type::la_state) variable that returns the error state. If not provided, the function will stop execution on error.
+
+### Return value
+
+- `s`: A `real` array containing the singular values of the matrix \f$ A \f$, with the same type and kind as the input matrix. The size of the array is \f$ k = \min(m, n) \f$.
+
+### Errors
+
+- Raises [LINALG_VALUE_ERROR](@ref la_state_type::linalg_value_error) if the input matrix has invalid dimensions or if the SVD computation fails.
+- If `err` is not provided, exceptions will trigger an `error stop`.
+
+### Notes
+
+- This function only computes the singular values and does not compute the full SVD (i.e., matrices \f$ U \f$ and \f$ V \f$ are not computed).
+- The singular values are returned as a vector, sorted in decreasing order.
+- The function uses LAPACK's [GESDD](@ref la_lapack::gesdd) routine for singular value computation.
 
 ## [diag](@ref la_eye::diag) - Diagonal matrix.
 
@@ -548,7 +621,7 @@ The Schur decomposition matrices \f$ T \f$ and optionally \f$ Z \f$ are returned
 
 ### Notes
 
-- This subroutine computes the Schur decomposition using LAPACK's Schur decomposition routines ([GEES](@ref la_lapack:gees)).
+- This subroutine computes the Schur decomposition using LAPACK's Schur decomposition routines ([GEES](@ref la_lapack::gees)).
 - Sorting options for eigenvalues can be requested, utilizing LAPACK's eigenvalue sorting mechanism.
 - If `overwrite_a` is enabled, the input matrix `a` will be modified during computation.
 
