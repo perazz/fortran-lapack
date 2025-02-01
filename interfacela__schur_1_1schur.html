@@ -115,6 +115,9 @@ $(function(){initNavTree('interfacela__schur_1_1schur.html',''); initResizable(t
   <div class="headertitle"><div class="title">la_schur::schur Interface Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Compute the Schur decomposition of a matrix.  
+ <a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -136,14 +139,37 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a6287d598eb533071f623add374fe9ee6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a157e0dc60e7525671f7816a7a08fb25f" id="r_a157e0dc60e7525671f7816a7a08fb25f"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a157e0dc60e7525671f7816a7a08fb25f">la_z_schur</a> (a, t, z, eigvals, overwrite_a, storage, err)</td></tr>
 <tr class="separator:a157e0dc60e7525671f7816a7a08fb25f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac5cfdce6767dbe5de95aa5cc69129173" id="r_ac5cfdce6767dbe5de95aa5cc69129173"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac5cfdce6767dbe5de95aa5cc69129173">la_real_eig_z_schur</a></td></tr>
-<tr class="separator:ac5cfdce6767dbe5de95aa5cc69129173"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab5aab3448c2f9b2d784a311cc32b6624" id="r_ab5aab3448c2f9b2d784a311cc32b6624"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab5aab3448c2f9b2d784a311cc32b6624">la_real_eig_z_schur</a> (a, t, z, eigvals, overwrite_a, storage, err)</td></tr>
+<tr class="separator:ab5aab3448c2f9b2d784a311cc32b6624"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7475c6d2d2aea34097c8b7c893bbf82c" id="r_a7475c6d2d2aea34097c8b7c893bbf82c"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7475c6d2d2aea34097c8b7c893bbf82c">la_w_schur</a> (a, t, z, eigvals, overwrite_a, storage, err)</td></tr>
 <tr class="separator:a7475c6d2d2aea34097c8b7c893bbf82c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a86b57729801f0f11ede4a81420f7db77" id="r_a86b57729801f0f11ede4a81420f7db77"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a86b57729801f0f11ede4a81420f7db77">la_real_eig_w_schur</a></td></tr>
 <tr class="separator:a86b57729801f0f11ede4a81420f7db77"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Function/Subroutine Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Compute the Schur decomposition of a matrix. </p>
+<p>This function computes the Schur decomposition of a real or complex matrix \( A \):</p>
+<p>\( A = Z T Z^H \)</p>
+<p>where \( Z \) is an orthonormal/unitary matrix and \( T \) is upper-triangular or quasi-upper-triangular. The input matrix \( A \) has size \( [m, m] \).</p>
+<p>The decomposition is available for both real and complex matrices:</p><ul>
+<li>For real matrices, the Schur form \( T \) may contain 2x2 blocks for complex eigenvalues.</li>
+<li>For complex matrices, \( T \) is always upper-triangular.</li>
+</ul>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">A</td><td>The input matrix of size \( [m, m] \). Can be overwritten if <code>overwrite_a</code> is set. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">T</td><td>The upper-triangular or quasi-upper-triangular matrix of size \( [m, m] \). </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">Z</td><td>(Optional) The unitary/orthonormal transformation matrix of size \( [m, m] \). </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">eigvals</td><td>(Optional) The eigenvalues that appear on the diagonal of \( T \). For real matrices, this is a real-valued array. For complex matrices, this is a complex-valued array. </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">storage</td><td>(Optional) Pre-allocated workspace array. If provided, no internal allocations occur. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>(Optional) Logical flag indicating whether \( A \) can be overwritten. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>(Optional) State return flag. If not provided, the function will stop on error.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>The computation is based on LAPACK's Schur decomposition routines (<a class="el" href="interfacela__lapack_1_1gees.html">GEES</a>). </dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>Ensure that <code>overwrite_a</code> is set correctly to avoid unintended modification of \( A \). </dd></dl>
+</div><h2 class="groupheader">Member Function/Subroutine Documentation</h2>
 <a id="a79f08b48253c4c9010821f3e0633863e" name="a79f08b48253c4c9010821f3e0633863e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a79f08b48253c4c9010821f3e0633863e">&#9670;&#160;</a></span>la_c_schur()</h2>
 
@@ -193,7 +219,7 @@ Public Member Functions</h2></td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">t</td><td>Schur form of A: upper-triangular or quasi-upper-triangular matrix T</td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">z</td><td>Unitary/orthonormal transformation matrix Z</td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">eigvals</td><td>[optional] Output eigenvalues that appear on the diagonal of T</td></tr>
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">storage</td><td>[optional] Provide pre-allocated workspace, size to be checked with <a class="el" href="interfacela__schur_1_1schur__space.html">schur_space</a></td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">storage</td><td>[optional] Provide pre-allocated workspace, size to be checked with <a class="el" href="interfacela__schur_1_1schur__space.html" title="Compute the required workspace size for Schur decomposition.">schur_space</a></td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A data be overwritten and destroyed?</td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] State return flag. On error if not requested, the code will stop </td></tr>
   </table>
@@ -251,7 +277,7 @@ Public Member Functions</h2></td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">t</td><td>Schur form of A: upper-triangular or quasi-upper-triangular matrix T</td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">z</td><td>Unitary/orthonormal transformation matrix Z</td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">eigvals</td><td>[optional] Output eigenvalues that appear on the diagonal of T</td></tr>
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">storage</td><td>[optional] Provide pre-allocated workspace, size to be checked with <a class="el" href="interfacela__schur_1_1schur__space.html">schur_space</a></td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">storage</td><td>[optional] Provide pre-allocated workspace, size to be checked with <a class="el" href="interfacela__schur_1_1schur__space.html" title="Compute the required workspace size for Schur decomposition.">schur_space</a></td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A data be overwritten and destroyed?</td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] State return flag. On error if not requested, the code will stop </td></tr>
   </table>
@@ -309,7 +335,7 @@ Public Member Functions</h2></td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">t</td><td>Schur form of A: upper-triangular or quasi-upper-triangular matrix T</td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">z</td><td>Unitary/orthonormal transformation matrix Z</td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">eigvals</td><td>[optional] Output eigenvalues that appear on the diagonal of T</td></tr>
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">storage</td><td>[optional] Provide pre-allocated workspace, size to be checked with <a class="el" href="interfacela__schur_1_1schur__space.html">schur_space</a></td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">storage</td><td>[optional] Provide pre-allocated workspace, size to be checked with <a class="el" href="interfacela__schur_1_1schur__space.html" title="Compute the required workspace size for Schur decomposition.">schur_space</a></td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A data be overwritten and destroyed?</td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] State return flag. On error if not requested, the code will stop </td></tr>
   </table>
@@ -388,17 +414,61 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ac5cfdce6767dbe5de95aa5cc69129173" name="ac5cfdce6767dbe5de95aa5cc69129173"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac5cfdce6767dbe5de95aa5cc69129173">&#9670;&#160;</a></span>la_real_eig_z_schur()</h2>
+<a id="ab5aab3448c2f9b2d784a311cc32b6624" name="ab5aab3448c2f9b2d784a311cc32b6624"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab5aab3448c2f9b2d784a311cc32b6624">&#9670;&#160;</a></span>la_real_eig_z_schur()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">la_schur::schur::la_real_eig_z_schur</td>
+          <td class="memname">subroutine la_schur::schur::la_real_eig_z_schur </td>
+          <td>(</td>
+          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>), dimension(:,:), intent(inout), target</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>), dimension(:,:), intent(out), target, contiguous</td>          <td class="paramname"><span class="paramname"><em>t</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>), dimension(:,:), intent(out), optional, target, contiguous</td>          <td class="paramname"><span class="paramname"><em>z</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>), dimension(:), intent(out), target, contiguous</td>          <td class="paramname"><span class="paramname"><em>eigvals</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">logical(<a class="el" href="namespacela__constants.html#ab69b1529685742074aaa0fa65f97a084">lk</a>), intent(in), optional</td>          <td class="paramname"><span class="paramname"><em>overwrite_a</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>), dimension(:), intent(inout), optional, target</td>          <td class="paramname"><span class="paramname"><em>storage</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">type(<a class="el" href="structla__state__type_1_1la__state.html">la_state</a>), intent(out), optional</td>          <td class="paramname"><span class="paramname"><em>err</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[m,m]</td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">t</td><td>Schur form of A: upper-triangular or quasi-upper-triangular matrix T</td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">z</td><td>Unitary/orthonormal transformation matrix Z</td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">eigvals</td><td>Output eigenvalues that appear on the diagonal of T</td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">storage</td><td>[optional] Provide pre-allocated workspace, size to be checked with <a class="el" href="interfacela__schur_1_1schur__space.html" title="Compute the required workspace size for Schur decomposition.">schur_space</a></td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A data be overwritten and destroyed?</td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] State return flag. On error if not requested, the code will stop </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -451,7 +521,7 @@ Public Member Functions</h2></td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">t</td><td>Schur form of A: upper-triangular or quasi-upper-triangular matrix T</td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">z</td><td>Unitary/orthonormal transformation matrix Z</td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">eigvals</td><td>[optional] Output eigenvalues that appear on the diagonal of T</td></tr>
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">storage</td><td>[optional] Provide pre-allocated workspace, size to be checked with <a class="el" href="interfacela__schur_1_1schur__space.html">schur_space</a></td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">storage</td><td>[optional] Provide pre-allocated workspace, size to be checked with <a class="el" href="interfacela__schur_1_1schur__space.html" title="Compute the required workspace size for Schur decomposition.">schur_space</a></td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A data be overwritten and destroyed?</td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] State return flag. On error if not requested, the code will stop </td></tr>
   </table>
@@ -509,7 +579,7 @@ Public Member Functions</h2></td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">t</td><td>Schur form of A: upper-triangular or quasi-upper-triangular matrix T</td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">z</td><td>Unitary/orthonormal transformation matrix Z</td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">eigvals</td><td>[optional] Output eigenvalues that appear on the diagonal of T</td></tr>
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">storage</td><td>[optional] Provide pre-allocated workspace, size to be checked with <a class="el" href="interfacela__schur_1_1schur__space.html">schur_space</a></td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">storage</td><td>[optional] Provide pre-allocated workspace, size to be checked with <a class="el" href="interfacela__schur_1_1schur__space.html" title="Compute the required workspace size for Schur decomposition.">schur_space</a></td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A data be overwritten and destroyed?</td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] State return flag. On error if not requested, the code will stop </td></tr>
   </table>
@@ -567,7 +637,7 @@ Public Member Functions</h2></td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">t</td><td>Schur form of A: upper-triangular or quasi-upper-triangular matrix T</td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">z</td><td>Unitary/orthonormal transformation matrix Z</td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">eigvals</td><td>[optional] Output eigenvalues that appear on the diagonal of T</td></tr>
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">storage</td><td>[optional] Provide pre-allocated workspace, size to be checked with <a class="el" href="interfacela__schur_1_1schur__space.html">schur_space</a></td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">storage</td><td>[optional] Provide pre-allocated workspace, size to be checked with <a class="el" href="interfacela__schur_1_1schur__space.html" title="Compute the required workspace size for Schur decomposition.">schur_space</a></td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A data be overwritten and destroyed?</td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] State return flag. On error if not requested, the code will stop </td></tr>
   </table>

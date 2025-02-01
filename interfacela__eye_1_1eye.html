@@ -116,14 +116,11 @@ $(function(){initNavTree('interfacela__eye_1_1eye.html',''); initResizable(true)
 </div><!--header-->
 <div class="contents">
 
-<p>Constructs the identity matrix. This interface provides procedures to generate an identity matrix of a given size. The resulting matrix has 1s on the diagonal and 0s elsewhere.  
+<p>Construct an identity matrix of size \(m \times n\).  
  <a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ada10318a122ca73f8af5ec3b7b49dd7c" id="r_ada10318a122ca73f8af5ec3b7b49dd7c"><td class="memItemLeft" align="right" valign="top">pure real(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>) function, dimension(:,:), allocatable&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ada10318a122ca73f8af5ec3b7b49dd7c">la_eye_s</a> (m, n, mold)</td></tr>
-<tr class="memdesc:ada10318a122ca73f8af5ec3b7b49dd7c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to construct an identity matrix of size <code>m x n</code>. This function returns a diagonal identity matrix, with the diagonal elements equal to 1 and all other elements set to 0.  <br /></td></tr>
-<tr class="separator:ada10318a122ca73f8af5ec3b7b49dd7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a249d6fc17837a627f138c263f527511b" id="r_a249d6fc17837a627f138c263f527511b"><td class="memItemLeft" align="right" valign="top">pure real(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>) function, dimension(:,:), allocatable&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a249d6fc17837a627f138c263f527511b">la_eye_d</a> (m, n, mold)</td></tr>
 <tr class="memdesc:a249d6fc17837a627f138c263f527511b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to construct an identity matrix of size <code>m x n</code>. This function returns a diagonal identity matrix, with the diagonal elements equal to 1 and all other elements set to 0.  <br /></td></tr>
 <tr class="separator:a249d6fc17837a627f138c263f527511b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -159,7 +156,31 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a1afa06cc5d2a9e1d7e8909261854413b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Constructs the identity matrix. This interface provides procedures to generate an identity matrix of a given size. The resulting matrix has 1s on the diagonal and 0s elsewhere. </p>
+<div class="textblock"><p>Construct an identity matrix of size \(m \times n\). </p>
+<p>This function returns a diagonal identity matrix of size \(m \times n\), where all diagonal elements are set to 1 and all off-diagonal elements are set to 0. The number of rows and columns can be specified. If only one parameter is provided, a square matrix of size \(m \times m\) is returned.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">m</td><td>The number of rows of the identity matrix. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">n</td><td>(Optional) The number of columns of the identity matrix. If omitted, the matrix is square ( \(m \times m\)). </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">mold</td><td>(Optional) Data type to define the return type. Defaults to <code>real(real64)</code>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The identity matrix with size \(m \times n\).</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>If the <code>mold</code> parameter is omitted, the default type is <code>real(real64)</code>. If specified, the return type matches the given type.</dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>Ensure that the matrix dimensions are valid and consistent with the type definition.</dd></dl>
+<p>Return a square diagonal matrix with diagonal values.</p>
+<p>This function generates a square diagonal matrix where the diagonal elements are either equal to the specified scalar value or populated by the input array. The size of the matrix is determined by the input parameter \(n\) or the size of the input array.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">n</td><td>The size of the square matrix (only used if a scalar is provided for the diagonal). </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">source</td><td>If a scalar, this value is used to populate the diagonal of the matrix. If an array, the elements of the array are used for the diagonal. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>(Optional) State return flag. If not provided, the function will stop on error. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The diagonal matrix with size \(n \times n\), where the diagonal elements are populated by \(source\).</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>If a scalar value is passed, the diagonal elements of the matrix will all be equal to \(source\). If an array is passed, its length determines the size of the matrix, and the array elements are placed along the diagonal. The <code>err</code> parameter is optional. If not requested, the code will stop on error. Otherwise, it returns the error state of the function. </dd></dl>
 </div><h2 class="groupheader">Member Function/Subroutine Documentation</h2>
 <a id="aecf4240d65336b6e9d9cc872bd26324c" name="aecf4240d65336b6e9d9cc872bd26324c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aecf4240d65336b6e9d9cc872bd26324c">&#9670;&#160;</a></span>la_eye_c()</h2>
@@ -394,43 +415,6 @@ Public Member Functions</h2></td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">n</td><td>Number of columns of the identity matrix (optional). </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">mold</td><td>Data type, used to define the return type. Defaults to <code>real(real64)</code>. </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Return matrix </dd></dl>
-
-</div>
-</div>
-<a id="ada10318a122ca73f8af5ec3b7b49dd7c" name="ada10318a122ca73f8af5ec3b7b49dd7c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ada10318a122ca73f8af5ec3b7b49dd7c">&#9670;&#160;</a></span>la_eye_s()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">pure real(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>) function, dimension(:,:), allocatable la_eye::eye::la_eye_s </td>
-          <td>(</td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>m</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in), optional</td>          <td class="paramname"><span class="paramname"><em>n</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>mold</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Function to construct an identity matrix of size <code>m x n</code>. This function returns a diagonal identity matrix, with the diagonal elements equal to 1 and all other elements set to 0. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">m</td><td>Number of rows of the identity matrix. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">n</td><td>Number of columns of the identity matrix (optional). </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">mold</td><td>Data type, used to define the return type. Defaults to <code>real(real64)</code>. </td></tr>
   </table>
   </dd>
 </dl>
