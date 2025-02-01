@@ -382,7 +382,7 @@ where \f$ \Sigma^+ \f$ is the inverse of the nonzero singular values in \f$ \Sig
 **Optional arguments**:  
 - `err`: Error handler.
 
-## [qr](@ref la_qr::qr) - Compute the QR factorization of a matrix.
+## [qr](@ref la_qr::qr) - QR factorization of a matrix.
 
 ### Syntax
 
@@ -458,6 +458,83 @@ The workspace size \f$ lwork \f$ that should be allocated before calling the QR 
 
 - This subroutine is useful for preallocating memory for QR factorization in large systems.
 - It is important to ensure that the workspace size is correctly allocated before proceeding with QR factorization to avoid memory issues.
+
+## [schur](@ref la_schur::schur) - Schur decomposition of a matrix.
+
+### Syntax
+
+`call schur(a, t, z [, eigvals] [, overwrite_a] [, storage] [, err])`
+
+### Description
+
+This subroutine computes the Schur decomposition of a `real` or `complex` matrix \f$ A = Z T Z^H \f$, where \f$ Z \f$ is an orthonormal/unitary matrix, and \f$ T \f$ is an upper-triangular or quasi-upper-triangular matrix. The matrix \f$ A \f$ has size \f$ [m,m] \f$. 
+
+The decomposition produces:
+- \f$ T \f$, which is upper-triangular for `complex` matrices and quasi-upper-triangular for `real` matrices (with possible \f$ 2 \times 2 \f$ blocks on the diagonal).
+- \f$ Z \f$, the transformation matrix, which is optional.
+- Optionally, the eigenvalues corresponding to the diagonal elements of \f$ T \f$.
+
+If a pre-allocated workspace is provided, no internal memory allocations take place.
+
+### Arguments
+
+- `a`: A `real` or `complex` matrix of size \f$ [m,m] \f$. If `overwrite_a = .false.`, this is an input argument. If `overwrite_a = .true.`, it is an `inout` argument and is overwritten upon return.
+- `t`: A rank-2 array of the same type and kind as `a`, representing the Schur form of `a`. This is an output argument with shape \f$ [m,m] \f$.
+- `z` (optional): A rank-2 array of the same type and kind as `a`, representing the unitary/orthonormal transformation matrix \f$ Z \f$. This is an output argument with shape \f$ [m,m] \f$.
+- `eigvals` (optional): A complex array of size \f$ [m] \f$, representing the eigenvalues that appear on the diagonal of \f$ T \f$. This is an output argument.
+- `storage` (optional): A rank-1 array of the same type and kind as `a`, providing working storage for the solver. Its minimum size can be determined by a call to [schur_space](@ref la_schur::schur_space). This is an input argument.
+- `overwrite_a` (optional, default = `.false.`): A logical flag that determines whether the input matrix `a` can be overwritten. If `.true.`, the matrix `a` is used as temporary storage and overwritten to avoid internal memory allocation. This is an input argument.
+- `err` (optional): A [type(la_state)](@ref la_state_type::la_state) variable that returns the error state. If not provided, the function will stop execution on error.
+
+### Return value
+
+The Schur decomposition matrices \f$ T \f$ and optionally \f$ Z \f$ are returned in the corresponding arguments.
+
+### Errors
+
+- Raises [LINALG_VALUE_ERROR](@ref la_state_type::linalg_value_error) if the sizes of the matrices are incompatible.
+- Raises [LINALG_ERROR](@ref la_state_type::linalg_error) if the algorithm did not converge.
+- If `err` is not provided, exceptions will trigger an `error stop`.
+
+### Notes
+
+- This subroutine computes the Schur decomposition using LAPACK's Schur decomposition routines (`*GEES`).
+- Sorting options for eigenvalues can be requested, utilizing LAPACK's eigenvalue sorting mechanism.
+- If `overwrite_a` is enabled, the input matrix `a` will be modified during computation.
+
+
+## [schur_space](@ref la_schur::schur_space) - Workspace size for Schur decomposition.
+
+### Syntax
+
+`call schur_space(a, lwork [, err])`
+
+### Description
+
+This subroutine computes the minimum workspace size required for performing Schur decomposition. The size of the workspace array needed is determined based on the input matrix \f$ A \f$.
+
+The input matrix \f$ A \f$ has size \f$ [m,m] \f$, and the output value \f$ lwork \f$ represents the minimum size of the workspace array that should be allocated for Schur decomposition operations.
+
+### Arguments
+
+- `a`: A `real` or `complex` matrix of size \f$ [m,m] \f$, representing the input matrix used to determine the required workspace size.
+- `lwork`: An integer variable that will return the minimum workspace size required for Schur decomposition.
+- `err` (optional): A [type(la_state)](@ref la_state_type::la_state) variable that returns the error state. If not provided, the function will stop execution on error.
+
+### Return value
+
+The workspace size \f$ lwork \f$ that should be allocated before calling the Schur decomposition routine is returned.
+
+### Errors
+
+- Raises [LINALG_ERROR](@ref la_state_type::linalg_error) if there is an issue determining the required workspace size.
+- If `err` is not provided, exceptions will trigger an `error stop`.
+
+### Notes
+
+- This subroutine is useful for preallocating memory for Schur decomposition in large systems.
+- It is important to ensure that the workspace size is correctly allocated before proceeding with Schur decomposition to avoid memory issues.
+
 
 
 # BLAS, LAPACK

@@ -21,30 +21,33 @@ module la_schur
     !> Request Schur vectors to be sorted
     character,parameter :: GEES_SORTED_VECTORS = 'S'
     
-  ! Schur decomposition of rank-2 array A
-  interface schur
-    !! version: experimental
+    !> @brief Compute the Schur decomposition of a matrix.
     !!
-    !! Computes the Schur decomposition of matrix \( A = Z T Z^H \).
-    !! ([Specification](../page/specs/la_linalg.html#schur-compute-the-schur-decomposition-of-a-matrix))
+    !! This function computes the Schur decomposition of a real or complex matrix \f$ A \f$:
     !!
-    !!### Summary
-    !! Compute the Schur decomposition of a `real` or `complex` matrix: \( A = Z T Z^H \), where \( Z \) is
-    !! orthonormal/unitary and \( T \) is upper-triangular or quasi-upper-triangular. Matrix \( A \) has size `[m,m]`.
+    !! \f$ A = Z T Z^H \f$
     !!
-    !!### Description
+    !! where \f$ Z \f$ is an orthonormal/unitary matrix and \f$ T \f$ is upper-triangular or quasi-upper-triangular.
+    !! The input matrix \f$ A \f$ has size \f$ [m, m] \f$.
     !!
-    !! This interface provides methods for computing the Schur decomposition of a matrix.
-    !! Supported data types include `real` and `complex`. If a pre-allocated workspace is provided, no internal
-    !! memory allocations take place when using this interface.
+    !! The decomposition is available for both real and complex matrices:
+    !! - For real matrices, the Schur form \f$ T \f$ may contain 2x2 blocks for complex eigenvalues.
+    !! - For complex matrices, \f$ T \f$ is always upper-triangular.
     !!
-    !! The output matrix \( T \) is upper-triangular for `complex` input matrices and quasi-upper-triangular
-    !! for `real` input matrices (with possible \( 2 \times 2 \) blocks on the diagonal).
-    !! The user can optionally request sorting of eigenvalues based on conditions, or a custom sorting function.
+    !! @param[in,out] A The input matrix of size \f$ [m, m] \f$. Can be overwritten if `overwrite_a` is set.
+    !! @param[out] T The upper-triangular or quasi-upper-triangular matrix of size \f$ [m, m] \f$.
+    !! @param[out] Z (Optional) The unitary/orthonormal transformation matrix of size \f$ [m, m] \f$.
+    !! @param[out] eigvals (Optional) The eigenvalues that appear on the diagonal of \f$ T \f$.
+    !!                 For real matrices, this is a real-valued array.
+    !!                 For complex matrices, this is a complex-valued array.
+    !! @param[in,out] storage (Optional) Pre-allocated workspace array. If provided, no internal allocations occur.
+    !! @param[in] overwrite_a (Optional) Logical flag indicating whether \f$ A \f$ can be overwritten.
+    !! @param[out] err (Optional) State return flag. If not provided, the function will stop on error.
     !!
-    !!@note The solution is based on LAPACK's Schur decomposition routines (`*GEES`). Sorting options
-    !! are implemented using LAPACK's eigenvalue sorting mechanism.
+    !! @note The computation is based on LAPACK's Schur decomposition routines ([GEES](@ref la_lapack::gees)).
+    !! @warning Ensure that `overwrite_a` is set correctly to avoid unintended modification of \f$ A \f$.
     !!
+    interface schur
       module procedure la_s_schur
       module procedure la_real_eig_s_schur
       module procedure la_d_schur
@@ -57,31 +60,29 @@ module la_schur
       module procedure la_real_eig_z_schur
       module procedure la_w_schur
       module procedure la_real_eig_w_schur
-  end interface schur
+    end interface schur
 
-  ! Return the working array space required by the Schur decomposition solver
-  interface schur_space
-    !! version: experimental
+    !> @brief Compute the required workspace size for Schur decomposition.
     !!
-    !! Computes the working array space required by the Schur decomposition solver
-    !! ([Specification](../page/specs/la_linalg.html#schur-space-compute-internal-working-space-requirements-for-the-schur-decomposition))
+    !! This subroutine determines the minimum workspace size required for the Schur decomposition of a matrix.
+    !! The required size depends on the matrix dimensions and type (`real` or `complex`).
     !!
-    !!### Description
+    !! @param[in] A The input matrix of size \f$ [m, m] \f$.
+    !! @param[out] lwork The minimum workspace size required for the decomposition.
+    !! @param[out] err (Optional) State return flag. If provided, it will return an error status in case of failure.
     !!
-    !! This interface returns the size of the `real` or `complex` working storage required by the
-    !! Schur decomposition solver. The working size only depends on the kind (`real` or `complex`) and size of
-    !! the matrix being decomposed. Storage size can be used to pre-allocate a working array in case several
-    !! repeated Schur decompositions of same-size matrices are sought. If pre-allocated working arrays
-    !! are provided, no internal allocations will take place during the decomposition.
+    !! @note This routine is useful for pre-allocating workspace when performing multiple decompositions on matrices
+    !!       of the same size, minimizing dynamic memory allocation overhead.
     !!
+    interface schur_space
       module procedure get_schur_s_workspace
       module procedure get_schur_d_workspace
       module procedure get_schur_q_workspace
       module procedure get_schur_c_workspace
       module procedure get_schur_z_workspace
       module procedure get_schur_w_workspace
-  end interface schur_space
-    
+    end interface schur_space    
+        
     contains
 
     !> Wrapper function for Schur vectors request
@@ -1355,7 +1356,7 @@ module la_schur
     end subroutine la_z_schur
 
     ! Schur decomposition subroutine: real eigenvalue interface
-    module subroutine la_real_eig_z_schur(a,t,z,eigvals,overwrite_a,storage,err)
+    subroutine la_real_eig_z_schur(a,t,z,eigvals,overwrite_a,storage,err)
         !> Input matrix a[m,m]
         complex(dp),intent(inout),target :: a(:,:)
         !> Schur form of A: upper-triangular or quasi-upper-triangular matrix T
