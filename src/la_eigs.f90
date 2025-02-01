@@ -1,3 +1,4 @@
+!> Eigenvalues and Eigenvectors
 module la_eig
      use la_constants
      use la_blas
@@ -7,23 +8,60 @@ module la_eig
      implicit none(type,external)
      private
 
-     !> Eigendecomposition of a square matrix: return eigenvalues, and optionally eigenvectors
      public :: eig
-     !> Eigenvalues of a square matrix
      public :: eigvals
-     !> Eigendecomposition of a real symmetric or complex hermitian matrix
      public :: eigh
-     !> Eigenvalues of a real symmetric or complex hermitian matrix
      public :: eigvalsh
 
-     ! Numpy: eigenvalues, eigenvectors = eig(a)
-     !        eigenvalues = eigvals(a)
-     ! Scipy: eig(a, b=None, left=False, right=True, overwrite_a=False, overwrite_b=False, check_finite=True, homogeneous_eigvals=False)
-
-     ! Numpy: eigenvalues, eigenvectors = eigh(a, uplo='L')
-     !        eigenvalues = eigvalsh(a)
-     ! Scipy: eigh(a, b=None, *, lower=True, eigvals_only=False, overwrite_a=False, overwrite_b=False, turbo=<object object>, eigvals=<object object>, type=1, check_finite=True, subset_by_index=None, subset_by_value=None, driver=None)
-
+     !> Eigendecomposition of a square matrix, returning eigenvalues and optionally eigenvectors.
+     !!
+     !!### Summary
+     !! This interface provides methods for computing the eigenvalues and eigenvectors of a real or complex matrix.
+     !! It supports both standard and generalized eigenvalue problems, allowing for the decomposition of a matrix
+     !! `A` alone or a pair of matrices `(A, B)` in the generalized case.
+     !!
+     !!### Description
+     !! Given a square matrix \f$ A \f$, this routine computes its eigenvalues \f$ \lambda \f$ and, optionally,
+     !! its right or left eigenvectors:
+     !!
+     !! \f[
+     !! A v = \lambda v,
+     !! \f]
+     !!
+     !! where \f$ v \f$ represents an eigenvector corresponding to eigenvalue \f$ \lambda \f$.
+     !!
+     !! In the generalized eigenvalue problem case, the routine solves:
+     !!
+     !! \[
+     !! A v = \lambda B v.
+     !! \]
+     !!
+     !! The computation supports both `real` and `complex` matrices. If requested, eigenvectors are returned
+     !! as additional output arguments. The function provides options to allow in-place modification of `A` and `B`
+     !! for performance optimization.
+     !!
+     !!@note The solution is based on LAPACK's [GEEV](@ref la_lapack::geev) and [GGEV](@ref la_lapack::ggev) routines.
+     !!
+     !!### Arguments
+     !! - `a`: A `real` or `complex` matrix of size \f$ [n,n] \f$, representing the input matrix to be decomposed.
+     !! - `b` (optional): A matrix of size \f$ [n,n] \f$, same type and kind as `a`, representing the second matrix in the generalized eigenvalue problem.
+     !! - `lambda`: A `complex` or `real` array of length \f$ n \f$ containing the computed eigenvalues.
+     !! - `right` (optional): A `complex` matrix of size \f$ [n,n] \f$ containing the right eigenvectors as columns.
+     !! - `left` (optional): A `complex` matrix of size \f$ [n,n] \f$ containing the left eigenvectors as columns.
+     !! - `overwrite_a` (optional): A logical flag indicating whether `A` can be overwritten for performance optimization.
+     !! - `overwrite_b` (optional): A logical flag indicating whether `B` can be overwritten (only in the generalized case).
+     !! - `err` (optional): A `la_state` variable to handle errors. If not provided, execution will stop on errors.
+     !!
+     !!### Errors
+     !! - Raises [LINALG_VALUE_ERROR](@ref la_state_type::linalg_value_error) if the matrices have invalid/incompatible sizes.
+     !! - Raises [LINALG_ERROR](@ref la_state_type::linalg_error) if the eigendecomposition fails.
+     !! - If `err` is not provided, exceptions will trigger an `error stop`.
+     !!
+     !!### Notes
+     !! - The computed eigenvectors are normalized.
+     !! - If computing real eigenvalues, an error is returned if eigenvalues have nonzero imaginary parts.
+     !! - This routine is based on LAPACK's [GEEV](@ref la_lapack::geev) and [GGEV](@ref la_lapack::ggev) routines.
+     !! - Overwriting `A` or `B` can improve performance but destroys the original matrix data.
      interface eig
         module procedure la_eig_standard_s
         module procedure la_eig_standard_d
@@ -45,6 +83,51 @@ module la_eig
         module procedure la_real_eig_generalized_q
      end interface eig
 
+     !> Eigenvalues of a square matrix.
+     !!
+     !!### Summary
+     !! This interface provides methods for computing the eigenvalues of a real or complex square matrix.
+     !! It supports both standard and generalized eigenvalue problems, allowing for the decomposition of matrix
+     !! `A` alone or a pair of matrices `(A, B)` in the generalized case.
+     !!
+     !!### Description
+     !! Given a square matrix \f$ A \f$, this routine computes its eigenvalues \f$ \lambda \f$ from the following equation:
+     !!
+     !! \f[
+     !! A v = \lambda v
+     !! \f]
+     !!
+     !! where \f$ v \f$ represents an eigenvector corresponding to eigenvalue \f$ \lambda \f$.
+     !!
+     !! In the generalized eigenvalue problem case, the routine solves:
+     !!
+     !! \f[
+     !! A v = \lambda B v
+     !! \f]
+     !!
+     !! This computation supports both `real` and `complex` matrices. The eigenvalues are returned in a complex array,
+     !! even for real matrices. The function also provides an optional error state argument to handle error reporting
+     !! without halting execution.
+     !!
+     !!@note The solution is based on LAPACK's [GEEV](@ref la_lapack::geev) and [GGEV](@ref la_lapack::ggev) routines.
+     !!
+     !!### Arguments
+     !! - `a`: A `real` or `complex` matrix of size \f$ [n,n] \f$, representing the input matrix to be decomposed.
+     !! - `b` (optional): A `real` or `complex` matrix of size \f$ [n,n] \f$, representing the second matrix in the generalized eigenvalue problem.
+     !! - `err` (optional): A `la_state` variable to handle errors. If not provided, execution will stop on errors.
+     !!
+     !!### Return value
+     !! - `lambda`: A `complex` array of eigenvalues, computed from the input matrix \f$A\f$ (and \f$B\f$ if in the generalized case).
+     !!
+     !!### Errors
+     !! - Raises [LINALG_VALUE_ERROR](@ref la_state_type::linalg_value_error) if the matrices have invalid or incompatible sizes.
+     !! - Raises [LINALG_ERROR](@ref la_state_type::linalg_error) if the eigendecomposition fails.
+     !! - If `err` is not provided, execution will stop on errors.
+     !!
+     !!### Notes
+     !! - The computed eigenvalues are returned as complex values, even if the matrix is real.
+     !! - This routine is based on LAPACK's [GEEV](@ref la_lapack::geev) and [GGEV](@ref la_lapack::ggev) routines.
+     !! - The generalized eigenvalue problem requires matrix `B` to be provided and may modify it in-place.
      interface eigvals
         module procedure la_eigvals_standard_s
         module procedure la_eigvals_noerr_standard_s
@@ -72,6 +155,57 @@ module la_eig
         module procedure la_eigvals_noerr_generalized_w
      end interface eigvals
      
+     !> Eigendecomposition of a real symmetric or complex Hermitian matrix.
+     !!
+     !!### Summary
+     !! This interface provides methods for computing the eigenvalues and optionally the eigenvectors of a real symmetric
+     !! or complex Hermitian matrix. The decomposition computes the eigenvalues of matrix \f$ A \f$ and, optionally,
+     !! the eigenvectors corresponding to those eigenvalues. The routine is designed to handle both real and complex matrices.
+     !!
+     !!### Description
+     !! Given a real symmetric or complex Hermitian matrix \f$ A \f$, this routine computes its eigenvalues \f$ \lambda \f$ 
+     !! and, optionally, the right or left eigenvectors:
+     !!
+     !! \f[
+     !! A v = \lambda v
+     !! \f]
+     !!
+     !! where \f$ v \f$ represents an eigenvector corresponding to eigenvalue \f$ \lambda \f$. The eigenvalues are always
+     !! returned as real numbers, and the eigenvectors, if requested, are orthonormal.
+     !!
+     !! This function uses the LAPACK routines designed for symmetric or Hermitian matrices, ensuring numerical stability
+     !! and performance.
+     !!
+     !! By default, the routine uses the lower half of the matrix for the computation. However, the upper half can
+     !! optionally be used by setting the `upper_a` argument.
+     !!
+     !!@note This method is based on LAPACK's [SYEVD](@ref la_lapack::syevd) routine for real symmetric matrices and
+     !!       [HEEVD](@ref la_lapack::heevd) routine for complex Hermitian matrices.
+     !!
+     !!### Arguments
+     !! - `a`: A `real` or `complex` symmetric or Hermitian matrix of size \f$ [n,n] \f$, representing the matrix to be decomposed.
+     !!         On input, it contains the matrix \f$ A \f$, and on output, it is overwritten with the eigenvalues in the diagonal.
+     !! - `lambda`: A `real` array of length \f$ n \f$, containing the computed eigenvalues of \f$ A \f$.
+     !! - `vectors` (optional): A `real` or `complex` matrix of size \f$ [n,n] \f$ containing the orthonormal eigenvectors of \f$ A \f$,
+     !!                         with the eigenvectors stored as columns.
+     !! - `overwrite_a` (optional): A logical flag indicating whether the matrix \f$ A \f$ can be overwritten for performance optimization.
+     !! - `upper_a` (optional): A logical flag indicating whether the upper half of \f$ A \f$ should be used (default is the lower half).
+     !! - `err` (optional): A `la_state` variable to handle errors. If not provided, execution will stop on errors.
+     !!
+     !!### Return value
+     !! - `lambda`: A `real` array containing the eigenvalues of matrix \f$ A \f$, computed as part of the decomposition.
+     !!
+     !!### Errors
+     !! - Raises [LINALG_VALUE_ERROR](@ref la_state_type::linalg_value_error) if the matrix is not symmetric or Hermitian.
+     !! - Raises [LINALG_ERROR](@ref la_state_type::linalg_error) if the eigendecomposition fails.
+     !! - If `err` is not provided, execution will stop on errors.
+     !!
+     !!### Notes
+     !! - The eigenvalues are always real for symmetric and Hermitian matrices.
+     !! - If the matrix is Hermitian, the result will be complex eigenvectors even if the input matrix is real.
+     !! - This method is based on LAPACK's [SYEVD](@ref la_lapack::syevd) for real symmetric matrices and
+     !!       [HEEVD](@ref la_lapack::heevd) for complex Hermitian matrices.
+     !! - The matrix \f$ A \f$ can be overwritten in-place to improve performance but its original data will be lost.     
      interface eigh
         module procedure la_eigh_s
         module procedure la_eigh_d
@@ -81,6 +215,47 @@ module la_eig
         module procedure la_eigh_w
      end interface eigh
      
+
+     !> Eigenvalues of a real symmetric or complex Hermitian matrix.
+     !!
+     !!### Summary
+     !! Compute the eigenvalues of a real symmetric or complex Hermitian matrix \f$ A \f$.
+     !! The function returns the eigenvalues in an array. 
+     !! The user can specify whether to use the upper or lower half of the matrix for computation.
+     !!
+     !!### Description
+     !! Given a real symmetric or complex Hermitian matrix \f$ A \f$, this routine computes its eigenvalues \f$ \lambda \f$
+     !! from the following equation:
+     !!
+     !! \f[
+     !! A v = \lambda v
+     !! \f]
+     !!
+     !! where \f$ v \f$ represents an eigenvector corresponding to eigenvalue \f$ \lambda \f$.
+     !!
+     !! The computation supports both `real` and `complex` matrices. The eigenvalues are returned in a `real` array.
+     !! The function also provides an optional error state argument to handle error reporting without halting execution.
+     !!
+     !! The user can specify whether to use the upper or lower half of the matrix \f$ A \f$ for computation (default: lower half).
+     !!
+     !!@note The solution is based on LAPACK's [SYEV](@ref la_lapack::syev) and [HEEV](@ref la_lapack::heev) routines.
+     !!
+     !!### Arguments
+     !! - `a`: A `real` or `complex` matrix of size \f$ [n,n] \f$, representing the real symmetric or complex Hermitian matrix to be decomposed.
+     !! - `upper_a` (optional): A logical flag indicating whether to use the upper half (`.true.`) or the lower half (`.false.`) of \f$ A \f$ for the computation. The default is lower.
+     !! - `err` (optional): A `la_state` variable to handle errors. If not provided, execution will stop on errors.
+     !!
+     !!### Return value
+     !! - `lambda`: A `real` array with the same kind as `a`, containing the computed eigenvalues of the matrix \f$ A \f$.
+     !!
+     !!### Errors
+     !! - Raises [LINALG_VALUE_ERROR](@ref la_state_type::linalg_value_error) if the matrix has invalid or incompatible sizes.
+     !! - Raises [LINALG_ERROR](@ref la_state_type::linalg_error) if the eigendecomposition fails.
+     !! - If `err` is not provided, execution will stop on errors.
+     !!
+     !!### Notes
+     !! - The computed eigenvalues are returned as real values for real matrices, and complex values for complex matrices.
+     !! - This routine is based on LAPACK's [SYEV](@ref la_lapack::syev) and [HEEV](@ref la_lapack::heev) routines.     
      interface eigvalsh
         module procedure la_eigvalsh_s
         module procedure la_eigvalsh_noerr_s
