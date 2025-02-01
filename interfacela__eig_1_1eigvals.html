@@ -115,6 +115,9 @@ $(function(){initNavTree('interfacela__eig_1_1eigvals.html',''); initResizable(t
   <div class="headertitle"><div class="title">la_eig::eigvals Interface Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Eigenvalues of a square matrix.  
+ <a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -167,7 +170,53 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a59d01088c2d2fd26908e159a0ff60231" id="r_a59d01088c2d2fd26908e159a0ff60231"><td class="memItemLeft" align="right" valign="top">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>) function, dimension(:), allocatable&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a59d01088c2d2fd26908e159a0ff60231">la_eigvals_noerr_generalized_w</a> (a, b)</td></tr>
 <tr class="separator:a59d01088c2d2fd26908e159a0ff60231"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Function/Subroutine Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Eigenvalues of a square matrix. </p>
+<h3><a class="anchor" id="autotoc_md9"></a>
+Summary</h3>
+<p>This interface provides methods for computing the eigenvalues of a real or complex square matrix. It supports both standard and generalized eigenvalue problems, allowing for the decomposition of matrix <code>A</code> alone or a pair of matrices <code>(A, B)</code> in the generalized case.</p>
+<h3><a class="anchor" id="autotoc_md10"></a>
+Description</h3>
+<p>Given a square matrix \( A \), this routine computes its eigenvalues \( \lambda \) from the following equation:</p>
+<p class="formulaDsp">
+\[          A v = \lambda v
+\]
+</p>
+<p>where \( v \) represents an eigenvector corresponding to eigenvalue \( \lambda \).</p>
+<p>In the generalized eigenvalue problem case, the routine solves:</p>
+<p class="formulaDsp">
+\[          A v = \lambda B v
+\]
+</p>
+<p>This computation supports both <code>real</code> and <code>complex</code> matrices. The eigenvalues are returned in a complex array, even for real matrices. The function also provides an optional error state argument to handle error reporting without halting execution.</p>
+<dl class="section note"><dt>Note</dt><dd>The solution is based on LAPACK's <a class="el" href="interfacela__lapack_1_1geev.html">GEEV</a> and <a class="el" href="interfacela__lapack_1_1ggev.html">GGEV</a> routines.</dd></dl>
+<h3><a class="anchor" id="autotoc_md11"></a>
+Arguments</h3>
+<ul>
+<li><code>a</code>: A <code>real</code> or <code>complex</code> matrix of size \( [n,n] \), representing the input matrix to be decomposed.</li>
+<li><code>b</code> (optional): A <code>real</code> or <code>complex</code> matrix of size \( [n,n] \), representing the second matrix in the generalized eigenvalue problem.</li>
+<li><code>err</code> (optional): A <code><a class="el" href="structla__state__type_1_1la__state.html" title="state return type for a linear algebra routine. State contains a status flag, a comment,...">la_state</a></code> variable to handle errors. If not provided, execution will stop on errors.</li>
+</ul>
+<h3><a class="anchor" id="autotoc_md12"></a>
+Return value</h3>
+<ul>
+<li><code>lambda</code>: A <code>complex</code> array of eigenvalues, computed from the input matrix \(A\) (and \(B\) if in the generalized case).</li>
+</ul>
+<h3><a class="anchor" id="autotoc_md13"></a>
+Errors</h3>
+<ul>
+<li>Raises <a class="el" href="namespacela__state__type.html#ad9888f2f7d4e692e7d3b8fd532baa903">LINALG_VALUE_ERROR</a> if the matrices have invalid or incompatible sizes.</li>
+<li>Raises <a class="el" href="namespacela__state__type.html#af5b55841ca3045c3345d9ab019e0797d">LINALG_ERROR</a> if the eigendecomposition fails.</li>
+<li>If <code>err</code> is not provided, execution will stop on errors.</li>
+</ul>
+<h3><a class="anchor" id="autotoc_md14"></a>
+Notes</h3>
+<ul>
+<li>The computed eigenvalues are returned as complex values, even if the matrix is real.</li>
+<li>This routine is based on LAPACK's <a class="el" href="interfacela__lapack_1_1geev.html">GEEV</a> and <a class="el" href="interfacela__lapack_1_1ggev.html">GGEV</a> routines.</li>
+<li>The generalized eigenvalue problem requires matrix <code>B</code> to be provided and may modify it in-place. </li>
+</ul>
+</div><h2 class="groupheader">Member Function/Subroutine Documentation</h2>
 <a id="a8bcef371ca39907a4d8cbcac74cd8981" name="a8bcef371ca39907a4d8cbcac74cd8981"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8bcef371ca39907a4d8cbcac74cd8981">&#9670;&#160;</a></span>la_eigvals_generalized_c()</h2>
 

@@ -115,6 +115,9 @@ $(function(){initNavTree('interfacela__eig_1_1eigvalsh.html',''); initResizable(
   <div class="headertitle"><div class="title">la_eig::eigvalsh Interface Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Eigenvalues of a real symmetric or complex Hermitian matrix.  
+ <a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -155,7 +158,48 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a4811557abc51fb14a26bdf4bdf633101"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return an array of eigenvalues of real symmetric / complex hermitian A.  <br /></td></tr>
 <tr class="separator:a4811557abc51fb14a26bdf4bdf633101"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Function/Subroutine Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Eigenvalues of a real symmetric or complex Hermitian matrix. </p>
+<h3><a class="anchor" id="autotoc_md21"></a>
+Summary</h3>
+<p>Compute the eigenvalues of a real symmetric or complex Hermitian matrix \( A \). The function returns the eigenvalues in an array. The user can specify whether to use the upper or lower half of the matrix for computation.</p>
+<h3><a class="anchor" id="autotoc_md22"></a>
+Description</h3>
+<p>Given a real symmetric or complex Hermitian matrix \( A \), this routine computes its eigenvalues \( \lambda \) from the following equation:</p>
+<p class="formulaDsp">
+\[          A v = \lambda v
+\]
+</p>
+<p>where \( v \) represents an eigenvector corresponding to eigenvalue \( \lambda \).</p>
+<p>The computation supports both <code>real</code> and <code>complex</code> matrices. The eigenvalues are returned in a <code>real</code> array. The function also provides an optional error state argument to handle error reporting without halting execution.</p>
+<p>The user can specify whether to use the upper or lower half of the matrix \( A \) for computation (default: lower half).</p>
+<dl class="section note"><dt>Note</dt><dd>The solution is based on LAPACK's <a class="el" href="interfacela__lapack_1_1syev.html">SYEV</a> and <a class="el" href="interfacela__lapack_1_1heev.html">HEEV</a> routines.</dd></dl>
+<h3><a class="anchor" id="autotoc_md23"></a>
+Arguments</h3>
+<ul>
+<li><code>a</code>: A <code>real</code> or <code>complex</code> matrix of size \( [n,n] \), representing the real symmetric or complex Hermitian matrix to be decomposed.</li>
+<li><code>upper_a</code> (optional): A logical flag indicating whether to use the upper half (<code>.true.</code>) or the lower half (<code>.false.</code>) of \( A \) for the computation. The default is lower.</li>
+<li><code>err</code> (optional): A <code><a class="el" href="structla__state__type_1_1la__state.html" title="state return type for a linear algebra routine. State contains a status flag, a comment,...">la_state</a></code> variable to handle errors. If not provided, execution will stop on errors.</li>
+</ul>
+<h3><a class="anchor" id="autotoc_md24"></a>
+Return value</h3>
+<ul>
+<li><code>lambda</code>: A <code>real</code> array with the same kind as <code>a</code>, containing the computed eigenvalues of the matrix \( A \).</li>
+</ul>
+<h3><a class="anchor" id="autotoc_md25"></a>
+Errors</h3>
+<ul>
+<li>Raises <a class="el" href="namespacela__state__type.html#ad9888f2f7d4e692e7d3b8fd532baa903">LINALG_VALUE_ERROR</a> if the matrix has invalid or incompatible sizes.</li>
+<li>Raises <a class="el" href="namespacela__state__type.html#af5b55841ca3045c3345d9ab019e0797d">LINALG_ERROR</a> if the eigendecomposition fails.</li>
+<li>If <code>err</code> is not provided, execution will stop on errors.</li>
+</ul>
+<h3><a class="anchor" id="autotoc_md26"></a>
+Notes</h3>
+<ul>
+<li>The computed eigenvalues are returned as real values for real matrices, and complex values for complex matrices.</li>
+<li>This routine is based on LAPACK's <a class="el" href="interfacela__lapack_1_1syev.html">SYEV</a> and <a class="el" href="interfacela__lapack_1_1heev.html">HEEV</a> routines. </li>
+</ul>
+</div><h2 class="groupheader">Member Function/Subroutine Documentation</h2>
 <a id="a2e585cdace4a0cb1891d465dab31aaed" name="a2e585cdace4a0cb1891d465dab31aaed"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2e585cdace4a0cb1891d465dab31aaed">&#9670;&#160;</a></span>la_eigvalsh_c()</h2>
 

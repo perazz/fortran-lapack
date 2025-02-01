@@ -115,6 +115,9 @@ $(function(){initNavTree('interfacela__cholesky_1_1chol.html',''); initResizable
   <div class="headertitle"><div class="title">la_cholesky::chol Interface Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Computes the Cholesky factorization \( A = L \cdot L^T \), or \( A = U^T \cdot U \).  
+ <a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -131,7 +134,26 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a3ac73ab4f2f9829b698c3711e008ebf7" id="r_a3ac73ab4f2f9829b698c3711e008ebf7"><td class="memItemLeft" align="right" valign="top">pure complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>) function, dimension(size(a, 1), size(a, 2))&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3ac73ab4f2f9829b698c3711e008ebf7">la_w_cholesky_fun</a> (a, lower, other_zeroed)</td></tr>
 <tr class="separator:a3ac73ab4f2f9829b698c3711e008ebf7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Function/Subroutine Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Computes the Cholesky factorization \( A = L \cdot L^T \), or \( A = U^T \cdot U \). </p>
+<h3><a class="anchor" id="autotoc_md2"></a>
+Summary</h3>
+<p>Pure function interface for computing the Cholesky triangular factors.</p>
+<h3><a class="anchor" id="autotoc_md3"></a>
+Description</h3>
+<p>This interface provides methods for computing the lower- or upper-triangular matrix from the Cholesky factorization of a <code>real</code> symmetric or <code>complex</code> Hermitian matrix. Supported data types include <code>real</code> and <code>complex</code>. <br  />
+ The function returns the Cholesky factor as a separate matrix. The <code>lower</code> <code>logical</code> flag allows selection between upper or lower factorization, and the <code>other_zeroed</code> optional <code>logical</code> flag determines whether the unused part of the triangular matrix should be zeroed.</p>
+<dl class="section note"><dt>Note</dt><dd>The solution is based on LAPACK's <a class="el" href="interfacela__lapack_1_1potrf.html">POTRF</a> methods.</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">a</td><td>The input matrix of size \( [n, n] \). </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">lower</td><td>(Optional) Logical flag indicating whether the lower or upper triangular factor is required. Default: lower triangular factor. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">other_zeroed</td><td>(Optional) Logical flag indicating whether the unused half of the matrix should be zeroed. Default: true. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>c The output matrix of size \( [n, n] \), containing the Cholesky factor. </dd></dl>
+</div><h2 class="groupheader">Member Function/Subroutine Documentation</h2>
 <a id="a7de9eff20a7322cb1b357ba843c5ce4d" name="a7de9eff20a7322cb1b357ba843c5ce4d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7de9eff20a7322cb1b357ba843c5ce4d">&#9670;&#160;</a></span>la_c_cholesky_fun()</h2>
 

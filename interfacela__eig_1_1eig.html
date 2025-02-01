@@ -116,7 +116,7 @@ $(function(){initNavTree('interfacela__eig_1_1eig.html',''); initResizable(true)
 </div><!--header-->
 <div class="contents">
 
-<p>Eigendecomposition of a square matrix: return eigenvalues, and optionally eigenvectors.  
+<p>Eigendecomposition of a square matrix, returning eigenvalues and optionally eigenvectors.  
  <a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
@@ -159,8 +159,49 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a8705122cd6436ff76bbc6b25d02d6445"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Eigendecomposition of a square matrix: return eigenvalues, and optionally eigenvectors. </p>
-<p>Eigenvalues of a square matrix Eigendecomposition of a real symmetric or complex hermitian matrix Eigenvalues of a real symmetric or complex hermitian matrix </p>
+<div class="textblock"><p>Eigendecomposition of a square matrix, returning eigenvalues and optionally eigenvectors. </p>
+<h3><a class="anchor" id="autotoc_md4"></a>
+Summary</h3>
+<p>This interface provides methods for computing the eigenvalues and eigenvectors of a real or complex matrix. It supports both standard and generalized eigenvalue problems, allowing for the decomposition of a matrix <code>A</code> alone or a pair of matrices <code>(A, B)</code> in the generalized case.</p>
+<h3><a class="anchor" id="autotoc_md5"></a>
+Description</h3>
+<p>Given a square matrix \( A \), this routine computes its eigenvalues \( \lambda \) and, optionally, its right or left eigenvectors:</p>
+<p class="formulaDsp">
+\[          A v = \lambda v,
+\]
+</p>
+<p>where \( v \) represents an eigenvector corresponding to eigenvalue \( \lambda \).</p>
+<p>In the generalized eigenvalue problem case, the routine solves:</p>
+<p>[ A v = \lambda B v. ]</p>
+<p>The computation supports both <code>real</code> and <code>complex</code> matrices. If requested, eigenvectors are returned as additional output arguments. The function provides options to allow in-place modification of <code>A</code> and <code>B</code> for performance optimization.</p>
+<dl class="section note"><dt>Note</dt><dd>The solution is based on LAPACK's <a class="el" href="interfacela__lapack_1_1geev.html">GEEV</a> and <a class="el" href="interfacela__lapack_1_1ggev.html">GGEV</a> routines.</dd></dl>
+<h3><a class="anchor" id="autotoc_md6"></a>
+Arguments</h3>
+<ul>
+<li><code>a</code>: A <code>real</code> or <code>complex</code> matrix of size \( [n,n] \), representing the input matrix to be decomposed.</li>
+<li><code>b</code> (optional): A matrix of size \( [n,n] \), same type and kind as <code>a</code>, representing the second matrix in the generalized eigenvalue problem.</li>
+<li><code>lambda</code>: A <code>complex</code> or <code>real</code> array of length \( n \) containing the computed eigenvalues.</li>
+<li><code>right</code> (optional): A <code>complex</code> matrix of size \( [n,n] \) containing the right eigenvectors as columns.</li>
+<li><code>left</code> (optional): A <code>complex</code> matrix of size \( [n,n] \) containing the left eigenvectors as columns.</li>
+<li><code>overwrite_a</code> (optional): A logical flag indicating whether <code>A</code> can be overwritten for performance optimization.</li>
+<li><code>overwrite_b</code> (optional): A logical flag indicating whether <code>B</code> can be overwritten (only in the generalized case).</li>
+<li><code>err</code> (optional): A <code><a class="el" href="structla__state__type_1_1la__state.html" title="state return type for a linear algebra routine. State contains a status flag, a comment,...">la_state</a></code> variable to handle errors. If not provided, execution will stop on errors.</li>
+</ul>
+<h3><a class="anchor" id="autotoc_md7"></a>
+Errors</h3>
+<ul>
+<li>Raises <a class="el" href="namespacela__state__type.html#ad9888f2f7d4e692e7d3b8fd532baa903">LINALG_VALUE_ERROR</a> if the matrices have invalid/incompatible sizes.</li>
+<li>Raises <a class="el" href="namespacela__state__type.html#af5b55841ca3045c3345d9ab019e0797d">LINALG_ERROR</a> if the eigendecomposition fails.</li>
+<li>If <code>err</code> is not provided, exceptions will trigger an <code>error stop</code>.</li>
+</ul>
+<h3><a class="anchor" id="autotoc_md8"></a>
+Notes</h3>
+<ul>
+<li>The computed eigenvectors are normalized.</li>
+<li>If computing real eigenvalues, an error is returned if eigenvalues have nonzero imaginary parts.</li>
+<li>This routine is based on LAPACK's <a class="el" href="interfacela__lapack_1_1geev.html">GEEV</a> and <a class="el" href="interfacela__lapack_1_1ggev.html">GGEV</a> routines.</li>
+<li>Overwriting <code>A</code> or <code>B</code> can improve performance but destroys the original matrix data. </li>
+</ul>
 </div><h2 class="groupheader">Member Function/Subroutine Documentation</h2>
 <a id="aaf90ab640444d9ebcab4a1f5d46e0acb" name="aaf90ab640444d9ebcab4a1f5d46e0acb"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aaf90ab640444d9ebcab4a1f5d46e0acb">&#9670;&#160;</a></span>la_eig_generalized_c()</h2>

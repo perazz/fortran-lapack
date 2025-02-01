@@ -115,6 +115,9 @@ $(function(){initNavTree('interfacela__eig_1_1eigh.html',''); initResizable(true
   <div class="headertitle"><div class="title">la_eig::eigh Interface Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Eigendecomposition of a real symmetric or complex Hermitian matrix.  
+ <a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -137,7 +140,53 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:ab03f2b83f1ecbe874daef1cb3529000d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Eigendecomposition of a real symmetric or complex Hermitian matrix A returning an array <code>lambda</code> of eigenvalues, and optionally right or left eigenvectors.  <br /></td></tr>
 <tr class="separator:ab03f2b83f1ecbe874daef1cb3529000d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Function/Subroutine Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Eigendecomposition of a real symmetric or complex Hermitian matrix. </p>
+<h3><a class="anchor" id="autotoc_md15"></a>
+Summary</h3>
+<p>This interface provides methods for computing the eigenvalues and optionally the eigenvectors of a real symmetric or complex Hermitian matrix. The decomposition computes the eigenvalues of matrix \( A \) and, optionally, the eigenvectors corresponding to those eigenvalues. The routine is designed to handle both real and complex matrices.</p>
+<h3><a class="anchor" id="autotoc_md16"></a>
+Description</h3>
+<p>Given a real symmetric or complex Hermitian matrix \( A \), this routine computes its eigenvalues \( \lambda \) and, optionally, the right or left eigenvectors:</p>
+<p class="formulaDsp">
+\[          A v = \lambda v
+\]
+</p>
+<p>where \( v \) represents an eigenvector corresponding to eigenvalue \( \lambda \). The eigenvalues are always returned as real numbers, and the eigenvectors, if requested, are orthonormal.</p>
+<p>This function uses the LAPACK routines designed for symmetric or Hermitian matrices, ensuring numerical stability and performance.</p>
+<p>By default, the routine uses the lower half of the matrix for the computation. However, the upper half can optionally be used by setting the <code>upper_a</code> argument.</p>
+<dl class="section note"><dt>Note</dt><dd>This method is based on LAPACK's <a class="el" href="interfacela__lapack_1_1syevd.html">SYEVD</a> routine for real symmetric matrices and <a class="el" href="interfacela__lapack_1_1heevd.html">HEEVD</a> routine for complex Hermitian matrices.</dd></dl>
+<h3><a class="anchor" id="autotoc_md17"></a>
+Arguments</h3>
+<ul>
+<li><code>a</code>: A <code>real</code> or <code>complex</code> symmetric or Hermitian matrix of size \( [n,n] \), representing the matrix to be decomposed. On input, it contains the matrix \( A \), and on output, it is overwritten with the eigenvalues in the diagonal.</li>
+<li><code>lambda</code>: A <code>real</code> array of length \( n \), containing the computed eigenvalues of \( A \).</li>
+<li><code>vectors</code> (optional): A <code>real</code> or <code>complex</code> matrix of size \( [n,n] \) containing the orthonormal eigenvectors of \( A \), with the eigenvectors stored as columns.</li>
+<li><code>overwrite_a</code> (optional): A logical flag indicating whether the matrix \( A \) can be overwritten for performance optimization.</li>
+<li><code>upper_a</code> (optional): A logical flag indicating whether the upper half of \( A \) should be used (default is the lower half).</li>
+<li><code>err</code> (optional): A <code><a class="el" href="structla__state__type_1_1la__state.html" title="state return type for a linear algebra routine. State contains a status flag, a comment,...">la_state</a></code> variable to handle errors. If not provided, execution will stop on errors.</li>
+</ul>
+<h3><a class="anchor" id="autotoc_md18"></a>
+Return value</h3>
+<ul>
+<li><code>lambda</code>: A <code>real</code> array containing the eigenvalues of matrix \( A \), computed as part of the decomposition.</li>
+</ul>
+<h3><a class="anchor" id="autotoc_md19"></a>
+Errors</h3>
+<ul>
+<li>Raises <a class="el" href="namespacela__state__type.html#ad9888f2f7d4e692e7d3b8fd532baa903">LINALG_VALUE_ERROR</a> if the matrix is not symmetric or Hermitian.</li>
+<li>Raises <a class="el" href="namespacela__state__type.html#af5b55841ca3045c3345d9ab019e0797d">LINALG_ERROR</a> if the eigendecomposition fails.</li>
+<li>If <code>err</code> is not provided, execution will stop on errors.</li>
+</ul>
+<h3><a class="anchor" id="autotoc_md20"></a>
+Notes</h3>
+<ul>
+<li>The eigenvalues are always real for symmetric and Hermitian matrices.</li>
+<li>If the matrix is Hermitian, the result will be complex eigenvectors even if the input matrix is real.</li>
+<li>This method is based on LAPACK's <a class="el" href="interfacela__lapack_1_1syevd.html">SYEVD</a> for real symmetric matrices and <a class="el" href="interfacela__lapack_1_1heevd.html">HEEVD</a> for complex Hermitian matrices.</li>
+<li>The matrix \( A \) can be overwritten in-place to improve performance but its original data will be lost. </li>
+</ul>
+</div><h2 class="groupheader">Member Function/Subroutine Documentation</h2>
 <a id="aaeba82b1481a2d87e26367023da71b41" name="aaeba82b1481a2d87e26367023da71b41"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aaeba82b1481a2d87e26367023da71b41">&#9670;&#160;</a></span>la_eigh_c()</h2>
 

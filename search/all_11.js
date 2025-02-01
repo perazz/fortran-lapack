@@ -15,10 +15,10 @@ var searchData=
   ['tgsja_12',['tgsja',['../interfacela__lapack_1_1tgsja.html',1,'la_lapack']]],
   ['tgsna_13',['tgsna',['../interfacela__lapack_1_1tgsna.html',1,'la_lapack']]],
   ['tgsyl_14',['tgsyl',['../interfacela__lapack_1_1tgsyl.html',1,'la_lapack']]],
-  ['the_20inverse_20of_20a_20square_20matrix_15',['@ref la_inverse::operator(.inv.) &quot;operator(.inv.)&quot; - Compute the inverse of a square matrix.',['../index.html#autotoc_md39',1,'']]],
-  ['the_20moore_20penrose_20pseudo_20inverse_20of_20a_20matrix_16',['@ref la_pseudoinverse::operator(.pinv.) &quot;operator(.pinv.)&quot; - Compute the Moore-Penrose pseudo-inverse of a matrix.',['../index.html#autotoc_md53',1,'']]],
-  ['to_20a_20system_20of_20linear_20equations_17',['@ref la_least_squares::lstsq &quot;lstsq&quot; - Compute a least squares solution to a system of linear equations.',['../index.html#autotoc_md12',1,'']]],
-  ['to_20external_20blas_20lapack_20libraries_18',['Extension to external BLAS/LAPACK libraries',['../index.html#autotoc_md122',1,'']]],
+  ['the_20inverse_20of_20a_20square_20matrix_15',['@ref la_inverse::operator(.inv.) &quot;operator(.inv.)&quot; - Compute the inverse of a square matrix.',['../index.html#autotoc_md101',1,'']]],
+  ['the_20moore_20penrose_20pseudo_20inverse_20of_20a_20matrix_16',['@ref la_pseudoinverse::operator(.pinv.) &quot;operator(.pinv.)&quot; - Compute the Moore-Penrose pseudo-inverse of a matrix.',['../index.html#autotoc_md115',1,'']]],
+  ['to_20a_20system_20of_20linear_20equations_17',['@ref la_least_squares::lstsq &quot;lstsq&quot; - Compute a least squares solution to a system of linear equations.',['../index.html#autotoc_md74',1,'']]],
+  ['to_20external_20blas_20lapack_20libraries_18',['Extension to external BLAS/LAPACK libraries',['../index.html#autotoc_md180',1,'']]],
   ['tpcon_19',['tpcon',['../interfacela__lapack_1_1tpcon.html',1,'la_lapack']]],
   ['tplqt_20',['tplqt',['../interfacela__lapack_1_1tplqt.html',1,'la_lapack']]],
   ['tplqt2_21',['tplqt2',['../interfacela__lapack_1_1tplqt2.html',1,'la_lapack']]],
@@ -50,10 +50,5 @@ var searchData=
   ['trtrs_47',['trtrs',['../interfacela__lapack_1_1trtrs.html',1,'la_lapack']]],
   ['trttf_48',['trttf',['../interfacela__lapack_1_1trttf.html',1,'la_lapack']]],
   ['trttp_49',['trttp',['../interfacela__lapack_1_1trttp.html',1,'la_lapack']]],
-  ['tt_50',['tt',['../index.html#autotoc_md89',1,'&lt;tt&gt;eig(A, lambda)&lt;/tt&gt;'],['../index.html#autotoc_md91',1,'&lt;tt&gt;eigh(A, lambda)&lt;/tt&gt;'],['../index.html#autotoc_md88',1,'&lt;tt&gt;eigvals(A)&lt;/tt&gt;'],['../index.html#autotoc_md90',1,'&lt;tt&gt;eigvalsh(A)&lt;/tt&gt;']]],
-  ['tt_20eig_20a_20lambda_20tt_51',['&lt;tt&gt;eig(A, lambda)&lt;/tt&gt;',['../index.html#autotoc_md89',1,'']]],
-  ['tt_20eigh_20a_20lambda_20tt_52',['&lt;tt&gt;eigh(A, lambda)&lt;/tt&gt;',['../index.html#autotoc_md91',1,'']]],
-  ['tt_20eigvals_20a_20tt_53',['&lt;tt&gt;eigvals(A)&lt;/tt&gt;',['../index.html#autotoc_md88',1,'']]],
-  ['tt_20eigvalsh_20a_20tt_54',['&lt;tt&gt;eigvalsh(A)&lt;/tt&gt;',['../index.html#autotoc_md90',1,'']]],
-  ['tzrzf_55',['tzrzf',['../interfacela__lapack_1_1tzrzf.html',1,'la_lapack']]]
+  ['tzrzf_50',['tzrzf',['../interfacela__lapack_1_1tzrzf.html',1,'la_lapack']]]
 ];
