@@ -7,6 +7,80 @@ A full and standardized implementation of the present library has been integrate
 
 All procedures work with all types (`real`, `complex`) and kinds (32, 64, 128-bit floats).
 
+## [chol](@ref la_cholesky::chol) - Cholesky factorization of a matrix (function).
+
+### Syntax
+
+`c = chol(a [, lower] [, other_zeroed])`
+
+### Description
+
+This function computes the Cholesky factorization of a real symmetric or complex Hermitian matrix \f$ A \f$:
+
+\f[
+A = L L^T = U^T U
+\f]
+
+where \f$ L \f$ is a lower triangular matrix and \f$ U \f$ is an upper triangular matrix. 
+The function returns the factorized matrix as a new allocation, without modifying the input matrix.
+
+### Arguments
+
+- `a`: A `real` or `complex` matrix of size \f$ [n,n] \f$, representing the symmetric/Hermitian input matrix.
+- `lower` (optional): A logical flag indicating whether the lower (\f$ L \f$) or upper (\f$ U \f$) triangular factor should be computed. Defaults to `lower = .true.`.
+- `other_zeroed` (optional): A logical flag determining whether the unused half of the returned matrix should be explicitly zeroed. Defaults to `other_zeroed = .true.`.
+
+### Return value
+
+- `c`: A `real` or `complex` matrix of size \f$ [n,n] \f$, containing the Cholesky factors. The returned matrix is triangular (upper or lower, as selected).
+
+### Errors
+
+- Raises [LINALG_VALUE_ERROR](@ref la_state_type::linalg_value_error) if the input matrix ihas invalid size.
+- Raises [LINALG_ERROR](@ref la_state_type::linalg_error) if numerical instability prevents factorization.
+- If error handling is not provided, exceptions will trigger an `error stop`.
+
+### Notes
+
+- The function is based on LAPACK's [POTRF](@ref la_lapack::potrf) routines.
+- This function allocates a new matrix to store the factorization. For an in-place version, use [cholesky](@ref la_cholesky::cholesky).
+
+## [cholesky](@ref la_cholesky::cholesky) - Cholesky factorization of a matrix (subroutine).
+
+### Syntax
+
+`call cholesky(a [, c] [, lower] [, other_zeroed])`
+
+### Description
+
+This subroutine computes the Cholesky factorization of a real symmetric or complex Hermitian matrix \f$ A \f$:
+
+\f[
+A = L L^T = U^T U
+\f]
+
+where \f$ L \f$ is a lower triangular matrix and \f$ U \f$ is an upper triangular matrix. The factorization is performed in-place, modifying the input matrix `a`, 
+or on a pre-allocated matrix `c` with the same type and kind as `a`.
+
+### Arguments
+
+- `a`: A `real` or `complex` matrix of size \f$ [n,n] \f$, representing the symmetric/Hermitian input matrix. if `c` is not provided, on return it contains the Cholesky factorization.
+- `c` (optional): A matrix of size \f$ [n,n] \f$, of the same type and kind as `a`, containing the Cholesky factorization. If provided, `a` is unchanged.
+- `lower` (optional): A logical flag indicating whether the lower (\f$ L \f$) or upper (\f$ U \f$) triangular factor should be computed. Defaults to `lower = .true.`.
+- `other_zeroed` (optional): A logical flag determining whether the unused half of the matrix should be explicitly zeroed. Defaults to `other_zeroed = .true.`.
+
+### Errors
+
+- Raises [LINALG_VALUE_ERROR](@ref la_state_type::linalg_value_error) if the input matrix is not positive definite.
+- Raises [LINALG_ERROR](@ref la_state_type::linalg_error) if numerical instability prevents factorization.
+- If error handling is not provided, exceptions will trigger an `error stop`.
+
+### Notes
+
+- The returned Cholesky factorization matrix is triangular (upper or lower, as selected).
+- The subroutine is based on LAPACK's [POTRF](@ref la_lapack::potrf) routines.
+- This subroutine modifies the input matrix in-place. For a version that returns a newly allocated matrix, use [chol](@ref la_cholesky::chol).
+
 ## [solve](@ref la_solve::solve) - Solve a linear matrix equation or a linear system of equations.
 
 ### Syntax
