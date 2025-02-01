@@ -7,6 +7,277 @@ A full and standardized implementation of the present library has been integrate
 
 All procedures work with all types (`real`, `complex`) and kinds (32, 64, 128-bit floats).
 
+## [chol](@ref la_cholesky::chol) - Cholesky factorization of a matrix (function).
+
+### Syntax
+
+`c = chol(a [, lower] [, other_zeroed])`
+
+### Description
+
+This function computes the Cholesky factorization of a real symmetric or complex Hermitian matrix \f$ A \f$:
+
+\f[
+A = L L^T = U^T U
+\f]
+
+where \f$ L \f$ is a lower triangular matrix and \f$ U \f$ is an upper triangular matrix. 
+The function returns the factorized matrix as a new allocation, without modifying the input matrix.
+
+### Arguments
+
+- `a`: A `real` or `complex` matrix of size \f$ [n,n] \f$, representing the symmetric/Hermitian input matrix.
+- `lower` (optional): A logical flag indicating whether the lower (\f$ L \f$) or upper (\f$ U \f$) triangular factor should be computed. Defaults to `lower = .true.`.
+- `other_zeroed` (optional): A logical flag determining whether the unused half of the returned matrix should be explicitly zeroed. Defaults to `other_zeroed = .true.`.
+
+### Return value
+
+- `c`: A `real` or `complex` matrix of size \f$ [n,n] \f$, containing the Cholesky factors. The returned matrix is triangular (upper or lower, as selected).
+
+### Errors
+
+- Raises [LINALG_VALUE_ERROR](@ref la_state_type::linalg_value_error) if the input matrix ihas invalid size.
+- Raises [LINALG_ERROR](@ref la_state_type::linalg_error) if numerical instability prevents factorization.
+- If error handling is not provided, exceptions will trigger an `error stop`.
+
+### Notes
+
+- The function is based on LAPACK's [POTRF](@ref la_lapack::potrf) routines.
+- This function allocates a new matrix to store the factorization. For an in-place version, use [cholesky](@ref la_cholesky::cholesky).
+
+## [cholesky](@ref la_cholesky::cholesky) - Cholesky factorization of a matrix (subroutine).
+
+### Syntax
+
+`call cholesky(a [, c] [, lower] [, other_zeroed])`
+
+### Description
+
+This subroutine computes the Cholesky factorization of a real symmetric or complex Hermitian matrix \f$ A \f$:
+
+\f[
+A = L L^T = U^T U
+\f]
+
+where \f$ L \f$ is a lower triangular matrix and \f$ U \f$ is an upper triangular matrix. The factorization is performed in-place, modifying the input matrix `a`, 
+or on a pre-allocated matrix `c` with the same type and kind as `a`.
+
+### Arguments
+
+- `a`: A `real` or `complex` matrix of size \f$ [n,n] \f$, representing the symmetric/Hermitian input matrix. if `c` is not provided, on return it contains the Cholesky factorization.
+- `c` (optional): A matrix of size \f$ [n,n] \f$, of the same type and kind as `a`, containing the Cholesky factorization. If provided, `a` is unchanged.
+- `lower` (optional): A logical flag indicating whether the lower (\f$ L \f$) or upper (\f$ U \f$) triangular factor should be computed. Defaults to `lower = .true.`.
+- `other_zeroed` (optional): A logical flag determining whether the unused half of the matrix should be explicitly zeroed. Defaults to `other_zeroed = .true.`.
+
+### Errors
+
+- Raises [LINALG_VALUE_ERROR](@ref la_state_type::linalg_value_error) if the input matrix is not positive definite.
+- Raises [LINALG_ERROR](@ref la_state_type::linalg_error) if numerical instability prevents factorization.
+- If error handling is not provided, exceptions will trigger an `error stop`.
+
+### Notes
+
+- The returned Cholesky factorization matrix is triangular (upper or lower, as selected).
+- The subroutine is based on LAPACK's [POTRF](@ref la_lapack::potrf) routines.
+- This subroutine modifies the input matrix in-place. For a version that returns a newly allocated matrix, use [chol](@ref la_cholesky::chol).
+
+## [eig](@ref la_eig::eig) - Eigendecomposition of a square matrix.
+
+### Syntax
+
+`call eig(a [, b] [, lambda] [, right] [, left] [, overwrite_a] [, overwrite_b] [, err])`
+
+### Description
+
+This interface provides methods for computing the eigenvalues and eigenvectors of a real or complex matrix. 
+It supports both standard and generalized eigenvalue problems, allowing for the decomposition of a matrix `A` alone or a pair of matrices `(A, B)` in the generalized case.
+
+Given a square matrix \f$ A \f$, this routine computes its eigenvalues \f$ \lambda \f$ and, optionally, its right or left eigenvectors:
+
+\f[
+A v = \lambda v
+\f]
+
+where \f$ v \f$ represents an eigenvector corresponding to eigenvalue \f$ \lambda \f$.
+
+In the generalized eigenvalue problem case, the routine solves:
+
+\f[
+A v = \lambda B v
+\f]
+
+The computation supports both `real` and `complex` matrices. If requested, eigenvectors are returned as additional output arguments. The function provides options to allow in-place modification of `A` and `B` for performance optimization.
+
+**Note:** The solution is based on LAPACK's [GEEV](@ref la_lapack::geev) and [GGEV](@ref la_lapack::ggev) routines.
+
+### Arguments
+
+- `a`: A `real` or `complex` matrix of size \f$[n,n]\f$, representing the input matrix to be decomposed.
+- `b` (optional): A `real` or `complex` matrix of size \f$[n,n]\f$, same type and kind as `a`, representing the second matrix in the generalized eigenvalue problem.
+- `lambda`: A `complex` or `real` array of length \f$ n \f$, containing the computed eigenvalues.
+- `right` (optional): A `complex` matrix of size \f$[n,n]\f$ containing the right eigenvectors as columns.
+- `left` (optional): A `complex` matrix of size \f$[n,n]\f$ containing the left eigenvectors as columns.
+- `overwrite_a` (optional): A logical flag indicating whether `A` can be overwritten for performance optimization.
+- `overwrite_b` (optional): A logical flag indicating whether `B` can be overwritten (only in the generalized case).
+- `err` (optional): A [type(la_state)](@ref la_state_type::la_state) variable to handle errors. If not provided, execution will stop on errors.
+
+### Errors
+
+- Raises [LINALG_VALUE_ERROR](@ref la_state_type::linalg_value_error) if the matrices have invalid/incompatible sizes.
+- Raises [LINALG_ERROR](@ref la_state_type::linalg_error) if the eigendecomposition fails.
+- If `err` is not provided, exceptions will trigger an `error stop`.
+
+### Notes
+
+- The computed eigenvectors are normalized.
+- If computing real eigenvalues, an error is returned if eigenvalues have nonzero imaginary parts.
+- This routine is based on LAPACK's [GEEV](@ref la_lapack::geev) and [GGEV](@ref la_lapack::ggev) routines.
+- Overwriting `A` or `B` can improve performance but destroys the original matrix data.
+
+## [eigh](@ref la_eig::eigh) - Eigendecomposition of a real symmetric or complex Hermitian matrix.
+
+### Syntax
+
+`call eigh(a, lambda [, vectors] [, upper_a] [, overwrite_a] [, err])`
+
+### Description
+
+This interface provides methods for computing the eigenvalues and optionally the eigenvectors of a real symmetric or complex Hermitian matrix.
+
+Given a real symmetric or complex Hermitian matrix \f$ A \f$, this routine computes its eigenvalues \f$ \lambda \f$ and, optionally, its right eigenvectors:
+
+\f[
+A v = \lambda v
+\f]
+
+where \f$ v \f$ represents an eigenvector corresponding to eigenvalue \f$ \lambda \f$.
+
+The computation supports both real and complex matrices, and the eigenvectors, if requested, are returned as orthonormal vectors.
+
+**Note:** The solution is based on LAPACK's [SYEVD](@ref la_lapack::syevd) and [HEEVD](@ref la_lapack::heevd) routines.
+
+### Arguments
+
+- `a`: A `real` or `complex` matrix of size \f$[n,n]\f$, representing the input matrix to be decomposed. The matrix is overwritten with the eigenvalues on output.
+- `lambda`: A `real` array of length \f$ n \f$, with the same kind as `a`, containing the computed eigenvalues.
+- `vectors` (optional): A matrix of size \f$[n,n]\f$, with the same type and kind as `a`, containing the right eigenvectors stored as columns.
+- `overwrite_a` (optional): A logical flag indicating whether the matrix `A` can be overwritten for performance optimization.
+- `upper_a` (optional): A logical flag indicating whether the upper half of matrix `A` should be used for computation (default is the lower half).
+- `err` (optional): A [type(la_state)](@ref la_state_type::la_state) variable to handle errors. If not provided, execution will stop on errors.
+
+### Errors
+
+- Raises [LINALG_VALUE_ERROR](@ref la_state_type::linalg_value_error) if the matrices have invalid/incompatible sizes.
+- Raises [LINALG_ERROR](@ref la_state_type::linalg_error) if the eigendecomposition fails.
+- If `err` is not provided, exceptions will trigger an `error stop`.
+
+### Notes
+
+- The computed eigenvectors are orthonormal.
+- Eigenvalues are real for symmetric or Hermitian matrices.
+- This routine is based on LAPACK's [SYEVD](@ref la_lapack::syevd) and [HEEVD](@ref la_lapack::heevd) routines.
+- Overwriting the matrix `A` can improve performance but destroys the original matrix data.
+
+## [eigvals](@ref la_eig::eigvals) - Eigenvalues of a square matrix (interface).
+
+### Syntax
+
+`lambda = eigvals(a [, b] [, err])`
+
+### Description
+
+This interface provides methods for computing the eigenvalues of a real or complex square matrix. 
+It supports both standard and generalized eigenvalue problems.
+
+- In the standard eigenvalue problem, the function computes the eigenvalues \f$\lambda\f$ of the matrix \f$A\f$ such that:
+
+\f[
+A v = \lambda v
+\f]
+
+where \f$v\f$ is the eigenvector corresponding to eigenvalue \f$\lambda\f$.
+
+- In the generalized eigenvalue problem, the function solves:
+
+\f[
+A v = \lambda B v
+\f]
+
+where \f$A\f$ and \f$B\f$ are the input matrices and \f$\lambda\f$ is the eigenvalue.
+
+The function returns an array of eigenvalues computed for the input matrix \f$A\f$, and optionally the matrix \f$B\f$ for the generalized case.
+
+**Note:** The solution is based on LAPACK's [GEEV](@ref la_lapack::geev) and [GGEV](@ref la_lapack::ggev) routines.
+
+### Arguments
+
+- `a`: A `real` or `complex` matrix of size \f$[n,n]\f$, representing the input matrix to be decomposed.
+- `b` (optional, generalized case): A matrix of size \f$[n,n]\f$ and same type and kind as `a`, representing the second matrix in the generalized eigenvalue problem.
+- `err` (optional): A [type(la_state)](@ref la_state_type::la_state) variable to handle errors. If not provided, execution will stop on errors.
+
+### Return value
+
+- `lambda`: A `complex` array of eigenvalues, computed from the input matrix \f$A\f$ (and \f$B\f$ if in the generalized case).
+
+### Errors
+
+- Raises [LINALG_VALUE_ERROR](@ref la_state_type::linalg_value_error) if the matrices have invalid/incompatible sizes.
+- Raises [LINALG_ERROR](@ref la_state_type::linalg_error) if the eigendecomposition fails.
+- If `err` is not provided, exceptions will trigger an `error stop`.
+
+### Notes
+
+- The eigenvalues are returned in a complex array, even for real matrices.
+- For the generalized eigenvalue problem, matrix \f$B\f$ must be provided and will be modified in-place.
+- This routine is based on LAPACK's [GEEV](@ref la_lapack::geev) and [GGEV](@ref la_lapack::ggev) routines.
+
+## [eigvalsh](@ref la_eig::eigvalsh) - Eigenvalues of a real symmetric or complex Hermitian matrix.
+
+### Syntax
+
+`lambda = eigvalsh(a [, upper_a] [, err])`
+
+### Description
+
+This interface provides methods for computing the eigenvalues of a real symmetric or complex Hermitian matrix. 
+The function computes the eigenvalues of the matrix \f$A\f$, and returns them in an array. 
+The user can specify whether to use the upper or lower half of the matrix for computation.
+
+- The function solves the eigenvalue problem:
+
+\f[
+A v = \lambda v
+\f]
+
+where \f$v\f$ is the eigenvector corresponding to eigenvalue \f$\lambda\f$.
+
+- The computation supports both real and complex matrices. Regardless, due to symmetry the eigenvalues are returned as an array of `real` values.
+
+The user can specify whether to use the upper or lower half of the matrix \f$A\f$ for the computation (default: lower half).
+
+**Note:** The solution is based on LAPACK's [SYEV](@ref la_lapack::syev) and [HEEV](@ref la_lapack::heev) routines.
+
+### Arguments
+
+- `a`: A `real` or `complex` matrix of size \f$[n,n]\f$, representing the real symmetric or complex Hermitian matrix to be decomposed.
+- `upper_a` (optional): A logical flag indicating whether to use the upper half (`.true.`) or the lower half (`.false.`) of \f$A\f$ for the computation. The default is lower.
+- `err` (optional): A [type(la_state)](@ref la_state_type::la_state) variable to handle errors. If not provided, execution will stop on errors.
+
+### Return value
+
+- `lambda`: A `real` array containing the computed eigenvalues of the matrix \f$A\f$.
+
+### Errors
+
+- Raises [LINALG_VALUE_ERROR](@ref la_state_type::linalg_value_error) if the matrix has invalid size.
+- Raises [LINALG_ERROR](@ref la_state_type::linalg_error) if the eigendecomposition fails.
+- If `err` is not provided, execution will stop on errors.
+
+### Notes
+
+- The eigenvalues are returned in a `real` array, with the same kind as the input matrix `a`.
+- This routine is based on LAPACK's [SYEV](@ref la_lapack::syev) and [HEEV](@ref la_lapack::heev) routines.
+
 ## [solve](@ref la_solve::solve) - Solve a linear matrix equation or a linear system of equations.
 
 ### Syntax
@@ -470,40 +741,6 @@ The function returns a matrix of size \f$m \times n\f$ (or \f$m \times m\f$ if \
 - The identity matrix is constructed with the specified data type, which defaults to `real(real64)` if no type is specified.
 - The `mold` scalar is used to provide a function return type. 
 - If the `err` parameter is provided, the error state of the function will be returned.
-
-
-## `eigvals(A)`
-**Type**: Function  
-**Description**: Eigenvalues of matrix $A$.  
-**Optional arguments**:  
-- `err`: State handler.
-
-## `eig(A, lambda)`
-**Type**: Subroutine  
-**Description**: Eigenproblem of matrix $A`.  
-**Optional arguments**:  
-- `left`: Output left eigenvector matrix.  
-- `right`: Output right eigenvector matrix.  
-- `overwrite_a`: Option to let A be destroyed.  
-- `err`: Return state handler.
-
-## `eigvalsh(A)`
-**Type**: Function  
-**Description**: Eigenvalues of symmetric or Hermitian matrix $A$.  
-**Optional arguments**:  
-- `upper_a`: Choose to use upper or lower triangle.  
-- `err`: State handler.
-
-## `eigh(A, lambda)`
-**Type**: Subroutine  
-**Description**: Eigenproblem of symmetric or Hermitian matrix $A`.  
-**Optional arguments**:  
-- `vector`: Output eigenvectors.  
-- `upper_a`: Choose to use upper or lower triangle.  
-- `overwrite_a`: Option to let A be destroyed.  
-- `err`: Return state handler.
-
-
 
 ## [qr](@ref la_qr::qr) - QR factorization of a matrix.
 

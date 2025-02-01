@@ -1,5 +1,5 @@
 #:include "common.fypp"
-! Cholesky factorization of a matrix, based on LAPACK *POTRF functions
+!> Cholesky factorization of a matrix, based on LAPACK [POTRF](@ref la_lapack::potrf) functions
 module la_cholesky
      use la_constants
      use la_lapack, only: potrf
@@ -9,51 +9,70 @@ module la_cholesky
      
      public :: chol
      public :: cholesky
-
-     interface chol
-        !> Computes the Cholesky factorization \( A = L \cdot L^T \), or \( A = U^T \cdot U \). 
-        !! 
-        !!### Summary 
-        !! Pure function interface for computing the Cholesky triangular factors. 
-        !!
-        !!### Description
-        !! 
-        !! This interface provides methods for computing the lower- or upper- triangular matrix from the 
-        !! Cholesky factorization of a `real` symmetric or `complex` Hermitian matrix.
-        !! Supported data types include `real` and `complex`.    
-        !! 
-        !!@note The solution is based on LAPACK's `*POTRF` methods.
-        !!     
-        #:for rk,rt,ri in ALL_KINDS_TYPES
-        module procedure la_${ri}$_cholesky_fun
-        #:endfor    
-     end interface chol  
-
+     
+     character(*),parameter :: this = 'cholesky'     
+     
+     !> @brief Computes the Cholesky factorization \( A = L \cdot L^T \), or \( A = U^T \cdot U \). 
+     !!
+     !! ### Summary 
+     !! Pure subroutine interface for computing the Cholesky triangular factors. 
+     !!
+     !! ### Description
+     !! 
+     !! This interface provides methods for computing the lower- or upper-triangular matrix from the 
+     !! Cholesky factorization of a `real` symmetric or `complex` Hermitian matrix.
+     !! Supported data types include `real` and `complex`.    
+     !! The factorization is computed in-place if only one matrix argument is present; or returned into 
+     !! a second matrix argument, if present. The `lower` `logical` flag allows to select between upper or 
+     !! lower factorization; the `other_zeroed` optional `logical` flag allows to choose whether the unused
+     !! part of the triangular matrix should be filled with zeroes.
+     !! 
+     !! @note The solution is based on LAPACK's [POTRF](@ref la_lapack::potrf) methods.
+     !!
+     !! @param[in,out] a The input matrix of size \( [m, n] \). Overwritten with the Cholesky factor.
+     !! @param[out] c (Optional) The output matrix of size \( [n, n] \), containing the Cholesky factor.
+     !! @param[in] lower (Optional) Logical flag indicating whether the lower or upper triangular factor is required.
+     !!                  Default: lower triangular factor.
+     !! @param[in] other_zeroed (Optional) Logical flag indicating whether the unused half of the matrix should be zeroed.
+     !!                         Default: true.
+     !! @param[out] err (Optional) State return flag. If not provided, the function will stop on error.
+     !!
      interface cholesky
-        !>Computes the Cholesky factorization \( A = L \cdot L^T \), or \( A = U^T \cdot U \). 
-        !! 
-        !!### Summary 
-        !! Pure subroutine interface for computing the Cholesky triangular factors. 
-        !!
-        !!### Description
-        !! 
-        !! This interface provides methods for computing the lower- or upper- triangular matrix from the 
-        !! Cholesky factorization of a `real` symmetric or `complex` Hermitian matrix.
-        !! Supported data types include `real` and `complex`.    
-        !! The factorization is computed in-place if only one matrix argument is present; or returned into 
-        !! a second matrix argument, if present. The `lower` `logical` flag allows to select between upper or 
-        !! lower factorization; the `other_zeroed` optional `logical` flag allows to choose whether the unused
-        !! part of the triangular matrix should be filled with zeroes.
-        !! 
-        !!@note The solution is based on LAPACK's `*POTRF` methods.
-        !!         
         #:for rk,rt,ri in ALL_KINDS_TYPES
         module procedure la_${ri}$_cholesky_inplace
         module procedure la_${ri}$_cholesky
         #:endfor
      end interface cholesky     
-     
-     character(*), parameter :: this = 'cholesky'
+        
+     !> @brief Computes the Cholesky factorization \( A = L \cdot L^T \), or \( A = U^T \cdot U \). 
+     !!
+     !! ### Summary 
+     !! Pure function interface for computing the Cholesky triangular factors. 
+     !!
+     !! ### Description
+     !! 
+     !! This interface provides methods for computing the lower- or upper-triangular matrix from the 
+     !! Cholesky factorization of a `real` symmetric or `complex` Hermitian matrix.
+     !! Supported data types include `real` and `complex`.    
+     !! The function returns the Cholesky factor as a separate matrix.
+     !! The `lower` `logical` flag allows selection between upper or lower factorization,
+     !! and the `other_zeroed` optional `logical` flag determines whether the unused
+     !! part of the triangular matrix should be zeroed.
+     !! 
+     !! @note The solution is based on LAPACK's `*POTRF` methods.
+     !!
+     !! @param[in] a The input matrix of size \( [n, n] \).
+     !! @param[in] lower (Optional) Logical flag indicating whether the lower or upper triangular factor is required.
+     !!                  Default: lower triangular factor.
+     !! @param[in] other_zeroed (Optional) Logical flag indicating whether the unused half of the matrix should be zeroed.
+     !!                         Default: true.
+     !! @return c The output matrix of size \( [n, n] \), containing the Cholesky factor.
+     !!
+     interface chol
+        #:for rk,rt,ri in ALL_KINDS_TYPES
+        module procedure la_${ri}$_cholesky_fun
+        #:endfor    
+     end interface chol  
 
      contains
 
