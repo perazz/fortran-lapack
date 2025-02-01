@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['identity_20matrix_0',['@ref la_eye::eye &quot;eye&quot; - Identity matrix.',['../index.html#autotoc_md69',1,'']]],
+  ['identity_20matrix_0',['@ref la_eye::eye &quot;eye&quot; - Identity matrix.',['../index.html#autotoc_md81',1,'']]],
   ['ilp_1',['ilp',['../namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f',1,'la_constants']]],
   ['in_20place_20matrix_20inversion_2',['@ref la_inverse::invert &quot;invert&quot; - In-place matrix inversion',['../index.html#autotoc_md33',1,'']]],
   ['inv_3',['inv',['../interfacela__inverse_1_1inv.html',1,'la_inverse']]],

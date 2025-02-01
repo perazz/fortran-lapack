@@ -1,5 +1,17 @@
 var NAVTREEINDEX1 =
 {
+"interfacela__blas_1_1ger.html":[7,0,0,8],
+"interfacela__blas_1_1ger.html#a510e0cc5212f593e9298e1edaf54e541":[6,0,0,8,2],
+"interfacela__blas_1_1ger.html#a510e0cc5212f593e9298e1edaf54e541":[7,0,0,8,2],
+"interfacela__blas_1_1ger.html#ab97855a67d51fc53e99510626981238c":[6,0,0,8,0],
+"interfacela__blas_1_1ger.html#ab97855a67d51fc53e99510626981238c":[7,0,0,8,0],
+"interfacela__blas_1_1ger.html#ac207d22562c26b8baccbcd610b6884ce":[6,0,0,8,1],
+"interfacela__blas_1_1ger.html#ac207d22562c26b8baccbcd610b6884ce":[7,0,0,8,1],
+"interfacela__blas_1_1gerc.html":[6,0,0,9],
+"interfacela__blas_1_1gerc.html":[7,0,0,9],
+"interfacela__blas_1_1gerc.html#a09a8391dc70f6314839a484121ff8893":[6,0,0,9,0],
+"interfacela__blas_1_1gerc.html#a09a8391dc70f6314839a484121ff8893":[7,0,0,9,0],
+"interfacela__blas_1_1gerc.html#a38c7700f624541cfaa1daf4c4daf2ed6":[6,0,0,9,1],
 "interfacela__blas_1_1gerc.html#a38c7700f624541cfaa1daf4c4daf2ed6":[7,0,0,9,1],
 "interfacela__blas_1_1gerc.html#aeb661a28a17aefafdf9d7be54a24997b":[6,0,0,9,2],
 "interfacela__blas_1_1gerc.html#aeb661a28a17aefafdf9d7be54a24997b":[7,0,0,9,2],
@@ -237,17 +249,5 @@ var NAVTREEINDEX1 =
 "interfacela__blas_1_1spr2.html#abbe259c38da61cff3ce11682d0035372":[7,0,0,31,2],
 "interfacela__blas_1_1spr2.html#ad793ee307e059941cefb5aa8e59d82de":[6,0,0,31,1],
 "interfacela__blas_1_1spr2.html#ad793ee307e059941cefb5aa8e59d82de":[7,0,0,31,1],
-"interfacela__blas_1_1spr2.html#af5a871797cbca9e7dd322c3fcead5de9":[6,0,0,31,4],
-"interfacela__blas_1_1spr2.html#af5a871797cbca9e7dd322c3fcead5de9":[7,0,0,31,4],
-"interfacela__blas_1_1srot.html":[6,0,0,32],
-"interfacela__blas_1_1srot.html":[7,0,0,32],
-"interfacela__blas_1_1srot.html#abe612dadba27d7685f7ad396908467d7":[6,0,0,32,1],
-"interfacela__blas_1_1srot.html#abe612dadba27d7685f7ad396908467d7":[7,0,0,32,1],
-"interfacela__blas_1_1srot.html#ae3cc0ea76655e0d41e6e9f6d381f63dd":[6,0,0,32,0],
-"interfacela__blas_1_1srot.html#ae3cc0ea76655e0d41e6e9f6d381f63dd":[7,0,0,32,0],
-"interfacela__blas_1_1sscal.html":[6,0,0,33],
-"interfacela__blas_1_1sscal.html":[7,0,0,33],
-"interfacela__blas_1_1sscal.html#a568a9afc37ac90bd8c0c3827a2d6d5da":[6,0,0,33,0],
-"interfacela__blas_1_1sscal.html#a568a9afc37ac90bd8c0c3827a2d6d5da":[7,0,0,33,0],
-"interfacela__blas_1_1sscal.html#afe9ed80108482ebe1ff820ead7685f93":[6,0,0,33,1]
+"interfacela__blas_1_1spr2.html#af5a871797cbca9e7dd322c3fcead5de9":[6,0,0,31,4]
 };

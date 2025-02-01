@@ -1,5 +1,17 @@
 var NAVTREEINDEX30 =
 {
+"interfacela__lapack_1_1sprfs.html":[7,0,6,374],
+"interfacela__lapack_1_1sprfs.html#a22417a99351e421f59667810181a4b95":[6,0,14,374,7],
+"interfacela__lapack_1_1sprfs.html#a22417a99351e421f59667810181a4b95":[7,0,6,374,7],
+"interfacela__lapack_1_1sprfs.html#a2b0b0c56c3c3ae3040704a9668a2b18e":[6,0,14,374,3],
+"interfacela__lapack_1_1sprfs.html#a2b0b0c56c3c3ae3040704a9668a2b18e":[7,0,6,374,3],
+"interfacela__lapack_1_1sprfs.html#a3f0f57046b76b83a9b1a70e0196a47a8":[6,0,14,374,4],
+"interfacela__lapack_1_1sprfs.html#a3f0f57046b76b83a9b1a70e0196a47a8":[7,0,6,374,4],
+"interfacela__lapack_1_1sprfs.html#a81db6dd3af658d3143c8293e860917a5":[6,0,14,374,9],
+"interfacela__lapack_1_1sprfs.html#a81db6dd3af658d3143c8293e860917a5":[7,0,6,374,9],
+"interfacela__lapack_1_1sprfs.html#a82d13ed30ae33b7776273ddc1663d336":[6,0,14,374,5],
+"interfacela__lapack_1_1sprfs.html#a82d13ed30ae33b7776273ddc1663d336":[7,0,6,374,5],
+"interfacela__lapack_1_1sprfs.html#a935b711a89a0087a56a0923695d1da25":[6,0,14,374,0],
 "interfacela__lapack_1_1sprfs.html#a935b711a89a0087a56a0923695d1da25":[7,0,6,374,0],
 "interfacela__lapack_1_1sprfs.html#aaedfc37299a0fb1d616dfc8ee37c0a79":[6,0,14,374,1],
 "interfacela__lapack_1_1sprfs.html#aaedfc37299a0fb1d616dfc8ee37c0a79":[7,0,6,374,1],
@@ -237,17 +249,5 @@ var NAVTREEINDEX30 =
 "interfacela__lapack_1_1sterf.html#a2796053fefd55bac6d9d8e57943b9f5d":[7,0,6,386,1],
 "interfacela__lapack_1_1sterf.html#a5b5b70681efa5e2d47c7a084a0a76818":[6,0,14,386,4],
 "interfacela__lapack_1_1sterf.html#a5b5b70681efa5e2d47c7a084a0a76818":[7,0,6,386,4],
-"interfacela__lapack_1_1sterf.html#a5e7f21021bf448007ce6640f52b9d964":[6,0,14,386,2],
-"interfacela__lapack_1_1sterf.html#a5e7f21021bf448007ce6640f52b9d964":[7,0,6,386,2],
-"interfacela__lapack_1_1sterf.html#ad66b7afde3af733ba28aa32e6f903a51":[6,0,14,386,3],
-"interfacela__lapack_1_1sterf.html#ad66b7afde3af733ba28aa32e6f903a51":[7,0,6,386,3],
-"interfacela__lapack_1_1sterf.html#ae6e81723b6396a75a040b58030e8ba4f":[6,0,14,386,0],
-"interfacela__lapack_1_1sterf.html#ae6e81723b6396a75a040b58030e8ba4f":[7,0,6,386,0],
-"interfacela__lapack_1_1stev.html":[6,0,14,387],
-"interfacela__lapack_1_1stev.html":[7,0,6,387],
-"interfacela__lapack_1_1stev.html#a18fb658f9830000537608740b14d5e4b":[6,0,14,387,0],
-"interfacela__lapack_1_1stev.html#a18fb658f9830000537608740b14d5e4b":[7,0,6,387,0],
-"interfacela__lapack_1_1stev.html#a3c48e424be37a28f76bbcea965cb71b6":[6,0,14,387,3],
-"interfacela__lapack_1_1stev.html#a3c48e424be37a28f76bbcea965cb71b6":[7,0,6,387,3],
-"interfacela__lapack_1_1stev.html#a44bfbf6558b5eafd89665f06d54fa3fb":[6,0,14,387,1]
+"interfacela__lapack_1_1sterf.html#a5e7f21021bf448007ce6640f52b9d964":[6,0,14,386,2]
 };

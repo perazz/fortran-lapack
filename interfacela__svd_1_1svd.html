@@ -116,7 +116,7 @@ $(function(){initNavTree('interfacela__svd_1_1svd.html',''); initResizable(true)
 </div><!--header-->
 <div class="contents">
 
-<p>Singular value decomposition.  
+<p>Compute the Singular Value Decomposition (SVD) of a matrix.  
  <a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
@@ -141,8 +141,35 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a1740725a366fdb36547e2bfcb778d50b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Singular value decomposition. </p>
-<p>Singular values </p>
+<div class="textblock"><p>Compute the Singular Value Decomposition (SVD) of a matrix. </p>
+<p>This subroutine computes the Singular Value Decomposition (SVD) of a matrix \( A \):</p>
+<p>\( A = U \cdot S \cdot V^T \)</p>
+<p>where \( A \) is a matrix of size \( [m,n] \), \( U \) is an orthogonal matrix of size \( [m,m] \), \( S \) is a diagonal matrix containing the singular values, and \( V^T \) is an orthogonal matrix of size \( [n,n] \). The subroutine computes the singular values and optionally the matrices \( U \) and \( V^T \).</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>The input matrix \( A \) of size \( [m,n] \). If <code>overwrite_a</code> is true, the contents of <code>a</code> may be modified during computation. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">s</td><td>The array of singular values of size \( k = min(m,n) \). </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">u</td><td>(Optional) The left singular vectors of matrix \( A \), with shape \( [m,m] \) for the full problem or \( [m,k] \) for the reduced problem. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">vt</td><td>(Optional) The right singular vectors of matrix \( A^T \), with shape \( [k,n] \) for the reduced problem or \( [n,n] \) for the full problem. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>(Optional) A logical flag that determines whether matrix <code>a</code> may be overwritten. Default is false. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">full_matrices</td><td>(Optional) If true, computes the full-sized matrices \( U \) and \( V^T \). If false, computes the reduced matrices. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>(Optional) A state return flag. If an error occurs and <code>err</code> is not provided, the function will stop execution.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>This subroutine performs the SVD computation using the LAPACK <a class="el" href="interfacela__lapack_1_1gesdd.html">gesdd</a> backend and can be used for both full and reduced decompositions.</dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>If <code>overwrite_a</code> is enabled, the original contents of <code>a</code> may be lost during computation.</dd></dl>
+<p>Compute the singular values of a matrix.</p>
+<p>This function returns the singular values of the input matrix \( A \). The singular values are stored in a vector \( s \), which is an array of size \( k = min(m,n) \).</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">a</td><td>The input matrix \( A \) of size \( [m,n] \). </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>(Optional) A state return flag. If an error occurs and <code>err</code> is not provided, the function will stop execution. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The singular values of matrix \( A \) are returned in the <code>real</code> array \( s \), with the same kind as the input matrix.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This function returns only the singular values and does not compute the full SVD. </dd></dl>
 </div><h2 class="groupheader">Member Function/Subroutine Documentation</h2>
 <a id="af83945a8c5a7700bd1e5dece43722e71" name="af83945a8c5a7700bd1e5dece43722e71"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af83945a8c5a7700bd1e5dece43722e71">&#9670;&#160;</a></span>la_svd_c()</h2>

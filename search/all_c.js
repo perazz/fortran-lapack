@@ -1,13 +1,13 @@
 var searchData=
 [
-  ['of_20a_20matrix_0',['of a matrix',['../index.html#autotoc_md53',1,'@ref la_pseudoinverse::operator(.pinv.) &quot;operator(.pinv.)&quot; - Compute the Moore-Penrose pseudo-inverse of a matrix.'],['../index.html#autotoc_md80',1,'@ref la_qr::qr &quot;qr&quot; - QR factorization of a matrix.'],['../index.html#autotoc_md94',1,'@ref la_schur::schur &quot;schur&quot; - Schur decomposition of a matrix.']]],
+  ['of_20a_20matrix_0',['of a matrix',['../index.html#autotoc_md53',1,'@ref la_pseudoinverse::operator(.pinv.) &quot;operator(.pinv.)&quot; - Compute the Moore-Penrose pseudo-inverse of a matrix.'],['../index.html#autotoc_md92',1,'@ref la_qr::qr &quot;qr&quot; - QR factorization of a matrix.'],['../index.html#autotoc_md106',1,'@ref la_schur::schur &quot;schur&quot; - Schur decomposition of a matrix.'],['../index.html#autotoc_md60',1,'@ref la_svd::svd &quot;svd&quot; - Singular Value Decomposition (SVD) of a matrix']]],
   ['of_20a_20matrix_20function_1',['@ref la_pseudoinverse::pinv &quot;pinv&quot; - Moore-Penrose pseudo-inverse of a matrix (function).',['../index.html#autotoc_md46',1,'']]],
   ['of_20a_20scalar_20or_20rectangular_20matrix_2',['@ref la_determinant::det &quot;det&quot; - Determinant of a scalar or rectangular matrix.',['../index.html#autotoc_md19',1,'']]],
   ['of_20a_20square_20matrix_3',['of a square matrix',['../index.html#autotoc_md26',1,'@ref la_inverse::inv &quot;inv&quot; - Inverse of a square matrix.'],['../index.html#autotoc_md39',1,'@ref la_inverse::operator(.inv.) &quot;operator(.inv.)&quot; - Compute the inverse of a square matrix.']]],
   ['of_20equations_4',['@ref la_solve::solve &quot;solve&quot; - Solve a linear matrix equation or a linear system of equations.',['../index.html#autotoc_md6',1,'']]],
   ['of_20linear_20equations_5',['@ref la_least_squares::lstsq &quot;lstsq&quot; - Compute a least squares solution to a system of linear equations.',['../index.html#autotoc_md12',1,'']]],
   ['ok_6',['ok',['../structla__state__type_1_1la__state.html#a7cbd8a858eb21bff269f3f582b1d881e',1,'la_state_type::la_state']]],
-  ['operations_7',['@ref la_qr::qr_space &quot;qr_space&quot; - Workspace size for QR operations.',['../index.html#autotoc_md87',1,'']]],
+  ['operations_7',['@ref la_qr::qr_space &quot;qr_space&quot; - Workspace size for QR operations.',['../index.html#autotoc_md99',1,'']]],
   ['operator_20inv_20compute_20the_20inverse_20of_20a_20square_20matrix_8',['@ref la_inverse::operator(.inv.) &quot;operator(.inv.)&quot; - Compute the inverse of a square matrix.',['../index.html#autotoc_md39',1,'']]],
   ['operator_20pinv_20compute_20the_20moore_20penrose_20pseudo_20inverse_20of_20a_20matrix_9',['@ref la_pseudoinverse::operator(.pinv.) &quot;operator(.pinv.)&quot; - Compute the Moore-Penrose pseudo-inverse of a matrix.',['../index.html#autotoc_md53',1,'']]],
   ['operator_28_2einv_2e_29_10',['operator(.inv.)',['../interfacela__inverse_1_1operator_07_8inv_8_08.html',1,'la_inverse']]],
