@@ -331,13 +331,73 @@ where \f$ \Sigma^+ \f$ is the inverse of the nonzero singular values in \f$ \Sig
 **Description**: Singular values $S$ from $A = U S V^t$.  
 **Usage**: `s = svdvals(A)` where `s` is a real array with the same precision as `A`.
 
-## `eye(m)`
-**Type**: Function  
-**Description**: Identity matrix of size `m`.  
-**Optional arguments**:  
-- `n`: Optional column size.  
-- `mold`: Optional datatype (default: real64).  
-- `err`: Error handler.
+## [diag](@ref la_eye::diag) - Diagonal matrix.
+
+### Syntax
+
+`d = diag(n, source [, err])` for scalar input
+`d = diag(source(:) [, err])` for array input
+
+### Description
+
+This function generates a square diagonal matrix where the diagonal elements are populated either by a scalar value or an array of values. The size of the matrix is determined by the input parameter \f$n\f$ or the size of the input array. 
+If a scalar is provided, the diagonal elements are all set to the same value. If an array is provided, its length determines the size of the matrix, and its elements are placed along the diagonal.
+
+### Arguments
+
+- `n`: The size of the square matrix (only used if a scalar is provided for the diagonal).
+- `source`: 
+  - If a scalar, this value is used to populate all the diagonal elements of the matrix.
+  - If an array, the elements of the array are used to populate the diagonal of the matrix. The size of the array determines the matrix size.
+- `err` (optional): A state return flag of [type(la_state)](@ref la_state_type::la_state). If an error occurs and `err` is not provided, the function will stop execution.
+
+### Return value
+
+The function returns a matrix of size \f$n \times n\f$, where the diagonal elements are either all equal to the scalar `source` or populated by the values from the input array.
+
+### Errors
+
+- Raises [LINALG_VALUE_ERROR](@ref la_state_type::linalg_value_error) if the dimensions of the matrix are invalid or if the array size does not match the expected matrix size.
+- If `err` is not provided, the function will stop execution on errors.
+
+### Notes
+
+- The diagonal elements are set to the specified scalar or the array values in the order they appear in the input.
+- If the `err` parameter is provided, the error state of the function will be returned.
+
+
+## [eye](@ref la_eye::eye) - Identity matrix.
+
+### Syntax
+
+`eye = eye(m [, n] [, mold] [, err])`
+
+### Description
+
+This function constructs an identity matrix of size \f$m \times n\f$, where the diagonal elements are set to 1 and all off-diagonal elements are set to 0. If only the number of rows \f$m\f$ is provided, a square matrix of size \f$m \times m\f$ is returned. The matrix is populated with a real data type, by default `real(real64)`, or a type specified by the user.
+
+### Arguments
+
+- `m`: The number of rows of the identity matrix.
+- `n` (optional): The number of columns of the identity matrix. If omitted, the matrix is square (\f$m \times m\f$).
+- `mold` (optional): The data type to define the return type. Defaults to `real(real64)`. 
+- `err` (optional): A state return flag of [type(la_state)](@ref la_state_type::la_state). If an error occurs and `err` is not provided, the function will stop execution.
+
+### Return value
+
+The function returns a matrix of size \f$m \times n\f$ (or \f$m \times m\f$ if \f$n\f$ is omitted) with diagonal elements set to 1 and all other elements set to 0.
+
+### Errors
+
+- Raises [LINALG_VALUE_ERROR](@ref la_state_type::linalg_value_error) if the dimensions of the matrix are invalid (e.g., negative values).
+- If `err` is not provided, the function will stop execution on errors.
+
+### Notes
+
+- The identity matrix is constructed with the specified data type, which defaults to `real(real64)` if no type is specified.
+- The `mold` scalar is used to provide a function return type. 
+- If the `err` parameter is provided, the error state of the function will be returned.
+
 
 ## `eigvals(A)`
 **Type**: Function  
@@ -370,17 +430,7 @@ where \f$ \Sigma^+ \f$ is the inverse of the nonzero singular values in \f$ \Sig
 - `overwrite_a`: Option to let A be destroyed.  
 - `err`: Return state handler.
 
-## `diag(n, source)`
-**Type**: Function  
-**Description**: Diagonal matrix from scalar input value.  
-**Optional arguments**:  
-- `err`: Error handler.
 
-## `diag(source)`
-**Type**: Function  
-**Description**: Diagonal matrix from array input values.  
-**Optional arguments**:  
-- `err`: Error handler.
 
 ## [qr](@ref la_qr::qr) - QR factorization of a matrix.
 
@@ -498,7 +548,7 @@ The Schur decomposition matrices \f$ T \f$ and optionally \f$ Z \f$ are returned
 
 ### Notes
 
-- This subroutine computes the Schur decomposition using LAPACK's Schur decomposition routines (`*GEES`).
+- This subroutine computes the Schur decomposition using LAPACK's Schur decomposition routines ([GEES](@ref la_lapack:gees)).
 - Sorting options for eigenvalues can be requested, utilizing LAPACK's eigenvalue sorting mechanism.
 - If `overwrite_a` is enabled, the input matrix `a` will be modified during computation.
 
