@@ -1,3 +1,8 @@
+!> @brief State and error handling module for linear algebra routines.
+!> 
+!> This module defines the `la_state` type, which is used for error handling in
+!> linear algebra computations. It provides state tracking, formatted error messages,
+!> and a mechanism for comparing state values.
 module la_state_type
      use la_constants,only:ilp,lk
      use iso_fortran_env,only:real32,real64,real128,int8,int16,int32,int64,stderr => error_unit
@@ -19,36 +24,36 @@ module la_state_type
      integer(ilp),parameter :: MSG_LENGTH  = 512_ilp                  
      integer(ilp),parameter :: NAME_LENGTH =  32_ilp
 
-     !> \class `la_state` defines a state return type for a
-     !> linear algebra routine. State contains a status flag, a comment, and a
-     !> procedure specifier that can be used to mark where the error happened
-     type,public :: la_state
-
-         !> The current exit state
-         integer(ilp) :: state = LINALG_SUCCESS
-
-         !> Message associated to the current state
-         character(len=MSG_LENGTH) :: message = repeat(' ',MSG_LENGTH)
-
-         !> Location of the state change
-         character(len=NAME_LENGTH) :: where_at = repeat(' ',NAME_LENGTH)
-
-         contains
-
-            !> Cleanup
-            procedure :: destroy => state_destroy
-            
-            !> Error handling
-            procedure :: handle => linalg_error_handling
-
-            !> Print error message
-            procedure :: print     => state_print
-            procedure :: print_msg => state_message
-
-            !> State properties
-            procedure :: ok    => state_is_ok
-            procedure :: error => state_is_error
-
+     !> \class la_state
+     !> \brief Defines a state return type for a linear algebra routine.
+     !> 
+     !> This type encapsulates a status flag, an optional error message, and the procedure
+     !> name where the error originated.
+     type, public :: la_state
+        !> The current exit state.
+        integer(ilp) :: state = LINALG_SUCCESS
+        
+        !> Message associated with the current state.
+        character(len=MSG_LENGTH) :: message = repeat(' ', MSG_LENGTH)
+        
+        !> Location where the state change occurred.
+        character(len=NAME_LENGTH) :: where_at = repeat(' ', NAME_LENGTH)
+     contains
+        !> Destroy the state object.
+        procedure :: destroy => state_destroy
+        
+        !> Handle errors based on the state value.
+        procedure :: handle => linalg_error_handling
+        
+        !> Print the error message associated with the state.
+        procedure :: print     => state_print
+        procedure :: print_msg => state_message
+        
+        !> Check if the state indicates success.
+        procedure :: ok    => state_is_ok
+        
+        !> Check if the state indicates an error.
+        procedure :: error => state_is_error
      end type la_state
 
      !> Comparison operators
