@@ -116,7 +116,7 @@ $(function(){initNavTree('interfacela__norms_1_1norm.html',''); initResizable(tr
 </div><!--header-->
 <div class="contents">
 
-<p>Vector norm: function interface.  
+<p>Compute the norm of a vector or matrix using LAPACK-based routines.  
  <a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
@@ -747,7 +747,27 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a3dda19eabf7ec2f4e352cbbf1abd12a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Vector norm: function interface. </p>
+<div class="textblock"><p>Compute the norm of a vector or matrix using LAPACK-based routines. </p>
+<p>Return one of several scalar norm metrics of a real or complex input array A, that can have any rank. For generic rank-n arrays, the scalar norm over the whole array is returned by default. If \( n \geq 2 \) and the optional input dimension <code>dim</code> is specified, a rank \( n-1 \) array is returned with dimension <code>dim</code> collapsed, containing all 1D array norms evaluated along dimension <code>dim</code> only.</p>
+<p>Norm type input is mandatory, and it is provided via the <code>order</code> argument. This can be provided as either an integer value or a character string. Allowed metrics are:</p><ul>
+<li>1-norm \( \sum_i |a_i| \): <code>order = 1</code> or <code>order = "1"</code></li>
+<li>Euclidean norm \( \sqrt{\sum_i a_i^2} \): <code>order = 2</code> or <code>order = "2"</code></li>
+<li>p-norm \( \left( \sum_i |a_i|^p \right)^{1/p} \): integer <code>order &gt;= 3</code></li>
+<li>Infinity norm \( \max_i |a_i| \): <code>order = huge(0)</code> or <code>"inf"</code></li>
+<li>Minus-infinity norm \( \min_i |a_i| \): <code>order = -huge(0)</code> or <code>"-inf"</code></li>
+</ul>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">a</td><td>The input vector or matrix. It may have rank 1 (vector) or higher. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">order</td><td>The order of the norm to compute, typically one of the allowed metrics. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">dim</td><td>(Optional) The dimension along which to compute the norm, applicable for array norms reducing rank. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>(Optional) A state return flag. If an error occurs and <code>err</code> is not provided, the function will stop execution.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The computed norm value. If <code>dim</code> is specified, the result is a lower-rank array; otherwise, it is a scalar.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This interface utilizes LAPACK routines for efficient computation, ensuring numerical stability. </dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>If invalid input values (such as negative norms) are provided, the behavior is undefined. </dd></dl>
 </div><h2 class="groupheader">Member Function/Subroutine Documentation</h2>
 <a id="aa8ed354ad9944e4bed53bccf40e37a84" name="aa8ed354ad9944e4bed53bccf40e37a84"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa8ed354ad9944e4bed53bccf40e37a84">&#9670;&#160;</a></span>la_norm_1d_order_char_c()</h2>

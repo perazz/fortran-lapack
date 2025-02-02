@@ -114,11 +114,14 @@ $(function(){initNavTree('namespacela__lapack.html',''); initResizable(true); })
   <div class="headertitle"><div class="title">la_lapack Module Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Kind-agnostic LAPACK interface linking to internal or external implementations.  
+<a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Data Types</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">interface &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interfacela__lapack_1_1bbcsd.html">bbcsd</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">BBCSD: computes the CS decomposition of a unitary matrix in bidiagonal-block form, [ B11 | B12 0 0 ] [ 0 | 0 -I 0 ] X = [-------------&mdash;] [ B21 | B22 0 0 ] [ 0 | 0 0 I ] [ C | -S 0 0 ] [ U1 | ] [ 0 | 0 -I 0 ] [ V1 | ]**H = [------&mdash;] [------------&mdash;] [------&mdash;] . [ | U2 ] [ S | C 0 0 ] [ | V2 ] [ 0 | 0 0 I ] X is M-by-M, its top-left block is P-by-Q, and Q must be no larger than P, M-P, or M-Q. (If Q is not the smallest index, then X must be transposed and/or permuted. This can be done in constant time using the TRANS and SIGNS options. See CUNCSD for details.) The bidiagonal matrices B11, B12, B21, and B22 are represented implicitly by angles THETA(1:Q) and PHI(1:Q-1). The unitary matrices U1, U2, V1T, and V2T are input/output. The input matrices are pre- or post-multiplied by the appropriate singular vector matrices.  <a href="interfacela__lapack_1_1bbcsd.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">BBCSD computes the CS decomposition of a unitary matrix in bidiagonal-block form.  <a href="interfacela__lapack_1_1bbcsd.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">interface &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interfacela__lapack_1_1bdsdc.html">bdsdc</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">BDSDC: computes the singular value decomposition (SVD) of a real N-by-N (upper or lower) bidiagonal matrix B: B = U * S * VT, using a divide and conquer method, where S is a diagonal matrix with non-negative diagonal elements (the singular values of B), and U and VT are orthogonal matrices of left and right singular vectors, respectively. BDSDC can be used to compute all singular values, and optionally, singular vectors or singular vectors in compact form. This code makes very mild assumptions about floating point arithmetic. It will work on machines with a guard digit in add/subtract, or on those binary machines without guard digits which subtract like the Cray X-MP, Cray Y-MP, Cray C-90, or Cray-2. It could conceivably fail on hexadecimal or decimal machines without guard digits, but we know of none. See DLASD3 for details. The code currently calls DLASDQ if singular values only are desired. However, it can be slightly modified to compute singular values using the divide and conquer method.  <a href="interfacela__lapack_1_1bdsdc.html#details">More...</a><br /></td></tr>
@@ -1625,7 +1628,9 @@ tridiagonal eigenvalue/eigenvector problem", by Inderjit Dhillon, Computer Scien
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">UPMTR: overwrites the general complex M-by-N matrix C with SIDE = 'L' SIDE = 'R' TRANS = 'N': Q * C C * Q TRANS = 'C': Q**H * C C * Q**H where Q is a complex unitary matrix of order nq, with nq = m if SIDE = 'L' and nq = n if SIDE = 'R'. Q is defined as the product of nq-1 elementary reflectors, as returned by CHPTRD using packed storage: if UPLO = 'U', Q = H(nq-1) . . . H(2) H(1); if UPLO = 'L', Q = H(1) H(2) . . . H(nq-1).  <a href="interfacela__lapack_1_1upmtr.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-</div><!-- contents -->
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Kind-agnostic LAPACK interface linking to internal or external implementations. </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

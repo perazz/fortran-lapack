@@ -115,6 +115,9 @@ $(function(){initNavTree('interfacela__determinant_1_1det.html',''); initResizab
   <div class="headertitle"><div class="title">la_determinant::det Interface Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Compute the determinant of a rectangular matrix.  
+ <a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -131,7 +134,21 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a41b0a1b3496f5d970c6461ae08bd5c2b" id="r_a41b0a1b3496f5d970c6461ae08bd5c2b"><td class="memItemLeft" align="right" valign="top">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>) function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a41b0a1b3496f5d970c6461ae08bd5c2b">la_wdeterminant</a> (a, overwrite_a, err)</td></tr>
 <tr class="separator:a41b0a1b3496f5d970c6461ae08bd5c2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Function/Subroutine Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Compute the determinant of a rectangular matrix. </p>
+<p>This function computes the determinant of a real or complex rectangular matrix \( A \). The determinant is calculated using LU factorization.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">A</td><td>The input square matrix of size \( [m, n] \). If <code>overwrite_a</code> is true, the contents of A may be modified during computation. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>(Optional) If <code>.true.</code>, A may be overwritten and destroyed. Default is <code>.false.</code>. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>(Optional) A state return flag. If an error occurs and <code>err</code> is not provided, the function will stop execution.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The determinant of the matrix \( A \). The result is a <code>real</code> scalar value of the same kind as the input matrix.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This function relies on a matrix factorization approach (e.g., LU decomposition) to compute the determinant efficiently from the <a class="el" href="interfacela__lapack_1_1getrf.html">getrf</a> backend. </dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>If <code>overwrite_a</code> is enabled, the original contents of A will be lost. </dd></dl>
+</div><h2 class="groupheader">Member Function/Subroutine Documentation</h2>
 <a id="a4ee009203e4f18f171e19553c2f84b22" name="a4ee009203e4f18f171e19553c2f84b22"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4ee009203e4f18f171e19553c2f84b22">&#9670;&#160;</a></span>la_cdeterminant()</h2>
 
