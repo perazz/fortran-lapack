@@ -1,5 +1,4 @@
-
-! Vector norms
+!> Matrix and Vector norms
 module la_norms
      use la_constants
      use la_blas,only:nrm2

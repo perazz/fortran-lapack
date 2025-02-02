@@ -1,3 +1,4 @@
+!> Determinant of a rectangular matrix
 module la_determinant
      use la_constants
      use la_blas
@@ -6,6 +7,10 @@ module la_determinant
      use iso_fortran_env,only:real32,real64,real128,int8,int16,int32,int64,stderr => error_unit
      implicit none(type,external)
      private
+
+     public :: det
+
+     character(*),parameter :: this = 'determinant'
 
      !> @brief Compute the determinant of a rectangular matrix.
      !!
@@ -25,10 +30,6 @@ module la_determinant
      !!       the determinant efficiently from the [getrf](@ref la_lapack::getrf) backend.
      !! @warning If `overwrite_a` is enabled, the original contents of A will be lost.
      !!
-     public :: det
-
-     character(*),parameter :: this = 'determinant'
-
      interface det
         module procedure la_sdeterminant
         module procedure la_ddeterminant

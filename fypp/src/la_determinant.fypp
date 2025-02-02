@@ -1,4 +1,5 @@
 #:include "common.fypp"
+!> Determinant of a rectangular matrix
 module la_determinant
      use la_constants
      use la_blas
@@ -8,10 +9,9 @@ module la_determinant
      implicit none(type,external)
      private
 
-     !> Determinant of a rectangular matrix
      public :: det
 
-     character(*), parameter :: this = 'determinant'
+     character(*),parameter :: this = 'determinant'
 
      !> @brief Compute the determinant of a rectangular matrix.
      !!

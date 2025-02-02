@@ -1,4 +1,5 @@
 #:include "common.fypp" 
+!> Kind-agnostic LAPACK interface linking to internal or external implementations
 module la_lapack
      use la_constants
      use la_blas
@@ -14,27 +15,57 @@ module la_lapack
      implicit none(type,external)
      public
 
-          !> BBCSD: computes the CS decomposition of a unitary matrix in
-          !> bidiagonal-block form,
-          !> [ B11 | B12 0  0 ]
-          !> [  0  |  0 -I  0 ]
-          !> X = [----------------]
-          !> [ B21 | B22 0  0 ]
-          !> [  0  |  0  0  I ]
-          !> [  C | -S  0  0 ]
-          !> [ U1 |    ] [  0 |  0 -I  0 ] [ V1 |    ]**H
-          !> = [---------] [---------------] [---------]   .
-          !> [    | U2 ] [  S |  C  0  0 ] [    | V2 ]
-          !> [  0 |  0  0  I ]
-          !> X is M-by-M, its top-left block is P-by-Q, and Q must be no larger
-          !> than P, M-P, or M-Q. (If Q is not the smallest index, then X must be
+
+          !> @brief BBCSD computes the CS decomposition of a unitary matrix in
+          !> bidiagonal-block form.
+          !>
+          !> \f[
+          !> \renewcommand\arraystretch{1.3}
+          !> \left[
+          !> \begin{array}{c|ccc}
+          !>   B_{11} & B_{12} & 0 & 0 \\
+          !>   0      & 0 & -I & 0 \\
+          !>   \hline
+          !>   B_{21} & B_{22} & 0 & 0 \\
+          !>   0      & 0      & 0 & I \\
+          !>   C      & -S    & 0 & 0 
+          !> \end{array}
+          !> \right] =
+          !> \left[
+          !> \begin{array}{c|c}
+          !>   U_1 & 0 \\
+          !>   \hline
+          !>   0 & U_2 
+          !> \end{array}
+          !> \right]
+          !> \left[
+          !> \begin{array}{c|ccc}
+          !>   0 & 0 & -I & 0 \\
+          !>   \hline
+          !>   S & C & 0 & 0 \\
+          !>   0 & 0 & 0 & I 
+          !> \end{array}
+          !> \right]
+          !> \left[
+          !> \begin{array}{c|c}
+          !>   V_1^H & 0 \\
+          !>   \hline
+          !>   0 & V_2^H 
+          !> \end{array}
+          !> \right]
+          !> \f]
+          !>
+          !> X is \f$M \times M\f$, its top-left block is \f$P \times Q\f$, and \f$Q\f$ must be no larger
+          !> than \f$P\f$, \f$M-P\f$, or \f$M-Q\f$. (If \f$Q\f$ is not the smallest index, then X must be
           !> transposed and/or permuted. This can be done in constant time using
           !> the TRANS and SIGNS options. See CUNCSD for details.)
-          !> The bidiagonal matrices B11, B12, B21, and B22 are represented
-          !> implicitly by angles THETA(1:Q) and PHI(1:Q-1).
-          !> The unitary matrices U1, U2, V1T, and V2T are input/output.
-          !> The input matrices are pre- or post-multiplied by the appropriate
-          !> singular vector matrices.
+          !>
+          !> The bidiagonal matrices \f$B_{11}\f$, \f$B_{12}\f$, \f$B_{21}\f$, and \f$B_{22}\f$ are represented
+          !> implicitly by angles \f$\theta(1:Q)\f$ and \f$\phi(1:Q-1)\f$.
+          !>
+          !> The unitary matrices \f$U_1\f$, \f$U_2\f$, \f$V_1^T\f$, and \f$V_2^T\f$ are input/output.
+          !>
+          !> The input matrices are pre- or post-multiplied by the appropriate singular vector matrices.
           interface bbcsd
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine cbbcsd( jobu1, jobu2, jobv1t, jobv2t, trans, m, p, q,theta, phi, &
@@ -49,7 +80,7 @@ module la_lapack
                               *),b22e(*),rwork(*)
                     real(sp), intent(inout) :: phi(*),theta(*)
                     complex(sp), intent(inout) :: u1(ldu1,*),u2(ldu2,*),v1t(ldv1t,*),v2t(ldv2t,*)
-                              
+                               
                end subroutine cbbcsd
 #else
                module procedure la_cbbcsd

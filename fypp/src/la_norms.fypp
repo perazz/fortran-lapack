@@ -105,7 +105,7 @@ ${indent}$do ${varname}$${n+1+dim_offset-i}$ = lbound(${matname}$, ${n+1+dim_off
   #:endcall  
 #:enddef
 
-! Vector norms
+!> Matrix and Vector norms
 module la_norms
      use la_constants
      use la_blas, only: nrm2
@@ -119,7 +119,7 @@ module la_norms
 
      character(*), parameter :: this = 'norm'
      
-     !> List of internal norm flags
+     ! List of internal norm flags
      integer(ilp), parameter :: NORM_ONE       = 1_ilp 
      integer(ilp), parameter :: NORM_TWO       = 2_ilp
      integer(ilp), parameter :: NORM_POW_FIRST = 3_ilp       
@@ -127,11 +127,11 @@ module la_norms
      integer(ilp), parameter :: NORM_POW_LAST  = NORM_INF - 1_ilp
      integer(ilp), parameter :: NORM_MINUSINF = -huge(0_ilp)
      
-     !> List of *LANGE norm flags
-     character, parameter :: LANGE_NORM_MAT = 'M' ! maxval(sum(abs(a)))   ! over whole matrix: unused
-     character, parameter :: LANGE_NORM_ONE = '1' ! maxval(sum(abs(a),1)) ! over columns
-     character, parameter :: LANGE_NORM_INF = 'I' ! maxval(sum(abs(a),2)) ! over rows
-     character, parameter :: LANGE_NORM_TWO = 'E' ! "Euclidean" or "Frobenius"
+     ! List of *LANGE norm flags
+     character, parameter :: LANGE_NORM_MAT = 'M' !> maxval(sum(abs(a))), over whole matrix: unused
+     character, parameter :: LANGE_NORM_ONE = '1' !> maxval(sum(abs(a),1)), over columns
+     character, parameter :: LANGE_NORM_INF = 'I' !> maxval(sum(abs(a),2)), over rows
+     character, parameter :: LANGE_NORM_TWO = 'E' !> "Euclidean" or "Frobenius"
      
      
      !> Vector norm: function interface
