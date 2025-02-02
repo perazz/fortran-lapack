@@ -117,28 +117,28 @@ $(function(){initNavTree('structla__state__type_1_1la__state.html',''); initResi
 </div><!--header-->
 <div class="contents">
 
-<p>state return type for a linear algebra routine. State contains a status flag, a comment, and a procedure specifier that can be used to mark where the error happened  
+<p>Defines a state return type for a linear algebra routine.  
  <a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:ab90c080a2259c0bc5d5e2c0bb6ce20cd" id="r_ab90c080a2259c0bc5d5e2c0bb6ce20cd"><td class="memItemLeft" align="right" valign="top">procedure&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab90c080a2259c0bc5d5e2c0bb6ce20cd">destroy</a> (this)</td></tr>
-<tr class="memdesc:ab90c080a2259c0bc5d5e2c0bb6ce20cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cleanup.  <br /></td></tr>
+<tr class="memdesc:ab90c080a2259c0bc5d5e2c0bb6ce20cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroy the state object.  <br /></td></tr>
 <tr class="separator:ab90c080a2259c0bc5d5e2c0bb6ce20cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a17369068e74ad52bdd3be236ef1c6530" id="r_a17369068e74ad52bdd3be236ef1c6530"><td class="memItemLeft" align="right" valign="top">procedure&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a17369068e74ad52bdd3be236ef1c6530">handle</a> (ierr, ierr_out)</td></tr>
-<tr class="memdesc:a17369068e74ad52bdd3be236ef1c6530"><td class="mdescLeft">&#160;</td><td class="mdescRight">Error handling.  <br /></td></tr>
+<tr class="memdesc:a17369068e74ad52bdd3be236ef1c6530"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle errors based on the state value.  <br /></td></tr>
 <tr class="separator:a17369068e74ad52bdd3be236ef1c6530"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1bf21a3d9fb2c19dfd232528c5b276c8" id="r_a1bf21a3d9fb2c19dfd232528c5b276c8"><td class="memItemLeft" align="right" valign="top">procedure&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1bf21a3d9fb2c19dfd232528c5b276c8">print</a> (this)</td></tr>
-<tr class="memdesc:a1bf21a3d9fb2c19dfd232528c5b276c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print error message.  <br /></td></tr>
+<tr class="memdesc:a1bf21a3d9fb2c19dfd232528c5b276c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print the error message associated with the state.  <br /></td></tr>
 <tr class="separator:a1bf21a3d9fb2c19dfd232528c5b276c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a21d84049d0505e846d324195997e5cbf" id="r_a21d84049d0505e846d324195997e5cbf"><td class="memItemLeft" align="right" valign="top">procedure&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a21d84049d0505e846d324195997e5cbf">print_msg</a> (this)</td></tr>
 <tr class="memdesc:a21d84049d0505e846d324195997e5cbf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Formatted message.  <br /></td></tr>
 <tr class="separator:a21d84049d0505e846d324195997e5cbf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7cbd8a858eb21bff269f3f582b1d881e" id="r_a7cbd8a858eb21bff269f3f582b1d881e"><td class="memItemLeft" align="right" valign="top">procedure&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7cbd8a858eb21bff269f3f582b1d881e">ok</a> (this)</td></tr>
-<tr class="memdesc:a7cbd8a858eb21bff269f3f582b1d881e"><td class="mdescLeft">&#160;</td><td class="mdescRight">State properties.  <br /></td></tr>
+<tr class="memdesc:a7cbd8a858eb21bff269f3f582b1d881e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the state indicates success.  <br /></td></tr>
 <tr class="separator:a7cbd8a858eb21bff269f3f582b1d881e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a80a6615f73450bb75a774aff5b87123c" id="r_a80a6615f73450bb75a774aff5b87123c"><td class="memItemLeft" align="right" valign="top">procedure&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a80a6615f73450bb75a774aff5b87123c">error</a> (this)</td></tr>
-<tr class="memdesc:a80a6615f73450bb75a774aff5b87123c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the current state is an error state.  <br /></td></tr>
+<tr class="memdesc:a80a6615f73450bb75a774aff5b87123c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the state indicates an error.  <br /></td></tr>
 <tr class="separator:a80a6615f73450bb75a774aff5b87123c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad7c312aae941318ec6a87337ec5602e9" id="r_ad7c312aae941318ec6a87337ec5602e9"><td class="memItemLeft" align="right" valign="top">pure type(<a class="el" href="structla__state__type_1_1la__state.html">la_state</a>) function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad7c312aae941318ec6a87337ec5602e9">new_state</a> (<a class="el" href="#a24e4ef35882d47024e1fe2678e68e6c6">where_at</a>, flag, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14, a15, a16, a17, a18, a19, a20)</td></tr>
 <tr class="memdesc:ad7c312aae941318ec6a87337ec5602e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Error creation message, with location location.  <br /></td></tr>
@@ -153,14 +153,15 @@ Public Attributes</h2></td></tr>
 <tr class="memdesc:ae7c6855673216f4df109183ed9fa70d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">The current exit state.  <br /></td></tr>
 <tr class="separator:ae7c6855673216f4df109183ed9fa70d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a770dea48c5f4a6feca32e7b35fb7d73f" id="r_a770dea48c5f4a6feca32e7b35fb7d73f"><td class="memItemLeft" align="right" valign="top">character(len=msg_length)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a770dea48c5f4a6feca32e7b35fb7d73f">message</a> = repeat(' ', MSG_LENGTH)</td></tr>
-<tr class="memdesc:a770dea48c5f4a6feca32e7b35fb7d73f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Message associated to the current state.  <br /></td></tr>
+<tr class="memdesc:a770dea48c5f4a6feca32e7b35fb7d73f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Message associated with the current state.  <br /></td></tr>
 <tr class="separator:a770dea48c5f4a6feca32e7b35fb7d73f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a24e4ef35882d47024e1fe2678e68e6c6" id="r_a24e4ef35882d47024e1fe2678e68e6c6"><td class="memItemLeft" align="right" valign="top">character(len=name_length)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a24e4ef35882d47024e1fe2678e68e6c6">where_at</a> = repeat(' ', NAME_LENGTH)</td></tr>
-<tr class="memdesc:a24e4ef35882d47024e1fe2678e68e6c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Location of the state change.  <br /></td></tr>
+<tr class="memdesc:a24e4ef35882d47024e1fe2678e68e6c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Location where the state change occurred.  <br /></td></tr>
 <tr class="separator:a24e4ef35882d47024e1fe2678e68e6c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>state return type for a linear algebra routine. State contains a status flag, a comment, and a procedure specifier that can be used to mark where the error happened </p>
+<div class="textblock"><p>Defines a state return type for a linear algebra routine. </p>
+<p>This type encapsulates a status flag, an optional error message, and the procedure name where the error originated. </p>
 </div><h2 class="groupheader">Member Function/Subroutine Documentation</h2>
 <a id="ab90c080a2259c0bc5d5e2c0bb6ce20cd" name="ab90c080a2259c0bc5d5e2c0bb6ce20cd"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab90c080a2259c0bc5d5e2c0bb6ce20cd">&#9670;&#160;</a></span>destroy()</h2>
@@ -177,7 +178,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Cleanup. </p>
+<p>Destroy the state object. </p>
 
 </div>
 </div>
@@ -196,7 +197,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Check if the current state is an error state. </p>
+<p>Check if the state indicates an error. </p>
 
 </div>
 </div>
@@ -219,7 +220,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Error handling. </p>
+<p>Handle errors based on the state value. </p>
 
 </div>
 </div>
@@ -532,7 +533,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>State properties. </p>
+<p>Check if the state indicates success. </p>
 
 </div>
 </div>
@@ -551,7 +552,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Print error message. </p>
+<p>Print the error message associated with the state. </p>
 
 </div>
 </div>
@@ -587,7 +588,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Message associated to the current state. </p>
+<p>Message associated with the current state. </p>
 
 </div>
 </div>
@@ -619,7 +620,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Location of the state change. </p>
+<p>Location where the state change occurred. </p>
 
 </div>
 </div>
