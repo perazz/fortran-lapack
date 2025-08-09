@@ -743,9 +743,8 @@ module la_lapack_c
               rowcnd = max( rcmin, smlnum ) / min( rcmax, bignum )
            end if
            ! compute column scale factors.
-           do j = 1, n
-              c( j ) = zero
-           end do
+           c(1:n) = zero
+
            ! find the maximum element in each column,
            ! assuming the row scaling computed above.
            do j = 1, n
@@ -1620,52 +1619,53 @@ module la_lapack_c
            if( n==0 )return
            if( m==0 )return
            if( la_lsame( job, 'N' ) )return
-           if( ilo==ihi )go to 30
-           ! backward balance
-           if( la_lsame( job, 'S' ) .or. la_lsame( job, 'B' ) ) then
-              ! backward transformation on right eigenvectors
-              if( rightv ) then
-                 do i = ilo, ihi
-                    call la_csscal( m, rscale( i ), v( i, 1 ), ldv )
-                 end do
-              end if
-              ! backward transformation on left eigenvectors
-              if( leftv ) then
-                 do i = ilo, ihi
-                    call la_csscal( m, lscale( i ), v( i, 1 ), ldv )
-                 end do
-              end if
-           end if
+           
+           backward_balance: if( ilo/=ihi ) then 
+               ! backward balance
+               if( la_lsame( job, 'S' ) .or. la_lsame( job, 'B' ) ) then
+                  ! backward transformation on right eigenvectors
+                  if( rightv ) then
+                     do i = ilo, ihi
+                        call la_csscal( m, rscale( i ), v( i, 1 ), ldv )
+                     end do
+                  end if
+                  ! backward transformation on left eigenvectors
+                  if( leftv ) then
+                     do i = ilo, ihi
+                        call la_csscal( m, lscale( i ), v( i, 1 ), ldv )
+                     end do
+                  end if
+               end if           
+           endif backward_balance
+           
            ! backward permutation
-           30 continue
            if( la_lsame( job, 'P' ) .or. la_lsame( job, 'B' ) ) then
               ! backward permutation on right eigenvectors
               if( rightv ) then
-                 if( ilo==1 )go to 50
+
                  loop_40: do i = ilo - 1, 1, -1
                     k = rscale( i )
                     if( k==i )cycle loop_40
                     call la_cswap( m, v( i, 1 ), ldv, v( k, 1 ), ldv )
                  end do loop_40
-                 50 continue
-                 if( ihi==n )go to 70
+
                  loop_60: do i = ihi + 1, n
                     k = rscale( i )
                     if( k==i )cycle loop_60
                     call la_cswap( m, v( i, 1 ), ldv, v( k, 1 ), ldv )
                  end do loop_60
+                 
               end if
+              
               ! backward permutation on left eigenvectors
-              70 continue
               if( leftv ) then
-                 if( ilo==1 )go to 90
+
                  loop_80: do i = ilo - 1, 1, -1
                     k = lscale( i )
                     if( k==i )cycle loop_80
                     call la_cswap( m, v( i, 1 ), ldv, v( k, 1 ), ldv )
                  end do loop_80
-                 90 continue
-                 if( ihi==n )go to 110
+
                  loop_100: do i = ihi + 1, n
                     k = lscale( i )
                     if( k==i )cycle loop_100
@@ -1673,7 +1673,7 @@ module la_lapack_c
                  end do loop_100
               end if
            end if
-           110 continue
+
            return
      end subroutine la_cggbak
 
