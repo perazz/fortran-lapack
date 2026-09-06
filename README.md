@@ -3,9 +3,60 @@ This package provides precision-agnostic, high-level linear algebra APIs for `re
 
 A full and standardized implementation of the present library has been integrated into the [Fortran Standard Library](http://stdlib.fortran-lang.org/), and as such, most users should seek to access the functionality from `stdlib`. The present library is kept in place for those who seek a compact implementation of it.
 
+# Precision kinds and fpm features
+
+`sp` (32-bit) and `dp` (64-bit) are always built. The wider kinds are fpm features, so a build pays
+only for the precisions it asks for:
+
+| feature | kind | BLAS/LAPACK initials | in the `default` profile |
+|---|---|---|---|
+| `quad` | `qp`, 128-bit | `q` real, `w` complex | yes |
+| `xdp` | `xdp`, 80-bit extended | `x` real, `y` complex | no |
+
+`quad` is part of the `default` profile, so `fpm build`, `--profile debug` and `--profile release`
+carry `sp`, `dp` and `qp`, as every earlier release did. The named profiles select the other
+combinations:
+
+```bash
+fpm test                       # sp, dp, qp
+fpm test --profile lean        # sp and dp only, about a third less to compile
+fpm test --profile allkinds    # sp, dp, xdp, qp -- x86_64 only
+fpm test --profile external    # sp, dp, qp, against the reference BLAS and LAPACK
+```
+
+80-bit extended precision is a property of x86 hardware rather than of the language: on aarch64
+`selected_real_kind(18)` returns the 128-bit kind, so a build that asks for `xdp` there stops in
+`la_constants` instead of compiling a second copy of the quadruple-precision code.
+
+From a consumer's manifest:
+
+```toml
+[dependencies]
+# default: sp, dp, qp -- nothing to write
+fortran-lapack = { git = "https://github.com/perazz/fortran-lapack" }
+
+# sp and dp only
+fortran-lapack = { git = "https://github.com/perazz/fortran-lapack", profile = "lean" }
+
+# add 80-bit extended precision
+fortran-lapack = { git = "https://github.com/perazz/fortran-lapack", features = ["quad", "xdp"] }
+```
+
+`features = [...]` replaces the default set instead of adding to it, so a consumer that wants `xdp`
+as well as `qp` lists both.
+
+`la_constants` declares `sp`, `dp`, `xdp` and `qp` whether or not the build carries them: a kind
+left out is `-1`, so `use la_constants, only: qp` keeps compiling. The logical parameters
+`la_with_qp` and `la_with_xdp` say which of the two are real.
+
+Outside fpm, the same choice is made with the preprocessor: every source under `src/` is `.F90` and
+wants `-cpp`, with `-DLA_WITH_QP` for quadruple precision and `-DLA_WITH_XDP` for extended
+precision.
+
 # Browse API
 
-All procedures work with all types (`real`, `complex`) and kinds (32, 64, 128-bit floats).
+All procedures work with all types (`real`, `complex`) and kinds (32, 64, 128-bit floats, and the
+80-bit extended floats of the `xdp` feature).
 
 ## [chol](@ref la_cholesky::chol) - Cholesky factorization of a matrix (function).
 
@@ -976,6 +1027,14 @@ building or installing the package never needs fypp. After editing a template, r
 ```bash
 python3 scripts/fypp_deploy.py           # rewrite src/ and test/ from the templates
 python3 scripts/fypp_deploy.py --check   # verify the committed tree matches the templates
+```
+
+The cpp fences that keep the optional precisions out of a build that did not ask for them are
+written into the templates by a script of their own, so a new template gets them for free:
+
+```bash
+python3 scripts/guard_kinds.py           # fence every kind loop, and mirror the qp interface entries
+python3 scripts/guard_kinds.py --check   # verify every template is fenced
 ```
 
 `--check` is what continuous integration runs; it prints the templates it does not own yet and the reason for each.
