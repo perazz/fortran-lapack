@@ -8,3 +8,4 @@ build/
 project/bin
 project/doxygen/html
 project/doxygen/doxygen.log
+__pycache__/
