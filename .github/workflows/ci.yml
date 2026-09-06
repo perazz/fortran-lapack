@@ -1,0 +1,100 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  GCC_VERSION: '15'
+  FPM_VERSION: 'v0.13.0'
+
+jobs:
+  build-test:
+    name: ${{ matrix.os }} / ${{ matrix.profile }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        profile: [debug, release]
+        exclude:
+          # The release build of the six per-kind LAPACK modules exceeds the
+          # runner budget; ubuntu covers the optimized path.
+          - os: macos-latest
+            profile: release
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install the gfortran 12 runtime the fpm binary links against
+        if: runner.os == 'macOS'
+        run: brew install gcc@12
+
+      - name: Set up gfortran
+        uses: fortran-lang/setup-fortran@v1
+        with:
+          compiler: gcc
+          version: ${{ env.GCC_VERSION }}
+
+      - name: Set up fpm
+        uses: fortran-lang/setup-fpm@v10
+        with:
+          fpm-version: ${{ env.FPM_VERSION }}
+
+      - name: Build
+        run: fpm build --profile ${{ matrix.profile }}
+
+      - name: Test
+        run: fpm test --profile ${{ matrix.profile }}
+
+  external-lapack:
+    name: external LAPACK and BLAS
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    # The external interface stubs have never been compiled against a real
+    # LAPACK; report the outcome without blocking the merge queue.
+    continue-on-error: true
+
+    env:
+      EXTERNAL_FLAGS: -DLA_EXTERNAL_LAPACK -DLA_EXTERNAL_BLAS
+      EXTERNAL_LINK_FLAGS: -llapack -lblas
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up gfortran
+        uses: fortran-lang/setup-fortran@v1
+        with:
+          compiler: gcc
+          version: ${{ env.GCC_VERSION }}
+
+      - name: Set up fpm
+        uses: fortran-lang/setup-fpm@v10
+        with:
+          fpm-version: ${{ env.FPM_VERSION }}
+
+      - name: Install reference LAPACK and BLAS
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y liblapack-dev libblas-dev
+
+      - name: Build against the external libraries
+        run: >-
+          fpm build --profile debug
+          --flag "${{ env.EXTERNAL_FLAGS }}"
+          --link-flag "${{ env.EXTERNAL_LINK_FLAGS }}"
+
+      - name: Test against the external libraries
+        run: >-
+          fpm test --profile debug
+          --flag "${{ env.EXTERNAL_FLAGS }}"
+          --link-flag "${{ env.EXTERNAL_LINK_FLAGS }}"
