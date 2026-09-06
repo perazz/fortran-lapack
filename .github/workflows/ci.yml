@@ -22,13 +22,23 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest]
-        profile: [debug, release]
-        exclude:
+        include:
+          # debug and release carry the default feature set: sp, dp and qp.
+          - os: ubuntu-latest
+            profile: debug
+          - os: ubuntu-latest
+            profile: release
+          # sp and dp only.
+          - os: ubuntu-latest
+            profile: lean
+          # 80-bit extended precision exists on x86_64 only, so this cell never
+          # runs on the arm64 macOS runner.
+          - os: ubuntu-latest
+            profile: allkinds
           # The optimized build of the LAPACK sources exceeds the macOS runner
           # budget; ubuntu covers the optimized path.
           - os: macos-latest
-            profile: release
+            profile: debug
 
     steps:
       - name: Checkout repository
@@ -60,12 +70,6 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 60
 
-    env:
-      EXTERNAL_FLAGS: -DLA_EXTERNAL_LAPACK -DLA_EXTERNAL_BLAS
-      # fpm places link flags ahead of the objects, so the default --as-needed
-      # would drop both libraries before anything references them.
-      EXTERNAL_LINK_FLAGS: -Wl,--no-as-needed -llapack -lblas
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -87,16 +91,10 @@ jobs:
           sudo apt-get install -y liblapack-dev libblas-dev
 
       - name: Build against the external libraries
-        run: >-
-          fpm build --profile debug
-          --flag "${{ env.EXTERNAL_FLAGS }}"
-          --link-flag "${{ env.EXTERNAL_LINK_FLAGS }}"
+        run: fpm build --profile external
 
       - name: Test against the external libraries
-        run: >-
-          fpm test --profile debug
-          --flag "${{ env.EXTERNAL_FLAGS }}"
-          --link-flag "${{ env.EXTERNAL_LINK_FLAGS }}"
+        run: fpm test --profile external
 
   generated-sources:
     name: generated sources
@@ -114,6 +112,9 @@ jobs:
 
       - name: Install the generator toolchain
         run: pip install fypp==3.2 fprettify==0.3.7
+
+      - name: Check that every optional kind is fenced
+        run: python3 scripts/guard_kinds.py --check
 
       - name: Regenerate the committed sources and compare
         run: python3 scripts/fypp_deploy.py --check
