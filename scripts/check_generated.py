@@ -20,6 +20,12 @@ Names that legitimately change are listed in the allow-list file, one
 difference of one routine, named as the working tree spells it, and the comparison the gate
 holds it to.  The umbrella modules src/la_blas.F90 and src/la_lapack.F90 are compared as
 whole files, with only the `use` block and allow-listed procedure names permitted to differ.
+
+The working tree fences the optional precisions behind `#ifdef LA_WITH_QP` and
+`#ifdef LA_WITH_XDP`.  Those fences are removed before every comparison, and each routine must
+sit behind exactly the guards of the optional kinds its name carries.  The xdp instances have no
+counterpart in the baseline; instead of being reported as extra, each is compared with the qp
+instance of the same routine and must reach PASS-NORM, counted on its own line.
 """
 
 import argparse
@@ -45,8 +51,51 @@ HIGH_LEVEL = {
 UMBRELLAS = {"src/la_blas.F90": "src/la_blas.F90",
              "src/la_lapack.f90": "src/la_lapack.F90",
              "src/la_lapack.F90": "src/la_lapack.F90"}
-USE_CONSTANTS = re.compile(r"(?m)^[ \t]*use la_constants_(sp|dp|qp)\b[^\n]*\n")
-KIND_OF = {"s": "sp", "d": "dp", "q": "qp", "c": "sp", "z": "dp", "w": "qp"}
+USE_CONSTANTS = re.compile(r"(?m)^[ \t]*use la_constants_(%s)\b[^\n]*\n" % "|".join(K.KND))
+KIND_OF = K.KIND_OF
+# Guard macro of each optional kind, and the reverse.
+GUARD = {"qp": "LA_WITH_QP", "xdp": "LA_WITH_XDP"}
+GUARDED_KIND = {macro: kind for kind, macro in GUARD.items()}
+CPP_IF = re.compile(r"^#\s*(?:if|ifdef|ifndef)\b")
+CPP_IFDEF = re.compile(r"^#\s*ifdef\s+(\w+)\s*$")
+CPP_ENDIF = re.compile(r"^#\s*endif\b")
+END_ROUTINE_LINE = re.compile(r"^\s*end\s+(?:subroutine|function)\s+la_([a-z0-9_]+)\s*$")
+
+
+def strip_kind_guards(text):
+    """Remove the optional-kind fences and report the kinds each routine is fenced behind."""
+    out, stack, active, guards = [], [], [], {}
+    for line in text.split("\n"):
+        if CPP_IF.match(line):
+            macro = CPP_IFDEF.match(line)
+            kind = GUARDED_KIND.get(macro.group(1)) if macro else None
+            stack.append(kind)
+            if kind:
+                active.append(kind)
+                continue
+            out.append(line)
+            continue
+        if CPP_ENDIF.match(line):
+            kind = stack.pop() if stack else None
+            if kind:
+                active.pop()
+                continue
+            out.append(line)
+            continue
+        found = END_ROUTINE_LINE.match(line)
+        if found:
+            guards[found.group(1)] = frozenset(active)
+        out.append(line)
+    return "\n".join(out), guards
+
+
+def kinds_named(name):
+    """The optional kinds whose initial the routine name carries in a kind position."""
+    out = set()
+    for letter, kind in K.KIND_OF.items():
+        if kind in GUARD and K.map_name(name, {letter: "@"}) != name:
+            out.add(kind)
+    return frozenset(out)
 
 
 def git_show(ref, path):
@@ -77,14 +126,17 @@ def baseline_tree(ref):
 
 
 def working_tree():
-    out = {}
+    """The generated sources with their kind fences removed, and the fences each routine sat in."""
+    out, guards = {}, {}
     src = os.path.join(ROOT, "src")
     for name in sorted(os.listdir(src)):
         path = "src/" + name
         if is_generated(path):
             with open(os.path.join(src, name)) as fid:
-                out[path] = fid.read()
-    return out
+                text, found = strip_kind_guards(fid.read())
+            out[path] = text
+            guards.update(found)
+    return out, guards
 
 
 def collect(tree):
@@ -135,8 +187,8 @@ def strip_use(body, name):
     return USE_CONSTANTS.sub("", body), None
 
 
-LETTER_PATTERNS = (r"(?:selctg|select)_([sdqczw])", r"i([sdqczw])(?:amax|max1)",
-                   r"ila([sdqczw])(?:lc|lr|iag)", r"([sdqczw]).*")
+LETTER_PATTERNS = (r"(?:selctg|select)_(%s)" % K.CLASS, r"i(%s)(?:amax|max1)" % K.CLASS,
+                   r"ila(%s)(?:lc|lr|iag)" % K.CLASS, r"(%s).*" % K.CLASS)
 
 
 def _own_letter(name):
@@ -164,12 +216,18 @@ def comment_at(line):
     return len(line)
 
 
+# The leading letter of an upper-case run inside a character literal: the kind tag LAPACK passes
+# to xerbla, which a copy at another precision may or may not have been rewritten in.
+TAG_HEAD = re.compile(r"(?<![A-Z0-9_@])[A-Z](?=[A-Z][A-Z0-9_])")
+
+
 def mask_text(text):
     """Drop the kind role of every placeholder that sits in a comment or a character literal."""
     out = []
     for line in text.split("\n"):
         cut = comment_at(line)
-        code = QUOTED.sub(lambda m: MARK.sub("@TAG@", m.group(0)), line[:cut])
+        code = QUOTED.sub(lambda m: TAG_HEAD.sub("@TAG@", MARK.sub("@TAG@", m.group(0))),
+                          line[:cut])
         out.append(code + MARK.sub("@TAG@", line[cut:]))
     return "\n".join(out)
 
@@ -204,8 +262,9 @@ def compare(old_body, new_body, old_name, new_name, upper_bases, allowance=None)
     NORM/name  they also need identifiers that differ only by a leading kind letter to be
                equated: the local names the q and w copies inherited from d and z
     NORM/tag   they also need the kind role of a placeholder that sits in a comment or in a
-               character literal to be ignored: the stale 'DGETRF'-style tags and the stale kind
-               words the q and w copies inherited.  Code outside a literal is never touched.
+               character literal, and the leading letter of an upper-case run inside a literal,
+               to be ignored: the stale 'DGETRF'-style tags and the stale kind words the copies
+               at other precisions inherited.  Code outside a literal is never touched.
     ALLOW/...  the routine has a row in the allow-list naming a body difference and the
                comparison that row asks for accepts it.
     """
@@ -239,6 +298,21 @@ def diff(a, b, na, nb):
                                           lineterm=""))
 
 
+MODULE_PROCEDURE = re.compile(r"^\s*module procedure la_([a-z0-9_]+)\s*$")
+
+
+def drop_xdp_procedures(text):
+    """The umbrella without its xdp entries, and how many were dropped."""
+    kept, dropped = [], 0
+    for line in text.split("\n"):
+        found = MODULE_PROCEDURE.match(line)
+        if found and "xdp" in kinds_named(found.group(1)):
+            dropped += 1
+            continue
+        kept.append(line)
+    return "\n".join(kept), dropped
+
+
 def compare_umbrella(path, old, new, allow, report):
     """The umbrella may differ only in its `use` block and in allow-listed procedure names.
 
@@ -253,7 +327,9 @@ def compare_umbrella(path, old, new, allow, report):
         report.append("umbrella: could not locate the use block")
         return False
     old_rest = old[:old_use.start()] + old[old_use.end():]
-    new_rest = new[:new_use.start()] + new[new_use.end():]
+    new_rest, dropped = drop_xdp_procedures(new[:new_use.start()] + new[new_use.end():])
+    if dropped:
+        report.append("umbrella %s: %d xdp entries set aside" % (name, dropped))
     for old_name, (new_name, _) in allow.items():
         if new_name not in BODY_ALLOW and new_name != "REMOVED":
             old_rest = re.sub(r"\b%s\b" % re.escape(old_name), new_name, old_rest)
@@ -282,7 +358,8 @@ def main():
     args = parser.parse_args()
 
     allow = read_allow(args.allow)
-    old_tree, new_tree = baseline_tree(args.baseline), working_tree()
+    old_tree = baseline_tree(args.baseline)
+    new_tree, guards = working_tree()
     old_routines, old_dup = collect(old_tree)
     new_routines, new_dup = collect(new_tree)
     upper_bases = set(old_routines) | set(new_routines)
@@ -343,7 +420,42 @@ def main():
             failures += 1
             report.append("FAIL %s\n%s" % (target, text))
 
+    for name in sorted(new_routines):
+        want, got = kinds_named(name), guards.get(name, frozenset())
+        if want != got:
+            report.append("%s sits behind {%s}, expected {%s}"
+                          % (name, ",".join(sorted(got)), ",".join(sorted(want))))
+            counts["guard mismatch"] += 1
+            failures += 1
+
+    for name in sorted(new_routines):
+        if "xdp" not in kinds_named(name):
+            continue
+        twin = K.map_name(name, {"x": "q", "y": "w"})
+        if twin not in new_routines:
+            report.append("xdp %s has no qp instance %s" % (name, twin))
+            counts["xdp unpaired"] += 1
+            failures += 1
+            continue
+        qp_body, problem = strip_use(new_routines[twin][0], twin)
+        xdp_body, problem2 = strip_use(new_routines[name][0], name)
+        for text in (problem, problem2):
+            if text:
+                report.append("%s: %s" % (name, text))
+                failures += 1
+        verdict, applied, text = compare(qp_body, xdp_body, twin, name, upper_bases)
+        key = "xdp PASS-BYTE" if verdict == "BYTE" else \
+            ("xdp FAIL" if verdict == "FAIL" else "xdp PASS-" + verdict)
+        counts[key] += 1
+        if applied:
+            report.append("%s %s: identifiers %s" % (key, name, ",".join(sorted(applied))))
+        if verdict == "FAIL":
+            failures += 1
+            report.append("xdp FAIL %s against %s\n%s" % (name, twin, text))
+
     for name in sorted(set(new_routines) - matched_new):
+        if "xdp" in kinds_named(name):
+            continue
         report.append("extra: %s in %s is absent from the baseline" % (name, new_routines[name][1]))
         counts["extra"] += 1
         failures += 1
