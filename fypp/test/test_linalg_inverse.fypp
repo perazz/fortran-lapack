@@ -6,7 +6,7 @@ module test_linalg_inverse
     use testdrive, only: error_type, check, new_unittest, unittest_type
     use la_constants
     use linear_algebra, only: inv,invert,operator(.inv.),eye
-    use la_state_type, only: la_state,LINALG_ERROR
+    use la_state_type, only: la_state,LINALG_ERROR,LINALG_VALUE_ERROR
 
     implicit none (type,external)
     private
@@ -26,6 +26,7 @@ module test_linalg_inverse
         call add_test(tests,new_unittest("${ri}$_eye_inverse",test_${ri}$_eye_inverse)) 
         call add_test(tests,new_unittest("${ri}$_singular_inverse",test_${ri}$_singular_inverse)) 
         call add_test(tests,new_unittest("${ri}$_random_spd_inverse",test_${ri}$_random_spd_inverse))
+        call add_test(tests,new_unittest("${ri}$_inverse_pivot",test_${ri}$_inverse_pivot))
         #:endfor
 
     end subroutine test_inverse_matrix
@@ -50,6 +51,15 @@ module test_linalg_inverse
         call check(error,all(abs(a-inva)<epsilon(0.0_${rk}$)),'inverse_${ri}$_eye (function): data converged')
         if (allocated(error)) return  
         
+        !> Inverse subroutine: split
+        call invert(a,inva,err=state)
+
+        call check(error,state%ok(),'inverse_${ri}$_eye (subroutine): '//state%print())
+        if (allocated(error)) return
+        
+        call check(error,all(abs(a-inva)<epsilon(0.0_${rk}$)),'inverse_${ri}$_eye (subroutine): data converged')
+        if (allocated(error)) return   
+
         !> Inverse subroutine in-place
         call invert(a,err=state)
 
@@ -116,7 +126,7 @@ module test_linalg_inverse
         A = random_spd_matrix_${ri}$(n)
 
         !> Invert matrix
-        Am1 = inv(A,err=state)
+        call invert(A,Am1,err=state)
         
         !> Check result    
         call check(error,state%ok(),'random SPD matrix (${rk}$): '//state%print())
@@ -230,7 +240,7 @@ module test_linalg_inverse
         A = random_spd_matrix_${ci}$(n)
 
         !> Invert matrix
-        Am1 = inv(A,err=state)
+        call invert(A,Am1,err=state)
         
         !> Check result    
         call check(error,state%ok(),'random complex SPD matrix (${ck}$): '//state%print())
@@ -280,6 +290,53 @@ module test_linalg_inverse
         if (allocated(error)) return
         
     end subroutine test_${ci}$_singular_inverse
+
+    #:endfor
+
+    #:for rk,rt,ri in RC_KINDS_TYPES
+    !> Invert with caller-provided pivot storage, in place and split
+    subroutine test_${ri}$_inverse_pivot(error)
+        type(error_type), allocatable, intent(out) :: error
+
+        type(la_state) :: state
+
+        integer(ilp), parameter :: n = 25_ilp
+        integer(ilp) :: pivot(n)
+        ${rt}$ :: a(n,n),inva(n,n)
+
+        a = real(eye(n),${rk}$)
+
+        !> Split form with pivot storage
+        call invert(a,inva,pivot=pivot,err=state)
+
+        call check(error,state%ok(),'inverse_${ri}$_pivot (split): '//state%print())
+        if (allocated(error)) return
+
+        call check(error,all(abs(a-inva)<epsilon(0.0_${rk}$)),'inverse_${ri}$_pivot (split): data converged')
+        if (allocated(error)) return
+
+        !> In-place form with pivot storage
+        call invert(a,pivot=pivot,err=state)
+
+        call check(error,state%ok(),'inverse_${ri}$_pivot (in-place): '//state%print())
+        if (allocated(error)) return
+
+        call check(error,all(abs(a-inva)<epsilon(0.0_${rk}$)),'inverse_${ri}$_pivot (in-place): data converged')
+        if (allocated(error)) return
+
+        !> A pivot array that is too short is a value error
+        call invert(a,pivot=pivot(1:2),err=state)
+
+        call check(error,state%state==LINALG_VALUE_ERROR,'inverse_${ri}$_pivot: short pivot returned '//state%print())
+        if (allocated(error)) return
+
+        !> A mismatched output shape is a value error
+        call invert(a,inva(1:2,1:2),err=state)
+
+        call check(error,state%state==LINALG_VALUE_ERROR,'inverse_${ri}$_pivot: bad inva shape returned '//state%print())
+        if (allocated(error)) return
+
+    end subroutine test_${ri}$_inverse_pivot
 
     #:endfor
 

@@ -305,6 +305,36 @@ For a full-rank matrix, returns an array value that represents the solution to t
 - Raises [LINALG_VALUE_ERROR](@ref la_state_type::linalg_value_error) if the matrix and rhs vectors have invalid/incompatible sizes.
 - If `err` is not present, exceptions trigger an `error stop`.
 
+## [solve_lu](@ref la_solve::solve_lu) - Solve a linear system into a pre-allocated array.
+
+### Syntax
+
+`call solve_lu(a, b, x [, pivot] [, overwrite_a] [, err])`
+
+### Description
+
+Solve linear systems - one (`b(:)`) or many (`b(:,:)`) - writing the result into the caller's array `x` instead of returning a new one. Storage for the pivot indices may be supplied as well: when `x` and `pivot` are both provided and `overwrite_a=.true.`, the call performs no internal allocation, which makes it suited to a loop over many systems of the same size. The routine is `pure`.
+
+### Arguments
+
+- `a`: A `real` or `complex` coefficient matrix of size \( [n,n] \). If `overwrite_a=.true.`, it is destroyed by the call.
+- `b`: A rank-1 (one system) or rank-2 (many systems) array of the same kind as `a`, containing the right-hand-side vector(s).
+- `x`: An array of the same shape and kind as `b`. On output it holds the solution.
+- `pivot` (optional): An `integer(ilp)` array of size `n` that receives the diagonal pivot indices of the LU factorization.
+- `overwrite_a` (optional, default = `.false.`): If `.true.`, input matrix `a` will be used as temporary storage and overwritten, to avoid internal data allocation.
+- `err` (optional): A [type(la_state)](@ref la_state_type::la_state) variable.
+
+### Errors
+
+- Raises [LINALG_ERROR](@ref la_state_type::linalg_error) if the matrix is singular to working precision.
+- Raises [LINALG_VALUE_ERROR](@ref la_state_type::linalg_value_error) if `a`, `b`, `x` or `pivot` have invalid/incompatible sizes.
+- If `err` is not present, exceptions trigger an `error stop`.
+
+### Notes
+
+- This subroutine is based on LAPACK's LU decomposition solvers [GESV](@ref la_lapack::gesv).
+- [solve](@ref la_solve::solve) is the function form; it allocates and returns the solution instead of writing into `x`.
+
 ## [lstsq](@ref la_least_squares::lstsq) - Compute a least squares solution to a system of linear equations.
 
 ### Syntax
@@ -373,6 +403,35 @@ The function returns a `real` scalar value representing the determinant of the i
 
 
 
+## [operator(.det.)](@ref la_determinant::operator(.det.)) - Determinant of a square matrix.
+
+### Syntax
+
+```fortran
+d = .det. A
+```
+
+### Description
+
+This operator computes the determinant of a square real or complex matrix \f$ A \f$ from its LU factorization, in the same way as [det](@ref la_determinant::det). It is `pure`, so it can be used inside `pure` procedures and `do concurrent` blocks; it takes no `overwrite_a` flag and never modifies its operand, which is copied internally.
+
+### Arguments
+
+- `A`: A `real` or `complex` square matrix of size \f$ [n,n] \f$.
+
+### Return value
+
+A scalar of the same type and kind as `A`, holding its determinant.
+
+### Errors
+
+- Unlike [det](@ref la_determinant::det), this operator **does not provide explicit error handling**: it has no `err` argument, so a non-square or singular matrix triggers an `error stop`.
+
+### Notes
+
+- The determinant is computed through the LAPACK [getrf](@ref la_lapack::getrf) backend.
+- If error handling is required, use [det](@ref la_determinant::det) with its `err` argument instead.
+
 ## [inv](@ref la_inverse::inv) - Inverse of a square matrix.
 
 ### Syntax
@@ -411,15 +470,17 @@ The computation is performed using LU decomposition.
 - This function computes the inverse using LAPACK's LU decomposition routine [GETRF](@ref la_lapack::getrf) followed by [GETRI](@ref la_lapack::getri).
 - The inverse should be used with caution in numerical computations. For solving linear systems, using [solve](@ref la_solve::solve) is usually more stable and efficient than explicitly computing the inverse.
 
-## [invert](@ref la_inverse::invert) - In-place matrix inversion
+## [invert](@ref la_inverse::invert) - Matrix inversion (subroutine).
 
 ### Syntax
 
-`call invert(a [, err])`
+`call invert(a [, pivot] [, err])`
+
+`call invert(a, inva [, pivot] [, err])`
 
 ### Description
 
-This subroutine computes the inverse \\( A^{-1} \\) of a real or complex square matrix \\( A \\) **in-place**, modifying `a` directly. It uses the LU decomposition method via LAPACK's [GETRF](@ref la_lapack::getrf) and [GETRI](@ref la_lapack::getri) routines.
+This subroutine computes the inverse \\( A^{-1} \\) of a real or complex square matrix \\( A \\). The first form works **in-place**, modifying `a` directly; the second writes the inverse into a second matrix `inva` of the same shape and leaves `a` untouched. Both use the LU decomposition method via LAPACK's [GETRF](@ref la_lapack::getrf) and [GETRI](@ref la_lapack::getri) routines.
 
 Given a square matrix \\( A \\), the LU decomposition factorizes it as:
 
@@ -436,18 +497,20 @@ The inverse is then obtained by solving \\( A X = I \\) using the LU factors.
 
 ### Arguments
 
-- `a`: A `real` or `complex` square matrix of size \\( [n,n] \\). On output, it is replaced with its inverse \\( A^{-1} \\).
+- `a`: A `real` or `complex` square matrix of size \\( [n,n] \\). In the in-place form it is replaced with its inverse \\( A^{-1} \\) on output; in the split form it is read only.
+- `inva` (split form only): A matrix of the same shape and kind as `a`, which receives the inverse \\( A^{-1} \\).
+- `pivot` (optional): An `integer(ilp)` array of size at least `n` that receives the diagonal pivot indices of the LU factorization. Supplying it avoids the internal allocation of the pivot array.
 - `err` (optional): A [type(la_state)](@ref la_state_type::la_state) variable that returns the error state. If not provided, the function will stop execution on error.
 
 ### Errors
 
 - Raises [LINALG_ERROR](@ref la_state_type::linalg_error) if the matrix is singular.
-- Raises [LINALG_VALUE_ERROR](@ref la_state_type::linalg_value_error) if `a` has invalid size.
+- Raises [LINALG_VALUE_ERROR](@ref la_state_type::linalg_value_error) if `a` has invalid size, if `inva` does not match the shape of `a`, or if `pivot` is shorter than `n`.
 - If `err` is not provided, exceptions will trigger an `error stop`.
 
 ### Notes
 
-- This subroutine modifies `a` in-place. If the original matrix needs to be preserved, use [inv](@ref la_inverse::inv) instead.
+- The in-place form modifies `a`. If the original matrix needs to be preserved, use the split form or [inv](@ref la_inverse::inv) instead.
 - The determinant of `a` can be computed before inversion using [det](@ref la_determinant::det) to check for singularity.
 - The computational complexity is \\( O(n^3) \\), making it expensive for large matrices.
 - It is recommended to use matrix factorizations (e.g., LU or QR) for solving linear systems instead of computing the inverse explicitly, as it is numerically more stable and efficient.

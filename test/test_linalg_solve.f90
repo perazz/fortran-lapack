@@ -2,7 +2,7 @@
 module test_linalg_solve
     use la_constants
     use la_state_type
-    use linear_algebra,only:solve
+    use linear_algebra,only:solve,solve_lu
     use testdrive,only:error_type,check,new_unittest,unittest_type
 
     implicit none(type,external)
@@ -32,6 +32,13 @@ module test_linalg_solve
         call add_test(tests,new_unittest("solve_2x2_complex_z",test_2x2_z_solve))
         call add_test(tests,new_unittest("solve_complex_w",test_w_solve))
         call add_test(tests,new_unittest("solve_2x2_complex_w",test_2x2_w_solve))
+
+        call add_test(tests,new_unittest("solve_lu_s",test_s_solve_lu))
+        call add_test(tests,new_unittest("solve_lu_d",test_d_solve_lu))
+        call add_test(tests,new_unittest("solve_lu_q",test_q_solve_lu))
+        call add_test(tests,new_unittest("solve_lu_c",test_c_solve_lu))
+        call add_test(tests,new_unittest("solve_lu_z",test_z_solve_lu))
+        call add_test(tests,new_unittest("solve_lu_w",test_w_solve_lu))
 
     end subroutine test_linear_systems
     
@@ -370,6 +377,342 @@ module test_linalg_solve
 
     end subroutine test_2x2_w_solve
     
+    !> Solve into a caller-provided solution array, with and without pivot storage
+    subroutine test_s_solve_lu(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        type(la_state) :: state
+
+        integer(ilp) :: pivot(3)
+        real(sp) :: A(3,3) = transpose(reshape([real(sp) :: 1,3,3, &
+                                                            1,3,4, &
+                                                            1,4,3], [3,3]))
+        real(sp) :: b(3) = [real(sp) :: 1,4,-1]
+        real(sp) :: res(3) = [real(sp) :: -2,-2,3]
+        real(sp) :: x(3),bmat(3,2),xmat(3,2),resmat(3,2)
+
+        !> Internal pivot storage
+        call solve_lu(a,b,x,err=state)
+
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        call check(error,all(abs(x - res) < abs(res*epsilon(0.0_sp))),'solve_lu: results match expected')
+        if (allocated(error)) return
+
+        !> Caller-provided pivot storage
+        x = 0
+        call solve_lu(a,b,x,pivot=pivot,err=state)
+
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        call check(error,all(abs(x - res) < abs(res*epsilon(0.0_sp))),'solve_lu: results match expected (pivot)')
+        if (allocated(error)) return
+
+        !> Several right-hand sides at once
+        bmat(:,1) = b
+        bmat(:,2) = 2*b
+        resmat(:,1) = res
+        resmat(:,2) = 2*res
+
+        call solve_lu(a,bmat,xmat,pivot=pivot,err=state)
+
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        call check(error,all(abs(xmat - resmat) < abs(resmat*epsilon(0.0_sp))), &
+                   'solve_lu: multiple results match expected')
+        if (allocated(error)) return
+
+        !> A pivot array that is too short is a value error
+        call solve_lu(a,b,x,pivot=pivot(1:2),err=state)
+
+        call check(error,state%state == LINALG_VALUE_ERROR,'solve_lu: short pivot returned '//state%print())
+        if (allocated(error)) return
+
+    end subroutine test_s_solve_lu
+
+    !> Solve into a caller-provided solution array, with and without pivot storage
+    subroutine test_d_solve_lu(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        type(la_state) :: state
+
+        integer(ilp) :: pivot(3)
+        real(dp) :: A(3,3) = transpose(reshape([real(dp) :: 1,3,3, &
+                                                            1,3,4, &
+                                                            1,4,3], [3,3]))
+        real(dp) :: b(3) = [real(dp) :: 1,4,-1]
+        real(dp) :: res(3) = [real(dp) :: -2,-2,3]
+        real(dp) :: x(3),bmat(3,2),xmat(3,2),resmat(3,2)
+
+        !> Internal pivot storage
+        call solve_lu(a,b,x,err=state)
+
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        call check(error,all(abs(x - res) < abs(res*epsilon(0.0_dp))),'solve_lu: results match expected')
+        if (allocated(error)) return
+
+        !> Caller-provided pivot storage
+        x = 0
+        call solve_lu(a,b,x,pivot=pivot,err=state)
+
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        call check(error,all(abs(x - res) < abs(res*epsilon(0.0_dp))),'solve_lu: results match expected (pivot)')
+        if (allocated(error)) return
+
+        !> Several right-hand sides at once
+        bmat(:,1) = b
+        bmat(:,2) = 2*b
+        resmat(:,1) = res
+        resmat(:,2) = 2*res
+
+        call solve_lu(a,bmat,xmat,pivot=pivot,err=state)
+
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        call check(error,all(abs(xmat - resmat) < abs(resmat*epsilon(0.0_dp))), &
+                   'solve_lu: multiple results match expected')
+        if (allocated(error)) return
+
+        !> A pivot array that is too short is a value error
+        call solve_lu(a,b,x,pivot=pivot(1:2),err=state)
+
+        call check(error,state%state == LINALG_VALUE_ERROR,'solve_lu: short pivot returned '//state%print())
+        if (allocated(error)) return
+
+    end subroutine test_d_solve_lu
+
+    !> Solve into a caller-provided solution array, with and without pivot storage
+    subroutine test_q_solve_lu(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        type(la_state) :: state
+
+        integer(ilp) :: pivot(3)
+        real(qp) :: A(3,3) = transpose(reshape([real(qp) :: 1,3,3, &
+                                                            1,3,4, &
+                                                            1,4,3], [3,3]))
+        real(qp) :: b(3) = [real(qp) :: 1,4,-1]
+        real(qp) :: res(3) = [real(qp) :: -2,-2,3]
+        real(qp) :: x(3),bmat(3,2),xmat(3,2),resmat(3,2)
+
+        !> Internal pivot storage
+        call solve_lu(a,b,x,err=state)
+
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        call check(error,all(abs(x - res) < abs(res*epsilon(0.0_qp))),'solve_lu: results match expected')
+        if (allocated(error)) return
+
+        !> Caller-provided pivot storage
+        x = 0
+        call solve_lu(a,b,x,pivot=pivot,err=state)
+
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        call check(error,all(abs(x - res) < abs(res*epsilon(0.0_qp))),'solve_lu: results match expected (pivot)')
+        if (allocated(error)) return
+
+        !> Several right-hand sides at once
+        bmat(:,1) = b
+        bmat(:,2) = 2*b
+        resmat(:,1) = res
+        resmat(:,2) = 2*res
+
+        call solve_lu(a,bmat,xmat,pivot=pivot,err=state)
+
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        call check(error,all(abs(xmat - resmat) < abs(resmat*epsilon(0.0_qp))), &
+                   'solve_lu: multiple results match expected')
+        if (allocated(error)) return
+
+        !> A pivot array that is too short is a value error
+        call solve_lu(a,b,x,pivot=pivot(1:2),err=state)
+
+        call check(error,state%state == LINALG_VALUE_ERROR,'solve_lu: short pivot returned '//state%print())
+        if (allocated(error)) return
+
+    end subroutine test_q_solve_lu
+
+    !> Solve into a caller-provided solution array, with and without pivot storage
+    subroutine test_c_solve_lu(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        type(la_state) :: state
+
+        integer(ilp) :: pivot(3)
+        complex(sp) :: A(3,3) = transpose(reshape([complex(sp) :: 1,3,3, &
+                                                            1,3,4, &
+                                                            1,4,3], [3,3]))
+        complex(sp) :: b(3) = [complex(sp) :: 1,4,-1]
+        complex(sp) :: res(3) = [complex(sp) :: -2,-2,3]
+        complex(sp) :: x(3),bmat(3,2),xmat(3,2),resmat(3,2)
+
+        !> Internal pivot storage
+        call solve_lu(a,b,x,err=state)
+
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        call check(error,all(abs(x - res) < abs(res*epsilon(0.0_sp))),'solve_lu: results match expected')
+        if (allocated(error)) return
+
+        !> Caller-provided pivot storage
+        x = 0
+        call solve_lu(a,b,x,pivot=pivot,err=state)
+
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        call check(error,all(abs(x - res) < abs(res*epsilon(0.0_sp))),'solve_lu: results match expected (pivot)')
+        if (allocated(error)) return
+
+        !> Several right-hand sides at once
+        bmat(:,1) = b
+        bmat(:,2) = 2*b
+        resmat(:,1) = res
+        resmat(:,2) = 2*res
+
+        call solve_lu(a,bmat,xmat,pivot=pivot,err=state)
+
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        call check(error,all(abs(xmat - resmat) < abs(resmat*epsilon(0.0_sp))), &
+                   'solve_lu: multiple results match expected')
+        if (allocated(error)) return
+
+        !> A pivot array that is too short is a value error
+        call solve_lu(a,b,x,pivot=pivot(1:2),err=state)
+
+        call check(error,state%state == LINALG_VALUE_ERROR,'solve_lu: short pivot returned '//state%print())
+        if (allocated(error)) return
+
+    end subroutine test_c_solve_lu
+
+    !> Solve into a caller-provided solution array, with and without pivot storage
+    subroutine test_z_solve_lu(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        type(la_state) :: state
+
+        integer(ilp) :: pivot(3)
+        complex(dp) :: A(3,3) = transpose(reshape([complex(dp) :: 1,3,3, &
+                                                            1,3,4, &
+                                                            1,4,3], [3,3]))
+        complex(dp) :: b(3) = [complex(dp) :: 1,4,-1]
+        complex(dp) :: res(3) = [complex(dp) :: -2,-2,3]
+        complex(dp) :: x(3),bmat(3,2),xmat(3,2),resmat(3,2)
+
+        !> Internal pivot storage
+        call solve_lu(a,b,x,err=state)
+
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        call check(error,all(abs(x - res) < abs(res*epsilon(0.0_dp))),'solve_lu: results match expected')
+        if (allocated(error)) return
+
+        !> Caller-provided pivot storage
+        x = 0
+        call solve_lu(a,b,x,pivot=pivot,err=state)
+
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        call check(error,all(abs(x - res) < abs(res*epsilon(0.0_dp))),'solve_lu: results match expected (pivot)')
+        if (allocated(error)) return
+
+        !> Several right-hand sides at once
+        bmat(:,1) = b
+        bmat(:,2) = 2*b
+        resmat(:,1) = res
+        resmat(:,2) = 2*res
+
+        call solve_lu(a,bmat,xmat,pivot=pivot,err=state)
+
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        call check(error,all(abs(xmat - resmat) < abs(resmat*epsilon(0.0_dp))), &
+                   'solve_lu: multiple results match expected')
+        if (allocated(error)) return
+
+        !> A pivot array that is too short is a value error
+        call solve_lu(a,b,x,pivot=pivot(1:2),err=state)
+
+        call check(error,state%state == LINALG_VALUE_ERROR,'solve_lu: short pivot returned '//state%print())
+        if (allocated(error)) return
+
+    end subroutine test_z_solve_lu
+
+    !> Solve into a caller-provided solution array, with and without pivot storage
+    subroutine test_w_solve_lu(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        type(la_state) :: state
+
+        integer(ilp) :: pivot(3)
+        complex(qp) :: A(3,3) = transpose(reshape([complex(qp) :: 1,3,3, &
+                                                            1,3,4, &
+                                                            1,4,3], [3,3]))
+        complex(qp) :: b(3) = [complex(qp) :: 1,4,-1]
+        complex(qp) :: res(3) = [complex(qp) :: -2,-2,3]
+        complex(qp) :: x(3),bmat(3,2),xmat(3,2),resmat(3,2)
+
+        !> Internal pivot storage
+        call solve_lu(a,b,x,err=state)
+
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        call check(error,all(abs(x - res) < abs(res*epsilon(0.0_qp))),'solve_lu: results match expected')
+        if (allocated(error)) return
+
+        !> Caller-provided pivot storage
+        x = 0
+        call solve_lu(a,b,x,pivot=pivot,err=state)
+
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        call check(error,all(abs(x - res) < abs(res*epsilon(0.0_qp))),'solve_lu: results match expected (pivot)')
+        if (allocated(error)) return
+
+        !> Several right-hand sides at once
+        bmat(:,1) = b
+        bmat(:,2) = 2*b
+        resmat(:,1) = res
+        resmat(:,2) = 2*res
+
+        call solve_lu(a,bmat,xmat,pivot=pivot,err=state)
+
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        call check(error,all(abs(xmat - resmat) < abs(resmat*epsilon(0.0_qp))), &
+                   'solve_lu: multiple results match expected')
+        if (allocated(error)) return
+
+        !> A pivot array that is too short is a value error
+        call solve_lu(a,b,x,pivot=pivot(1:2),err=state)
+
+        call check(error,state%state == LINALG_VALUE_ERROR,'solve_lu: short pivot returned '//state%print())
+        if (allocated(error)) return
+
+    end subroutine test_w_solve_lu
+
     ! gcc-15 bugfix utility
     subroutine add_test(tests,new_test)
         type(unittest_type),allocatable,intent(inout) :: tests(:)

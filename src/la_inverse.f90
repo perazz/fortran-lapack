@@ -26,16 +26,22 @@ module la_inverse
      !!
      public :: inv
 
-     !> @brief Compute the inverse of a square matrix in-place.
+     !> @brief Compute the inverse of a square matrix.
      !!
-     !! This subroutine computes the inverse of a real or complex square matrix \f$ A \f$ in-place.
+     !! This subroutine computes the inverse of a real or complex square matrix \f$ A \f$, either
+     !! in-place or into a second matrix `inva` of the same shape.
      !! The inverse is computed using an LU decomposition with partial pivoting.
+     !! Storage for the pivot indices may be provided, so that a repeated call performs no
+     !! internal allocation of the pivot array.
      !!
-     !! @param[in,out] A The input square matrix of size \f$ [n, n] \f$. It is replaced by its inverse \f$ A^{-1} \f$.
+     !! @param[in,out] A The input square matrix of size \f$ [n, n] \f$. In the in-place form it is
+     !!                  replaced by its inverse \f$ A^{-1} \f$; in the split form it is read only.
+     !! @param[out] inva (Split form only) The inverse matrix \f$ A^{-1} \f$, of size \f$ [n, n] \f$.
+     !! @param[in,out] pivot (Optional) Storage array for the `n` diagonal pivot indices.
      !! @param[out] err (Optional) A state return flag. If an error occurs and `err` is not provided,
      !!                 the function will stop execution.
      !!
-     !! @note This subroutine is useful when memory efficiency is a priority, as it avoids additional allocations.
+     !! @note The in-place form is useful when memory efficiency is a priority, as it avoids additional allocations.
      !! @warning The matrix \f$ A \f$ must be non-singular. If it is singular or nearly singular,
      !!          the computation will fail.
      !!
@@ -67,14 +73,20 @@ module la_inverse
         module procedure la_inverse_w
      end interface inv
 
-     ! Subroutine interface: in-place factorization
+     ! Subroutine interface: in-place and split factorization
      interface invert
         module procedure la_invert_s
+        module procedure la_invert_split_s
         module procedure la_invert_d
+        module procedure la_invert_split_d
         module procedure la_invert_q
+        module procedure la_invert_split_q
         module procedure la_invert_c
+        module procedure la_invert_split_c
         module procedure la_invert_z
+        module procedure la_invert_split_z
         module procedure la_invert_w
+        module procedure la_invert_split_w
      end interface invert
 
      ! Operator interface
@@ -90,16 +102,18 @@ module la_inverse
      contains
 
      ! Compute the in-place square matrix inverse of a
-     subroutine la_invert_s(a,err)
+     subroutine la_invert_s(a,pivot,err)
          !> Input matrix a[n,n]
          real(sp),intent(inout) :: a(:,:)
+         !> [optional] Storage array for the diagonal pivot indices
+         integer(ilp),optional,intent(inout),target :: pivot(:)
          !> [optional] state return flag. On error if not requested, the code will stop
          type(la_state),optional,intent(out) :: err
 
          !> Local variables
          type(la_state) :: err0
-         integer(ilp) :: lda,n,info,nb,lwork
-         integer(ilp),allocatable :: ipiv(:)
+         integer(ilp) :: lda,n,info,nb,lwork,npiv
+         integer(ilp),pointer :: ipiv(:)
          real(sp),allocatable :: work(:)
          character(*),parameter :: this = 'invert'
 
@@ -107,14 +121,21 @@ module la_inverse
          lda = size(a,1,kind=ilp)
          n = size(a,2,kind=ilp)
 
-         if (lda < 1 .or. n < 1 .or. lda /= n) then
-            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size: a=[',lda,',',n,']')
+         ! Has a pre-allocated pivot storage array been provided?
+         if (present(pivot)) then
+            ipiv => pivot
+         else
+            allocate (ipiv(n))
+         end if
+         npiv = size(ipiv,kind=ilp)
+
+         if (lda < 1 .or. n < 1 .or. lda /= n .or. npiv < n) then
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size: a=[',lda,',',n,'],', &
+                                                                       'pivot=',npiv)
+            if (.not. present(pivot)) deallocate (ipiv)
             call err0%handle(err)
             return
          end if
-
-         ! Pivot indices
-         allocate (ipiv(n))
 
          ! Factorize matrix (overwrite result)
          call getrf(lda,n,a,lda,ipiv,info)
@@ -146,9 +167,49 @@ module la_inverse
          end select
 
          ! Process output and return
+         if (.not. present(pivot)) deallocate (ipiv)
          call err0%handle(err)
 
      end subroutine la_invert_s
+
+     ! Compute the square matrix inverse of a into a second matrix
+     subroutine la_invert_split_s(a,inva,pivot,err)
+         !> Input matrix a[n,n]
+         real(sp),intent(in) :: a(:,:)
+         !> Inverse matrix inva[n,n]
+         real(sp),intent(out) :: inva(:,:)
+         !> [optional] Storage array for the diagonal pivot indices
+         integer(ilp),optional,intent(inout),target :: pivot(:)
+         !> [optional] state return flag. On error if not requested, the code will stop
+         type(la_state),optional,intent(out) :: err
+
+         !> Local variables
+         type(la_state) :: err0
+         integer(ilp) :: sa(2),sinva(2)
+         character(*),parameter :: this = 'invert'
+
+         sa = shape(a,kind=ilp)
+         sinva = shape(inva,kind=ilp)
+
+         if (any(sa /= sinva)) then
+
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size: a=[',sa(1),',',sa(2),'],', &
+                                                                       'inva=[',sinva(1),',',sinva(2),']')
+
+         else
+
+            !> Copy data in
+            inva = a
+
+            !> Compute matrix inverse
+            call la_invert_s(inva,pivot=pivot,err=err0)
+
+         end if
+
+         ! Process output and return
+         call err0%handle(err)
+
+     end subroutine la_invert_split_s
 
      ! Invert matrix in place
      function la_inverse_s(a,err) result(inva)
@@ -163,7 +224,7 @@ module la_inverse
          allocate (inva,source=a)
 
          !> Compute matrix inverse
-         call la_invert_s(inva,err)
+         call la_invert_s(inva,err=err)
 
      end function la_inverse_s
 
@@ -187,16 +248,18 @@ module la_inverse
      end function la_inverse_s_operator
 
      ! Compute the in-place square matrix inverse of a
-     subroutine la_invert_d(a,err)
+     subroutine la_invert_d(a,pivot,err)
          !> Input matrix a[n,n]
          real(dp),intent(inout) :: a(:,:)
+         !> [optional] Storage array for the diagonal pivot indices
+         integer(ilp),optional,intent(inout),target :: pivot(:)
          !> [optional] state return flag. On error if not requested, the code will stop
          type(la_state),optional,intent(out) :: err
 
          !> Local variables
          type(la_state) :: err0
-         integer(ilp) :: lda,n,info,nb,lwork
-         integer(ilp),allocatable :: ipiv(:)
+         integer(ilp) :: lda,n,info,nb,lwork,npiv
+         integer(ilp),pointer :: ipiv(:)
          real(dp),allocatable :: work(:)
          character(*),parameter :: this = 'invert'
 
@@ -204,14 +267,21 @@ module la_inverse
          lda = size(a,1,kind=ilp)
          n = size(a,2,kind=ilp)
 
-         if (lda < 1 .or. n < 1 .or. lda /= n) then
-            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size: a=[',lda,',',n,']')
+         ! Has a pre-allocated pivot storage array been provided?
+         if (present(pivot)) then
+            ipiv => pivot
+         else
+            allocate (ipiv(n))
+         end if
+         npiv = size(ipiv,kind=ilp)
+
+         if (lda < 1 .or. n < 1 .or. lda /= n .or. npiv < n) then
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size: a=[',lda,',',n,'],', &
+                                                                       'pivot=',npiv)
+            if (.not. present(pivot)) deallocate (ipiv)
             call err0%handle(err)
             return
          end if
-
-         ! Pivot indices
-         allocate (ipiv(n))
 
          ! Factorize matrix (overwrite result)
          call getrf(lda,n,a,lda,ipiv,info)
@@ -243,9 +313,49 @@ module la_inverse
          end select
 
          ! Process output and return
+         if (.not. present(pivot)) deallocate (ipiv)
          call err0%handle(err)
 
      end subroutine la_invert_d
+
+     ! Compute the square matrix inverse of a into a second matrix
+     subroutine la_invert_split_d(a,inva,pivot,err)
+         !> Input matrix a[n,n]
+         real(dp),intent(in) :: a(:,:)
+         !> Inverse matrix inva[n,n]
+         real(dp),intent(out) :: inva(:,:)
+         !> [optional] Storage array for the diagonal pivot indices
+         integer(ilp),optional,intent(inout),target :: pivot(:)
+         !> [optional] state return flag. On error if not requested, the code will stop
+         type(la_state),optional,intent(out) :: err
+
+         !> Local variables
+         type(la_state) :: err0
+         integer(ilp) :: sa(2),sinva(2)
+         character(*),parameter :: this = 'invert'
+
+         sa = shape(a,kind=ilp)
+         sinva = shape(inva,kind=ilp)
+
+         if (any(sa /= sinva)) then
+
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size: a=[',sa(1),',',sa(2),'],', &
+                                                                       'inva=[',sinva(1),',',sinva(2),']')
+
+         else
+
+            !> Copy data in
+            inva = a
+
+            !> Compute matrix inverse
+            call la_invert_d(inva,pivot=pivot,err=err0)
+
+         end if
+
+         ! Process output and return
+         call err0%handle(err)
+
+     end subroutine la_invert_split_d
 
      ! Invert matrix in place
      function la_inverse_d(a,err) result(inva)
@@ -260,7 +370,7 @@ module la_inverse
          allocate (inva,source=a)
 
          !> Compute matrix inverse
-         call la_invert_d(inva,err)
+         call la_invert_d(inva,err=err)
 
      end function la_inverse_d
 
@@ -284,16 +394,18 @@ module la_inverse
      end function la_inverse_d_operator
 
      ! Compute the in-place square matrix inverse of a
-     subroutine la_invert_q(a,err)
+     subroutine la_invert_q(a,pivot,err)
          !> Input matrix a[n,n]
          real(qp),intent(inout) :: a(:,:)
+         !> [optional] Storage array for the diagonal pivot indices
+         integer(ilp),optional,intent(inout),target :: pivot(:)
          !> [optional] state return flag. On error if not requested, the code will stop
          type(la_state),optional,intent(out) :: err
 
          !> Local variables
          type(la_state) :: err0
-         integer(ilp) :: lda,n,info,nb,lwork
-         integer(ilp),allocatable :: ipiv(:)
+         integer(ilp) :: lda,n,info,nb,lwork,npiv
+         integer(ilp),pointer :: ipiv(:)
          real(qp),allocatable :: work(:)
          character(*),parameter :: this = 'invert'
 
@@ -301,14 +413,21 @@ module la_inverse
          lda = size(a,1,kind=ilp)
          n = size(a,2,kind=ilp)
 
-         if (lda < 1 .or. n < 1 .or. lda /= n) then
-            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size: a=[',lda,',',n,']')
+         ! Has a pre-allocated pivot storage array been provided?
+         if (present(pivot)) then
+            ipiv => pivot
+         else
+            allocate (ipiv(n))
+         end if
+         npiv = size(ipiv,kind=ilp)
+
+         if (lda < 1 .or. n < 1 .or. lda /= n .or. npiv < n) then
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size: a=[',lda,',',n,'],', &
+                                                                       'pivot=',npiv)
+            if (.not. present(pivot)) deallocate (ipiv)
             call err0%handle(err)
             return
          end if
-
-         ! Pivot indices
-         allocate (ipiv(n))
 
          ! Factorize matrix (overwrite result)
          call getrf(lda,n,a,lda,ipiv,info)
@@ -340,9 +459,49 @@ module la_inverse
          end select
 
          ! Process output and return
+         if (.not. present(pivot)) deallocate (ipiv)
          call err0%handle(err)
 
      end subroutine la_invert_q
+
+     ! Compute the square matrix inverse of a into a second matrix
+     subroutine la_invert_split_q(a,inva,pivot,err)
+         !> Input matrix a[n,n]
+         real(qp),intent(in) :: a(:,:)
+         !> Inverse matrix inva[n,n]
+         real(qp),intent(out) :: inva(:,:)
+         !> [optional] Storage array for the diagonal pivot indices
+         integer(ilp),optional,intent(inout),target :: pivot(:)
+         !> [optional] state return flag. On error if not requested, the code will stop
+         type(la_state),optional,intent(out) :: err
+
+         !> Local variables
+         type(la_state) :: err0
+         integer(ilp) :: sa(2),sinva(2)
+         character(*),parameter :: this = 'invert'
+
+         sa = shape(a,kind=ilp)
+         sinva = shape(inva,kind=ilp)
+
+         if (any(sa /= sinva)) then
+
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size: a=[',sa(1),',',sa(2),'],', &
+                                                                       'inva=[',sinva(1),',',sinva(2),']')
+
+         else
+
+            !> Copy data in
+            inva = a
+
+            !> Compute matrix inverse
+            call la_invert_q(inva,pivot=pivot,err=err0)
+
+         end if
+
+         ! Process output and return
+         call err0%handle(err)
+
+     end subroutine la_invert_split_q
 
      ! Invert matrix in place
      function la_inverse_q(a,err) result(inva)
@@ -357,7 +516,7 @@ module la_inverse
          allocate (inva,source=a)
 
          !> Compute matrix inverse
-         call la_invert_q(inva,err)
+         call la_invert_q(inva,err=err)
 
      end function la_inverse_q
 
@@ -381,16 +540,18 @@ module la_inverse
      end function la_inverse_q_operator
 
      ! Compute the in-place square matrix inverse of a
-     subroutine la_invert_c(a,err)
+     subroutine la_invert_c(a,pivot,err)
          !> Input matrix a[n,n]
          complex(sp),intent(inout) :: a(:,:)
+         !> [optional] Storage array for the diagonal pivot indices
+         integer(ilp),optional,intent(inout),target :: pivot(:)
          !> [optional] state return flag. On error if not requested, the code will stop
          type(la_state),optional,intent(out) :: err
 
          !> Local variables
          type(la_state) :: err0
-         integer(ilp) :: lda,n,info,nb,lwork
-         integer(ilp),allocatable :: ipiv(:)
+         integer(ilp) :: lda,n,info,nb,lwork,npiv
+         integer(ilp),pointer :: ipiv(:)
          complex(sp),allocatable :: work(:)
          character(*),parameter :: this = 'invert'
 
@@ -398,14 +559,21 @@ module la_inverse
          lda = size(a,1,kind=ilp)
          n = size(a,2,kind=ilp)
 
-         if (lda < 1 .or. n < 1 .or. lda /= n) then
-            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size: a=[',lda,',',n,']')
+         ! Has a pre-allocated pivot storage array been provided?
+         if (present(pivot)) then
+            ipiv => pivot
+         else
+            allocate (ipiv(n))
+         end if
+         npiv = size(ipiv,kind=ilp)
+
+         if (lda < 1 .or. n < 1 .or. lda /= n .or. npiv < n) then
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size: a=[',lda,',',n,'],', &
+                                                                       'pivot=',npiv)
+            if (.not. present(pivot)) deallocate (ipiv)
             call err0%handle(err)
             return
          end if
-
-         ! Pivot indices
-         allocate (ipiv(n))
 
          ! Factorize matrix (overwrite result)
          call getrf(lda,n,a,lda,ipiv,info)
@@ -437,9 +605,49 @@ module la_inverse
          end select
 
          ! Process output and return
+         if (.not. present(pivot)) deallocate (ipiv)
          call err0%handle(err)
 
      end subroutine la_invert_c
+
+     ! Compute the square matrix inverse of a into a second matrix
+     subroutine la_invert_split_c(a,inva,pivot,err)
+         !> Input matrix a[n,n]
+         complex(sp),intent(in) :: a(:,:)
+         !> Inverse matrix inva[n,n]
+         complex(sp),intent(out) :: inva(:,:)
+         !> [optional] Storage array for the diagonal pivot indices
+         integer(ilp),optional,intent(inout),target :: pivot(:)
+         !> [optional] state return flag. On error if not requested, the code will stop
+         type(la_state),optional,intent(out) :: err
+
+         !> Local variables
+         type(la_state) :: err0
+         integer(ilp) :: sa(2),sinva(2)
+         character(*),parameter :: this = 'invert'
+
+         sa = shape(a,kind=ilp)
+         sinva = shape(inva,kind=ilp)
+
+         if (any(sa /= sinva)) then
+
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size: a=[',sa(1),',',sa(2),'],', &
+                                                                       'inva=[',sinva(1),',',sinva(2),']')
+
+         else
+
+            !> Copy data in
+            inva = a
+
+            !> Compute matrix inverse
+            call la_invert_c(inva,pivot=pivot,err=err0)
+
+         end if
+
+         ! Process output and return
+         call err0%handle(err)
+
+     end subroutine la_invert_split_c
 
      ! Invert matrix in place
      function la_inverse_c(a,err) result(inva)
@@ -454,7 +662,7 @@ module la_inverse
          allocate (inva,source=a)
 
          !> Compute matrix inverse
-         call la_invert_c(inva,err)
+         call la_invert_c(inva,err=err)
 
      end function la_inverse_c
 
@@ -478,16 +686,18 @@ module la_inverse
      end function la_inverse_c_operator
 
      ! Compute the in-place square matrix inverse of a
-     subroutine la_invert_z(a,err)
+     subroutine la_invert_z(a,pivot,err)
          !> Input matrix a[n,n]
          complex(dp),intent(inout) :: a(:,:)
+         !> [optional] Storage array for the diagonal pivot indices
+         integer(ilp),optional,intent(inout),target :: pivot(:)
          !> [optional] state return flag. On error if not requested, the code will stop
          type(la_state),optional,intent(out) :: err
 
          !> Local variables
          type(la_state) :: err0
-         integer(ilp) :: lda,n,info,nb,lwork
-         integer(ilp),allocatable :: ipiv(:)
+         integer(ilp) :: lda,n,info,nb,lwork,npiv
+         integer(ilp),pointer :: ipiv(:)
          complex(dp),allocatable :: work(:)
          character(*),parameter :: this = 'invert'
 
@@ -495,14 +705,21 @@ module la_inverse
          lda = size(a,1,kind=ilp)
          n = size(a,2,kind=ilp)
 
-         if (lda < 1 .or. n < 1 .or. lda /= n) then
-            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size: a=[',lda,',',n,']')
+         ! Has a pre-allocated pivot storage array been provided?
+         if (present(pivot)) then
+            ipiv => pivot
+         else
+            allocate (ipiv(n))
+         end if
+         npiv = size(ipiv,kind=ilp)
+
+         if (lda < 1 .or. n < 1 .or. lda /= n .or. npiv < n) then
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size: a=[',lda,',',n,'],', &
+                                                                       'pivot=',npiv)
+            if (.not. present(pivot)) deallocate (ipiv)
             call err0%handle(err)
             return
          end if
-
-         ! Pivot indices
-         allocate (ipiv(n))
 
          ! Factorize matrix (overwrite result)
          call getrf(lda,n,a,lda,ipiv,info)
@@ -534,9 +751,49 @@ module la_inverse
          end select
 
          ! Process output and return
+         if (.not. present(pivot)) deallocate (ipiv)
          call err0%handle(err)
 
      end subroutine la_invert_z
+
+     ! Compute the square matrix inverse of a into a second matrix
+     subroutine la_invert_split_z(a,inva,pivot,err)
+         !> Input matrix a[n,n]
+         complex(dp),intent(in) :: a(:,:)
+         !> Inverse matrix inva[n,n]
+         complex(dp),intent(out) :: inva(:,:)
+         !> [optional] Storage array for the diagonal pivot indices
+         integer(ilp),optional,intent(inout),target :: pivot(:)
+         !> [optional] state return flag. On error if not requested, the code will stop
+         type(la_state),optional,intent(out) :: err
+
+         !> Local variables
+         type(la_state) :: err0
+         integer(ilp) :: sa(2),sinva(2)
+         character(*),parameter :: this = 'invert'
+
+         sa = shape(a,kind=ilp)
+         sinva = shape(inva,kind=ilp)
+
+         if (any(sa /= sinva)) then
+
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size: a=[',sa(1),',',sa(2),'],', &
+                                                                       'inva=[',sinva(1),',',sinva(2),']')
+
+         else
+
+            !> Copy data in
+            inva = a
+
+            !> Compute matrix inverse
+            call la_invert_z(inva,pivot=pivot,err=err0)
+
+         end if
+
+         ! Process output and return
+         call err0%handle(err)
+
+     end subroutine la_invert_split_z
 
      ! Invert matrix in place
      function la_inverse_z(a,err) result(inva)
@@ -551,7 +808,7 @@ module la_inverse
          allocate (inva,source=a)
 
          !> Compute matrix inverse
-         call la_invert_z(inva,err)
+         call la_invert_z(inva,err=err)
 
      end function la_inverse_z
 
@@ -575,16 +832,18 @@ module la_inverse
      end function la_inverse_z_operator
 
      ! Compute the in-place square matrix inverse of a
-     subroutine la_invert_w(a,err)
+     subroutine la_invert_w(a,pivot,err)
          !> Input matrix a[n,n]
          complex(qp),intent(inout) :: a(:,:)
+         !> [optional] Storage array for the diagonal pivot indices
+         integer(ilp),optional,intent(inout),target :: pivot(:)
          !> [optional] state return flag. On error if not requested, the code will stop
          type(la_state),optional,intent(out) :: err
 
          !> Local variables
          type(la_state) :: err0
-         integer(ilp) :: lda,n,info,nb,lwork
-         integer(ilp),allocatable :: ipiv(:)
+         integer(ilp) :: lda,n,info,nb,lwork,npiv
+         integer(ilp),pointer :: ipiv(:)
          complex(qp),allocatable :: work(:)
          character(*),parameter :: this = 'invert'
 
@@ -592,14 +851,21 @@ module la_inverse
          lda = size(a,1,kind=ilp)
          n = size(a,2,kind=ilp)
 
-         if (lda < 1 .or. n < 1 .or. lda /= n) then
-            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size: a=[',lda,',',n,']')
+         ! Has a pre-allocated pivot storage array been provided?
+         if (present(pivot)) then
+            ipiv => pivot
+         else
+            allocate (ipiv(n))
+         end if
+         npiv = size(ipiv,kind=ilp)
+
+         if (lda < 1 .or. n < 1 .or. lda /= n .or. npiv < n) then
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size: a=[',lda,',',n,'],', &
+                                                                       'pivot=',npiv)
+            if (.not. present(pivot)) deallocate (ipiv)
             call err0%handle(err)
             return
          end if
-
-         ! Pivot indices
-         allocate (ipiv(n))
 
          ! Factorize matrix (overwrite result)
          call getrf(lda,n,a,lda,ipiv,info)
@@ -631,9 +897,49 @@ module la_inverse
          end select
 
          ! Process output and return
+         if (.not. present(pivot)) deallocate (ipiv)
          call err0%handle(err)
 
      end subroutine la_invert_w
+
+     ! Compute the square matrix inverse of a into a second matrix
+     subroutine la_invert_split_w(a,inva,pivot,err)
+         !> Input matrix a[n,n]
+         complex(qp),intent(in) :: a(:,:)
+         !> Inverse matrix inva[n,n]
+         complex(qp),intent(out) :: inva(:,:)
+         !> [optional] Storage array for the diagonal pivot indices
+         integer(ilp),optional,intent(inout),target :: pivot(:)
+         !> [optional] state return flag. On error if not requested, the code will stop
+         type(la_state),optional,intent(out) :: err
+
+         !> Local variables
+         type(la_state) :: err0
+         integer(ilp) :: sa(2),sinva(2)
+         character(*),parameter :: this = 'invert'
+
+         sa = shape(a,kind=ilp)
+         sinva = shape(inva,kind=ilp)
+
+         if (any(sa /= sinva)) then
+
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size: a=[',sa(1),',',sa(2),'],', &
+                                                                       'inva=[',sinva(1),',',sinva(2),']')
+
+         else
+
+            !> Copy data in
+            inva = a
+
+            !> Compute matrix inverse
+            call la_invert_w(inva,pivot=pivot,err=err0)
+
+         end if
+
+         ! Process output and return
+         call err0%handle(err)
+
+     end subroutine la_invert_split_w
 
      ! Invert matrix in place
      function la_inverse_w(a,err) result(inva)
@@ -648,7 +954,7 @@ module la_inverse
          allocate (inva,source=a)
 
          !> Compute matrix inverse
-         call la_invert_w(inva,err)
+         call la_invert_w(inva,err=err)
 
      end function la_inverse_w
 
