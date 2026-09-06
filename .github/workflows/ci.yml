@@ -59,13 +59,12 @@ jobs:
     name: external LAPACK and BLAS
     runs-on: ubuntu-latest
     timeout-minutes: 60
-    # The external interface stubs have never been compiled against a real
-    # LAPACK; report the outcome without blocking the merge queue.
-    continue-on-error: true
 
     env:
       EXTERNAL_FLAGS: -DLA_EXTERNAL_LAPACK -DLA_EXTERNAL_BLAS
-      EXTERNAL_LINK_FLAGS: -llapack -lblas
+      # fpm places link flags ahead of the objects, so the default --as-needed
+      # would drop both libraries before anything references them.
+      EXTERNAL_LINK_FLAGS: -Wl,--no-as-needed -llapack -lblas
 
     steps:
       - name: Checkout repository

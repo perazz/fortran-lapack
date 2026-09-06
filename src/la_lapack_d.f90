@@ -75793,7 +75793,6 @@ module la_lapack_d
                  end if
               else
                  ! n < mnthr
-                 print *, 'path 5t'
                  ! path 5t (n > m, but not much larger)
                  ! reduce to bidiagonal form without lq decomposition
                  ie = 1

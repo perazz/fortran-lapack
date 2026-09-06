@@ -16220,7 +16220,7 @@ module la_lapack_c
            ! Intrinsic Functions 
            intrinsic :: abs,real,cmplx,aimag,sign,max,min
            ! Statement Functions 
-           real(dp) :: cabs1
+           real(sp) :: cabs1
            ! Statement Function Definitions 
            cabs1( z ) = abs( real( z,KIND=sp) ) + abs( aimag( z ) )
            ! Executable Statements 
