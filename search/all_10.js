@@ -234,7 +234,7 @@ var searchData=
   ['slatrz_231',['slatrz',['../interfacela__lapack_1_1latrz.html#aa833c8b8f2c43d9d6bf7e26bc63cf8d0',1,'la_lapack::latrz']]],
   ['slatsqr_232',['slatsqr',['../interfacela__lapack_1_1latsqr.html#a53d3e3b0b83a731b1ff2756cfc02a6f5',1,'la_lapack::latsqr']]],
   ['slauum_233',['slauum',['../interfacela__lapack_1_1lauum.html#a9cc335b19cc9ca9889248211fd9a337a',1,'la_lapack::lauum']]],
-  ['snrm2_234',['snrm2',['../interfacela__blas_1_1nrm2.html#a4cd226e3c633d8d5dfe47bd822b46ff3',1,'la_blas::nrm2']]],
+  ['snrm2_234',['snrm2',['../interfacela__blas_1_1nrm2.html#a3abcec865f86d1c8226fce411709e7ed',1,'la_blas::nrm2']]],
   ['solution_20to_20a_20system_20of_20linear_20equations_235',['@ref la_least_squares::lstsq &quot;lstsq&quot; - Compute a least squares solution to a system of linear equations.',['../index.html#autotoc_md74',1,'']]],
   ['solve_236',['solve',['../interfacela__solve_1_1solve.html',1,'la_solve']]],
   ['solve_20a_20linear_20matrix_20equation_20or_20a_20linear_20system_20of_20equations_237',['@ref la_solve::solve &quot;solve&quot; - Solve a linear matrix equation or a linear system of equations.',['../index.html#autotoc_md68',1,'']]],

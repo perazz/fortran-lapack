@@ -208,9 +208,6 @@ Functions/Subroutines</h2></td></tr>
 <tr class="memitem:adf796ff0f5ee63a5130d588f085a48b0" id="r_adf796ff0f5ee63a5130d588f085a48b0"><td class="memItemLeft" align="right" valign="top">pure real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>) function, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adf796ff0f5ee63a5130d588f085a48b0">la_qroundup_lwork</a> (lwork)</td></tr>
 <tr class="memdesc:adf796ff0f5ee63a5130d588f085a48b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">DROUNDUP_LWORK: deals with a subtle bug with returning LWORK as a Float. This routine guarantees it is rounded up instead of down by multiplying LWORK by 1+eps when it is necessary, where eps is the relative machine precision. E.g., float( 9007199254740993            ) == 9007199254740992 float( 9007199254740993 ) * (1.+eps) == 9007199254740994.  <br /></td></tr>
 <tr class="separator:adf796ff0f5ee63a5130d588f085a48b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac5000b10a1d7c8fa30d9303f3402a896" id="r_ac5000b10a1d7c8fa30d9303f3402a896"><td class="memItemLeft" align="right" valign="top">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>) function, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac5000b10a1d7c8fa30d9303f3402a896">la_ilaqiag</a> (diag)</td></tr>
-<tr class="memdesc:ac5000b10a1d7c8fa30d9303f3402a896"><td class="mdescLeft">&#160;</td><td class="mdescRight">This subroutine translated from a character string specifying if a matrix has unit diagonal or not to the relevant BLAST-specified integer constant. ILADIAG: returns an INTEGER. If ILADIAG: &lt; 0, then the input is not a character indicating a unit or non-unit diagonal. Otherwise ILADIAG returns the constant value corresponding to DIAG.  <br /></td></tr>
-<tr class="separator:ac5000b10a1d7c8fa30d9303f3402a896"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a89c999353d6bf1a6ec63f15a8c2e26f9" id="r_a89c999353d6bf1a6ec63f15a8c2e26f9"><td class="memItemLeft" align="right" valign="top">pure integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>) function, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a89c999353d6bf1a6ec63f15a8c2e26f9">la_ilaqlc</a> (m, n, a, lda)</td></tr>
 <tr class="memdesc:a89c999353d6bf1a6ec63f15a8c2e26f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">ILADLC: scans A for its last non-zero column.  <br /></td></tr>
 <tr class="separator:a89c999353d6bf1a6ec63f15a8c2e26f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -719,34 +716,6 @@ Here is the call graph for this function:</div>
 <div class="center"><img src="namespacela__lapack__aux_aee83b603761505f6d385807439902d1a_cgraph.png" border="0" usemap="#anamespacela__lapack__aux_aee83b603761505f6d385807439902d1a_cgraph" alt=""/></div>
 <map name="anamespacela__lapack__aux_aee83b603761505f6d385807439902d1a_cgraph" id="anamespacela__lapack__aux_aee83b603761505f6d385807439902d1a_cgraph">
 <area shape="rect" title="This subroutine translated from a character string specifying an intermediate precision to the releva..." alt="" coords="5,29,192,55"/>
-<area shape="poly" title=" " alt="" coords="68,31,61,21,65,11,77,5,99,3,124,6,135,15,132,19,122,11,99,8,79,10,69,15,66,20,72,28"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="ac5000b10a1d7c8fa30d9303f3402a896" name="ac5000b10a1d7c8fa30d9303f3402a896"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac5000b10a1d7c8fa30d9303f3402a896">&#9670;&#160;</a></span>la_ilaqiag()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>) function, public la_lapack_aux::la_ilaqiag </td>
-          <td>(</td>
-          <td class="paramtype">character</td>          <td class="paramname"><span class="paramname"><em>diag</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>This subroutine translated from a character string specifying if a matrix has unit diagonal or not to the relevant BLAST-specified integer constant. ILADIAG: returns an INTEGER. If ILADIAG: &lt; 0, then the input is not a character indicating a unit or non-unit diagonal. Otherwise ILADIAG returns the constant value corresponding to DIAG. </p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="namespacela__lapack__aux_ac5000b10a1d7c8fa30d9303f3402a896_cgraph.png" border="0" usemap="#anamespacela__lapack__aux_ac5000b10a1d7c8fa30d9303f3402a896_cgraph" alt=""/></div>
-<map name="anamespacela__lapack__aux_ac5000b10a1d7c8fa30d9303f3402a896_cgraph" id="anamespacela__lapack__aux_ac5000b10a1d7c8fa30d9303f3402a896_cgraph">
-<area shape="rect" title="This subroutine translated from a character string specifying if a matrix has unit diagonal or not to..." alt="" coords="5,29,192,55"/>
 <area shape="poly" title=" " alt="" coords="68,31,61,21,65,11,77,5,99,3,124,6,135,15,132,19,122,11,99,8,79,10,69,15,66,20,72,28"/>
 </map>
 </div>

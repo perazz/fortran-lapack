@@ -213,7 +213,7 @@ var searchData=
   ['dlatrz_210',['dlatrz',['../interfacela__lapack_1_1latrz.html#a7e3cf4f0f8a5f8005cb3350ac400b791',1,'la_lapack::latrz']]],
   ['dlatsqr_211',['dlatsqr',['../interfacela__lapack_1_1latsqr.html#ae2f21cd91b5c1cbfdc798c1602e56af1',1,'la_lapack::latsqr']]],
   ['dlauum_212',['dlauum',['../interfacela__lapack_1_1lauum.html#a3e21f7c703e36bb7e83ab0241e2fc4ba',1,'la_lapack::lauum']]],
-  ['dnrm2_213',['dnrm2',['../interfacela__blas_1_1nrm2.html#a5f0ee366399da83ba083aaabad8e1aa7',1,'la_blas::nrm2']]],
+  ['dnrm2_213',['dnrm2',['../interfacela__blas_1_1nrm2.html#acbb6a8d7bc4d807b5da8dd53e70fbcd0',1,'la_blas::nrm2']]],
   ['dopgtr_214',['dopgtr',['../interfacela__lapack_1_1opgtr.html#a70c7c74f43706aeeff42b34c4764a962',1,'la_lapack::opgtr']]],
   ['dopmtr_215',['dopmtr',['../interfacela__lapack_1_1opmtr.html#ad801207fb1be94cde67ec895af411122',1,'la_lapack::opmtr']]],
   ['dorbdb_216',['dorbdb',['../interfacela__lapack_1_1orbdb.html#a5df40cdb2bcfbf175786bd0e98ac2e55',1,'la_lapack::orbdb']]],

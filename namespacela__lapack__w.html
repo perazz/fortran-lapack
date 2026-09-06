@@ -117,9 +117,6 @@ $(function(){initNavTree('namespacela__lapack__w.html',''); initResizable(true);
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions/Subroutines</h2></td></tr>
-<tr class="memitem:a9fb8a3fad33c1a3c91bb44feb8a06a9c" id="r_a9fb8a3fad33c1a3c91bb44feb8a06a9c"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9fb8a3fad33c1a3c91bb44feb8a06a9c">la_wlag2w</a> (m, n, sa, ldsa, a, lda, info)</td></tr>
-<tr class="memdesc:a9fb8a3fad33c1a3c91bb44feb8a06a9c"><td class="mdescLeft">&#160;</td><td class="mdescRight">ZLAG2W: converts a COMPLEX matrix, SA, to a COMPLEX*16 matrix, A. Note that while it is possible to overflow while converting from double to single, it is not possible to overflow when converting from single to double. This is an auxiliary routine so there is no argument checking.  <br /></td></tr>
-<tr class="separator:a9fb8a3fad33c1a3c91bb44feb8a06a9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aee699b35361cdb25d43ec38fc5a14cb5" id="r_aee699b35361cdb25d43ec38fc5a14cb5"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aee699b35361cdb25d43ec38fc5a14cb5">la_wbbcsd</a> (jobu1, jobu2, jobv1t, jobv2t, trans, m, p, q, theta, phi, u1, ldu1, u2, ldu2, v1t, ldv1t, v2t, ldv2t, b11d, b11e, b12d, b12e, b21d, b21e, b22d, b22e, rwork, lrwork, info)</td></tr>
 <tr class="memdesc:aee699b35361cdb25d43ec38fc5a14cb5"><td class="mdescLeft">&#160;</td><td class="mdescRight">ZBBCSD: computes the CS decomposition of a unitary matrix in bidiagonal-block form, [ B11 | B12 0 0 ] [ 0 | 0 -I 0 ] X = [-------------&mdash;] [ B21 | B22 0 0 ] [ 0 | 0 0 I ] [ C | -S 0 0 ] [ U1 | ] [ 0 | 0 -I 0 ] [ V1 | ]**H = [------&mdash;] [------------&mdash;] [------&mdash;] . [ | U2 ] [ S | C 0 0 ] [ | V2 ] [ 0 | 0 0 I ] X is M-by-M, its top-left block is P-by-Q, and Q must be no larger than P, M-P, or M-Q. (If Q is not the smallest index, then X must be transposed and/or permuted. This can be done in constant time using the TRANS and SIGNS options. See ZUNCSD for details.) The bidiagonal matrices B11, B12, B21, and B22 are represented implicitly by angles THETA(1:Q) and PHI(1:Q-1). The unitary matrices U1, U2, V1T, and V2T are input/output. The input matrices are pre- or post-multiplied by the appropriate singular vector matrices.  <br /></td></tr>
 <tr class="separator:aee699b35361cdb25d43ec38fc5a14cb5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -22670,54 +22667,6 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 
 <p>ZLAG2C: converts a COMPLEX*16 matrix, SA, to a COMPLEX matrix, A. RMAX is the overflow for the SINGLE PRECISION arithmetic ZLAG2C checks that all the entries of A are between -RMAX and RMAX. If not the conversion is aborted and a flag is raised. This is an auxiliary routine so there is no argument checking. </p>
-
-</div>
-</div>
-<a id="a9fb8a3fad33c1a3c91bb44feb8a06a9c" name="a9fb8a3fad33c1a3c91bb44feb8a06a9c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9fb8a3fad33c1a3c91bb44feb8a06a9c">&#9670;&#160;</a></span>la_wlag2w()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">pure subroutine, public la_lapack_w::la_wlag2w </td>
-          <td>(</td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>m</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>n</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(ldsa,*), intent(in)</td>          <td class="paramname"><span class="paramname"><em>sa</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>ldsa</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(lda,*), intent(out)</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>lda</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(out)</td>          <td class="paramname"><span class="paramname"><em>info</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>ZLAG2W: converts a COMPLEX matrix, SA, to a COMPLEX*16 matrix, A. Note that while it is possible to overflow while converting from double to single, it is not possible to overflow when converting from single to double. This is an auxiliary routine so there is no argument checking. </p>
 
 </div>
 </div>

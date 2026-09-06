@@ -135,7 +135,6 @@ var la__lapack__q_8f90 =
     [ "la_lapack_q::la_qlaev2", "namespacela__lapack__q.html#a208411852bbb17f33f3c27e0c5da297b", null ],
     [ "la_lapack_q::la_qlaexc", "namespacela__lapack__q.html#aa9b125f9a3d23b5f4f9ede182908ce5f", null ],
     [ "la_lapack_q::la_qlag2", "namespacela__lapack__q.html#a967733980ff3a79daae6bf2fce28bc08", null ],
-    [ "la_lapack_q::la_qlag2q", "namespacela__lapack__q.html#a1e53c662d0c25f3c8f2393d5aaa30491", null ],
     [ "la_lapack_q::la_qlag2s", "namespacela__lapack__q.html#a3fb59f0be0f0da46a8e8e1d98276aaca", null ],
     [ "la_lapack_q::la_qlags2", "namespacela__lapack__q.html#a5cde91a47a08b7e8a72ebe88126d5248", null ],
     [ "la_lapack_q::la_qlagtf", "namespacela__lapack__q.html#a7818096cb382d59ba2427ec02b16b949", null ],

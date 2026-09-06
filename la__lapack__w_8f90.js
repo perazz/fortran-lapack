@@ -191,7 +191,6 @@ var la__lapack__w_8f90 =
     [ "la_lapack_w::la_wlaesy", "namespacela__lapack__w.html#a7c34813abfb60acaab70d592a6143365", null ],
     [ "la_lapack_w::la_wlaev2", "namespacela__lapack__w.html#ab8e93a2abf2c2f78a72c678dd534969c", null ],
     [ "la_lapack_w::la_wlag2c", "namespacela__lapack__w.html#abe4a3f4f69059bccc647ea2f2852b703", null ],
-    [ "la_lapack_w::la_wlag2w", "namespacela__lapack__w.html#a9fb8a3fad33c1a3c91bb44feb8a06a9c", null ],
     [ "la_lapack_w::la_wlags2", "namespacela__lapack__w.html#af965a7019cac322d44752bb8a0ad515c", null ],
     [ "la_lapack_w::la_wlagtm", "namespacela__lapack__w.html#ab8f67ee58601f9b484ba2422272cd3e9", null ],
     [ "la_lapack_w::la_wlahef", "namespacela__lapack__w.html#ab83a903ef49b5d18716441c72aab54f8", null ],
