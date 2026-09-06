@@ -28,9 +28,7 @@ FPRETTIFY_FLAGS = [
 ]
 
 # Templates that the pipeline does not own yet.
-NOT_YET_TEMPLATED = {
-    "la_lapack": "LAPACK umbrella, not templated yet",
-}
+NOT_YET_TEMPLATED = {}
 
 # Templates whose committed output was edited by hand afterwards: regenerating them would revert
 # those edits, so they need a reconciliation change of their own before they rejoin the pipeline.
@@ -49,9 +47,8 @@ SOURCE_DIVERGED = {
 
 EXCLUDED = dict(NOT_YET_TEMPLATED, **SOURCE_DIVERGED)
 
-# Committed names that do not follow the extension rule below: both carry cpp directives yet are
-# committed as .f90, and consumers' build files list them under that name.
-NAME_OVERRIDE = {"la_lapack": "la_lapack.f90", "la_lapack_aux": "la_lapack_aux.f90"}
+# Committed names that do not follow the extension rule below.
+NAME_OVERRIDE = {}
 
 CPP_DIRECTIVE = re.compile(r"^#\s*(if|ifdef|ifndef|elif|else|endif|define|undef)\b", re.M)
 LABELLED_CONTINUE = re.compile(r"^\s*(\d+)\s+(continue)\s*$")

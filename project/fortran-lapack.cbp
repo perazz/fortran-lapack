@@ -99,10 +99,10 @@
 		<Unit filename="../src/la_inverse.f90">
 			<Option weight="28" />
 		</Unit>
-		<Unit filename="../src/la_lapack.f90">
+		<Unit filename="../src/la_lapack.F90">
 			<Option weight="27" />
 		</Unit>
-		<Unit filename="../src/la_lapack_aux.f90">
+		<Unit filename="../src/la_lapack_aux.F90">
 			<Option weight="10" />
 		</Unit>
 		<Unit filename="../src/la_lapack_auxiliary.f90">

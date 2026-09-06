@@ -57,6 +57,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Removed the six per-kind LAPACK modules `la_lapack_{s,d,q,c,z,w}`. Every
   routine they held now lives in one of the 47 kind-templated topic modules,
   which the `la_lapack` umbrella imports directly.
+- The `la_lapack` umbrella is generated from `include/la_lapack_interfaces.fypp`,
+  a data table of its 498 generic interfaces and their 1524 external-library
+  stubs, the way `la_blas` already was. `src/la_lapack.f90` and
+  `src/la_lapack_aux.f90` are renamed `src/la_lapack.F90` and
+  `src/la_lapack_aux.F90`: both carry cpp directives, so they now follow the
+  extension rule the rest of the generated tree follows. Build files that list
+  either source by name need the new spelling.
 - The `generated-sources` continuous-integration job runs
   `scripts/fypp_deploy.py --check` and fails on any drift between a template
   and its committed output.
