@@ -1266,9 +1266,6 @@ module la_blas
 #ifdef LA_WITH_QP
                module procedure la_qddot
 #endif
-#ifdef LA_WITH_XDP
-               module procedure la_xddot
-#endif
           end interface sdot
 
           !> SPMV:  performs the matrix-vector operation

@@ -87,6 +87,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `LA_WITH_XDP`. `xdp` sits above `dp` as a branch of its own, so `qp` keeps
   `dp` below it and `la_qdgesv`, `la_qlag2d`, `la_dlag2q`, `la_wzgesv`,
   `la_zlag2w` and `la_wlag2z` keep their names and their meaning.
+- `la_xddot`, the extended-precision accumulation dot product, is public from
+  `la_blas_level1` but is not part of the `sdot` generic: its dummy arguments
+  are `real(dp)`, exactly those of `la_qddot`, so a generic interface could not
+  tell the two apart.
 - `la_constants` exports `xdp` alongside `sp`, `dp` and `qp`, and the logical
   parameters `la_with_qp` and `la_with_xdp`. An optional kind that a build left
   out is `-1`, so code that imports the kind number still compiles.

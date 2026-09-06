@@ -15,7 +15,8 @@ carries them and on a tree that has moved on:
               those kinds, so it carries their guard rather than the enclosing one's.
 
   tables      include/la_blas_interfaces.fypp and include/la_lapack_interfaces.fypp gain, for
-              every qp and every complex-qp entry, the xdp entry of the same routine.
+              every qp and every complex-qp entry, the xdp entry of the same routine, except
+              where the two would be indistinguishable inside a generic interface.
 """
 
 import argparse
@@ -38,6 +39,10 @@ ENTRY_KEY = "specific[0]"
 # A loop over the kinds above the one its enclosing loop iterates over declares those kinds, so
 # it carries their guard rather than the enclosing one's.
 UP_SET = "LA_UPS["
+# The extended-precision accumulation dot product takes its operands one precision below its own,
+# so its dummy arguments are exactly those of the quadruple-precision one and a generic interface
+# cannot tell the two apart.  la_xddot stays public from its topic module, out of the generic.
+NOT_IN_A_GENERIC = {"xddot"}
 
 FOR = re.compile(r"^(\s*)#:\s*for\s+(.+?)\s+in\s+(.+?)\s*$")
 ENDFOR = re.compile(r"^\s*#:\s*endfor\s*$")
@@ -114,7 +119,7 @@ def mirror_entries(entries):
     known = {e[0] for e in entries}
     for specific, internal, stub in entries:
         mirrored = K.mirror_name(internal)
-        if mirrored == internal:
+        if mirrored == internal or mirrored in NOT_IN_A_GENERIC:
             continue
         new = (mirrored, mirrored, stub)
         if new[0] not in known:
@@ -130,7 +135,8 @@ def guard_tables(text):
         if not m:
             out.append(line)
             continue
-        entries = [tuple(e) for e in ast.literal_eval(m.group(1))]
+        entries = [tuple(e) for e in ast.literal_eval(m.group(1))
+                   if e[0] not in NOT_IN_A_GENERIC]
         extra = mirror_entries(entries)
         if extra:
             entries = sorted(entries + extra, key=lambda e: e[0])
