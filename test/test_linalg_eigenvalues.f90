@@ -721,7 +721,7 @@ module test_linalg_eigenvalues
                         [9,2,1], &
                         [8,3,4]], [3,3])
 
-      S_Z = real(eye(3),sp)
+      S_Z = eye(3,mold=0.0_sp)
 
       A_D = real(A_Z)
       S_D = real(S_Z)
@@ -826,7 +826,7 @@ module test_linalg_eigenvalues
                         [9,2,1], &
                         [8,3,4]], [3,3])
 
-      S_Z = real(eye(3),dp)
+      S_Z = eye(3,mold=0.0_dp)
 
       A_D = real(A_Z)
       S_D = real(S_Z)
@@ -931,7 +931,7 @@ module test_linalg_eigenvalues
                         [9,2,1], &
                         [8,3,4]], [3,3])
 
-      S_Z = real(eye(3),qp)
+      S_Z = eye(3,mold=0.0_qp)
 
       A_D = real(A_Z)
       S_D = real(S_Z)

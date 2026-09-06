@@ -328,7 +328,7 @@ module test_linalg_eigenvalues
                         [9, 2, 1], &
                         [8, 3, 4] ], [3,3] )
 
-      S_Z = real(eye(3),${ck}$)
+      S_Z = eye(3, mold=0.0_${ck}$)
 
       A_D = real(A_Z)
       S_D = real(S_Z)
