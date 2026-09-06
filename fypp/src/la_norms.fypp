@@ -1,4 +1,5 @@
 #:include "common.fypp"
+#:mute
 #:set RANKS = range(1, MAXRANK + 1)
 #:set INPUT_TYPE    = ["character(len=*)","integer(ilp)"]
 #:set INPUT_SHORT   = ["char","int"]
@@ -104,14 +105,13 @@ ${indent}$do ${varname}$${n+1+dim_offset-i}$ = lbound(${matname}$, ${n+1+dim_off
     #:endfor
   #:endcall  
 #:enddef
-
+#:endmute
 !> Matrix and Vector norms
 module la_norms
      use la_constants
      use la_blas, only: nrm2
      use la_lapack, only: lange
      use la_state_type
-     use iso_fortran_env,only:real32,real64,real128,int8,int16,int32,int64,stderr => error_unit
      implicit none(type,external)
      private
      
@@ -128,9 +128,9 @@ module la_norms
      integer(ilp), parameter :: NORM_MINUSINF = -huge(0_ilp)
      
      ! List of *LANGE norm flags
-     character, parameter :: LANGE_NORM_MAT = 'M' !> maxval(sum(abs(a))), over whole matrix: unused
-     character, parameter :: LANGE_NORM_ONE = '1' !> maxval(sum(abs(a),1)), over columns
-     character, parameter :: LANGE_NORM_INF = 'I' !> maxval(sum(abs(a),2)), over rows
+     character, parameter :: LANGE_NORM_MAT = 'M' !> maxval(sum(abs(a)))   over whole matrix: unused
+     character, parameter :: LANGE_NORM_ONE = '1' !> maxval(sum(abs(a),1)) over columns
+     character, parameter :: LANGE_NORM_INF = 'I' !> maxval(sum(abs(a),2)) over rows
      character, parameter :: LANGE_NORM_TWO = 'E' !> "Euclidean" or "Frobenius"
      
      !> @brief Compute the norm of a vector or matrix using LAPACK-based routines.
@@ -164,12 +164,10 @@ module la_norms
      interface norm
         #:for rk,rt,ri in ALL_KINDS_TYPES
         #:for it,ii in INPUT_OPTIONS
-        !> Scalar norms: ${rt}$
         #:for rank in RANKS        
         module procedure la_norm_${rank}$D_order_${ii}$_${ri}$         
         module procedure la_norm_${rank}$D_order_err_${ii}$_${ri}$         
         #:endfor
-        !> Array norms: ${rt}$
         #:for rank in range(2, MAXRANK + 1)
         module procedure la_norm_${rank}$D_to_${rank-1}$D_${ii}$_${ri}$
         module procedure la_norm_${rank}$D_to_${rank-1}$D_err_${ii}$_${ri}$
