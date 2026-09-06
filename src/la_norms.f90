@@ -1,9 +1,11 @@
+
 !> Matrix and Vector norms
 module la_norms
      use la_constants
-     use la_blas,only: nrm2
-     use la_lapack,only: lange
+     use la_blas,only:nrm2
+     use la_lapack,only:lange
      use la_state_type
+     use iso_fortran_env,only:real32,real64,real128,int8,int16,int32,int64,stderr => error_unit
      implicit none(type,external)
      private
      
@@ -11,7 +13,7 @@ module la_norms
 
      character(*),parameter :: this = 'norm'
      
-     !> List of internal norm flags
+     ! List of internal norm flags
      integer(ilp),parameter :: NORM_ONE = 1_ilp
      integer(ilp),parameter :: NORM_TWO = 2_ilp
      integer(ilp),parameter :: NORM_POW_FIRST = 3_ilp
@@ -19,30 +21,30 @@ module la_norms
      integer(ilp),parameter :: NORM_POW_LAST = NORM_INF - 1_ilp
      integer(ilp),parameter :: NORM_MINUSINF = -huge(0_ilp)
      
-     !> List of *LANGE norm flags
-     character,parameter :: LANGE_NORM_MAT = 'M' !> maxval(sum(abs(a)))   over whole matrix: unused
-     character,parameter :: LANGE_NORM_ONE = '1' !> maxval(sum(abs(a),1)) over columns
-     character,parameter :: LANGE_NORM_INF = 'I' !> maxval(sum(abs(a),2)) over rows
+     ! List of *LANGE norm flags
+     character,parameter :: LANGE_NORM_MAT = 'M' !> maxval(sum(abs(a))), over whole matrix: unused
+     character,parameter :: LANGE_NORM_ONE = '1' !> maxval(sum(abs(a),1)), over columns
+     character,parameter :: LANGE_NORM_INF = 'I' !> maxval(sum(abs(a),2)), over rows
      character,parameter :: LANGE_NORM_TWO = 'E' !> "Euclidean" or "Frobenius"
      
      !> @brief Compute the norm of a vector or matrix using LAPACK-based routines.
      !!
-     !! Return one of several scalar norm metrics of a real or complex input array A, that can have any rank. 
-     !! For generic rank-n arrays, the scalar norm over the whole array is returned by default. 
-     !! If \f$ n \geq 2 \f$ and the optional input dimension `dim` is specified, a rank \f$ n-1 \f$ array is returned with dimension `dim` collapsed, 
+     !! Return one of several scalar norm metrics of a real or complex input array A, that can have any rank.
+     !! For generic rank-n arrays, the scalar norm over the whole array is returned by default.
+     !! If \f$ n \geq 2 \f$ and the optional input dimension `dim` is specified, a rank \f$ n-1 \f$ array is returned with dimension `dim` collapsed,
      !! containing all 1D array norms evaluated along dimension `dim` only.
      !!
-     !! Norm type input is mandatory, and it is provided via the `order` argument. This can be provided as either an integer value or a character string. 
+     !! Norm type input is mandatory, and it is provided via the `order` argument. This can be provided as either an integer value or a character string.
      !! Allowed metrics are:
      !! - 1-norm \f$ \sum_i |a_i| \f$: `order = 1` or `order = "1"`
      !! - Euclidean norm \f$ \sqrt{\sum_i a_i^2} \f$: `order = 2` or `order = "2"`
-     !! - p-norm \f$ \left( \sum_i |a_i|^p \right)^{1/p} \f$: integer `order >= 3` 
+     !! - p-norm \f$ \left( \sum_i |a_i|^p \right)^{1/p} \f$: integer `order >= 3`
      !! - Infinity norm \f$ \max_i |a_i| \f$: `order = huge(0)` or `"inf"`
      !! - Minus-infinity norm \f$ \min_i |a_i| \f$: `order = -huge(0)` or `"-inf"`
      !!
      !! @param[in] a The input vector or matrix. It may have rank 1 (vector) or higher.
      !! @param[in] order The order of the norm to compute, typically one of the allowed metrics.
-     !! @param[in] dim (Optional) The dimension along which to compute the norm, 
+     !! @param[in] dim (Optional) The dimension along which to compute the norm,
      !!               applicable for array norms reducing rank.
      !! @param[out] err (Optional) A state return flag. If an error occurs and `err` is not provided,
      !!                 the function will stop execution.
@@ -52,8 +54,9 @@ module la_norms
      !!
      !! @note This interface utilizes LAPACK routines for efficient computation, ensuring numerical stability.
      !! @warning If invalid input values (such as negative norms) are provided, the behavior is undefined.
-     !!   
+     !!
      interface norm
+        !> Scalar norms: real(sp)
         module procedure la_norm_1D_order_char_s
         module procedure la_norm_1D_order_err_char_s
         module procedure la_norm_2D_order_char_s
@@ -68,6 +71,7 @@ module la_norms
         module procedure la_norm_6D_order_err_char_s
         module procedure la_norm_7D_order_char_s
         module procedure la_norm_7D_order_err_char_s
+        !> Array norms: real(sp)
         module procedure la_norm_2D_to_1D_char_s
         module procedure la_norm_2D_to_1D_err_char_s
         module procedure la_norm_3D_to_2D_char_s
@@ -80,6 +84,7 @@ module la_norms
         module procedure la_norm_6D_to_5D_err_char_s
         module procedure la_norm_7D_to_6D_char_s
         module procedure la_norm_7D_to_6D_err_char_s
+        !> Scalar norms: real(sp)
         module procedure la_norm_1D_order_int_s
         module procedure la_norm_1D_order_err_int_s
         module procedure la_norm_2D_order_int_s
@@ -94,6 +99,7 @@ module la_norms
         module procedure la_norm_6D_order_err_int_s
         module procedure la_norm_7D_order_int_s
         module procedure la_norm_7D_order_err_int_s
+        !> Array norms: real(sp)
         module procedure la_norm_2D_to_1D_int_s
         module procedure la_norm_2D_to_1D_err_int_s
         module procedure la_norm_3D_to_2D_int_s
@@ -106,6 +112,7 @@ module la_norms
         module procedure la_norm_6D_to_5D_err_int_s
         module procedure la_norm_7D_to_6D_int_s
         module procedure la_norm_7D_to_6D_err_int_s
+        !> Scalar norms: real(dp)
         module procedure la_norm_1D_order_char_d
         module procedure la_norm_1D_order_err_char_d
         module procedure la_norm_2D_order_char_d
@@ -120,6 +127,7 @@ module la_norms
         module procedure la_norm_6D_order_err_char_d
         module procedure la_norm_7D_order_char_d
         module procedure la_norm_7D_order_err_char_d
+        !> Array norms: real(dp)
         module procedure la_norm_2D_to_1D_char_d
         module procedure la_norm_2D_to_1D_err_char_d
         module procedure la_norm_3D_to_2D_char_d
@@ -132,6 +140,7 @@ module la_norms
         module procedure la_norm_6D_to_5D_err_char_d
         module procedure la_norm_7D_to_6D_char_d
         module procedure la_norm_7D_to_6D_err_char_d
+        !> Scalar norms: real(dp)
         module procedure la_norm_1D_order_int_d
         module procedure la_norm_1D_order_err_int_d
         module procedure la_norm_2D_order_int_d
@@ -146,6 +155,7 @@ module la_norms
         module procedure la_norm_6D_order_err_int_d
         module procedure la_norm_7D_order_int_d
         module procedure la_norm_7D_order_err_int_d
+        !> Array norms: real(dp)
         module procedure la_norm_2D_to_1D_int_d
         module procedure la_norm_2D_to_1D_err_int_d
         module procedure la_norm_3D_to_2D_int_d
@@ -158,6 +168,7 @@ module la_norms
         module procedure la_norm_6D_to_5D_err_int_d
         module procedure la_norm_7D_to_6D_int_d
         module procedure la_norm_7D_to_6D_err_int_d
+        !> Scalar norms: real(qp)
         module procedure la_norm_1D_order_char_q
         module procedure la_norm_1D_order_err_char_q
         module procedure la_norm_2D_order_char_q
@@ -172,6 +183,7 @@ module la_norms
         module procedure la_norm_6D_order_err_char_q
         module procedure la_norm_7D_order_char_q
         module procedure la_norm_7D_order_err_char_q
+        !> Array norms: real(qp)
         module procedure la_norm_2D_to_1D_char_q
         module procedure la_norm_2D_to_1D_err_char_q
         module procedure la_norm_3D_to_2D_char_q
@@ -184,6 +196,7 @@ module la_norms
         module procedure la_norm_6D_to_5D_err_char_q
         module procedure la_norm_7D_to_6D_char_q
         module procedure la_norm_7D_to_6D_err_char_q
+        !> Scalar norms: real(qp)
         module procedure la_norm_1D_order_int_q
         module procedure la_norm_1D_order_err_int_q
         module procedure la_norm_2D_order_int_q
@@ -198,6 +211,7 @@ module la_norms
         module procedure la_norm_6D_order_err_int_q
         module procedure la_norm_7D_order_int_q
         module procedure la_norm_7D_order_err_int_q
+        !> Array norms: real(qp)
         module procedure la_norm_2D_to_1D_int_q
         module procedure la_norm_2D_to_1D_err_int_q
         module procedure la_norm_3D_to_2D_int_q
@@ -210,6 +224,7 @@ module la_norms
         module procedure la_norm_6D_to_5D_err_int_q
         module procedure la_norm_7D_to_6D_int_q
         module procedure la_norm_7D_to_6D_err_int_q
+        !> Scalar norms: complex(sp)
         module procedure la_norm_1D_order_char_c
         module procedure la_norm_1D_order_err_char_c
         module procedure la_norm_2D_order_char_c
@@ -364,6 +379,7 @@ module la_norms
         module procedure la_norm_6D_order_err_int_w
         module procedure la_norm_7D_order_int_w
         module procedure la_norm_7D_order_err_int_w
+        !> Array norms: complex(qp)
         module procedure la_norm_2D_to_1D_int_w
         module procedure la_norm_2D_to_1D_err_int_w
         module procedure la_norm_3D_to_2D_int_w
@@ -688,7 +704,7 @@ module la_norms
               norm_type = NORM_INF
            case ('-inf','-Inf','-INF')
               norm_type = NORM_MINUSINF
-           case ('Euclidean','euclidean','EUCLIDEAN')
+           case ('Euclidean','euclidean','EUCLIDEAN','Frobenius','frobenius','FROBENIUS','fro','Fro','FRO')
               norm_type = NORM_TWO
            case default
             
@@ -1976,8 +1992,8 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: j,m,n,lda,dims(2),norm_request
-        integer(ilp),dimension(3) :: s,spack,perm
+        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(3) :: s,spack,perm,iperm
         integer(ilp),dimension(3),parameter :: dim_range = [(m,m=1_ilp,3_ilp)]
         integer(ilp) :: j3
         logical :: contiguous_data
@@ -2014,7 +2030,7 @@ module la_norms
         s = shape(a,kind=ilp)
         
         ! Check if input column data is contiguous
-        contiguous_data = dims(1) == 1
+        contiguous_data = all(dims == [1,2])
         
         ! Matrix norm size
         m = s(dims(1))
@@ -2023,19 +2039,16 @@ module la_norms
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
-            ! Collapse everything before the 1st dimension as apack's dim #1
-            ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
-            
-            ! Reshape without moving data
-            apack(1:spack(1),1:spack(2),1:spack(3)) => a
+            ! The norm dimensions already lead: use the input data as-is
+            apack => a
             
         else
             
             ! Dimension permutations to map dims(1),dims(2) => 1:2
             perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
+            iperm(perm) = dim_range
             spack = s(perm)
-            apack = reshape(a,shape=spack,order=perm)
+            allocate (apack,source=reshape(a,shape=spack,order=iperm))
             
         end if
             
@@ -2075,8 +2088,8 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: j,m,n,lda,dims(2),norm_request
-        integer(ilp),dimension(4) :: s,spack,perm
+        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(4) :: s,spack,perm,iperm
         integer(ilp),dimension(4),parameter :: dim_range = [(m,m=1_ilp,4_ilp)]
         integer(ilp) :: j3,j4
         logical :: contiguous_data
@@ -2113,7 +2126,7 @@ module la_norms
         s = shape(a,kind=ilp)
         
         ! Check if input column data is contiguous
-        contiguous_data = dims(1) == 1
+        contiguous_data = all(dims == [1,2])
         
         ! Matrix norm size
         m = s(dims(1))
@@ -2122,19 +2135,16 @@ module la_norms
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
-            ! Collapse everything before the 1st dimension as apack's dim #1
-            ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
-            
-            ! Reshape without moving data
-            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4)) => a
+            ! The norm dimensions already lead: use the input data as-is
+            apack => a
             
         else
             
             ! Dimension permutations to map dims(1),dims(2) => 1:2
             perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
+            iperm(perm) = dim_range
             spack = s(perm)
-            apack = reshape(a,shape=spack,order=perm)
+            allocate (apack,source=reshape(a,shape=spack,order=iperm))
             
         end if
             
@@ -2175,8 +2185,8 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: j,m,n,lda,dims(2),norm_request
-        integer(ilp),dimension(5) :: s,spack,perm
+        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(5) :: s,spack,perm,iperm
         integer(ilp),dimension(5),parameter :: dim_range = [(m,m=1_ilp,5_ilp)]
         integer(ilp) :: j3,j4,j5
         logical :: contiguous_data
@@ -2213,7 +2223,7 @@ module la_norms
         s = shape(a,kind=ilp)
         
         ! Check if input column data is contiguous
-        contiguous_data = dims(1) == 1
+        contiguous_data = all(dims == [1,2])
         
         ! Matrix norm size
         m = s(dims(1))
@@ -2222,19 +2232,16 @@ module la_norms
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
-            ! Collapse everything before the 1st dimension as apack's dim #1
-            ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
-            
-            ! Reshape without moving data
-            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5)) => a
+            ! The norm dimensions already lead: use the input data as-is
+            apack => a
             
         else
             
             ! Dimension permutations to map dims(1),dims(2) => 1:2
             perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
+            iperm(perm) = dim_range
             spack = s(perm)
-            apack = reshape(a,shape=spack,order=perm)
+            allocate (apack,source=reshape(a,shape=spack,order=iperm))
             
         end if
             
@@ -2276,8 +2283,8 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: j,m,n,lda,dims(2),norm_request
-        integer(ilp),dimension(6) :: s,spack,perm
+        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(6) :: s,spack,perm,iperm
         integer(ilp),dimension(6),parameter :: dim_range = [(m,m=1_ilp,6_ilp)]
         integer(ilp) :: j3,j4,j5,j6
         logical :: contiguous_data
@@ -2314,7 +2321,7 @@ module la_norms
         s = shape(a,kind=ilp)
         
         ! Check if input column data is contiguous
-        contiguous_data = dims(1) == 1
+        contiguous_data = all(dims == [1,2])
         
         ! Matrix norm size
         m = s(dims(1))
@@ -2323,19 +2330,16 @@ module la_norms
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
-            ! Collapse everything before the 1st dimension as apack's dim #1
-            ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
-            
-            ! Reshape without moving data
-            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6)) => a
+            ! The norm dimensions already lead: use the input data as-is
+            apack => a
             
         else
             
             ! Dimension permutations to map dims(1),dims(2) => 1:2
             perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
+            iperm(perm) = dim_range
             spack = s(perm)
-            apack = reshape(a,shape=spack,order=perm)
+            allocate (apack,source=reshape(a,shape=spack,order=iperm))
             
         end if
             
@@ -2378,8 +2382,8 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: j,m,n,lda,dims(2),norm_request
-        integer(ilp),dimension(7) :: s,spack,perm
+        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(7) :: s,spack,perm,iperm
         integer(ilp),dimension(7),parameter :: dim_range = [(m,m=1_ilp,7_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7
         logical :: contiguous_data
@@ -2416,7 +2420,7 @@ module la_norms
         s = shape(a,kind=ilp)
         
         ! Check if input column data is contiguous
-        contiguous_data = dims(1) == 1
+        contiguous_data = all(dims == [1,2])
         
         ! Matrix norm size
         m = s(dims(1))
@@ -2425,19 +2429,16 @@ module la_norms
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
-            ! Collapse everything before the 1st dimension as apack's dim #1
-            ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
-            
-            ! Reshape without moving data
-            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7)) => a
+            ! The norm dimensions already lead: use the input data as-is
+            apack => a
             
         else
             
             ! Dimension permutations to map dims(1),dims(2) => 1:2
             perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
+            iperm(perm) = dim_range
             spack = s(perm)
-            apack = reshape(a,shape=spack,order=perm)
+            allocate (apack,source=reshape(a,shape=spack,order=iperm))
             
         end if
             
@@ -3716,8 +3717,8 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: j,m,n,lda,dims(2),norm_request
-        integer(ilp),dimension(3) :: s,spack,perm
+        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(3) :: s,spack,perm,iperm
         integer(ilp),dimension(3),parameter :: dim_range = [(m,m=1_ilp,3_ilp)]
         integer(ilp) :: j3
         logical :: contiguous_data
@@ -3754,7 +3755,7 @@ module la_norms
         s = shape(a,kind=ilp)
         
         ! Check if input column data is contiguous
-        contiguous_data = dims(1) == 1
+        contiguous_data = all(dims == [1,2])
         
         ! Matrix norm size
         m = s(dims(1))
@@ -3763,19 +3764,16 @@ module la_norms
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
-            ! Collapse everything before the 1st dimension as apack's dim #1
-            ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
-            
-            ! Reshape without moving data
-            apack(1:spack(1),1:spack(2),1:spack(3)) => a
+            ! The norm dimensions already lead: use the input data as-is
+            apack => a
             
         else
             
             ! Dimension permutations to map dims(1),dims(2) => 1:2
             perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
+            iperm(perm) = dim_range
             spack = s(perm)
-            apack = reshape(a,shape=spack,order=perm)
+            allocate (apack,source=reshape(a,shape=spack,order=iperm))
             
         end if
             
@@ -3815,8 +3813,8 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: j,m,n,lda,dims(2),norm_request
-        integer(ilp),dimension(4) :: s,spack,perm
+        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(4) :: s,spack,perm,iperm
         integer(ilp),dimension(4),parameter :: dim_range = [(m,m=1_ilp,4_ilp)]
         integer(ilp) :: j3,j4
         logical :: contiguous_data
@@ -3853,7 +3851,7 @@ module la_norms
         s = shape(a,kind=ilp)
         
         ! Check if input column data is contiguous
-        contiguous_data = dims(1) == 1
+        contiguous_data = all(dims == [1,2])
         
         ! Matrix norm size
         m = s(dims(1))
@@ -3862,19 +3860,16 @@ module la_norms
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
-            ! Collapse everything before the 1st dimension as apack's dim #1
-            ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
-            
-            ! Reshape without moving data
-            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4)) => a
+            ! The norm dimensions already lead: use the input data as-is
+            apack => a
             
         else
             
             ! Dimension permutations to map dims(1),dims(2) => 1:2
             perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
+            iperm(perm) = dim_range
             spack = s(perm)
-            apack = reshape(a,shape=spack,order=perm)
+            allocate (apack,source=reshape(a,shape=spack,order=iperm))
             
         end if
             
@@ -3915,8 +3910,8 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: j,m,n,lda,dims(2),norm_request
-        integer(ilp),dimension(5) :: s,spack,perm
+        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(5) :: s,spack,perm,iperm
         integer(ilp),dimension(5),parameter :: dim_range = [(m,m=1_ilp,5_ilp)]
         integer(ilp) :: j3,j4,j5
         logical :: contiguous_data
@@ -3953,7 +3948,7 @@ module la_norms
         s = shape(a,kind=ilp)
         
         ! Check if input column data is contiguous
-        contiguous_data = dims(1) == 1
+        contiguous_data = all(dims == [1,2])
         
         ! Matrix norm size
         m = s(dims(1))
@@ -3962,19 +3957,16 @@ module la_norms
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
-            ! Collapse everything before the 1st dimension as apack's dim #1
-            ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
-            
-            ! Reshape without moving data
-            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5)) => a
+            ! The norm dimensions already lead: use the input data as-is
+            apack => a
             
         else
             
             ! Dimension permutations to map dims(1),dims(2) => 1:2
             perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
+            iperm(perm) = dim_range
             spack = s(perm)
-            apack = reshape(a,shape=spack,order=perm)
+            allocate (apack,source=reshape(a,shape=spack,order=iperm))
             
         end if
             
@@ -4016,8 +4008,8 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: j,m,n,lda,dims(2),norm_request
-        integer(ilp),dimension(6) :: s,spack,perm
+        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(6) :: s,spack,perm,iperm
         integer(ilp),dimension(6),parameter :: dim_range = [(m,m=1_ilp,6_ilp)]
         integer(ilp) :: j3,j4,j5,j6
         logical :: contiguous_data
@@ -4054,7 +4046,7 @@ module la_norms
         s = shape(a,kind=ilp)
         
         ! Check if input column data is contiguous
-        contiguous_data = dims(1) == 1
+        contiguous_data = all(dims == [1,2])
         
         ! Matrix norm size
         m = s(dims(1))
@@ -4063,19 +4055,16 @@ module la_norms
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
-            ! Collapse everything before the 1st dimension as apack's dim #1
-            ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
-            
-            ! Reshape without moving data
-            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6)) => a
+            ! The norm dimensions already lead: use the input data as-is
+            apack => a
             
         else
             
             ! Dimension permutations to map dims(1),dims(2) => 1:2
             perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
+            iperm(perm) = dim_range
             spack = s(perm)
-            apack = reshape(a,shape=spack,order=perm)
+            allocate (apack,source=reshape(a,shape=spack,order=iperm))
             
         end if
             
@@ -4118,8 +4107,8 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: j,m,n,lda,dims(2),norm_request
-        integer(ilp),dimension(7) :: s,spack,perm
+        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(7) :: s,spack,perm,iperm
         integer(ilp),dimension(7),parameter :: dim_range = [(m,m=1_ilp,7_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7
         logical :: contiguous_data
@@ -4156,7 +4145,7 @@ module la_norms
         s = shape(a,kind=ilp)
         
         ! Check if input column data is contiguous
-        contiguous_data = dims(1) == 1
+        contiguous_data = all(dims == [1,2])
         
         ! Matrix norm size
         m = s(dims(1))
@@ -4165,19 +4154,16 @@ module la_norms
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
-            ! Collapse everything before the 1st dimension as apack's dim #1
-            ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
-            
-            ! Reshape without moving data
-            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7)) => a
+            ! The norm dimensions already lead: use the input data as-is
+            apack => a
             
         else
             
             ! Dimension permutations to map dims(1),dims(2) => 1:2
             perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
+            iperm(perm) = dim_range
             spack = s(perm)
-            apack = reshape(a,shape=spack,order=perm)
+            allocate (apack,source=reshape(a,shape=spack,order=iperm))
             
         end if
             
@@ -5456,8 +5442,8 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: j,m,n,lda,dims(2),norm_request
-        integer(ilp),dimension(3) :: s,spack,perm
+        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(3) :: s,spack,perm,iperm
         integer(ilp),dimension(3),parameter :: dim_range = [(m,m=1_ilp,3_ilp)]
         integer(ilp) :: j3
         logical :: contiguous_data
@@ -5494,7 +5480,7 @@ module la_norms
         s = shape(a,kind=ilp)
         
         ! Check if input column data is contiguous
-        contiguous_data = dims(1) == 1
+        contiguous_data = all(dims == [1,2])
         
         ! Matrix norm size
         m = s(dims(1))
@@ -5503,19 +5489,16 @@ module la_norms
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
-            ! Collapse everything before the 1st dimension as apack's dim #1
-            ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
-            
-            ! Reshape without moving data
-            apack(1:spack(1),1:spack(2),1:spack(3)) => a
+            ! The norm dimensions already lead: use the input data as-is
+            apack => a
             
         else
             
             ! Dimension permutations to map dims(1),dims(2) => 1:2
             perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
+            iperm(perm) = dim_range
             spack = s(perm)
-            apack = reshape(a,shape=spack,order=perm)
+            allocate (apack,source=reshape(a,shape=spack,order=iperm))
             
         end if
             
@@ -5555,8 +5538,8 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: j,m,n,lda,dims(2),norm_request
-        integer(ilp),dimension(4) :: s,spack,perm
+        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(4) :: s,spack,perm,iperm
         integer(ilp),dimension(4),parameter :: dim_range = [(m,m=1_ilp,4_ilp)]
         integer(ilp) :: j3,j4
         logical :: contiguous_data
@@ -5593,7 +5576,7 @@ module la_norms
         s = shape(a,kind=ilp)
         
         ! Check if input column data is contiguous
-        contiguous_data = dims(1) == 1
+        contiguous_data = all(dims == [1,2])
         
         ! Matrix norm size
         m = s(dims(1))
@@ -5602,19 +5585,16 @@ module la_norms
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
-            ! Collapse everything before the 1st dimension as apack's dim #1
-            ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
-            
-            ! Reshape without moving data
-            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4)) => a
+            ! The norm dimensions already lead: use the input data as-is
+            apack => a
             
         else
             
             ! Dimension permutations to map dims(1),dims(2) => 1:2
             perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
+            iperm(perm) = dim_range
             spack = s(perm)
-            apack = reshape(a,shape=spack,order=perm)
+            allocate (apack,source=reshape(a,shape=spack,order=iperm))
             
         end if
             
@@ -5655,8 +5635,8 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: j,m,n,lda,dims(2),norm_request
-        integer(ilp),dimension(5) :: s,spack,perm
+        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(5) :: s,spack,perm,iperm
         integer(ilp),dimension(5),parameter :: dim_range = [(m,m=1_ilp,5_ilp)]
         integer(ilp) :: j3,j4,j5
         logical :: contiguous_data
@@ -5693,7 +5673,7 @@ module la_norms
         s = shape(a,kind=ilp)
         
         ! Check if input column data is contiguous
-        contiguous_data = dims(1) == 1
+        contiguous_data = all(dims == [1,2])
         
         ! Matrix norm size
         m = s(dims(1))
@@ -5702,19 +5682,16 @@ module la_norms
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
-            ! Collapse everything before the 1st dimension as apack's dim #1
-            ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
-            
-            ! Reshape without moving data
-            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5)) => a
+            ! The norm dimensions already lead: use the input data as-is
+            apack => a
             
         else
             
             ! Dimension permutations to map dims(1),dims(2) => 1:2
             perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
+            iperm(perm) = dim_range
             spack = s(perm)
-            apack = reshape(a,shape=spack,order=perm)
+            allocate (apack,source=reshape(a,shape=spack,order=iperm))
             
         end if
             
@@ -5756,8 +5733,8 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: j,m,n,lda,dims(2),norm_request
-        integer(ilp),dimension(6) :: s,spack,perm
+        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(6) :: s,spack,perm,iperm
         integer(ilp),dimension(6),parameter :: dim_range = [(m,m=1_ilp,6_ilp)]
         integer(ilp) :: j3,j4,j5,j6
         logical :: contiguous_data
@@ -5794,7 +5771,7 @@ module la_norms
         s = shape(a,kind=ilp)
         
         ! Check if input column data is contiguous
-        contiguous_data = dims(1) == 1
+        contiguous_data = all(dims == [1,2])
         
         ! Matrix norm size
         m = s(dims(1))
@@ -5803,19 +5780,16 @@ module la_norms
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
-            ! Collapse everything before the 1st dimension as apack's dim #1
-            ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
-            
-            ! Reshape without moving data
-            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6)) => a
+            ! The norm dimensions already lead: use the input data as-is
+            apack => a
             
         else
             
             ! Dimension permutations to map dims(1),dims(2) => 1:2
             perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
+            iperm(perm) = dim_range
             spack = s(perm)
-            apack = reshape(a,shape=spack,order=perm)
+            allocate (apack,source=reshape(a,shape=spack,order=iperm))
             
         end if
             
@@ -5858,8 +5832,8 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: j,m,n,lda,dims(2),norm_request
-        integer(ilp),dimension(7) :: s,spack,perm
+        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(7) :: s,spack,perm,iperm
         integer(ilp),dimension(7),parameter :: dim_range = [(m,m=1_ilp,7_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7
         logical :: contiguous_data
@@ -5896,7 +5870,7 @@ module la_norms
         s = shape(a,kind=ilp)
         
         ! Check if input column data is contiguous
-        contiguous_data = dims(1) == 1
+        contiguous_data = all(dims == [1,2])
         
         ! Matrix norm size
         m = s(dims(1))
@@ -5905,19 +5879,16 @@ module la_norms
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
-            ! Collapse everything before the 1st dimension as apack's dim #1
-            ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
-            
-            ! Reshape without moving data
-            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7)) => a
+            ! The norm dimensions already lead: use the input data as-is
+            apack => a
             
         else
             
             ! Dimension permutations to map dims(1),dims(2) => 1:2
             perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
+            iperm(perm) = dim_range
             spack = s(perm)
-            apack = reshape(a,shape=spack,order=perm)
+            allocate (apack,source=reshape(a,shape=spack,order=iperm))
             
         end if
             
@@ -7196,8 +7167,8 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: j,m,n,lda,dims(2),norm_request
-        integer(ilp),dimension(3) :: s,spack,perm
+        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(3) :: s,spack,perm,iperm
         integer(ilp),dimension(3),parameter :: dim_range = [(m,m=1_ilp,3_ilp)]
         integer(ilp) :: j3
         logical :: contiguous_data
@@ -7234,7 +7205,7 @@ module la_norms
         s = shape(a,kind=ilp)
         
         ! Check if input column data is contiguous
-        contiguous_data = dims(1) == 1
+        contiguous_data = all(dims == [1,2])
         
         ! Matrix norm size
         m = s(dims(1))
@@ -7243,19 +7214,16 @@ module la_norms
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
-            ! Collapse everything before the 1st dimension as apack's dim #1
-            ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
-            
-            ! Reshape without moving data
-            apack(1:spack(1),1:spack(2),1:spack(3)) => a
+            ! The norm dimensions already lead: use the input data as-is
+            apack => a
             
         else
             
             ! Dimension permutations to map dims(1),dims(2) => 1:2
             perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
+            iperm(perm) = dim_range
             spack = s(perm)
-            apack = reshape(a,shape=spack,order=perm)
+            allocate (apack,source=reshape(a,shape=spack,order=iperm))
             
         end if
             
@@ -7295,8 +7263,8 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: j,m,n,lda,dims(2),norm_request
-        integer(ilp),dimension(4) :: s,spack,perm
+        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(4) :: s,spack,perm,iperm
         integer(ilp),dimension(4),parameter :: dim_range = [(m,m=1_ilp,4_ilp)]
         integer(ilp) :: j3,j4
         logical :: contiguous_data
@@ -7333,7 +7301,7 @@ module la_norms
         s = shape(a,kind=ilp)
         
         ! Check if input column data is contiguous
-        contiguous_data = dims(1) == 1
+        contiguous_data = all(dims == [1,2])
         
         ! Matrix norm size
         m = s(dims(1))
@@ -7342,19 +7310,16 @@ module la_norms
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
-            ! Collapse everything before the 1st dimension as apack's dim #1
-            ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
-            
-            ! Reshape without moving data
-            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4)) => a
+            ! The norm dimensions already lead: use the input data as-is
+            apack => a
             
         else
             
             ! Dimension permutations to map dims(1),dims(2) => 1:2
             perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
+            iperm(perm) = dim_range
             spack = s(perm)
-            apack = reshape(a,shape=spack,order=perm)
+            allocate (apack,source=reshape(a,shape=spack,order=iperm))
             
         end if
             
@@ -7395,8 +7360,8 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: j,m,n,lda,dims(2),norm_request
-        integer(ilp),dimension(5) :: s,spack,perm
+        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(5) :: s,spack,perm,iperm
         integer(ilp),dimension(5),parameter :: dim_range = [(m,m=1_ilp,5_ilp)]
         integer(ilp) :: j3,j4,j5
         logical :: contiguous_data
@@ -7433,7 +7398,7 @@ module la_norms
         s = shape(a,kind=ilp)
         
         ! Check if input column data is contiguous
-        contiguous_data = dims(1) == 1
+        contiguous_data = all(dims == [1,2])
         
         ! Matrix norm size
         m = s(dims(1))
@@ -7442,19 +7407,16 @@ module la_norms
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
-            ! Collapse everything before the 1st dimension as apack's dim #1
-            ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
-            
-            ! Reshape without moving data
-            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5)) => a
+            ! The norm dimensions already lead: use the input data as-is
+            apack => a
             
         else
             
             ! Dimension permutations to map dims(1),dims(2) => 1:2
             perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
+            iperm(perm) = dim_range
             spack = s(perm)
-            apack = reshape(a,shape=spack,order=perm)
+            allocate (apack,source=reshape(a,shape=spack,order=iperm))
             
         end if
             
@@ -7496,8 +7458,8 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: j,m,n,lda,dims(2),norm_request
-        integer(ilp),dimension(6) :: s,spack,perm
+        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(6) :: s,spack,perm,iperm
         integer(ilp),dimension(6),parameter :: dim_range = [(m,m=1_ilp,6_ilp)]
         integer(ilp) :: j3,j4,j5,j6
         logical :: contiguous_data
@@ -7534,7 +7496,7 @@ module la_norms
         s = shape(a,kind=ilp)
         
         ! Check if input column data is contiguous
-        contiguous_data = dims(1) == 1
+        contiguous_data = all(dims == [1,2])
         
         ! Matrix norm size
         m = s(dims(1))
@@ -7543,19 +7505,16 @@ module la_norms
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
-            ! Collapse everything before the 1st dimension as apack's dim #1
-            ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
-            
-            ! Reshape without moving data
-            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6)) => a
+            ! The norm dimensions already lead: use the input data as-is
+            apack => a
             
         else
             
             ! Dimension permutations to map dims(1),dims(2) => 1:2
             perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
+            iperm(perm) = dim_range
             spack = s(perm)
-            apack = reshape(a,shape=spack,order=perm)
+            allocate (apack,source=reshape(a,shape=spack,order=iperm))
             
         end if
             
@@ -7598,8 +7557,8 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: j,m,n,lda,dims(2),norm_request
-        integer(ilp),dimension(7) :: s,spack,perm
+        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(7) :: s,spack,perm,iperm
         integer(ilp),dimension(7),parameter :: dim_range = [(m,m=1_ilp,7_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7
         logical :: contiguous_data
@@ -7636,7 +7595,7 @@ module la_norms
         s = shape(a,kind=ilp)
         
         ! Check if input column data is contiguous
-        contiguous_data = dims(1) == 1
+        contiguous_data = all(dims == [1,2])
         
         ! Matrix norm size
         m = s(dims(1))
@@ -7645,19 +7604,16 @@ module la_norms
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
-            ! Collapse everything before the 1st dimension as apack's dim #1
-            ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
-            
-            ! Reshape without moving data
-            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7)) => a
+            ! The norm dimensions already lead: use the input data as-is
+            apack => a
             
         else
             
             ! Dimension permutations to map dims(1),dims(2) => 1:2
             perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
+            iperm(perm) = dim_range
             spack = s(perm)
-            apack = reshape(a,shape=spack,order=perm)
+            allocate (apack,source=reshape(a,shape=spack,order=iperm))
             
         end if
             
@@ -8936,8 +8892,8 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: j,m,n,lda,dims(2),norm_request
-        integer(ilp),dimension(3) :: s,spack,perm
+        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(3) :: s,spack,perm,iperm
         integer(ilp),dimension(3),parameter :: dim_range = [(m,m=1_ilp,3_ilp)]
         integer(ilp) :: j3
         logical :: contiguous_data
@@ -8974,7 +8930,7 @@ module la_norms
         s = shape(a,kind=ilp)
         
         ! Check if input column data is contiguous
-        contiguous_data = dims(1) == 1
+        contiguous_data = all(dims == [1,2])
         
         ! Matrix norm size
         m = s(dims(1))
@@ -8983,19 +8939,16 @@ module la_norms
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
-            ! Collapse everything before the 1st dimension as apack's dim #1
-            ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
-            
-            ! Reshape without moving data
-            apack(1:spack(1),1:spack(2),1:spack(3)) => a
+            ! The norm dimensions already lead: use the input data as-is
+            apack => a
             
         else
             
             ! Dimension permutations to map dims(1),dims(2) => 1:2
             perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
+            iperm(perm) = dim_range
             spack = s(perm)
-            apack = reshape(a,shape=spack,order=perm)
+            allocate (apack,source=reshape(a,shape=spack,order=iperm))
             
         end if
             
@@ -9035,8 +8988,8 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: j,m,n,lda,dims(2),norm_request
-        integer(ilp),dimension(4) :: s,spack,perm
+        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(4) :: s,spack,perm,iperm
         integer(ilp),dimension(4),parameter :: dim_range = [(m,m=1_ilp,4_ilp)]
         integer(ilp) :: j3,j4
         logical :: contiguous_data
@@ -9073,7 +9026,7 @@ module la_norms
         s = shape(a,kind=ilp)
         
         ! Check if input column data is contiguous
-        contiguous_data = dims(1) == 1
+        contiguous_data = all(dims == [1,2])
         
         ! Matrix norm size
         m = s(dims(1))
@@ -9082,19 +9035,16 @@ module la_norms
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
-            ! Collapse everything before the 1st dimension as apack's dim #1
-            ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
-            
-            ! Reshape without moving data
-            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4)) => a
+            ! The norm dimensions already lead: use the input data as-is
+            apack => a
             
         else
             
             ! Dimension permutations to map dims(1),dims(2) => 1:2
             perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
+            iperm(perm) = dim_range
             spack = s(perm)
-            apack = reshape(a,shape=spack,order=perm)
+            allocate (apack,source=reshape(a,shape=spack,order=iperm))
             
         end if
             
@@ -9135,8 +9085,8 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: j,m,n,lda,dims(2),norm_request
-        integer(ilp),dimension(5) :: s,spack,perm
+        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(5) :: s,spack,perm,iperm
         integer(ilp),dimension(5),parameter :: dim_range = [(m,m=1_ilp,5_ilp)]
         integer(ilp) :: j3,j4,j5
         logical :: contiguous_data
@@ -9173,7 +9123,7 @@ module la_norms
         s = shape(a,kind=ilp)
         
         ! Check if input column data is contiguous
-        contiguous_data = dims(1) == 1
+        contiguous_data = all(dims == [1,2])
         
         ! Matrix norm size
         m = s(dims(1))
@@ -9182,19 +9132,16 @@ module la_norms
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
-            ! Collapse everything before the 1st dimension as apack's dim #1
-            ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
-            
-            ! Reshape without moving data
-            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5)) => a
+            ! The norm dimensions already lead: use the input data as-is
+            apack => a
             
         else
             
             ! Dimension permutations to map dims(1),dims(2) => 1:2
             perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
+            iperm(perm) = dim_range
             spack = s(perm)
-            apack = reshape(a,shape=spack,order=perm)
+            allocate (apack,source=reshape(a,shape=spack,order=iperm))
             
         end if
             
@@ -9236,8 +9183,8 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: j,m,n,lda,dims(2),norm_request
-        integer(ilp),dimension(6) :: s,spack,perm
+        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(6) :: s,spack,perm,iperm
         integer(ilp),dimension(6),parameter :: dim_range = [(m,m=1_ilp,6_ilp)]
         integer(ilp) :: j3,j4,j5,j6
         logical :: contiguous_data
@@ -9274,7 +9221,7 @@ module la_norms
         s = shape(a,kind=ilp)
         
         ! Check if input column data is contiguous
-        contiguous_data = dims(1) == 1
+        contiguous_data = all(dims == [1,2])
         
         ! Matrix norm size
         m = s(dims(1))
@@ -9283,19 +9230,16 @@ module la_norms
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
-            ! Collapse everything before the 1st dimension as apack's dim #1
-            ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
-            
-            ! Reshape without moving data
-            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6)) => a
+            ! The norm dimensions already lead: use the input data as-is
+            apack => a
             
         else
             
             ! Dimension permutations to map dims(1),dims(2) => 1:2
             perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
+            iperm(perm) = dim_range
             spack = s(perm)
-            apack = reshape(a,shape=spack,order=perm)
+            allocate (apack,source=reshape(a,shape=spack,order=iperm))
             
         end if
             
@@ -9338,8 +9282,8 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: j,m,n,lda,dims(2),norm_request
-        integer(ilp),dimension(7) :: s,spack,perm
+        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(7) :: s,spack,perm,iperm
         integer(ilp),dimension(7),parameter :: dim_range = [(m,m=1_ilp,7_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7
         logical :: contiguous_data
@@ -9376,7 +9320,7 @@ module la_norms
         s = shape(a,kind=ilp)
         
         ! Check if input column data is contiguous
-        contiguous_data = dims(1) == 1
+        contiguous_data = all(dims == [1,2])
         
         ! Matrix norm size
         m = s(dims(1))
@@ -9385,19 +9329,16 @@ module la_norms
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
-            ! Collapse everything before the 1st dimension as apack's dim #1
-            ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
-            
-            ! Reshape without moving data
-            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7)) => a
+            ! The norm dimensions already lead: use the input data as-is
+            apack => a
             
         else
             
             ! Dimension permutations to map dims(1),dims(2) => 1:2
             perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
+            iperm(perm) = dim_range
             spack = s(perm)
-            apack = reshape(a,shape=spack,order=perm)
+            allocate (apack,source=reshape(a,shape=spack,order=iperm))
             
         end if
             
@@ -10676,8 +10617,8 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: j,m,n,lda,dims(2),norm_request
-        integer(ilp),dimension(3) :: s,spack,perm
+        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(3) :: s,spack,perm,iperm
         integer(ilp),dimension(3),parameter :: dim_range = [(m,m=1_ilp,3_ilp)]
         integer(ilp) :: j3
         logical :: contiguous_data
@@ -10714,7 +10655,7 @@ module la_norms
         s = shape(a,kind=ilp)
         
         ! Check if input column data is contiguous
-        contiguous_data = dims(1) == 1
+        contiguous_data = all(dims == [1,2])
         
         ! Matrix norm size
         m = s(dims(1))
@@ -10723,19 +10664,16 @@ module la_norms
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
-            ! Collapse everything before the 1st dimension as apack's dim #1
-            ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
-            
-            ! Reshape without moving data
-            apack(1:spack(1),1:spack(2),1:spack(3)) => a
+            ! The norm dimensions already lead: use the input data as-is
+            apack => a
             
         else
             
             ! Dimension permutations to map dims(1),dims(2) => 1:2
             perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
+            iperm(perm) = dim_range
             spack = s(perm)
-            apack = reshape(a,shape=spack,order=perm)
+            allocate (apack,source=reshape(a,shape=spack,order=iperm))
             
         end if
             
@@ -10775,8 +10713,8 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: j,m,n,lda,dims(2),norm_request
-        integer(ilp),dimension(4) :: s,spack,perm
+        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(4) :: s,spack,perm,iperm
         integer(ilp),dimension(4),parameter :: dim_range = [(m,m=1_ilp,4_ilp)]
         integer(ilp) :: j3,j4
         logical :: contiguous_data
@@ -10813,7 +10751,7 @@ module la_norms
         s = shape(a,kind=ilp)
         
         ! Check if input column data is contiguous
-        contiguous_data = dims(1) == 1
+        contiguous_data = all(dims == [1,2])
         
         ! Matrix norm size
         m = s(dims(1))
@@ -10822,19 +10760,16 @@ module la_norms
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
-            ! Collapse everything before the 1st dimension as apack's dim #1
-            ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
-            
-            ! Reshape without moving data
-            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4)) => a
+            ! The norm dimensions already lead: use the input data as-is
+            apack => a
             
         else
             
             ! Dimension permutations to map dims(1),dims(2) => 1:2
             perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
+            iperm(perm) = dim_range
             spack = s(perm)
-            apack = reshape(a,shape=spack,order=perm)
+            allocate (apack,source=reshape(a,shape=spack,order=iperm))
             
         end if
             
@@ -10875,8 +10810,8 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: j,m,n,lda,dims(2),norm_request
-        integer(ilp),dimension(5) :: s,spack,perm
+        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(5) :: s,spack,perm,iperm
         integer(ilp),dimension(5),parameter :: dim_range = [(m,m=1_ilp,5_ilp)]
         integer(ilp) :: j3,j4,j5
         logical :: contiguous_data
@@ -10913,7 +10848,7 @@ module la_norms
         s = shape(a,kind=ilp)
         
         ! Check if input column data is contiguous
-        contiguous_data = dims(1) == 1
+        contiguous_data = all(dims == [1,2])
         
         ! Matrix norm size
         m = s(dims(1))
@@ -10922,19 +10857,16 @@ module la_norms
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
-            ! Collapse everything before the 1st dimension as apack's dim #1
-            ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
-            
-            ! Reshape without moving data
-            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5)) => a
+            ! The norm dimensions already lead: use the input data as-is
+            apack => a
             
         else
             
             ! Dimension permutations to map dims(1),dims(2) => 1:2
             perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
+            iperm(perm) = dim_range
             spack = s(perm)
-            apack = reshape(a,shape=spack,order=perm)
+            allocate (apack,source=reshape(a,shape=spack,order=iperm))
             
         end if
             
@@ -10976,8 +10908,8 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: j,m,n,lda,dims(2),norm_request
-        integer(ilp),dimension(6) :: s,spack,perm
+        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(6) :: s,spack,perm,iperm
         integer(ilp),dimension(6),parameter :: dim_range = [(m,m=1_ilp,6_ilp)]
         integer(ilp) :: j3,j4,j5,j6
         logical :: contiguous_data
@@ -11014,7 +10946,7 @@ module la_norms
         s = shape(a,kind=ilp)
         
         ! Check if input column data is contiguous
-        contiguous_data = dims(1) == 1
+        contiguous_data = all(dims == [1,2])
         
         ! Matrix norm size
         m = s(dims(1))
@@ -11023,19 +10955,16 @@ module la_norms
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
-            ! Collapse everything before the 1st dimension as apack's dim #1
-            ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
-            
-            ! Reshape without moving data
-            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6)) => a
+            ! The norm dimensions already lead: use the input data as-is
+            apack => a
             
         else
             
             ! Dimension permutations to map dims(1),dims(2) => 1:2
             perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
+            iperm(perm) = dim_range
             spack = s(perm)
-            apack = reshape(a,shape=spack,order=perm)
+            allocate (apack,source=reshape(a,shape=spack,order=iperm))
             
         end if
             
@@ -11078,8 +11007,8 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: j,m,n,lda,dims(2),norm_request
-        integer(ilp),dimension(7) :: s,spack,perm
+        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(7) :: s,spack,perm,iperm
         integer(ilp),dimension(7),parameter :: dim_range = [(m,m=1_ilp,7_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7
         logical :: contiguous_data
@@ -11116,7 +11045,7 @@ module la_norms
         s = shape(a,kind=ilp)
         
         ! Check if input column data is contiguous
-        contiguous_data = dims(1) == 1
+        contiguous_data = all(dims == [1,2])
         
         ! Matrix norm size
         m = s(dims(1))
@@ -11125,19 +11054,16 @@ module la_norms
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
-            ! Collapse everything before the 1st dimension as apack's dim #1
-            ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
-            
-            ! Reshape without moving data
-            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7)) => a
+            ! The norm dimensions already lead: use the input data as-is
+            apack => a
             
         else
             
             ! Dimension permutations to map dims(1),dims(2) => 1:2
             perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
+            iperm(perm) = dim_range
             spack = s(perm)
-            apack = reshape(a,shape=spack,order=perm)
+            allocate (apack,source=reshape(a,shape=spack,order=iperm))
             
         end if
             
@@ -12416,8 +12342,8 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: j,m,n,lda,dims(2),norm_request
-        integer(ilp),dimension(3) :: s,spack,perm
+        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(3) :: s,spack,perm,iperm
         integer(ilp),dimension(3),parameter :: dim_range = [(m,m=1_ilp,3_ilp)]
         integer(ilp) :: j3
         logical :: contiguous_data
@@ -12454,7 +12380,7 @@ module la_norms
         s = shape(a,kind=ilp)
         
         ! Check if input column data is contiguous
-        contiguous_data = dims(1) == 1
+        contiguous_data = all(dims == [1,2])
         
         ! Matrix norm size
         m = s(dims(1))
@@ -12463,19 +12389,16 @@ module la_norms
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
-            ! Collapse everything before the 1st dimension as apack's dim #1
-            ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
-            
-            ! Reshape without moving data
-            apack(1:spack(1),1:spack(2),1:spack(3)) => a
+            ! The norm dimensions already lead: use the input data as-is
+            apack => a
             
         else
             
             ! Dimension permutations to map dims(1),dims(2) => 1:2
             perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
+            iperm(perm) = dim_range
             spack = s(perm)
-            apack = reshape(a,shape=spack,order=perm)
+            allocate (apack,source=reshape(a,shape=spack,order=iperm))
             
         end if
             
@@ -12515,8 +12438,8 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: j,m,n,lda,dims(2),norm_request
-        integer(ilp),dimension(4) :: s,spack,perm
+        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(4) :: s,spack,perm,iperm
         integer(ilp),dimension(4),parameter :: dim_range = [(m,m=1_ilp,4_ilp)]
         integer(ilp) :: j3,j4
         logical :: contiguous_data
@@ -12553,7 +12476,7 @@ module la_norms
         s = shape(a,kind=ilp)
         
         ! Check if input column data is contiguous
-        contiguous_data = dims(1) == 1
+        contiguous_data = all(dims == [1,2])
         
         ! Matrix norm size
         m = s(dims(1))
@@ -12562,19 +12485,16 @@ module la_norms
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
-            ! Collapse everything before the 1st dimension as apack's dim #1
-            ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
-            
-            ! Reshape without moving data
-            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4)) => a
+            ! The norm dimensions already lead: use the input data as-is
+            apack => a
             
         else
             
             ! Dimension permutations to map dims(1),dims(2) => 1:2
             perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
+            iperm(perm) = dim_range
             spack = s(perm)
-            apack = reshape(a,shape=spack,order=perm)
+            allocate (apack,source=reshape(a,shape=spack,order=iperm))
             
         end if
             
@@ -12615,8 +12535,8 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: j,m,n,lda,dims(2),norm_request
-        integer(ilp),dimension(5) :: s,spack,perm
+        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(5) :: s,spack,perm,iperm
         integer(ilp),dimension(5),parameter :: dim_range = [(m,m=1_ilp,5_ilp)]
         integer(ilp) :: j3,j4,j5
         logical :: contiguous_data
@@ -12653,7 +12573,7 @@ module la_norms
         s = shape(a,kind=ilp)
         
         ! Check if input column data is contiguous
-        contiguous_data = dims(1) == 1
+        contiguous_data = all(dims == [1,2])
         
         ! Matrix norm size
         m = s(dims(1))
@@ -12662,19 +12582,16 @@ module la_norms
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
-            ! Collapse everything before the 1st dimension as apack's dim #1
-            ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
-            
-            ! Reshape without moving data
-            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5)) => a
+            ! The norm dimensions already lead: use the input data as-is
+            apack => a
             
         else
             
             ! Dimension permutations to map dims(1),dims(2) => 1:2
             perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
+            iperm(perm) = dim_range
             spack = s(perm)
-            apack = reshape(a,shape=spack,order=perm)
+            allocate (apack,source=reshape(a,shape=spack,order=iperm))
             
         end if
             
@@ -12716,8 +12633,8 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: j,m,n,lda,dims(2),norm_request
-        integer(ilp),dimension(6) :: s,spack,perm
+        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(6) :: s,spack,perm,iperm
         integer(ilp),dimension(6),parameter :: dim_range = [(m,m=1_ilp,6_ilp)]
         integer(ilp) :: j3,j4,j5,j6
         logical :: contiguous_data
@@ -12754,7 +12671,7 @@ module la_norms
         s = shape(a,kind=ilp)
         
         ! Check if input column data is contiguous
-        contiguous_data = dims(1) == 1
+        contiguous_data = all(dims == [1,2])
         
         ! Matrix norm size
         m = s(dims(1))
@@ -12763,19 +12680,16 @@ module la_norms
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
-            ! Collapse everything before the 1st dimension as apack's dim #1
-            ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
-            
-            ! Reshape without moving data
-            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6)) => a
+            ! The norm dimensions already lead: use the input data as-is
+            apack => a
             
         else
             
             ! Dimension permutations to map dims(1),dims(2) => 1:2
             perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
+            iperm(perm) = dim_range
             spack = s(perm)
-            apack = reshape(a,shape=spack,order=perm)
+            allocate (apack,source=reshape(a,shape=spack,order=iperm))
             
         end if
             
@@ -12818,8 +12732,8 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: j,m,n,lda,dims(2),norm_request
-        integer(ilp),dimension(7) :: s,spack,perm
+        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(7) :: s,spack,perm,iperm
         integer(ilp),dimension(7),parameter :: dim_range = [(m,m=1_ilp,7_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7
         logical :: contiguous_data
@@ -12856,7 +12770,7 @@ module la_norms
         s = shape(a,kind=ilp)
         
         ! Check if input column data is contiguous
-        contiguous_data = dims(1) == 1
+        contiguous_data = all(dims == [1,2])
         
         ! Matrix norm size
         m = s(dims(1))
@@ -12865,19 +12779,16 @@ module la_norms
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
-            ! Collapse everything before the 1st dimension as apack's dim #1
-            ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
-            
-            ! Reshape without moving data
-            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7)) => a
+            ! The norm dimensions already lead: use the input data as-is
+            apack => a
             
         else
             
             ! Dimension permutations to map dims(1),dims(2) => 1:2
             perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
+            iperm(perm) = dim_range
             spack = s(perm)
-            apack = reshape(a,shape=spack,order=perm)
+            allocate (apack,source=reshape(a,shape=spack,order=iperm))
             
         end if
             
@@ -14156,8 +14067,8 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: j,m,n,lda,dims(2),norm_request
-        integer(ilp),dimension(3) :: s,spack,perm
+        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(3) :: s,spack,perm,iperm
         integer(ilp),dimension(3),parameter :: dim_range = [(m,m=1_ilp,3_ilp)]
         integer(ilp) :: j3
         logical :: contiguous_data
@@ -14194,7 +14105,7 @@ module la_norms
         s = shape(a,kind=ilp)
         
         ! Check if input column data is contiguous
-        contiguous_data = dims(1) == 1
+        contiguous_data = all(dims == [1,2])
         
         ! Matrix norm size
         m = s(dims(1))
@@ -14203,19 +14114,16 @@ module la_norms
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
-            ! Collapse everything before the 1st dimension as apack's dim #1
-            ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
-            
-            ! Reshape without moving data
-            apack(1:spack(1),1:spack(2),1:spack(3)) => a
+            ! The norm dimensions already lead: use the input data as-is
+            apack => a
             
         else
             
             ! Dimension permutations to map dims(1),dims(2) => 1:2
             perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
+            iperm(perm) = dim_range
             spack = s(perm)
-            apack = reshape(a,shape=spack,order=perm)
+            allocate (apack,source=reshape(a,shape=spack,order=iperm))
             
         end if
             
@@ -14255,8 +14163,8 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: j,m,n,lda,dims(2),norm_request
-        integer(ilp),dimension(4) :: s,spack,perm
+        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(4) :: s,spack,perm,iperm
         integer(ilp),dimension(4),parameter :: dim_range = [(m,m=1_ilp,4_ilp)]
         integer(ilp) :: j3,j4
         logical :: contiguous_data
@@ -14293,7 +14201,7 @@ module la_norms
         s = shape(a,kind=ilp)
         
         ! Check if input column data is contiguous
-        contiguous_data = dims(1) == 1
+        contiguous_data = all(dims == [1,2])
         
         ! Matrix norm size
         m = s(dims(1))
@@ -14302,19 +14210,16 @@ module la_norms
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
-            ! Collapse everything before the 1st dimension as apack's dim #1
-            ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
-            
-            ! Reshape without moving data
-            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4)) => a
+            ! The norm dimensions already lead: use the input data as-is
+            apack => a
             
         else
             
             ! Dimension permutations to map dims(1),dims(2) => 1:2
             perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
+            iperm(perm) = dim_range
             spack = s(perm)
-            apack = reshape(a,shape=spack,order=perm)
+            allocate (apack,source=reshape(a,shape=spack,order=iperm))
             
         end if
             
@@ -14355,8 +14260,8 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: j,m,n,lda,dims(2),norm_request
-        integer(ilp),dimension(5) :: s,spack,perm
+        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(5) :: s,spack,perm,iperm
         integer(ilp),dimension(5),parameter :: dim_range = [(m,m=1_ilp,5_ilp)]
         integer(ilp) :: j3,j4,j5
         logical :: contiguous_data
@@ -14393,7 +14298,7 @@ module la_norms
         s = shape(a,kind=ilp)
         
         ! Check if input column data is contiguous
-        contiguous_data = dims(1) == 1
+        contiguous_data = all(dims == [1,2])
         
         ! Matrix norm size
         m = s(dims(1))
@@ -14402,19 +14307,16 @@ module la_norms
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
-            ! Collapse everything before the 1st dimension as apack's dim #1
-            ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
-            
-            ! Reshape without moving data
-            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5)) => a
+            ! The norm dimensions already lead: use the input data as-is
+            apack => a
             
         else
             
             ! Dimension permutations to map dims(1),dims(2) => 1:2
             perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
+            iperm(perm) = dim_range
             spack = s(perm)
-            apack = reshape(a,shape=spack,order=perm)
+            allocate (apack,source=reshape(a,shape=spack,order=iperm))
             
         end if
             
@@ -14456,8 +14358,8 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: j,m,n,lda,dims(2),norm_request
-        integer(ilp),dimension(6) :: s,spack,perm
+        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(6) :: s,spack,perm,iperm
         integer(ilp),dimension(6),parameter :: dim_range = [(m,m=1_ilp,6_ilp)]
         integer(ilp) :: j3,j4,j5,j6
         logical :: contiguous_data
@@ -14494,7 +14396,7 @@ module la_norms
         s = shape(a,kind=ilp)
         
         ! Check if input column data is contiguous
-        contiguous_data = dims(1) == 1
+        contiguous_data = all(dims == [1,2])
         
         ! Matrix norm size
         m = s(dims(1))
@@ -14503,19 +14405,16 @@ module la_norms
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
-            ! Collapse everything before the 1st dimension as apack's dim #1
-            ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
-            
-            ! Reshape without moving data
-            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6)) => a
+            ! The norm dimensions already lead: use the input data as-is
+            apack => a
             
         else
             
             ! Dimension permutations to map dims(1),dims(2) => 1:2
             perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
+            iperm(perm) = dim_range
             spack = s(perm)
-            apack = reshape(a,shape=spack,order=perm)
+            allocate (apack,source=reshape(a,shape=spack,order=iperm))
             
         end if
             
@@ -14558,8 +14457,8 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: j,m,n,lda,dims(2),norm_request
-        integer(ilp),dimension(7) :: s,spack,perm
+        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(7) :: s,spack,perm,iperm
         integer(ilp),dimension(7),parameter :: dim_range = [(m,m=1_ilp,7_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7
         logical :: contiguous_data
@@ -14596,7 +14495,7 @@ module la_norms
         s = shape(a,kind=ilp)
         
         ! Check if input column data is contiguous
-        contiguous_data = dims(1) == 1
+        contiguous_data = all(dims == [1,2])
         
         ! Matrix norm size
         m = s(dims(1))
@@ -14605,19 +14504,16 @@ module la_norms
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
-            ! Collapse everything before the 1st dimension as apack's dim #1
-            ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
-            
-            ! Reshape without moving data
-            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7)) => a
+            ! The norm dimensions already lead: use the input data as-is
+            apack => a
             
         else
             
             ! Dimension permutations to map dims(1),dims(2) => 1:2
             perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
+            iperm(perm) = dim_range
             spack = s(perm)
-            apack = reshape(a,shape=spack,order=perm)
+            allocate (apack,source=reshape(a,shape=spack,order=iperm))
             
         end if
             
@@ -15896,8 +15792,8 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: j,m,n,lda,dims(2),norm_request
-        integer(ilp),dimension(3) :: s,spack,perm
+        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(3) :: s,spack,perm,iperm
         integer(ilp),dimension(3),parameter :: dim_range = [(m,m=1_ilp,3_ilp)]
         integer(ilp) :: j3
         logical :: contiguous_data
@@ -15934,7 +15830,7 @@ module la_norms
         s = shape(a,kind=ilp)
         
         ! Check if input column data is contiguous
-        contiguous_data = dims(1) == 1
+        contiguous_data = all(dims == [1,2])
         
         ! Matrix norm size
         m = s(dims(1))
@@ -15943,19 +15839,16 @@ module la_norms
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
-            ! Collapse everything before the 1st dimension as apack's dim #1
-            ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
-            
-            ! Reshape without moving data
-            apack(1:spack(1),1:spack(2),1:spack(3)) => a
+            ! The norm dimensions already lead: use the input data as-is
+            apack => a
             
         else
             
             ! Dimension permutations to map dims(1),dims(2) => 1:2
             perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
+            iperm(perm) = dim_range
             spack = s(perm)
-            apack = reshape(a,shape=spack,order=perm)
+            allocate (apack,source=reshape(a,shape=spack,order=iperm))
             
         end if
             
@@ -15995,8 +15888,8 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: j,m,n,lda,dims(2),norm_request
-        integer(ilp),dimension(4) :: s,spack,perm
+        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(4) :: s,spack,perm,iperm
         integer(ilp),dimension(4),parameter :: dim_range = [(m,m=1_ilp,4_ilp)]
         integer(ilp) :: j3,j4
         logical :: contiguous_data
@@ -16033,7 +15926,7 @@ module la_norms
         s = shape(a,kind=ilp)
         
         ! Check if input column data is contiguous
-        contiguous_data = dims(1) == 1
+        contiguous_data = all(dims == [1,2])
         
         ! Matrix norm size
         m = s(dims(1))
@@ -16042,19 +15935,16 @@ module la_norms
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
-            ! Collapse everything before the 1st dimension as apack's dim #1
-            ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
-            
-            ! Reshape without moving data
-            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4)) => a
+            ! The norm dimensions already lead: use the input data as-is
+            apack => a
             
         else
             
             ! Dimension permutations to map dims(1),dims(2) => 1:2
             perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
+            iperm(perm) = dim_range
             spack = s(perm)
-            apack = reshape(a,shape=spack,order=perm)
+            allocate (apack,source=reshape(a,shape=spack,order=iperm))
             
         end if
             
@@ -16095,8 +15985,8 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: j,m,n,lda,dims(2),norm_request
-        integer(ilp),dimension(5) :: s,spack,perm
+        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(5) :: s,spack,perm,iperm
         integer(ilp),dimension(5),parameter :: dim_range = [(m,m=1_ilp,5_ilp)]
         integer(ilp) :: j3,j4,j5
         logical :: contiguous_data
@@ -16133,7 +16023,7 @@ module la_norms
         s = shape(a,kind=ilp)
         
         ! Check if input column data is contiguous
-        contiguous_data = dims(1) == 1
+        contiguous_data = all(dims == [1,2])
         
         ! Matrix norm size
         m = s(dims(1))
@@ -16142,19 +16032,16 @@ module la_norms
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
-            ! Collapse everything before the 1st dimension as apack's dim #1
-            ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
-            
-            ! Reshape without moving data
-            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5)) => a
+            ! The norm dimensions already lead: use the input data as-is
+            apack => a
             
         else
             
             ! Dimension permutations to map dims(1),dims(2) => 1:2
             perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
+            iperm(perm) = dim_range
             spack = s(perm)
-            apack = reshape(a,shape=spack,order=perm)
+            allocate (apack,source=reshape(a,shape=spack,order=iperm))
             
         end if
             
@@ -16196,8 +16083,8 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: j,m,n,lda,dims(2),norm_request
-        integer(ilp),dimension(6) :: s,spack,perm
+        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(6) :: s,spack,perm,iperm
         integer(ilp),dimension(6),parameter :: dim_range = [(m,m=1_ilp,6_ilp)]
         integer(ilp) :: j3,j4,j5,j6
         logical :: contiguous_data
@@ -16234,7 +16121,7 @@ module la_norms
         s = shape(a,kind=ilp)
         
         ! Check if input column data is contiguous
-        contiguous_data = dims(1) == 1
+        contiguous_data = all(dims == [1,2])
         
         ! Matrix norm size
         m = s(dims(1))
@@ -16243,19 +16130,16 @@ module la_norms
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
-            ! Collapse everything before the 1st dimension as apack's dim #1
-            ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
-            
-            ! Reshape without moving data
-            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6)) => a
+            ! The norm dimensions already lead: use the input data as-is
+            apack => a
             
         else
             
             ! Dimension permutations to map dims(1),dims(2) => 1:2
             perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
+            iperm(perm) = dim_range
             spack = s(perm)
-            apack = reshape(a,shape=spack,order=perm)
+            allocate (apack,source=reshape(a,shape=spack,order=iperm))
             
         end if
             
@@ -16298,8 +16182,8 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: j,m,n,lda,dims(2),norm_request
-        integer(ilp),dimension(7) :: s,spack,perm
+        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(7) :: s,spack,perm,iperm
         integer(ilp),dimension(7),parameter :: dim_range = [(m,m=1_ilp,7_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7
         logical :: contiguous_data
@@ -16336,7 +16220,7 @@ module la_norms
         s = shape(a,kind=ilp)
         
         ! Check if input column data is contiguous
-        contiguous_data = dims(1) == 1
+        contiguous_data = all(dims == [1,2])
         
         ! Matrix norm size
         m = s(dims(1))
@@ -16345,19 +16229,16 @@ module la_norms
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
-            ! Collapse everything before the 1st dimension as apack's dim #1
-            ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
-            
-            ! Reshape without moving data
-            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7)) => a
+            ! The norm dimensions already lead: use the input data as-is
+            apack => a
             
         else
             
             ! Dimension permutations to map dims(1),dims(2) => 1:2
             perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
+            iperm(perm) = dim_range
             spack = s(perm)
-            apack = reshape(a,shape=spack,order=perm)
+            allocate (apack,source=reshape(a,shape=spack,order=iperm))
             
         end if
             
@@ -17636,8 +17517,8 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: j,m,n,lda,dims(2),norm_request
-        integer(ilp),dimension(3) :: s,spack,perm
+        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(3) :: s,spack,perm,iperm
         integer(ilp),dimension(3),parameter :: dim_range = [(m,m=1_ilp,3_ilp)]
         integer(ilp) :: j3
         logical :: contiguous_data
@@ -17674,7 +17555,7 @@ module la_norms
         s = shape(a,kind=ilp)
         
         ! Check if input column data is contiguous
-        contiguous_data = dims(1) == 1
+        contiguous_data = all(dims == [1,2])
         
         ! Matrix norm size
         m = s(dims(1))
@@ -17683,19 +17564,16 @@ module la_norms
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
-            ! Collapse everything before the 1st dimension as apack's dim #1
-            ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
-            
-            ! Reshape without moving data
-            apack(1:spack(1),1:spack(2),1:spack(3)) => a
+            ! The norm dimensions already lead: use the input data as-is
+            apack => a
             
         else
             
             ! Dimension permutations to map dims(1),dims(2) => 1:2
             perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
+            iperm(perm) = dim_range
             spack = s(perm)
-            apack = reshape(a,shape=spack,order=perm)
+            allocate (apack,source=reshape(a,shape=spack,order=iperm))
             
         end if
             
@@ -17735,8 +17613,8 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: j,m,n,lda,dims(2),norm_request
-        integer(ilp),dimension(4) :: s,spack,perm
+        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(4) :: s,spack,perm,iperm
         integer(ilp),dimension(4),parameter :: dim_range = [(m,m=1_ilp,4_ilp)]
         integer(ilp) :: j3,j4
         logical :: contiguous_data
@@ -17773,7 +17651,7 @@ module la_norms
         s = shape(a,kind=ilp)
         
         ! Check if input column data is contiguous
-        contiguous_data = dims(1) == 1
+        contiguous_data = all(dims == [1,2])
         
         ! Matrix norm size
         m = s(dims(1))
@@ -17782,19 +17660,16 @@ module la_norms
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
-            ! Collapse everything before the 1st dimension as apack's dim #1
-            ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
-            
-            ! Reshape without moving data
-            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4)) => a
+            ! The norm dimensions already lead: use the input data as-is
+            apack => a
             
         else
             
             ! Dimension permutations to map dims(1),dims(2) => 1:2
             perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
+            iperm(perm) = dim_range
             spack = s(perm)
-            apack = reshape(a,shape=spack,order=perm)
+            allocate (apack,source=reshape(a,shape=spack,order=iperm))
             
         end if
             
@@ -17835,8 +17710,8 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: j,m,n,lda,dims(2),norm_request
-        integer(ilp),dimension(5) :: s,spack,perm
+        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(5) :: s,spack,perm,iperm
         integer(ilp),dimension(5),parameter :: dim_range = [(m,m=1_ilp,5_ilp)]
         integer(ilp) :: j3,j4,j5
         logical :: contiguous_data
@@ -17873,7 +17748,7 @@ module la_norms
         s = shape(a,kind=ilp)
         
         ! Check if input column data is contiguous
-        contiguous_data = dims(1) == 1
+        contiguous_data = all(dims == [1,2])
         
         ! Matrix norm size
         m = s(dims(1))
@@ -17882,19 +17757,16 @@ module la_norms
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
-            ! Collapse everything before the 1st dimension as apack's dim #1
-            ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
-            
-            ! Reshape without moving data
-            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5)) => a
+            ! The norm dimensions already lead: use the input data as-is
+            apack => a
             
         else
             
             ! Dimension permutations to map dims(1),dims(2) => 1:2
             perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
+            iperm(perm) = dim_range
             spack = s(perm)
-            apack = reshape(a,shape=spack,order=perm)
+            allocate (apack,source=reshape(a,shape=spack,order=iperm))
             
         end if
             
@@ -17936,8 +17808,8 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: j,m,n,lda,dims(2),norm_request
-        integer(ilp),dimension(6) :: s,spack,perm
+        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(6) :: s,spack,perm,iperm
         integer(ilp),dimension(6),parameter :: dim_range = [(m,m=1_ilp,6_ilp)]
         integer(ilp) :: j3,j4,j5,j6
         logical :: contiguous_data
@@ -17974,7 +17846,7 @@ module la_norms
         s = shape(a,kind=ilp)
         
         ! Check if input column data is contiguous
-        contiguous_data = dims(1) == 1
+        contiguous_data = all(dims == [1,2])
         
         ! Matrix norm size
         m = s(dims(1))
@@ -17983,19 +17855,16 @@ module la_norms
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
-            ! Collapse everything before the 1st dimension as apack's dim #1
-            ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
-            
-            ! Reshape without moving data
-            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6)) => a
+            ! The norm dimensions already lead: use the input data as-is
+            apack => a
             
         else
             
             ! Dimension permutations to map dims(1),dims(2) => 1:2
             perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
+            iperm(perm) = dim_range
             spack = s(perm)
-            apack = reshape(a,shape=spack,order=perm)
+            allocate (apack,source=reshape(a,shape=spack,order=iperm))
             
         end if
             
@@ -18038,8 +17907,8 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: j,m,n,lda,dims(2),norm_request
-        integer(ilp),dimension(7) :: s,spack,perm
+        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(7) :: s,spack,perm,iperm
         integer(ilp),dimension(7),parameter :: dim_range = [(m,m=1_ilp,7_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7
         logical :: contiguous_data
@@ -18076,7 +17945,7 @@ module la_norms
         s = shape(a,kind=ilp)
         
         ! Check if input column data is contiguous
-        contiguous_data = dims(1) == 1
+        contiguous_data = all(dims == [1,2])
         
         ! Matrix norm size
         m = s(dims(1))
@@ -18085,19 +17954,16 @@ module la_norms
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
-            ! Collapse everything before the 1st dimension as apack's dim #1
-            ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
-            
-            ! Reshape without moving data
-            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7)) => a
+            ! The norm dimensions already lead: use the input data as-is
+            apack => a
             
         else
             
             ! Dimension permutations to map dims(1),dims(2) => 1:2
             perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
+            iperm(perm) = dim_range
             spack = s(perm)
-            apack = reshape(a,shape=spack,order=perm)
+            allocate (apack,source=reshape(a,shape=spack,order=iperm))
             
         end if
             
@@ -19376,8 +19242,8 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: j,m,n,lda,dims(2),norm_request
-        integer(ilp),dimension(3) :: s,spack,perm
+        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(3) :: s,spack,perm,iperm
         integer(ilp),dimension(3),parameter :: dim_range = [(m,m=1_ilp,3_ilp)]
         integer(ilp) :: j3
         logical :: contiguous_data
@@ -19414,7 +19280,7 @@ module la_norms
         s = shape(a,kind=ilp)
         
         ! Check if input column data is contiguous
-        contiguous_data = dims(1) == 1
+        contiguous_data = all(dims == [1,2])
         
         ! Matrix norm size
         m = s(dims(1))
@@ -19423,19 +19289,16 @@ module la_norms
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
-            ! Collapse everything before the 1st dimension as apack's dim #1
-            ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
-            
-            ! Reshape without moving data
-            apack(1:spack(1),1:spack(2),1:spack(3)) => a
+            ! The norm dimensions already lead: use the input data as-is
+            apack => a
             
         else
             
             ! Dimension permutations to map dims(1),dims(2) => 1:2
             perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
+            iperm(perm) = dim_range
             spack = s(perm)
-            apack = reshape(a,shape=spack,order=perm)
+            allocate (apack,source=reshape(a,shape=spack,order=iperm))
             
         end if
             
@@ -19475,8 +19338,8 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: j,m,n,lda,dims(2),norm_request
-        integer(ilp),dimension(4) :: s,spack,perm
+        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(4) :: s,spack,perm,iperm
         integer(ilp),dimension(4),parameter :: dim_range = [(m,m=1_ilp,4_ilp)]
         integer(ilp) :: j3,j4
         logical :: contiguous_data
@@ -19513,7 +19376,7 @@ module la_norms
         s = shape(a,kind=ilp)
         
         ! Check if input column data is contiguous
-        contiguous_data = dims(1) == 1
+        contiguous_data = all(dims == [1,2])
         
         ! Matrix norm size
         m = s(dims(1))
@@ -19522,19 +19385,16 @@ module la_norms
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
-            ! Collapse everything before the 1st dimension as apack's dim #1
-            ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
-            
-            ! Reshape without moving data
-            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4)) => a
+            ! The norm dimensions already lead: use the input data as-is
+            apack => a
             
         else
             
             ! Dimension permutations to map dims(1),dims(2) => 1:2
             perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
+            iperm(perm) = dim_range
             spack = s(perm)
-            apack = reshape(a,shape=spack,order=perm)
+            allocate (apack,source=reshape(a,shape=spack,order=iperm))
             
         end if
             
@@ -19575,8 +19435,8 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: j,m,n,lda,dims(2),norm_request
-        integer(ilp),dimension(5) :: s,spack,perm
+        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(5) :: s,spack,perm,iperm
         integer(ilp),dimension(5),parameter :: dim_range = [(m,m=1_ilp,5_ilp)]
         integer(ilp) :: j3,j4,j5
         logical :: contiguous_data
@@ -19613,7 +19473,7 @@ module la_norms
         s = shape(a,kind=ilp)
         
         ! Check if input column data is contiguous
-        contiguous_data = dims(1) == 1
+        contiguous_data = all(dims == [1,2])
         
         ! Matrix norm size
         m = s(dims(1))
@@ -19622,19 +19482,16 @@ module la_norms
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
-            ! Collapse everything before the 1st dimension as apack's dim #1
-            ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
-            
-            ! Reshape without moving data
-            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5)) => a
+            ! The norm dimensions already lead: use the input data as-is
+            apack => a
             
         else
             
             ! Dimension permutations to map dims(1),dims(2) => 1:2
             perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
+            iperm(perm) = dim_range
             spack = s(perm)
-            apack = reshape(a,shape=spack,order=perm)
+            allocate (apack,source=reshape(a,shape=spack,order=iperm))
             
         end if
             
@@ -19676,8 +19533,8 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: j,m,n,lda,dims(2),norm_request
-        integer(ilp),dimension(6) :: s,spack,perm
+        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(6) :: s,spack,perm,iperm
         integer(ilp),dimension(6),parameter :: dim_range = [(m,m=1_ilp,6_ilp)]
         integer(ilp) :: j3,j4,j5,j6
         logical :: contiguous_data
@@ -19714,7 +19571,7 @@ module la_norms
         s = shape(a,kind=ilp)
         
         ! Check if input column data is contiguous
-        contiguous_data = dims(1) == 1
+        contiguous_data = all(dims == [1,2])
         
         ! Matrix norm size
         m = s(dims(1))
@@ -19723,19 +19580,16 @@ module la_norms
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
-            ! Collapse everything before the 1st dimension as apack's dim #1
-            ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
-            
-            ! Reshape without moving data
-            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6)) => a
+            ! The norm dimensions already lead: use the input data as-is
+            apack => a
             
         else
             
             ! Dimension permutations to map dims(1),dims(2) => 1:2
             perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
+            iperm(perm) = dim_range
             spack = s(perm)
-            apack = reshape(a,shape=spack,order=perm)
+            allocate (apack,source=reshape(a,shape=spack,order=iperm))
             
         end if
             
@@ -19778,8 +19632,8 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: j,m,n,lda,dims(2),norm_request
-        integer(ilp),dimension(7) :: s,spack,perm
+        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(7) :: s,spack,perm,iperm
         integer(ilp),dimension(7),parameter :: dim_range = [(m,m=1_ilp,7_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7
         logical :: contiguous_data
@@ -19816,7 +19670,7 @@ module la_norms
         s = shape(a,kind=ilp)
         
         ! Check if input column data is contiguous
-        contiguous_data = dims(1) == 1
+        contiguous_data = all(dims == [1,2])
         
         ! Matrix norm size
         m = s(dims(1))
@@ -19825,19 +19679,16 @@ module la_norms
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
-            ! Collapse everything before the 1st dimension as apack's dim #1
-            ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
-            
-            ! Reshape without moving data
-            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7)) => a
+            ! The norm dimensions already lead: use the input data as-is
+            apack => a
             
         else
             
             ! Dimension permutations to map dims(1),dims(2) => 1:2
             perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
+            iperm(perm) = dim_range
             spack = s(perm)
-            apack = reshape(a,shape=spack,order=perm)
+            allocate (apack,source=reshape(a,shape=spack,order=iperm))
             
         end if
             
@@ -21116,8 +20967,8 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: j,m,n,lda,dims(2),norm_request
-        integer(ilp),dimension(3) :: s,spack,perm
+        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(3) :: s,spack,perm,iperm
         integer(ilp),dimension(3),parameter :: dim_range = [(m,m=1_ilp,3_ilp)]
         integer(ilp) :: j3
         logical :: contiguous_data
@@ -21154,7 +21005,7 @@ module la_norms
         s = shape(a,kind=ilp)
         
         ! Check if input column data is contiguous
-        contiguous_data = dims(1) == 1
+        contiguous_data = all(dims == [1,2])
         
         ! Matrix norm size
         m = s(dims(1))
@@ -21163,19 +21014,16 @@ module la_norms
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
-            ! Collapse everything before the 1st dimension as apack's dim #1
-            ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
-            
-            ! Reshape without moving data
-            apack(1:spack(1),1:spack(2),1:spack(3)) => a
+            ! The norm dimensions already lead: use the input data as-is
+            apack => a
             
         else
             
             ! Dimension permutations to map dims(1),dims(2) => 1:2
             perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
+            iperm(perm) = dim_range
             spack = s(perm)
-            apack = reshape(a,shape=spack,order=perm)
+            allocate (apack,source=reshape(a,shape=spack,order=iperm))
             
         end if
             
@@ -21215,8 +21063,8 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: j,m,n,lda,dims(2),norm_request
-        integer(ilp),dimension(4) :: s,spack,perm
+        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(4) :: s,spack,perm,iperm
         integer(ilp),dimension(4),parameter :: dim_range = [(m,m=1_ilp,4_ilp)]
         integer(ilp) :: j3,j4
         logical :: contiguous_data
@@ -21253,7 +21101,7 @@ module la_norms
         s = shape(a,kind=ilp)
         
         ! Check if input column data is contiguous
-        contiguous_data = dims(1) == 1
+        contiguous_data = all(dims == [1,2])
         
         ! Matrix norm size
         m = s(dims(1))
@@ -21262,19 +21110,16 @@ module la_norms
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
-            ! Collapse everything before the 1st dimension as apack's dim #1
-            ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
-            
-            ! Reshape without moving data
-            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4)) => a
+            ! The norm dimensions already lead: use the input data as-is
+            apack => a
             
         else
             
             ! Dimension permutations to map dims(1),dims(2) => 1:2
             perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
+            iperm(perm) = dim_range
             spack = s(perm)
-            apack = reshape(a,shape=spack,order=perm)
+            allocate (apack,source=reshape(a,shape=spack,order=iperm))
             
         end if
             
@@ -21315,8 +21160,8 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: j,m,n,lda,dims(2),norm_request
-        integer(ilp),dimension(5) :: s,spack,perm
+        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(5) :: s,spack,perm,iperm
         integer(ilp),dimension(5),parameter :: dim_range = [(m,m=1_ilp,5_ilp)]
         integer(ilp) :: j3,j4,j5
         logical :: contiguous_data
@@ -21353,7 +21198,7 @@ module la_norms
         s = shape(a,kind=ilp)
         
         ! Check if input column data is contiguous
-        contiguous_data = dims(1) == 1
+        contiguous_data = all(dims == [1,2])
         
         ! Matrix norm size
         m = s(dims(1))
@@ -21362,19 +21207,16 @@ module la_norms
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
-            ! Collapse everything before the 1st dimension as apack's dim #1
-            ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
-            
-            ! Reshape without moving data
-            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5)) => a
+            ! The norm dimensions already lead: use the input data as-is
+            apack => a
             
         else
             
             ! Dimension permutations to map dims(1),dims(2) => 1:2
             perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
+            iperm(perm) = dim_range
             spack = s(perm)
-            apack = reshape(a,shape=spack,order=perm)
+            allocate (apack,source=reshape(a,shape=spack,order=iperm))
             
         end if
             
@@ -21416,8 +21258,8 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: j,m,n,lda,dims(2),norm_request
-        integer(ilp),dimension(6) :: s,spack,perm
+        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(6) :: s,spack,perm,iperm
         integer(ilp),dimension(6),parameter :: dim_range = [(m,m=1_ilp,6_ilp)]
         integer(ilp) :: j3,j4,j5,j6
         logical :: contiguous_data
@@ -21454,7 +21296,7 @@ module la_norms
         s = shape(a,kind=ilp)
         
         ! Check if input column data is contiguous
-        contiguous_data = dims(1) == 1
+        contiguous_data = all(dims == [1,2])
         
         ! Matrix norm size
         m = s(dims(1))
@@ -21463,19 +21305,16 @@ module la_norms
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
-            ! Collapse everything before the 1st dimension as apack's dim #1
-            ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
-            
-            ! Reshape without moving data
-            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6)) => a
+            ! The norm dimensions already lead: use the input data as-is
+            apack => a
             
         else
             
             ! Dimension permutations to map dims(1),dims(2) => 1:2
             perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
+            iperm(perm) = dim_range
             spack = s(perm)
-            apack = reshape(a,shape=spack,order=perm)
+            allocate (apack,source=reshape(a,shape=spack,order=iperm))
             
         end if
             
@@ -21518,8 +21357,8 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: j,m,n,lda,dims(2),norm_request
-        integer(ilp),dimension(7) :: s,spack,perm
+        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp),dimension(7) :: s,spack,perm,iperm
         integer(ilp),dimension(7),parameter :: dim_range = [(m,m=1_ilp,7_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7
         logical :: contiguous_data
@@ -21556,7 +21395,7 @@ module la_norms
         s = shape(a,kind=ilp)
         
         ! Check if input column data is contiguous
-        contiguous_data = dims(1) == 1
+        contiguous_data = all(dims == [1,2])
         
         ! Matrix norm size
         m = s(dims(1))
@@ -21565,19 +21404,16 @@ module la_norms
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then
             
-            ! Collapse everything before the 1st dimension as apack's dim #1
-            ! Set size==1 for all unused trailing dimensions
-            spack = [product(s(:dims(2) - 1)),s(dims(2):), (1_ilp,j=1,dims(2) - 2)]
-            
-            ! Reshape without moving data
-            apack(1:spack(1),1:spack(2),1:spack(3),1:spack(4),1:spack(5),1:spack(6),1:spack(7)) => a
+            ! The norm dimensions already lead: use the input data as-is
+            apack => a
             
         else
             
             ! Dimension permutations to map dims(1),dims(2) => 1:2
             perm = [dims,pack(dim_range,dim_range /= dims(1) .and. dim_range /= dims(2))]
+            iperm(perm) = dim_range
             spack = s(perm)
-            apack = reshape(a,shape=spack,order=perm)
+            allocate (apack,source=reshape(a,shape=spack,order=iperm))
             
         end if
             

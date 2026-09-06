@@ -151,11 +151,11 @@ module la_qr
          end if
          lwork_qr = ceiling(real(work_dummy(1),kind=sp),kind=ilp)
          
-         ! Ordering space
+         ! Ordering space: size it for the full problem, that has m columns of Q
          lwork_ord = -1_ilp
          call orgqr &
-              (m,n,k,a,m,tau_dummy,work_dummy,lwork_ord,info)
-         call handle_orgqr_info(info,m,n,k,lwork_ord,err0)
+              (m,m,k,a,m,tau_dummy,work_dummy,lwork_ord,info)
+         call handle_orgqr_info(info,m,m,k,lwork_ord,err0)
          if (err0%error()) then
             call err0%handle(err)
             return
@@ -184,7 +184,7 @@ module la_qr
 
          !> Local variables
          type(la_state) :: err0
-         integer(ilp) :: i,j,m,n,k,q1,q2,r1,r2,lda,lwork,info
+         integer(ilp) :: i,j,m,n,k,q1,q2,r1,r2,lda,lwork,info,qcols
          logical(lk) :: overwrite_a_,use_q_matrix,reduced
          real(sp) :: r11
          real(sp),parameter :: zero = 0.0_sp
@@ -217,6 +217,9 @@ module la_qr
          ! Check if Q can be used as temporary storage for A,
          ! to be destroyed by *GEQRF
          use_q_matrix = q1 >= m .and. q2 >= n
+         
+         ! Number of Q columns to be generated: m for the full problem, k for the reduced one
+         qcols = min(q2,m)
 
          ! Can A be overwritten? By default, do not overwrite
          if (use_q_matrix) then
@@ -278,8 +281,8 @@ module la_qr
              
                  ! Convert K elementary reflectors tau(1:k) -> orthogonal matrix Q
                  call orgqr &
-                      (m,n,k,amat,lda,tau,work,lwork,info)
-                 call handle_orgqr_info(info,m,n,k,lwork,err0)
+                      (m,qcols,k,amat,lda,tau,work,lwork,info)
+                 call handle_orgqr_info(info,m,qcols,k,lwork,err0)
                       
                  ! Copy result back to Q
                  if (.not. use_q_matrix) q = amat(:q1,:q2)
@@ -335,11 +338,11 @@ module la_qr
          end if
          lwork_qr = ceiling(real(work_dummy(1),kind=dp),kind=ilp)
          
-         ! Ordering space
+         ! Ordering space: size it for the full problem, that has m columns of Q
          lwork_ord = -1_ilp
          call orgqr &
-              (m,n,k,a,m,tau_dummy,work_dummy,lwork_ord,info)
-         call handle_orgqr_info(info,m,n,k,lwork_ord,err0)
+              (m,m,k,a,m,tau_dummy,work_dummy,lwork_ord,info)
+         call handle_orgqr_info(info,m,m,k,lwork_ord,err0)
          if (err0%error()) then
             call err0%handle(err)
             return
@@ -368,7 +371,7 @@ module la_qr
 
          !> Local variables
          type(la_state) :: err0
-         integer(ilp) :: i,j,m,n,k,q1,q2,r1,r2,lda,lwork,info
+         integer(ilp) :: i,j,m,n,k,q1,q2,r1,r2,lda,lwork,info,qcols
          logical(lk) :: overwrite_a_,use_q_matrix,reduced
          real(dp) :: r11
          real(dp),parameter :: zero = 0.0_dp
@@ -401,6 +404,9 @@ module la_qr
          ! Check if Q can be used as temporary storage for A,
          ! to be destroyed by *GEQRF
          use_q_matrix = q1 >= m .and. q2 >= n
+         
+         ! Number of Q columns to be generated: m for the full problem, k for the reduced one
+         qcols = min(q2,m)
 
          ! Can A be overwritten? By default, do not overwrite
          if (use_q_matrix) then
@@ -462,8 +468,8 @@ module la_qr
              
                  ! Convert K elementary reflectors tau(1:k) -> orthogonal matrix Q
                  call orgqr &
-                      (m,n,k,amat,lda,tau,work,lwork,info)
-                 call handle_orgqr_info(info,m,n,k,lwork,err0)
+                      (m,qcols,k,amat,lda,tau,work,lwork,info)
+                 call handle_orgqr_info(info,m,qcols,k,lwork,err0)
                       
                  ! Copy result back to Q
                  if (.not. use_q_matrix) q = amat(:q1,:q2)
@@ -519,11 +525,11 @@ module la_qr
          end if
          lwork_qr = ceiling(real(work_dummy(1),kind=qp),kind=ilp)
          
-         ! Ordering space
+         ! Ordering space: size it for the full problem, that has m columns of Q
          lwork_ord = -1_ilp
          call orgqr &
-              (m,n,k,a,m,tau_dummy,work_dummy,lwork_ord,info)
-         call handle_orgqr_info(info,m,n,k,lwork_ord,err0)
+              (m,m,k,a,m,tau_dummy,work_dummy,lwork_ord,info)
+         call handle_orgqr_info(info,m,m,k,lwork_ord,err0)
          if (err0%error()) then
             call err0%handle(err)
             return
@@ -552,7 +558,7 @@ module la_qr
 
          !> Local variables
          type(la_state) :: err0
-         integer(ilp) :: i,j,m,n,k,q1,q2,r1,r2,lda,lwork,info
+         integer(ilp) :: i,j,m,n,k,q1,q2,r1,r2,lda,lwork,info,qcols
          logical(lk) :: overwrite_a_,use_q_matrix,reduced
          real(qp) :: r11
          real(qp),parameter :: zero = 0.0_qp
@@ -585,6 +591,9 @@ module la_qr
          ! Check if Q can be used as temporary storage for A,
          ! to be destroyed by *GEQRF
          use_q_matrix = q1 >= m .and. q2 >= n
+         
+         ! Number of Q columns to be generated: m for the full problem, k for the reduced one
+         qcols = min(q2,m)
 
          ! Can A be overwritten? By default, do not overwrite
          if (use_q_matrix) then
@@ -646,8 +655,8 @@ module la_qr
              
                  ! Convert K elementary reflectors tau(1:k) -> orthogonal matrix Q
                  call orgqr &
-                      (m,n,k,amat,lda,tau,work,lwork,info)
-                 call handle_orgqr_info(info,m,n,k,lwork,err0)
+                      (m,qcols,k,amat,lda,tau,work,lwork,info)
+                 call handle_orgqr_info(info,m,qcols,k,lwork,err0)
                       
                  ! Copy result back to Q
                  if (.not. use_q_matrix) q = amat(:q1,:q2)
@@ -703,11 +712,11 @@ module la_qr
          end if
          lwork_qr = ceiling(real(work_dummy(1),kind=sp),kind=ilp)
          
-         ! Ordering space
+         ! Ordering space: size it for the full problem, that has m columns of Q
          lwork_ord = -1_ilp
          call ungqr &
-              (m,n,k,a,m,tau_dummy,work_dummy,lwork_ord,info)
-         call handle_orgqr_info(info,m,n,k,lwork_ord,err0)
+              (m,m,k,a,m,tau_dummy,work_dummy,lwork_ord,info)
+         call handle_orgqr_info(info,m,m,k,lwork_ord,err0)
          if (err0%error()) then
             call err0%handle(err)
             return
@@ -736,7 +745,7 @@ module la_qr
 
          !> Local variables
          type(la_state) :: err0
-         integer(ilp) :: i,j,m,n,k,q1,q2,r1,r2,lda,lwork,info
+         integer(ilp) :: i,j,m,n,k,q1,q2,r1,r2,lda,lwork,info,qcols
          logical(lk) :: overwrite_a_,use_q_matrix,reduced
          complex(sp) :: r11
          complex(sp),parameter :: zero = 0.0_sp
@@ -769,6 +778,9 @@ module la_qr
          ! Check if Q can be used as temporary storage for A,
          ! to be destroyed by *GEQRF
          use_q_matrix = q1 >= m .and. q2 >= n
+         
+         ! Number of Q columns to be generated: m for the full problem, k for the reduced one
+         qcols = min(q2,m)
 
          ! Can A be overwritten? By default, do not overwrite
          if (use_q_matrix) then
@@ -830,8 +842,8 @@ module la_qr
              
                  ! Convert K elementary reflectors tau(1:k) -> orthogonal matrix Q
                  call ungqr &
-                      (m,n,k,amat,lda,tau,work,lwork,info)
-                 call handle_orgqr_info(info,m,n,k,lwork,err0)
+                      (m,qcols,k,amat,lda,tau,work,lwork,info)
+                 call handle_orgqr_info(info,m,qcols,k,lwork,err0)
                       
                  ! Copy result back to Q
                  if (.not. use_q_matrix) q = amat(:q1,:q2)
@@ -887,11 +899,11 @@ module la_qr
          end if
          lwork_qr = ceiling(real(work_dummy(1),kind=dp),kind=ilp)
          
-         ! Ordering space
+         ! Ordering space: size it for the full problem, that has m columns of Q
          lwork_ord = -1_ilp
          call ungqr &
-              (m,n,k,a,m,tau_dummy,work_dummy,lwork_ord,info)
-         call handle_orgqr_info(info,m,n,k,lwork_ord,err0)
+              (m,m,k,a,m,tau_dummy,work_dummy,lwork_ord,info)
+         call handle_orgqr_info(info,m,m,k,lwork_ord,err0)
          if (err0%error()) then
             call err0%handle(err)
             return
@@ -920,7 +932,7 @@ module la_qr
 
          !> Local variables
          type(la_state) :: err0
-         integer(ilp) :: i,j,m,n,k,q1,q2,r1,r2,lda,lwork,info
+         integer(ilp) :: i,j,m,n,k,q1,q2,r1,r2,lda,lwork,info,qcols
          logical(lk) :: overwrite_a_,use_q_matrix,reduced
          complex(dp) :: r11
          complex(dp),parameter :: zero = 0.0_dp
@@ -953,6 +965,9 @@ module la_qr
          ! Check if Q can be used as temporary storage for A,
          ! to be destroyed by *GEQRF
          use_q_matrix = q1 >= m .and. q2 >= n
+         
+         ! Number of Q columns to be generated: m for the full problem, k for the reduced one
+         qcols = min(q2,m)
 
          ! Can A be overwritten? By default, do not overwrite
          if (use_q_matrix) then
@@ -1014,8 +1029,8 @@ module la_qr
              
                  ! Convert K elementary reflectors tau(1:k) -> orthogonal matrix Q
                  call ungqr &
-                      (m,n,k,amat,lda,tau,work,lwork,info)
-                 call handle_orgqr_info(info,m,n,k,lwork,err0)
+                      (m,qcols,k,amat,lda,tau,work,lwork,info)
+                 call handle_orgqr_info(info,m,qcols,k,lwork,err0)
                       
                  ! Copy result back to Q
                  if (.not. use_q_matrix) q = amat(:q1,:q2)
@@ -1071,11 +1086,11 @@ module la_qr
          end if
          lwork_qr = ceiling(real(work_dummy(1),kind=qp),kind=ilp)
          
-         ! Ordering space
+         ! Ordering space: size it for the full problem, that has m columns of Q
          lwork_ord = -1_ilp
          call ungqr &
-              (m,n,k,a,m,tau_dummy,work_dummy,lwork_ord,info)
-         call handle_orgqr_info(info,m,n,k,lwork_ord,err0)
+              (m,m,k,a,m,tau_dummy,work_dummy,lwork_ord,info)
+         call handle_orgqr_info(info,m,m,k,lwork_ord,err0)
          if (err0%error()) then
             call err0%handle(err)
             return
@@ -1104,7 +1119,7 @@ module la_qr
 
          !> Local variables
          type(la_state) :: err0
-         integer(ilp) :: i,j,m,n,k,q1,q2,r1,r2,lda,lwork,info
+         integer(ilp) :: i,j,m,n,k,q1,q2,r1,r2,lda,lwork,info,qcols
          logical(lk) :: overwrite_a_,use_q_matrix,reduced
          complex(qp) :: r11
          complex(qp),parameter :: zero = 0.0_qp
@@ -1137,6 +1152,9 @@ module la_qr
          ! Check if Q can be used as temporary storage for A,
          ! to be destroyed by *GEQRF
          use_q_matrix = q1 >= m .and. q2 >= n
+         
+         ! Number of Q columns to be generated: m for the full problem, k for the reduced one
+         qcols = min(q2,m)
 
          ! Can A be overwritten? By default, do not overwrite
          if (use_q_matrix) then
@@ -1198,8 +1216,8 @@ module la_qr
              
                  ! Convert K elementary reflectors tau(1:k) -> orthogonal matrix Q
                  call ungqr &
-                      (m,n,k,amat,lda,tau,work,lwork,info)
-                 call handle_orgqr_info(info,m,n,k,lwork,err0)
+                      (m,qcols,k,amat,lda,tau,work,lwork,info)
+                 call handle_orgqr_info(info,m,qcols,k,lwork,err0)
                       
                  ! Copy result back to Q
                  if (.not. use_q_matrix) q = amat(:q1,:q2)

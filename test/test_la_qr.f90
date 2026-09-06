@@ -1,5 +1,5 @@
 ! Test QR factorization
-module test_linalg_qr
+module test_la_qr
     use linear_algebra
 
     implicit none(type,external)
@@ -429,5 +429,5 @@ module test_linalg_qr
         
     end subroutine test_qr_random_w
 
-end module test_linalg_qr
+end module test_la_qr
 

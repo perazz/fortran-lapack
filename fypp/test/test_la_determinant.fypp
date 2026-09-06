@@ -1,6 +1,6 @@
 #:include "common.fypp"
 ! Test matrix determinant
-module test_linalg_determinant
+module test_la_determinant
     use linear_algebra
 
     implicit none (type,external)
@@ -122,6 +122,6 @@ module test_linalg_determinant
 
     #:endfor
 
-end module test_linalg_determinant
+end module test_la_determinant
 
 

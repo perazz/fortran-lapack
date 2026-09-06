@@ -1,4 +1,4 @@
-module test_linalg_least_squares
+module test_la_least_squares
     use linear_algebra
     implicit none(type,external)
 
@@ -43,6 +43,12 @@ module test_linalg_least_squares
         print *, 'real(sp): p = ',p
 
         error = state%error() .or. .not. all(abs(p - ab) < 1.0e-6_sp) .or. rank /= 2
+        if (error) return
+
+        ! Repeat, letting the solver overwrite the coefficient matrix
+        p = lstsq(M,y,overwrite_a=.true.,err=state)
+
+        error = state%error() .or. .not. all(abs(p - ab) < 1.0e-6_sp)
 
     end subroutine test_slstsq_one
     subroutine test_dlstsq_one(error)
@@ -68,6 +74,12 @@ module test_linalg_least_squares
         print *, 'real(dp): p = ',p
 
         error = state%error() .or. .not. all(abs(p - ab) < 1.0e-6_dp) .or. rank /= 2
+        if (error) return
+
+        ! Repeat, letting the solver overwrite the coefficient matrix
+        p = lstsq(M,y,overwrite_a=.true.,err=state)
+
+        error = state%error() .or. .not. all(abs(p - ab) < 1.0e-6_dp)
 
     end subroutine test_dlstsq_one
     subroutine test_qlstsq_one(error)
@@ -93,8 +105,14 @@ module test_linalg_least_squares
         print *, 'real(qp): p = ',p
 
         error = state%error() .or. .not. all(abs(p - ab) < 1.0e-6_qp) .or. rank /= 2
+        if (error) return
+
+        ! Repeat, letting the solver overwrite the coefficient matrix
+        p = lstsq(M,y,overwrite_a=.true.,err=state)
+
+        error = state%error() .or. .not. all(abs(p - ab) < 1.0e-6_qp)
 
     end subroutine test_qlstsq_one
 
-end module test_linalg_least_squares
+end module test_la_least_squares
 

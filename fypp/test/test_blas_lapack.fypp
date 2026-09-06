@@ -1,0 +1,175 @@
+#:include "common.fypp"
+#:set CMPLX_KINDS_TYPES = CMPL_KINDS_TYPES
+#:set RC_KINDS_TYPES = ALL_KINDS_TYPES
+
+module test_blas_lapack
+    use testdrive, only : new_unittest, unittest_type, error_type, check
+    use la_constants, only: sp, dp, qp, ilp, lk
+    use linear_algebra, only: eye
+    use la_blas
+    use la_lapack
+
+    implicit none
+
+
+contains
+
+    !> Collect all exported unit tests
+    subroutine collect_blas_lapack(testsuite)
+        !> Collection of tests
+        type(unittest_type), allocatable, intent(out) :: testsuite(:)
+
+        testsuite = [ &
+  #:for k1, t1, i1 in REAL_KINDS_TYPES
+            new_unittest("test_gemv${t1[0]}$${k1}$", test_gemv${t1[0]}$${k1}$), &
+            new_unittest("test_getri${t1[0]}$${k1}$", test_getri${t1[0]}$${k1}$), &
+  #:endfor
+            new_unittest("test_idamax", test_idamax), &
+            new_unittest("test_external_blas",external_blas_test), &
+            new_unittest("test_external_lapack",external_lapack_test) &
+            ]
+
+    end subroutine collect_blas_lapack
+
+
+  #:for k1, t1, i1 in REAL_KINDS_TYPES
+    subroutine test_gemv${t1[0]}$${k1}$(error)
+        !> Error handling
+        type(error_type), allocatable, intent(out) :: error
+
+        ${t1}$ :: A(3,3),x(3),y(3),ylap(3),yintr(3),alpha,beta
+        real(${k1}$), parameter :: tol = 1000 * epsilon(1.0_${k1}$)
+        call random_number(alpha)
+        call random_number(beta)
+        call random_number(A)
+        call random_number(x)
+        call random_number(y)
+        ylap = y
+        call gemv('No transpose',size(A,1),size(A,2),alpha,A,size(A,1),x,1,beta,ylap,1)
+        yintr = alpha*matmul(A,x)+beta*y
+
+        call check(error, sum(abs(ylap - yintr)) < tol, &
+            "blas vs. intrinsics axpy: sum() < tol failed")
+        if (allocated(error)) return
+
+    end subroutine test_gemv${t1[0]}$${k1}$
+
+    ! Find matrix inverse from LU decomposition
+    subroutine test_getri${t1[0]}$${k1}$(error)
+        !> Error handling
+        type(error_type), allocatable, intent(out) :: error
+
+        integer(ilp), parameter :: n = 3
+        ${t1}$ :: A(n,n)
+        ${t1}$,allocatable :: work(:)
+        integer(ilp) :: ipiv(n),info,lwork,nb
+        real(${k1}$), parameter :: tol = 1000 * epsilon(1.0_${k1}$)
+
+        A = real(eye(n),${k1}$)
+
+        ! Factorize matrix (overwrite result)
+        call getrf(size(A,1),size(A,2),A,size(A,1),ipiv,info)
+        call check(error, info==0, "lapack getrf returned info/=0")
+        if (allocated(error)) return
+
+        ! Get optimal worksize (returned in work(1)) (apply 2% safety parameter)
+        nb = la_ilaenv(1,'${t1[0]}$getri',' ',n,-1,-1,-1)
+        lwork = nint(1.02*n*nb,kind=ilp)
+        allocate (work(lwork))
+
+        ! Invert matrix
+        call getri(n,a,n,ipiv,work,lwork,info)
+
+        call check(error, info==0, "lapack getri returned info/=0")
+        if (allocated(error)) return
+
+        call check(error, sum(abs(A - eye(3))) < tol, &
+            "lapack eye inversion: tolerance check failed")
+        if (allocated(error)) return
+
+    end subroutine test_getri${t1[0]}$${k1}$
+  #:endfor
+
+    ! Return
+    subroutine test_idamax(error)
+        !> Error handling
+        type(error_type), allocatable, intent(out) :: error
+
+        integer(ilp), parameter :: n = 5
+        integer(ilp) :: imax
+        real(dp) :: x(n)
+
+        x = [1,2,3,4,5]
+
+        imax = la_idamax(n,x,1)
+
+        call check(error, imax==5, "blas idamax returned wrong location")
+
+    end subroutine test_idamax
+
+    !> Test the kind-agnostic BLAS interface
+    subroutine external_blas_test(error)
+        !> Error handling
+        type(error_type), allocatable, intent(out) :: error
+
+        integer(ilp), parameter :: n = 5, inc=1
+        real(sp) :: a,x(n),y(n)
+
+        x = 1.0_sp
+        y = 2.0_sp
+        a = 3.0_sp
+
+        call axpy(n,a,x,inc,y,inc)
+        call check(error, all(abs(y-5.0_sp)<sqrt(epsilon(0.0_sp))), "saxpy: check result")
+        if (allocated(error)) return
+
+    end subroutine external_blas_test
+
+    !> Test the kind-agnostic LAPACK interface
+    subroutine external_lapack_test(error)
+        !> Error handling
+        type(error_type), allocatable, intent(out) :: error
+
+        integer(ilp), parameter :: n = 3
+        real(dp) :: A(n,n)
+        integer(ilp) :: ipiv(n),info
+
+        A = eye(n)
+        info = 123
+
+        ! Factorize matrix
+        call getrf(n,n,A,n,ipiv,info)
+
+        call check(error, info==0, "dgetrf: check result")
+        if (allocated(error)) return
+
+    end subroutine external_lapack_test
+
+end module test_blas_lapack
+
+
+program tester
+    use, intrinsic :: iso_fortran_env, only : error_unit
+    use testdrive, only : run_testsuite, new_testsuite, testsuite_type
+    use test_blas_lapack, only : collect_blas_lapack
+    implicit none
+    integer :: stat, is
+    type(testsuite_type), allocatable :: testsuites(:)
+    character(len=*), parameter :: fmt = '("#", *(1x, a))'
+
+    stat = 0
+    testsuites = [ &
+        new_testsuite("blas_lapack", collect_blas_lapack) &
+        ]
+
+    do is = 1, size(testsuites)
+        write(error_unit, fmt) "Testing:", testsuites(is)%name
+        call run_testsuite(testsuites(is)%collect, error_unit, stat)
+    end do
+
+    if (stat > 0) then
+        write(error_unit, '(i0, 1x, a)') stat, "test(s) failed!"
+        error stop
+    end if
+end program
+

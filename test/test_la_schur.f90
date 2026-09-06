@@ -1,5 +1,5 @@
 ! Test Schur form
-module test_linalg_schur
+module test_la_schur
     use linear_algebra
 
     implicit none(type,external)
@@ -327,5 +327,5 @@ module test_linalg_schur
         
     end subroutine test_schur_api_w
     
-end module test_linalg_schur
+end module test_la_schur
 
