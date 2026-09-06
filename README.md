@@ -968,6 +968,22 @@ interface axpy
 end interface
 ```
 
+# Regenerating sources
+
+The Fortran under `src/` and `test/` is generated from the kind-templated [fypp](https://fypp.readthedocs.io) sources
+under `fypp/src/` and `fypp/test/`, with the shared kind algebra in `include/`. The generated files are committed, so
+building or installing the package never needs fypp. After editing a template, regenerate with
+
+```bash
+python3 scripts/fypp_deploy.py           # rewrite src/ and test/ from the templates
+python3 scripts/fypp_deploy.py --check   # verify the committed tree matches the templates
+```
+
+`--check` is what continuous integration runs; it prints the templates it does not own yet and the reason for each.
+Two further scripts support the ongoing move of the BLAS and LAPACK sources into kind-templated topic modules:
+`scripts/templatize.py` converts per-kind Fortran into one template per topic, driven by `scripts/la_modules.tsv`,
+and `scripts/check_generated.py` compares the regenerated tree against a git reference routine by routine.
+
 # Licensing
 
 LAPACK is a freely-available software package. It is available from [netlib](https://www.netlib.org/lapack/) via anonymous ftp and the World Wide Web. Thus, it can be included in commercial software packages (and has been). Credit for the library should be given to the [LAPACK authors](https://www.netlib.org/lapack/contributor-list.html).

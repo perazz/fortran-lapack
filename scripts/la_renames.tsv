@@ -1,0 +1,9 @@
+old_name	new_name	reason
+la_qsdot	la_qddot	mixed-precision dot at qp; the second letter names the accumulation input, which is dp for qp, not sp
+la_qzasum	la_qwasum	real sum over complex data at qp; the complex companion of qp is w, not z
+la_qznrm2	la_qwnrm2	real norm over complex data at qp; the complex companion of qp is w, not z
+la_wdrot	la_wqrot	complex rotation with real cosine and sine at qp; the real companion of qp is q, not d
+la_wdscal	la_wqscal	complex scaling by a real constant at qp; the real companion of qp is q, not d
+la_ilaqiag	REMOVED	unreachable misnamed copy of la_iladiag, removed before the templating
+la_qlag2q	REMOVED	unreachable converter between a kind and itself, removed before the templating
+la_wlag2w	REMOVED	unreachable converter between a kind and itself, removed before the templating

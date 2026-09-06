@@ -2225,11 +2225,11 @@ module la_lapack_w
               e( m-1 ) = zero
               d( m ) = sigmn
               ! compute singular vectors, if desired
-              if( ncvt>0 )call la_wdrot( ncvt, vt( m-1, 1 ), ldvt, vt( m, 1 ), ldvt,cosr, &
+              if( ncvt>0 )call la_wqrot( ncvt, vt( m-1, 1 ), ldvt, vt( m, 1 ), ldvt,cosr, &
                         sinr )
-              if( nru>0 )call la_wdrot( nru, u( 1, m-1 ), 1, u( 1, m ), 1, cosl, sinl )
+              if( nru>0 )call la_wqrot( nru, u( 1, m-1 ), 1, u( 1, m ), 1, cosl, sinl )
                         
-              if( ncc>0 )call la_wdrot( ncc, c( m-1, 1 ), ldc, c( m, 1 ), ldc, cosl,sinl )
+              if( ncc>0 )call la_wqrot( ncc, c( m-1, 1 ), ldc, c( m, 1 ), ldc, cosl,sinl )
                         
               m = m - 2
               go to 60
@@ -2451,7 +2451,7 @@ module la_lapack_w
               if( d( i )<zero ) then
                  d( i ) = -d( i )
                  ! change sign of singular vectors, if desired
-                 if( ncvt>0 )call la_wdscal( ncvt, negone, vt( i, 1 ), ldvt )
+                 if( ncvt>0 )call la_wqscal( ncvt, negone, vt( i, 1 ), ldvt )
               end if
            end do
            ! sort the singular values into decreasing order (insertion sort on
@@ -2919,7 +2919,7 @@ module la_lapack_w
               done = .true.
            end if
            ! scale the vector x by mul
-           call la_wdscal( n, mul, sx, incx )
+           call la_wqscal( n, mul, sx, incx )
            if( .not.done )go to 10
            return
      end subroutine la_wdrscl
@@ -4645,13 +4645,13 @@ module la_lapack_w
               if( rightv ) then
                  do i = ilo, ihi
                     s = scale( i )
-                    call la_wdscal( m, s, v( i, 1 ), ldv )
+                    call la_wqscal( m, s, v( i, 1 ), ldv )
                  end do
               end if
               if( leftv ) then
                  do i = ilo, ihi
                     s = one / scale( i )
-                    call la_wdscal( m, s, v( i, 1 ), ldv )
+                    call la_wqscal( m, s, v( i, 1 ), ldv )
                  end do
               end if
            end if
@@ -4798,8 +4798,8 @@ module la_lapack_w
            140 continue
            noconv = .false.
            loop_200: do i = k, l
-              c = la_qznrm2( l-k+1, a( k, i ), 1 )
-              r = la_qznrm2( l-k+1, a( i, k ), lda )
+              c = la_qwnrm2( l-k+1, a( k, i ), 1 )
+              r = la_qwnrm2( l-k+1, a( i, k ), lda )
               ica = la_iwamax( l, a( 1, i ), 1 )
               ca = abs( a( ica, i ) )
               ira = la_iwamax( n-k+1, a( i, k ), lda )
@@ -4847,8 +4847,8 @@ module la_lapack_w
               g = one / f
               scale( i ) = scale( i )*f
               noconv = .true.
-              call la_wdscal( n-k+1, g, a( i, k ), lda )
-              call la_wdscal( l, f, a( 1, i ), 1 )
+              call la_wqscal( n-k+1, g, a( i, k ), lda )
+              call la_wqscal( l, f, a( 1, i ), 1 )
            end do loop_200
            if( noconv )go to 140
            210 continue
@@ -6042,8 +6042,8 @@ module la_lapack_w
               call la_wgebak( 'B', 'L', n, ilo, ihi, rwork( ibal ), n, vl, ldvl,ierr )
               ! normalize left eigenvectors and make largest component real
               do i = 1, n
-                 scl = one / la_qznrm2( n, vl( 1, i ), 1 )
-                 call la_wdscal( n, scl, vl( 1, i ), 1 )
+                 scl = one / la_qwnrm2( n, vl( 1, i ), 1 )
+                 call la_wqscal( n, scl, vl( 1, i ), 1 )
                  do k = 1, n
                     rwork( irwork+k-1 ) = real( vl( k, i ),KIND=qp)**2 +aimag( vl( k, i ) )&
                               **2
@@ -6061,8 +6061,8 @@ module la_lapack_w
               call la_wgebak( 'B', 'R', n, ilo, ihi, rwork( ibal ), n, vr, ldvr,ierr )
               ! normalize right eigenvectors and make largest component real
               do i = 1, n
-                 scl = one / la_qznrm2( n, vr( 1, i ), 1 )
-                 call la_wdscal( n, scl, vr( 1, i ), 1 )
+                 scl = one / la_qwnrm2( n, vr( 1, i ), 1 )
+                 call la_wqscal( n, scl, vr( 1, i ), 1 )
                  do k = 1, n
                     rwork( irwork+k-1 ) = real( vr( k, i ),KIND=qp)**2 +aimag( vr( k, i ) )&
                               **2
@@ -6348,8 +6348,8 @@ module la_lapack_w
               call la_wgebak( balanc, 'L', n, ilo, ihi, scale, n, vl, ldvl,ierr )
               ! normalize left eigenvectors and make largest component real
               do i = 1, n
-                 scl = one / la_qznrm2( n, vl( 1, i ), 1 )
-                 call la_wdscal( n, scl, vl( 1, i ), 1 )
+                 scl = one / la_qwnrm2( n, vl( 1, i ), 1 )
+                 call la_wqscal( n, scl, vl( 1, i ), 1 )
                  do k = 1, n
                     rwork( k ) = real( vl( k, i ),KIND=qp)**2 +aimag( vl( k, i ) )**2
                  end do
@@ -6364,8 +6364,8 @@ module la_lapack_w
               call la_wgebak( balanc, 'R', n, ilo, ihi, scale, n, vr, ldvr,ierr )
               ! normalize right eigenvectors and make largest component real
               do i = 1, n
-                 scl = one / la_qznrm2( n, vr( 1, i ), 1 )
-                 call la_wdscal( n, scl, vr( 1, i ), 1 )
+                 scl = one / la_qwnrm2( n, vr( 1, i ), 1 )
+                 call la_wqscal( n, scl, vr( 1, i ), 1 )
                  do k = 1, n
                     rwork( k ) = real( vr( k, i ),KIND=qp)**2 +aimag( vr( k, i ) )**2
                  end do
@@ -7307,7 +7307,7 @@ module la_lapack_w
                     call la_wlacpy( 'U', n, n, a, lda, v, ldv )
                     do p = 1, n
                        temp1 = sva(iwork(p))
-                       call la_wdscal( p, one/temp1, v(1,p), 1 )
+                       call la_wqscal( p, one/temp1, v(1,p), 1 )
                     end do
                     if ( lsvec )then
                         call la_wpocon( 'U', n, v, ldv, one, temp1,cwork(n+1), rwork, ierr )
@@ -7321,7 +7321,7 @@ module la_lapack_w
                     call la_wlacpy( 'U', n, n, a, lda, u, ldu )
                     do p = 1, n
                        temp1 = sva(iwork(p))
-                       call la_wdscal( p, one/temp1, u(1,p), 1 )
+                       call la_wqscal( p, one/temp1, u(1,p), 1 )
                     end do
                     call la_wpocon( 'U', n, u, ldu, one, temp1,cwork(n+1), rwork, ierr )
                               
@@ -7332,8 +7332,8 @@ module la_lapack_w
                     ! not needed for sigma only computation
                     do p = 1, n
                        temp1 = sva(iwork(p))
-      ! []               call la_wdscal( p, one/temp1, cwork(n+(p-1)*n+1), 1 )
-                       call la_wdscal( p, one/temp1, cwork((p-1)*n+1), 1 )
+      ! []               call la_wqscal( p, one/temp1, cwork(n+(p-1)*n+1), 1 )
+                       call la_wqscal( p, one/temp1, cwork((p-1)*n+1), 1 )
                     end do
                  ! The Columns Of R Are Scaled To Have Unit Euclidean Lengths
       ! []               call la_wpocon( 'u', n, cwork(n+1), n, one, temp1,
@@ -7508,8 +7508,8 @@ module la_lapack_w
                         ierr )
               if ( rowpiv )call la_wlaswp( n1, u, ldu, 1, m-1, iwork(iwoff+1), -1 )
               do p = 1, n1
-                 xsc = one / la_qznrm2( m, u(1,p), 1 )
-                 call la_wdscal( m, xsc, u(1,p), 1 )
+                 xsc = one / la_qwnrm2( m, u(1,p), 1 )
+                 call la_wqscal( m, xsc, u(1,p), 1 )
               end do
               if ( transp ) then
                  call la_wlacpy( 'A', n, n, u, ldu, v, ldv )
@@ -7558,8 +7558,8 @@ module la_lapack_w
                  ! of the leading nr x nr submatrix is estimated.)
                  call la_wlacpy( 'L', nr, nr, v, ldv, cwork(2*n+1), nr )
                  do p = 1, nr
-                    temp1 = la_qznrm2(nr-p+1,cwork(2*n+(p-1)*nr+p),1)
-                    call la_wdscal(nr-p+1,one/temp1,cwork(2*n+(p-1)*nr+p),1)
+                    temp1 = la_qwnrm2(nr-p+1,cwork(2*n+(p-1)*nr+p),1)
+                    call la_wqscal(nr-p+1,one/temp1,cwork(2*n+(p-1)*nr+p),1)
                  end do
                  call la_wpocon('L',nr,cwork(2*n+1),nr,one,temp1,cwork(2*n+nr*nr+1),rwork,&
                            ierr)
@@ -7641,8 +7641,8 @@ module la_lapack_w
                     ! And Estimate The Condition Number
                     call la_wlacpy( 'L',nr,nr,v,ldv,cwork(2*n+n*nr+nr+1),nr )
                     do p = 1, nr
-                       temp1 = la_qznrm2( p, cwork(2*n+n*nr+nr+p), nr )
-                       call la_wdscal( p, one/temp1, cwork(2*n+n*nr+nr+p), nr )
+                       temp1 = la_qwnrm2( p, cwork(2*n+n*nr+nr+p), nr )
+                       call la_wqscal( p, one/temp1, cwork(2*n+n*nr+nr+p), nr )
                     end do
                     call la_wpocon( 'L',nr,cwork(2*n+n*nr+nr+1),nr,one,temp1,cwork(2*n+n*nr+&
                               nr+nr*nr+1),rwork,ierr )
@@ -7680,7 +7680,7 @@ module la_lapack_w
                     numrank = nint(rwork(2),KIND=ilp)
                     do p = 1, nr
                        call la_wcopy(  nr, v(1,p), 1, u(1,p), 1 )
-                       call la_wdscal( nr, sva(p),    v(1,p), 1 )
+                       call la_wqscal( nr, sva(p),    v(1,p), 1 )
                     end do
               ! Pick The Right Matrix Equation And Solve It
                     if ( nr == n ) then
@@ -7714,7 +7714,7 @@ module la_lapack_w
                     numrank = nint(rwork(2),KIND=ilp)
                     do p = 1, nr
                        call la_wcopy( nr, v(1,p), 1, u(1,p), 1 )
-                       call la_wdscal( nr, sva(p),    u(1,p), 1 )
+                       call la_wqscal( nr, sva(p),    u(1,p), 1 )
                     end do
                     call la_wtrsm('L','U','N','N',nr,nr,cone,cwork(2*n+1),n,u,ldu)
                     ! Apply The Permutation From The Second Qr Factorization
@@ -7778,8 +7778,8 @@ module la_lapack_w
                     do p = 1, n
                        v(p,q) = cwork(2*n+n*nr+nr+p)
                     end do
-                    xsc = one / la_qznrm2( n, v(1,q), 1 )
-                    if ( (xsc < (one-temp1)) .or. (xsc > (one+temp1)) )call la_wdscal( n, xsc,&
+                    xsc = one / la_qwnrm2( n, v(1,q), 1 )
+                    if ( (xsc < (one-temp1)) .or. (xsc > (one+temp1)) )call la_wqscal( n, xsc,&
                                v(1,q), 1 )
                  end do
                  ! at this moment, v contains the right singular vectors of a.
@@ -7798,8 +7798,8 @@ module la_lapack_w
                  ! the columns of u are normalized. the cost is o(m*n) flops.
                  temp1 = sqrt(real(m,KIND=qp)) * epsln
                  do p = 1, nr
-                    xsc = one / la_qznrm2( m, u(1,p), 1 )
-                    if ( (xsc < (one-temp1)) .or. (xsc > (one+temp1)) )call la_wdscal( m, xsc,&
+                    xsc = one / la_qwnrm2( m, u(1,p), 1 )
+                    if ( (xsc < (one-temp1)) .or. (xsc > (one+temp1)) )call la_wqscal( m, xsc,&
                                u(1,p), 1 )
                  end do
                  ! if the initial qrf is computed with row pivoting, the left
@@ -7828,7 +7828,7 @@ module la_lapack_w
                  numrank = nint(rwork(2),KIND=ilp)
                  do p = 1, n
                     call la_wcopy( n, cwork(n+(p-1)*n+1), 1, u(1,p), 1 )
-                    call la_wdscal( n, sva(p), cwork(n+(p-1)*n+1), 1 )
+                    call la_wqscal( n, sva(p), cwork(n+(p-1)*n+1), 1 )
                  end do
                  call la_wtrsm( 'L', 'U', 'N', 'N', n, n,cone, a, lda, cwork(n+1), n )
                  do p = 1, n
@@ -7836,8 +7836,8 @@ module la_lapack_w
                  end do
                  temp1 = sqrt(real(n,KIND=qp))*epsln
                  do p = 1, n
-                    xsc = one / la_qznrm2( n, v(1,p), 1 )
-                    if ( (xsc < (one-temp1)) .or. (xsc > (one+temp1)) )call la_wdscal( n, xsc,&
+                    xsc = one / la_qwnrm2( n, v(1,p), 1 )
+                    if ( (xsc < (one-temp1)) .or. (xsc > (one+temp1)) )call la_wqscal( n, xsc,&
                                v(1,p), 1 )
                  end do
                  ! assemble the left singular vector matrix u (m x n).
@@ -7852,8 +7852,8 @@ module la_lapack_w
                            n, ierr )
                  temp1 = sqrt(real(m,KIND=qp))*epsln
                  do p = 1, n1
-                    xsc = one / la_qznrm2( m, u(1,p), 1 )
-                    if ( (xsc < (one-temp1)) .or. (xsc > (one+temp1)) )call la_wdscal( m, xsc,&
+                    xsc = one / la_qwnrm2( m, u(1,p), 1 )
+                    if ( (xsc < (one-temp1)) .or. (xsc > (one+temp1)) )call la_wqscal( m, xsc,&
                                u(1,p), 1 )
                  end do
                  if ( rowpiv )call la_wlaswp( n1, u, ldu, 1, m-1, iwork(iwoff+1), -1 )
@@ -7929,8 +7929,8 @@ module la_lapack_w
                     do p = 1, n
                        v(p,q) = cwork(2*n+n*nr+nr+p)
                     end do
-                    xsc = one / la_qznrm2( n, v(1,q), 1 )
-                    if ( (xsc < (one-temp1)) .or. (xsc > (one+temp1)) )call la_wdscal( n, xsc,&
+                    xsc = one / la_qwnrm2( n, v(1,q), 1 )
+                    if ( (xsc < (one-temp1)) .or. (xsc > (one+temp1)) )call la_wqscal( n, xsc,&
                                v(1,q), 1 )
                  end do
                  ! at this moment, v contains the right singular vectors of a.
@@ -10362,7 +10362,7 @@ module la_lapack_w
               ! initialize partial column norms. the first n elements of work
               ! store the exact column norms.
               do j = nfxd + 1, n
-                 rwork( j ) = la_qznrm2( sm, a( nfxd+1, j ), 1 )
+                 rwork( j ) = la_qwnrm2( sm, a( nfxd+1, j ), 1 )
                  rwork( n+j ) = rwork( j )
               end do
               if( ( nb>=nbmin ) .and. ( nb<sminmn ) .and.( nx<sminmn ) ) then
@@ -15917,8 +15917,8 @@ module la_lapack_w
                     ! expert level and obtain useful information in the sense of
                     ! perturbation theory.
                     do p = 1, nr
-                       rtmp = la_qznrm2( p, v(1,p), 1 )
-                       call la_wdscal( p, one/rtmp, v(1,p), 1 )
+                       rtmp = la_qwnrm2( p, v(1,p), 1 )
+                       call la_wqscal( p, one/rtmp, v(1,p), 1 )
                     end do
                     if ( .not. ( lsvec .or. rsvec ) ) then
                         call la_wpocon( 'U', nr, v, ldv, one, rtmp,cwork, rwork, ierr )
@@ -16758,16 +16758,16 @@ module la_lapack_w
               ! column norms are periodically updated by explicit
               ! norm computation.
       ! [!]     caveat:
-              ! unfortunately, some blas implementations compute la_qznrm2(m,a(1,p),1)
+              ! unfortunately, some blas implementations compute la_qwnrm2(m,a(1,p),1)
               ! as sqrt(s=la_zdotc(m,a(1,p),1,a(1,p),1)), which may cause the result to
               ! overflow for ||a(:,p)||_2 > sqrt(overflow_threshold), and to
               ! underflow for ||a(:,p)||_2 < sqrt(underflow_threshold).
-              ! hence, la_qznrm2 cannot be trusted, not even in the case when
+              ! hence, la_qwnrm2 cannot be trusted, not even in the case when
               ! the true norm is far from the under(over)flow boundaries.
               ! if properly implemented la_dcnrm2 is available, the if-then-else-end if
-              ! below should be replaced with "aapp = la_qznrm2( m, a(1,p), 1 )".
+              ! below should be replaced with "aapp = la_qwnrm2( m, a(1,p), 1 )".
                           if( ( sva( p )<rootbig ) .and.( sva( p )>rootsfmin ) ) then
-                             sva( p ) = la_qznrm2( m, a( 1, p ), 1 )
+                             sva( p ) = la_qwnrm2( m, a( 1, p ), 1 )
                           else
                              temp1 = zero
                              aapp = one
@@ -16877,7 +16877,7 @@ module la_lapack_w
                  ! recompute sva(q), sva(p).
                                    if( ( sva( q ) / aaqq )**2<=rooteps )then
                                       if( ( aaqq<rootbig ) .and.( aaqq>rootsfmin ) ) then
-                                         sva( q ) = la_qznrm2( m, a( 1, q ), 1 )
+                                         sva( q ) = la_qwnrm2( m, a( 1, q ), 1 )
                                       else
                                          t = zero
                                          aaqq = one
@@ -16887,7 +16887,7 @@ module la_lapack_w
                                    end if
                                    if( ( aapp / aapp0 )<=rooteps ) then
                                       if( ( aapp<rootbig ) .and.( aapp>rootsfmin ) ) then
-                                         aapp = la_qznrm2( m, a( 1, p ), 1 )
+                                         aapp = la_qwnrm2( m, a( 1, p ), 1 )
                                       else
                                          t = zero
                                          aapp = one
@@ -17060,7 +17060,7 @@ module la_lapack_w
                  ! .. recompute sva(q), sva(p)
                                    if( ( sva( q ) / aaqq )**2<=rooteps )then
                                       if( ( aaqq<rootbig ) .and.( aaqq>rootsfmin ) ) then
-                                         sva( q ) = la_qznrm2( m, a( 1, q ), 1)
+                                         sva( q ) = la_qwnrm2( m, a( 1, q ), 1)
                                        else
                                          t = zero
                                          aaqq = one
@@ -17070,7 +17070,7 @@ module la_lapack_w
                                    end if
                                    if( ( aapp / aapp0 )**2<=rooteps ) then
                                       if( ( aapp<rootbig ) .and.( aapp>rootsfmin ) ) then
-                                         aapp = la_qznrm2( m, a( 1, p ), 1 )
+                                         aapp = la_qwnrm2( m, a( 1, p ), 1 )
                                       else
                                          t = zero
                                          aapp = one
@@ -17123,7 +17123,7 @@ module la_lapack_w
       ! 2000 :: end of the ibr-loop
            ! .. update sva(n)
               if( ( sva( n )<rootbig ) .and. ( sva( n )>rootsfmin ) )then
-                 sva( n ) = la_qznrm2( m, a( 1, n ), 1 )
+                 sva( n ) = la_qwnrm2( m, a( 1, n ), 1 )
               else
                  t = zero
                  aapp = one
@@ -17173,15 +17173,15 @@ module la_lapack_w
            ! normalize the left singular vectors.
            if( lsvec .or. uctol ) then
               do p = 1, n4
-                  ! call la_wdscal( m, one / sva( p ), a( 1, p ), 1 )
+                  ! call la_wqscal( m, one / sva( p ), a( 1, p ), 1 )
                  call la_wlascl( 'G',0,0, sva(p), one, m, 1, a(1,p), m, ierr )
               end do
            end if
            ! scale the product of jacobi rotations.
            if( rsvec ) then
                  do p = 1, n
-                    temp1 = one / la_qznrm2( mvl, v( 1, p ), 1 )
-                    call la_wdscal( mvl, temp1, v( 1, p ), 1 )
+                    temp1 = one / la_qwnrm2( mvl, v( 1, p ), 1 )
+                    call la_wqscal( mvl, temp1, v( 1, p ), 1 )
                  end do
            end if
            ! undo scaling, if necessary (and possible).
@@ -18402,13 +18402,13 @@ module la_lapack_w
               ! backward transformation on right eigenvectors
               if( rightv ) then
                  do i = ilo, ihi
-                    call la_wdscal( m, rscale( i ), v( i, 1 ), ldv )
+                    call la_wqscal( m, rscale( i ), v( i, 1 ), ldv )
                  end do
               end if
               ! backward transformation on left eigenvectors
               if( leftv ) then
                  do i = ilo, ihi
-                    call la_wdscal( m, lscale( i ), v( i, 1 ), ldv )
+                    call la_wqscal( m, lscale( i ), v( i, 1 ), ldv )
                  end do
               end if
            end if
@@ -18749,13 +18749,13 @@ module la_lapack_w
            end do
            ! row scaling of matrices a and b
            do i = ilo, ihi
-              call la_wdscal( n-ilo+1, lscale( i ), a( i, ilo ), lda )
-              call la_wdscal( n-ilo+1, lscale( i ), b( i, ilo ), ldb )
+              call la_wqscal( n-ilo+1, lscale( i ), a( i, ilo ), lda )
+              call la_wqscal( n-ilo+1, lscale( i ), b( i, ilo ), ldb )
            end do
            ! column scaling of matrices a and b
            do j = ilo, ihi
-              call la_wdscal( ihi, rscale( j ), a( 1, j ), 1 )
-              call la_wdscal( ihi, rscale( j ), b( 1, j ), 1 )
+              call la_wqscal( ihi, rscale( j ), a( 1, j ), 1 )
+              call la_wqscal( ihi, rscale( j ), b( 1, j ), 1 )
            end do
            return
      end subroutine la_wggbal
@@ -21728,12 +21728,12 @@ module la_lapack_w
               ! as sqrt(s=la_wdotc(m,a(1,p),1,a(1,p),1)), which may cause the result to
               ! overflow for ||a(:,p)||_2 > sqrt(overflow_threshold), and to
               ! underflow for ||a(:,p)||_2 < sqrt(underflow_threshold).
-              ! hence, la_qznrm2 cannot be trusted, not even in the case when
+              ! hence, la_qwnrm2 cannot be trusted, not even in the case when
               ! the true norm is far from the under(over)flow boundaries.
-              ! if properly implemented la_qznrm2 is available, the if-then-else-end if
-              ! below should be replaced with "aapp = la_qznrm2( m, a(1,p), 1 )".
+              ! if properly implemented la_qwnrm2 is available, the if-then-else-end if
+              ! below should be replaced with "aapp = la_qwnrm2( m, a(1,p), 1 )".
                           if( ( sva( p )<rootbig ) .and.( sva( p )>rootsfmin ) ) then
-                             sva( p ) = la_qznrm2( m, a( 1, p ), 1 )
+                             sva( p ) = la_qwnrm2( m, a( 1, p ), 1 )
                           else
                              temp1 = zero
                              aapp = one
@@ -21842,7 +21842,7 @@ module la_lapack_w
                  ! recompute sva(q), sva(p).
                                    if( ( sva( q ) / aaqq )**2<=rooteps )then
                                       if( ( aaqq<rootbig ) .and.( aaqq>rootsfmin ) ) then
-                                         sva( q ) = la_qznrm2( m, a( 1, q ), 1 )
+                                         sva( q ) = la_qwnrm2( m, a( 1, q ), 1 )
                                       else
                                          t = zero
                                          aaqq = one
@@ -21852,7 +21852,7 @@ module la_lapack_w
                                    end if
                                    if( ( aapp / aapp0 )<=rooteps ) then
                                       if( ( aapp<rootbig ) .and.( aapp>rootsfmin ) ) then
-                                         aapp = la_qznrm2( m, a( 1, p ), 1 )
+                                         aapp = la_qwnrm2( m, a( 1, p ), 1 )
                                       else
                                          t = zero
                                          aapp = one
@@ -22024,7 +22024,7 @@ module la_lapack_w
                  ! .. recompute sva(q), sva(p)
                                    if( ( sva( q ) / aaqq )**2<=rooteps )then
                                       if( ( aaqq<rootbig ) .and.( aaqq>rootsfmin ) ) then
-                                         sva( q ) = la_qznrm2( m, a( 1, q ), 1)
+                                         sva( q ) = la_qwnrm2( m, a( 1, q ), 1)
                                        else
                                          t = zero
                                          aaqq = one
@@ -22034,7 +22034,7 @@ module la_lapack_w
                                    end if
                                    if( ( aapp / aapp0 )**2<=rooteps ) then
                                       if( ( aapp<rootbig ) .and.( aapp>rootsfmin ) ) then
-                                         aapp = la_qznrm2( m, a( 1, p ), 1 )
+                                         aapp = la_qwnrm2( m, a( 1, p ), 1 )
                                       else
                                          t = zero
                                          aapp = one
@@ -22087,7 +22087,7 @@ module la_lapack_w
       ! 2000 :: end of the ibr-loop
            ! .. update sva(n)
               if( ( sva( n )<rootbig ) .and. ( sva( n )>rootsfmin ) )then
-                 sva( n ) = la_qznrm2( m, a( 1, n ), 1 )
+                 sva( n ) = la_qwnrm2( m, a( 1, n ), 1 )
               else
                  t = zero
                  aapp = one
@@ -22400,7 +22400,7 @@ module la_lapack_w
                  ! .. recompute sva(q), sva(p)
                                    if( ( sva( q ) / aaqq )**2<=rooteps )then
                                       if( ( aaqq<rootbig ) .and.( aaqq>rootsfmin ) ) then
-                                         sva( q ) = la_qznrm2( m, a( 1, q ), 1)
+                                         sva( q ) = la_qwnrm2( m, a( 1, q ), 1)
                                        else
                                          t = zero
                                          aaqq = one
@@ -22410,7 +22410,7 @@ module la_lapack_w
                                    end if
                                    if( ( aapp / aapp0 )**2<=rooteps ) then
                                       if( ( aapp<rootbig ) .and.( aapp>rootsfmin ) ) then
-                                         aapp = la_qznrm2( m, a( 1, p ), 1 )
+                                         aapp = la_qwnrm2( m, a( 1, p ), 1 )
                                       else
                                          t = zero
                                          aapp = one
@@ -22463,7 +22463,7 @@ module la_lapack_w
       ! 2000 :: end of the ibr-loop
            ! .. update sva(n)
               if( ( sva( n )<rootbig ) .and. ( sva( n )>rootsfmin ) )then
-                 sva( n ) = la_qznrm2( m, a( 1, n ), 1 )
+                 sva( n ) = la_qwnrm2( m, a( 1, n ), 1 )
               else
                  t = zero
                  aapp = one
@@ -24139,7 +24139,7 @@ module la_lapack_w
                  end do
                  if( wantx ) then
                     ! post-multiply x by inv(s(i))
-                    call la_wdscal( n-m, one / bii, x( m+1, i ), 1 )
+                    call la_wqscal( n-m, one / bii, x( m+1, i ), 1 )
                     if( kbt>0 )call la_wgerc( n-m, kbt, -cone, x( m+1, i ), 1,bb( kb1-kbt, i )&
                               , 1, x( m+1, i-kbt ),ldx )
                  end if
@@ -24326,7 +24326,7 @@ module la_lapack_w
                  end do
                  if( wantx ) then
                     ! post-multiply x by inv(s(i))
-                    call la_wdscal( n-m, one / bii, x( m+1, i ), 1 )
+                    call la_wqscal( n-m, one / bii, x( m+1, i ), 1 )
                     if( kbt>0 )call la_wgeru( n-m, kbt, -cone, x( m+1, i ), 1,bb( kbt+1, i-&
                               kbt ), ldbb-1,x( m+1, i-kbt ), ldx )
                  end if
@@ -24554,7 +24554,7 @@ module la_lapack_w
                  end do
                  if( wantx ) then
                     ! post-multiply x by inv(s(i))
-                    call la_wdscal( nx, one / bii, x( 1, i ), 1 )
+                    call la_wqscal( nx, one / bii, x( 1, i ), 1 )
                     if( kbt>0 )call la_wgeru( nx, kbt, -cone, x( 1, i ), 1,bb( kb, i+1 ), &
                               ldbb-1, x( 1, i+1 ), ldx )
                  end if
@@ -24743,7 +24743,7 @@ module la_lapack_w
                  end do
                  if( wantx ) then
                     ! post-multiply x by inv(s(i))
-                    call la_wdscal( nx, one / bii, x( 1, i ), 1 )
+                    call la_wqscal( nx, one / bii, x( 1, i ), 1 )
                     if( kbt>0 )call la_wgerc( nx, kbt, -cone, x( 1, i ), 1, bb( 2, i ),1, x( &
                               1, i+1 ), ldx )
                  end if
@@ -26492,11 +26492,11 @@ module la_lapack_w
            if( iscale==1 ) then
               if( lower ) then
                  do j = 1, n
-                    call la_wdscal( n-j+1, sigma, a( j, j ), 1 )
+                    call la_wqscal( n-j+1, sigma, a( j, j ), 1 )
                  end do
               else
                  do j = 1, n
-                    call la_wdscal( j, sigma, a( 1, j ), 1 )
+                    call la_wqscal( j, sigma, a( 1, j ), 1 )
                  end do
               end if
               if( abstol>0 )abstll = abstol*sigma
@@ -26776,11 +26776,11 @@ module la_lapack_w
            if( iscale==1 ) then
               if( lower ) then
                  do j = 1, n
-                    call la_wdscal( n-j+1, sigma, a( j, j ), 1 )
+                    call la_wqscal( n-j+1, sigma, a( j, j ), 1 )
                  end do
               else
                  do j = 1, n
-                    call la_wdscal( j, sigma, a( 1, j ), 1 )
+                    call la_wqscal( j, sigma, a( 1, j ), 1 )
                  end do
               end if
               if( abstol>0 )abstll = abstol*sigma
@@ -26954,7 +26954,7 @@ module la_lapack_w
                     akk = akk / bkk**2
                     a( k, k ) = akk
                     if( k<n ) then
-                       call la_wdscal( n-k, one / bkk, a( k, k+1 ), lda )
+                       call la_wqscal( n-k, one / bkk, a( k, k+1 ), lda )
                        ct = -half*akk
                        call la_wlacgv( n-k, a( k, k+1 ), lda )
                        call la_wlacgv( n-k, b( k, k+1 ), ldb )
@@ -26977,7 +26977,7 @@ module la_lapack_w
                     akk = akk / bkk**2
                     a( k, k ) = akk
                     if( k<n ) then
-                       call la_wdscal( n-k, one / bkk, a( k+1, k ), 1 )
+                       call la_wqscal( n-k, one / bkk, a( k+1, k ), 1 )
                        ct = -half*akk
                        call la_waxpy( n-k, ct, b( k+1, k ), 1, a( k+1, k ), 1 )
                        call la_wher2( uplo, n-k, -cone, a( k+1, k ), 1,b( k+1, k ), 1, a( k+1,&
@@ -27002,7 +27002,7 @@ module la_lapack_w
                     call la_wher2( uplo, k-1, cone, a( 1, k ), 1, b( 1, k ), 1,a, lda )
                               
                     call la_waxpy( k-1, ct, b( 1, k ), 1, a( 1, k ), 1 )
-                    call la_wdscal( k-1, bkk, a( 1, k ), 1 )
+                    call la_wqscal( k-1, bkk, a( 1, k ), 1 )
                     a( k, k ) = akk*bkk**2
                  end do
               else
@@ -27021,7 +27021,7 @@ module la_lapack_w
                               
                     call la_waxpy( k-1, ct, b( k, 1 ), ldb, a( k, 1 ), lda )
                     call la_wlacgv( k-1, b( k, 1 ), ldb )
-                    call la_wdscal( k-1, bkk, a( k, 1 ), lda )
+                    call la_wqscal( k-1, bkk, a( k, 1 ), lda )
                     call la_wlacgv( k-1, a( k, 1 ), lda )
                     a( k, k ) = akk*bkk**2
                  end do
@@ -28485,7 +28485,7 @@ module la_lapack_w
                     r1 = one / real( a( k, k ),KIND=qp)
                     call la_wher( uplo, k-1, -r1, a( 1, k ), 1, a, lda )
                     ! store u(k) in column k
-                    call la_wdscal( k-1, r1, a( 1, k ), 1 )
+                    call la_wqscal( k-1, r1, a( 1, k ), 1 )
                  else
                     ! 2-by-2 pivot block d(k): columns k and k-1 now hold
                     ! ( w(k-1) w(k) ) = ( u(k-1) u(k) )*d(k)
@@ -28621,7 +28621,7 @@ module la_lapack_w
                        call la_wher( uplo, n-k, -r1, a( k+1, k ), 1,a( k+1, k+1 ), lda )
                                  
                        ! store l(k) in column k
-                       call la_wdscal( n-k, r1, a( k+1, k ), 1 )
+                       call la_wqscal( n-k, r1, a( k+1, k ), 1 )
                     end if
                  else
                     ! 2-by-2 pivot block d(k)
@@ -28893,7 +28893,7 @@ module la_lapack_w
                           d11 = one / real( a( k, k ),KIND=qp)
                           call la_wher( uplo, k-1, -d11, a( 1, k ), 1, a, lda )
                           ! store u(k) in column k
-                          call la_wdscal( k-1, d11, a( 1, k ), 1 )
+                          call la_wqscal( k-1, d11, a( 1, k ), 1 )
                        else
                           ! store l(k) in column k
                           d11 = real( a( k, k ),KIND=qp)
@@ -29128,7 +29128,7 @@ module la_lapack_w
                           call la_wher( uplo, n-k, -d11, a( k+1, k ), 1,a( k+1, k+1 ), lda )
                                     
                           ! store l(k) in column k
-                          call la_wdscal( n-k, d11, a( k+1, k ), 1 )
+                          call la_wqscal( n-k, d11, a( k+1, k ), 1 )
                        else
                           ! store l(k) in column k
                           d11 = real( a( k, k ),KIND=qp)
@@ -29412,7 +29412,7 @@ module la_lapack_w
                           d11 = one / real( a( k, k ),KIND=qp)
                           call la_wher( uplo, k-1, -d11, a( 1, k ), 1, a, lda )
                           ! store u(k) in column k
-                          call la_wdscal( k-1, d11, a( 1, k ), 1 )
+                          call la_wqscal( k-1, d11, a( 1, k ), 1 )
                        else
                           ! store l(k) in column k
                           d11 = real( a( k, k ),KIND=qp)
@@ -29628,7 +29628,7 @@ module la_lapack_w
                           call la_wher( uplo, n-k, -d11, a( k+1, k ), 1,a( k+1, k+1 ), lda )
                                     
                           ! store l(k) in column k
-                          call la_wdscal( n-k, d11, a( k+1, k ), 1 )
+                          call la_wqscal( n-k, d11, a( k+1, k ), 1 )
                        else
                           ! store l(k) in column k
                           d11 = real( a( k, k ),KIND=qp)
@@ -31498,7 +31498,7 @@ module la_lapack_w
                            )
                  ! multiply by the inverse of the diagonal block.
                  s = real( cone,KIND=qp) / real( a( k, k ),KIND=qp)
-                 call la_wdscal( nrhs, s, b( k, 1 ), ldb )
+                 call la_wqscal( nrhs, s, b( k, 1 ), ldb )
                  k = k - 1
               else
                  ! 2 x 2 diagonal block
@@ -31588,7 +31588,7 @@ module la_lapack_w
                            k+1, 1 ), ldb )
                  ! multiply by the inverse of the diagonal block.
                  s = real( cone,KIND=qp) / real( a( k, k ),KIND=qp)
-                 call la_wdscal( nrhs, s, b( k, 1 ), ldb )
+                 call la_wqscal( nrhs, s, b( k, 1 ), ldb )
                  k = k + 1
               else
                  ! 2 x 2 diagonal block
@@ -31741,7 +31741,7 @@ module la_lapack_w
               do while ( i >= 1 )
                  if( ipiv(i) > 0 ) then
                    s = real( cone,KIND=qp) / real( a( i, i ),KIND=qp)
-                   call la_wdscal( nrhs, s, b( i, 1 ), ldb )
+                   call la_wqscal( nrhs, s, b( i, 1 ), ldb )
                  elseif ( i > 1) then
                     if ( ipiv(i-1) == ipiv(i) ) then
                        akm1k = work(i)
@@ -31806,7 +31806,7 @@ module la_lapack_w
               do while ( i <= n )
                  if( ipiv(i) > 0 ) then
                    s = real( cone,KIND=qp) / real( a( i, i ),KIND=qp)
-                   call la_wdscal( nrhs, s, b( i, 1 ), ldb )
+                   call la_wqscal( nrhs, s, b( i, 1 ), ldb )
                  else
                        akm1k = work(i)
                        akm1 = a( i, i ) / conjg( akm1k )
@@ -31924,7 +31924,7 @@ module la_lapack_w
               do while ( i>=1 )
                  if( ipiv( i )>0 ) then
                     s = real( cone,KIND=qp) / real( a( i, i ),KIND=qp)
-                    call la_wdscal( nrhs, s, b( i, 1 ), ldb )
+                    call la_wqscal( nrhs, s, b( i, 1 ), ldb )
                  else if ( i>1 ) then
                     akm1k = e( i )
                     akm1 = a( i-1, i-1 ) / akm1k
@@ -31976,7 +31976,7 @@ module la_lapack_w
               do while ( i<=n )
                  if( ipiv( i )>0 ) then
                     s = real( cone,KIND=qp) / real( a( i, i ),KIND=qp)
-                    call la_wdscal( nrhs, s, b( i, 1 ), ldb )
+                    call la_wqscal( nrhs, s, b( i, 1 ), ldb )
                  else if( i<n ) then
                     akm1k = e( i )
                     akm1 = a( i, i ) / conjg( akm1k )
@@ -32203,7 +32203,7 @@ module la_lapack_w
                            )
                  ! multiply by the inverse of the diagonal block.
                  s = real( cone,KIND=qp) / real( a( k, k ),KIND=qp)
-                 call la_wdscal( nrhs, s, b( k, 1 ), ldb )
+                 call la_wqscal( nrhs, s, b( k, 1 ), ldb )
                  k = k - 1
               else
                  ! 2 x 2 diagonal block
@@ -32297,7 +32297,7 @@ module la_lapack_w
                            k+1, 1 ), ldb )
                  ! multiply by the inverse of the diagonal block.
                  s = real( cone,KIND=qp) / real( a( k, k ),KIND=qp)
-                 call la_wdscal( nrhs, s, b( k, 1 ), ldb )
+                 call la_wqscal( nrhs, s, b( k, 1 ), ldb )
                  k = k + 1
               else
                  ! 2 x 2 diagonal block
@@ -33297,7 +33297,7 @@ module la_lapack_w
               sigma = rmax / anrm
            end if
            if( iscale==1 ) then
-              call la_wdscal( ( n*( n+1 ) ) / 2, sigma, ap, 1 )
+              call la_wqscal( ( n*( n+1 ) ) / 2, sigma, ap, 1 )
            end if
            ! call la_whptrd to reduce hermitian packed matrix to tridiagonal form.
            inde = 1
@@ -33437,7 +33437,7 @@ module la_lapack_w
               sigma = rmax / anrm
            end if
            if( iscale==1 ) then
-              call la_wdscal( ( n*( n+1 ) ) / 2, sigma, ap, 1 )
+              call la_wqscal( ( n*( n+1 ) ) / 2, sigma, ap, 1 )
            end if
            ! call la_whptrd to reduce hermitian packed matrix to tridiagonal form.
            inde = 1
@@ -33583,7 +33583,7 @@ module la_lapack_w
               sigma = rmax / anrm
            end if
            if( iscale==1 ) then
-              call la_wdscal( ( n*( n+1 ) ) / 2, sigma, ap, 1 )
+              call la_wqscal( ( n*( n+1 ) ) / 2, sigma, ap, 1 )
               if( abstol>0 )abstll = abstol*sigma
               if( valeig ) then
                  vll = vl*sigma
@@ -33754,7 +33754,7 @@ module la_lapack_w
                               )
                     call la_whpmv( uplo, j-1, -cone, ap, bp( j1 ), 1, cone,ap( j1 ), 1 )
                               
-                    call la_wdscal( j-1, one / bjj, ap( j1 ), 1 )
+                    call la_wqscal( j-1, one / bjj, ap( j1 ), 1 )
                     ap( jj ) = ( ap( jj )-la_wdotc( j-1, ap( j1 ), 1, bp( j1 ),1 ) ) / &
                               bjj
                  end do
@@ -33770,7 +33770,7 @@ module la_lapack_w
                     akk = akk / bkk**2
                     ap( kk ) = akk
                     if( k<n ) then
-                       call la_wdscal( n-k, one / bkk, ap( kk+1 ), 1 )
+                       call la_wqscal( n-k, one / bkk, ap( kk+1 ), 1 )
                        ct = -half*akk
                        call la_waxpy( n-k, ct, bp( kk+1 ), 1, ap( kk+1 ), 1 )
                        call la_whpr2( uplo, n-k, -cone, ap( kk+1 ), 1,bp( kk+1 ), 1, ap( k1k1 &
@@ -33799,7 +33799,7 @@ module la_lapack_w
                     call la_waxpy( k-1, ct, bp( k1 ), 1, ap( k1 ), 1 )
                     call la_whpr2( uplo, k-1, cone, ap( k1 ), 1, bp( k1 ), 1,ap )
                     call la_waxpy( k-1, ct, bp( k1 ), 1, ap( k1 ), 1 )
-                    call la_wdscal( k-1, bkk, ap( k1 ), 1 )
+                    call la_wqscal( k-1, bkk, ap( k1 ), 1 )
                     ap( kk ) = akk*bkk**2
                  end do
               else
@@ -33812,7 +33812,7 @@ module la_lapack_w
                     ajj = real( ap( jj ),KIND=qp)
                     bjj = real( bp( jj ),KIND=qp)
                     ap( jj ) = ajj*bjj + la_wdotc( n-j, ap( jj+1 ), 1,bp( jj+1 ), 1 )
-                    call la_wdscal( n-j, bjj, ap( jj+1 ), 1 )
+                    call la_wqscal( n-j, bjj, ap( jj+1 ), 1 )
                     call la_whpmv( uplo, n-j, cone, ap( j1j1 ), bp( jj+1 ), 1,cone, ap( jj+1 )&
                               , 1 )
                     call la_wtpmv( uplo, 'CONJUGATE TRANSPOSE', 'NON-UNIT',n-j+1, bp( jj ), &
@@ -34757,7 +34757,7 @@ module la_lapack_w
                     r1 = one / real( ap( kc+k-1 ),KIND=qp)
                     call la_whpr( uplo, k-1, -r1, ap( kc ), 1, ap )
                     ! store u(k) in column k
-                    call la_wdscal( k-1, r1, ap( kc ), 1 )
+                    call la_wqscal( k-1, r1, ap( kc ), 1 )
                  else
                     ! 2-by-2 pivot block d(k): columns k and k-1 now hold
                     ! ( w(k-1) w(k) ) = ( u(k-1) u(k) )*d(k)
@@ -34904,7 +34904,7 @@ module la_lapack_w
                        r1 = one / real( ap( kc ),KIND=qp)
                        call la_whpr( uplo, n-k, -r1, ap( kc+1 ), 1,ap( kc+n-k+1 ) )
                        ! store l(k) in column k
-                       call la_wdscal( n-k, r1, ap( kc+1 ), 1 )
+                       call la_wqscal( n-k, r1, ap( kc+1 ), 1 )
                     end if
                  else
                     ! 2-by-2 pivot block d(k): columns k and k+1 now hold
@@ -35248,7 +35248,7 @@ module la_lapack_w
                            
                  ! multiply by the inverse of the diagonal block.
                  s = real( cone,KIND=qp) / real( ap( kc+k-1 ),KIND=qp)
-                 call la_wdscal( nrhs, s, b( k, 1 ), ldb )
+                 call la_wqscal( nrhs, s, b( k, 1 ), ldb )
                  k = k - 1
               else
                  ! 2 x 2 diagonal block
@@ -35343,7 +35343,7 @@ module la_lapack_w
                            1, 1 ), ldb )
                  ! multiply by the inverse of the diagonal block.
                  s = real( cone,KIND=qp) / real( ap( kc ),KIND=qp)
-                 call la_wdscal( nrhs, s, b( k, 1 ), ldb )
+                 call la_wqscal( nrhs, s, b( k, 1 ), ldb )
                  kc = kc + n - k + 1
                  k = k + 1
               else
@@ -39068,7 +39068,7 @@ module la_lapack_w
                  givcol( 2, givptr ) = indxq( indx( j ) )
                  givnum( 1, givptr ) = c
                  givnum( 2, givptr ) = s
-                 call la_wdrot( qsiz, q( 1, indxq( indx( jlam ) ) ), 1,q( 1, indxq( indx( j ) &
+                 call la_wqrot( qsiz, q( 1, indxq( indx( jlam ) ) ), 1,q( 1, indxq( indx( j ) &
                            ) ), 1, c, s )
                  t = d( jlam )*c*c + d( j )*s*s
                  d( j ) = d( jlam )*s*s + d( j )*c*c
@@ -39185,8 +39185,8 @@ module la_lapack_w
               end do
            else
               ! scale supplied initial vector.
-              vnorm = la_qznrm2( n, v, 1 )
-              call la_wdscal( n, ( eps3*rootn ) / max( vnorm, nrmsml ), v, 1 )
+              vnorm = la_qwnrm2( n, v, 1 )
+              call la_wqscal( n, ( eps3*rootn ) / max( vnorm, nrmsml ), v, 1 )
            end if
            if( rightv ) then
               ! lu decomposition with partial pivoting of b, replacing czero
@@ -39252,7 +39252,7 @@ module la_lapack_w
                         ierr )
               normin = 'Y'
               ! test for sufficient growth in the norm of v.
-              vnorm = la_qzasum( n, v, 1 )
+              vnorm = la_qwasum( n, v, 1 )
               if( vnorm>=growto*scale )go to 120
               ! choose new orthogonal starting vector and try again.
               rtemp = eps3 / ( rootn+one )
@@ -39267,7 +39267,7 @@ module la_lapack_w
            120 continue
            ! normalize eigenvector.
            i = la_iwamax( n, v, 1 )
-           call la_wdscal( n, one / cabs1( v( i ) ), v, 1 )
+           call la_wqscal( n, one / cabs1( v( i ) ), v, 1 )
            return
      end subroutine la_wlaein
 #!endif 
@@ -39953,7 +39953,7 @@ module la_lapack_w
                         ! since that was ensured earlier in pivot search:
                         ! case a(k,k) = 0 falls into 2x2 pivot case(4))
                        r1 = one / real( a( k, k ),KIND=qp)
-                       call la_wdscal( k-1, r1, a( 1, k ), 1 )
+                       call la_wqscal( k-1, r1, a( 1, k ), 1 )
                        ! (2) conjugate column w(kw)
                        call la_wlacgv( k-1, w( 1, kw ), 1 )
                     end if
@@ -40194,7 +40194,7 @@ module la_lapack_w
                         ! since that was ensured earlier in pivot search:
                         ! case a(k,k) = 0 falls into 2x2 pivot case(4))
                        r1 = one / real( a( k, k ),KIND=qp)
-                       call la_wdscal( n-k, r1, a( k+1, k ), 1 )
+                       call la_wqscal( n-k, r1, a( k+1, k ), 1 )
                        ! (2) conjugate column w(k)
                        call la_wlacgv( n-k, w( k+1, k ), 1 )
                     end if
@@ -40800,7 +40800,7 @@ module la_lapack_w
                        t = real( a( k, k ),KIND=qp)
                        if( abs( t )>=sfmin ) then
                           r1 = one / t
-                          call la_wdscal( k-1, r1, a( 1, k ), 1 )
+                          call la_wqscal( k-1, r1, a( 1, k ), 1 )
                        else
                           do ii = 1, k-1
                              a( ii, k ) = a( ii, k ) / t
@@ -41091,7 +41091,7 @@ module la_lapack_w
                        t = real( a( k, k ),KIND=qp)
                        if( abs( t )>=sfmin ) then
                           r1 = one / t
-                          call la_wdscal( n-k, r1, a( k+1, k ), 1 )
+                          call la_wqscal( n-k, r1, a( k+1, k ), 1 )
                        else
                           do ii = k + 1, n
                              a( ii, k ) = a( ii, k ) / t
@@ -41439,7 +41439,7 @@ module la_lapack_w
                        t = real( a( k, k ),KIND=qp)
                        if( abs( t )>=sfmin ) then
                           r1 = one / t
-                          call la_wdscal( k-1, r1, a( 1, k ), 1 )
+                          call la_wqscal( k-1, r1, a( 1, k ), 1 )
                        else
                           do ii = 1, k-1
                              a( ii, k ) = a( ii, k ) / t
@@ -41746,7 +41746,7 @@ module la_lapack_w
                        t = real( a( k, k ),KIND=qp)
                        if( abs( t )>=sfmin ) then
                           r1 = one / t
-                          call la_wdscal( n-k, r1, a( k+1, k ), 1 )
+                          call la_wqscal( n-k, r1, a( k+1, k ), 1 )
                        else
                           do ii = k + 1, n
                              a( ii, k ) = a( ii, k ) / t
@@ -42568,7 +42568,7 @@ module la_lapack_w
               ! apply back orthogonal transformations from the left.
               ! step (1l): apply back the givens rotations performed.
               do i = 1, givptr
-                 call la_wdrot( nrhs, b( givcol( i, 2 ), 1 ), ldb,b( givcol( i, 1 ), 1 ), ldb,&
+                 call la_wqrot( nrhs, b( givcol( i, 2 ), 1 ), ldb,b( givcol( i, 1 ), 1 ), ldb,&
                             givnum( i, 2 ),givnum( i, 1 ) )
               end do
               ! step (2l): permute rows of b.
@@ -42581,7 +42581,7 @@ module la_lapack_w
               if( k==1 ) then
                  call la_wcopy( nrhs, bx, ldbx, b, ldb )
                  if( z( 1 )<zero ) then
-                    call la_wdscal( nrhs, negone, b, ldb )
+                    call la_wqscal( nrhs, negone, b, ldb )
                  end if
               else
                  loop_100: do j = 1, k
@@ -42710,7 +42710,7 @@ module la_lapack_w
               ! related to the right null space of the subproblem.
               if( sqre==1 ) then
                  call la_wcopy( nrhs, b( m, 1 ), ldb, bx( m, 1 ), ldbx )
-                 call la_wdrot( nrhs, bx( 1, 1 ), ldbx, bx( m, 1 ), ldbx, c, s )
+                 call la_wqrot( nrhs, bx( 1, 1 ), ldbx, bx( m, 1 ), ldbx, c, s )
               end if
               if( k<max( m, n ) )call la_wlacpy( 'A', n-k, nrhs, b( k+1, 1 ), ldb, bx( k+1, 1 &
                         ),ldbx )
@@ -42724,7 +42724,7 @@ module la_lapack_w
               end do
               ! step (4r): apply back the givens rotations performed.
               do i = givptr, 1, -1
-                 call la_wdrot( nrhs, b( givcol( i, 2 ), 1 ), ldb,b( givcol( i, 1 ), 1 ), ldb,&
+                 call la_wqrot( nrhs, b( givcol( i, 2 ), 1 ), ldb,b( givcol( i, 1 ), 1 ), ldb,&
                             givnum( i, 2 ),-givnum( i, 1 ) )
               end do
            end if
@@ -43125,7 +43125,7 @@ module la_lapack_w
                  e( i ) = sn*d( i+1 )
                  d( i+1 ) = cs*d( i+1 )
                  if( nrhs==1 ) then
-                    call la_wdrot( 1, b( i, 1 ), 1, b( i+1, 1 ), 1, cs, sn )
+                    call la_wqrot( 1, b( i, 1 ), 1, b( i+1, 1 ), 1, cs, sn )
                  else
                     rwork( i*2-1 ) = cs
                     rwork( i*2 ) = sn
@@ -43136,7 +43136,7 @@ module la_lapack_w
                     do j = 1, n - 1
                        cs = rwork( j*2-1 )
                        sn = rwork( j*2 )
-                       call la_wdrot( 1, b( j, i ), 1, b( j+1, i ), 1, cs, sn )
+                       call la_wqrot( 1, b( j, i ), 1, b( j+1, i ), 1, cs, sn )
                     end do
                  end do
               end if
@@ -47274,7 +47274,7 @@ module la_lapack_w
                     temp2 = temp*( vn1( j ) / vn2( j ) )**2
                     if( temp2 <= tol3z ) then
                        if( offpi<m ) then
-                          vn1( j ) = la_qznrm2( m-offpi, a( offpi+1, j ), 1 )
+                          vn1( j ) = la_qwnrm2( m-offpi, a( offpi+1, j ), 1 )
                           vn2( j ) = vn1( j )
                        else
                           vn1( j ) = zero
@@ -47424,7 +47424,7 @@ module la_lapack_w
            60 continue
            if( lsticc>0 ) then
               itemp = nint( vn2( lsticc ),KIND=ilp)
-              vn1( lsticc ) = la_qznrm2( m-rk, a( rk+1, lsticc ), 1 )
+              vn1( lsticc ) = la_qwnrm2( m-rk, a( rk+1, lsticc ), 1 )
               ! note: the computation of vn1( lsticc ) relies on the fact that
               ! la_dnrm2 does not fail on vectors with norm below the value of
               ! sqrt(la_qlamch('s'))
@@ -51014,7 +51014,7 @@ module la_lapack_w
               tau = zero
               return
            end if
-           xnorm = la_qznrm2( n-1, x, incx )
+           xnorm = la_qwnrm2( n-1, x, incx )
            alphr = real( alpha,KIND=qp)
            alphi = aimag( alpha )
            if( xnorm==zero .and. alphi==zero ) then
@@ -51030,13 +51030,13 @@ module la_lapack_w
                  ! xnorm, beta may be inaccurate; scale x and recompute them
                  10 continue
                  knt = knt + 1
-                 call la_wdscal( n-1, rsafmn, x, incx )
+                 call la_wqscal( n-1, rsafmn, x, incx )
                  beta = beta*rsafmn
                  alphi = alphi*rsafmn
                  alphr = alphr*rsafmn
                  if( (abs( beta )<safmin) .and. (knt < 20) )go to 10
                  ! new beta is at most 1, at least safmin
-                 xnorm = la_qznrm2( n-1, x, incx )
+                 xnorm = la_qwnrm2( n-1, x, incx )
                  alpha = cmplx( alphr, alphi,KIND=qp)
                  beta = -sign( la_qlapy3( alphr, alphi, xnorm ), alphr )
               end if
@@ -51091,7 +51091,7 @@ module la_lapack_w
               tau = zero
               return
            end if
-           xnorm = la_qznrm2( n-1, x, incx )
+           xnorm = la_qwnrm2( n-1, x, incx )
            alphr = real( alpha,KIND=qp)
            alphi = aimag( alpha )
            if( xnorm==zero ) then
@@ -51130,13 +51130,13 @@ module la_lapack_w
                  ! xnorm, beta may be inaccurate; scale x and recompute them
                  10 continue
                  knt = knt + 1
-                 call la_wdscal( n-1, bignum, x, incx )
+                 call la_wqscal( n-1, bignum, x, incx )
                  beta = beta*bignum
                  alphi = alphi*bignum
                  alphr = alphr*bignum
                  if( (abs( beta )<smlnum) .and. (knt < 20) )go to 10
                  ! new beta is at most 1, at least smlnum
-                 xnorm = la_qznrm2( n-1, x, incx )
+                 xnorm = la_qwnrm2( n-1, x, incx )
                  alpha = cmplx( alphr, alphi,KIND=qp)
                  beta = sign( la_qlapy3( alphr, alphi, xnorm ), alphr )
               end if
@@ -52707,7 +52707,7 @@ module la_lapack_w
                                 z( ii, windex ) = zero
                              end do
                           endif
-                          call la_wdscal( zto-zfrom+1, nrminv,z( zfrom, windex ), 1 )
+                          call la_wqscal( zto-zfrom+1, nrminv,z( zfrom, windex ), 1 )
                           125 continue
                           ! update w
                           w( windex ) = lambda+sigma
@@ -55667,14 +55667,14 @@ module la_lapack_w
                  ! a is upper triangular.
                  do j = 1, n
                     jlen = min( kd, j-1 )
-                    cnorm( j ) = la_qzasum( jlen, ab( kd+1-jlen, j ), 1 )
+                    cnorm( j ) = la_qwasum( jlen, ab( kd+1-jlen, j ), 1 )
                  end do
               else
                  ! a is lower triangular.
                  do j = 1, n
                     jlen = min( kd, n-j )
                     if( jlen>0 ) then
-                       cnorm( j ) = la_qzasum( jlen, ab( 2, j ), 1 )
+                       cnorm( j ) = la_qwasum( jlen, ab( 2, j ), 1 )
                     else
                        cnorm( j ) = zero
                     end if
@@ -55818,7 +55818,7 @@ module la_lapack_w
                  ! scale x so that its components are less than or equal to
                  ! bignum in absolute value.
                  scale = ( bignum*half ) / xmax
-                 call la_wdscal( n, scale, x, 1 )
+                 call la_wqscal( n, scale, x, 1 )
                  xmax = bignum
               else
                  xmax = xmax*two
@@ -55841,7 +55841,7 @@ module la_lapack_w
                           if( xj>tjj*bignum ) then
                                 ! scale x by 1/b(j).
                              rec = one / xj
-                             call la_wdscal( n, rec, x, 1 )
+                             call la_wqscal( n, rec, x, 1 )
                              scale = scale*rec
                              xmax = xmax*rec
                           end if
@@ -55859,7 +55859,7 @@ module la_lapack_w
                                 ! multiplying x(j) times column j.
                              rec = rec / cnorm( j )
                           end if
-                          call la_wdscal( n, rec, x, 1 )
+                          call la_wqscal( n, rec, x, 1 )
                           scale = scale*rec
                           xmax = xmax*rec
                        end if
@@ -55884,12 +55884,12 @@ module la_lapack_w
                        if( cnorm( j )>( bignum-xmax )*rec ) then
                           ! scale x by 1/(2*abs(x(j))).
                           rec = rec*half
-                          call la_wdscal( n, rec, x, 1 )
+                          call la_wqscal( n, rec, x, 1 )
                           scale = scale*rec
                        end if
                     else if( xj*cnorm( j )>( bignum-xmax ) ) then
                        ! scale x by 1/2.
-                       call la_wdscal( n, half, x, 1 )
+                       call la_wqscal( n, half, x, 1 )
                        scale = scale*half
                     end if
                     if( upper ) then
@@ -55937,7 +55937,7 @@ module la_lapack_w
                           uscal = la_wladiv( uscal, tjjs )
                        end if
                        if( rec<one ) then
-                          call la_wdscal( n, rec, x, 1 )
+                          call la_wqscal( n, rec, x, 1 )
                           scale = scale*rec
                           xmax = xmax*rec
                        end if
@@ -55988,7 +55988,7 @@ module la_lapack_w
                              if( xj>tjj*bignum ) then
                                    ! scale x by 1/abs(x(j)).
                                 rec = one / xj
-                                call la_wdscal( n, rec, x, 1 )
+                                call la_wqscal( n, rec, x, 1 )
                                 scale = scale*rec
                                 xmax = xmax*rec
                              end if
@@ -55999,7 +55999,7 @@ module la_lapack_w
                           if( xj>tjj*bignum ) then
                                 ! scale x by (1/abs(x(j)))*abs(a(j,j))*bignum.
                              rec = ( tjj*bignum ) / xj
-                             call la_wdscal( n, rec, x, 1 )
+                             call la_wqscal( n, rec, x, 1 )
                              scale = scale*rec
                              xmax = xmax*rec
                           end if
@@ -56045,7 +56045,7 @@ module la_lapack_w
                           uscal = la_wladiv( uscal, tjjs )
                        end if
                        if( rec<one ) then
-                          call la_wdscal( n, rec, x, 1 )
+                          call la_wqscal( n, rec, x, 1 )
                           scale = scale*rec
                           xmax = xmax*rec
                        end if
@@ -56097,7 +56097,7 @@ module la_lapack_w
                              if( xj>tjj*bignum ) then
                                    ! scale x by 1/abs(x(j)).
                                 rec = one / xj
-                                call la_wdscal( n, rec, x, 1 )
+                                call la_wqscal( n, rec, x, 1 )
                                 scale = scale*rec
                                 xmax = xmax*rec
                              end if
@@ -56108,7 +56108,7 @@ module la_lapack_w
                           if( xj>tjj*bignum ) then
                                 ! scale x by (1/abs(x(j)))*abs(a(j,j))*bignum.
                              rec = ( tjj*bignum ) / xj
-                             call la_wdscal( n, rec, x, 1 )
+                             call la_wqscal( n, rec, x, 1 )
                              scale = scale*rec
                              xmax = xmax*rec
                           end if
@@ -56251,7 +56251,7 @@ module la_lapack_w
            call la_waxpy( n, -cone, xm, 1, rhs, 1 )
            call la_wgesc2( n, z, ldz, rhs, ipiv, jpiv, scale )
            call la_wgesc2( n, z, ldz, xp, ipiv, jpiv, scale )
-           if( la_qzasum( n, xp, 1 )>la_qzasum( n, rhs, 1 ) )call la_wcopy( n, xp, 1, &
+           if( la_qwasum( n, xp, 1 )>la_qwasum( n, rhs, 1 ) )call la_wcopy( n, xp, 1, &
                      rhs, 1 )
            ! compute the sum of squares
            call la_wlassq( n, rhs, 1, rdscal, rdsum )
@@ -56340,14 +56340,14 @@ module la_lapack_w
                  ! a is upper triangular.
                  ip = 1
                  do j = 1, n
-                    cnorm( j ) = la_qzasum( j-1, ap( ip ), 1 )
+                    cnorm( j ) = la_qwasum( j-1, ap( ip ), 1 )
                     ip = ip + j
                  end do
               else
                  ! a is lower triangular.
                  ip = 1
                  do j = 1, n - 1
-                    cnorm( j ) = la_qzasum( n-j, ap( ip+1 ), 1 )
+                    cnorm( j ) = la_qwasum( n-j, ap( ip+1 ), 1 )
                     ip = ip + n - j + 1
                  end do
                  cnorm( n ) = zero
@@ -56494,7 +56494,7 @@ module la_lapack_w
                  ! scale x so that its components are less than or equal to
                  ! bignum in absolute value.
                  scale = ( bignum*half ) / xmax
-                 call la_wdscal( n, scale, x, 1 )
+                 call la_wqscal( n, scale, x, 1 )
                  xmax = bignum
               else
                  xmax = xmax*two
@@ -56518,7 +56518,7 @@ module la_lapack_w
                           if( xj>tjj*bignum ) then
                                 ! scale x by 1/b(j).
                              rec = one / xj
-                             call la_wdscal( n, rec, x, 1 )
+                             call la_wqscal( n, rec, x, 1 )
                              scale = scale*rec
                              xmax = xmax*rec
                           end if
@@ -56536,7 +56536,7 @@ module la_lapack_w
                                 ! multiplying x(j) times column j.
                              rec = rec / cnorm( j )
                           end if
-                          call la_wdscal( n, rec, x, 1 )
+                          call la_wqscal( n, rec, x, 1 )
                           scale = scale*rec
                           xmax = xmax*rec
                        end if
@@ -56561,12 +56561,12 @@ module la_lapack_w
                        if( cnorm( j )>( bignum-xmax )*rec ) then
                           ! scale x by 1/(2*abs(x(j))).
                           rec = rec*half
-                          call la_wdscal( n, rec, x, 1 )
+                          call la_wqscal( n, rec, x, 1 )
                           scale = scale*rec
                        end if
                     else if( xj*cnorm( j )>( bignum-xmax ) ) then
                        ! scale x by 1/2.
-                       call la_wdscal( n, half, x, 1 )
+                       call la_wqscal( n, half, x, 1 )
                        scale = scale*half
                     end if
                     if( upper ) then
@@ -56615,7 +56615,7 @@ module la_lapack_w
                           uscal = la_wladiv( uscal, tjjs )
                        end if
                        if( rec<one ) then
-                          call la_wdscal( n, rec, x, 1 )
+                          call la_wqscal( n, rec, x, 1 )
                           scale = scale*rec
                           xmax = xmax*rec
                        end if
@@ -56660,7 +56660,7 @@ module la_lapack_w
                              if( xj>tjj*bignum ) then
                                    ! scale x by 1/abs(x(j)).
                                 rec = one / xj
-                                call la_wdscal( n, rec, x, 1 )
+                                call la_wqscal( n, rec, x, 1 )
                                 scale = scale*rec
                                 xmax = xmax*rec
                              end if
@@ -56671,7 +56671,7 @@ module la_lapack_w
                           if( xj>tjj*bignum ) then
                                 ! scale x by (1/abs(x(j)))*abs(a(j,j))*bignum.
                              rec = ( tjj*bignum ) / xj
-                             call la_wdscal( n, rec, x, 1 )
+                             call la_wqscal( n, rec, x, 1 )
                              scale = scale*rec
                              xmax = xmax*rec
                           end if
@@ -56721,7 +56721,7 @@ module la_lapack_w
                           uscal = la_wladiv( uscal, tjjs )
                        end if
                        if( rec<one ) then
-                          call la_wdscal( n, rec, x, 1 )
+                          call la_wqscal( n, rec, x, 1 )
                           scale = scale*rec
                           xmax = xmax*rec
                        end if
@@ -56766,7 +56766,7 @@ module la_lapack_w
                              if( xj>tjj*bignum ) then
                                    ! scale x by 1/abs(x(j)).
                                 rec = one / xj
-                                call la_wdscal( n, rec, x, 1 )
+                                call la_wqscal( n, rec, x, 1 )
                                 scale = scale*rec
                                 xmax = xmax*rec
                              end if
@@ -56777,7 +56777,7 @@ module la_lapack_w
                           if( xj>tjj*bignum ) then
                                 ! scale x by (1/abs(x(j)))*abs(a(j,j))*bignum.
                              rec = ( tjj*bignum ) / xj
-                             call la_wdscal( n, rec, x, 1 )
+                             call la_wqscal( n, rec, x, 1 )
                              scale = scale*rec
                              xmax = xmax*rec
                           end if
@@ -57013,12 +57013,12 @@ module la_lapack_w
               if( upper ) then
                  ! a is upper triangular.
                  do j = 1, n
-                    cnorm( j ) = la_qzasum( j-1, a( 1, j ), 1 )
+                    cnorm( j ) = la_qwasum( j-1, a( 1, j ), 1 )
                  end do
               else
                  ! a is lower triangular.
                  do j = 1, n - 1
-                    cnorm( j ) = la_qzasum( n-j, a( j+1, j ), 1 )
+                    cnorm( j ) = la_qwasum( n-j, a( j+1, j ), 1 )
                  end do
                  cnorm( n ) = zero
               end if
@@ -57156,7 +57156,7 @@ module la_lapack_w
                  ! scale x so that its components are less than or equal to
                  ! bignum in absolute value.
                  scale = ( bignum*half ) / xmax
-                 call la_wdscal( n, scale, x, 1 )
+                 call la_wqscal( n, scale, x, 1 )
                  xmax = bignum
               else
                  xmax = xmax*two
@@ -57179,7 +57179,7 @@ module la_lapack_w
                           if( xj>tjj*bignum ) then
                                 ! scale x by 1/b(j).
                              rec = one / xj
-                             call la_wdscal( n, rec, x, 1 )
+                             call la_wqscal( n, rec, x, 1 )
                              scale = scale*rec
                              xmax = xmax*rec
                           end if
@@ -57197,7 +57197,7 @@ module la_lapack_w
                                 ! multiplying x(j) times column j.
                              rec = rec / cnorm( j )
                           end if
-                          call la_wdscal( n, rec, x, 1 )
+                          call la_wqscal( n, rec, x, 1 )
                           scale = scale*rec
                           xmax = xmax*rec
                        end if
@@ -57222,12 +57222,12 @@ module la_lapack_w
                        if( cnorm( j )>( bignum-xmax )*rec ) then
                           ! scale x by 1/(2*abs(x(j))).
                           rec = rec*half
-                          call la_wdscal( n, rec, x, 1 )
+                          call la_wqscal( n, rec, x, 1 )
                           scale = scale*rec
                        end if
                     else if( xj*cnorm( j )>( bignum-xmax ) ) then
                        ! scale x by 1/2.
-                       call la_wdscal( n, half, x, 1 )
+                       call la_wqscal( n, half, x, 1 )
                        scale = scale*half
                     end if
                     if( upper ) then
@@ -57272,7 +57272,7 @@ module la_lapack_w
                           uscal = la_wladiv( uscal, tjjs )
                        end if
                        if( rec<one ) then
-                          call la_wdscal( n, rec, x, 1 )
+                          call la_wqscal( n, rec, x, 1 )
                           scale = scale*rec
                           xmax = xmax*rec
                        end if
@@ -57317,7 +57317,7 @@ module la_lapack_w
                              if( xj>tjj*bignum ) then
                                    ! scale x by 1/abs(x(j)).
                                 rec = one / xj
-                                call la_wdscal( n, rec, x, 1 )
+                                call la_wqscal( n, rec, x, 1 )
                                 scale = scale*rec
                                 xmax = xmax*rec
                              end if
@@ -57328,7 +57328,7 @@ module la_lapack_w
                           if( xj>tjj*bignum ) then
                                 ! scale x by (1/abs(x(j)))*abs(a(j,j))*bignum.
                              rec = ( tjj*bignum ) / xj
-                             call la_wdscal( n, rec, x, 1 )
+                             call la_wqscal( n, rec, x, 1 )
                              scale = scale*rec
                              xmax = xmax*rec
                           end if
@@ -57374,7 +57374,7 @@ module la_lapack_w
                           uscal = la_wladiv( uscal, tjjs )
                        end if
                        if( rec<one ) then
-                          call la_wdscal( n, rec, x, 1 )
+                          call la_wqscal( n, rec, x, 1 )
                           scale = scale*rec
                           xmax = xmax*rec
                        end if
@@ -57419,7 +57419,7 @@ module la_lapack_w
                              if( xj>tjj*bignum ) then
                                    ! scale x by 1/abs(x(j)).
                                 rec = one / xj
-                                call la_wdscal( n, rec, x, 1 )
+                                call la_wqscal( n, rec, x, 1 )
                                 scale = scale*rec
                                 xmax = xmax*rec
                              end if
@@ -57430,7 +57430,7 @@ module la_lapack_w
                           if( xj>tjj*bignum ) then
                                 ! scale x by (1/abs(x(j)))*abs(a(j,j))*bignum.
                              rec = ( tjj*bignum ) / xj
-                             call la_wdscal( n, rec, x, 1 )
+                             call la_wqscal( n, rec, x, 1 )
                              scale = scale*rec
                              xmax = xmax*rec
                           end if
@@ -57895,7 +57895,7 @@ module la_lapack_w
                               ), lda, cmplx( aii,KIND=qp),a( 1, i ), 1 )
                     call la_wlacgv( n-i, a( i, i+1 ), lda )
                  else
-                    call la_wdscal( i, aii, a( 1, i ), 1 )
+                    call la_wqscal( i, aii, a( 1, i ), 1 )
                  end if
               end do
            else
@@ -57910,7 +57910,7 @@ module la_lapack_w
                               i+1, i ), 1,cmplx( aii,KIND=qp), a( i, 1 ), lda )
                     call la_wlacgv( i-1, a( i, 1 ), lda )
                  else
-                    call la_wdscal( i, aii, a( i, 1 ), lda )
+                    call la_wqscal( i, aii, a( i, 1 ), lda )
                  end if
               end do
            end if
@@ -58469,7 +58469,7 @@ module la_lapack_w
                  km = min( j-1, kd )
                  ! compute elements j-km:j-1 of the j-th column and update the
                  ! the leading submatrix within the band.
-                 call la_wdscal( km, one / ajj, ab( kd+1-km, j ), 1 )
+                 call la_wqscal( km, one / ajj, ab( kd+1-km, j ), 1 )
                  call la_wher( 'UPPER', km, -one, ab( kd+1-km, j ), 1,ab( kd+1, j-km ), kld )
                            
               end do
@@ -58487,7 +58487,7 @@ module la_lapack_w
                  ! compute elements j+1:j+km of the j-th row and update the
                  ! trailing submatrix within the band.
                  if( km>0 ) then
-                    call la_wdscal( km, one / ajj, ab( kd, j+1 ), kld )
+                    call la_wqscal( km, one / ajj, ab( kd, j+1 ), kld )
                     call la_wlacgv( km, ab( kd, j+1 ), kld )
                     call la_wher( 'UPPER', km, -one, ab( kd, j+1 ), kld,ab( kd+1, j+1 ), kld )
                               
@@ -58508,7 +58508,7 @@ module la_lapack_w
                  km = min( j-1, kd )
                  ! compute elements j-km:j-1 of the j-th row and update the
                  ! trailing submatrix within the band.
-                 call la_wdscal( km, one / ajj, ab( km+1, j-km ), kld )
+                 call la_wqscal( km, one / ajj, ab( km+1, j-km ), kld )
                  call la_wlacgv( km, ab( km+1, j-km ), kld )
                  call la_wher( 'LOWER', km, -one, ab( km+1, j-km ), kld,ab( 1, j-km ), kld )
                            
@@ -58528,7 +58528,7 @@ module la_lapack_w
                  ! compute elements j+1:j+km of the j-th column and update the
                  ! trailing submatrix within the band.
                  if( km>0 ) then
-                    call la_wdscal( km, one / ajj, ab( 2, j ), 1 )
+                    call la_wqscal( km, one / ajj, ab( 2, j ), 1 )
                     call la_wher( 'LOWER', km, -one, ab( 2, j ), 1,ab( 1, j+1 ), kld )
                  end if
               end do
@@ -58821,7 +58821,7 @@ module la_lapack_w
                  ! trailing submatrix within the band.
                  kn = min( kd, n-j )
                  if( kn>0 ) then
-                    call la_wdscal( kn, one / ajj, ab( kd, j+1 ), kld )
+                    call la_wqscal( kn, one / ajj, ab( kd, j+1 ), kld )
                     call la_wlacgv( kn, ab( kd, j+1 ), kld )
                     call la_wher( 'UPPER', kn, -one, ab( kd, j+1 ), kld,ab( kd+1, j+1 ), kld )
                               
@@ -58843,7 +58843,7 @@ module la_lapack_w
                  ! trailing submatrix within the band.
                  kn = min( kd, n-j )
                  if( kn>0 ) then
-                    call la_wdscal( kn, one / ajj, ab( 2, j ), 1 )
+                    call la_wqscal( kn, one / ajj, ab( 2, j ), 1 )
                     call la_wher( 'LOWER', kn, -one, ab( 2, j ), 1,ab( 1, j+1 ), kld )
                  end if
               end do
@@ -60253,7 +60253,7 @@ module la_lapack_w
                     call la_wgemv( 'TRANSPOSE', j-1, n-j, -cone, a( 1, j+1 ),lda, a( 1, j ), &
                               1, cone, a( j, j+1 ), lda )
                     call la_wlacgv( j-1, a( 1, j ), 1 )
-                    call la_wdscal( n-j, one / ajj, a( j, j+1 ), lda )
+                    call la_wqscal( n-j, one / ajj, a( j, j+1 ), lda )
                  end if
               end do
            else
@@ -60274,7 +60274,7 @@ module la_lapack_w
                     call la_wgemv( 'NO TRANSPOSE', n-j, j-1, -cone, a( j+1, 1 ),lda, a( j, 1 )&
                               , lda, cone, a( j+1, j ), 1 )
                     call la_wlacgv( j-1, a( j, 1 ), lda )
-                    call la_wdscal( n-j, one / ajj, a( j+1, j ), 1 )
+                    call la_wqscal( n-j, one / ajj, a( j+1, j ), 1 )
                  end if
               end do
            end if
@@ -61264,7 +61264,7 @@ module la_lapack_w
                  ! compute elements j+1:n of column j and update the trailing
                  ! submatrix.
                  if( j<n ) then
-                    call la_wdscal( n-j, one / ajj, ap( jj+1 ), 1 )
+                    call la_wqscal( n-j, one / ajj, ap( jj+1 ), 1 )
                     call la_whpr( 'LOWER', n-j, -one, ap( jj+1 ), 1,ap( jj+n-j+1 ) )
                     jj = jj + n - j + 1
                  end if
@@ -61328,7 +61328,7 @@ module la_lapack_w
                  jj = jj + j
                  if( j>1 )call la_whpr( 'UPPER', j-1, one, ap( jc ), 1, ap )
                  ajj = real( ap( jj ),KIND=qp)
-                 call la_wdscal( j, ajj, ap( jc ), 1 )
+                 call la_wqscal( j, ajj, ap( jc ), 1 )
               end do
            else
               ! compute the product inv(l)**h * inv(l).
@@ -61539,7 +61539,7 @@ module la_lapack_w
                     call la_wgemv( 'TRANS', j-1, n-j, -cone, a( 1, j+1 ), lda,a( 1, j ), 1, &
                               cone, a( j, j+1 ), lda )
                     call la_wlacgv( j-1, a( 1, j ), 1 )
-                    call la_wdscal( n-j, one / ajj, a( j, j+1 ), lda )
+                    call la_wqscal( n-j, one / ajj, a( j, j+1 ), lda )
                  end if
               end do loop_150
            else
@@ -61592,7 +61592,7 @@ module la_lapack_w
                     call la_wgemv( 'NO TRANS', n-j, j-1, -cone, a( j+1, 1 ),lda, a( j, 1 ), &
                               lda, cone, a( j+1, j ), 1 )
                     call la_wlacgv( j-1, a( j, 1 ), lda )
-                    call la_wdscal( n-j, one / ajj, a( j+1, j ), 1 )
+                    call la_wqscal( n-j, one / ajj, a( j+1, j ), 1 )
                  end if
               end do loop_180
            end if
@@ -61747,7 +61747,7 @@ module la_lapack_w
                           call la_wgemv( 'TRANS', j-k, n-j, -cone, a( k, j+1 ),lda, a( k, j ),&
                                      1, cone, a( j, j+1 ),lda )
                           call la_wlacgv( j-1, a( 1, j ), 1 )
-                          call la_wdscal( n-j, one / ajj, a( j, j+1 ), lda )
+                          call la_wqscal( n-j, one / ajj, a( j, j+1 ), lda )
                        end if
                     end do loop_150
                     ! update trailing matrix, j already incremented
@@ -61814,7 +61814,7 @@ module la_lapack_w
                           call la_wgemv( 'NO TRANS', n-j, j-k, -cone,a( j+1, k ), lda, a( j, &
                                     k ), lda, cone,a( j+1, j ), 1 )
                           call la_wlacgv( j-1, a( j, 1 ), lda )
-                          call la_wdscal( n-j, one / ajj, a( j+1, j ), 1 )
+                          call la_wqscal( n-j, one / ajj, a( j+1, j ), 1 )
                        end if
                     end do loop_200
                     ! update trailing matrix, j already incremented
@@ -62558,7 +62558,7 @@ module la_lapack_w
            ! Executable Statements 
            ! quick return if possible
            if( n<=1 ) then
-              if( n==1 )call la_wdscal( nrhs, 1._qp / d( 1 ), b, ldb )
+              if( n==1 )call la_wqscal( nrhs, 1._qp / d( 1 ), b, ldb )
               return
            end if
            if( iuplo==1 ) then
@@ -73360,14 +73360,14 @@ module la_lapack_w
               gamma = b1 / a1
               if( (gamma<=hugenum).and.(gamma>=-hugenum) ) then
                  if( gamma<zero ) then
-                    call la_wdscal( l-i+1, -one, b( i, n-l+i ), ldb )
-                    if( wantv )call la_wdscal( p, -one, v( 1, i ), 1 )
+                    call la_wqscal( l-i+1, -one, b( i, n-l+i ), ldb )
+                    if( wantv )call la_wqscal( p, -one, v( 1, i ), 1 )
                  end if
                  call la_qlartg( abs( gamma ), one, beta( k+i ), alpha( k+i ),rwk )
                  if( alpha( k+i )>=beta( k+i ) ) then
-                    call la_wdscal( l-i+1, one / alpha( k+i ), a( k+i, n-l+i ),lda )
+                    call la_wqscal( l-i+1, one / alpha( k+i ), a( k+i, n-l+i ),lda )
                  else
-                    call la_wdscal( l-i+1, one / beta( k+i ), b( i, n-l+i ),ldb )
+                    call la_wqscal( l-i+1, one / beta( k+i ), b( i, n-l+i ),ldb )
                     call la_wcopy( l-i+1, b( i, n-l+i ), ldb, a( k+i, n-l+i ),lda )
                  end if
               else
@@ -73500,8 +73500,8 @@ module la_lapack_w
               if( wants ) then
                  ! compute the reciprocal condition number of the k-th
                  ! eigenvalue.
-                 rnrm = la_qznrm2( n, vr( 1, ks ), 1 )
-                 lnrm = la_qznrm2( n, vl( 1, ks ), 1 )
+                 rnrm = la_qwnrm2( n, vr( 1, ks ), 1 )
+                 lnrm = la_qwnrm2( n, vl( 1, ks ), 1 )
                  call la_wgemv( 'N', n, n, cmplx( one, zero,KIND=qp), a, lda,vr( 1, ks ), 1, &
                            cmplx( zero, zero,KIND=qp), work, 1 )
                  yhax = la_wdotc( n, work, 1, vl( 1, ks ), 1 )
@@ -76169,7 +76169,7 @@ module la_lapack_w
            ! part of t to control overflow in triangular solver.
            rwork( 1 ) = zero
            do j = 2, n
-              rwork( j ) = la_qzasum( j-1, t( 1, j ), 1 )
+              rwork( j ) = la_qwasum( j-1, t( 1, j ), 1 )
            end do
            if( rightv ) then
               ! compute right eigenvectors.
@@ -76200,7 +76200,7 @@ module la_lapack_w
                     call la_wcopy( ki, work( 1 ), 1, vr( 1, is ), 1 )
                     ii = la_iwamax( ki, vr( 1, is ), 1 )
                     remax = one / cabs1( vr( ii, is ) )
-                    call la_wdscal( ki, remax, vr( 1, is ), 1 )
+                    call la_wqscal( ki, remax, vr( 1, is ), 1 )
                     do k = ki + 1, n
                        vr( k, is ) = cmzero
                     end do
@@ -76209,7 +76209,7 @@ module la_lapack_w
                               cmplx( scale,KIND=qp), vr( 1, ki ), 1 )
                     ii = la_iwamax( n, vr( 1, ki ), 1 )
                     remax = one / cabs1( vr( ii, ki ) )
-                    call la_wdscal( n, remax, vr( 1, ki ), 1 )
+                    call la_wqscal( n, remax, vr( 1, ki ), 1 )
                  end if
                  ! set back the original diagonal elements of t.
                  do k = 1, ki - 1
@@ -76247,7 +76247,7 @@ module la_lapack_w
                     call la_wcopy( n-ki+1, work( ki ), 1, vl( ki, is ), 1 )
                     ii = la_iwamax( n-ki+1, vl( ki, is ), 1 ) + ki - 1
                     remax = one / cabs1( vl( ii, is ) )
-                    call la_wdscal( n-ki+1, remax, vl( ki, is ), 1 )
+                    call la_wqscal( n-ki+1, remax, vl( ki, is ), 1 )
                     do k = 1, ki - 1
                        vl( k, is ) = cmzero
                     end do
@@ -76256,7 +76256,7 @@ module la_lapack_w
                               ki+1 ), 1, cmplx( scale,KIND=qp),vl( 1, ki ), 1 )
                     ii = la_iwamax( n, vl( 1, ki ), 1 )
                     remax = one / cabs1( vl( ii, ki ) )
-                    call la_wdscal( n, remax, vl( 1, ki ), 1 )
+                    call la_wqscal( n, remax, vl( 1, ki ), 1 )
                  end if
                  ! set back the original diagonal elements of t.
                  do k = ki + 1, n
@@ -76394,7 +76394,7 @@ module la_lapack_w
            ! part of t to control overflow in triangular solver.
            rwork( 1 ) = zero
            do j = 2, n
-              rwork( j ) = la_qzasum( j-1, t( 1, j ), 1 )
+              rwork( j ) = la_qwasum( j-1, t( 1, j ), 1 )
            end do
            if( rightv ) then
               ! ============================================================
@@ -76435,7 +76435,7 @@ module la_lapack_w
                     call la_wcopy( ki, work( 1 + iv*n ), 1, vr( 1, is ), 1 )
                     ii = la_iwamax( ki, vr( 1, is ), 1 )
                     remax = one / cabs1( vr( ii, is ) )
-                    call la_wdscal( ki, remax, vr( 1, is ), 1 )
+                    call la_wqscal( ki, remax, vr( 1, is ), 1 )
                     do k = ki + 1, n
                        vr( k, is ) = czero
                     end do
@@ -76446,7 +76446,7 @@ module la_lapack_w
                                cmplx( scale,KIND=qp),vr( 1, ki ), 1 )
                     ii = la_iwamax( n, vr( 1, ki ), 1 )
                     remax = one / cabs1( vr( ii, ki ) )
-                    call la_wdscal( n, remax, vr( 1, ki ), 1 )
+                    call la_wqscal( n, remax, vr( 1, ki ), 1 )
                  else
                     ! ------------------------------
                     ! version 2: back-transform block of vectors with gemm
@@ -76464,7 +76464,7 @@ module la_lapack_w
                        do k = iv, nb
                           ii = la_iwamax( n, work( 1 + (nb+k)*n ), 1 )
                           remax = one / cabs1( work( ii + (nb+k)*n ) )
-                          call la_wdscal( n, remax, work( 1 + (nb+k)*n ), 1 )
+                          call la_wqscal( n, remax, work( 1 + (nb+k)*n ), 1 )
                        end do
                        call la_wlacpy( 'F', n, nb-iv+1,work( 1 + (nb+iv)*n ), n,vr( 1, ki ), &
                                  ldvr )
@@ -76519,7 +76519,7 @@ module la_lapack_w
                     call la_wcopy( n-ki+1, work( ki + iv*n ), 1, vl(ki,is), 1 )
                     ii = la_iwamax( n-ki+1, vl( ki, is ), 1 ) + ki - 1
                     remax = one / cabs1( vl( ii, is ) )
-                    call la_wdscal( n-ki+1, remax, vl( ki, is ), 1 )
+                    call la_wqscal( n-ki+1, remax, vl( ki, is ), 1 )
                     do k = 1, ki - 1
                        vl( k, is ) = czero
                     end do
@@ -76530,7 +76530,7 @@ module la_lapack_w
                               1 + iv*n ), 1, cmplx( scale,KIND=qp),vl( 1, ki ), 1 )
                     ii = la_iwamax( n, vl( 1, ki ), 1 )
                     remax = one / cabs1( vl( ii, ki ) )
-                    call la_wdscal( n, remax, vl( 1, ki ), 1 )
+                    call la_wqscal( n, remax, vl( 1, ki ), 1 )
                  else
                     ! ------------------------------
                     ! version 2: back-transform block of vectors with gemm
@@ -76549,7 +76549,7 @@ module la_lapack_w
                        do k = 1, iv
                           ii = la_iwamax( n, work( 1 + (nb+k)*n ), 1 )
                           remax = one / cabs1( work( ii + (nb+k)*n ) )
-                          call la_wdscal( n, remax, work( 1 + (nb+k)*n ), 1 )
+                          call la_wqscal( n, remax, work( 1 + (nb+k)*n ), 1 )
                        end do
                        call la_wlacpy( 'F', n, iv,work( 1 + (nb+1)*n ), n,vl( 1, ki-iv+1 ), &
                                  ldvl )
@@ -77134,8 +77134,8 @@ module la_lapack_w
                  ! compute the reciprocal condition number of the k-th
                  ! eigenvalue.
                  prod = la_wdotc( n, vr( 1, ks ), 1, vl( 1, ks ), 1 )
-                 rnrm = la_qznrm2( n, vr( 1, ks ), 1 )
-                 lnrm = la_qznrm2( n, vl( 1, ks ), 1 )
+                 rnrm = la_qwnrm2( n, vr( 1, ks ), 1 )
+                 lnrm = la_qwnrm2( n, vl( 1, ks ), 1 )
                  s( ks ) = abs( prod ) / ( rnrm*lnrm )
               end if
               if( wantsp ) then
@@ -77290,7 +77290,7 @@ module la_lapack_w
                     x11 = la_wladiv( vec*cmplx( scaloc,KIND=qp), a11 )
                     if( scaloc/=one ) then
                        do j = 1, n
-                          call la_wdscal( m, scaloc, c( 1, j ), 1 )
+                          call la_wqscal( m, scaloc, c( 1, j ), 1 )
                        end do
                        scale = scale*scaloc
                     end if
@@ -77326,7 +77326,7 @@ module la_lapack_w
                     x11 = la_wladiv( vec*cmplx( scaloc,KIND=qp), a11 )
                     if( scaloc/=one ) then
                        do j = 1, n
-                          call la_wdscal( m, scaloc, c( 1, j ), 1 )
+                          call la_wqscal( m, scaloc, c( 1, j ), 1 )
                        end do
                        scale = scale*scaloc
                     end if
@@ -77366,7 +77366,7 @@ module la_lapack_w
                     x11 = la_wladiv( vec*cmplx( scaloc,KIND=qp), a11 )
                     if( scaloc/=one ) then
                        do j = 1, n
-                          call la_wdscal( m, scaloc, c( 1, j ), 1 )
+                          call la_wqscal( m, scaloc, c( 1, j ), 1 )
                        end do
                        scale = scale*scaloc
                     end if
@@ -77404,7 +77404,7 @@ module la_lapack_w
                     x11 = la_wladiv( vec*cmplx( scaloc,KIND=qp), a11 )
                     if( scaloc/=one ) then
                        do j = 1, n
-                          call la_wdscal( m, scaloc, c( 1, j ), 1 )
+                          call la_wqscal( m, scaloc, c( 1, j ), 1 )
                        end do
                        scale = scale*scaloc
                     end if
@@ -78193,7 +78193,7 @@ module la_lapack_w
                     call la_waxpy( m-p-i+1, cmplx( -z2*z3*z4*sin(phi(i-1)),0.0_qp,KIND=qp), &
                               x22(i,i-1), 1, x21(i,i), 1 )
                  end if
-                 theta(i) = atan2( la_qznrm2( m-p-i+1, x21(i,i), 1 ),la_qznrm2( p-i+1, &
+                 theta(i) = atan2( la_qwnrm2( m-p-i+1, x21(i,i), 1 ),la_qwnrm2( p-i+1, &
                            x11(i,i), 1 ) )
                  if( p > i ) then
                     call la_wlarfgp( p-i+1, x11(i,i), x11(i+1,i), 1, taup1(i) )
@@ -78229,7 +78229,7 @@ module la_lapack_w
                            , ldx12 )
                  call la_waxpy( m-q-i+1, cmplx( z2*z4*cos(theta(i)), 0.0_qp,KIND=qp),x22(i,i),&
                             ldx22, x12(i,i), ldx12 )
-                 if( i < q )phi(i) = atan2( la_qznrm2( q-i, x11(i,i+1), ldx11 ),la_qznrm2(&
+                 if( i < q )phi(i) = atan2( la_qwnrm2( q-i, x11(i,i+1), ldx11 ),la_qwnrm2(&
                             m-q-i+1, x12(i,i), ldx12 ) )
                  if( i < q ) then
                     call la_wlacgv( q-i, x11(i,i+1), ldx11 )
@@ -78318,7 +78318,7 @@ module la_lapack_w
                     call la_waxpy( m-p-i+1, cmplx( -z2*z3*z4*sin(phi(i-1)),0.0_qp,KIND=qp), &
                               x22(i-1,i), ldx22, x21(i,i), ldx21 )
                  end if
-                 theta(i) = atan2( la_qznrm2( m-p-i+1, x21(i,i), ldx21 ),la_qznrm2( p-i+1,&
+                 theta(i) = atan2( la_qwnrm2( m-p-i+1, x21(i,i), ldx21 ),la_qwnrm2( p-i+1,&
                             x11(i,i), ldx11 ) )
                  call la_wlacgv( p-i+1, x11(i,i), ldx11 )
                  call la_wlacgv( m-p-i+1, x21(i,i), ldx21 )
@@ -78350,7 +78350,7 @@ module la_lapack_w
                            , 1 )
                  call la_waxpy( m-q-i+1, cmplx( z2*z4*cos(theta(i)), 0.0_qp,KIND=qp),x22(i,i),&
                             1, x12(i,i), 1 )
-                 if( i < q )phi(i) = atan2( la_qznrm2( q-i, x11(i+1,i), 1 ),la_qznrm2( m-&
+                 if( i < q )phi(i) = atan2( la_qwnrm2( q-i, x11(i+1,i), 1 ),la_qwnrm2( m-&
                            q-i+1, x12(i,i), 1 ) )
                  if( i < q ) then
                     call la_wlarfgp( q-i, x11(i+1,i), x11(i+2,i), 1, tauq1(i) )
@@ -78487,7 +78487,7 @@ module la_lapack_w
               call la_wlarf( 'L', m-p-i+1, q-i, x21(i,i), 1, conjg(taup2(i)),x21(i,i+1), &
                         ldx21, work(ilarf) )
               if( i < q ) then
-                 call la_wdrot( q-i, x11(i,i+1), ldx11, x21(i,i+1), ldx21, c,s )
+                 call la_wqrot( q-i, x11(i,i+1), ldx11, x21(i,i+1), ldx21, c,s )
                  call la_wlacgv( q-i, x21(i,i+1), ldx21 )
                  call la_wlarfgp( q-i, x21(i,i+1), x21(i,i+2), ldx21, tauq1(i) )
                  s = real( x21(i,i+1),KIND=qp)
@@ -78497,7 +78497,7 @@ module la_lapack_w
                  call la_wlarf( 'R', m-p-i, q-i, x21(i,i+1), ldx21, tauq1(i),x21(i+1,i+1), &
                            ldx21, work(ilarf) )
                  call la_wlacgv( q-i, x21(i,i+1), ldx21 )
-                 c = sqrt( la_qznrm2( p-i, x11(i+1,i+1), 1 )**2+ la_qznrm2( m-p-i, x21(i+&
+                 c = sqrt( la_qwnrm2( p-i, x11(i+1,i+1), 1 )**2+ la_qwnrm2( m-p-i, x21(i+&
                            1,i+1), 1 )**2 )
                  phi(i) = atan2( s, c )
                  call la_wunbdb5( p-i, m-p-i, q-i-1, x11(i+1,i+1), 1,x21(i+1,i+1), 1, x11(i+1,&
@@ -78584,7 +78584,7 @@ module la_lapack_w
            ! reduce rows 1, ..., p of x11 and x21
            do i = 1, p
               if( i > 1 ) then
-                 call la_wdrot( q-i+1, x11(i,i), ldx11, x21(i-1,i), ldx21, c,s )
+                 call la_wqrot( q-i+1, x11(i,i), ldx11, x21(i-1,i), ldx21, c,s )
               end if
               call la_wlacgv( q-i+1, x11(i,i), ldx11 )
               call la_wlarfgp( q-i+1, x11(i,i), x11(i,i+1), ldx11, tauq1(i) )
@@ -78595,7 +78595,7 @@ module la_lapack_w
               call la_wlarf( 'R', m-p-i+1, q-i+1, x11(i,i), ldx11, tauq1(i),x21(i,i), ldx21, &
                         work(ilarf) )
               call la_wlacgv( q-i+1, x11(i,i), ldx11 )
-              s = sqrt( la_qznrm2( p-i, x11(i+1,i), 1 )**2+ la_qznrm2( m-p-i+1, x21(i,i), &
+              s = sqrt( la_qwnrm2( p-i, x11(i+1,i), 1 )**2+ la_qwnrm2( m-p-i+1, x21(i,i), &
                         1 )**2 )
               theta(i) = atan2( s, c )
               call la_wunbdb5( p-i, m-p-i+1, q-i, x11(i+1,i), 1, x21(i,i), 1,x11(i+1,i+1), &
@@ -78702,7 +78702,7 @@ module la_lapack_w
            ! reduce rows 1, ..., m-p of x11 and x21
            do i = 1, m-p
               if( i > 1 ) then
-                 call la_wdrot( q-i+1, x11(i-1,i), ldx11, x21(i,i), ldx11, c,s )
+                 call la_wqrot( q-i+1, x11(i-1,i), ldx11, x21(i,i), ldx11, c,s )
               end if
               call la_wlacgv( q-i+1, x21(i,i), ldx21 )
               call la_wlarfgp( q-i+1, x21(i,i), x21(i,i+1), ldx21, tauq1(i) )
@@ -78713,7 +78713,7 @@ module la_lapack_w
               call la_wlarf( 'R', m-p-i, q-i+1, x21(i,i), ldx21, tauq1(i),x21(i+1,i), ldx21, &
                         work(ilarf) )
               call la_wlacgv( q-i+1, x21(i,i), ldx21 )
-              c = sqrt( la_qznrm2( p-i+1, x11(i,i), 1 )**2+ la_qznrm2( m-p-i, x21(i+1,i), &
+              c = sqrt( la_qwnrm2( p-i+1, x11(i,i), 1 )**2+ la_qwnrm2( m-p-i, x21(i+1,i), &
                         1 )**2 )
               theta(i) = atan2( s, c )
               call la_wunbdb5( p-i+1, m-p-i, q-i, x11(i,i), 1, x21(i+1,i), 1,x11(i,i+1), &
@@ -78854,7 +78854,7 @@ module la_lapack_w
                  call la_wlarf( 'L', m-p-i+1, q-i+1, x21(i,i-1), 1,conjg(taup2(i)), x21(i,i), &
                            ldx21, work(ilarf) )
               end if
-              call la_wdrot( q-i+1, x11(i,i), ldx11, x21(i,i), ldx21, s, -c )
+              call la_wqrot( q-i+1, x11(i,i), ldx11, x21(i,i), ldx21, s, -c )
               call la_wlacgv( q-i+1, x21(i,i), ldx21 )
               call la_wlarfgp( q-i+1, x21(i,i), x21(i,i+1), ldx21, tauq1(i) )
               c = real( x21(i,i),KIND=qp)
@@ -78865,7 +78865,7 @@ module la_lapack_w
                         work(ilarf) )
               call la_wlacgv( q-i+1, x21(i,i), ldx21 )
               if( i < m-q ) then
-                 s = sqrt( la_qznrm2( p-i, x11(i+1,i), 1 )**2+ la_qznrm2( m-p-i, x21(i+1,&
+                 s = sqrt( la_qwnrm2( p-i, x11(i+1,i), 1 )**2+ la_qwnrm2( m-p-i, x21(i+1,&
                            i), 1 )**2 )
                  phi(i) = atan2( s, c )
               end if
@@ -78955,7 +78955,7 @@ module la_lapack_w
            call la_wunbdb6( m1, m2, n, x1, incx1, x2, incx2, q1, ldq1, q2, ldq2,work, lwork, &
                      childinfo )
            ! if the projection is nonzero, then return
-           if( la_qznrm2(m1,x1,incx1) /= czero.or. la_qznrm2(m2,x2,incx2) /= czero ) &
+           if( la_qwnrm2(m1,x1,incx1) /= czero.or. la_qwnrm2(m2,x2,incx2) /= czero ) &
                      then
               return
            end if
@@ -78971,7 +78971,7 @@ module la_lapack_w
               end do
               call la_wunbdb6( m1, m2, n, x1, incx1, x2, incx2, q1, ldq1, q2,ldq2, work, &
                         lwork, childinfo )
-              if( la_qznrm2(m1,x1,incx1) /= czero.or. la_qznrm2(m2,x2,incx2) /= czero ) &
+              if( la_qwnrm2(m1,x1,incx1) /= czero.or. la_qwnrm2(m2,x2,incx2) /= czero ) &
                         then
                  return
               end if
@@ -78988,7 +78988,7 @@ module la_lapack_w
               x2(i) = cone
               call la_wunbdb6( m1, m2, n, x1, incx1, x2, incx2, q1, ldq1, q2,ldq2, work, &
                         lwork, childinfo )
-              if( la_qznrm2(m1,x1,incx1) /= czero.or. la_qznrm2(m2,x2,incx2) /= czero ) &
+              if( la_qwnrm2(m1,x1,incx1) /= czero.or. la_qwnrm2(m2,x2,incx2) /= czero ) &
                         then
                  return
               end if

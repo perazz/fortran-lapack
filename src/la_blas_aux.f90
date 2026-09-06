@@ -1,24 +1,39 @@
+!> BLAS helpers: character comparison, error reporting, index of maximum
 module la_blas_aux
      use la_constants
      implicit none(type,external)
      private
 
      public :: sp,dp,qp,lk,ilp
-     public :: la_dcabs1
-     public :: la_icamax
-     public :: la_idamax
-     public :: la_isamax
-     public :: la_izamax
-     public :: la_lsame
      public :: la_scabs1
-     public :: la_xerbla
-     public :: la_xerbla_array
+     public :: la_isamax
+     public :: la_dcabs1
+     public :: la_idamax
      public :: la_qcabs1
      public :: la_iqamax
+     public :: la_icamax
+     public :: la_izamax
      public :: la_iwamax
+     public :: la_lsame
+     public :: la_xerbla
+     public :: la_xerbla_array
 
      contains
 
+     !> SCABS1: computes |Re(.)| + |Im(.)| of a complex number
+
+     pure real(sp) function la_scabs1(z)
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           complex(sp),intent(in) :: z
+        ! =====================================================================
+           ! Intrinsic Functions
+           intrinsic :: abs,aimag,real
+           la_scabs1 = abs(real(z,KIND=sp)) + abs(aimag(z))
+           return
+     end function la_scabs1
      !> DCABS1: computes |Re(.)| + |Im(.)| of a double complex number
 
      pure real(dp) function la_dcabs1(z)
@@ -33,6 +48,20 @@ module la_blas_aux
            la_dcabs1 = abs(real(z,KIND=dp)) + abs(aimag(z))
            return
      end function la_dcabs1
+     !> QCABS1: computes |Re(.)| + |Im(.)| of a double complex number
+
+     pure real(qp) function la_qcabs1(z)
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           complex(qp),intent(in) :: z
+        ! =====================================================================
+           ! Intrinsic Functions
+           intrinsic :: abs,real,aimag
+           la_qcabs1 = abs(real(z,KIND=qp)) + abs(aimag(z))
+           return
+     end function la_qcabs1
 
      !> ISAMAX: finds the index of the first element having maximum absolute value.
 
@@ -78,7 +107,137 @@ module la_blas_aux
            end if
            return
      end function la_isamax
+     !> IDAMAX: finds the index of the first element having maximum absolute value.
 
+     pure integer(ilp) function la_idamax(n,dx,incx)
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           integer(ilp),intent(in) :: incx,n
+           ! Array Arguments
+           real(dp),intent(in) :: dx(*)
+        ! =====================================================================
+           ! Local Scalars
+           real(dp) :: dmax
+           integer(ilp) :: i,ix
+           ! Intrinsic Functions
+           intrinsic :: abs
+           la_idamax = 0
+           if (n < 1 .or. incx <= 0) return
+           la_idamax = 1
+           if (n == 1) return
+           if (incx == 1) then
+              ! code for increment equal to 1
+              dmax = abs(dx(1))
+              do i = 2,n
+                 if (abs(dx(i)) > dmax) then
+                    la_idamax = i
+                    dmax = abs(dx(i))
+                 end if
+              end do
+           else
+              ! code for increment not equal to 1
+              ix = 1
+              dmax = abs(dx(1))
+              ix = ix + incx
+              do i = 2,n
+                 if (abs(dx(ix)) > dmax) then
+                    la_idamax = i
+                    dmax = abs(dx(ix))
+                 end if
+                 ix = ix + incx
+              end do
+           end if
+           return
+     end function la_idamax
+     !> IQAMAX: finds the index of the first element having maximum absolute value.
+
+     pure integer(ilp) function la_iqamax(n,qx,incx)
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           integer(ilp),intent(in) :: incx,n
+           ! Array Arguments
+           real(qp),intent(in) :: qx(*)
+        ! =====================================================================
+           ! Local Scalars
+           real(qp) :: qmax
+           integer(ilp) :: i,ix
+           ! Intrinsic Functions
+           intrinsic :: abs
+           la_iqamax = 0
+           if (n < 1 .or. incx <= 0) return
+           la_iqamax = 1
+           if (n == 1) return
+           if (incx == 1) then
+              ! code for increment equal to 1
+              qmax = abs(qx(1))
+              do i = 2,n
+                 if (abs(qx(i)) > qmax) then
+                    la_iqamax = i
+                    qmax = abs(qx(i))
+                 end if
+              end do
+           else
+              ! code for increment not equal to 1
+              ix = 1
+              qmax = abs(qx(1))
+              ix = ix + incx
+              do i = 2,n
+                 if (abs(qx(ix)) > qmax) then
+                    la_iqamax = i
+                    qmax = abs(qx(ix))
+                 end if
+                 ix = ix + incx
+              end do
+           end if
+           return
+     end function la_iqamax
+
+     !> ICAMAX: finds the index of the first element having maximum |Re(.)| + |Im(.)|
+
+     pure integer(ilp) function la_icamax(n,cx,incx)
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           integer(ilp),intent(in) :: incx,n
+           ! Array Arguments
+           complex(sp),intent(in) :: cx(*)
+        ! =====================================================================
+           ! Local Scalars
+           real(sp) :: smax
+           integer(ilp) :: i,ix
+           la_icamax = 0
+           if (n < 1 .or. incx <= 0) return
+           la_icamax = 1
+           if (n == 1) return
+           if (incx == 1) then
+              ! code for increment equal to 1
+              smax = la_scabs1(cx(1))
+              do i = 2,n
+                 if (la_scabs1(cx(i)) > smax) then
+                    la_icamax = i
+                    smax = la_scabs1(cx(i))
+                 end if
+              end do
+           else
+              ! code for increment not equal to 1
+              ix = 1
+              smax = la_scabs1(cx(1))
+              ix = ix + incx
+              do i = 2,n
+                 if (la_scabs1(cx(ix)) > smax) then
+                    la_icamax = i
+                    smax = la_scabs1(cx(ix))
+                 end if
+                 ix = ix + incx
+              end do
+           end if
+           return
+     end function la_icamax
      !> IZAMAX: finds the index of the first element having maximum |Re(.)| + |Im(.)|
 
      pure integer(ilp) function la_izamax(n,zx,incx)
@@ -121,6 +280,48 @@ module la_blas_aux
            end if
            return
      end function la_izamax
+     !> IWAMAX: finds the index of the first element having maximum |Re(.)| + |Im(.)|
+
+     pure integer(ilp) function la_iwamax(n,wx,incx)
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           integer(ilp),intent(in) :: incx,n
+           ! Array Arguments
+           complex(qp),intent(in) :: wx(*)
+        ! =====================================================================
+           ! Local Scalars
+           real(qp) :: qmax
+           integer(ilp) :: i,ix
+           la_iwamax = 0
+           if (n < 1 .or. incx <= 0) return
+           la_iwamax = 1
+           if (n == 1) return
+           if (incx == 1) then
+              ! code for increment equal to 1
+              qmax = la_qcabs1(wx(1))
+              do i = 2,n
+                 if (la_qcabs1(wx(i)) > qmax) then
+                    la_iwamax = i
+                    qmax = la_qcabs1(wx(i))
+                 end if
+              end do
+           else
+              ! code for increment not equal to 1
+              ix = 1
+              qmax = la_qcabs1(wx(1))
+              ix = ix + incx
+              do i = 2,n
+                 if (la_qcabs1(wx(ix)) > qmax) then
+                    la_iwamax = i
+                    qmax = la_qcabs1(wx(ix))
+                 end if
+                 ix = ix + incx
+              end do
+           end if
+           return
+     end function la_iwamax
 
      !> LSAME: returns .TRUE. if CA is the same letter as CB regardless of
      !> case.
@@ -169,21 +370,6 @@ module la_blas_aux
            ! return
      end function la_lsame
 
-     !> SCABS1: computes |Re(.)| + |Im(.)| of a complex number
-
-     pure real(sp) function la_scabs1(z)
-        ! -- reference blas level1 routine --
-        ! -- reference blas is a software package provided by univ. of tennessee,    --
-        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! Scalar Arguments
-           complex(sp),intent(in) :: z
-        ! =====================================================================
-           ! Intrinsic Functions
-           intrinsic :: abs,aimag,real
-           la_scabs1 = abs(real(z,KIND=sp)) + abs(aimag(z))
-           return
-     end function la_scabs1
-
      !> XERBLA:  is an error handler for the LAPACK routines.
      !> It is called by an LAPACK routine if an input parameter has an
      !> invalid value.  A message is printed and execution stops.
@@ -201,7 +387,7 @@ module la_blas_aux
            ! Intrinsic Functions
            intrinsic :: len_trim
            ! Executable Statements
-9999  format(' ** ON ENTRY TO ',a,' PARAMETER NUMBER ',i2,' HAD ','AN ILLEGAL VALUE')
+9999 format(' ** ON ENTRY TO ',a,' PARAMETER NUMBER ',i2,' HAD ','AN ILLEGAL VALUE')
                 
      end subroutine la_xerbla
 
@@ -245,196 +431,5 @@ module la_blas_aux
            call la_xerbla(srname,info)
            return
      end subroutine la_xerbla_array
-
-     !> DCABS1: computes |Re(.)| + |Im(.)| of a double complex number
-
-     pure real(qp) function la_qcabs1(z)
-        ! -- reference blas level1 routine --
-        ! -- reference blas is a software package provided by univ. of tennessee,    --
-        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! Scalar Arguments
-           complex(qp),intent(in) :: z
-        ! =====================================================================
-           ! Intrinsic Functions
-           intrinsic :: abs,real,aimag
-           la_qcabs1 = abs(real(z,KIND=qp)) + abs(aimag(z))
-           return
-     end function la_qcabs1
-
-     !> IDAMAX: finds the index of the first element having maximum absolute value.
-
-     pure integer(ilp) function la_iqamax(n,dx,incx)
-        ! -- reference blas level1 routine --
-        ! -- reference blas is a software package provided by univ. of tennessee,    --
-        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! Scalar Arguments
-           integer(ilp),intent(in) :: incx,n
-           ! Array Arguments
-           real(qp),intent(in) :: dx(*)
-        ! =====================================================================
-           ! Local Scalars
-           real(qp) :: dmax
-           integer(ilp) :: i,ix
-           ! Intrinsic Functions
-           intrinsic :: abs
-           la_iqamax = 0
-           if (n < 1 .or. incx <= 0) return
-           la_iqamax = 1
-           if (n == 1) return
-           if (incx == 1) then
-              ! code for increment equal to 1
-              dmax = abs(dx(1))
-              do i = 2,n
-                 if (abs(dx(i)) > dmax) then
-                    la_iqamax = i
-                    dmax = abs(dx(i))
-                 end if
-              end do
-           else
-              ! code for increment not equal to 1
-              ix = 1
-              dmax = abs(dx(1))
-              ix = ix + incx
-              do i = 2,n
-                 if (abs(dx(ix)) > dmax) then
-                    la_iqamax = i
-                    dmax = abs(dx(ix))
-                 end if
-                 ix = ix + incx
-              end do
-           end if
-           return
-     end function la_iqamax
-
-     !> IZAMAX: finds the index of the first element having maximum |Re(.)| + |Im(.)|
-
-     pure integer(ilp) function la_iwamax(n,zx,incx)
-        ! -- reference blas level1 routine --
-        ! -- reference blas is a software package provided by univ. of tennessee,    --
-        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! Scalar Arguments
-           integer(ilp),intent(in) :: incx,n
-           ! Array Arguments
-           complex(qp),intent(in) :: zx(*)
-        ! =====================================================================
-           ! Local Scalars
-           real(qp) :: dmax
-           integer(ilp) :: i,ix
-           la_iwamax = 0
-           if (n < 1 .or. incx <= 0) return
-           la_iwamax = 1
-           if (n == 1) return
-           if (incx == 1) then
-              ! code for increment equal to 1
-              dmax = la_qcabs1(zx(1))
-              do i = 2,n
-                 if (la_qcabs1(zx(i)) > dmax) then
-                    la_iwamax = i
-                    dmax = la_qcabs1(zx(i))
-                 end if
-              end do
-           else
-              ! code for increment not equal to 1
-              ix = 1
-              dmax = la_qcabs1(zx(1))
-              ix = ix + incx
-              do i = 2,n
-                 if (la_qcabs1(zx(ix)) > dmax) then
-                    la_iwamax = i
-                    dmax = la_qcabs1(zx(ix))
-                 end if
-                 ix = ix + incx
-              end do
-           end if
-           return
-     end function la_iwamax
-
-     !> ICAMAX: finds the index of the first element having maximum |Re(.)| + |Im(.)|
-
-     pure integer(ilp) function la_icamax(n,cx,incx)
-        ! -- reference blas level1 routine --
-        ! -- reference blas is a software package provided by univ. of tennessee,    --
-        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! Scalar Arguments
-           integer(ilp),intent(in) :: incx,n
-           ! Array Arguments
-           complex(sp),intent(in) :: cx(*)
-        ! =====================================================================
-           ! Local Scalars
-           real(sp) :: smax
-           integer(ilp) :: i,ix
-           la_icamax = 0
-           if (n < 1 .or. incx <= 0) return
-           la_icamax = 1
-           if (n == 1) return
-           if (incx == 1) then
-              ! code for increment equal to 1
-              smax = la_scabs1(cx(1))
-              do i = 2,n
-                 if (la_scabs1(cx(i)) > smax) then
-                    la_icamax = i
-                    smax = la_scabs1(cx(i))
-                 end if
-              end do
-           else
-              ! code for increment not equal to 1
-              ix = 1
-              smax = la_scabs1(cx(1))
-              ix = ix + incx
-              do i = 2,n
-                 if (la_scabs1(cx(ix)) > smax) then
-                    la_icamax = i
-                    smax = la_scabs1(cx(ix))
-                 end if
-                 ix = ix + incx
-              end do
-           end if
-           return
-     end function la_icamax
-
-     !> IDAMAX: finds the index of the first element having maximum absolute value.
-
-     pure integer(ilp) function la_idamax(n,dx,incx)
-        ! -- reference blas level1 routine --
-        ! -- reference blas is a software package provided by univ. of tennessee,    --
-        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! Scalar Arguments
-           integer(ilp),intent(in) :: incx,n
-           ! Array Arguments
-           real(dp),intent(in) :: dx(*)
-        ! =====================================================================
-           ! Local Scalars
-           real(dp) :: dmax
-           integer(ilp) :: i,ix
-           ! Intrinsic Functions
-           intrinsic :: abs
-           la_idamax = 0
-           if (n < 1 .or. incx <= 0) return
-           la_idamax = 1
-           if (n == 1) return
-           if (incx == 1) then
-              ! code for increment equal to 1
-              dmax = abs(dx(1))
-              do i = 2,n
-                 if (abs(dx(i)) > dmax) then
-                    la_idamax = i
-                    dmax = abs(dx(i))
-                 end if
-              end do
-           else
-              ! code for increment not equal to 1
-              ix = 1
-              dmax = abs(dx(1))
-              ix = ix + incx
-              do i = 2,n
-                 if (abs(dx(ix)) > dmax) then
-                    la_idamax = i
-                    dmax = abs(dx(ix))
-                 end if
-                 ix = ix + incx
-              end do
-           end if
-           return
-     end function la_idamax
 
 end module la_blas_aux
