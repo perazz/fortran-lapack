@@ -1,0 +1,395 @@
+#:include "common.fypp"
+#:set CMPLX_KINDS_TYPES = CMPL_KINDS_TYPES
+#:set RC_KINDS_TYPES = ALL_KINDS_TYPES
+! Test eigenvalues and eigendecompositions
+module test_linalg_eigenvalues
+    use la_constants
+    use la_state_type
+    use linear_algebra, only: eig, eigh, eigvals, eigvalsh, diag, eye
+    use testdrive, only: error_type, check, new_unittest, unittest_type    
+
+    implicit none (type,external)
+    private
+    
+    public :: test_eig_eigh
+
+    contains
+
+    !> SVD tests
+    subroutine test_eig_eigh(tests)
+        !> Collection of tests
+        type(unittest_type), allocatable, intent(out) :: tests(:)
+
+        allocate(tests(0))
+
+        #:for rk,rt,ri in REAL_KINDS_TYPES
+        call add_test(tests,new_unittest("test_eig_real_${ri}$",test_eig_real_${ri}$))
+        call add_test(tests,new_unittest("test_eigvals_identity_${ri}$",test_eigvals_identity_${ri}$))
+        call add_test(tests,new_unittest("test_eigvals_diagonal_B_${ri}$",test_eigvals_diagonal_B_${ri}$))
+        call add_test(tests,new_unittest("test_eigvals_nondiagonal_B_${ri}$",test_eigvals_nondiagonal_B_${ri}$))
+        call add_test(tests,new_unittest("test_eigh_real_${ri}$",test_eigh_real_${ri}$))
+        #: endfor
+        
+        #:for ck,ct,ci in CMPLX_KINDS_TYPES
+        call add_test(tests,new_unittest("test_eig_complex_${ci}$",test_eig_complex_${ci}$))
+        call add_test(tests,new_unittest("test_eig_generalized_complex_${ci}$",test_eigvals_generalized_complex_${ci}$))
+        call add_test(tests,new_unittest("test_eig_issue_927_${ci}$",test_issue_927_${ci}$))
+        #: endfor 
+
+    end subroutine test_eig_eigh
+
+    !> Simple real matrix eigenvalues
+    #:for rk,rt,ri in REAL_KINDS_TYPES
+    subroutine test_eig_real_${ri}$(error)
+        type(error_type), allocatable, intent(out) :: error
+
+        !> Reference solution
+        real(${rk}$), parameter :: zero    = 0.0_${rk}$
+        real(${rk}$), parameter :: two     = 2.0_${rk}$
+        real(${rk}$), parameter :: sqrt2o2 = sqrt(two)*0.5_${rk}$
+        real(${rk}$), parameter :: tol     = sqrt(epsilon(zero))
+
+        !> Local variables
+        type(la_state) :: state
+        ${rt}$ :: A(3,3),B(2,2)
+        complex(${rk}$) :: lambda(3),Bvec(2,2),Bres(2,2)
+
+        !> Matrix with real eigenvalues
+        A = reshape([1,0,0, &
+                     0,2,0, &
+                     0,0,3],[3,3])
+        
+        call eig(A,lambda,err=state)
+        
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        call check(error, all(aimag(lambda)==zero.and.real(lambda,kind=${rk}$)==[1,2,3]),'expected results')
+        if (allocated(error)) return        
+        
+        !> Matrix with complex eigenvalues
+        B = transpose(reshape([1, -1, &
+                               1,  1],[2,2]))
+                               
+        !> Expected right eigenvectors
+        Bres(1,1:2) = sqrt2o2
+        Bres(2,1)   = cmplx(zero,-sqrt2o2,kind=${rk}$)
+        Bres(2,2)   = cmplx(zero,+sqrt2o2,kind=${rk}$)
+        
+        call eig(B,lambda,right=Bvec,err=state)
+        
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        call check(error, all(abs(Bres-Bvec)<=tol),'expected results')
+        if (allocated(error)) return        
+                
+    end subroutine test_eig_real_${ri}$
+
+    ! Symmetric matrix eigenvalues
+    subroutine test_eigh_real_${ri}$(error)
+        type(error_type), allocatable, intent(out) :: error
+
+        !> Reference solution
+        real(${rk}$), parameter :: zero   = 0.0_${rk}$
+        real(${rk}$), parameter :: tol    = sqrt(epsilon(zero))
+        real(${rk}$), parameter :: A(4,4) = reshape([6,3,1,5, &
+                                               3,0,5,1, &
+                                               1,5,6,2, &
+                                               5,1,2,2],[4,4])
+        
+        !> Local variables
+        real(${rk}$) :: Amat(4,4),lambda(4),vect(4,4),Av(4,4),lv(4,4)
+        type(la_state) :: state
+        
+        Amat = A
+        
+        call eigh(Amat,lambda,vect,err=state)
+        
+        Av = matmul(A,vect)
+        lv = matmul(vect,diag(lambda))
+        
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        call check(error, all(abs(Av-lv)<=tol*abs(Av)),'expected results')
+        if (allocated(error)) return    
+        
+        !> Test functional versions: no state interface
+        lambda = eigvalsh(Amat)
+   
+        !> State interface
+        lambda = eigvalsh(Amat,err=state)
+        
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        !> Functional version, lower A
+        Amat = A
+        lambda = eigvalsh(Amat,upper_a=.false.,err=state)
+
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+        
+    end subroutine test_eigh_real_${ri}$
+
+    !> Test generalized eigenvalue problem with B = identity
+    subroutine test_eigvals_identity_${ri}$(error)
+        type(error_type), allocatable, intent(out) :: error
+
+        !> Reference solution
+        real(${rk}$), parameter :: zero = 0.0_${rk}$
+        real(${rk}$), parameter :: tol = sqrt(epsilon(zero))
+
+        !> Local variables
+        type(la_state) :: state
+        ${rt}$ :: A(3, 3), B(3, 3)
+        complex(${rk}$) :: lambda(3)
+
+        !> Matrix A
+        A = reshape([3, 0, 0, &
+                     0, 5, 0, &
+                     0, 0, 7], [3, 3])
+
+        !> Identity matrix B
+        B = reshape([1, 0, 0, &
+                     0, 1, 0, &
+                     0, 0, 1], [3, 3])
+
+        !> Generalized problem
+        lambda = eigvals(A, B, err=state)
+
+        call check(error, state%ok(), state%print())
+        if (allocated(error)) return
+
+        call check(error, all(abs(real(lambda,${rk}$) - [3, 5, 7]) <= tol), &
+                          'expected results for B=identity')
+        if (allocated(error)) return
+    end subroutine test_eigvals_identity_${ri}$
+
+    !> Test generalized eigenvalue problem with B = diagonal
+    subroutine test_eigvals_diagonal_B_${ri}$(error)
+        type(error_type), allocatable, intent(out) :: error
+
+        !> Reference solution
+        real(${rk}$), parameter :: zero = 0.0_${rk}$
+        real(${rk}$), parameter :: tol = sqrt(epsilon(zero))
+
+        !> Local variables
+        type(la_state) :: state
+        ${rt}$ :: A(3, 3), B(3, 3)
+        complex(${rk}$) :: lambda(3)
+
+        !> Matrix A
+        A = reshape([3, 0, 0, &
+                     0, 5, 0, &
+                     0, 0, 7], [3, 3])
+
+        !> Diagonal matrix B
+        B = reshape([2, 0, 0, &
+                     0, 4, 0, &
+                     0, 0, 8], [3, 3])
+
+        lambda = eigvals(A, B, err=state)
+
+        call check(error, state%ok(), state%print())
+        if (allocated(error)) return
+
+        call check(error, all(abs(real(lambda,${rk}$) - [1.5_${rk}$, 1.25_${rk}$, 0.875_${rk}$]) <= tol),&
+                              'expected results for B=diagonal')
+        if (allocated(error)) return
+        
+    end subroutine test_eigvals_diagonal_B_${ri}$
+
+    !> Test generalized eigenvalue problem with B = non-diagonal
+    subroutine test_eigvals_nondiagonal_B_${ri}$(error)
+        type(error_type), allocatable, intent(out) :: error
+
+        !> Reference solution
+        real(${rk}$), parameter :: zero = 0.0_${rk}$
+        real(${rk}$), parameter :: tol = 1.0e-3_${rk}$
+
+        !> Local variables
+        type(la_state) :: state
+        ${rt}$ :: A(3, 3), B(3, 3)
+        complex(${rk}$) :: lambda(3)
+
+        !> Matrix A
+        A = reshape([3, 2, 0, &
+                     2, 5, 1, &
+                     0, 1, 7], [3, 3])
+
+        !> Non-diagonal matrix B
+        B = reshape([2, 1, 0, &
+                     1, 3, 0, &
+                     0, 0, 4], [3, 3])
+
+        lambda = eigvals(A, B, err=state)
+
+        call check(error, state%ok(), state%print())
+        if (allocated(error)) return
+
+        call check(error, all(abs(lambda - [1.1734_${rk}$, 1.5766_${rk}$, 2.0000_${rk}$]) <= tol), 'expected results for B=nondiagonal')
+        
+        if (allocated(error)) return
+    end subroutine test_eigvals_nondiagonal_B_${ri}$
+
+    #:endfor
+
+    !> Simple complex matrix eigenvalues
+    #:for ck,ct,ci in CMPLX_KINDS_TYPES
+    subroutine test_eig_complex_${ci}$(error)
+        type(error_type), allocatable, intent(out) :: error
+
+        !> Reference solution
+        real(${ck}$), parameter :: zero    = 0.0_${ck}$
+        real(${ck}$), parameter :: two     = 2.0_${ck}$
+        real(${ck}$), parameter :: sqrt2o2 = sqrt(two)*0.5_${ck}$
+        real(${ck}$), parameter :: tol     = sqrt(epsilon(zero))
+        ${ct}$, parameter :: cone  = (1.0_${ck}$,0.0_${ck}$)
+        ${ct}$, parameter :: cimg  = (0.0_${ck}$,1.0_${ck}$)
+        ${ct}$, parameter :: czero = (0.0_${ck}$,0.0_${ck}$)
+
+        !> Local vaciables
+        type(la_state) :: state
+        ${ct}$ :: A(2,2),lambda(2),Avec(2,2),Ares(2,2),lres(2)
+
+        !> Matcix with real eigenvalues
+        A = transpose(reshape([ cone, cimg, &
+                               -cimg, cone], [2,2]))
+                
+        call eig(A,lambda,right=Avec,err=state)
+        
+        !> Expected eigenvalues and eigenvectors
+        lres(1)   = two
+        lres(2)   = zero
+        
+        !> Eigenvectors may vary: do not use for error
+        Ares(1,1) = cmplx(zero,sqrt2o2,kind=${ck}$)
+        Ares(1,2) = cmplx(sqrt2o2,zero,kind=${ck}$)
+        Ares(2,1) = cmplx(sqrt2o2,zero,kind=${ck}$)
+        Ares(2,2) = cmplx(zero,sqrt2o2,kind=${ck}$)        
+        
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        call check(error, all(abs(lambda-lres)<=tol), 'results match expected')
+        if (allocated(error)) return        
+        
+    end subroutine test_eig_complex_${ci}$
+
+    !> Complex generalized eigenvalue problem with eigvals
+    subroutine test_eigvals_generalized_complex_${ci}$(error)
+        type(error_type), allocatable, intent(out) :: error
+
+        !> Reference solution
+        real(${ck}$), parameter :: zero    = 0.0_${ck}$
+        real(${ck}$), parameter :: one     = 1.0_${ck}$
+        real(${ck}$), parameter :: tol     = sqrt(epsilon(zero))
+        ${ct}$, parameter :: cone  = (one, zero)
+        ${ct}$, parameter :: cimg  = (zero, one)
+        ${ct}$, parameter :: czero = (zero, zero)
+
+        !> Local variables
+        type(la_state) :: state
+        ${ct}$ :: A(2,2), B(2,2), lambda(2), lres(2)
+
+        !> Matrices A and B for the generalized problem A * x = lambda * B * x
+        A = transpose(reshape([ cone, cimg, &
+                               -cimg, cone], [2,2]))
+        B = transpose(reshape([ cone, czero, &
+                                czero, cone], [2,2]))
+        
+        lambda = eigvals(A, B, err=state)
+        
+        !> Expected eigenvalues
+        lres(1) = czero
+        lres(2) = 2*cone
+        
+        call check(error, state%ok(), state%print())
+        if (allocated(error)) return
+
+        call check(error, all(abs(lambda - lres) <= tol) .or. &
+                          all(abs(lambda - lres([2,1])) <= tol), 'results match expected')
+        if (allocated(error)) return        
+        
+    end subroutine test_eigvals_generalized_complex_${ci}$
+
+    ! Generalized eigenvalues should not crash
+    subroutine test_issue_927_${ci}$(error)
+      type(error_type), allocatable, intent(out) :: error 
+
+      ${ct}$ :: A_Z(3,3),S_Z(3,3),vecs_r(3,3),eigs(3)
+      real(${ck}$) :: A_D(3,3),S_D(3,3)
+      type(la_state) :: state
+
+      ! Set matrix
+      A_Z = reshape( [ [1, 6, 3], &
+                        [9, 2, 1], &
+                        [8, 3, 4] ], [3,3] )
+
+      S_Z = real(eye(3),${ck}$)
+
+      A_D = real(A_Z)
+      S_D = real(S_Z)
+
+      call eig(A_D,S_D,eigs,right=vecs_r,err=state) 
+      call check(error, state%ok(), 'test issue 927 (${ct}$): '//state%print())
+      if (allocated(error)) return      
+
+      call eig(A_Z,S_Z,eigs,right=vecs_r,err=state) !Fails
+      call check(error, state%ok(), 'test issue 927 (${ct}$): '//state%print())
+      if (allocated(error)) return      
+
+    end subroutine test_issue_927_${ci}$
+
+    #:endfor
+
+    ! gcc-15 bugfix utility
+    subroutine add_test(tests,new_test)
+        type(unittest_type), allocatable, intent(inout) :: tests(:)    
+        type(unittest_type), intent(in) :: new_test
+        
+        integer :: n
+        type(unittest_type), allocatable :: new_tests(:)
+        
+        if (allocated(tests)) then 
+            n = size(tests)
+        else
+            n = 0
+        end if
+        
+        allocate(new_tests(n+1))
+        if (n>0) new_tests(1:n) = tests(1:n)
+                 new_tests(1+n) = new_test
+        call move_alloc(from=new_tests,to=tests)        
+        
+    end subroutine add_test
+
+end module test_linalg_eigenvalues
+
+program test_eigenvalues
+     use, intrinsic :: iso_fortran_env, only : error_unit
+     use testdrive, only : run_testsuite, new_testsuite, testsuite_type
+     use test_linalg_eigenvalues, only : test_eig_eigh
+     implicit none
+     integer :: stat, is
+     type(testsuite_type), allocatable :: testsuites(:)
+     character(len=*), parameter :: fmt = '("#", *(1x, a))'
+
+     stat = 0
+
+     testsuites = [ &
+         new_testsuite("linalg_eigenvalues", test_eig_eigh) &
+         ]
+
+     do is = 1, size(testsuites)
+         write(error_unit, fmt) "Testing:", testsuites(is)%name
+         call run_testsuite(testsuites(is)%collect, error_unit, stat)
+     end do
+
+     if (stat > 0) then
+         write(error_unit, '(i0, 1x, a)') stat, "test(s) failed!"
+         error stop
+     end if
+end program test_eigenvalues

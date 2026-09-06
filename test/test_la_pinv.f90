@@ -1,5 +1,5 @@
 ! Test inverse matrix
-module test_linalg_pseudoinverse
+module test_la_pinv
     use linear_algebra
 
     implicit none(type,external)
@@ -785,5 +785,5 @@ module test_linalg_pseudoinverse
         
     end subroutine test_w_singular_pseudoinverse
 
-end module test_linalg_pseudoinverse
+end module test_la_pinv
 

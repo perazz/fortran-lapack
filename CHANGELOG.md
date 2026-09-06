@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Linear-algebra test suite ported from the Fortran standard library
+  (test-drive dev-dependency).
+
 ### Fixed
 
 - `la_dgesdd` no longer writes `path 5t` to standard output on one of its

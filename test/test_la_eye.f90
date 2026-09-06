@@ -1,4 +1,4 @@
-module test_linalg_eye
+module test_la_eye
     use linear_algebra
 
     implicit none(type,external)
@@ -628,5 +628,5 @@ module test_linalg_eye
 
     end subroutine test_w_diag_array
 
-end module test_linalg_eye
+end module test_la_eye
 
