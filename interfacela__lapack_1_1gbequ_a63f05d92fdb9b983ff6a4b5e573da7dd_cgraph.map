@@ -1,17 +1,20 @@
 <map id="la_lapack::gbequ::dgbequ" name="la_lapack::gbequ::dgbequ">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,82,193,107"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__d.html#aa1eff573cde00bed9342b4fcfb7a6815" title="DGBEQU: computes row and column scalings intended to equilibrate an M&#45;by&#45;N band matrix A and reduce i..." alt="" coords="241,47,416,73"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="183,79,230,72,231,77,184,85"/>
-<area shape="rect" id="Node000005" href="$namespacela__lapack__q.html#accfcb5ce4b5f7f3c1ee2b74e4994f124" title="DGBEQU: computes row and column scalings intended to equilibrate an M&#45;by&#45;N band matrix A and reduce i..." alt="" coords="241,106,416,131"/>
-<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="194,102,228,105,228,111,193,107"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="464,29,612,69"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="416,53,450,51,450,56,417,58"/>
-<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="499,30,497,20,503,11,517,5,538,3,562,6,575,13,573,18,560,11,538,8,518,10,507,15,502,21,504,28"/>
-<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="660,81,827,106"/>
-<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="613,63,671,75,670,80,612,68"/>
-<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="710,82,702,72,706,62,720,56,743,54,772,58,783,67,780,71,770,63,743,59,721,61,710,66,708,72,714,79"/>
-<area shape="rect" id="Node000006" href="$namespacela__lapack__auxiliary.html#a422783a9c3975903ac0fc1dc06f4ec01" title="QLAMCH: determines quad precision machine parameters." alt="" coords="464,117,612,157"/>
-<area shape="poly" id="edge7_Node000005_Node000006" title=" " alt="" coords="417,124,450,127,450,132,416,129"/>
-<area shape="poly" id="edge8_Node000006_Node000004" title=" " alt="" coords="612,119,670,106,671,112,613,124"/>
-<area shape="poly" id="edge9_Node000006_Node000006" title=" " alt="" coords="499,118,497,108,503,99,517,93,538,91,562,94,575,101,573,106,560,99,538,96,518,98,507,103,502,109,504,116"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,98,193,123"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__solve__lu__comp.html#ac6891583185ee77980f441edaea3915e" title="DGBEQU: computes row and column scalings intended to equilibrate an M&#45;by&#45;N band matrix A and reduce i..." alt="" coords="241,59,387,99"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="185,95,227,89,228,94,185,101"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__solve__lu__comp.html#aa677f99b27a18c8316d808233a89d2c4" title="QGBEQU: computes row and column scalings intended to equilibrate an M&#45;by&#45;N band matrix A and reduce i..." alt="" coords="241,123,387,163"/>
+<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="185,121,228,127,227,133,185,126"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="444,29,592,69"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="386,66,430,59,431,64,387,71"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="435,94,601,119"/>
+<area shape="poly" id="edge6_Node000002_Node000005" title=" " alt="" coords="387,86,421,91,421,96,387,91"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="480,30,478,20,484,11,497,5,518,3,542,6,555,13,552,18,540,11,518,8,499,10,487,15,483,21,485,28"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="649,106,816,131"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="581,67,680,99,679,104,580,72"/>
+<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="698,108,690,98,694,88,709,82,733,79,762,83,774,92,771,96,760,88,733,85,710,87,698,92,695,97,702,104"/>
+<area shape="poly" id="edge11_Node000006_Node000005" title=" " alt="" coords="386,127,432,119,433,124,387,132"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__auxiliary.html#a422783a9c3975903ac0fc1dc06f4ec01" title="QLAMCH: determines quad precision machine parameters." alt="" coords="444,168,592,208"/>
+<area shape="poly" id="edge8_Node000006_Node000007" title=" " alt="" coords="387,156,431,166,430,171,386,161"/>
+<area shape="poly" id="edge9_Node000007_Node000004" title=" " alt="" coords="580,165,679,133,680,138,581,170"/>
+<area shape="poly" id="edge10_Node000007_Node000007" title=" " alt="" coords="480,168,478,158,484,149,497,143,518,141,542,144,555,152,552,156,540,149,518,147,499,149,487,153,483,159,485,167"/>
 </map>

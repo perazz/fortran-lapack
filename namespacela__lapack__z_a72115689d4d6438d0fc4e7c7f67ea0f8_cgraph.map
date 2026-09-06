@@ -1,9 +1,0 @@
-<map id="la_lapack_z::la_zptsv" name="la_lapack_z::la_zptsv">
-<area shape="rect" id="Node000001" title="ZPTSV: computes the solution to a complex system of linear equations A*X = B, where A is an N&#45;by&#45;N He..." alt="" coords="5,31,165,56"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__z.html#ad4192801e357e913302075b84741f7d9" title="ZPTTRF: computes the L*D*L**H factorization of a complex Hermitian positive definite tridiagonal matr..." alt="" coords="215,5,375,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="165,31,201,27,201,32,166,36"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__z.html#abbfb615364f02798c7ed96dc42354b48" title="ZPTTRS: solves a tridiagonal system of the form A * X = B using the factorization A = U**H D U or A =..." alt="" coords="213,55,376,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="166,50,200,54,199,59,165,55"/>
-<area shape="rect" id="Node000004" href="$namespacela__lapack__z.html#a7242ee436efa3c5933e58798f3f5ef10" title="ZPTTS2: solves a tridiagonal system of the form A * X = B using the factorization A = U**H *D*U or A ..." alt="" coords="424,55,589,80"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="376,65,410,65,410,70,376,70"/>
-</map>

@@ -1,0 +1,23 @@
+<map id="la_lapack_z::la_zbbcsd" name="la_lapack_z::la_zbbcsd">
+<area shape="rect" id="Node000001" title="ZBBCSD: computes the CS decomposition of a unitary matrix in bidiagonal&#45;block form,..." alt="" coords="5,93,176,119"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="680,63,828,103"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="118,91,166,70,223,51,337,23,427,6,471,3,518,5,633,23,673,37,710,54,707,59,671,42,631,29,518,10,471,8,428,11,338,28,225,57,168,75,120,96"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__givens__jacobi__rot.html#a73a21f720ddf71a6eda6fe48103c650b" title="DLARTGP: generates a plane rotation so that [ CS SN ] . [ F ] = [ R ] where CS**2 + SN**2 = 1...." alt="" coords="452,38,632,78"/>
+<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="150,91,224,78,334,67,438,60,438,65,335,72,224,83,151,96"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__d.html#a0f9798c30d0c16acea6f6164ea5b1bb3" title="DLARTGS: generates a plane rotation designed to introduce a bulge in Golub&#45;Reinsch&#45;style implicit QR ..." alt="" coords="229,93,399,119"/>
+<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="176,103,215,103,215,109,176,109"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__d.html#aaac6fbc785cd9567c0e8dc1908b8ab54" title="DLAS2: computes the singular values of the 2&#45;by&#45;2 matrix [ F G ] [ 0 H ]. On return,..." alt="" coords="233,143,395,168"/>
+<area shape="poly" id="edge10_Node000001_Node000006" title=" " alt="" coords="149,116,243,137,242,142,148,121"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__givens__jacobi__rot.html#afdab95d2e7dd4d8d29d3e48bf27889a6" title="ZLASR: applies a sequence of real plane rotations to a complex matrix A, from either the left or the ..." alt="" coords="224,193,404,233"/>
+<area shape="poly" id="edge11_Node000001_Node000007" title=" " alt="" coords="113,116,163,146,225,178,241,185,239,190,223,183,161,151,111,121"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="715,64,713,54,719,45,733,39,754,37,778,40,791,47,789,52,776,45,754,42,734,44,723,49,718,55,720,62"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="876,125,1043,151"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="829,101,898,119,897,124,828,106"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="926,127,918,117,922,107,936,101,959,99,988,102,999,112,996,116,986,107,959,104,937,106,926,111,924,116,930,124"/>
+<area shape="poly" id="edge6_Node000004_Node000002" title=" " alt="" coords="632,66,666,70,666,76,632,71"/>
+<area shape="poly" id="edge8_Node000005_Node000002" title=" " alt="" coords="399,99,632,87,666,86,667,91,632,93,399,105"/>
+<area shape="poly" id="edge9_Node000005_Node000004" title=" " alt="" coords="375,91,438,77,439,82,376,96"/>
+<area shape="poly" id="edge12_Node000007_Node000003" title=" " alt="" coords="404,197,452,190,862,145,863,150,452,195,405,202"/>
+<area shape="rect" id="Node000008" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="459,204,625,229"/>
+<area shape="poly" id="edge13_Node000007_Node000008" title=" " alt="" coords="404,212,445,212,445,218,404,217"/>
+</map>

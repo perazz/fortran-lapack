@@ -1,9 +1,9 @@
 <map id="la_lapack::gbtrf::zgbtrf" name="la_lapack::gbtrf::zgbtrf">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,31,173,56"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__z.html#ac5cc93577f10570054d9c169e5624840" title="ZGBTRF: computes an LU factorization of a complex m&#45;by&#45;n band matrix A using partial pivoting with ro..." alt="" coords="221,31,384,56"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="174,41,208,41,208,46,174,46"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__z.html#a31238ca369ef85a1e476a8b8a0a8d94d" title="ZGBTF2: computes an LU factorization of a complex m&#45;by&#45;n band matrix A using partial pivoting with ro..." alt="" coords="434,5,601,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="384,31,420,27,421,32,384,36"/>
-<area shape="rect" id="Node000004" href="$namespacela__lapack__z.html#a9265c3e067846e1539be4e223a63f26f" title="ZLASWP: performs a series of row interchanges on the matrix A. One row interchange is initiated for e..." alt="" coords="432,55,603,80"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="384,50,419,54,418,59,384,55"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,45,173,70"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__solve__lu__comp.html#a0056097fbe08e24c1ba40539bfeed369" title="ZGBTRF: computes an LU factorization of a complex m&#45;by&#45;n band matrix A using partial pivoting with ro..." alt="" coords="221,37,367,77"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="173,55,207,55,207,60,173,60"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__solve__lu__comp.html#a8019f96e151affc960e830c906145278" title="ZGBTF2: computes an LU factorization of a complex m&#45;by&#45;n band matrix A using partial pivoting with ro..." alt="" coords="415,5,560,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="366,43,400,37,401,42,367,48"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__solve__lu__comp.html#a6236fb66782a51d9277d7b924927ac8a" title="ZLASWP: performs a series of row interchanges on the matrix A. One row interchange is initiated for e..." alt="" coords="415,69,560,109"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="367,67,401,72,400,78,366,72"/>
 </map>

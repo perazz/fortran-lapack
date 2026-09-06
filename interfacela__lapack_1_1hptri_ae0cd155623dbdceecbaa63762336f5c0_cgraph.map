@@ -1,7 +1,36 @@
 <map id="la_lapack::hptri::chptri" name="la_lapack::hptri::chptri">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,31,172,56"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__c.html#aca54ee27860996069113aeb556fbd300" title="CHPTRI: computes the inverse of a complex Hermitian indefinite matrix A in packed storage using the f..." alt="" coords="223,5,386,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="172,31,209,26,210,32,173,36"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__w.html#a190e4aa5834977e41a5912c1fcdcf3e1" title="ZHPTRI: computes the inverse of a complex Hermitian indefinite matrix A in packed storage using the f..." alt="" coords="220,55,389,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="173,50,206,54,206,59,172,55"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,374,172,399"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__solve__ldl__comp3.html#ae77d605d6d034575036288dd05544bfe" title="CHPTRI: computes the inverse of a complex Hermitian indefinite matrix A in packed storage using the f..." alt="" coords="220,208,369,248"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="105,372,255,254,259,259,108,376"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__solve__ldl__comp3.html#a1847147b092f756c7c922edb7c7de618" title="WHPTRI: computes the inverse of a complex Hermitian indefinite matrix A in packed storage using the f..." alt="" coords="220,525,369,565"/>
+<area shape="poly" id="edge12_Node000001_Node000009" title=" " alt="" coords="108,397,259,515,255,519,105,401"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__level1.html#a46c9d035c419338d1b9614094e1bddda" title="CCOPY: copies a vector x to a vector y." alt="" coords="423,5,557,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="304,206,346,134,378,92,416,55,422,50,425,55,419,59,382,96,351,137,308,209"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__level1.html#ae5ef74871273629cd7c5e95ec3e7b58c" title="CDOTC: forms the dot product of two complex vectors CDOTC = X^H * Y." alt="" coords="423,93,557,133"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="326,206,416,150,437,138,440,142,419,154,328,210"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__level2__pac.html#a4acdc709b0590b5fd3e13eb8f7e2bb70" title="CHPMV: performs the matrix&#45;vector operation y := alpha*A*x + beta*y, where alpha and beta are scalars..." alt="" coords="417,272,563,312"/>
+<area shape="poly" id="edge5_Node000002_Node000005" title=" " alt="" coords="357,246,416,265,414,270,356,251"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="611,427,777,453"/>
+<area shape="poly" id="edge10_Node000002_Node000006" title=" " alt="" coords="320,246,364,284,419,322,476,353,536,380,642,420,640,425,534,385,474,357,416,326,361,288,316,250"/>
+<area shape="rect" id="Node000007" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="611,309,777,334"/>
+<area shape="poly" id="edge11_Node000002_Node000007" title=" " alt="" coords="345,205,393,191,448,181,507,180,536,185,564,194,600,214,632,241,679,296,675,299,629,245,597,218,562,198,535,190,506,186,449,187,394,197,347,210"/>
+<area shape="rect" id="Node000008" href="$namespacela__blas__level1.html#a4fb9af59b508cde93dace0cd181faeeb" title="CSWAP: interchanges two vectors." alt="" coords="423,208,557,248"/>
+<area shape="poly" id="edge9_Node000002_Node000008" title=" " alt="" coords="369,225,409,225,409,231,369,231"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="453,94,451,84,457,75,470,69,490,67,513,70,525,77,523,81,511,75,490,72,471,74,460,79,456,85,458,92"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="520,310,666,417,662,421,517,314"/>
+<area shape="poly" id="edge8_Node000005_Node000007" title=" " alt="" coords="563,300,597,305,597,310,562,305"/>
+<area shape="poly" id="edge7_Node000006_Node000006" title=" " alt="" coords="661,429,654,419,657,409,671,403,694,401,722,404,734,414,730,418,720,409,694,406,672,408,661,413,659,418,665,426"/>
+<area shape="poly" id="edge13_Node000009_Node000006" title=" " alt="" coords="307,565,323,597,347,637,379,674,398,690,419,703,458,720,491,726,524,721,561,703,591,680,615,652,636,620,652,586,675,519,686,466,692,467,680,521,657,588,640,622,620,655,594,684,564,708,526,726,491,732,456,725,416,708,395,695,375,678,342,640,318,600,302,567"/>
+<area shape="poly" id="edge21_Node000009_Node000007" title=" " alt="" coords="310,524,354,474,384,447,416,423,469,394,524,369,627,335,628,340,526,374,471,398,419,428,387,451,358,478,314,527"/>
+<area shape="rect" id="Node000010" href="$namespacela__blas__level1.html#aab844ca282a3c70e01940b301cd90076" title="WCOPY: copies a vector, x, to a vector, y." alt="" coords="423,653,557,693"/>
+<area shape="poly" id="edge14_Node000009_Node000010" title=" " alt="" coords="320,563,364,601,419,639,429,645,426,649,416,644,361,605,316,568"/>
+<area shape="rect" id="Node000011" href="$namespacela__blas__level1.html#af0c273da266a2d85bdb1bf32bf2d2a47" title="WDOTC: forms the dot product of two complex vectors WDOTC = X^H * Y." alt="" coords="423,525,557,565"/>
+<area shape="poly" id="edge15_Node000009_Node000011" title=" " alt="" coords="369,543,409,543,409,548,369,548"/>
+<area shape="rect" id="Node000012" href="$namespacela__blas__level2__pac.html#a1a7f3050ca53100a1d97a4238eb2aedb" title="WHPMV: performs the matrix&#45;vector operation y := alpha*A*x + beta*y, where alpha and beta are scalars..." alt="" coords="417,437,563,477"/>
+<area shape="poly" id="edge17_Node000009_Node000012" title=" " alt="" coords="338,523,416,487,430,481,432,485,418,492,340,528"/>
+<area shape="rect" id="Node000013" href="$namespacela__blas__level1.html#a87a0f6f4a51cb922e497d49bc7597e53" title="WSWAP: interchanges two vectors." alt="" coords="423,589,557,629"/>
+<area shape="poly" id="edge20_Node000009_Node000013" title=" " alt="" coords="357,563,416,582,414,587,356,568"/>
+<area shape="poly" id="edge16_Node000011_Node000011" title=" " alt="" coords="453,526,451,516,457,507,470,501,490,499,513,502,525,509,523,513,511,507,490,504,471,506,460,511,456,517,458,524"/>
+<area shape="poly" id="edge18_Node000012_Node000006" title=" " alt="" coords="563,449,597,446,597,451,563,454"/>
+<area shape="poly" id="edge19_Node000012_Node000007" title=" " alt="" coords="520,435,661,340,664,344,523,439"/>
 </map>

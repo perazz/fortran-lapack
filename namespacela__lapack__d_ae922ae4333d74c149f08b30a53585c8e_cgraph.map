@@ -1,6 +1,0 @@
-<map id="la_lapack_d::la_dpotrf" name="la_lapack_d::la_dpotrf">
-<area shape="rect" id="Node000001" title="DPOTRF: computes the Cholesky factorization of a real symmetric positive definite matrix A...." alt="" coords="5,29,171,55"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__d.html#abeebb9ba2338aa61f8e0a86f3160c24c" title="DPOTRF2: computes the Cholesky factorization of a real symmetric positive definite matrix A using the..." alt="" coords="219,29,392,55"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="171,39,205,39,205,45,171,45"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="270,31,262,21,266,11,281,5,305,3,335,6,347,15,344,20,333,11,305,8,282,10,270,15,268,20,274,28"/>
-</map>

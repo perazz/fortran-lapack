@@ -1,5 +1,14 @@
 <map id="la_lapack::gghrd::cgghrd" name="la_lapack::gghrd::cgghrd">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,187,31"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__c.html#a1737f01392a5b5daa89512db4039d666" title="CGGHRD: reduces a pair of complex matrices (A,B) to generalized upper Hessenberg form using unitary t..." alt="" coords="235,5,404,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="187,15,221,15,221,21,187,21"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,77,187,102"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__c.html#a1737f01392a5b5daa89512db4039d666" title="CGGHRD: reduces a pair of complex matrices (A,B) to generalized upper Hessenberg form using unitary t..." alt="" coords="235,77,404,102"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="187,87,221,87,221,92,187,92"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__givens__jacobi__rot.html#a1425fe877046e0f6263dacc802467bbf" title="!" alt="" coords="452,5,632,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="364,74,458,47,459,52,365,79"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__blas__like__base.html#a2515780aa0e463d42a6afc8406bee3ae" title="CLASET: initializes a 2&#45;D array A to BETA on the diagonal and ALPHA on the offdiagonals." alt="" coords="468,69,616,109"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="404,87,454,87,454,92,404,92"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__auxiliary.html#a277a1d747eac876341fedc2f79826ef5" title="CROT: applies a plane rotation, where the cos (C) is real and the sin (S) is complex,..." alt="" coords="468,133,616,173"/>
+<area shape="poly" id="edge6_Node000002_Node000006" title=" " alt="" coords="365,100,459,127,458,132,364,105"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="680,77,847,102"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="616,87,666,87,666,92,616,92"/>
+<area shape="poly" id="edge5_Node000005_Node000005" title=" " alt="" coords="727,78,719,68,723,58,738,52,763,50,794,54,806,63,803,67,792,59,763,55,740,57,727,62,725,68,731,75"/>
 </map>

@@ -1,7 +1,22 @@
 <map id="la_lapack::hetrs2::zhetrs2" name="la_lapack::hetrs2::zhetrs2">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,147,45"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__z.html#a21e02cc5d6c23519dda35cc8abab2516" title="ZHETRS2: solves a system of linear equations A*X = B with a complex Hermitian matrix A using the fact..." alt="" coords="195,13,368,38"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="147,23,181,23,181,28,147,28"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__z.html#acacb6146c61fe5cd2c33b426456caaf7" title="ZSYCONV: converts A given by ZHETRF into L and D or vice&#45;versa. Get nondiagonal elements of D (return..." alt="" coords="416,13,595,38"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="368,23,402,23,402,28,368,28"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,127,147,167"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__solve__ldl__comp3.html#ab7cb8240fd04b1360fc08395a8fa5706" title="ZHETRS2: solves a system of linear equations A*X = B with a complex Hermitian matrix A using the fact..." alt="" coords="195,127,344,167"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="147,145,181,145,181,150,147,150"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="589,41,756,67"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="281,125,324,69,355,41,391,19,422,9,454,4,519,6,580,18,630,34,628,39,578,23,518,11,454,10,423,15,393,24,358,45,328,73,285,128"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="589,105,756,131"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="345,150,438,153,541,147,617,132,618,137,542,152,439,158,344,156"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__level1.html#ae5f23cb1df4bb3a79c79b9d489d452b9" title="ZDSCAL: scales a vector by a constant." alt="" coords="399,213,534,253"/>
+<area shape="poly" id="edge5_Node000002_Node000005" title=" " alt="" coords="317,165,408,205,406,209,315,170"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__level1.html#ad757f0e2b47ff2b8a75222a5ccddcd44" title="ZSWAP: interchanges two vectors." alt="" coords="399,277,534,317"/>
+<area shape="poly" id="edge6_Node000002_Node000006" title=" " alt="" coords="289,165,334,213,394,262,402,268,399,272,390,267,330,217,285,169"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__solve__ldl__comp.html#a7ab0aa67d7d27b205f9f06a108977963" title="ZSYCONV: converts A given by ZHETRF into L and D or vice&#45;versa. Get nondiagonal elements of D (return..." alt="" coords="392,34,541,74"/>
+<area shape="poly" id="edge7_Node000002_Node000007" title=" " alt="" coords="308,125,391,83,405,77,407,82,393,88,310,129"/>
+<area shape="rect" id="Node000008" href="$namespacela__blas__level3__tri.html#a3d0ae97367b08a00e462d49997f6cbb6" title="ZTRSM: solves one of the matrix equations op( A )*X = alpha*B, or X*op( A ) = alpha*B,..." alt="" coords="399,98,535,138"/>
+<area shape="poly" id="edge10_Node000002_Node000008" title=" " alt="" coords="344,133,384,127,385,133,345,139"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="639,43,632,33,635,23,649,17,673,15,701,18,713,27,709,31,699,23,673,20,651,22,639,27,637,32,643,39"/>
+<area shape="poly" id="edge8_Node000007_Node000003" title=" " alt="" coords="541,51,576,51,576,57,541,57"/>
+<area shape="poly" id="edge9_Node000007_Node000004" title=" " alt="" coords="533,71,619,99,617,104,531,76"/>
+<area shape="poly" id="edge11_Node000008_Node000003" title=" " alt="" coords="531,95,617,68,619,73,533,100"/>
+<area shape="poly" id="edge12_Node000008_Node000004" title=" " alt="" coords="535,115,575,115,575,121,535,121"/>
 </map>

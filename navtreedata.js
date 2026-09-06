@@ -274,19 +274,19 @@ var NAVTREEINDEX =
 "interfacela__norms_1_1norm.html#a603959ac7a03fd8867dcc01bfc43090c",
 "interfacela__norms_1_1norm.html#ac5d795ea9e86a19dd2a5da0a9980e68a",
 "interfacela__schur_1_1schur.html#a1a7a92f24c3a57281c9b7d86444fc73e",
-"namespacela__blas__level1.html#af2e0008da82b771da30767bb42f4d22a",
-"namespacela__determinant.html",
-"namespacela__lapack__blas__like__mnorm.html#a50c84990398d0094ea5314048dcdd294",
-"namespacela__lapack__c.html#a76eb8ee32e6e0df87436d9b12754bcef",
-"namespacela__lapack__d.html#a17fcdf6cf405d5af0a010948814abdce",
-"namespacela__lapack__d.html#ab246dabc4096101200dd9deeb9e89d13",
-"namespacela__lapack__q.html#a257f1414f300703c8fff6d8b371a96d7",
-"namespacela__lapack__q.html#abe4294601f81fed89c06352e051fe68f",
-"namespacela__lapack__s.html#a57aa70b30d8278a0e9281d2ca0b3c306",
-"namespacela__lapack__s.html#afd6f3dcb5a3b262e9a3d6e530bc7782a",
-"namespacela__lapack__w.html#a937821320da253c820129233e93eaca6",
-"namespacela__lapack__z.html#a3ddc11eb4a9ff5e0cf2cc0b78fc22584",
-"namespacela__lapack__z.html#adbcc4bbe77a3522f778898fc2e6960b1"
+"namespacela__blas__level1.html#add865e4a3dcfb45245761d5aabd5718f",
+"namespacela__constants__sp.html#a803dd10734830eca99dd490fc6e12799",
+"namespacela__lapack__blas__like__mnorm.html#a34c9848f712259d99cd19f4846aa2f3f",
+"namespacela__lapack__c.html#ad23dc5fdc2496b2c2e7c99da7073f4a4",
+"namespacela__lapack__d.html#abfc4f9702d1584b6afc0d8e25945bcb2",
+"namespacela__lapack__q.html#a52e04d058a403b0f622c99baa2f49053",
+"namespacela__lapack__s.html#a3832602cc73d19f1d3bad13ccf3bbebd",
+"namespacela__lapack__solve__chol.html#aa1fe7cd390d0154fba16c3d29c163eaa",
+"namespacela__lapack__solve__ldl.html#a33cd644c3e4084dd4aadd9de76c370e0",
+"namespacela__lapack__solve__ldl__comp3.html#a27b04f0893f0aa2e064482d73506ed14",
+"namespacela__lapack__solve__lu__comp.html#abb1cc48f6393237c74ca8f83960738ff",
+"namespacela__lapack__w.html#a6e55b5728d3e59da6e9a78f1494426c4",
+"namespacela__lapack__z.html#aa09e7d8193dfdf1b8acb708769fb57fc"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

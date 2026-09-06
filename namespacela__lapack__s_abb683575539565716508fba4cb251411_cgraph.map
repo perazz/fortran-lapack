@@ -1,7 +1,0 @@
-<map id="la_lapack_s::la_sgerfs" name="la_lapack_s::la_sgerfs">
-<area shape="rect" id="Node000001" title="SGERFS: improves the computed solution to a system of linear equations and provides error bounds and ..." alt="" coords="5,5,171,31"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#a7d34fe45d34864828857d33f89e8498d" title="SGETRS: solves a system of linear equations A * X = B or A**T * X = B with a general N&#45;by&#45;N matrix A ..." alt="" coords="219,5,384,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="171,15,205,15,205,21,171,21"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__s.html#a32210a3155cf4bcf4884b373e585f34f" title="SLASWP: performs a series of row interchanges on the matrix A. One row interchange is initiated for e..." alt="" coords="432,5,603,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="385,15,418,15,418,21,385,21"/>
-</map>

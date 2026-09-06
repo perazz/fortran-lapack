@@ -1,0 +1,8 @@
+<map id="la_lapack_c::la_cunm22" name="la_lapack_c::la_cunm22">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,29,183,55"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__blas__like__base.html#ad1f5de8315adfd17ea4cf824d5cee4ab" title="CLACPY: copies all or part of a two&#45;dimensional matrix A to another matrix B." alt="" coords="231,22,379,62"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="183,39,217,39,217,45,183,45"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="427,29,593,55"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="379,39,413,39,413,45,379,45"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="476,31,469,21,473,11,487,5,510,3,539,6,550,15,547,20,536,11,510,8,488,10,477,15,474,20,480,28"/>
+</map>

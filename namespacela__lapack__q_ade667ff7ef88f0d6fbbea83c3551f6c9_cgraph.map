@@ -1,7 +1,0 @@
-<map id="la_lapack_q::la_qsytrf_rook" name="la_lapack_q::la_qsytrf_rook">
-<area shape="rect" id="Node000001" title="DSYTRF_ROOK: computes the factorization of a real symmetric matrix A using the bounded Bunch&#45;Kaufman ..." alt="" coords="5,31,205,56"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__q.html#affc896ff3e52d184c1366e591a8ed966" title="DLASYF_ROOK: computes a partial factorization of a real symmetric matrix A using the bounded Bunch&#45;Ka..." alt="" coords="253,5,456,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="205,31,240,27,240,32,206,36"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__q.html#a8cf50ca6b8ef390893d527fcba0d44ad" title="DSYTF2_ROOK: computes the factorization of a real symmetric matrix A using the bounded Bunch&#45;Kaufman ..." alt="" coords="253,55,456,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="206,50,240,54,240,59,205,56"/>
-</map>

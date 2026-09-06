@@ -1,19 +1,29 @@
 <map id="la_lapack::gebal::sgebal" name="la_lapack::gebal::sgebal">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,57,184,82"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#aab14c6774be2f16b0ec143eb34d0c01c" title="SGEBAL: balances a general real matrix A. This involves, first, permuting A by a similarity transform..." alt="" coords="235,31,403,57"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="184,57,221,52,222,58,185,62"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__w.html#a71f74f379f02b75ff94a8d0f728b6354" title="ZGEBAL: balances a general complex matrix A. This involves, first, permuting A by a similarity transf..." alt="" coords="232,81,407,106"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="185,76,218,80,218,85,184,82"/>
-<area shape="rect" id="Node000004" href="$namespacela__lapack__blas__like__scalar.html#a0cb82d7f3b093ce99b3c7b3412dee71a" title="QISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="455,29,603,69"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="380,78,441,65,442,70,381,83"/>
-<area shape="rect" id="Node000006" href="$namespacela__lapack__auxiliary.html#a422783a9c3975903ac0fc1dc06f4ec01" title="QLAMCH: determines quad precision machine parameters." alt="" coords="455,117,603,157"/>
-<area shape="poly" id="edge7_Node000003_Node000006" title=" " alt="" coords="381,103,442,116,441,122,380,109"/>
-<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="490,30,488,20,494,11,508,5,529,3,553,6,566,13,563,18,551,11,529,8,509,10,497,15,493,21,495,28"/>
-<area shape="rect" id="Node000005" href="$namespacela__lapack__blas__like__scalar.html#afb28a91ee1571cb773bdc95c40031177" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in QISNAN...." alt="" coords="659,29,809,69"/>
-<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="603,47,645,47,645,52,603,52"/>
-<area shape="poly" id="edge6_Node000005_Node000005" title=" " alt="" coords="695,30,693,20,699,11,713,5,734,3,758,6,771,13,769,18,756,11,734,8,714,10,703,15,698,21,700,28"/>
-<area shape="poly" id="edge10_Node000006_Node000006" title=" " alt="" coords="490,118,488,108,494,99,508,93,529,91,553,94,566,101,563,106,551,99,529,96,509,98,497,103,493,109,495,116"/>
-<area shape="rect" id="Node000007" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="651,125,817,150"/>
-<area shape="poly" id="edge8_Node000006_Node000007" title=" " alt="" coords="603,135,637,135,637,140,603,140"/>
-<area shape="poly" id="edge9_Node000007_Node000007" title=" " alt="" coords="700,126,693,116,697,106,711,100,734,98,763,102,774,111,771,115,760,107,734,103,712,105,701,110,698,116,704,123"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,169,184,194"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#aab14c6774be2f16b0ec143eb34d0c01c" title="SGEBAL: balances a general real matrix A. This involves, first, permuting A by a similarity transform..." alt="" coords="235,125,403,150"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="160,166,240,150,241,155,161,171"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__w.html#a71f74f379f02b75ff94a8d0f728b6354" title="ZGEBAL: balances a general complex matrix A. This involves, first, permuting A by a similarity transf..." alt="" coords="232,213,407,238"/>
+<area shape="poly" id="edge10_Node000001_Node000007" title=" " alt="" coords="161,191,241,207,240,213,160,197"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__blas__like__scalar.html#a4d6735a3a0bfd81ec48d9c107c0d7893" title="SISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="455,29,603,69"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="350,122,466,72,469,77,352,127"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="455,117,603,157"/>
+<area shape="poly" id="edge6_Node000002_Node000005" title=" " alt="" coords="404,135,441,135,441,140,404,140"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="490,30,488,20,494,11,508,5,529,3,553,6,566,13,563,18,551,11,529,8,509,10,497,15,493,21,495,28"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__blas__like__scalar.html#af7a547cc3906149e087d6003dc2ab082" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in SISNAN...." alt="" coords="659,29,809,69"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="603,47,646,47,646,52,603,52"/>
+<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="695,30,693,20,699,11,713,5,734,3,758,6,771,13,769,18,756,11,734,8,714,10,703,15,698,21,700,28"/>
+<area shape="poly" id="edge9_Node000005_Node000005" title=" " alt="" coords="490,118,488,108,494,99,508,93,529,91,553,94,566,101,563,106,551,99,529,96,509,98,497,103,493,109,495,116"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="651,169,817,194"/>
+<area shape="poly" id="edge7_Node000005_Node000006" title=" " alt="" coords="604,151,661,163,660,168,603,156"/>
+<area shape="poly" id="edge8_Node000006_Node000006" title=" " alt="" coords="700,170,693,160,697,150,711,144,734,142,763,146,774,155,771,159,760,151,734,147,712,149,701,154,698,160,704,167"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__blas__like__scalar.html#a0cb82d7f3b093ce99b3c7b3412dee71a" title="QISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="455,293,603,333"/>
+<area shape="poly" id="edge11_Node000007_Node000008" title=" " alt="" coords="352,236,469,285,466,290,350,241"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__auxiliary.html#a422783a9c3975903ac0fc1dc06f4ec01" title="QLAMCH: determines quad precision machine parameters." alt="" coords="455,205,603,245"/>
+<area shape="poly" id="edge15_Node000007_Node000010" title=" " alt="" coords="407,223,441,223,441,228,407,228"/>
+<area shape="poly" id="edge12_Node000008_Node000008" title=" " alt="" coords="490,294,488,284,494,275,508,269,529,267,553,270,566,277,563,282,551,275,529,272,509,274,497,279,493,285,495,292"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__blas__like__scalar.html#afb28a91ee1571cb773bdc95c40031177" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in QISNAN...." alt="" coords="659,293,809,333"/>
+<area shape="poly" id="edge13_Node000008_Node000009" title=" " alt="" coords="603,311,645,311,645,316,603,316"/>
+<area shape="poly" id="edge14_Node000009_Node000009" title=" " alt="" coords="695,294,693,284,699,275,713,269,734,267,758,270,771,277,769,282,756,275,734,272,714,274,703,279,698,285,700,292"/>
+<area shape="poly" id="edge16_Node000010_Node000006" title=" " alt="" coords="603,207,660,194,661,200,604,212"/>
+<area shape="poly" id="edge17_Node000010_Node000010" title=" " alt="" coords="490,206,488,196,494,187,508,181,529,179,553,182,566,189,563,194,551,187,529,184,509,186,497,191,493,197,495,204"/>
 </map>

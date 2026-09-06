@@ -1,9 +1,0 @@
-<map id="la_lapack_q::la_qgeequb" name="la_lapack_q::la_qgeequb">
-<area shape="rect" id="Node000001" title="DGEEQUB: computes row and column scalings intended to equilibrate an M&#45;by&#45;N matrix A and reduce its c..." alt="" coords="5,37,188,62"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__auxiliary.html#a422783a9c3975903ac0fc1dc06f4ec01" title="QLAMCH: determines quad precision machine parameters." alt="" coords="236,29,384,69"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="189,47,222,47,222,52,189,52"/>
-<area shape="poly" id="edge4_Node000002_Node000002" title=" " alt="" coords="271,30,269,20,275,11,289,5,310,3,334,6,347,13,345,18,332,11,310,8,290,10,279,15,274,21,276,28"/>
-<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="432,37,599,62"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="385,47,418,47,418,52,385,52"/>
-<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="482,38,474,28,478,18,492,12,515,10,544,14,555,23,552,27,542,19,515,15,493,17,482,22,480,28,486,35"/>
-</map>

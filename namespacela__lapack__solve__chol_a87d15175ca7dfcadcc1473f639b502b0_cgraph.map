@@ -1,0 +1,30 @@
+<map id="la_lapack_solve_chol::la_dppsv" name="la_lapack_solve_chol::la_dppsv">
+<area shape="rect" id="Node000001" title="DPPSV: computes the solution to a real system of linear equations A * X = B, where A is an N&#45;by&#45;N sym..." alt="" coords="5,171,165,211"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__solve__chol__comp.html#a90eb247a2c106bb49d4f69ef840c9884" title="DPPTRF: computes the Cholesky factorization of a real symmetric positive definite matrix A stored in ..." alt="" coords="213,234,373,274"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="153,208,214,227,213,232,151,214"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="640,58,807,84"/>
+<area shape="poly" id="edge18_Node000001_Node000006" title=" " alt="" coords="100,169,146,117,177,90,212,66,267,40,313,26,421,12,507,3,545,5,593,12,644,29,689,49,687,54,642,34,591,18,544,10,507,8,422,18,314,31,269,45,215,71,181,94,150,121,104,173"/>
+<area shape="rect" id="Node000007" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="640,362,807,388"/>
+<area shape="poly" id="edge19_Node000001_Node000007" title=" " alt="" coords="107,209,157,258,230,321,274,353,321,383,371,409,422,428,468,440,506,443,544,438,591,428,642,412,687,392,689,397,644,417,593,434,545,443,506,448,468,445,421,434,369,413,319,387,271,358,227,325,153,262,103,213"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__solve__chol__comp.html#a50801c7db0057c51de7038ab09ec5da0" title="DPPTRS: solves a system of linear equations A*X = B with a symmetric positive definite matrix A in pa..." alt="" coords="213,80,373,120"/>
+<area shape="poly" id="edge14_Node000001_Node000009" title=" " alt="" coords="131,168,233,123,235,128,133,173"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__level1.html#abcba997c09f1f982cf017db38022e3c8" title="DDOT: forms the dot product of two vectors. uses unrolled loops for increments equal to one." alt="" coords="421,241,592,266"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="374,251,408,251,408,256,374,256"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__level1.html#a74ba718e1843e245ad196e1a72a1f9ab" title="DSCAL: scales a vector by a constant. uses unrolled loops for increment equal to 1." alt="" coords="439,291,574,331"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="369,271,427,287,425,292,368,276"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__level2__pac.html#a1109064b51e9f3b87c0a9eb57ffe2c70" title="DSPR: performs the symmetric rank 1 operation A := alpha*x*x**T + A, where alpha is a real scalar,..." alt="" coords="434,355,579,395"/>
+<area shape="poly" id="edge5_Node000002_Node000005" title=" " alt="" coords="321,272,367,306,423,341,435,347,433,352,420,345,364,310,318,276"/>
+<area shape="poly" id="edge12_Node000002_Node000006" title=" " alt="" coords="341,231,679,87,681,92,343,236"/>
+<area shape="poly" id="edge13_Node000002_Node000007" title=" " alt="" coords="306,273,324,304,349,341,382,377,423,405,455,416,490,422,525,423,560,421,626,408,679,390,681,395,627,413,561,426,525,429,489,428,454,421,420,409,379,381,345,345,319,307,302,275"/>
+<area shape="rect" id="Node000008" href="$namespacela__blas__level2__tri.html#a8d29ea7d0445c1f584bfd4d6c854a685" title="DTPSV: solves one of the systems of equations A*x = b, or A**T*x = b, where b and x are n element vec..." alt="" coords="439,51,575,91"/>
+<area shape="poly" id="edge9_Node000002_Node000008" title=" " alt="" coords="316,231,470,98,473,102,320,235"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="472,243,464,233,468,223,483,217,507,214,536,218,548,227,545,231,534,223,507,220,484,222,472,227,469,232,476,239"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="574,353,590,341,616,313,639,281,675,213,700,147,714,96,719,98,705,149,680,215,644,284,621,316,594,345,577,357"/>
+<area shape="poly" id="edge8_Node000005_Node000007" title=" " alt="" coords="580,372,626,372,626,378,580,378"/>
+<area shape="poly" id="edge7_Node000006_Node000006" title=" " alt="" coords="688,60,680,50,684,40,699,34,723,32,753,35,765,44,762,49,751,40,723,37,700,39,688,44,686,49,692,57"/>
+<area shape="poly" id="edge10_Node000008_Node000006" title=" " alt="" coords="575,68,626,68,626,74,575,74"/>
+<area shape="poly" id="edge11_Node000008_Node000007" title=" " alt="" coords="567,89,594,108,619,136,642,168,678,235,703,299,718,348,713,350,698,300,673,237,637,171,615,140,590,112,564,93"/>
+<area shape="poly" id="edge16_Node000009_Node000006" title=" " alt="" coords="325,78,369,55,421,36,487,28,554,31,616,40,669,52,667,57,615,45,554,36,487,34,422,42,371,60,327,83"/>
+<area shape="poly" id="edge17_Node000009_Node000007" title=" " alt="" coords="374,113,426,126,483,146,540,171,594,204,632,238,665,277,711,349,707,351,661,280,628,242,590,208,538,176,481,151,425,132,373,118"/>
+<area shape="poly" id="edge15_Node000009_Node000008" title=" " alt="" coords="373,87,425,80,426,85,374,92"/>
+</map>

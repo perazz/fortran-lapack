@@ -1,5 +1,0 @@
-<map id="la_lapack_z::la_ztbcon" name="la_lapack_z::la_ztbcon">
-<area shape="rect" id="Node000001" title="ZTBCON: estimates the reciprocal of the condition number of a triangular band matrix A,..." alt="" coords="5,5,173,31"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__z.html#add4532a94c36f1cfd607ef3495a2042d" title="ZLATBS: solves one of the triangular systems A * x = s*b, A**T * x = s*b, or A**H * x = s*b,..." alt="" coords="221,5,385,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="174,15,207,15,207,21,174,21"/>
-</map>

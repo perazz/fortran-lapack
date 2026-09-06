@@ -1,0 +1,7 @@
+<map id="la_lapack_c::la_claqz1" name="la_lapack_c::la_claqz1">
+<area shape="rect" id="Node000001" title="CLAQZ1: chases a 1x1 shift bulge in a matrix pencil down a single position." alt="" coords="5,45,172,70"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__givens__jacobi__rot.html#a1425fe877046e0f6263dacc802467bbf" title="!" alt="" coords="220,5,400,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="172,43,206,38,207,43,172,48"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__auxiliary.html#a277a1d747eac876341fedc2f79826ef5" title="CROT: applies a plane rotation, where the cos (C) is real and the sin (S) is complex,..." alt="" coords="236,69,384,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="172,67,223,74,222,79,172,72"/>
+</map>

@@ -1,18 +1,42 @@
 <map id="la_lapack::hetrs_aa::chetrs_aa" name="la_lapack::hetrs_aa::chetrs_aa">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,53,153,93"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__c.html#a67377761776e575add9ee840637c3469" title="CHETRS_AA: solves a system of linear equations A*X = B with a complex hermitian matrix A using the fa..." alt="" coords="205,20,393,45"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="153,57,215,45,216,50,154,62"/>
-<area shape="rect" id="Node000004" href="$namespacela__lapack__w.html#a196d917d210733ad26ea651aa7a1ee26" title="ZHETRS_AA: solves a system of linear equations A*X = B with a complex hermitian matrix A using the fa..." alt="" coords="201,84,396,109"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="154,78,188,82,187,87,153,83"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__c.html#a32f0f0d1550e804f9bcf4aa49e84c9fb" title="CGTSV: solves the equation A*X = B, where A is an N&#45;by&#45;N tridiagonal matrix, by Gaussian elimination ..." alt="" coords="447,5,607,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="393,24,433,21,434,27,393,29"/>
-<area shape="rect" id="Node000005" href="$namespacela__lapack__w.html#ae34ee8fca65c81f3ebaad36612a44fa9" title="ZGTSV: solves the equation A*X = B, where A is an N&#45;by&#45;N tridiagonal matrix, by Gaussian elimination ..." alt="" coords="444,55,611,80"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="396,81,430,77,431,82,397,87"/>
-<area shape="rect" id="Node000006" href="$namespacela__lapack__blas__like__l1.html#afef30867af0eff7e829cc705ade205b1" title="WLACGV: conjugates a complex vector of length N." alt="" coords="453,105,601,145"/>
-<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="397,106,440,111,439,117,396,111"/>
-<area shape="rect" id="Node000007" href="$namespacela__lapack__blas__like__base.html#a6c0a3bc3e8d3dc256594f08633434a50" title="WLACPY: copies all or part of a two&#45;dimensional matrix A to another matrix B." alt="" coords="453,169,601,209"/>
-<area shape="poly" id="edge6_Node000004_Node000007" title=" " alt="" coords="331,107,445,154,462,161,460,166,443,159,329,112"/>
-<area shape="rect" id="Node000008" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="659,176,825,201"/>
-<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="602,186,645,186,645,191,602,191"/>
-<area shape="poly" id="edge8_Node000008_Node000008" title=" " alt="" coords="707,178,700,168,703,158,718,152,742,149,772,153,783,162,780,166,770,158,742,155,719,157,707,162,705,167,711,174"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,427,153,467"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__solve__ldl__comp4.html#a3f30185151e3a41d4270885e266c2416" title="CHETRS_AA: solves a system of linear equations A*X = B with a complex hermitian matrix A using the fa..." alt="" coords="203,216,366,256"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="98,425,252,264,256,268,102,428"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__solve__ldl__comp4.html#a9a587c89cab63cc343dbad12ef59469f" title="WHETRS_AA: solves a system of linear equations A*X = B with a complex hermitian matrix A using the fa..." alt="" coords="201,548,368,588"/>
+<area shape="poly" id="edge14_Node000001_Node000010" title=" " alt="" coords="116,464,240,539,237,543,113,469"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__solve__lu.html#ab1d87e6aa94be0214f9e1c80229ce104" title="CGTSV: solves the equation A*X = B, where A is an N&#45;by&#45;N tridiagonal matrix, by Gaussian elimination ..." alt="" coords="417,427,563,467"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="307,254,462,415,458,418,304,258"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="612,527,779,553"/>
+<area shape="poly" id="edge13_Node000002_Node000004" title=" " alt="" coords="290,256,298,315,318,395,335,436,356,476,384,512,417,540,444,554,472,563,533,570,591,565,642,554,643,559,592,570,533,575,471,569,442,559,415,545,380,515,352,479,330,439,313,396,293,316,285,256"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__blas__like__l1.html#a65e16ab6e529b6346d3ce052868e5744" title="CLACGV: conjugates a complex vector of length N." alt="" coords="416,5,564,45"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="294,214,340,139,374,94,414,55,421,50,424,55,418,59,378,98,344,142,298,217"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__blas__like__base.html#ad1f5de8315adfd17ea4cf824d5cee4ab" title="CLACPY: copies all or part of a two&#45;dimensional matrix A to another matrix B." alt="" coords="416,184,564,224"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="366,221,402,215,403,220,367,226"/>
+<area shape="rect" id="Node000007" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="612,287,779,313"/>
+<area shape="poly" id="edge12_Node000002_Node000007" title=" " alt="" coords="315,214,361,189,415,169,457,160,491,154,525,157,565,170,602,190,634,218,680,274,676,277,630,222,599,195,563,174,524,162,491,160,458,165,417,175,363,194,318,218"/>
+<area shape="rect" id="Node000008" href="$namespacela__blas__level1.html#a4fb9af59b508cde93dace0cd181faeeb" title="CSWAP: interchanges two vectors." alt="" coords="423,69,557,109"/>
+<area shape="poly" id="edge8_Node000002_Node000008" title=" " alt="" coords="306,214,354,172,414,126,434,114,437,118,418,130,358,176,309,218"/>
+<area shape="rect" id="Node000009" href="$namespacela__blas__level3__tri.html#a146013b52e9ab1d998f8329b16b02f96" title="CTRSM: solves one of the matrix equations op( A )*X = alpha*B, or X*op( A ) = alpha*B,..." alt="" coords="422,248,558,288"/>
+<area shape="poly" id="edge9_Node000002_Node000009" title=" " alt="" coords="367,246,408,253,408,258,366,251"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="539,464,565,476,656,519,654,524,563,481,536,469"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="539,222,565,234,658,279,655,283,563,238,536,226"/>
+<area shape="poly" id="edge7_Node000007_Node000007" title=" " alt="" coords="662,289,654,279,658,269,672,263,695,261,724,264,735,273,732,278,722,269,695,266,673,268,662,273,660,278,666,286"/>
+<area shape="poly" id="edge11_Node000009_Node000004" title=" " alt="" coords="549,286,566,298,590,323,611,351,647,411,672,468,689,513,684,515,668,470,642,413,607,354,586,327,562,302,546,290"/>
+<area shape="poly" id="edge10_Node000009_Node000007" title=" " alt="" coords="559,276,601,283,600,288,558,281"/>
+<area shape="poly" id="edge25_Node000010_Node000004" title=" " alt="" coords="308,586,356,624,385,642,417,655,458,666,491,671,523,667,563,655,598,637,628,612,675,562,679,566,632,616,600,641,565,660,524,673,490,676,456,671,415,660,383,646,353,628,305,590"/>
+<area shape="poly" id="edge15_Node000010_Node000007" title=" " alt="" coords="296,546,343,481,376,444,415,412,453,391,487,382,521,375,563,362,657,317,659,322,565,366,523,380,488,387,455,396,417,417,380,448,347,484,300,549"/>
+<area shape="rect" id="Node000011" href="$namespacela__lapack__solve__lu.html#a493275bb24cef394661f5de85c34e066" title="WGTSV: solves the equation A*X = B, where A is an N&#45;by&#45;N tridiagonal matrix, by Gaussian elimination ..." alt="" coords="417,784,563,824"/>
+<area shape="poly" id="edge16_Node000010_Node000011" title=" " alt="" coords="296,587,314,625,340,674,375,725,418,770,423,774,420,779,414,774,371,728,336,676,309,627,292,589"/>
+<area shape="rect" id="Node000012" href="$namespacela__lapack__blas__like__l1.html#afef30867af0eff7e829cc705ade205b1" title="WLACGV: conjugates a complex vector of length N." alt="" coords="416,720,564,760"/>
+<area shape="poly" id="edge18_Node000010_Node000012" title=" " alt="" coords="304,587,353,641,418,699,435,711,432,715,414,703,349,644,300,590"/>
+<area shape="rect" id="Node000013" href="$namespacela__lapack__blas__like__base.html#a6c0a3bc3e8d3dc256594f08633434a50" title="WLACPY: copies all or part of a two&#45;dimensional matrix A to another matrix B." alt="" coords="416,312,564,352"/>
+<area shape="poly" id="edge19_Node000010_Node000013" title=" " alt="" coords="293,546,338,463,373,414,414,369,429,357,432,361,418,373,377,417,343,466,297,549"/>
+<area shape="rect" id="Node000014" href="$namespacela__blas__level1.html#a87a0f6f4a51cb922e497d49bc7597e53" title="WSWAP: interchanges two vectors." alt="" coords="423,605,557,645"/>
+<area shape="poly" id="edge21_Node000010_Node000014" title=" " alt="" coords="358,585,410,600,409,606,356,591"/>
+<area shape="rect" id="Node000015" href="$namespacela__blas__level3__tri.html#ac7ebed601d7857e709e28ef2f6bc0467" title="WTRSM: solves one of the matrix equations op( A )*X = alpha*B, or X*op( A ) = alpha*B,..." alt="" coords="422,491,558,531"/>
+<area shape="poly" id="edge22_Node000010_Node000015" title=" " alt="" coords="356,545,408,531,410,536,358,551"/>
+<area shape="poly" id="edge17_Node000011_Node000004" title=" " alt="" coords="546,782,562,770,606,720,641,663,667,608,683,565,688,567,672,610,646,665,610,723,566,774,549,786"/>
+<area shape="poly" id="edge20_Node000013_Node000007" title=" " alt="" coords="564,318,600,312,601,317,565,323"/>
+<area shape="poly" id="edge24_Node000015_Node000004" title=" " alt="" coords="559,518,599,524,598,529,558,523"/>
+<area shape="poly" id="edge23_Node000015_Node000007" title=" " alt="" coords="544,488,562,477,601,440,633,398,679,323,684,326,638,401,604,443,566,481,547,493"/>
 </map>

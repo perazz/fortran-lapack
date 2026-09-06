@@ -1,9 +1,34 @@
 <map id="la_lapack_q::la_qlasd8" name="la_lapack_q::la_qlasd8">
-<area shape="rect" id="Node000001" title="DLASD8: finds the square roots of the roots of the secular equation, as defined by the values in DSIG..." alt="" coords="5,31,175,56"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__q.html#a1d43b20f4baed9f50c1357c5c4fc5621" title="This subroutine computes the square root of the I&#45;th updated eigenvalue of a positive symmetric rank&#45;..." alt="" coords="223,31,392,56"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="175,41,209,41,209,46,175,46"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__q.html#a55d92e91347cbaea0903fc5b260982b3" title="DLAED6: computes the positive or negative root (closest to the origin) of z(1) z(2) z(3) f(x) = rho +..." alt="" coords="440,5,611,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="392,31,426,27,426,32,393,36"/>
-<area shape="rect" id="Node000004" href="$namespacela__lapack__q.html#ab8adf27e08e942a2ab172bde62a40408" title="This subroutine computes the square root of the I&#45;th eigenvalue of a positive symmetric rank&#45;one modi..." alt="" coords="441,55,610,80"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="393,50,427,54,427,59,392,55"/>
+<area shape="rect" id="Node000001" title="DLASD8: finds the square roots of the roots of the secular equation, as defined by the values in DSIG..." alt="" coords="5,201,175,226"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__auxiliary.html#a2b1acabdc8833f4f8b5f55dafba5607a" title=" " alt="" coords="233,111,381,151"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="123,198,240,153,242,158,125,203"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__blas__like__l2.html#ae9732f700fa6769de47f6ed8e5ecf62d" title="QLASCL: multiplies the M by N real matrix A by the real scalar CTO/CFROM. This is done without over/u..." alt="" coords="451,111,599,151"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="175,198,391,160,437,150,439,155,393,165,176,203"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__q.html#a1d43b20f4baed9f50c1357c5c4fc5621" title="This subroutine computes the square root of the I&#45;th updated eigenvalue of a positive symmetric rank&#45;..." alt="" coords="223,226,392,251"/>
+<area shape="poly" id="edge14_Node000001_Node000009" title=" " alt="" coords="175,221,210,225,209,230,175,226"/>
+<area shape="rect" id="Node000012" href="$namespacela__lapack__blas__like__base.html#acaaee05bbef5139ff3d6f7741c2f2553" title="QLASET: initializes an m&#45;by&#45;n matrix A to BETA on the diagonal and ALPHA on the offdiagonals." alt="" coords="233,297,381,337"/>
+<area shape="poly" id="edge19_Node000001_Node000012" title=" " alt="" coords="119,224,253,289,251,294,116,228"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="267,111,264,101,271,92,285,86,307,84,333,87,346,94,344,99,331,92,307,89,287,91,274,96,270,102,272,110"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="873,226,1040,251"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="599,116,651,111,708,110,768,116,826,131,860,147,891,169,938,213,934,217,887,173,857,152,824,136,767,121,708,116,651,116,600,121"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__blas__like__scalar.html#a0cb82d7f3b093ce99b3c7b3412dee71a" title="QISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="668,29,816,69"/>
+<area shape="poly" id="edge6_Node000003_Node000005" title=" " alt="" coords="579,108,674,72,676,77,581,113"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__auxiliary.html#a422783a9c3975903ac0fc1dc06f4ec01" title="QLAMCH: determines quad precision machine parameters." alt="" coords="668,219,816,259"/>
+<area shape="poly" id="edge10_Node000003_Node000007" title=" " alt="" coords="573,148,612,167,693,209,691,214,609,172,571,153"/>
+<area shape="rect" id="Node000008" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="659,145,825,170"/>
+<area shape="poly" id="edge13_Node000003_Node000008" title=" " alt="" coords="600,137,645,143,645,148,599,142"/>
+<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="922,228,914,218,918,208,933,202,957,199,986,203,998,212,995,216,984,208,957,205,934,207,922,212,919,217,926,224"/>
+<area shape="poly" id="edge7_Node000005_Node000005" title=" " alt="" coords="702,30,700,20,706,10,720,5,742,3,767,6,781,13,778,18,765,11,742,8,722,10,709,15,705,21,707,28"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__blas__like__scalar.html#afb28a91ee1571cb773bdc95c40031177" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in QISNAN...." alt="" coords="881,29,1032,69"/>
+<area shape="poly" id="edge8_Node000005_Node000006" title=" " alt="" coords="816,47,868,47,868,52,816,52"/>
+<area shape="poly" id="edge9_Node000006_Node000006" title=" " alt="" coords="917,30,914,20,921,10,935,5,957,3,982,6,995,13,993,18,980,11,957,8,936,10,924,15,919,21,922,28"/>
+<area shape="poly" id="edge11_Node000007_Node000004" title=" " alt="" coords="816,236,859,236,859,241,816,241"/>
+<area shape="poly" id="edge12_Node000007_Node000007" title=" " alt="" coords="702,219,700,209,706,200,720,194,742,192,767,195,781,202,778,207,765,200,742,197,722,199,709,204,705,210,707,218"/>
+<area shape="poly" id="edge17_Node000009_Node000007" title=" " alt="" coords="365,223,440,212,525,207,611,212,655,218,654,223,610,217,525,212,440,217,366,229"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__q.html#a55d92e91347cbaea0903fc5b260982b3" title="DLAED6: computes the positive or negative root (closest to the origin) of z(1) z(2) z(3) f(x) = rho +..." alt="" coords="440,226,611,251"/>
+<area shape="poly" id="edge15_Node000009_Node000010" title=" " alt="" coords="393,236,426,236,426,241,393,241"/>
+<area shape="rect" id="Node000011" href="$namespacela__lapack__q.html#ab8adf27e08e942a2ab172bde62a40408" title="This subroutine computes the square root of the I&#45;th eigenvalue of a positive symmetric rank&#45;one modi..." alt="" coords="441,275,610,301"/>
+<area shape="poly" id="edge18_Node000009_Node000011" title=" " alt="" coords="365,249,456,270,455,275,364,254"/>
+<area shape="poly" id="edge16_Node000010_Node000007" title=" " alt="" coords="611,236,654,236,654,241,611,241"/>
+<area shape="poly" id="edge20_Node000012_Node000004" title=" " alt="" coords="382,317,490,318,610,311,718,293,825,268,893,252,894,257,826,273,719,299,611,316,490,323,381,323"/>
 </map>

@@ -1,5 +1,21 @@
 <map id="la_lapack::hetri::zhetri" name="la_lapack::hetri::zhetri">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,172,31"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__z.html#a2b3e7eee32163238f38d4425faf485b2" title="ZHETRI: computes the inverse of a complex Hermitian indefinite matrix A using the factorization A = U..." alt="" coords="220,5,383,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="172,15,206,15,206,21,172,21"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,165,172,191"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__solve__ldl__comp3.html#ab91db4b73caa3caa597261d900ee7095" title="ZHETRI: computes the inverse of a complex Hermitian indefinite matrix A using the factorization A = U..." alt="" coords="220,158,369,198"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="172,175,206,175,206,181,172,181"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="612,29,779,55"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="304,157,321,128,346,93,378,61,416,36,471,19,528,14,584,16,632,24,632,29,583,22,529,19,472,24,418,40,381,65,350,97,325,130,308,159"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="612,159,779,184"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="321,196,364,227,390,241,418,251,458,262,491,265,523,262,563,251,593,240,621,224,668,191,671,195,624,229,595,245,565,257,524,267,491,270,457,267,417,257,388,246,361,231,318,200"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__level1.html#ad0fc51f1e7fde2134b2c9176cca75580" title="ZCOPY: copies a vector, x, to a vector, y." alt="" coords="423,114,558,154"/>
+<area shape="poly" id="edge5_Node000002_Node000005" title=" " alt="" coords="369,159,409,150,410,155,370,164"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__level1.html#a729038ec667c6fa1ecf55f5e04243d61" title="ZDOTC: forms the dot product of two complex vectors ZDOTC = X^H * Y." alt="" coords="423,202,558,242"/>
+<area shape="poly" id="edge6_Node000002_Node000006" title=" " alt="" coords="370,192,410,201,409,206,369,197"/>
+<area shape="rect" id="Node000007" href="$namespacela__blas__level2__gen.html#ab0f8aace3c66fef2824c52cf085c166a" title="ZHEMV: performs the matrix&#45;vector operation y := alpha*A*x + beta*y, where alpha and beta are scalars..." alt="" coords="417,50,564,90"/>
+<area shape="poly" id="edge8_Node000002_Node000007" title=" " alt="" coords="324,155,416,100,428,94,431,98,419,104,327,160"/>
+<area shape="rect" id="Node000008" href="$namespacela__blas__level1.html#ad757f0e2b47ff2b8a75222a5ccddcd44" title="ZSWAP: interchanges two vectors." alt="" coords="423,317,558,357"/>
+<area shape="poly" id="edge11_Node000002_Node000008" title=" " alt="" coords="315,196,360,244,419,296,437,308,434,312,416,300,356,248,311,200"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="662,31,655,21,659,11,672,5,695,3,724,6,735,16,731,20,721,11,695,8,674,10,662,15,660,20,666,28"/>
+<area shape="poly" id="edge7_Node000006_Node000006" title=" " alt="" coords="454,202,452,192,458,183,471,177,491,175,514,178,526,186,523,190,512,183,491,181,472,183,461,187,457,193,459,201"/>
+<area shape="poly" id="edge9_Node000007_Node000003" title=" " alt="" coords="564,57,598,53,599,58,565,63"/>
+<area shape="poly" id="edge10_Node000007_Node000004" title=" " alt="" coords="540,88,565,100,661,150,658,154,563,104,538,93"/>
 </map>

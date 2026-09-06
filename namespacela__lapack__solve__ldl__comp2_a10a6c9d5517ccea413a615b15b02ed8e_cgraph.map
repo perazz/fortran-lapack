@@ -1,0 +1,33 @@
+<map id="la_lapack_solve_ldl_comp2::la_ssycon_rook" name="la_lapack_solve_ldl_comp2::la_ssycon_rook">
+<area shape="rect" id="Node000001" title="SSYCON_ROOK: estimates the reciprocal of the condition number (in the 1&#45;norm) of a real symmetric mat..." alt="" coords="5,291,187,331"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="680,269,847,294"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="111,289,162,227,196,191,233,158,290,111,336,77,387,50,457,27,506,13,548,4,588,7,633,27,662,49,687,77,708,107,724,140,748,203,760,254,755,256,743,205,719,142,703,110,683,80,659,53,631,32,587,12,548,9,508,18,458,32,389,55,339,81,293,115,236,162,200,195,166,231,115,292"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__solve__aux.html#a3e2127b8555861dda8f66ca3b195e971" title="SLACN2: estimates the 1&#45;norm of a square, real matrix A. Reverse communication is used for evaluating..." alt="" coords="243,172,401,212"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="134,288,270,216,272,221,136,293"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__solve__ldl__comp2.html#a4f075b8cb9881901688781f7918d2767" title="SSYTRS_ROOK: solves a system of linear equations A*X = B with a real symmetric matrix A using the fac..." alt="" coords="235,376,409,416"/>
+<area shape="poly" id="edge9_Node000001_Node000007" title=" " alt="" coords="151,328,257,369,255,374,149,333"/>
+<area shape="rect" id="Node000009" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="680,411,847,437"/>
+<area shape="poly" id="edge19_Node000001_Node000009" title=" " alt="" coords="114,329,164,389,243,470,291,512,343,551,399,584,458,611,506,627,546,634,585,630,631,611,654,596,675,577,709,533,735,487,751,449,756,451,739,490,714,536,679,581,657,600,633,616,587,635,546,639,505,632,456,616,397,589,340,555,287,516,239,474,161,393,110,333"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="728,270,720,260,724,250,739,244,763,242,794,246,806,255,803,259,792,251,763,247,740,249,728,254,725,260,732,267"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#a843a382709914f66727d3bc6cc2770df" title="ISAMAX: finds the index of the first element having maximum absolute value." alt="" coords="457,66,632,91"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="348,170,397,135,456,102,477,93,479,98,458,106,399,140,351,174"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__level1.html#a54c02c2da4a131219e1d231424179d3e" title="SASUM: takes the sum of the absolute values. uses unrolled loops for increment equal to one." alt="" coords="477,140,612,180"/>
+<area shape="poly" id="edge6_Node000003_Node000005" title=" " alt="" coords="401,178,463,169,464,174,401,183"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__level1.html#a62fb48eb347a3888135df44b367cf888" title="SCOPY: copies a vector, x, to a vector, y. uses unrolled loops for increments equal to 1." alt="" coords="477,204,612,244"/>
+<area shape="poly" id="edge8_Node000003_Node000006" title=" " alt="" coords="401,201,464,210,463,215,401,206"/>
+<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="509,68,501,58,505,48,520,42,545,39,575,43,587,52,584,56,573,48,545,45,521,47,509,52,506,57,513,64"/>
+<area shape="poly" id="edge7_Node000005_Node000005" title=" " alt="" coords="504,140,501,130,508,121,522,115,545,113,570,116,584,124,582,128,569,121,545,119,524,121,511,125,506,131,509,139"/>
+<area shape="poly" id="edge10_Node000007_Node000002" title=" " alt="" coords="344,374,393,337,424,319,456,304,509,290,564,281,666,275,666,280,564,286,510,295,458,309,426,323,396,341,347,378"/>
+<area shape="rect" id="Node000008" href="$namespacela__blas__level2__gen.html#aabf3c89a12ae7a8d106099c21fe31389" title="SGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="471,319,618,359"/>
+<area shape="poly" id="edge11_Node000007_Node000008" title=" " alt="" coords="400,373,458,358,459,363,401,379"/>
+<area shape="poly" id="edge18_Node000007_Node000009" title=" " alt="" coords="410,399,666,415,666,421,409,404"/>
+<area shape="rect" id="Node000010" href="$namespacela__blas__level2__gen.html#ae16b7630b03f75d1b6cd6ade153ccec8" title="SGER: performs the rank 1 operation A := alpha*x*y**T + A, where alpha is a scalar,..." alt="" coords="471,433,618,473"/>
+<area shape="poly" id="edge14_Node000007_Node000010" title=" " alt="" coords="401,414,459,429,458,434,400,419"/>
+<area shape="rect" id="Node000011" href="$namespacela__blas__level1.html#ab7e08b64fdc3707adeba9f3c65715ba9" title="SSCAL: scales a vector by a constant. uses unrolled loops for increment equal to 1." alt="" coords="477,497,612,537"/>
+<area shape="poly" id="edge16_Node000007_Node000011" title=" " alt="" coords="351,414,400,448,459,483,472,490,470,494,456,488,397,453,348,418"/>
+<area shape="rect" id="Node000012" href="$namespacela__blas__level1.html#a9d8c97bb48e4f60de6110212e61ae31c" title="SSWAP: interchanges two vectors. uses unrolled loops for increments equal to 1." alt="" coords="477,561,612,601"/>
+<area shape="poly" id="edge17_Node000007_Node000012" title=" " alt="" coords="338,415,387,479,421,516,459,547,468,553,465,557,456,552,417,519,383,483,334,418"/>
+<area shape="poly" id="edge12_Node000008_Node000002" title=" " alt="" coords="618,317,700,295,702,300,619,322"/>
+<area shape="poly" id="edge13_Node000008_Node000009" title=" " alt="" coords="598,356,718,404,716,409,596,361"/>
+<area shape="poly" id="edge15_Node000010_Node000009" title=" " alt="" coords="618,441,666,434,667,440,619,446"/>
+</map>

@@ -1,32 +1,24 @@
 <map id="la_lapack::gerfs::sgerfs" name="la_lapack::gerfs::sgerfs">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,229,179,255"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#abb683575539565716508fba4cb251411" title="SGERFS: improves the computed solution to a system of linear equations and provides error bounds and ..." alt="" coords="230,179,395,204"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="148,227,243,204,244,210,149,232"/>
-<area shape="rect" id="Node000005" href="$namespacela__lapack__w.html#a7e4f05db6ce3c2c8ed2d5715f221a1b6" title="ZGERFS: improves the computed solution to a system of linear equations and provides error bounds and ..." alt="" coords="227,253,399,279"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="179,249,213,253,213,258,179,254"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__s.html#a7d34fe45d34864828857d33f89e8498d" title="SGETRS: solves a system of linear equations A * X = B or A**T * X = B with a general N&#45;by&#45;N matrix A ..." alt="" coords="450,87,615,112"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="343,176,488,115,490,120,345,181"/>
-<area shape="rect" id="Node000004" href="$namespacela__lapack__s.html#a32210a3155cf4bcf4884b373e585f34f" title="SLASWP: performs a series of row interchanges on the matrix A. One row interchange is initiated for e..." alt="" coords="679,5,849,31"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="559,84,608,62,666,39,691,32,693,37,668,45,610,67,561,89"/>
-<area shape="rect" id="Node000006" href="$namespacela__lapack__auxiliary.html#a422783a9c3975903ac0fc1dc06f4ec01" title="QLAMCH: determines quad precision machine parameters." alt="" coords="690,305,838,345"/>
-<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="399,274,677,311,676,316,399,280"/>
-<area shape="rect" id="Node000008" href="$namespacela__lapack__w.html#a5f96916da5342da53ee793280d899f65" title="ZGETRS: solves a system of linear equations A * X = B, A**T * X = B, or A**H * X = B with a general N..." alt="" coords="447,351,619,376"/>
-<area shape="poly" id="edge9_Node000005_Node000008" title=" " alt="" coords="341,276,448,326,488,343,486,348,446,331,339,281"/>
-<area shape="rect" id="Node000010" href="$namespacela__lapack__solve__aux.html#ac4c709f841da3fc69882dcd45811f0dd" title="WLACN2: estimates the 1&#45;norm of a square, complex matrix A. Reverse communication is used for evaluat..." alt="" coords="454,217,611,257"/>
-<area shape="poly" id="edge11_Node000005_Node000010" title=" " alt="" coords="399,252,440,246,441,252,400,257"/>
-<area shape="poly" id="edge8_Node000006_Node000006" title=" " alt="" coords="722,305,719,295,726,286,741,280,764,278,790,281,805,288,802,293,789,286,764,283,742,285,729,290,724,296,727,304"/>
-<area shape="rect" id="Node000007" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="909,312,1076,337"/>
-<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="838,322,895,322,895,327,838,327"/>
-<area shape="poly" id="edge7_Node000007_Node000007" title=" " alt="" coords="956,314,948,304,952,294,967,288,993,285,1025,289,1037,299,1033,303,1023,294,993,291,968,293,956,298,953,303,960,310"/>
-<area shape="rect" id="Node000009" href="$namespacela__lapack__w.html#a7d9aeb6077250b10504a6646cae28c9f" title="ZLASWP: performs a series of row interchanges on the matrix A. One row interchange is initiated for e..." alt="" coords="675,369,853,395"/>
-<area shape="poly" id="edge10_Node000008_Node000009" title=" " alt="" coords="619,368,662,371,661,376,619,373"/>
-<area shape="poly" id="edge14_Node000010_Node000006" title=" " alt="" coords="587,254,699,297,697,302,586,259"/>
-<area shape="rect" id="Node000011" href="$namespacela__lapack__aux.html#ad24ad10d06fcee425f39b26966028caf" title="IWMAX1: finds the index of the first vector element of maximum absolute value. Based on IWAMAX from L..." alt="" coords="667,79,861,104"/>
-<area shape="poly" id="edge12_Node000010_Node000011" title=" " alt="" coords="549,215,598,164,630,137,665,114,683,106,685,111,668,119,633,142,601,168,553,218"/>
-<area shape="rect" id="Node000012" href="$namespacela__lapack__auxiliary.html#a9fe01efca7314cc8db49eac43f581ed2" title="QWSUM1: takes the sum of the absolute values of a complex vector and returns a quad precision result...." alt="" coords="690,153,838,193"/>
-<area shape="poly" id="edge15_Node000010_Node000012" title=" " alt="" coords="605,214,677,194,679,199,606,219"/>
-<area shape="rect" id="Node000013" href="$namespacela__blas__level1.html#aab844ca282a3c70e01940b301cd90076" title="WCOPY: copies a vector, x, to a vector, y." alt="" coords="697,217,831,257"/>
-<area shape="poly" id="edge17_Node000010_Node000013" title=" " alt="" coords="611,234,683,234,683,239,611,239"/>
-<area shape="poly" id="edge13_Node000011_Node000011" title=" " alt="" coords="727,80,719,70,723,60,739,54,764,52,796,56,808,65,805,69,794,61,764,57,740,59,727,64,724,70,731,77"/>
-<area shape="poly" id="edge16_Node000012_Node000012" title=" " alt="" coords="722,153,719,143,726,134,741,128,764,126,790,129,805,136,802,141,789,134,764,131,742,133,729,138,724,144,727,152"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,154,179,179"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__solve__lu__comp.html#a96e76096a9b6ee6f3e94b7018efe617b" title="SGERFS: improves the computed solution to a system of linear equations and provides error bounds and ..." alt="" coords="227,102,372,142"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="152,151,213,138,214,143,153,156"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__solve__lu__comp.html#adc41d012daa7d68c3794b447e8890faf" title="WGERFS: improves the computed solution to a system of linear equations and provides error bounds and ..." alt="" coords="227,178,372,218"/>
+<area shape="poly" id="edge10_Node000001_Node000008" title=" " alt="" coords="175,176,213,182,212,188,174,182"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__solve__lu__comp.html#a59c487031b12eddb5e075d2dff45e9da" title="SGETRS: solves a system of linear equations A * X = B or A**T * X = B with a general N&#45;by&#45;N matrix A ..." alt="" coords="420,96,565,136"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="372,117,406,116,406,121,372,122"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="807,76,973,102"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="509,94,552,52,581,32,612,17,652,6,685,3,719,7,759,17,815,39,861,66,859,71,813,44,758,22,718,13,685,8,653,11,614,22,584,37,556,56,513,97"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__solve__lu__comp.html#a4ceaa0f6cc0ebbcd5c297274b99267f2" title="SLASWP: performs a series of row interchanges on the matrix A. One row interchange is initiated for e..." alt="" coords="613,32,759,72"/>
+<area shape="poly" id="edge5_Node000003_Node000005" title=" " alt="" coords="553,93,611,73,613,79,555,98"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__level3__tri.html#a043a8c4eda9186ebeb182dbb43086858" title="STRSM: solves one of the matrix equations op( A )*X = alpha*B, or X*op( A ) = alpha*B,..." alt="" coords="618,96,754,136"/>
+<area shape="poly" id="edge6_Node000003_Node000006" title=" " alt="" coords="566,113,604,113,604,118,566,118"/>
+<area shape="rect" id="Node000007" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="807,130,973,155"/>
+<area shape="poly" id="edge9_Node000003_Node000007" title=" " alt="" coords="557,133,614,145,705,151,793,149,793,154,705,156,613,150,556,138"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="857,78,850,68,853,58,867,52,890,50,918,53,930,62,926,67,916,58,890,55,868,57,857,62,855,67,861,75"/>
+<area shape="poly" id="edge7_Node000006_Node000004" title=" " alt="" coords="754,104,793,99,793,104,755,109"/>
+<area shape="poly" id="edge8_Node000006_Node000007" title=" " alt="" coords="755,122,793,127,793,132,754,127"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__solve__lu__comp.html#a37dcf9dfd3bc8eca6a138c1a06c2df7f" title="WGETRS: solves a system of linear equations A * X = B, A**T * X = B, or A**H * X = B with a general N..." alt="" coords="420,204,565,244"/>
+<area shape="poly" id="edge11_Node000008_Node000009" title=" " alt="" coords="373,205,406,210,405,215,372,210"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__solve__lu__comp.html#ada9ab27364036f0787dfaed4ccaf85cb" title="WLASWP: performs a series of row interchanges on the matrix A. One row interchange is initiated for e..." alt="" coords="613,210,759,250"/>
+<area shape="poly" id="edge12_Node000009_Node000010" title=" " alt="" coords="566,223,599,225,599,230,565,229"/>
 </map>

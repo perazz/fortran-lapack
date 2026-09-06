@@ -1,17 +1,15 @@
 <map id="la_lapack::gbequ::sgbequ" name="la_lapack::gbequ::sgbequ">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,82,192,107"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#adc981cb784519e5487f18375b3cdb090" title="SGBEQU: computes row and column scalings intended to equilibrate an M&#45;by&#45;N band matrix A and reduce i..." alt="" coords="243,47,415,73"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="183,79,230,72,231,77,184,85"/>
-<area shape="rect" id="Node000005" href="$namespacela__lapack__w.html#a8aa95d6d18bc83c8e07dad3b3eec7034" title="ZGBEQU: computes row and column scalings intended to equilibrate an M&#45;by&#45;N band matrix A and reduce i..." alt="" coords="240,106,419,131"/>
-<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="192,102,227,105,226,111,192,107"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="467,29,615,69"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="415,53,453,51,453,56,416,58"/>
-<area shape="poly" id="edge5_Node000003_Node000003" title=" " alt="" coords="502,30,500,20,506,11,520,5,541,3,565,6,578,13,575,18,563,11,541,8,521,10,509,15,505,21,507,28"/>
-<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="663,81,829,106"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="616,63,673,75,672,80,615,68"/>
-<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="712,82,705,72,709,62,723,56,746,54,775,58,786,67,783,71,772,63,746,59,724,61,713,66,710,72,716,79"/>
-<area shape="rect" id="Node000006" href="$namespacela__lapack__auxiliary.html#a422783a9c3975903ac0fc1dc06f4ec01" title="QLAMCH: determines quad precision machine parameters." alt="" coords="467,117,615,157"/>
-<area shape="poly" id="edge7_Node000005_Node000006" title=" " alt="" coords="419,124,453,127,453,132,419,129"/>
-<area shape="poly" id="edge8_Node000006_Node000004" title=" " alt="" coords="615,119,672,106,673,112,616,124"/>
-<area shape="poly" id="edge9_Node000006_Node000006" title=" " alt="" coords="502,118,500,108,506,99,520,93,541,91,565,94,578,101,575,106,563,99,541,96,521,98,509,103,505,109,507,116"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,97,192,122"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__solve__lu__comp.html#a51cb9e818753329885749b8f486c6046" title="SGBEQU: computes row and column scalings intended to equilibrate an M&#45;by&#45;N band matrix A and reduce i..." alt="" coords="240,57,385,97"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="184,94,226,88,227,93,185,99"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__solve__lu__comp.html#a7730891077be78aedd9edf6dc4e2017d" title="WGBEQU: computes row and column scalings intended to equilibrate an M&#45;by&#45;N band matrix A and reduce i..." alt="" coords="240,121,385,161"/>
+<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="185,119,227,126,226,131,184,125"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="443,29,591,69"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="385,65,429,59,430,64,386,70"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="433,94,600,119"/>
+<area shape="poly" id="edge6_Node000002_Node000005" title=" " alt="" coords="386,85,420,90,419,95,385,90"/>
+<area shape="poly" id="edge5_Node000003_Node000003" title=" " alt="" coords="478,30,476,20,482,11,496,5,517,3,540,6,553,13,551,18,539,11,517,8,497,10,486,15,481,21,484,28"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="648,37,815,62"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="591,47,634,47,634,52,591,52"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="696,38,689,28,693,18,707,12,731,10,761,14,773,23,770,27,759,19,731,15,709,17,697,22,694,28,701,35"/>
 </map>

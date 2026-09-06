@@ -1,5 +1,22 @@
 <map id="la_lapack_s::la_strevc" name="la_lapack_s::la_strevc">
-<area shape="rect" id="Node000001" title="STREVC: computes some or all of the right and/or left eigenvectors of a real upper quasi&#45;triangular m..." alt="" coords="5,5,171,31"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#a0e4cfb776339618f06749826b76fd421" title="SLALN2: solves a system of the form (ca A &#45; w D ) X = s B or (ca A**T &#45; w D) X = s B with possible sc..." alt="" coords="219,5,383,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="171,15,205,15,205,21,171,21"/>
+<area shape="rect" id="Node000001" title="STREVC: computes some or all of the right and/or left eigenvectors of a real upper quasi&#45;triangular m..." alt="" coords="5,109,171,134"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__auxiliary.html#a07a0b8e445fa8e2b62507c416c668bac" title="SLABAD: takes as input the values computed by SLAMCH for underflow and overflow, and returns the squa..." alt="" coords="227,44,375,84"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="135,106,213,85,214,90,137,111"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__s.html#a0e4cfb776339618f06749826b76fd421" title="SLALN2: solves a system of the form (ca A &#45; w D ) X = s B or (ca A**T &#45; w D) X = s B with possible sc..." alt="" coords="219,109,383,134"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="171,119,205,119,205,124,171,124"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="627,117,775,157"/>
+<area shape="poly" id="edge12_Node000001_Node000007" title=" " alt="" coords="142,131,219,144,325,150,431,151,613,142,613,148,431,156,325,156,218,149,141,137"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__blas__like__scalar.html#a7904fc341f85d41c6d9847eee62c3212" title="SLADIV: performs complex division in real arithmetic a + i*b p + i*q = &#45;&#45;&#45;&#45;&#45;&#45;— c + i*d The algorithm ..." alt="" coords="431,44,579,84"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="346,106,419,85,421,90,347,111"/>
+<area shape="poly" id="edge11_Node000003_Node000007" title=" " alt="" coords="383,122,613,131,613,137,383,127"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__auxiliary.html#a8d748d5192da42c522f28e566338f2ed" title=" " alt="" coords="627,29,775,69"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="579,56,612,53,613,59,579,61"/>
+<area shape="poly" id="edge7_Node000004_Node000007" title=" " alt="" coords="560,82,635,110,633,115,558,87"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__auxiliary.html#a060d1eb779ff4b79b8e210d748d3e239" title=" " alt="" coords="832,29,980,69"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="775,47,818,47,818,52,775,52"/>
+<area shape="poly" id="edge6_Node000006_Node000006" title=" " alt="" coords="867,30,865,20,871,11,885,5,906,3,930,6,943,13,941,18,928,11,906,8,886,10,875,15,870,21,872,28"/>
+<area shape="poly" id="edge10_Node000007_Node000007" title=" " alt="" coords="664,118,662,108,668,99,681,93,701,91,724,94,736,101,733,105,722,99,701,96,682,98,671,103,667,109,669,116"/>
+<area shape="rect" id="Node000008" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="823,125,989,150"/>
+<area shape="poly" id="edge8_Node000007_Node000008" title=" " alt="" coords="775,135,809,135,809,140,775,140"/>
+<area shape="poly" id="edge9_Node000008_Node000008" title=" " alt="" coords="872,126,865,116,869,106,883,100,906,98,935,102,946,111,943,115,932,107,906,103,884,105,873,110,870,116,876,123"/>
 </map>

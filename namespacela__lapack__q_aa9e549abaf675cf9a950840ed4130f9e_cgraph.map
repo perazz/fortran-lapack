@@ -1,7 +1,27 @@
 <map id="la_lapack_q::la_qopgtr" name="la_lapack_q::la_qopgtr">
-<area shape="rect" id="Node000001" title="DOPGTR: generates a real orthogonal matrix Q which is defined as the product of n&#45;1 elementary reflec..." alt="" coords="5,31,173,56"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__q.html#a8100f37019136f69e8dd8406fb6b4873" title="DORG2L: generates an m by n real matrix Q with orthonormal columns, which is defined as the last n co..." alt="" coords="222,5,389,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="173,31,208,27,209,32,174,36"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__q.html#ab2e5d46704588de5a5ede584053da997" title="DORG2R: generates an m by n real matrix Q with orthonormal columns, which is defined as the first n c..." alt="" coords="221,55,389,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="174,50,208,54,208,59,173,55"/>
+<area shape="rect" id="Node000001" title="DOPGTR: generates a real orthogonal matrix Q which is defined as the product of n&#45;1 elementary reflec..." alt="" coords="5,153,173,179"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__q.html#a8100f37019136f69e8dd8406fb6b4873" title="DORG2L: generates an m by n real matrix Q with orthonormal columns, which is defined as the last n co..." alt="" coords="222,128,389,153"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="173,153,208,149,209,155,174,159"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__q.html#ab2e5d46704588de5a5ede584053da997" title="DORG2R: generates an m by n real matrix Q with orthonormal columns, which is defined as the first n c..." alt="" coords="221,177,389,203"/>
+<area shape="poly" id="edge14_Node000001_Node000010" title=" " alt="" coords="174,173,208,177,208,182,173,178"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__householder__reflectors.html#a52a8729fe2f7462f0c5f8088a667c74a" title="QLARF: applies a real elementary reflector H to a real m by n matrix C, from either the left or the r..." alt="" coords="437,146,608,186"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="389,148,424,152,423,157,389,153"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__aux.html#a89c999353d6bf1a6ec63f15a8c2e26f9" title="ILAQLC: scans A for its last non&#45;zero column." alt="" coords="656,29,833,55"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="543,144,592,103,655,64,671,57,673,62,657,68,595,108,547,148"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__aux.html#a2a0245021a95a162a43b7716204498a0" title="ILAQLR: scans A for its last non&#45;zero row." alt="" coords="657,103,832,128"/>
+<area shape="poly" id="edge5_Node000003_Node000005" title=" " alt="" coords="608,144,674,129,675,134,609,149"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="881,183,1048,208"/>
+<area shape="poly" id="edge7_Node000003_Node000006" title=" " alt="" coords="608,169,868,186,868,192,608,174"/>
+<area shape="rect" id="Node000007" href="$namespacela__blas__level2__gen.html#aecd73c3541f591fb801540fa6e7e3883" title="QGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="671,203,818,243"/>
+<area shape="poly" id="edge9_Node000003_Node000007" title=" " alt="" coords="601,183,659,198,657,204,600,189"/>
+<area shape="rect" id="Node000009" href="$namespacela__blas__level2__gen.html#a2babbc60e4573bf86995dc3e7360db8b" title="QGER: performs the rank 1 operation A := alpha*x*y**T + A, where alpha is a scalar,..." alt="" coords="671,267,818,307"/>
+<area shape="poly" id="edge12_Node000003_Node000009" title=" " alt="" coords="551,184,599,218,657,253,671,259,669,264,655,258,596,223,548,188"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="709,31,701,21,705,11,720,5,745,3,775,6,787,15,784,20,773,11,745,8,721,10,709,15,706,20,713,28"/>
+<area shape="poly" id="edge6_Node000005_Node000005" title=" " alt="" coords="709,104,701,94,705,84,720,78,745,76,775,80,787,89,784,93,773,85,745,81,721,83,709,88,706,94,713,101"/>
+<area shape="poly" id="edge8_Node000006_Node000006" title=" " alt="" coords="929,184,921,174,925,164,940,158,965,156,995,160,1007,169,1004,173,993,165,965,161,941,163,929,168,926,174,933,181"/>
+<area shape="poly" id="edge10_Node000007_Node000006" title=" " alt="" coords="818,211,867,205,868,210,819,217"/>
+<area shape="rect" id="Node000008" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="881,239,1048,264"/>
+<area shape="poly" id="edge11_Node000007_Node000008" title=" " alt="" coords="819,230,868,236,867,242,818,235"/>
+<area shape="poly" id="edge13_Node000009_Node000008" title=" " alt="" coords="818,273,873,264,874,269,819,278"/>
+<area shape="poly" id="edge15_Node000010_Node000003" title=" " alt="" coords="389,178,424,174,424,180,390,183"/>
 </map>

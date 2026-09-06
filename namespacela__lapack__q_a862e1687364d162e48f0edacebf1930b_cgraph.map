@@ -1,7 +1,0 @@
-<map id="la_lapack_q::la_qptrfs" name="la_lapack_q::la_qptrfs">
-<area shape="rect" id="Node000001" title="DPTRFS: improves the computed solution to a system of linear equations when the coefficient matrix is..." alt="" coords="5,5,169,31"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__q.html#a048ca18e32034253beaef44699cd5e53" title="DPTTRS: solves a tridiagonal system of the form A * X = B using the L*D*L**T factorization of A compu..." alt="" coords="217,5,381,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="170,15,204,15,204,21,170,21"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__q.html#a02c8fdcd74ce699cf0cf602efd555229" title="DPTTS2: solves a tridiagonal system of the form A * X = B using the L*D*L**T factorization of A compu..." alt="" coords="429,5,596,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="382,15,416,15,416,21,382,21"/>
-</map>

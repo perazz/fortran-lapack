@@ -1,9 +1,9 @@
 <map id="la_lapack::gbtrf::cgbtrf" name="la_lapack::gbtrf::cgbtrf">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,31,173,56"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__c.html#a2711b09340e5ae27755c4fc149b00eb9" title="CGBTRF: computes an LU factorization of a complex m&#45;by&#45;n band matrix A using partial pivoting with ro..." alt="" coords="221,31,384,56"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="174,41,208,41,208,46,174,46"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__c.html#a214e4009c5a2a23826821e8011183ced" title="CGBTF2: computes an LU factorization of a complex m&#45;by&#45;n band matrix A using partial pivoting with ro..." alt="" coords="434,5,601,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="384,31,420,27,421,32,384,36"/>
-<area shape="rect" id="Node000004" href="$namespacela__lapack__c.html#a4ecaebae5feafdcc862f09bee12d6242" title="CLASWP: performs a series of row interchanges on the matrix A. One row interchange is initiated for e..." alt="" coords="432,55,603,80"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="384,50,419,54,418,59,384,55"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,45,173,70"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__solve__lu__comp.html#a193e9a232e9a8137abe0da3f2a06f3d1" title="CGBTRF: computes an LU factorization of a complex m&#45;by&#45;n band matrix A using partial pivoting with ro..." alt="" coords="221,37,367,77"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="173,55,207,55,207,60,173,60"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__solve__lu__comp.html#a47a4f70e0761addbb0d58a44165cb83a" title="CGBTF2: computes an LU factorization of a complex m&#45;by&#45;n band matrix A using partial pivoting with ro..." alt="" coords="415,5,560,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="366,43,400,37,401,42,367,48"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__solve__lu__comp.html#ac3650f6731f2baa7a31495052f0aa121" title="CLASWP: performs a series of row interchanges on the matrix A. One row interchange is initiated for e..." alt="" coords="415,69,560,109"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="367,67,401,72,400,78,366,72"/>
 </map>

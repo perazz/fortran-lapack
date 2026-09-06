@@ -1,13 +1,28 @@
 <map id="la_lapack_s::la_strsyl" name="la_lapack_s::la_strsyl">
-<area shape="rect" id="Node000001" title="STRSYL: solves the real Sylvester matrix equation: op(A)*X + X*op(B) = scale*C or op(A)*X &#45; X*op(B) =..." alt="" coords="5,31,167,56"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#a0e4cfb776339618f06749826b76fd421" title="SLALN2: solves a system of the form (ca A &#45; w D ) X = s B or (ca A**T &#45; w D) X = s B with possible sc..." alt="" coords="216,5,380,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="167,31,202,27,203,32,167,36"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__s.html#a19329c2b5fa03d2cab358e6e261179e6" title="SLASY2: solves for the N1 by N2 matrix X, 1 &lt;= N1,N2 &lt;= 2, in op(TL)*X + ISGN*X*op(TR) = SCALE*B,..." alt="" coords="215,55,381,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="167,50,201,54,201,59,167,55"/>
-<area shape="rect" id="Node000004" href="$namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="429,47,577,87"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="382,65,415,65,415,70,382,70"/>
-<area shape="poly" id="edge6_Node000004_Node000004" title=" " alt="" coords="465,48,462,38,469,29,482,23,503,21,527,24,541,31,538,36,526,29,503,26,484,28,472,33,468,39,470,46"/>
-<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="625,55,792,80"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="578,65,611,65,611,70,578,70"/>
-<area shape="poly" id="edge5_Node000005_Node000005" title=" " alt="" coords="675,56,668,46,671,36,685,30,709,28,737,32,749,41,745,45,735,37,709,33,687,35,675,40,673,46,679,53"/>
+<area shape="rect" id="Node000001" title="STRSYL: solves the real Sylvester matrix equation: op(A)*X + X*op(B) = scale*C or op(A)*X &#45; X*op(B) =..." alt="" coords="5,145,167,170"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__auxiliary.html#a07a0b8e445fa8e2b62507c416c668bac" title="SLABAD: takes as input the values computed by SLAMCH for underflow and overflow, and returns the squa..." alt="" coords="223,29,371,69"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="105,142,154,112,213,79,227,72,230,77,216,84,156,117,108,147"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__s.html#a0e4cfb776339618f06749826b76fd421" title="SLALN2: solves a system of the form (ca A &#45; w D ) X = s B or (ca A**T &#45; w D) X = s B with possible sc..." alt="" coords="215,94,379,119"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="139,142,230,120,231,125,140,147"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="641,127,789,167"/>
+<area shape="poly" id="edge12_Node000001_Node000007" title=" " alt="" coords="167,153,627,145,627,151,167,159"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__blas__like__mnorm.html#acf18db8fabe5ef770efc03a4bed05d09" title="SLANGE: returns the value of the one norm, or the Frobenius norm, or the infinity norm,..." alt="" coords="223,219,371,259"/>
+<area shape="poly" id="edge13_Node000001_Node000009" title=" " alt="" coords="121,168,232,211,230,216,119,173"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__s.html#a19329c2b5fa03d2cab358e6e261179e6" title="SLASY2: solves for the N1 by N2 matrix X, 1 &lt;= N1,N2 &lt;= 2, in op(TL)*X + ISGN*X*op(TR) = SCALE*B,..." alt="" coords="427,239,593,265"/>
+<area shape="poly" id="edge15_Node000001_Node000010" title=" " alt="" coords="98,168,144,220,178,248,216,268,246,277,278,283,342,284,403,277,455,266,456,271,404,282,342,289,277,288,245,283,214,273,175,252,140,224,94,172"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__blas__like__scalar.html#a7904fc341f85d41c6d9847eee62c3212" title="SLADIV: performs complex division in real arithmetic a + i*b p + i*q = &#45;&#45;&#45;&#45;&#45;&#45;— c + i*d The algorithm ..." alt="" coords="436,29,584,69"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="344,91,422,70,424,75,345,97"/>
+<area shape="poly" id="edge11_Node000003_Node000007" title=" " alt="" coords="379,112,628,136,628,141,378,117"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__auxiliary.html#a8d748d5192da42c522f28e566338f2ed" title=" " alt="" coords="641,29,789,69"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="585,47,628,47,628,52,585,52"/>
+<area shape="poly" id="edge7_Node000004_Node000007" title=" " alt="" coords="556,67,594,86,661,118,659,123,592,90,553,72"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__auxiliary.html#a060d1eb779ff4b79b8e210d748d3e239" title=" " alt="" coords="847,29,995,69"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="790,47,833,47,833,52,790,52"/>
+<area shape="poly" id="edge6_Node000006_Node000006" title=" " alt="" coords="882,30,880,20,886,11,900,5,921,3,945,6,958,13,955,18,943,11,921,8,901,10,889,15,885,21,887,28"/>
+<area shape="poly" id="edge10_Node000007_Node000007" title=" " alt="" coords="677,127,674,117,681,108,694,102,715,100,739,103,753,110,750,115,738,108,715,105,696,107,684,112,680,118,682,126"/>
+<area shape="rect" id="Node000008" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="837,134,1004,159"/>
+<area shape="poly" id="edge8_Node000007_Node000008" title=" " alt="" coords="790,144,823,144,823,149,790,149"/>
+<area shape="poly" id="edge9_Node000008_Node000008" title=" " alt="" coords="887,136,880,126,883,116,897,110,921,107,949,111,961,120,957,124,947,116,921,113,899,115,887,119,885,125,891,132"/>
+<area shape="poly" id="edge14_Node000009_Node000009" title=" " alt="" coords="257,219,255,209,261,200,275,194,297,192,321,195,335,202,332,207,320,200,297,197,276,199,264,204,260,210,262,218"/>
+<area shape="poly" id="edge16_Node000010_Node000007" title=" " alt="" coords="535,237,662,171,664,175,537,242"/>
 </map>

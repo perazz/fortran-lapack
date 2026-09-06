@@ -1,26 +1,42 @@
 <map id="la_lapack::gsvj0::dgsvj0" name="la_lapack::gsvj0::dgsvj0">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,121,184,147"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__d.html#a4f4da5eb540293e44bb6d21531e9581a" title="DGSVJ0: is called from DGESVJ as a pre&#45;processor and that is its main purpose. It applies Jacobi rota..." alt="" coords="232,96,401,121"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="184,121,218,117,219,123,185,126"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__q.html#af7067b1b176a587e53c09e2cc2150b77" title="DGSVJ0: is called from DGESVJ as a pre&#45;processor and that is its main purpose. It applies Jacobi rota..." alt="" coords="232,145,401,171"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="185,141,219,145,218,150,184,146"/>
-<area shape="rect" id="Node000004" href="$namespacela__lapack__blas__like__l2.html#ae9732f700fa6769de47f6ed8e5ecf62d" title="QLASCL: multiplies the M by N real matrix A by the real scalar CTO/CFROM. This is done without over/u..." alt="" coords="449,106,597,146"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="399,143,435,137,436,142,400,148"/>
-<area shape="rect" id="Node000010" href="$namespacela__lapack__blas__like__l1.html#adfc5389180aa64e4488e4ad152ee68e7" title="!" alt="" coords="449,170,597,210"/>
-<area shape="poly" id="edge14_Node000003_Node000010" title=" " alt="" coords="400,168,436,174,435,179,399,173"/>
-<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="860,29,1027,55"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="539,104,583,61,612,39,644,23,707,9,772,7,833,13,886,23,885,29,833,19,772,13,708,15,646,29,615,44,586,65,543,108"/>
-<area shape="rect" id="Node000006" href="$namespacela__lapack__blas__like__scalar.html#a0cb82d7f3b093ce99b3c7b3412dee71a" title="QISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="655,150,803,190"/>
-<area shape="poly" id="edge6_Node000004_Node000006" title=" " alt="" coords="598,139,642,149,641,154,597,144"/>
-<area shape="rect" id="Node000008" href="$namespacela__lapack__auxiliary.html#a422783a9c3975903ac0fc1dc06f4ec01" title="QLAMCH: determines quad precision machine parameters." alt="" coords="655,62,803,102"/>
-<area shape="poly" id="edge10_Node000004_Node000008" title=" " alt="" coords="597,108,641,98,642,103,598,113"/>
-<area shape="rect" id="Node000009" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="645,215,812,240"/>
-<area shape="poly" id="edge13_Node000004_Node000009" title=" " alt="" coords="578,144,599,156,623,179,632,189,647,200,662,207,660,212,644,204,629,193,619,182,596,160,575,148"/>
-<area shape="poly" id="edge5_Node000005_Node000005" title=" " alt="" coords="908,31,901,21,905,11,919,5,943,3,973,6,985,15,982,20,971,11,943,8,921,10,909,15,906,20,913,28"/>
-<area shape="poly" id="edge7_Node000006_Node000006" title=" " alt="" coords="690,150,688,140,694,131,708,125,729,123,753,126,766,134,763,138,751,131,729,129,709,131,697,135,693,141,695,149"/>
-<area shape="rect" id="Node000007" href="$namespacela__lapack__blas__like__scalar.html#afb28a91ee1571cb773bdc95c40031177" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in QISNAN...." alt="" coords="868,150,1019,190"/>
-<area shape="poly" id="edge8_Node000006_Node000007" title=" " alt="" coords="803,167,854,167,854,173,803,173"/>
-<area shape="poly" id="edge9_Node000007_Node000007" title=" " alt="" coords="903,150,901,140,907,131,922,125,943,123,968,126,982,134,979,138,967,131,943,129,923,131,911,135,906,141,908,149"/>
-<area shape="poly" id="edge11_Node000008_Node000005" title=" " alt="" coords="802,66,860,55,861,60,803,71"/>
-<area shape="poly" id="edge12_Node000008_Node000008" title=" " alt="" coords="690,62,688,52,694,43,708,37,729,35,753,38,766,46,763,50,751,43,729,41,709,43,697,47,693,53,695,61"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,265,184,290"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__d.html#a4f4da5eb540293e44bb6d21531e9581a" title="DGSVJ0: is called from DGESVJ as a pre&#45;processor and that is its main purpose. It applies Jacobi rota..." alt="" coords="232,233,401,258"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="183,262,218,257,219,262,184,267"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__q.html#af7067b1b176a587e53c09e2cc2150b77" title="DGSVJ0: is called from DGESVJ as a pre&#45;processor and that is its main purpose. It applies Jacobi rota..." alt="" coords="232,297,401,322"/>
+<area shape="poly" id="edge14_Node000001_Node000010" title=" " alt="" coords="184,287,219,293,218,298,183,293"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__blas__like__l2.html#ac5191739bc8c0e9fa2df2f8d9527c8d7" title="DLASCL: multiplies the M by N real matrix A by the real scalar CTO/CFROM. This is done without over/u..." alt="" coords="449,161,597,201"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="358,230,444,203,446,208,360,235"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__blas__like__l1.html#abf013f2b616443a31a71c32530058ca0" title="!" alt="" coords="449,225,597,265"/>
+<area shape="poly" id="edge13_Node000002_Node000009" title=" " alt="" coords="402,243,435,243,435,248,402,248"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__blas__like__scalar.html#a942dd2e31c0d9058962f8060e510005e" title="DISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="655,29,803,69"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="543,159,587,119,644,79,655,73,658,78,647,84,591,124,547,163"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="655,117,803,157"/>
+<area shape="poly" id="edge7_Node000003_Node000006" title=" " alt="" coords="597,163,641,153,642,159,598,168"/>
+<area shape="rect" id="Node000007" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="860,233,1027,258"/>
+<area shape="poly" id="edge11_Node000003_Node000007" title=" " alt="" coords="598,187,812,217,868,227,867,233,812,223,597,193"/>
+<area shape="rect" id="Node000008" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="645,233,812,258"/>
+<area shape="poly" id="edge12_Node000003_Node000008" title=" " alt="" coords="589,199,675,226,673,231,587,204"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="690,30,688,20,694,11,708,5,729,3,753,6,766,13,763,18,751,11,729,8,709,10,697,15,693,21,695,28"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__blas__like__scalar.html#ab7bb61dcad235be9d6066eda62ea3b31" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in DISNAN...." alt="" coords="868,29,1019,69"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="803,47,854,47,854,52,803,52"/>
+<area shape="poly" id="edge6_Node000005_Node000005" title=" " alt="" coords="903,30,901,20,907,10,922,5,943,3,968,6,982,13,979,18,967,11,943,8,923,10,911,15,906,21,908,28"/>
+<area shape="poly" id="edge8_Node000006_Node000006" title=" " alt="" coords="690,118,688,108,694,99,708,93,729,91,753,94,766,101,763,106,751,99,729,96,709,98,697,103,693,109,695,116"/>
+<area shape="poly" id="edge9_Node000006_Node000007" title=" " alt="" coords="775,155,813,174,908,224,906,228,811,178,772,160"/>
+<area shape="poly" id="edge10_Node000007_Node000007" title=" " alt="" coords="908,234,901,224,905,214,919,208,943,206,973,210,985,219,982,223,971,215,943,211,921,213,909,218,906,224,913,231"/>
+<area shape="rect" id="Node000011" href="$namespacela__lapack__blas__like__l2.html#ae9732f700fa6769de47f6ed8e5ecf62d" title="QLASCL: multiplies the M by N real matrix A by the real scalar CTO/CFROM. This is done without over/u..." alt="" coords="449,289,597,329"/>
+<area shape="poly" id="edge15_Node000010_Node000011" title=" " alt="" coords="402,307,435,307,435,312,402,312"/>
+<area shape="rect" id="Node000015" href="$namespacela__lapack__blas__like__l1.html#adfc5389180aa64e4488e4ad152ee68e7" title="!" alt="" coords="449,353,597,393"/>
+<area shape="poly" id="edge25_Node000010_Node000015" title=" " alt="" coords="360,320,446,347,444,352,358,325"/>
+<area shape="poly" id="edge16_Node000011_Node000007" title=" " alt="" coords="597,298,812,268,867,258,868,263,812,273,598,303"/>
+<area shape="poly" id="edge24_Node000011_Node000008" title=" " alt="" coords="587,287,673,260,675,265,589,292"/>
+<area shape="rect" id="Node000012" href="$namespacela__lapack__blas__like__scalar.html#a0cb82d7f3b093ce99b3c7b3412dee71a" title="QISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="655,445,803,485"/>
+<area shape="poly" id="edge17_Node000011_Node000012" title=" " alt="" coords="581,327,599,339,615,357,625,373,633,390,647,407,682,436,679,440,643,411,629,392,620,376,611,360,596,343,578,332"/>
+<area shape="rect" id="Node000014" href="$namespacela__lapack__auxiliary.html#a422783a9c3975903ac0fc1dc06f4ec01" title="QLAMCH: determines quad precision machine parameters." alt="" coords="655,357,803,397"/>
+<area shape="poly" id="edge21_Node000011_Node000014" title=" " alt="" coords="585,327,655,350,654,355,584,332"/>
+<area shape="poly" id="edge18_Node000012_Node000012" title=" " alt="" coords="690,446,688,436,694,427,708,421,729,419,753,422,766,429,763,434,751,427,729,424,709,426,697,431,693,437,695,444"/>
+<area shape="rect" id="Node000013" href="$namespacela__lapack__blas__like__scalar.html#afb28a91ee1571cb773bdc95c40031177" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in QISNAN...." alt="" coords="868,445,1019,485"/>
+<area shape="poly" id="edge19_Node000012_Node000013" title=" " alt="" coords="803,463,854,463,854,468,803,468"/>
+<area shape="poly" id="edge20_Node000013_Node000013" title=" " alt="" coords="903,446,901,436,907,426,922,421,943,419,968,422,982,429,979,434,967,427,943,424,923,426,911,431,906,437,908,444"/>
+<area shape="poly" id="edge22_Node000014_Node000007" title=" " alt="" coords="761,355,908,263,911,268,764,360"/>
+<area shape="poly" id="edge23_Node000014_Node000014" title=" " alt="" coords="690,358,688,348,694,339,708,333,729,331,753,334,766,341,763,346,751,339,729,336,709,338,697,343,693,349,695,356"/>
 </map>

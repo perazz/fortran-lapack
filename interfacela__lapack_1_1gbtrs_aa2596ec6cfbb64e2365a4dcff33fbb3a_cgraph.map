@@ -1,9 +1,25 @@
 <map id="la_lapack::gbtrs::sgbtrs" name="la_lapack::gbtrs::sgbtrs">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,31,179,56"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#a30f617d917ac43140e6e413894e5d055" title="SGBTRS: solves a system of linear equations A * X = B or A**T * X = B with a general band matrix A us..." alt="" coords="230,5,395,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="179,31,216,26,217,32,179,36"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__w.html#ac0a429924e497212b519243b9718b768" title="ZGBTRS: solves a system of linear equations A * X = B, A**T * X = B, or A**H * X = B with a general b..." alt="" coords="227,55,399,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="179,50,213,54,213,59,179,55"/>
-<area shape="rect" id="Node000004" href="$namespacela__lapack__blas__like__l1.html#afef30867af0eff7e829cc705ade205b1" title="WLACGV: conjugates a complex vector of length N." alt="" coords="447,47,595,87"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="399,65,433,65,433,70,399,70"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,167,179,192"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__solve__lu__comp.html#a114355c1262a34b861fa85622374756d" title="SGBTRS: solves a system of linear equations A * X = B or A**T * X = B with a general band matrix A us..." alt="" coords="227,127,372,167"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="174,164,212,158,213,163,175,169"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__solve__lu__comp.html#a4da82a8f7a791ab884b1df91d047f4a4" title="WGBTRS: solves a system of linear equations A * X = B, A**T * X = B, or A**H * X = B with a general b..." alt="" coords="227,191,372,231"/>
+<area shape="poly" id="edge14_Node000001_Node000009" title=" " alt="" coords="175,189,213,195,212,200,174,195"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="615,41,781,67"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="310,125,352,69,383,41,419,19,449,9,481,4,546,6,606,18,655,34,654,39,604,23,545,11,482,10,451,15,421,24,386,45,356,73,315,128"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__level2__gen.html#aabf3c89a12ae7a8d106099c21fe31389" title="SGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="420,34,567,74"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="337,125,419,83,432,77,435,82,421,88,340,129"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="615,133,781,159"/>
+<area shape="poly" id="edge13_Node000002_Node000005" title=" " alt="" coords="373,146,420,147,567,147,601,146,601,152,567,153,420,153,373,152"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__level2__gen.html#ae16b7630b03f75d1b6cd6ade153ccec8" title="SGER: performs the rank 1 operation A := alpha*x*y**T + A, where alpha is a scalar,..." alt="" coords="420,213,567,253"/>
+<area shape="poly" id="edge7_Node000002_Node000006" title=" " alt="" coords="347,165,436,204,433,209,344,170"/>
+<area shape="rect" id="Node000007" href="$namespacela__blas__level1.html#a9d8c97bb48e4f60de6110212e61ae31c" title="SSWAP: interchanges two vectors. uses unrolled loops for increments equal to 1." alt="" coords="426,277,561,317"/>
+<area shape="poly" id="edge9_Node000002_Node000007" title=" " alt="" coords="357,165,374,177,391,200,398,221,406,242,422,263,427,267,424,271,418,266,401,244,393,223,386,202,370,181,354,169"/>
+<area shape="rect" id="Node000008" href="$namespacela__blas__level2__tri.html#a09e656e7e22e57a9b771916b6e78cf20" title="STBSV: solves one of the systems of equations A*x = b, or A**T*x = b, where b and x are n element vec..." alt="" coords="425,98,561,138"/>
+<area shape="poly" id="edge10_Node000002_Node000008" title=" " alt="" coords="372,134,411,128,412,133,373,139"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="665,43,658,33,661,23,675,17,698,15,726,18,738,27,734,31,724,23,698,20,676,22,665,27,663,32,669,39"/>
+<area shape="poly" id="edge5_Node000004_Node000003" title=" " alt="" coords="567,51,601,51,601,57,567,57"/>
+<area shape="poly" id="edge6_Node000004_Node000005" title=" " alt="" coords="541,71,568,83,658,125,656,130,566,88,539,76"/>
+<area shape="poly" id="edge8_Node000006_Node000005" title=" " alt="" coords="540,210,654,161,656,166,543,215"/>
+<area shape="poly" id="edge11_Node000008_Node000003" title=" " alt="" coords="557,95,643,68,644,73,559,100"/>
+<area shape="poly" id="edge12_Node000008_Node000005" title=" " alt="" coords="562,124,602,130,601,135,561,130"/>
 </map>

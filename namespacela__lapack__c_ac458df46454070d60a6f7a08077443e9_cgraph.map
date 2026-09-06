@@ -1,5 +1,0 @@
-<map id="la_lapack_c::la_ctpcon" name="la_lapack_c::la_ctpcon">
-<area shape="rect" id="Node000001" title="CTPCON: estimates the reciprocal of the condition number of a packed triangular matrix A,..." alt="" coords="5,5,173,31"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__c.html#acc3a19fe8e309ebbe8bbb5169a7facc1" title="CLATPS: solves one of the triangular systems A * x = s*b, A**T * x = s*b, or A**H * x = s*b,..." alt="" coords="221,5,385,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="174,15,207,15,207,21,174,21"/>
-</map>

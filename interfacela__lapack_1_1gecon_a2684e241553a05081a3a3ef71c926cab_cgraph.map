@@ -1,57 +1,51 @@
 <map id="la_lapack::gecon::sgecon" name="la_lapack::gecon::sgecon">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,487,191,512"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#a16461502bb9c41cd14262e865f063051" title="SGECON: estimates the reciprocal of the condition number of a general real matrix A,..." alt="" coords="243,269,413,295"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="111,484,301,302,305,306,115,488"/>
-<area shape="rect" id="Node000013" href="$namespacela__lapack__w.html#a93607f4854e23a30878c6b2e5e4c4d73" title="ZGECON: estimates the reciprocal of the condition number of a general complex matrix A,..." alt="" coords="239,689,417,715"/>
-<area shape="poly" id="edge18_Node000001_Node000013" title=" " alt="" coords="115,510,304,678,300,682,112,514"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__solve__aux.html#a3e2127b8555861dda8f66ca3b195e971" title="SLACN2: estimates the 1&#45;norm of a square, real matrix A. Reverse communication is used for evaluating..." alt="" coords="471,129,628,169"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="349,267,502,174,505,178,352,271"/>
-<area shape="rect" id="Node000007" href="$namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="705,255,853,295"/>
-<area shape="poly" id="edge8_Node000002_Node000007" title=" " alt="" coords="384,267,465,254,549,250,634,254,691,260,691,265,633,259,549,255,466,259,385,272"/>
-<area shape="rect" id="Node000009" href="$namespacela__lapack__s.html#a2be33840b5f73aee7f595b96369bb720" title="SLATRS: solves one of the triangular systems A *x = s*b or A**T*x = s*b with scaling to prevent overf..." alt="" coords="469,269,630,295"/>
-<area shape="poly" id="edge12_Node000002_Node000009" title=" " alt="" coords="414,279,455,279,455,285,414,285"/>
-<area shape="rect" id="Node000010" href="$namespacela__lapack__blas__like__l1.html#ac5fdb9acece6bb437139bbc099165e39" title="SRSCL: multiplies an n&#45;element real vector x by the real scalar 1/a. This is done without overflow or..." alt="" coords="475,319,623,359"/>
-<area shape="poly" id="edge14_Node000002_Node000010" title=" " alt="" coords="379,292,463,314,461,319,377,297"/>
-<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#a843a382709914f66727d3bc6cc2770df" title="ISAMAX: finds the index of the first element having maximum absolute value." alt="" coords="691,29,866,55"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="576,126,624,95,680,65,704,56,706,61,682,70,626,99,579,131"/>
-<area shape="rect" id="Node000005" href="$namespacela__blas__level1.html#a54c02c2da4a131219e1d231424179d3e" title="SASUM: takes the sum of the absolute values. uses unrolled loops for increment equal to one." alt="" coords="711,103,846,143"/>
-<area shape="poly" id="edge5_Node000003_Node000005" title=" " alt="" coords="628,137,697,130,698,135,628,143"/>
-<area shape="rect" id="Node000006" href="$namespacela__blas__level1.html#a62fb48eb347a3888135df44b367cf888" title="SCOPY: copies a vector, x, to a vector, y. uses unrolled loops for increments equal to 1." alt="" coords="711,167,846,207"/>
-<area shape="poly" id="edge7_Node000003_Node000006" title=" " alt="" coords="628,159,698,171,697,176,628,164"/>
-<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="742,31,734,21,738,11,753,5,779,3,811,7,823,16,819,20,809,11,779,8,754,10,742,15,739,20,746,27"/>
-<area shape="poly" id="edge6_Node000005_Node000005" title=" " alt="" coords="736,104,734,94,741,84,756,79,779,77,805,80,820,87,817,92,804,85,779,82,757,84,744,89,739,95,741,102"/>
-<area shape="poly" id="edge11_Node000007_Node000007" title=" " alt="" coords="736,256,734,246,741,236,756,231,779,229,805,232,820,239,817,244,804,237,779,234,757,236,744,241,739,247,741,254"/>
-<area shape="rect" id="Node000008" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="924,484,1091,509"/>
-<area shape="poly" id="edge9_Node000007_Node000008" title=" " alt="" coords="854,292,878,305,919,344,953,389,979,434,998,470,993,473,975,436,949,392,915,348,874,309,851,296"/>
-<area shape="poly" id="edge10_Node000008_Node000008" title=" " alt="" coords="970,486,962,476,967,466,982,460,1007,457,1039,461,1051,471,1048,475,1037,466,1007,463,983,465,970,470,968,475,974,482"/>
-<area shape="poly" id="edge13_Node000009_Node000007" title=" " alt="" coords="631,277,691,275,691,281,631,282"/>
-<area shape="poly" id="edge16_Node000010_Node000007" title=" " alt="" coords="621,317,693,296,694,302,622,322"/>
-<area shape="rect" id="Node000011" href="$namespacela__lapack__auxiliary.html#a07a0b8e445fa8e2b62507c416c668bac" title="SLABAD: takes as input the values computed by SLAMCH for underflow and overflow, and returns the squa..." alt="" coords="705,319,853,359"/>
-<area shape="poly" id="edge15_Node000010_Node000011" title=" " alt="" coords="624,337,691,337,691,342,624,342"/>
-<area shape="rect" id="Node000012" href="$namespacela__blas__level1.html#ab7e08b64fdc3707adeba9f3c65715ba9" title="SSCAL: scales a vector by a constant. uses unrolled loops for increment equal to 1." alt="" coords="711,383,846,423"/>
-<area shape="poly" id="edge17_Node000010_Node000012" title=" " alt="" coords="622,357,699,378,697,384,621,362"/>
-<area shape="rect" id="Node000014" href="$namespacela__lapack__auxiliary.html#a422783a9c3975903ac0fc1dc06f4ec01" title="QLAMCH: determines quad precision machine parameters." alt="" coords="705,698,853,738"/>
-<area shape="poly" id="edge19_Node000013_Node000014" title=" " alt="" coords="418,702,691,712,691,718,418,708"/>
-<area shape="rect" id="Node000015" href="$namespacela__lapack__solve__aux.html#ac4c709f841da3fc69882dcd45811f0dd" title="WLACN2: estimates the 1&#45;norm of a square, complex matrix A. Reverse communication is used for evaluat..." alt="" coords="471,610,628,650"/>
-<area shape="poly" id="edge22_Node000013_Node000015" title=" " alt="" coords="367,687,473,652,475,657,369,692"/>
-<area shape="rect" id="Node000019" href="$namespacela__lapack__w.html#af9826209e64772b2a39b497fd5c0063e" title="ZLATRS: solves one of the triangular systems A * x = s*b, A**T * x = s*b, or A**H * x = s*b,..." alt="" coords="465,804,633,829"/>
-<area shape="poly" id="edge29_Node000013_Node000019" title=" " alt="" coords="347,713,399,750,467,789,486,797,484,802,464,794,396,754,344,717"/>
-<area shape="rect" id="Node000020" href="$namespacela__lapack__blas__like__l1.html#ad61461221e107d782043ae5eb4622271" title="WQRSCL: multiplies an n&#45;element complex vector x by the real scalar 1/a. This is done without overflo..." alt="" coords="475,739,623,779"/>
-<area shape="poly" id="edge30_Node000013_Node000020" title=" " alt="" coords="379,712,463,734,461,739,377,717"/>
-<area shape="poly" id="edge20_Node000014_Node000008" title=" " alt="" coords="821,696,848,679,874,660,910,625,941,587,989,520,993,523,946,590,914,629,878,664,851,684,823,700"/>
-<area shape="poly" id="edge21_Node000014_Node000014" title=" " alt="" coords="736,698,734,688,741,679,756,673,779,671,805,674,820,681,817,686,804,679,779,677,757,679,744,683,739,689,741,697"/>
-<area shape="poly" id="edge25_Node000015_Node000014" title=" " alt="" coords="604,648,714,691,712,696,602,653"/>
-<area shape="rect" id="Node000016" href="$namespacela__lapack__aux.html#ad24ad10d06fcee425f39b26966028caf" title="IWMAX1: finds the index of the first vector element of maximum absolute value. Based on IWAMAX from L..." alt="" coords="681,472,876,497"/>
-<area shape="poly" id="edge23_Node000015_Node000016" title=" " alt="" coords="565,608,613,558,645,531,680,508,698,499,700,504,683,512,648,535,617,562,569,612"/>
-<area shape="rect" id="Node000017" href="$namespacela__lapack__auxiliary.html#a9fe01efca7314cc8db49eac43f581ed2" title="QWSUM1: takes the sum of the absolute values of a complex vector and returns a quad precision result...." alt="" coords="705,546,853,586"/>
-<area shape="poly" id="edge26_Node000015_Node000017" title=" " alt="" coords="621,607,693,587,694,592,622,612"/>
-<area shape="rect" id="Node000018" href="$namespacela__blas__level1.html#aab844ca282a3c70e01940b301cd90076" title="WCOPY: copies a vector, x, to a vector, y." alt="" coords="711,610,846,650"/>
-<area shape="poly" id="edge28_Node000015_Node000018" title=" " alt="" coords="628,627,698,627,698,633,628,633"/>
-<area shape="poly" id="edge24_Node000016_Node000016" title=" " alt="" coords="742,474,734,464,738,454,753,448,779,445,811,449,823,459,819,463,809,454,779,451,754,453,742,458,739,463,746,470"/>
-<area shape="poly" id="edge27_Node000017_Node000017" title=" " alt="" coords="736,546,734,536,741,527,756,521,779,519,805,522,820,529,817,534,804,527,779,525,757,527,744,531,739,537,741,545"/>
-<area shape="poly" id="edge32_Node000020_Node000014" title=" " alt="" coords="623,743,690,731,691,736,624,749"/>
-<area shape="rect" id="Node000021" href="$namespacela__lapack__auxiliary.html#acecd2a5f4b24222c89102e10fa753f18" title="QLABAD: takes as input the values computed by QLAMCH for underflow and overflow, and returns the squa..." alt="" coords="705,762,853,802"/>
-<area shape="poly" id="edge31_Node000020_Node000021" title=" " alt="" coords="624,764,691,771,691,776,623,769"/>
-<area shape="rect" id="Node000022" href="$namespacela__blas__level1.html#a8370fbe3dcdbbbf38621046a2d6937cc" title="WQSCAL: scales a vector by a constant." alt="" coords="711,826,846,866"/>
-<area shape="poly" id="edge33_Node000020_Node000022" title=" " alt="" coords="603,777,634,790,682,812,702,819,700,824,680,816,632,795,600,782"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,437,191,462"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__solve__lu__comp.html#aa363e3cd5e030f4e814f6c823839f401" title="SGECON: estimates the reciprocal of the condition number of a general real matrix A,..." alt="" coords="239,397,384,437"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="183,434,225,428,225,433,184,439"/>
+<area shape="rect" id="Node000017" href="$namespacela__lapack__solve__lu__comp.html#a2b802301faf8cc9ba4ef0904fd193a1d" title="WGECON: estimates the reciprocal of the condition number of a general complex matrix A,..." alt="" coords="239,461,384,501"/>
+<area shape="poly" id="edge32_Node000001_Node000017" title=" " alt="" coords="184,459,225,466,225,471,183,465"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#a843a382709914f66727d3bc6cc2770df" title="ISAMAX: finds the index of the first element having maximum absolute value." alt="" coords="637,94,812,119"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="318,396,359,315,391,267,430,225,481,187,527,165,636,129,662,121,663,126,638,135,529,170,484,191,434,229,395,270,364,317,323,398"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="860,377,1027,402"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="343,395,397,364,468,328,551,293,637,268,686,257,726,251,765,254,813,268,849,287,880,313,927,364,923,367,877,316,846,292,811,273,764,259,726,257,687,262,638,273,552,299,471,333,400,369,346,400"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__solve__aux.html#a3e2127b8555861dda8f66ca3b195e971" title="SLACN2: estimates the 1&#45;norm of a square, real matrix A. Reverse communication is used for evaluating..." alt="" coords="432,95,589,135"/>
+<area shape="poly" id="edge6_Node000002_Node000005" title=" " alt="" coords="315,396,329,350,352,288,386,221,407,189,430,159,453,140,456,144,434,163,411,192,390,224,357,290,334,352,320,398"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="651,611,799,651"/>
+<area shape="poly" id="edge11_Node000002_Node000008" title=" " alt="" coords="360,435,385,447,546,530,677,602,674,606,544,535,383,452,357,440"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__solve__tri__comp.html#a2508bb0663709c9b0cace98e2f39af6f" title="SLATRS: solves one of the triangular systems A *x = s*b or A**T*x = s*b with scaling to prevent overf..." alt="" coords="437,397,584,437"/>
+<area shape="poly" id="edge14_Node000002_Node000009" title=" " alt="" coords="384,415,423,415,423,420,384,420"/>
+<area shape="rect" id="Node000014" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="860,462,1027,487"/>
+<area shape="poly" id="edge31_Node000002_Node000014" title=" " alt="" coords="373,435,386,448,406,480,414,512,414,542,411,572,408,602,408,631,416,662,434,693,456,719,478,738,500,752,522,762,573,775,638,788,688,801,729,811,748,811,768,809,788,801,810,788,844,760,871,724,893,685,909,643,930,563,938,501,943,501,935,564,914,645,898,687,876,727,848,763,814,793,790,806,769,814,749,817,729,816,687,806,637,793,572,780,520,767,497,757,475,742,453,723,430,696,411,664,403,632,402,601,406,572,409,542,408,512,401,482,382,451,369,439"/>
+<area shape="rect" id="Node000015" href="$namespacela__lapack__blas__like__l1.html#ac5fdb9acece6bb437139bbc099165e39" title="SRSCL: multiplies an n&#45;element real vector x by the real scalar 1/a. This is done without overflow or..." alt="" coords="437,643,585,683"/>
+<area shape="poly" id="edge27_Node000002_Node000015" title=" " alt="" coords="370,435,386,447,405,470,414,492,422,515,434,541,490,630,486,633,430,544,417,517,409,494,400,473,382,451,366,440"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="690,96,682,86,686,76,701,70,725,67,754,71,766,80,763,84,752,76,725,73,702,75,690,80,687,85,694,92"/>
+<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="908,378,900,368,904,358,919,352,943,350,974,354,986,363,983,367,972,359,943,355,920,357,908,362,905,368,912,375"/>
+<area shape="poly" id="edge7_Node000005_Node000003" title=" " alt="" coords="589,109,624,108,624,113,590,114"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__level1.html#a54c02c2da4a131219e1d231424179d3e" title="SASUM: takes the sum of the absolute values. uses unrolled loops for increment equal to one." alt="" coords="657,168,792,208"/>
+<area shape="poly" id="edge8_Node000005_Node000006" title=" " alt="" coords="571,132,654,161,652,166,569,137"/>
+<area shape="rect" id="Node000007" href="$namespacela__blas__level1.html#a62fb48eb347a3888135df44b367cf888" title="SCOPY: copies a vector, x, to a vector, y. uses unrolled loops for increments equal to 1." alt="" coords="657,5,792,45"/>
+<area shape="poly" id="edge10_Node000005_Node000007" title=" " alt="" coords="553,92,636,55,654,48,656,53,638,60,555,97"/>
+<area shape="poly" id="edge9_Node000006_Node000006" title=" " alt="" coords="685,168,682,158,689,149,703,143,725,141,750,144,763,152,761,156,748,149,725,147,704,149,692,153,687,159,690,167"/>
+<area shape="poly" id="edge12_Node000008_Node000004" title=" " alt="" coords="766,608,790,593,810,573,828,542,834,513,840,483,858,449,880,426,905,407,908,412,884,430,862,452,845,484,839,514,833,544,814,576,793,597,769,613"/>
+<area shape="poly" id="edge13_Node000008_Node000008" title=" " alt="" coords="685,611,682,601,689,592,703,586,725,584,750,587,763,594,761,599,748,592,725,589,704,591,692,596,687,602,690,610"/>
+<area shape="poly" id="edge15_Node000009_Node000003" title=" " alt="" coords="516,396,566,256,601,180,619,150,635,130,643,124,647,128,639,134,623,153,606,182,571,258,521,398"/>
+<area shape="poly" id="edge16_Node000009_Node000004" title=" " alt="" coords="577,395,637,383,745,376,846,379,846,384,745,381,638,388,578,400"/>
+<area shape="poly" id="edge17_Node000009_Node000006" title=" " alt="" coords="526,395,635,269,689,216,693,220,639,272,530,399"/>
+<area shape="poly" id="edge21_Node000009_Node000008" title=" " alt="" coords="533,436,591,504,614,540,624,555,639,573,676,601,673,606,636,577,620,559,610,543,587,507,529,439"/>
+<area shape="rect" id="Node000010" href="$namespacela__blas__level1.html#ae2b6448401fe13574104d59fe4c0615c" title="SAXPY: constant times a vector plus a vector. uses unrolled loops for increments equal to one." alt="" coords="657,283,792,323"/>
+<area shape="poly" id="edge18_Node000009_Node000010" title=" " alt="" coords="541,395,636,339,662,326,664,331,639,344,544,399"/>
+<area shape="rect" id="Node000011" href="$namespacela__blas__level1.html#a9e8204d671c92f661cbb8dfbc09407e9" title="SDOT: forms the dot product of two vectors. uses unrolled loops for increments equal to one." alt="" coords="639,537,810,562"/>
+<area shape="poly" id="edge19_Node000009_Node000011" title=" " alt="" coords="546,435,692,527,690,531,543,440"/>
+<area shape="rect" id="Node000012" href="$namespacela__blas__level1.html#ab7e08b64fdc3707adeba9f3c65715ba9" title="SSCAL: scales a vector by a constant. uses unrolled loops for increment equal to 1." alt="" coords="657,675,792,715"/>
+<area shape="poly" id="edge22_Node000009_Node000012" title=" " alt="" coords="519,437,533,482,557,542,592,606,614,635,639,661,647,667,644,671,636,665,610,638,588,609,552,545,528,484,514,438"/>
+<area shape="rect" id="Node000013" href="$namespacela__blas__level2__tri.html#a3c46c6eefb5d3aeba0254b0d7ca223dd" title="STRSV: solves one of the systems of equations A*x = b, or A**T*x = b, where b and x are n element vec..." alt="" coords="657,397,793,437"/>
+<area shape="poly" id="edge23_Node000009_Node000013" title=" " alt="" coords="584,415,643,415,643,420,584,420"/>
+<area shape="poly" id="edge26_Node000009_Node000014" title=" " alt="" coords="582,435,638,447,745,460,846,468,846,473,745,466,637,452,581,440"/>
+<area shape="poly" id="edge20_Node000011_Node000011" title=" " alt="" coords="690,538,682,528,686,518,701,512,725,510,754,514,766,523,763,527,752,519,725,515,702,517,690,522,687,528,694,535"/>
+<area shape="poly" id="edge24_Node000013_Node000004" title=" " alt="" coords="793,406,846,399,846,404,794,411"/>
+<area shape="poly" id="edge25_Node000013_Node000014" title=" " alt="" coords="794,433,882,456,880,461,792,438"/>
+<area shape="poly" id="edge29_Node000015_Node000008" title=" " alt="" coords="584,649,636,641,637,646,585,654"/>
+<area shape="poly" id="edge30_Node000015_Node000012" title=" " alt="" coords="585,671,644,680,644,685,584,676"/>
+<area shape="rect" id="Node000016" href="$namespacela__lapack__auxiliary.html#a07a0b8e445fa8e2b62507c416c668bac" title="SLABAD: takes as input the values computed by SLAMCH for underflow and overflow, and returns the squa..." alt="" coords="651,739,799,779"/>
+<area shape="poly" id="edge28_Node000015_Node000016" title=" " alt="" coords="550,680,638,724,655,731,653,736,636,729,548,685"/>
 </map>

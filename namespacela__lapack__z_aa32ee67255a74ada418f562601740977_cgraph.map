@@ -1,5 +1,20 @@
 <map id="la_lapack_z::la_ztgexc" name="la_lapack_z::la_ztgexc">
-<area shape="rect" id="Node000001" title="ZTGEXC: reorders the generalized Schur decomposition of a complex matrix pair (A,B),..." alt="" coords="5,5,173,31"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__z.html#aa0a11eff94f0741064d0efb031443d24" title="ZTGEX2: swaps adjacent diagonal 1 by 1 blocks (A11,B11) and (A22,B22) in an upper triangular matrix p..." alt="" coords="221,5,391,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="173,15,208,15,208,21,173,21"/>
+<area shape="rect" id="Node000001" title="ZTGEXC: reorders the generalized Schur decomposition of a complex matrix pair (A,B),..." alt="" coords="5,165,173,190"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__z.html#aa0a11eff94f0741064d0efb031443d24" title="ZTGEX2: swaps adjacent diagonal 1 by 1 blocks (A11,B11) and (A22,B22) in an upper triangular matrix p..." alt="" coords="221,165,391,190"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="173,175,208,175,208,180,173,180"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="455,29,603,69"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="320,163,370,122,437,79,451,72,453,77,440,84,373,127,323,167"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__blas__like__base.html#a53b017329bb7498e3f2ded7611b12057" title="ZLACPY: copies all or part of a two&#45;dimensional matrix A to another matrix B." alt="" coords="455,93,603,133"/>
+<area shape="poly" id="edge6_Node000002_Node000005" title=" " alt="" coords="351,162,445,135,446,140,352,167"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__givens__jacobi__rot.html#aae614052b091e4931bced2b4638120be" title="!" alt="" coords="439,157,619,197"/>
+<area shape="poly" id="edge8_Node000002_Node000006" title=" " alt="" coords="391,175,425,175,425,180,391,180"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__blas__like__l1.html#a26a895f9f68339f13a5a15193b7ce3ec" title="!" alt="" coords="455,221,603,261"/>
+<area shape="poly" id="edge9_Node000002_Node000007" title=" " alt="" coords="352,188,446,215,445,220,351,193"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__auxiliary.html#a75a204a7e87f4ca35a85d3bc72613aee" title="ZROT: applies a plane rotation, where the cos (C) is real and the sin (S) is complex,..." alt="" coords="455,285,603,325"/>
+<area shape="poly" id="edge10_Node000002_Node000008" title=" " alt="" coords="323,188,373,228,440,271,453,278,451,282,437,276,370,232,320,192"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="487,30,485,20,491,10,506,5,529,3,555,6,569,13,566,18,553,11,529,8,507,10,495,15,490,21,492,28"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="667,69,833,94"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="603,57,653,65,653,70,602,63"/>
+<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="714,70,706,60,710,50,725,44,750,42,781,46,793,55,790,59,779,51,750,47,726,49,714,54,711,60,718,67"/>
+<area shape="poly" id="edge7_Node000005_Node000004" title=" " alt="" coords="602,100,653,93,653,98,603,105"/>
 </map>

@@ -1,7 +1,14 @@
 <map id="la_lapack_s::la_slasd4" name="la_lapack_s::la_slasd4">
-<area shape="rect" id="Node000001" title="This subroutine computes the square root of the I&#45;th updated eigenvalue of a positive symmetric rank&#45;..." alt="" coords="5,31,172,56"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#acb8369147b8a7d4d5275d52e88a57166" title="SLAED6: computes the positive or negative root (closest to the origin) of z(1) z(2) z(3) f(x) = rho +..." alt="" coords="220,5,388,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="172,31,206,27,207,32,173,36"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__s.html#a0910cb2bd50f8afdf309ee4e5c7fca33" title="This subroutine computes the square root of the I&#45;th eigenvalue of a positive symmetric rank&#45;one modi..." alt="" coords="221,55,387,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="173,50,207,54,207,59,172,55"/>
+<area shape="rect" id="Node000001" title="This subroutine computes the square root of the I&#45;th updated eigenvalue of a positive symmetric rank&#45;..." alt="" coords="5,62,172,87"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#acb8369147b8a7d4d5275d52e88a57166" title="SLAED6: computes the positive or negative root (closest to the origin) of z(1) z(2) z(3) f(x) = rho +..." alt="" coords="220,11,388,37"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="143,59,235,37,237,42,144,64"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="436,29,584,69"/>
+<area shape="poly" id="edge6_Node000001_Node000003" title=" " alt="" coords="172,67,422,52,423,57,172,72"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__s.html#a0910cb2bd50f8afdf309ee4e5c7fca33" title="This subroutine computes the square root of the I&#45;th eigenvalue of a positive symmetric rank&#45;one modi..." alt="" coords="221,113,387,138"/>
+<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="144,85,237,107,235,112,143,90"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="388,32,423,36,422,41,388,37"/>
+<area shape="poly" id="edge5_Node000003_Node000003" title=" " alt="" coords="471,30,469,20,475,11,489,5,510,3,534,6,547,13,545,18,532,11,510,8,490,10,479,15,474,21,476,28"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="632,37,799,62"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="585,47,618,47,618,52,585,52"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="682,38,674,28,678,18,692,12,715,10,744,14,755,23,752,27,742,19,715,15,693,17,682,22,680,28,686,35"/>
 </map>

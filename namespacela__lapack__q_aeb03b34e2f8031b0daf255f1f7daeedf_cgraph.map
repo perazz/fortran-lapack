@@ -1,6 +1,12 @@
 <map id="la_lapack_q::la_qlarrb" name="la_lapack_q::la_qlarrb">
-<area shape="rect" id="Node000001" title="Given the relatively robust representation(RRR) L D L^T, DLARRB: does &quot;limited&quot; bisection to refine t..." alt="" coords="5,29,169,55"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__q.html#ad63699ffd259f1090792347b6bf348c2" title="DLANEG: computes the Sturm count, the number of negative pivots encountered while factoring tridiagon..." alt="" coords="217,29,388,55"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="170,39,203,39,203,45,170,45"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="268,31,260,21,264,11,279,5,303,3,332,6,344,15,341,20,330,11,303,8,280,10,268,15,265,20,272,28"/>
+<area shape="rect" id="Node000001" title="Given the relatively robust representation(RRR) L D L^T, DLARRB: does &quot;limited&quot; bisection to refine t..." alt="" coords="5,37,169,62"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__q.html#ad63699ffd259f1090792347b6bf348c2" title="DLANEG: computes the Sturm count, the number of negative pivots encountered while factoring tridiagon..." alt="" coords="217,37,388,62"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="170,47,203,47,203,52,170,52"/>
+<area shape="poly" id="edge6_Node000002_Node000002" title=" " alt="" coords="269,38,262,28,265,18,279,12,303,10,331,14,343,23,339,27,329,19,303,15,281,17,269,22,267,28,273,35"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__blas__like__scalar.html#a0cb82d7f3b093ce99b3c7b3412dee71a" title="QISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="436,29,584,69"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="388,47,422,47,422,52,388,52"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="473,30,471,20,476,11,490,5,510,3,533,6,546,13,543,18,532,11,510,8,491,10,480,15,476,21,478,28"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__blas__like__scalar.html#afb28a91ee1571cb773bdc95c40031177" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in QISNAN...." alt="" coords="632,29,783,69"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="584,47,618,47,618,52,584,52"/>
+<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="670,30,668,20,674,11,687,5,707,3,731,6,743,13,741,18,729,11,707,8,688,10,677,15,673,21,675,28"/>
 </map>

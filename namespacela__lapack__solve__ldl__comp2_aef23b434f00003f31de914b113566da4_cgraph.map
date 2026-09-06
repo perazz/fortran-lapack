@@ -1,0 +1,23 @@
+<map id="la_lapack_solve_ldl_comp2::la_dsytf2_rook" name="la_lapack_solve_ldl_comp2::la_dsytf2_rook">
+<area shape="rect" id="Node000001" title="DSYTF2_ROOK: computes the factorization of a real symmetric matrix A using the bounded Bunch&#45;Kaufman ..." alt="" coords="5,208,183,248"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="244,29,392,69"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="109,206,159,148,192,115,229,86,250,73,253,78,232,90,196,119,163,152,113,209"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="453,94,620,119"/>
+<area shape="poly" id="edge12_Node000001_Node000003" title=" " alt="" coords="115,206,164,165,196,145,230,130,282,114,337,105,440,99,440,104,338,110,284,120,232,134,198,150,167,170,118,210"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__level1.html#a74ba718e1843e245ad196e1a72a1f9ab" title="DSCAL: scales a vector by a constant. uses unrolled loops for increment equal to 1." alt="" coords="251,144,385,184"/>
+<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="164,205,237,184,238,189,165,210"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__level1.html#a994a029162ceccb497f081b70e6d4b10" title="DSWAP: interchanges two vectors. uses unrolled loops for increments equal to 1." alt="" coords="251,208,385,248"/>
+<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="183,225,237,225,237,231,183,231"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__level2__sym.html#ad606abf751175e1ce1d9991d59dd354f" title="DSYR: performs the symmetric rank 1 operation A := alpha*x*x**T + A, where alpha is a real scalar,..." alt="" coords="243,272,393,312"/>
+<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="165,246,235,266,234,271,164,251"/>
+<area shape="rect" id="Node000007" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="453,307,620,333"/>
+<area shape="poly" id="edge13_Node000001_Node000007" title=" " alt="" coords="117,246,166,287,198,307,231,321,288,334,347,339,404,337,455,332,456,337,404,342,347,344,288,339,230,327,195,312,163,291,113,250"/>
+<area shape="rect" id="Node000008" href="$namespacela__blas__aux.html#af6800bacfc44f820f5ab674a67a9e93c" title="IDAMAX: finds the index of the first element having maximum absolute value." alt="" coords="231,411,405,437"/>
+<area shape="poly" id="edge10_Node000001_Node000008" title=" " alt="" coords="114,247,165,303,232,366,284,402,281,406,229,370,161,306,110,250"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="277,30,275,20,281,10,296,5,318,3,344,6,358,13,355,18,342,11,318,8,297,10,284,15,280,21,282,28"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="393,66,475,88,474,93,392,71"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="501,96,493,86,497,76,512,70,537,67,567,71,579,80,576,84,565,76,537,73,513,75,501,80,498,85,505,92"/>
+<area shape="poly" id="edge8_Node000006_Node000003" title=" " alt="" coords="383,270,404,258,440,228,472,193,518,130,523,133,476,196,443,231,407,262,386,274"/>
+<area shape="poly" id="edge9_Node000006_Node000007" title=" " alt="" coords="394,299,440,305,439,310,393,304"/>
+<area shape="poly" id="edge11_Node000008_Node000008" title=" " alt="" coords="282,413,275,403,279,393,293,387,318,385,348,388,360,397,357,402,346,393,318,390,295,392,282,397,280,402,286,410"/>
+</map>

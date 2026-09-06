@@ -1,7 +1,0 @@
-<map id="la_lapack_s::la_sptrfs" name="la_lapack_s::la_sptrfs">
-<area shape="rect" id="Node000001" title="SPTRFS: improves the computed solution to a system of linear equations when the coefficient matrix is..." alt="" coords="5,5,168,31"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#a31326688c6441df71b20dcf0468740aa" title="SPTTRS: solves a tridiagonal system of the form A * X = B using the L*D*L**T factorization of A compu..." alt="" coords="216,5,379,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="168,15,202,15,202,21,168,21"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__s.html#aa98d21053f7ac4eacd2ef221b82b8b2c" title="SPTTS2: solves a tridiagonal system of the form A * X = B using the L*D*L**T factorization of A compu..." alt="" coords="427,5,592,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="379,15,413,15,413,21,379,21"/>
-</map>

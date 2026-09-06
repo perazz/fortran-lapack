@@ -1,7 +1,32 @@
 <map id="la_lapack_c::la_cgghd3" name="la_lapack_c::la_cgghd3">
-<area shape="rect" id="Node000001" title="CGGHD3: reduces a pair of complex matrices (A,B) to generalized upper Hessenberg form using unitary t..." alt="" coords="5,31,177,56"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__c.html#a1737f01392a5b5daa89512db4039d666" title="CGGHRD: reduces a pair of complex matrices (A,B) to generalized upper Hessenberg form using unitary t..." alt="" coords="229,5,399,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="177,31,215,27,216,32,178,36"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__c.html#aee709ad1ca2b5f2abb2e20054feb5502" title=" " alt="" coords="225,55,403,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="178,50,212,54,212,59,177,55"/>
+<area shape="rect" id="Node000001" title="CGGHD3: reduces a pair of complex matrices (A,B) to generalized upper Hessenberg form using unitary t..." alt="" coords="5,159,177,185"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__c.html#a1737f01392a5b5daa89512db4039d666" title="CGGHRD: reduces a pair of complex matrices (A,B) to generalized upper Hessenberg form using unitary t..." alt="" coords="232,109,401,134"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="148,157,246,134,247,140,149,162"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__givens__jacobi__rot.html#a1425fe877046e0f6263dacc802467bbf" title="!" alt="" coords="460,5,640,45"/>
+<area shape="poly" id="edge9_Node000001_Node000003" title=" " alt="" coords="103,157,153,112,187,88,224,68,279,49,337,36,446,24,446,29,338,42,281,55,226,73,190,93,156,117,107,161"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__blas__like__base.html#a2515780aa0e463d42a6afc8406bee3ae" title="CLASET: initializes a 2&#45;D array A to BETA on the diagonal and ALPHA on the offdiagonals." alt="" coords="476,81,624,121"/>
+<area shape="poly" id="edge10_Node000001_Node000004" title=" " alt="" coords="107,157,157,123,190,106,225,93,286,82,348,78,408,80,462,85,462,90,408,85,348,84,286,87,226,99,192,111,160,128,110,161"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__auxiliary.html#a277a1d747eac876341fedc2f79826ef5" title="CROT: applies a plane rotation, where the cos (C) is real and the sin (S) is complex,..." alt="" coords="476,145,624,185"/>
+<area shape="poly" id="edge11_Node000001_Node000006" title=" " alt="" coords="177,168,462,164,462,169,177,173"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__blas__like__base.html#ad1f5de8315adfd17ea4cf824d5cee4ab" title="CLACPY: copies all or part of a two&#45;dimensional matrix A to another matrix B." alt="" coords="476,209,624,249"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="110,183,160,216,192,233,226,245,286,256,348,258,408,254,462,246,463,252,409,259,348,263,286,261,225,251,190,238,157,221,107,187"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__c.html#aee709ad1ca2b5f2abb2e20054feb5502" title=" " alt="" coords="228,210,405,235"/>
+<area shape="poly" id="edge12_Node000001_Node000008" title=" " alt="" coords="149,182,247,204,246,210,148,187"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__aux.html#aa361c7114aef95e10b685247a1b75114" title="ILAENV: is called from the LAPACK routines to choose problem&#45;dependent parameters for the local envir..." alt="" coords="225,335,408,361"/>
+<area shape="poly" id="edge14_Node000001_Node000009" title=" " alt="" coords="107,183,158,232,227,290,282,326,279,331,224,294,154,236,103,187"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="348,106,486,48,488,53,350,111"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="402,111,462,106,463,111,402,117"/>
+<area shape="poly" id="edge6_Node000002_Node000006" title=" " alt="" coords="385,131,463,146,462,152,384,137"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="692,153,859,178"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="622,119,717,146,716,151,620,124"/>
+<area shape="poly" id="edge5_Node000005_Node000005" title=" " alt="" coords="739,154,731,144,735,134,750,128,775,126,807,130,819,139,816,143,805,135,775,131,751,133,739,138,736,144,743,151"/>
+<area shape="poly" id="edge8_Node000007_Node000005" title=" " alt="" coords="620,207,716,179,717,184,622,212"/>
+<area shape="poly" id="edge13_Node000008_Node000007" title=" " alt="" coords="406,223,462,224,462,229,406,228"/>
+<area shape="poly" id="edge17_Node000009_Node000009" title=" " alt="" coords="280,337,272,327,276,317,292,311,317,309,348,313,360,322,357,326,346,317,317,314,293,316,280,321,277,326,284,333"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__aux.html#a72541275ada30b0ca556fbc0d3959719" title="IEEECK: is called from the ILAENV to verify that Infinity and possibly NaN arithmetic is safe (i...." alt="" coords="457,319,643,345"/>
+<area shape="poly" id="edge15_Node000009_Node000010" title=" " alt="" coords="408,339,443,337,444,342,409,344"/>
+<area shape="rect" id="Node000011" href="$namespacela__lapack__aux.html#ace38ae70bb7022cae6ecabe992145fda" title="This program sets problem and machine dependent parameters useful for xHSEQR and related subroutines ..." alt="" coords="456,393,644,418"/>
+<area shape="poly" id="edge18_Node000009_Node000011" title=" " alt="" coords="370,358,485,387,484,392,369,363"/>
+<area shape="poly" id="edge16_Node000010_Node000010" title=" " alt="" coords="513,321,506,311,510,301,525,295,550,293,582,297,594,306,590,310,580,301,550,298,526,300,513,305,511,310,518,317"/>
+<area shape="poly" id="edge19_Node000011_Node000011" title=" " alt="" coords="513,394,506,384,510,374,525,368,550,366,582,370,594,379,590,383,580,375,550,371,526,373,513,378,511,384,518,391"/>
 </map>

@@ -1,5 +1,23 @@
 <map id="la_lapack::hetrs_rook::zhetrs_rook" name="la_lapack::hetrs_rook::zhetrs_rook">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,167,45"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__z.html#a110c419e1249f35a985cde3c9deb7bc1" title="ZHETRS_ROOK: solves a system of linear equations A*X = B with a complex Hermitian matrix A using the ..." alt="" coords="215,13,416,38"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="167,23,201,23,201,28,167,28"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,171,167,211"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__solve__ldl__comp4.html#ab274f55a77fa31681fade0a9f4943fd9" title="ZHETRS_ROOK: solves a system of linear equations A*X = B with a complex Hermitian matrix A using the ..." alt="" coords="215,171,391,211"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="167,189,201,189,201,194,167,194"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="635,29,801,55"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="312,170,331,138,359,100,394,63,438,36,493,19,551,14,606,17,655,24,654,29,606,22,551,19,494,24,440,40,398,68,363,103,335,141,317,172"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="635,179,801,204"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="391,189,621,189,621,194,391,194"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__level1.html#ae5f23cb1df4bb3a79c79b9d489d452b9" title="ZDSCAL: scales a vector by a constant." alt="" coords="445,114,580,154"/>
+<area shape="poly" id="edge5_Node000002_Node000005" title=" " alt="" coords="376,169,431,153,433,158,377,174"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__level2__gen.html#a95408b0c6d01c367be0bd531feb85f56" title="ZGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="439,50,586,90"/>
+<area shape="poly" id="edge6_Node000002_Node000006" title=" " alt="" coords="330,169,379,135,437,100,449,93,452,98,440,104,382,140,333,173"/>
+<area shape="rect" id="Node000007" href="$namespacela__blas__level2__gen.html#a90282619c9b55681ee42754c47a8a87d" title="ZGERU: performs the rank 1 operation A := alpha*x*y**T + A, where alpha is a scalar,..." alt="" coords="439,229,586,269"/>
+<area shape="poly" id="edge9_Node000002_Node000007" title=" " alt="" coords="377,209,427,223,425,228,376,214"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__blas__like__l1.html#afc182b2e1ce1c7778564faaaff6faadc" title="ZLACGV: conjugates a complex vector of length N." alt="" coords="439,293,587,333"/>
+<area shape="poly" id="edge11_Node000002_Node000008" title=" " alt="" coords="333,209,382,243,440,278,452,284,449,289,437,283,379,248,330,214"/>
+<area shape="rect" id="Node000009" href="$namespacela__blas__level1.html#ad757f0e2b47ff2b8a75222a5ccddcd44" title="ZSWAP: interchanges two vectors." alt="" coords="445,357,580,397"/>
+<area shape="poly" id="edge12_Node000002_Node000009" title=" " alt="" coords="320,210,369,274,402,310,440,343,448,348,445,352,437,347,399,314,365,277,315,213"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="684,31,677,21,681,11,695,5,718,3,747,6,758,15,755,20,744,11,718,8,696,10,685,15,682,20,688,28"/>
+<area shape="poly" id="edge7_Node000006_Node000003" title=" " alt="" coords="586,57,621,53,622,58,586,63"/>
+<area shape="poly" id="edge8_Node000006_Node000004" title=" " alt="" coords="564,88,588,100,644,135,691,168,688,172,641,139,585,104,562,92"/>
+<area shape="poly" id="edge10_Node000007_Node000004" title=" " alt="" coords="584,226,658,205,659,210,586,231"/>
 </map>

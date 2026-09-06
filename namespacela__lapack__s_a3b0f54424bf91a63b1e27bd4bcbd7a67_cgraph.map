@@ -1,11 +1,13 @@
 <map id="la_lapack_s::la_slags2" name="la_lapack_s::la_slags2">
-<area shape="rect" id="Node000001" title="SLAGS2: computes 2&#45;by&#45;2 orthogonal matrices U, V and Q, such that if ( UPPER ) then U**T A*Q = U**T *..." alt="" coords="5,37,172,62"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#ac8a4879231fd3b2289e6beb335def092" title="SLASV2: computes the singular value decomposition of a 2&#45;by&#45;2 triangular matrix [ F G ] [ 0 H ]...." alt="" coords="220,37,387,62"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="173,47,206,47,206,52,173,52"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="435,29,583,69"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="387,47,421,47,421,52,387,52"/>
-<area shape="poly" id="edge5_Node000003_Node000003" title=" " alt="" coords="470,30,468,20,474,11,488,5,509,3,533,6,546,13,543,18,531,11,509,8,489,10,477,15,473,21,475,28"/>
-<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="631,37,797,62"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="583,47,617,47,617,52,583,52"/>
-<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="680,38,673,28,677,18,691,12,714,10,743,14,754,23,751,27,740,19,714,15,692,17,681,22,678,28,684,35"/>
+<area shape="rect" id="Node000001" title="SLAGS2: computes 2&#45;by&#45;2 orthogonal matrices U, V and Q, such that if ( UPPER ) then U**T A*Q = U**T *..." alt="" coords="5,42,172,67"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__givens__jacobi__rot.html#ad1f05008592f149f93b439e98ab1b32f" title="!" alt="" coords="220,5,400,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="172,41,206,36,207,42,172,46"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__s.html#ac8a4879231fd3b2289e6beb335def092" title="SLASV2: computes the singular value decomposition of a 2&#45;by&#45;2 triangular matrix [ F G ] [ 0 H ]...." alt="" coords="227,70,393,95"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="172,63,213,68,213,73,172,68"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="448,63,596,103"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="393,80,435,80,435,85,393,85"/>
+<area shape="poly" id="edge6_Node000004_Node000004" title=" " alt="" coords="483,63,481,53,487,44,501,38,522,36,546,39,559,46,557,51,544,44,522,41,502,43,491,48,486,54,488,62"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="644,70,811,95"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="597,80,630,80,630,85,597,85"/>
+<area shape="poly" id="edge5_Node000005_Node000005" title=" " alt="" coords="694,72,686,62,690,52,704,46,727,43,756,47,767,56,764,60,754,52,727,49,705,51,694,55,692,61,698,68"/>
 </map>

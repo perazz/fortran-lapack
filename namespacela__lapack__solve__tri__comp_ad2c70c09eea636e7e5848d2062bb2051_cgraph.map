@@ -1,0 +1,33 @@
+<map id="la_lapack_solve_tri_comp::la_dtbrfs" name="la_lapack_solve_tri_comp::la_dtbrfs">
+<area shape="rect" id="Node000001" title="DTBRFS: provides error bounds and backward error estimates for the solution to a system of linear equ..." alt="" coords="5,219,152,259"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__level1.html#ade1fdf3fe5383466db0f45c14f4a2999" title="DAXPY: constant times a vector plus a vector. uses unrolled loops for increments equal to one." alt="" coords="211,5,346,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="87,217,129,144,161,101,198,62,214,50,217,55,202,66,165,104,134,147,92,220"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__level1.html#aae8bb4d5e6d345d21c204686597a16c7" title="DCOPY: copies a vector, x, to a vector, y. uses unrolled loops for increments equal to 1." alt="" coords="425,51,560,91"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="90,217,133,160,163,130,199,106,251,85,307,72,362,66,411,64,412,69,362,71,308,77,253,90,201,110,167,134,137,163,94,220"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__solve__aux.html#a5d29d58a4745f1b5b1e32789b3cbaec1" title="DLACN2: estimates the 1&#45;norm of a square, real matrix A. Reverse communication is used for evaluating..." alt="" coords="200,120,357,160"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="119,216,224,164,226,168,122,221"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="205,259,353,299"/>
+<area shape="poly" id="edge9_Node000001_Node000007" title=" " alt="" coords="153,251,192,259,190,264,152,256"/>
+<area shape="rect" id="Node000008" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="409,317,576,342"/>
+<area shape="poly" id="edge19_Node000001_Node000008" title=" " alt="" coords="152,216,199,208,252,204,306,207,358,220,375,229,385,239,407,263,464,307,461,311,404,267,381,243,371,233,356,225,305,212,252,209,200,213,153,221"/>
+<area shape="rect" id="Node000009" href="$namespacela__blas__level2__tri.html#a8eec3007752e40d25071dcf3eec0a4f3" title="DTBMV: performs one of the matrix&#45;vector operations x := A*x, or x := A**T*x, where x is an n element..." alt="" coords="211,323,347,363"/>
+<area shape="poly" id="edge13_Node000001_Node000009" title=" " alt="" coords="112,257,201,308,215,315,212,320,199,313,110,261"/>
+<area shape="rect" id="Node000010" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="409,394,576,419"/>
+<area shape="poly" id="edge20_Node000001_Node000010" title=" " alt="" coords="87,258,101,298,123,348,156,398,177,419,201,436,232,450,265,456,300,458,334,455,399,441,451,422,453,427,400,446,335,461,300,463,265,462,231,455,199,441,174,423,152,402,118,351,96,300,82,260"/>
+<area shape="rect" id="Node000011" href="$namespacela__blas__level2__tri.html#a636d94d3b73153396b3e16db4de5ce86" title="DTBSV: solves one of the systems of equations A*x = b, or A**T*x = b, where b and x are n element vec..." alt="" coords="211,387,347,427"/>
+<area shape="poly" id="edge16_Node000001_Node000011" title=" " alt="" coords="95,257,139,314,169,345,202,373,210,378,207,382,198,377,165,349,135,317,91,260"/>
+<area shape="poly" id="edge6_Node000004_Node000003" title=" " alt="" coords="340,117,417,92,418,97,342,122"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__level1.html#a397c9ff0df57d565a12afe0809db14b7" title="DASUM: takes the sum of the absolute values." alt="" coords="425,213,560,253"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="326,158,434,205,432,210,324,162"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__aux.html#af6800bacfc44f820f5ab674a67a9e93c" title="IDAMAX: finds the index of the first element having maximum absolute value." alt="" coords="405,139,580,165"/>
+<area shape="poly" id="edge7_Node000004_Node000006" title=" " alt="" coords="358,142,392,144,392,149,357,147"/>
+<area shape="poly" id="edge5_Node000005_Node000005" title=" " alt="" coords="453,214,450,204,457,194,471,189,493,187,518,190,531,197,529,202,516,195,493,192,472,194,460,199,455,205,458,212"/>
+<area shape="poly" id="edge8_Node000006_Node000006" title=" " alt="" coords="458,141,450,131,454,121,469,115,493,113,522,116,534,125,531,130,520,121,493,118,470,120,458,125,455,130,462,138"/>
+<area shape="poly" id="edge10_Node000007_Node000007" title=" " alt="" coords="241,259,239,249,245,240,258,234,279,232,302,235,315,242,312,247,300,240,279,237,260,239,248,244,244,250,246,258"/>
+<area shape="poly" id="edge11_Node000007_Node000008" title=" " alt="" coords="353,294,426,311,425,316,352,299"/>
+<area shape="poly" id="edge12_Node000008_Node000008" title=" " alt="" coords="458,318,450,308,454,298,469,292,493,290,522,294,534,303,531,307,520,299,493,295,470,297,458,302,455,308,462,315"/>
+<area shape="poly" id="edge14_Node000009_Node000008" title=" " alt="" coords="347,336,395,333,396,338,347,341"/>
+<area shape="poly" id="edge15_Node000009_Node000010" title=" " alt="" coords="347,360,437,387,435,393,346,365"/>
+<area shape="poly" id="edge17_Node000011_Node000008" title=" " alt="" coords="334,384,443,344,445,349,336,389"/>
+<area shape="poly" id="edge18_Node000011_Node000010" title=" " alt="" coords="347,404,396,404,396,409,347,409"/>
+</map>

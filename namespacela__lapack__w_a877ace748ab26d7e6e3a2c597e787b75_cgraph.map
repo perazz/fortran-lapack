@@ -1,5 +1,25 @@
 <map id="la_lapack_w::la_wlaqz3" name="la_lapack_w::la_wlaqz3">
-<area shape="rect" id="Node000001" title="ZLAQZ3: Executes a single multishift QZ sweep." alt="" coords="5,5,180,31"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__w.html#ab61ec75a96b0bab98d40e7158a6ba208" title="ZLAQZ1: chases a 1x1 shift bulge in a matrix pencil down a single position." alt="" coords="228,5,403,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="180,15,214,15,214,21,180,21"/>
+<area shape="rect" id="Node000001" title="ZLAQZ3: Executes a single multishift QZ sweep." alt="" coords="5,229,180,254"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__auxiliary.html#acecd2a5f4b24222c89102e10fa753f18" title="QLABAD: takes as input the values computed by QLAMCH for underflow and overflow, and returns the squa..." alt="" coords="241,5,389,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="98,227,115,194,143,148,181,98,226,55,234,50,237,54,230,59,185,102,148,151,120,196,102,230"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__auxiliary.html#a422783a9c3975903ac0fc1dc06f4ec01" title="QLAMCH: determines quad precision machine parameters." alt="" coords="241,93,389,133"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="108,226,159,186,227,143,240,136,243,141,229,148,162,191,111,230"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__blas__like__base.html#a6c0a3bc3e8d3dc256594f08633434a50" title="WLACPY: copies all or part of a two&#45;dimensional matrix A to another matrix B." alt="" coords="241,157,389,197"/>
+<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="137,226,231,199,233,204,139,231"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__w.html#ab61ec75a96b0bab98d40e7158a6ba208" title="ZLAQZ1: chases a 1x1 shift bulge in a matrix pencil down a single position." alt="" coords="228,337,403,362"/>
+<area shape="poly" id="edge8_Node000001_Node000006" title=" " alt="" coords="116,252,167,282,229,315,264,329,262,334,227,320,164,287,113,257"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__givens__jacobi__rot.html#ab4f15cf35d378e771bf60f6d379eb912" title="!" alt="" coords="451,288,631,328"/>
+<area shape="poly" id="edge11_Node000001_Node000007" title=" " alt="" coords="141,251,228,271,336,286,437,297,437,302,335,292,228,276,140,257"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__auxiliary.html#a944e706e872d488051fe33353e5b6415" title="WROT: applies a plane rotation, where the cos (C) is real and the sin (S) is complex,..." alt="" coords="467,371,615,411"/>
+<area shape="poly" id="edge14_Node000001_Node000008" title=" " alt="" coords="104,253,123,280,151,313,187,347,229,372,285,390,343,400,400,402,453,400,453,405,400,407,342,405,283,396,227,377,184,351,148,317,119,283,100,256"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__blas__like__base.html#aa91408cb2f904ccb74161381336f691d" title="WLASET: initializes a 2&#45;D array A to BETA on the diagonal and ALPHA on the offdiagonals." alt="" coords="241,221,389,261"/>
+<area shape="poly" id="edge12_Node000001_Node000009" title=" " alt="" coords="180,239,228,239,228,244,180,244"/>
+<area shape="poly" id="edge5_Node000003_Node000003" title=" " alt="" coords="274,94,271,84,278,74,293,69,315,67,341,70,355,77,353,82,340,75,315,72,294,74,281,79,277,85,279,92"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="457,165,624,190"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="387,131,483,158,481,163,386,136"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="504,166,496,156,500,146,516,140,541,138,572,142,584,151,581,155,570,147,541,143,517,145,504,150,501,156,508,163"/>
+<area shape="poly" id="edge7_Node000005_Node000004" title=" " alt="" coords="390,175,443,175,443,180,390,180"/>
+<area shape="poly" id="edge9_Node000006_Node000007" title=" " alt="" coords="385,334,437,324,438,330,386,339"/>
+<area shape="poly" id="edge10_Node000006_Node000008" title=" " alt="" coords="386,359,453,372,452,377,385,365"/>
+<area shape="poly" id="edge13_Node000009_Node000004" title=" " alt="" coords="386,219,481,191,483,196,387,224"/>
 </map>

@@ -1,7 +1,26 @@
 <map id="la_lapack_q::la_qlagv2" name="la_lapack_q::la_qlagv2">
-<area shape="rect" id="Node000001" title="DLAGV2: computes the Generalized Schur factorization of a real 2&#45;by&#45;2 matrix pencil (A,..." alt="" coords="5,31,176,56"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__q.html#a967733980ff3a79daae6bf2fce28bc08" title="DLAG2: computes the eigenvalues of a 2 x 2 generalized eigenvalue problem A &#45; w B,..." alt="" coords="227,5,390,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="176,31,214,26,214,32,177,36"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__q.html#ac11ac459c878b69fa5cbc97526ea944c" title="DLASV2: computes the singular value decomposition of a 2&#45;by&#45;2 triangular matrix [ F G ] [ 0 H ]...." alt="" coords="224,55,393,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="177,50,210,54,210,59,176,55"/>
+<area shape="rect" id="Node000001" title="DLAGV2: computes the Generalized Schur factorization of a real 2&#45;by&#45;2 matrix pencil (A,..." alt="" coords="5,105,176,131"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__q.html#a967733980ff3a79daae6bf2fce28bc08" title="DLAG2: computes the eigenvalues of a 2 x 2 generalized eigenvalue problem A &#45; w B,..." alt="" coords="233,5,395,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="109,103,159,72,223,40,243,32,245,37,225,44,162,76,112,108"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__auxiliary.html#a422783a9c3975903ac0fc1dc06f4ec01" title="QLAMCH: determines quad precision machine parameters." alt="" coords="452,98,600,138"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="176,115,438,115,438,121,176,121"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__blas__like__scalar.html#a6ca08add76aca908c622374b20d9d149" title="QLAPY2: returns sqrt(x**2+y**2), taking care not to cause unnecessary overflow and unnecessary underf..." alt="" coords="240,243,388,283"/>
+<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="112,129,225,205,270,234,267,238,223,210,109,133"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__givens__jacobi__rot.html#af71d687d6524c8948c82aae1e3d75261" title="!" alt="" coords="224,155,404,195"/>
+<area shape="poly" id="edge13_Node000001_Node000008" title=" " alt="" coords="142,128,223,149,222,155,140,133"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__q.html#ac11ac459c878b69fa5cbc97526ea944c" title="DLASV2: computes the singular value decomposition of a 2&#45;by&#45;2 triangular matrix [ F G ] [ 0 H ]...." alt="" coords="229,55,399,80"/>
+<area shape="poly" id="edge14_Node000001_Node000009" title=" " alt="" coords="147,103,243,80,245,86,148,108"/>
+<area shape="poly" id="edge5_Node000003_Node000003" title=" " alt="" coords="487,98,485,88,491,79,505,73,526,71,550,74,563,82,561,86,548,79,526,77,506,79,495,83,490,89,492,97"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="648,105,815,131"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="601,115,634,115,634,121,601,121"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="698,107,690,97,694,87,708,81,731,79,760,82,771,91,768,96,758,87,731,84,709,86,698,91,696,96,702,104"/>
+<area shape="poly" id="edge11_Node000005_Node000003" title=" " alt="" coords="347,241,402,205,486,144,489,149,406,210,350,245"/>
+<area shape="poly" id="edge12_Node000005_Node000005" title=" " alt="" coords="274,244,272,234,278,224,293,219,314,217,339,220,352,227,350,232,337,225,314,222,294,224,282,229,277,235,280,242"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__blas__like__scalar.html#a0cb82d7f3b093ce99b3c7b3412dee71a" title="QISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="452,243,600,283"/>
+<area shape="poly" id="edge7_Node000005_Node000006" title=" " alt="" coords="389,261,438,261,438,266,389,266"/>
+<area shape="poly" id="edge8_Node000006_Node000006" title=" " alt="" coords="487,244,485,234,491,225,505,219,526,217,550,220,563,227,561,232,548,225,526,222,506,224,495,229,490,235,492,242"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__blas__like__scalar.html#afb28a91ee1571cb773bdc95c40031177" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in QISNAN...." alt="" coords="656,243,807,283"/>
+<area shape="poly" id="edge9_Node000006_Node000007" title=" " alt="" coords="601,261,642,261,642,266,601,266"/>
+<area shape="poly" id="edge10_Node000007_Node000007" title=" " alt="" coords="693,244,690,234,697,225,710,219,731,217,755,220,769,227,766,232,754,225,731,222,712,224,700,229,696,235,698,242"/>
+<area shape="poly" id="edge15_Node000009_Node000003" title=" " alt="" coords="369,78,439,95,438,100,368,83"/>
 </map>

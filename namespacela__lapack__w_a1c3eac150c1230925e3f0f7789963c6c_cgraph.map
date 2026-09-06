@@ -1,6 +1,21 @@
 <map id="la_lapack_w::la_wlaunhr_col_getrfnp" name="la_lapack_w::la_wlaunhr_col_getrfnp">
-<area shape="rect" id="Node000001" title="ZLAUNHR_COL_GETRFNP: computes the modified LU factorization without pivoting of a complex general M&#45;b..." alt="" coords="5,29,185,69"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__w.html#a5f9259d3357d049bf66863d4cf0dd90f" title="ZLAUNHR_COL_GETRFNP2: computes the modified LU factorization without pivoting of a complex general M&#45;..." alt="" coords="233,29,413,69"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="186,47,220,47,220,52,186,52"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="281,30,278,20,285,10,300,5,323,3,350,6,364,13,362,18,348,11,323,8,302,10,288,15,284,21,286,28"/>
+<area shape="rect" id="Node000001" title="ZLAUNHR_COL_GETRFNP: computes the modified LU factorization without pivoting of a complex general M&#45;b..." alt="" coords="5,137,185,177"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__aux.html#aa361c7114aef95e10b685247a1b75114" title="ILAENV: is called from the LAPACK routines to choose problem&#45;dependent parameters for the local envir..." alt="" coords="233,103,416,128"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="185,138,240,128,241,133,186,143"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__w.html#a5f9259d3357d049bf66863d4cf0dd90f" title="ZLAUNHR_COL_GETRFNP2: computes the modified LU factorization without pivoting of a complex general M&#45;..." alt="" coords="235,177,415,217"/>
+<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="186,170,222,176,221,181,185,175"/>
+<area shape="poly" id="edge4_Node000002_Node000002" title=" " alt="" coords="287,104,279,94,283,84,299,78,325,76,357,80,369,89,366,94,355,85,325,81,300,83,287,88,284,94,291,101"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__aux.html#a72541275ada30b0ca556fbc0d3959719" title="IEEECK: is called from the ILAENV to verify that Infinity and possibly NaN arithmetic is safe (i...." alt="" coords="465,29,651,55"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="358,100,463,63,490,56,492,61,465,69,360,105"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__aux.html#ace38ae70bb7022cae6ecabe992145fda" title="This program sets problem and machine dependent parameters useful for xHSEQR and related subroutines ..." alt="" coords="464,103,652,128"/>
+<area shape="poly" id="edge5_Node000002_Node000004" title=" " alt="" coords="417,113,450,113,450,118,417,118"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="521,31,514,21,518,11,533,5,558,3,590,7,602,16,598,20,588,11,558,8,534,10,521,15,519,20,526,27"/>
+<area shape="poly" id="edge6_Node000004_Node000004" title=" " alt="" coords="521,104,514,94,518,84,533,78,558,76,590,80,602,89,598,93,588,85,558,81,534,83,521,88,519,94,526,101"/>
+<area shape="poly" id="edge12_Node000005_Node000005" title=" " alt="" coords="282,177,279,167,286,158,301,152,325,150,351,153,366,160,364,165,350,158,325,155,303,157,289,162,284,168,287,176"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__auxiliary.html#a422783a9c3975903ac0fc1dc06f4ec01" title="QLAMCH: determines quad precision machine parameters." alt="" coords="484,177,632,217"/>
+<area shape="poly" id="edge8_Node000005_Node000006" title=" " alt="" coords="415,194,470,194,470,199,415,199"/>
+<area shape="poly" id="edge11_Node000006_Node000006" title=" " alt="" coords="516,177,514,167,520,158,535,152,558,150,584,153,598,160,596,165,583,158,558,155,536,157,524,162,519,168,521,176"/>
+<area shape="rect" id="Node000007" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="700,184,867,209"/>
+<area shape="poly" id="edge9_Node000006_Node000007" title=" " alt="" coords="632,194,686,194,686,199,632,199"/>
+<area shape="poly" id="edge10_Node000007_Node000007" title=" " alt="" coords="747,186,739,176,743,166,758,160,783,157,815,161,827,171,824,175,813,166,783,163,759,165,747,170,744,175,751,182"/>
 </map>

@@ -1,7 +1,5 @@
 <map id="la_lapack::gbcon::cgbcon" name="la_lapack::gbcon::cgbcon">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,191,31"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__c.html#ad881c479c53f259b6159dc6b9f60d4ac" title="CGBCON: estimates the reciprocal of the condition number of a complex general band matrix A,..." alt="" coords="239,5,409,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="191,15,225,15,225,21,191,21"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__c.html#a5c06578c24d3d06b435d441431084e66" title="CLATBS: solves one of the triangular systems A * x = s*b, A**T * x = s*b, or A**H * x = s*b,..." alt="" coords="457,5,621,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="409,15,443,15,443,21,409,21"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,13,191,38"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__solve__lu__comp.html#a0b57b58dcd5b45212e7cfe88e71f2768" title="CGBCON: estimates the reciprocal of the condition number of a complex general band matrix A,..." alt="" coords="239,5,384,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="191,23,225,23,225,28,191,28"/>
 </map>

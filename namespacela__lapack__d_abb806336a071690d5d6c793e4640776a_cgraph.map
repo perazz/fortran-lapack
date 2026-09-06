@@ -1,0 +1,15 @@
+<map id="la_lapack_d::la_dgebal" name="la_lapack_d::la_dgebal">
+<area shape="rect" id="Node000001" title="DGEBAL: balances a general real matrix A. This involves, first, permuting A by a similarity transform..." alt="" coords="5,81,176,106"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__blas__like__scalar.html#a942dd2e31c0d9058962f8060e510005e" title="DISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="224,29,372,69"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="151,78,210,65,211,71,152,83"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="224,117,372,157"/>
+<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="152,103,211,116,210,121,151,109"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="259,30,257,20,263,11,277,5,298,3,322,6,335,13,333,18,320,11,298,8,278,10,267,15,262,21,264,28"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__blas__like__scalar.html#ab7bb61dcad235be9d6066eda62ea3b31" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in DISNAN...." alt="" coords="428,29,579,69"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="373,47,414,47,414,52,373,52"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="465,30,462,20,469,11,482,5,503,3,527,6,541,13,538,18,526,11,503,8,484,10,472,15,468,21,470,28"/>
+<area shape="poly" id="edge6_Node000004_Node000004" title=" " alt="" coords="259,118,257,108,263,99,277,93,298,91,322,94,335,101,333,106,320,99,298,96,278,98,267,103,262,109,264,116"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="420,125,587,150"/>
+<area shape="poly" id="edge7_Node000004_Node000005" title=" " alt="" coords="373,135,406,135,406,140,373,140"/>
+<area shape="poly" id="edge8_Node000005_Node000005" title=" " alt="" coords="470,126,462,116,466,106,480,100,503,98,532,102,543,111,540,115,530,107,503,103,481,105,470,110,468,116,474,123"/>
+</map>

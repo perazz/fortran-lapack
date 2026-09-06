@@ -1,0 +1,17 @@
+<map id="la_lapack_q::la_qlaln2" name="la_lapack_q::la_qlaln2">
+<area shape="rect" id="Node000001" title="DLALN2: solves a system of the form (ca A &#45; w D ) X = s B or (ca A**T &#45; w D) X = s B with possible sc..." alt="" coords="5,97,172,122"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__blas__like__scalar.html#ad13f6e4e4281a2b7c9afdcd6e4c56594" title="QLADIV: performs complex division in real arithmetic a + i*b p + i*q = &#45;&#45;&#45;&#45;&#45;&#45;— c + i*d The algorithm ..." alt="" coords="220,60,368,100"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="172,95,206,90,206,95,173,100"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__auxiliary.html#a422783a9c3975903ac0fc1dc06f4ec01" title="QLAMCH: determines quad precision machine parameters." alt="" coords="416,117,564,157"/>
+<area shape="poly" id="edge9_Node000001_Node000005" title=" " alt="" coords="172,112,402,129,401,134,172,118"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__auxiliary.html#a931ac267fdb09d42261b16201c50642a" title=" " alt="" coords="416,29,564,69"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="368,66,402,60,402,66,369,71"/>
+<area shape="poly" id="edge5_Node000002_Node000005" title=" " alt="" coords="364,97,409,111,407,116,362,103"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__auxiliary.html#a088708e93ad9e6f96c089c9f0cc72bbc" title=" " alt="" coords="621,29,769,69"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="565,47,608,47,608,52,565,52"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="657,30,654,20,661,11,674,5,695,3,719,6,733,13,730,18,718,11,695,8,676,10,664,15,660,21,662,28"/>
+<area shape="poly" id="edge8_Node000005_Node000005" title=" " alt="" coords="453,118,451,108,457,99,470,93,490,91,513,94,525,101,523,105,511,99,490,96,471,98,460,103,456,109,458,116"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="612,125,779,150"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="565,135,598,135,598,140,565,140"/>
+<area shape="poly" id="edge7_Node000006_Node000006" title=" " alt="" coords="662,126,654,116,658,106,672,100,695,98,724,102,735,111,732,115,722,107,695,103,673,105,662,110,660,116,666,123"/>
+</map>

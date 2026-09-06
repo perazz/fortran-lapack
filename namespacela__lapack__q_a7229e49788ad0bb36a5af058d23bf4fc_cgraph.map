@@ -1,5 +1,0 @@
-<map id="la_lapack_q::la_qtpcon" name="la_lapack_q::la_qtpcon">
-<area shape="rect" id="Node000001" title="DTPCON: estimates the reciprocal of the condition number of a packed triangular matrix A,..." alt="" coords="5,5,176,31"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__q.html#ae99c2bddd66dcd119f5a4b54e44dc206" title="DLATPS: solves one of the triangular systems A *x = s*b or A**T*x = s*b with scaling to prevent overf..." alt="" coords="224,5,391,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="177,15,210,15,210,21,177,21"/>
-</map>

@@ -1,5 +1,0 @@
-<map id="la_lapack_c::la_cpbcon" name="la_lapack_c::la_cpbcon">
-<area shape="rect" id="Node000001" title="CPBCON: estimates the reciprocal of the condition number (in the 1&#45;norm) of a complex Hermitian posit..." alt="" coords="5,5,176,31"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__c.html#a5c06578c24d3d06b435d441431084e66" title="CLATBS: solves one of the triangular systems A * x = s*b, A**T * x = s*b, or A**H * x = s*b,..." alt="" coords="224,5,388,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="176,15,210,15,210,21,176,21"/>
-</map>

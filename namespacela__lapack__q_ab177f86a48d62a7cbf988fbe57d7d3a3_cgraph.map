@@ -1,5 +1,0 @@
-<map id="la_lapack_q::la_qpprfs" name="la_lapack_q::la_qpprfs">
-<area shape="rect" id="Node000001" title="DPPRFS: improves the computed solution to a system of linear equations when the coefficient matrix is..." alt="" coords="5,5,172,31"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__q.html#a7402b9ab0bc1fe9553ebf1f5b0b33f11" title="DPPTRS: solves a system of linear equations A*X = B with a symmetric positive definite matrix A in pa..." alt="" coords="220,5,387,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="173,15,206,15,206,21,173,21"/>
-</map>

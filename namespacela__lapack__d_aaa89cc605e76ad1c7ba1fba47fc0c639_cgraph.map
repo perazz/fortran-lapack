@@ -1,7 +1,0 @@
-<map id="la_lapack_d::la_dspsv" name="la_lapack_d::la_dspsv">
-<area shape="rect" id="Node000001" title="DSPSV: computes the solution to a real system of linear equations A * X = B, where A is an N&#45;by&#45;N sym..." alt="" coords="5,31,169,56"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__d.html#acf7a06c7786e7f8ba5c3aa601f660b81" title="DSPTRF: computes the factorization of a real symmetric matrix A stored in packed format using the Bun..." alt="" coords="219,5,383,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="169,31,205,27,205,32,170,36"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__d.html#a1b18d9057bb8d3bf5f7e9c8c08986ebf" title="DSPTRS: solves a system of linear equations A*X = B with a real symmetric matrix A stored in packed f..." alt="" coords="217,55,384,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="170,50,204,54,204,59,169,55"/>
-</map>

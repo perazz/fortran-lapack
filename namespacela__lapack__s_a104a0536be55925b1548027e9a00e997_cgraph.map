@@ -1,5 +1,24 @@
 <map id="la_lapack_s::la_slaqtr" name="la_lapack_s::la_slaqtr">
-<area shape="rect" id="Node000001" title="SLAQTR: solves the real quasi&#45;triangular system op(T)*p = scale*c, if LREAL = .TRUE...." alt="" coords="5,5,168,31"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#a0e4cfb776339618f06749826b76fd421" title="SLALN2: solves a system of the form (ca A &#45; w D ) X = s B or (ca A**T &#45; w D) X = s B with possible sc..." alt="" coords="216,5,380,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="168,15,202,15,202,21,168,21"/>
+<area shape="rect" id="Node000001" title="SLAQTR: solves the real quasi&#45;triangular system op(T)*p = scale*c, if LREAL = .TRUE...." alt="" coords="5,134,168,159"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__blas__like__scalar.html#a7904fc341f85d41c6d9847eee62c3212" title="SLADIV: performs complex division in real arithmetic a + i*b p + i*q = &#45;&#45;&#45;&#45;&#45;&#45;— c + i*d The algorithm ..." alt="" coords="428,44,576,84"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="113,131,160,111,215,93,318,75,414,65,415,70,319,80,217,99,162,116,115,136"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="624,117,772,157"/>
+<area shape="poly" id="edge12_Node000001_Node000005" title=" " alt="" coords="169,145,380,144,610,138,610,143,380,149,169,150"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__s.html#a0e4cfb776339618f06749826b76fd421" title="SLALN2: solves a system of the form (ca A &#45; w D ) X = s B or (ca A**T &#45; w D) X = s B with possible sc..." alt="" coords="216,109,380,134"/>
+<area shape="poly" id="edge9_Node000001_Node000007" title=" " alt="" coords="168,134,202,130,203,135,168,140"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__blas__like__mnorm.html#acf18db8fabe5ef770efc03a4bed05d09" title="SLANGE: returns the value of the one norm, or the Frobenius norm, or the infinity norm,..." alt="" coords="224,233,372,273"/>
+<area shape="poly" id="edge13_Node000001_Node000008" title=" " alt="" coords="114,157,247,225,244,230,112,162"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__auxiliary.html#a8d748d5192da42c522f28e566338f2ed" title=" " alt="" coords="624,29,772,69"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="576,56,610,53,610,59,577,61"/>
+<area shape="poly" id="edge5_Node000002_Node000005" title=" " alt="" coords="557,82,632,110,630,115,555,87"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__auxiliary.html#a060d1eb779ff4b79b8e210d748d3e239" title=" " alt="" coords="829,29,977,69"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="773,47,816,47,816,52,773,52"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="865,30,862,20,869,11,882,5,903,3,927,6,941,13,938,18,926,11,903,8,884,10,872,15,868,21,870,28"/>
+<area shape="poly" id="edge8_Node000005_Node000005" title=" " alt="" coords="661,118,659,108,665,99,678,93,698,91,721,94,733,101,731,105,719,99,698,96,679,98,668,103,664,109,666,116"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="820,125,987,150"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="773,135,806,135,806,140,773,140"/>
+<area shape="poly" id="edge7_Node000006_Node000006" title=" " alt="" coords="870,126,862,116,866,106,880,100,903,98,932,102,943,111,940,115,930,107,903,103,881,105,870,110,868,116,874,123"/>
+<area shape="poly" id="edge10_Node000007_Node000002" title=" " alt="" coords="343,106,417,85,418,90,345,111"/>
+<area shape="poly" id="edge11_Node000007_Node000005" title=" " alt="" coords="380,122,610,131,610,137,380,127"/>
+<area shape="poly" id="edge14_Node000008_Node000008" title=" " alt="" coords="260,234,258,224,264,215,277,209,298,207,322,210,335,217,332,222,320,215,298,212,279,214,267,219,263,225,265,232"/>
 </map>

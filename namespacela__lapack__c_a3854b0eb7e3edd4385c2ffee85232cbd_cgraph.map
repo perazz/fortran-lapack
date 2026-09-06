@@ -1,5 +1,0 @@
-<map id="la_lapack_c::la_checon_rook" name="la_lapack_c::la_checon_rook">
-<area shape="rect" id="Node000001" title="CHECON_ROOK: estimates the reciprocal of the condition number of a complex Hermitian matrix A using t..." alt="" coords="5,5,212,31"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__c.html#aed4b31e876fc730b896387a5e0155ed2" title="CHETRS_ROOK: solves a system of linear equations A*X = B with a complex Hermitian matrix A using the ..." alt="" coords="260,5,461,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="212,15,246,15,246,21,212,21"/>
-</map>

@@ -1,9 +1,9 @@
 <map id="la_lapack::gtrfs::zgtrfs" name="la_lapack::gtrfs::zgtrfs">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,172,31"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__z.html#a10ea4a6a8fb856596c73b7b5e9f8a23e" title="ZGTRFS: improves the computed solution to a system of linear equations when the coefficient matrix is..." alt="" coords="220,5,383,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="172,15,206,15,206,21,172,21"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__z.html#a1de50fe38bc1ef6b281cd3c729542c5d" title="ZGTTRS: solves one of the systems of equations A * X = B, A**T * X = B, or A**H * X = B,..." alt="" coords="431,5,593,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="383,15,417,15,417,21,383,21"/>
-<area shape="rect" id="Node000004" href="$namespacela__lapack__z.html#a1e259c5be33d03e317a21e07481de4a5" title="ZGTTS2: solves one of the systems of equations A * X = B, A**T * X = B, or A**H * X = B,..." alt="" coords="641,5,807,31"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="594,15,627,15,627,21,594,21"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,13,172,38"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__solve__lu__comp.html#a7243f68dc9fa02aaa6eba9316790d019" title="ZGTRFS: improves the computed solution to a system of linear equations when the coefficient matrix is..." alt="" coords="220,5,365,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="172,23,206,23,206,28,172,28"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__solve__lu__comp.html#a5eecf5191468ec66237c8fae2d268054" title="ZGTTRS: solves one of the systems of equations A * X = B, A**T * X = B, or A**H * X = B,..." alt="" coords="413,5,559,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="366,23,399,23,399,28,366,28"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__solve__lu__comp.html#af4107bba96b25fb873b7ef2886d65d57" title="ZGTTS2: solves one of the systems of equations A * X = B, A**T * X = B, or A**H * X = B,..." alt="" coords="607,5,752,45"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="559,23,592,23,592,28,559,28"/>
 </map>

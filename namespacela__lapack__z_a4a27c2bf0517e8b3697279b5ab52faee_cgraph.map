@@ -1,5 +1,10 @@
 <map id="la_lapack_z::la_zungtsqr_row" name="la_lapack_z::la_zungtsqr_row">
-<area shape="rect" id="Node000001" title="ZUNGTSQR_ROW: generates an M&#45;by&#45;N complex matrix Q_out with orthonormal columns from the output of ZL..." alt="" coords="5,5,217,31"/>
+<area shape="rect" id="Node000001" title="ZUNGTSQR_ROW: generates an M&#45;by&#45;N complex matrix Q_out with orthonormal columns from the output of ZL..." alt="" coords="5,35,217,60"/>
 <area shape="rect" id="Node000002" href="$namespacela__lapack__z.html#ad9d7de55c732a0f6b55eaed102d2f7c1" title="ZLARFB_GETT: applies a complex Householder block reflector H from the left to a complex (K+M)&#45;by&#45;N &quot;t..." alt="" coords="265,5,460,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="217,15,251,15,251,21,217,21"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="217,32,251,28,252,34,218,38"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__blas__like__base.html#accb4653625f355a5a2a0d2f528f904ec" title="ZLASET: initializes a 2&#45;D array A to BETA on the diagonal and ALPHA on the offdiagonals." alt="" coords="289,55,437,95"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="218,56,275,63,275,68,217,62"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="508,63,675,88"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="437,73,494,73,494,78,437,78"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="554,64,546,54,551,44,566,38,591,36,623,40,635,49,632,53,621,45,591,41,567,43,554,48,552,54,558,61"/>
 </map>

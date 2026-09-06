@@ -1,7 +1,30 @@
 <map id="la_lapack::hetrs_3::chetrs_3" name="la_lapack::hetrs_3::chetrs_3">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,23,145,63"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__c.html#a8e53cd2e5336985c3b6ff5a8610c048e" title="CHETRS_3: solves a system of linear equations A * X = B with a complex Hermitian matrix A using the f..." alt="" coords="197,5,377,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="145,32,182,28,183,33,146,38"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__w.html#a6224885bec6f4c8d7c013281a0528f49" title="ZHETRS_3: solves a system of linear equations A * X = B with a complex Hermitian matrix A using the f..." alt="" coords="193,55,380,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="146,49,180,53,179,58,145,54"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,299,145,339"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__solve__ldl__comp3.html#a98b02044426884460643699d8cfb486b" title="CHETRS_3: solves a system of linear equations A * X = B with a complex Hermitian matrix A using the f..." alt="" coords="195,156,350,196"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="103,296,231,202,234,206,106,301"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__solve__ldl__comp3.html#a83b8b17f811ecbd4ece2d361be306517" title="WHETRS_3: solves a system of linear equations A * X = B with a complex Hermitian matrix A using the f..." alt="" coords="193,381,352,421"/>
+<area shape="poly" id="edge10_Node000001_Node000008" title=" " alt="" coords="125,336,212,373,210,378,123,341"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__level1.html#a818df9a899b338869177ee3f7657bece" title="CSSCAL: scales a complex vector by a real constant." alt="" coords="401,5,535,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="290,154,337,106,398,55,406,50,409,54,402,59,340,110,294,158"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__level1.html#a4fb9af59b508cde93dace0cd181faeeb" title="CSWAP: interchanges two vectors." alt="" coords="401,69,535,109"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="318,153,408,113,411,118,320,158"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__level3__tri.html#a146013b52e9ab1d998f8329b16b02f96" title="CTRSM: solves one of the matrix equations op( A )*X = alpha*B, or X*op( A ) = alpha*B,..." alt="" coords="400,184,536,224"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="351,184,387,190,386,195,350,190"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="584,221,751,246"/>
+<area shape="poly" id="edge8_Node000002_Node000006" title=" " alt="" coords="350,163,440,159,489,162,537,169,590,188,636,211,634,216,588,193,535,175,488,167,440,164,350,168"/>
+<area shape="rect" id="Node000007" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="584,327,751,353"/>
+<area shape="poly" id="edge9_Node000002_Node000007" title=" " alt="" coords="316,194,401,234,619,320,617,325,399,238,313,199"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="537,211,571,216,570,222,536,217"/>
+<area shape="poly" id="edge7_Node000005_Node000007" title=" " alt="" coords="500,222,638,317,635,322,497,226"/>
+<area shape="poly" id="edge6_Node000006_Node000006" title=" " alt="" coords="635,222,628,212,631,202,645,196,667,194,694,198,706,206,702,211,692,202,667,199,646,201,635,206,633,212,639,219"/>
+<area shape="poly" id="edge11_Node000008_Node000006" title=" " alt="" coords="310,379,399,335,516,286,617,248,619,253,518,291,401,340,312,384"/>
+<area shape="poly" id="edge17_Node000008_Node000007" title=" " alt="" coords="289,420,307,447,333,477,365,505,401,527,438,541,469,546,499,542,535,527,558,512,579,493,613,449,639,403,655,365,660,367,643,406,618,452,583,497,561,516,537,532,501,547,469,551,437,546,399,532,361,510,329,481,303,450,284,423"/>
+<area shape="rect" id="Node000009" href="$namespacela__blas__level1.html#a8370fbe3dcdbbbf38621046a2d6937cc" title="WQSCAL: scales a vector by a constant." alt="" coords="401,477,535,517"/>
+<area shape="poly" id="edge12_Node000008_Node000009" title=" " alt="" coords="314,419,401,463,413,469,411,474,399,468,312,424"/>
+<area shape="rect" id="Node000010" href="$namespacela__blas__level1.html#a87a0f6f4a51cb922e497d49bc7597e53" title="WSWAP: interchanges two vectors." alt="" coords="401,413,535,453"/>
+<area shape="poly" id="edge13_Node000008_Node000010" title=" " alt="" coords="353,412,387,417,386,423,352,417"/>
+<area shape="rect" id="Node000011" href="$namespacela__blas__level3__tri.html#ac7ebed601d7857e709e28ef2f6bc0467" title="WTRSM: solves one of the matrix equations op( A )*X = alpha*B, or X*op( A ) = alpha*B,..." alt="" coords="400,349,536,389"/>
+<area shape="poly" id="edge14_Node000008_Node000011" title=" " alt="" coords="352,386,386,380,387,385,353,391"/>
+<area shape="poly" id="edge15_Node000011_Node000006" title=" " alt="" coords="497,347,635,252,638,256,500,351"/>
+<area shape="poly" id="edge16_Node000011_Node000007" title=" " alt="" coords="536,357,570,352,571,357,537,362"/>
 </map>

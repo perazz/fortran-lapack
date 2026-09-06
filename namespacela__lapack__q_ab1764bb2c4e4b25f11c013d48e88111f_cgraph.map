@@ -1,5 +1,24 @@
 <map id="la_lapack_q::la_qlaed2" name="la_lapack_q::la_qlaed2">
-<area shape="rect" id="Node000001" title="DLAED2: merges the two sets of eigenvalues together into a single sorted set. Then it tries to deflat..." alt="" coords="5,5,176,31"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__q.html#a0e9a5202dde7b80be94aee9139440a90" title="DLAMRG: will create a permutation list which will merge the elements of A (which is composed of two i..." alt="" coords="224,5,396,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="176,15,210,15,210,21,176,21"/>
+<area shape="rect" id="Node000001" title="DLAED2: merges the two sets of eigenvalues together into a single sorted set. Then it tries to deflat..." alt="" coords="5,89,176,114"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__blas__like__base.html#a67381a499db733350bf326b814cc19d8" title="QLACPY: copies all or part of a two&#45;dimensional matrix A to another matrix B." alt="" coords="444,5,592,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="163,86,430,38,431,43,164,91"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__auxiliary.html#a422783a9c3975903ac0fc1dc06f4ec01" title="QLAMCH: determines quad precision machine parameters." alt="" coords="444,93,592,133"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="177,96,281,96,396,99,430,101,430,106,396,104,281,101,177,102"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__q.html#a0e9a5202dde7b80be94aee9139440a90" title="DLAMRG: will create a permutation list which will merge the elements of A (which is composed of two i..." alt="" coords="224,114,396,139"/>
+<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="177,109,211,113,210,118,176,114"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__blas__like__scalar.html#a6ca08add76aca908c622374b20d9d149" title="QLAPY2: returns sqrt(x**2+y**2), taking care not to cause unnecessary overflow and unnecessary underf..." alt="" coords="236,188,384,228"/>
+<area shape="poly" id="edge8_Node000001_Node000006" title=" " alt="" coords="119,112,257,180,254,184,117,117"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="640,57,807,82"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="593,39,651,51,650,56,592,44"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="690,58,682,48,686,38,700,32,723,30,752,34,763,43,760,47,750,39,723,35,701,37,690,42,688,48,694,55"/>
+<area shape="poly" id="edge5_Node000004_Node000003" title=" " alt="" coords="592,95,650,82,651,88,593,100"/>
+<area shape="poly" id="edge6_Node000004_Node000004" title=" " alt="" coords="479,94,477,84,483,75,497,69,518,67,542,70,555,77,553,82,540,75,518,72,498,74,487,79,482,85,484,92"/>
+<area shape="poly" id="edge13_Node000006_Node000004" title=" " alt="" coords="354,186,460,137,462,141,356,190"/>
+<area shape="poly" id="edge14_Node000006_Node000006" title=" " alt="" coords="271,188,269,178,275,169,289,163,310,161,334,164,348,172,345,176,333,169,310,167,290,169,278,173,274,179,276,187"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__blas__like__scalar.html#a0cb82d7f3b093ce99b3c7b3412dee71a" title="QISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="444,188,592,228"/>
+<area shape="poly" id="edge9_Node000006_Node000007" title=" " alt="" coords="384,205,431,205,431,211,384,211"/>
+<area shape="poly" id="edge10_Node000007_Node000007" title=" " alt="" coords="479,188,477,178,483,169,497,163,518,161,542,164,555,172,553,176,540,169,518,167,498,169,487,173,482,179,484,187"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__blas__like__scalar.html#afb28a91ee1571cb773bdc95c40031177" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in QISNAN...." alt="" coords="648,188,799,228"/>
+<area shape="poly" id="edge11_Node000007_Node000008" title=" " alt="" coords="593,205,634,205,634,211,593,211"/>
+<area shape="poly" id="edge12_Node000008_Node000008" title=" " alt="" coords="685,188,682,178,689,169,702,163,723,161,747,164,761,172,758,176,746,169,723,167,704,169,692,173,688,179,690,187"/>
 </map>

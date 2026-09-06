@@ -1,5 +1,16 @@
 <map id="la_lapack::heequb::zheequb" name="la_lapack::heequb::zheequb">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,153,45"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__z.html#ab0ca1309db152db9a3e3a0d5c386f2ce" title="ZHEEQUB: computes row and column scalings intended to equilibrate a Hermitian matrix A (with respect ..." alt="" coords="201,13,381,38"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="154,23,187,23,187,28,154,28"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,112,153,152"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__solve__ldl__comp3.html#a5a93ff3af3649d8ad6593e52707abbd6" title="ZHEEQUB: computes row and column scalings intended to equilibrate a Hermitian matrix A (with respect ..." alt="" coords="201,112,356,152"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="153,129,188,129,188,135,153,135"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="413,29,561,69"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="329,110,422,72,424,77,331,114"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="619,66,785,91"/>
+<area shape="poly" id="edge6_Node000002_Node000004" title=" " alt="" coords="356,120,605,88,606,93,357,125"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="404,145,571,170"/>
+<area shape="poly" id="edge7_Node000002_Node000005" title=" " alt="" coords="356,139,391,143,390,148,356,144"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__blas__like__l1.html#a26a895f9f68339f13a5a15193b7ce3ec" title="!" alt="" coords="413,195,561,235"/>
+<area shape="poly" id="edge8_Node000002_Node000006" title=" " alt="" coords="331,150,424,187,422,192,329,154"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="448,30,446,20,452,10,466,5,487,3,512,6,525,13,522,18,510,11,487,8,467,10,455,15,451,21,453,28"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="562,57,606,63,605,68,561,62"/>
+<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="667,68,660,58,663,48,678,42,702,39,732,43,743,52,740,56,730,48,702,45,679,47,667,52,665,57,671,64"/>
 </map>

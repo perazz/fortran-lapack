@@ -1,8 +1,23 @@
 <map id="la_lapack_q::la_qorhr_col" name="la_lapack_q::la_qorhr_col">
-<area shape="rect" id="Node000001" title="DORHR_COL: takes an M&#45;by&#45;N real matrix Q_in with orthonormal columns as input, stored in A,..." alt="" coords="5,37,192,62"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__q.html#aa2f47ee6820ba984cfbfb3857933d47d" title="DLAORHR_COL_GETRFNP: computes the modified LU factorization without pivoting of a real general M&#45;by&#45;N..." alt="" coords="240,29,412,69"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="192,47,226,47,226,52,192,52"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__q.html#a627b99b49308410d79e2ed375c344bfe" title="DLAORHR_COL_GETRFNP2: computes the modified LU factorization without pivoting of a real general M&#45;by&#45;..." alt="" coords="460,29,632,69"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="413,47,446,47,446,52,413,52"/>
-<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="505,30,503,20,509,10,524,5,546,3,572,6,586,13,583,18,570,11,546,8,525,10,512,15,508,21,510,28"/>
+<area shape="rect" id="Node000001" title="DORHR_COL: takes an M&#45;by&#45;N real matrix Q_in with orthonormal columns as input, stored in A,..." alt="" coords="5,144,192,169"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__q.html#aa2f47ee6820ba984cfbfb3857933d47d" title="DLAORHR_COL_GETRFNP: computes the modified LU factorization without pivoting of a real general M&#45;by&#45;N..." alt="" coords="240,137,412,177"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="192,154,226,154,226,159,192,159"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__aux.html#aa361c7114aef95e10b685247a1b75114" title="ILAENV: is called from the LAPACK routines to choose problem&#45;dependent parameters for the local envir..." alt="" coords="460,103,643,128"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="412,138,468,128,469,133,413,144"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__q.html#a627b99b49308410d79e2ed375c344bfe" title="DLAORHR_COL_GETRFNP2: computes the modified LU factorization without pivoting of a real general M&#45;by&#45;..." alt="" coords="465,177,637,217"/>
+<area shape="poly" id="edge8_Node000002_Node000006" title=" " alt="" coords="413,169,452,176,451,182,412,175"/>
+<area shape="poly" id="edge5_Node000003_Node000003" title=" " alt="" coords="515,104,507,94,511,84,526,78,551,76,583,80,595,89,592,93,581,85,551,81,527,83,515,88,512,94,519,101"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__aux.html#a72541275ada30b0ca556fbc0d3959719" title="IEEECK: is called from the ILAENV to verify that Infinity and possibly NaN arithmetic is safe (i...." alt="" coords="692,29,877,55"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="585,100,690,63,717,56,718,61,691,69,587,105"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__aux.html#ace38ae70bb7022cae6ecabe992145fda" title="This program sets problem and machine dependent parameters useful for xHSEQR and related subroutines ..." alt="" coords="691,103,879,128"/>
+<area shape="poly" id="edge6_Node000003_Node000005" title=" " alt="" coords="643,113,677,113,677,118,643,118"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="748,31,740,21,744,11,760,5,785,3,816,7,828,16,825,20,814,11,785,8,761,10,748,15,745,20,752,27"/>
+<area shape="poly" id="edge7_Node000005_Node000005" title=" " alt="" coords="748,104,740,94,744,84,760,78,785,76,816,80,828,89,825,93,814,85,785,81,761,83,748,88,745,94,752,101"/>
+<area shape="poly" id="edge13_Node000006_Node000006" title=" " alt="" coords="509,177,507,167,514,158,529,152,551,150,577,153,592,160,589,165,576,158,551,155,530,157,517,162,512,168,515,176"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__auxiliary.html#a422783a9c3975903ac0fc1dc06f4ec01" title="QLAMCH: determines quad precision machine parameters." alt="" coords="711,177,859,217"/>
+<area shape="poly" id="edge9_Node000006_Node000007" title=" " alt="" coords="638,194,697,194,697,199,638,199"/>
+<area shape="poly" id="edge12_Node000007_Node000007" title=" " alt="" coords="743,177,740,167,747,158,762,152,785,150,811,153,825,160,823,165,809,158,785,155,763,157,750,162,745,168,748,176"/>
+<area shape="rect" id="Node000008" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="927,184,1093,209"/>
+<area shape="poly" id="edge10_Node000007_Node000008" title=" " alt="" coords="859,194,913,194,913,199,859,199"/>
+<area shape="poly" id="edge11_Node000008_Node000008" title=" " alt="" coords="973,186,966,176,970,166,985,160,1010,157,1042,161,1054,171,1050,175,1040,166,1010,163,986,165,973,170,971,175,978,182"/>
 </map>

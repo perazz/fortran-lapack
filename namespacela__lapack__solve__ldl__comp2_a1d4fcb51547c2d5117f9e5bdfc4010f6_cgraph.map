@@ -1,0 +1,23 @@
+<map id="la_lapack_solve_ldl_comp2::la_qsytf2_rook" name="la_lapack_solve_ldl_comp2::la_qsytf2_rook">
+<area shape="rect" id="Node000001" title="QSYTF2_ROOK: computes the factorization of a real symmetric matrix A using the bounded Bunch&#45;Kaufman ..." alt="" coords="5,218,183,258"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__aux.html#ae7dbb22fd3a69f212d6ddfaade65f5c3" title="IQAMAX: finds the index of the first element having maximum absolute value." alt="" coords="231,29,405,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="105,216,153,147,189,107,229,72,255,58,257,62,232,76,192,111,157,150,109,219"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="453,161,620,187"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="108,216,157,163,191,136,230,116,277,102,317,99,357,105,406,115,458,132,502,152,500,157,456,137,405,121,356,110,317,104,278,107,232,120,194,140,161,167,112,220"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__auxiliary.html#a422783a9c3975903ac0fc1dc06f4ec01" title="QLAMCH: determines quad precision machine parameters." alt="" coords="244,154,392,194"/>
+<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="164,215,234,195,235,200,165,220"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__level1.html#a1ffcba958a3ab121d878ddb3f71724ab" title="QSCAL: scales a vector by a constant. uses unrolled loops for increment equal to 1." alt="" coords="251,218,385,258"/>
+<area shape="poly" id="edge8_Node000001_Node000005" title=" " alt="" coords="183,235,237,235,237,241,183,241"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__level1.html#af76ede87367ea347ac47024e17661e20" title="QSWAP: interchanges two vectors. uses unrolled loops for increments equal to 1." alt="" coords="251,282,385,322"/>
+<area shape="poly" id="edge9_Node000001_Node000006" title=" " alt="" coords="165,256,238,277,237,282,164,261"/>
+<area shape="rect" id="Node000007" href="$namespacela__blas__level2__sym.html#a0b8873ca33456fc0d14c0002d9367b76" title="QSYR: performs the symmetric rank 1 operation A := alpha*x*x**T + A, where alpha is a real scalar,..." alt="" coords="243,346,393,386"/>
+<area shape="poly" id="edge10_Node000001_Node000007" title=" " alt="" coords="121,256,171,294,232,332,245,338,243,343,229,336,168,298,118,260"/>
+<area shape="rect" id="Node000008" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="453,381,620,407"/>
+<area shape="poly" id="edge13_Node000001_Node000008" title=" " alt="" coords="107,257,126,290,153,329,189,367,209,383,232,396,262,407,293,414,358,420,420,416,474,407,475,412,421,421,358,425,292,420,260,412,230,400,206,387,185,371,149,332,121,292,103,259"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="282,31,275,21,279,11,293,5,318,3,348,6,360,15,357,20,346,11,318,8,295,10,282,15,280,20,286,28"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="501,163,493,153,497,143,512,137,537,135,567,138,579,147,576,152,565,143,537,140,513,142,501,147,498,152,505,160"/>
+<area shape="poly" id="edge6_Node000004_Node000003" title=" " alt="" coords="392,171,439,171,439,177,392,177"/>
+<area shape="poly" id="edge7_Node000004_Node000004" title=" " alt="" coords="277,154,275,144,281,135,296,129,318,127,344,130,358,138,355,142,342,135,318,133,297,135,284,139,280,145,282,153"/>
+<area shape="poly" id="edge11_Node000007_Node000003" title=" " alt="" coords="383,344,404,332,441,300,473,264,519,197,523,200,477,267,444,304,407,336,386,348"/>
+<area shape="poly" id="edge12_Node000007_Node000008" title=" " alt="" coords="394,373,440,379,439,384,393,378"/>
+</map>

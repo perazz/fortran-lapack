@@ -1,7 +1,7 @@
 <map id="la_lapack::gbrfs::cgbrfs" name="la_lapack::gbrfs::cgbrfs">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,179,31"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__c.html#ad8fc4e5e8d7f71f8e64c419fb5b7979e" title="CGBRFS: improves the computed solution to a system of linear equations when the coefficient matrix is..." alt="" coords="227,5,392,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="179,15,213,15,213,21,179,21"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__c.html#a0d2667c260721a9614eecb5b11642bb4" title="CGBTRS: solves a system of linear equations A * X = B, A**T * X = B, or A**H * X = B with a general b..." alt="" coords="440,5,605,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="392,15,426,15,426,21,392,21"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,13,179,38"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__solve__lu__comp.html#ab94243f9a838cdfd77c840df360244ba" title="CGBRFS: improves the computed solution to a system of linear equations when the coefficient matrix is..." alt="" coords="227,5,372,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="179,23,213,23,213,28,179,28"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__solve__lu__comp.html#ae8166a794138f058c7b7a18d796d72ec" title="CGBTRS: solves a system of linear equations A * X = B, A**T * X = B, or A**H * X = B with a general b..." alt="" coords="420,5,565,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="372,23,406,23,406,28,372,28"/>
 </map>

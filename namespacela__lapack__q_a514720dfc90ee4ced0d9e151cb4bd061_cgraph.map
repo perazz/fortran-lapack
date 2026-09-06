@@ -1,5 +1,0 @@
-<map id="la_lapack_q::la_qpstrf" name="la_lapack_q::la_qpstrf">
-<area shape="rect" id="Node000001" title="DPSTRF: computes the Cholesky factorization with complete pivoting of a real symmetric positive semid..." alt="" coords="5,5,169,31"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__q.html#a464b744fda9d6e409ea11ea5e5a55c42" title="DPSTF2: computes the Cholesky factorization with complete pivoting of a real symmetric positive semid..." alt="" coords="217,5,384,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="170,15,204,15,204,21,170,21"/>
-</map>

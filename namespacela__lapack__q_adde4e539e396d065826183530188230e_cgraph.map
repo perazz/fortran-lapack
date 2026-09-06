@@ -1,5 +1,0 @@
-<map id="la_lapack_q::la_qpbcon" name="la_lapack_q::la_qpbcon">
-<area shape="rect" id="Node000001" title="DPBCON: estimates the reciprocal of the condition number (in the 1&#45;norm) of a real symmetric positive..." alt="" coords="5,5,179,31"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__q.html#a050b4dd31e73c2cf1da442097dcd7671" title="DLATBS: solves one of the triangular systems A *x = s*b or A**T*x = s*b with scaling to prevent overf..." alt="" coords="227,5,393,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="179,15,213,15,213,21,179,21"/>
-</map>

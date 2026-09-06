@@ -1,0 +1,33 @@
+<map id="la_lapack_solve_ldl_comp2::la_qsycon_rook" name="la_lapack_solve_ldl_comp2::la_qsycon_rook">
+<area shape="rect" id="Node000001" title="QSYCON_ROOK: estimates the reciprocal of the condition number (in the 1&#45;norm) of a real symmetric mat..." alt="" coords="5,291,188,331"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="683,269,849,294"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="111,289,163,227,197,191,234,158,292,111,339,77,390,50,459,27,509,13,550,4,591,7,636,27,665,49,690,77,710,107,727,140,750,203,763,254,758,256,745,205,722,142,706,110,686,80,662,53,633,32,589,12,551,9,510,18,461,32,392,55,341,81,295,115,238,162,201,195,167,231,115,292"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__solve__aux.html#ac5ae215af73ec598b2840b8a94d67ab3" title="QLACN2: estimates the 1&#45;norm of a square, real matrix A. Reverse communication is used for evaluating..." alt="" coords="245,172,403,212"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="135,288,271,216,274,221,137,293"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__solve__ldl__comp2.html#a5313a3b5491b311c58a50fc0a637285f" title="QSYTRS_ROOK: solves a system of linear equations A*X = B with a real symmetric matrix A using the fac..." alt="" coords="236,376,412,416"/>
+<area shape="poly" id="edge9_Node000001_Node000007" title=" " alt="" coords="152,328,258,369,256,374,150,333"/>
+<area shape="rect" id="Node000009" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="683,411,849,437"/>
+<area shape="poly" id="edge19_Node000001_Node000009" title=" " alt="" coords="115,329,166,389,245,470,293,512,345,551,402,584,461,611,509,627,549,634,588,630,633,611,657,596,677,577,712,533,737,487,754,449,758,451,742,490,716,536,681,581,660,600,636,616,589,635,549,639,508,632,459,616,399,589,342,555,289,516,241,474,162,393,111,333"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="730,270,723,260,727,250,741,244,766,242,796,246,808,255,805,259,794,251,766,247,743,249,730,254,728,260,734,267"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#ae7dbb22fd3a69f212d6ddfaade65f5c3" title="IQAMAX: finds the index of the first element having maximum absolute value." alt="" coords="460,66,635,91"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="350,170,399,135,459,102,480,93,482,98,461,106,402,140,353,174"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__level1.html#ad6be202ec4e687016b219a97a3efe147" title="QASUM: takes the sum of the absolute values." alt="" coords="480,140,615,180"/>
+<area shape="poly" id="edge6_Node000003_Node000005" title=" " alt="" coords="403,178,466,169,467,174,404,183"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__level1.html#af422853fadb4f17a7d5dd3cbf063a4bd" title="QCOPY: copies a vector, x, to a vector, y. uses unrolled loops for increments equal to 1." alt="" coords="480,204,615,244"/>
+<area shape="poly" id="edge8_Node000003_Node000006" title=" " alt="" coords="404,201,467,210,466,215,403,206"/>
+<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="512,68,504,58,508,48,523,42,547,39,578,43,590,52,587,56,576,48,547,45,524,47,512,52,509,57,516,64"/>
+<area shape="poly" id="edge7_Node000005_Node000005" title=" " alt="" coords="506,140,504,130,510,121,525,115,547,113,573,116,587,124,584,128,571,121,547,119,526,121,514,125,509,131,511,139"/>
+<area shape="poly" id="edge10_Node000007_Node000002" title=" " alt="" coords="346,374,395,337,426,319,459,304,512,290,566,281,668,275,669,280,567,286,513,295,461,309,429,323,398,341,349,378"/>
+<area shape="rect" id="Node000008" href="$namespacela__blas__level2__gen.html#aecd73c3541f591fb801540fa6e7e3883" title="QGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="474,319,621,359"/>
+<area shape="poly" id="edge11_Node000007_Node000008" title=" " alt="" coords="402,373,460,358,461,363,403,379"/>
+<area shape="poly" id="edge18_Node000007_Node000009" title=" " alt="" coords="412,399,669,415,669,421,412,404"/>
+<area shape="rect" id="Node000010" href="$namespacela__blas__level2__gen.html#a2babbc60e4573bf86995dc3e7360db8b" title="QGER: performs the rank 1 operation A := alpha*x*y**T + A, where alpha is a scalar,..." alt="" coords="474,433,621,473"/>
+<area shape="poly" id="edge14_Node000007_Node000010" title=" " alt="" coords="403,413,461,429,460,434,402,419"/>
+<area shape="rect" id="Node000011" href="$namespacela__blas__level1.html#a1ffcba958a3ab121d878ddb3f71724ab" title="QSCAL: scales a vector by a constant. uses unrolled loops for increment equal to 1." alt="" coords="480,497,615,537"/>
+<area shape="poly" id="edge16_Node000007_Node000011" title=" " alt="" coords="353,414,402,448,461,483,475,489,473,494,459,488,399,453,350,418"/>
+<area shape="rect" id="Node000012" href="$namespacela__blas__level1.html#af76ede87367ea347ac47024e17661e20" title="QSWAP: interchanges two vectors. uses unrolled loops for increments equal to 1." alt="" coords="480,561,615,601"/>
+<area shape="poly" id="edge17_Node000007_Node000012" title=" " alt="" coords="340,415,389,479,423,515,462,547,470,553,468,557,458,552,419,519,385,483,336,418"/>
+<area shape="poly" id="edge12_Node000008_Node000002" title=" " alt="" coords="621,317,703,295,704,300,622,322"/>
+<area shape="poly" id="edge13_Node000008_Node000009" title=" " alt="" coords="600,356,721,404,719,409,598,361"/>
+<area shape="poly" id="edge15_Node000010_Node000009" title=" " alt="" coords="621,441,669,434,670,440,622,446"/>
+</map>

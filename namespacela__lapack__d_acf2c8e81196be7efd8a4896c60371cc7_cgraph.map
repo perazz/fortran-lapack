@@ -1,7 +1,0 @@
-<map id="la_lapack_d::la_dsytrf" name="la_lapack_d::la_dsytrf">
-<area shape="rect" id="Node000001" title="DSYTRF: computes the factorization of a real symmetric matrix A using the Bunch&#45;Kaufman diagonal pivo..." alt="" coords="5,31,169,56"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__d.html#a3b4c7ba4cadeb8530297b5f308139297" title="DLASYF: computes a partial factorization of a real symmetric matrix A using the Bunch&#45;Kaufman diagona..." alt="" coords="217,5,384,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="169,31,204,27,204,32,170,36"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__d.html#a4fa18c15fee1af39e05abe95929cf8ce" title="DSYTF2: computes the factorization of a real symmetric matrix A using the Bunch&#45;Kaufman diagonal pivo..." alt="" coords="217,55,384,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="170,50,204,54,204,59,169,55"/>
-</map>

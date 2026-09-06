@@ -1,0 +1,28 @@
+<map id="la_lapack_solve_ldl_comp2::la_qlasyf_rook" name="la_lapack_solve_ldl_comp2::la_qlasyf_rook">
+<area shape="rect" id="Node000001" title="QLASYF_ROOK: computes a partial factorization of a real symmetric matrix A using the bounded Bunch&#45;Ka..." alt="" coords="5,250,181,290"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__aux.html#ae7dbb22fd3a69f212d6ddfaade65f5c3" title="IQAMAX: finds the index of the first element having maximum absolute value." alt="" coords="229,29,404,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="101,249,119,211,147,164,184,115,228,72,252,58,254,62,231,76,188,118,152,167,124,214,106,251"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="452,197,619,223"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="103,248,122,217,150,179,185,143,228,116,275,99,316,95,356,101,405,115,437,129,467,147,514,186,510,190,464,152,434,134,403,121,355,106,315,100,277,104,231,120,189,147,154,183,126,220,107,251"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__level1.html#af422853fadb4f17a7d5dd3cbf063a4bd" title="QCOPY: copies a vector, x, to a vector, y. uses unrolled loops for increments equal to 1." alt="" coords="249,346,384,386"/>
+<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="136,288,230,332,247,338,245,343,228,336,134,293"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__level3__gen.html#a6546efd65d999e7a75cfc45f3f31667d" title="QGEMM: performs one of the matrix&#45;matrix operations C := alpha*op( A )*op( B ) + beta*C,..." alt="" coords="243,218,390,258"/>
+<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="181,255,229,248,230,253,182,260"/>
+<area shape="rect" id="Node000007" href="$namespacela__blas__level2__gen.html#aecd73c3541f591fb801540fa6e7e3883" title="QGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="243,282,390,322"/>
+<area shape="poly" id="edge9_Node000001_Node000007" title=" " alt="" coords="182,280,230,287,229,292,181,285"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__auxiliary.html#a422783a9c3975903ac0fc1dc06f4ec01" title="QLAMCH: determines quad precision machine parameters." alt="" coords="243,154,391,194"/>
+<area shape="poly" id="edge12_Node000001_Node000008" title=" " alt="" coords="134,247,228,204,245,197,247,202,230,208,136,252"/>
+<area shape="rect" id="Node000009" href="$namespacela__blas__level1.html#a1ffcba958a3ab121d878ddb3f71724ab" title="QSCAL: scales a vector by a constant. uses unrolled loops for increment equal to 1." alt="" coords="249,410,384,450"/>
+<area shape="poly" id="edge15_Node000001_Node000009" title=" " alt="" coords="113,289,163,341,195,370,231,396,241,402,239,406,228,400,192,374,159,345,109,292"/>
+<area shape="rect" id="Node000010" href="$namespacela__blas__level1.html#af76ede87367ea347ac47024e17661e20" title="QSWAP: interchanges two vectors. uses unrolled loops for increments equal to 1." alt="" coords="249,474,384,514"/>
+<area shape="poly" id="edge16_Node000001_Node000010" title=" " alt="" coords="106,289,125,326,152,371,188,419,231,460,239,465,236,470,228,464,184,422,148,374,120,328,101,292"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="281,31,273,21,277,11,292,5,317,3,347,6,359,15,356,20,345,11,317,8,293,10,281,15,278,20,285,28"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="500,199,492,189,496,179,511,173,535,171,566,174,578,183,575,188,564,179,535,176,512,178,500,183,497,188,504,196"/>
+<area shape="poly" id="edge7_Node000005_Node000003" title=" " alt="" coords="390,226,438,220,439,225,391,231"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="452,253,619,279"/>
+<area shape="poly" id="edge8_Node000005_Node000006" title=" " alt="" coords="391,245,439,251,438,256,390,250"/>
+<area shape="poly" id="edge10_Node000007_Node000003" title=" " alt="" coords="375,280,403,268,451,238,482,225,484,230,453,243,405,272,378,284"/>
+<area shape="poly" id="edge11_Node000007_Node000006" title=" " alt="" coords="390,287,444,278,445,284,391,293"/>
+<area shape="poly" id="edge13_Node000008_Node000003" title=" " alt="" coords="392,184,445,192,444,198,391,189"/>
+<area shape="poly" id="edge14_Node000008_Node000008" title=" " alt="" coords="276,154,273,144,280,135,294,129,317,127,342,130,356,138,354,142,341,135,317,133,296,135,283,139,278,145,281,153"/>
+</map>

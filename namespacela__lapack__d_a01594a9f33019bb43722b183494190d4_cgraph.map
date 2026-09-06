@@ -1,0 +1,15 @@
+<map id="la_lapack_d::la_dlaqz1" name="la_lapack_d::la_dlaqz1">
+<area shape="rect" id="Node000001" title="Given a 3&#45;by&#45;3 matrix pencil (A,B), DLAQZ1: sets v to a scalar multiple of the first column of the pr..." alt="" coords="5,81,175,106"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__blas__like__scalar.html#a942dd2e31c0d9058962f8060e510005e" title="DISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="223,29,371,69"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="150,78,208,65,209,71,151,83"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="223,117,371,157"/>
+<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="151,103,209,116,208,121,150,109"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="258,30,256,20,262,11,276,5,297,3,321,6,334,13,331,18,319,11,297,8,277,10,265,15,261,21,263,28"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__blas__like__scalar.html#ab7bb61dcad235be9d6066eda62ea3b31" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in DISNAN...." alt="" coords="427,29,577,69"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="371,47,413,47,413,52,371,52"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="463,30,461,20,467,11,481,5,502,3,526,6,539,13,537,18,524,11,502,8,482,10,471,15,466,21,468,28"/>
+<area shape="poly" id="edge6_Node000004_Node000004" title=" " alt="" coords="258,118,256,108,262,99,276,93,297,91,321,94,334,101,331,106,319,99,297,96,277,98,265,103,261,109,263,116"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="419,125,585,150"/>
+<area shape="poly" id="edge7_Node000004_Node000005" title=" " alt="" coords="371,135,405,135,405,140,371,140"/>
+<area shape="poly" id="edge8_Node000005_Node000005" title=" " alt="" coords="468,126,461,116,465,106,479,100,502,98,531,102,542,111,539,115,528,107,502,103,480,105,469,110,466,116,472,123"/>
+</map>

@@ -1,0 +1,26 @@
+<map id="la_lapack_d::la_dlatrd" name="la_lapack_d::la_dlatrd">
+<area shape="rect" id="Node000001" title="DLATRD: reduces NB rows and columns of a real symmetric matrix A to symmetric tridiagonal form by an ..." alt="" coords="5,162,169,187"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__householder__reflectors.html#adc9152fe9ae73eb4b5fc754d1215b0af" title="DLARFG: generates a real elementary reflector H of order n, such that H * ( alpha ) = ( beta ),..." alt="" coords="217,155,388,195"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="170,172,203,172,203,177,170,177"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="632,29,780,69"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="322,152,370,110,401,89,435,72,481,58,528,49,618,43,618,48,529,55,482,63,437,77,404,94,373,114,325,156"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__blas__like__scalar.html#a6392f228090286d0a08702c8ba131de1" title="DLAPY2: returns sqrt(x**2+y**2), taking care not to cause unnecessary overflow and unnecessary underf..." alt="" coords="436,111,584,151"/>
+<area shape="poly" id="edge6_Node000002_Node000005" title=" " alt="" coords="388,154,422,147,423,152,389,159"/>
+<area shape="rect" id="Node000008" href="$namespacela__blas__level1.html#a85be6de988bf594f26206471abfc614b" title="!" alt="" coords="443,199,577,239"/>
+<area shape="poly" id="edge13_Node000002_Node000008" title=" " alt="" coords="389,190,430,199,429,204,388,195"/>
+<area shape="rect" id="Node000009" href="$namespacela__blas__level1.html#a74ba718e1843e245ad196e1a72a1f9ab" title="DSCAL: scales a vector by a constant. uses unrolled loops for increment equal to 1." alt="" coords="443,263,577,303"/>
+<area shape="poly" id="edge15_Node000002_Node000009" title=" " alt="" coords="338,192,437,248,450,255,448,259,435,253,335,197"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="669,30,667,20,673,11,686,5,706,3,729,6,741,13,739,17,727,11,706,8,687,10,676,15,672,21,674,28"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="828,37,995,62"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="781,47,814,47,814,52,781,52"/>
+<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="878,38,870,28,874,18,888,12,911,10,940,14,951,23,948,27,938,19,911,15,889,17,878,22,876,28,882,35"/>
+<area shape="poly" id="edge11_Node000005_Node000003" title=" " alt="" coords="558,108,643,72,645,77,560,113"/>
+<area shape="poly" id="edge12_Node000005_Node000005" title=" " alt="" coords="473,111,471,101,477,92,490,86,510,84,533,87,545,94,543,99,531,92,510,89,491,91,480,96,476,102,478,110"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__blas__like__scalar.html#a942dd2e31c0d9058962f8060e510005e" title="DISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="632,117,780,157"/>
+<area shape="poly" id="edge7_Node000005_Node000006" title=" " alt="" coords="585,131,618,132,618,137,584,136"/>
+<area shape="poly" id="edge8_Node000006_Node000006" title=" " alt="" coords="669,118,667,108,673,99,686,93,706,91,729,94,741,101,739,105,727,99,706,96,687,98,676,103,672,109,674,116"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__blas__like__scalar.html#ab7bb61dcad235be9d6066eda62ea3b31" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in DISNAN...." alt="" coords="836,117,987,157"/>
+<area shape="poly" id="edge9_Node000006_Node000007" title=" " alt="" coords="781,135,822,135,822,140,781,140"/>
+<area shape="poly" id="edge10_Node000007_Node000007" title=" " alt="" coords="873,118,870,108,877,99,890,93,911,91,935,94,949,101,946,106,934,99,911,96,892,98,880,103,876,109,878,116"/>
+<area shape="poly" id="edge14_Node000008_Node000008" title=" " alt="" coords="473,199,471,189,477,180,490,174,510,172,533,175,545,182,543,187,531,180,510,177,491,179,480,184,476,190,478,198"/>
+</map>

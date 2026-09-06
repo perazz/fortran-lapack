@@ -1,5 +1,0 @@
-<map id="la_lapack_w::la_wtrcon" name="la_lapack_w::la_wtrcon">
-<area shape="rect" id="Node000001" title="ZTRCON: estimates the reciprocal of the condition number of a triangular matrix A,..." alt="" coords="5,5,177,31"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__w.html#af9826209e64772b2a39b497fd5c0063e" title="ZLATRS: solves one of the triangular systems A * x = s*b, A**T * x = s*b, or A**H * x = s*b,..." alt="" coords="225,5,393,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="178,15,212,15,212,21,178,21"/>
-</map>

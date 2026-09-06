@@ -1,7 +1,34 @@
 <map id="la_lapack_s::la_sgesvj" name="la_lapack_s::la_sgesvj">
-<area shape="rect" id="Node000001" title="SGESVJ: computes the singular value decomposition (SVD) of a real M&#45;by&#45;N matrix A,..." alt="" coords="5,31,172,56"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#aadf06185403181cad6507e39e7390bbf" title="SGSVJ0: is called from SGESVJ as a pre&#45;processor and that is its main purpose. It applies Jacobi rota..." alt="" coords="220,5,387,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="172,31,206,27,206,32,173,36"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__s.html#a0419abb9347e8ba64371d1c3af182ed0" title="SGSVJ1: is called from SGESVJ as a pre&#45;processor and that is its main purpose. It applies Jacobi rota..." alt="" coords="220,55,387,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="173,50,206,54,206,59,172,55"/>
+<area shape="rect" id="Node000001" title="SGESVJ: computes the singular value decomposition (SVD) of a real M&#45;by&#45;N matrix A,..." alt="" coords="5,166,172,191"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#aadf06185403181cad6507e39e7390bbf" title="SGSVJ0: is called from SGESVJ as a pre&#45;processor and that is its main purpose. It applies Jacobi rota..." alt="" coords="220,91,387,117"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="120,163,219,125,242,118,244,123,221,131,122,168"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__blas__like__l2.html#a2b3f36dadb18d8641ab84d367e33e66a" title="SLASCL: multiplies the M by N real matrix A by the real scalar CTO/CFROM. This is done without over/u..." alt="" coords="435,85,583,125"/>
+<area shape="poly" id="edge18_Node000001_Node000003" title=" " alt="" coords="99,164,147,118,181,94,219,76,274,64,330,63,385,69,433,79,432,84,384,74,330,69,275,70,221,81,184,99,151,122,103,168"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="640,221,788,261"/>
+<area shape="poly" id="edge17_Node000001_Node000007" title=" " alt="" coords="172,184,626,230,626,235,172,190"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__blas__like__l1.html#ae5c2169a6c71e36b2c609ff76788d83b" title="!" alt="" coords="435,149,583,189"/>
+<area shape="poly" id="edge21_Node000001_Node000009" title=" " alt="" coords="172,177,387,175,421,173,421,178,387,180,173,182"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__s.html#a0419abb9347e8ba64371d1c3af182ed0" title="SGSVJ1: is called from SGESVJ as a pre&#45;processor and that is its main purpose. It applies Jacobi rota..." alt="" coords="220,141,387,166"/>
+<area shape="poly" id="edge14_Node000001_Node000010" title=" " alt="" coords="172,166,206,162,206,167,173,171"/>
+<area shape="rect" id="Node000011" href="$namespacela__lapack__blas__like__base.html#a1820d5cc47f17a2df32a206d9865b05b" title="SLASET: initializes an m&#45;by&#45;n matrix A to BETA on the diagonal and ALPHA on the offdiagonals." alt="" coords="435,292,583,332"/>
+<area shape="poly" id="edge19_Node000001_Node000011" title=" " alt="" coords="104,189,153,231,186,253,221,271,271,287,323,298,421,309,421,314,322,304,270,292,219,276,183,258,150,235,101,193"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="387,102,421,102,421,107,387,107"/>
+<area shape="poly" id="edge13_Node000002_Node000009" title=" " alt="" coords="350,114,387,125,438,142,437,147,386,131,349,119"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="845,229,1012,254"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="583,98,632,98,687,102,744,112,798,130,832,148,863,170,910,216,906,220,859,175,829,152,796,134,743,117,687,108,632,103,583,103"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__blas__like__scalar.html#a4d6735a3a0bfd81ec48d9c107c0d7893" title="SISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="640,29,788,69"/>
+<area shape="poly" id="edge5_Node000003_Node000005" title=" " alt="" coords="582,83,627,70,628,75,583,88"/>
+<area shape="poly" id="edge9_Node000003_Node000007" title=" " alt="" coords="563,123,584,135,609,156,632,179,674,211,671,216,629,183,606,160,581,140,560,128"/>
+<area shape="rect" id="Node000008" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="631,145,797,170"/>
+<area shape="poly" id="edge12_Node000003_Node000008" title=" " alt="" coords="584,122,650,139,649,144,583,127"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="894,230,886,220,890,210,905,204,929,202,958,206,970,215,967,219,956,211,929,207,906,209,894,214,891,220,898,227"/>
+<area shape="poly" id="edge6_Node000005_Node000005" title=" " alt="" coords="675,30,673,20,679,11,693,5,714,3,738,6,751,13,749,18,736,11,714,8,694,10,683,15,678,21,680,28"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__blas__like__scalar.html#af7a547cc3906149e087d6003dc2ab082" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in SISNAN...." alt="" coords="854,29,1003,69"/>
+<area shape="poly" id="edge7_Node000005_Node000006" title=" " alt="" coords="788,47,840,47,840,52,788,52"/>
+<area shape="poly" id="edge8_Node000006_Node000006" title=" " alt="" coords="889,30,886,20,893,10,907,5,929,3,954,6,967,13,965,18,952,11,929,8,908,10,896,15,891,21,894,28"/>
+<area shape="poly" id="edge10_Node000007_Node000004" title=" " alt="" coords="788,239,831,239,831,244,788,244"/>
+<area shape="poly" id="edge11_Node000007_Node000007" title=" " alt="" coords="675,222,673,212,679,203,693,197,714,195,738,198,751,205,749,210,736,203,714,200,694,202,683,207,678,213,680,220"/>
+<area shape="poly" id="edge15_Node000010_Node000003" title=" " alt="" coords="358,138,421,123,422,128,359,143"/>
+<area shape="poly" id="edge16_Node000010_Node000009" title=" " alt="" coords="387,157,421,160,420,165,387,162"/>
+<area shape="poly" id="edge20_Node000011_Node000004" title=" " alt="" coords="583,302,684,289,797,271,867,255,868,260,798,276,685,294,583,307"/>
 </map>

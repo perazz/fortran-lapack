@@ -1,7 +1,0 @@
-<map id="la_lapack_s::la_spbtrf" name="la_lapack_s::la_spbtrf">
-<area shape="rect" id="Node000001" title="SPBTRF: computes the Cholesky factorization of a real symmetric positive definite band matrix A...." alt="" coords="5,31,168,56"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#a15b41e2591782808f6ced63efd135f42" title="SPBTF2: computes the Cholesky factorization of a real symmetric positive definite band matrix A...." alt="" coords="216,5,383,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="168,31,202,27,203,32,169,36"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__s.html#ad0d217cec2b5cf563fdf76d9e97bcc2f" title="SPOTF2: computes the Cholesky factorization of a real symmetric positive definite matrix A...." alt="" coords="216,55,383,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="169,50,203,54,202,59,168,55"/>
-</map>

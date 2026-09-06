@@ -1,5 +1,0 @@
-<map id="la_lapack_q::la_qtrcon" name="la_lapack_q::la_qtrcon">
-<area shape="rect" id="Node000001" title="DTRCON: estimates the reciprocal of the condition number of a triangular matrix A,..." alt="" coords="5,5,172,31"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__q.html#a7a5b8691869f187a905c99dcce81fc26" title="DLATRS: solves one of the triangular systems A *x = s*b or A**T *x = s*b with scaling to prevent over..." alt="" coords="220,5,383,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="172,15,206,15,206,21,172,21"/>
-</map>

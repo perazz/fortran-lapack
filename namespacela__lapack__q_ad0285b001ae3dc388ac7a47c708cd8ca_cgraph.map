@@ -1,7 +1,0 @@
-<map id="la_lapack_q::la_qtftri" name="la_lapack_q::la_qtftri">
-<area shape="rect" id="Node000001" title="DTFTRI: computes the inverse of a triangular matrix A stored in RFP format. This is a Level 3 BLAS ve..." alt="" coords="5,5,163,31"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__q.html#a8ef76d703e21670ad5f579a96374561e" title="DTRTRI: computes the inverse of a real upper or lower triangular matrix A. This is the Level 3 BLAS v..." alt="" coords="211,5,369,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="163,15,197,15,197,21,163,21"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__q.html#a61bb45217819d84c321e2e1c96a92d62" title="DTRTI2: computes the inverse of a real upper or lower triangular matrix. This is the Level 2 BLAS ver..." alt="" coords="417,5,579,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="370,15,404,15,404,21,370,21"/>
-</map>

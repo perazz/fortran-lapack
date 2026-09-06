@@ -1,9 +1,0 @@
-<map id="la_lapack_d::la_dsytf2_rook" name="la_lapack_d::la_dsytf2_rook">
-<area shape="rect" id="Node000001" title="DSYTF2_ROOK: computes the factorization of a real symmetric matrix A using the bounded Bunch&#45;Kaufman ..." alt="" coords="5,37,208,62"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="256,29,404,69"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="208,47,242,47,242,52,208,52"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="291,30,289,20,295,11,309,5,330,3,354,6,367,13,365,18,352,11,330,8,310,10,299,15,294,21,296,28"/>
-<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="452,37,619,62"/>
-<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="405,47,438,47,438,52,405,52"/>
-<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="502,38,494,28,498,18,512,12,535,10,564,14,575,23,572,27,562,19,535,15,513,17,502,22,500,28,506,35"/>
-</map>

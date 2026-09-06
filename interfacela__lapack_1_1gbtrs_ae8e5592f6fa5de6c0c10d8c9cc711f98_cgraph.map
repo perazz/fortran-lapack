@@ -1,7 +1,40 @@
 <map id="la_lapack::gbtrs::dgbtrs" name="la_lapack::gbtrs::dgbtrs">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,31,180,56"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__d.html#aaf073aa1d4a5c717bff86e6161acf1e0" title="DGBTRS: solves a system of linear equations A * X = B or A**T * X = B with a general band matrix A us..." alt="" coords="228,5,395,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="180,31,214,27,215,32,181,36"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__q.html#a001dd22b5def5b1fa000fad9b0519194" title="DGBTRS: solves a system of linear equations A * X = B or A**T * X = B with a general band matrix A us..." alt="" coords="228,55,395,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="181,50,215,54,214,59,180,56"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,316,180,342"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__solve__lu__comp.html#a910f3f941850dd035cd75f9f21627a85" title="DGBTRS: solves a system of linear equations A * X = B or A**T * X = B with a general band matrix A us..." alt="" coords="228,220,373,260"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="122,314,240,263,242,268,124,319"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__solve__lu__comp.html#a7997d133d3b7b13dc0e90ff5e81958f7" title="QGBTRS: solves a system of linear equations A * X = B or A**T * X = B with a general band matrix A us..." alt="" coords="228,398,373,438"/>
+<area shape="poly" id="edge14_Node000001_Node000009" title=" " alt="" coords="124,339,242,390,240,395,122,344"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__level2__gen.html#a9c2a31bb0d2d592ea44f94e08a22d9bb" title="DGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="421,220,568,260"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="374,237,408,237,408,242,374,242"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="616,199,783,224"/>
+<area shape="poly" id="edge12_Node000002_Node000004" title=" " alt="" coords="304,219,316,176,338,122,372,69,394,46,420,27,459,8,494,3,529,9,569,27,593,42,614,60,649,103,674,147,691,185,686,187,670,150,644,106,610,64,589,46,567,31,528,14,494,8,461,14,423,31,398,50,376,72,343,125,321,178,309,220"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="616,374,783,399"/>
+<area shape="poly" id="edge13_Node000002_Node000005" title=" " alt="" coords="374,256,468,284,569,320,664,365,662,370,567,325,466,289,373,261"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__level2__gen.html#ab5786638251654dbe30bee93c5ba21a1" title="DGER: performs the rank 1 operation A := alpha*x*y**T + A, where alpha is a scalar,..." alt="" coords="421,462,568,502"/>
+<area shape="poly" id="edge6_Node000002_Node000006" title=" " alt="" coords="314,259,365,361,396,414,423,449,428,453,425,457,419,452,392,417,360,363,309,261"/>
+<area shape="rect" id="Node000007" href="$namespacela__blas__level1.html#a994a029162ceccb497f081b70e6d4b10" title="DSWAP: interchanges two vectors. uses unrolled loops for increments equal to 1." alt="" coords="427,41,562,81"/>
+<area shape="poly" id="edge8_Node000002_Node000007" title=" " alt="" coords="312,218,355,157,385,122,420,91,427,86,430,90,423,95,389,126,359,160,316,221"/>
+<area shape="rect" id="Node000008" href="$namespacela__blas__level2__tri.html#a636d94d3b73153396b3e16db4de5ce86" title="DTBSV: solves one of the systems of equations A*x = b, or A**T*x = b, where b and x are n element vec..." alt="" coords="427,105,563,145"/>
+<area shape="poly" id="edge9_Node000002_Node000008" title=" " alt="" coords="331,217,420,161,441,149,444,154,423,166,334,222"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="568,227,602,222,603,228,569,232"/>
+<area shape="poly" id="edge5_Node000003_Node000005" title=" " alt="" coords="538,257,569,276,628,321,676,362,672,366,625,325,567,281,535,262"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="666,201,659,191,663,181,676,175,699,172,728,176,739,185,735,189,725,181,699,178,678,180,666,184,664,190,670,197"/>
+<area shape="poly" id="edge7_Node000006_Node000005" title=" " alt="" coords="541,460,567,448,659,403,662,408,569,453,543,465"/>
+<area shape="poly" id="edge10_Node000008_Node000004" title=" " alt="" coords="544,143,657,191,655,196,542,148"/>
+<area shape="poly" id="edge11_Node000008_Node000005" title=" " alt="" coords="517,144,570,206,634,290,684,361,679,364,630,294,566,209,513,147"/>
+<area shape="poly" id="edge15_Node000009_Node000004" title=" " alt="" coords="310,397,367,287,398,233,420,206,447,193,476,184,537,179,595,183,645,193,644,198,594,188,537,184,477,189,449,198,423,210,402,236,371,289,314,400"/>
+<area shape="poly" id="edge25_Node000009_Node000005" title=" " alt="" coords="308,438,320,483,341,540,356,569,375,596,397,620,423,640,461,659,495,665,529,659,567,640,595,618,620,591,640,560,656,527,679,463,691,412,696,413,684,465,661,529,644,563,624,594,599,622,569,645,530,664,495,670,459,664,420,645,393,624,370,599,352,571,336,542,315,484,303,439"/>
+<area shape="rect" id="Node000010" href="$namespacela__blas__level2__gen.html#aecd73c3541f591fb801540fa6e7e3883" title="QGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="421,398,568,438"/>
+<area shape="poly" id="edge16_Node000009_Node000010" title=" " alt="" coords="374,416,408,416,408,421,374,421"/>
+<area shape="rect" id="Node000011" href="$namespacela__blas__level2__gen.html#a2babbc60e4573bf86995dc3e7360db8b" title="QGER: performs the rank 1 operation A := alpha*x*y**T + A, where alpha is a scalar,..." alt="" coords="421,526,568,566"/>
+<area shape="poly" id="edge19_Node000009_Node000011" title=" " alt="" coords="325,437,369,474,423,512,433,518,430,523,420,517,366,478,322,441"/>
+<area shape="rect" id="Node000012" href="$namespacela__blas__level1.html#af76ede87367ea347ac47024e17661e20" title="QSWAP: interchanges two vectors. uses unrolled loops for increments equal to 1." alt="" coords="427,590,562,630"/>
+<area shape="poly" id="edge21_Node000009_Node000012" title=" " alt="" coords="315,437,357,504,388,542,423,576,429,581,426,585,420,580,384,546,353,507,310,440"/>
+<area shape="rect" id="Node000013" href="$namespacela__blas__level2__tri.html#aed47d68c3a12e463510120f614d5e3c4" title="QTBSV: solves one of the systems of equations A*x = b, or A**T*x = b, where b and x are n element vec..." alt="" coords="427,334,563,374"/>
+<area shape="poly" id="edge22_Node000009_Node000013" title=" " alt="" coords="361,396,420,376,421,381,363,401"/>
+<area shape="poly" id="edge17_Node000010_Node000004" title=" " alt="" coords="548,396,566,384,604,348,637,308,683,235,687,238,641,311,608,352,570,388,551,400"/>
+<area shape="poly" id="edge18_Node000010_Node000005" title=" " alt="" coords="568,404,604,399,605,404,569,410"/>
+<area shape="poly" id="edge20_Node000011_Node000005" title=" " alt="" coords="546,524,567,512,599,487,630,459,677,408,681,411,633,463,603,491,569,517,549,528"/>
+<area shape="poly" id="edge23_Node000013_Node000004" title=" " alt="" coords="523,332,667,230,670,234,526,336"/>
+<area shape="poly" id="edge24_Node000013_Node000005" title=" " alt="" coords="563,362,605,369,604,374,562,368"/>
 </map>

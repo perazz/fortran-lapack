@@ -1,26 +1,129 @@
 <map id="la_lapack::gglse::cgglse" name="la_lapack::gglse::cgglse">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,129,183,155"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__c.html#a24364d871feb5c3c3ba6430a4d699e0f" title="CGGLSE: solves the linear equality&#45;constrained least squares (LSE) problem: minimize || c &#45; A*x ||_2 ..." alt="" coords="231,129,397,155"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="183,139,217,139,217,145,183,145"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__c.html#a2bbd383743d74cde67cfe18afe8b166b" title="CGGRQF: computes a generalized RQ factorization of an M&#45;by&#45;N matrix A and a P&#45;by&#45;N matrix B: A = R*Q,..." alt="" coords="449,53,616,79"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="351,127,481,81,483,86,352,132"/>
-<area shape="rect" id="Node000008" href="$namespacela__lapack__c.html#a0599c126166274ae8702a42d2a0a81d7" title="CUNMRQ: overwrites the general complex M&#45;by&#45;N matrix C with SIDE = &#39;L&#39; SIDE = &#39;R&#39; TRANS = &#39;N&#39;: Q * C ..." alt="" coords="668,104,843,129"/>
-<area shape="poly" id="edge12_Node000002_Node000008" title=" " alt="" coords="398,135,654,120,654,125,398,140"/>
-<area shape="rect" id="Node000010" href="$namespacela__lapack__c.html#aaf143b388ad376be9eedf544966e82ad" title="CTRTRS: solves a triangular system of the form A * X = B, A**T * X = B, or A**H * X = B,..." alt="" coords="453,155,612,180"/>
-<area shape="poly" id="edge9_Node000002_Node000010" title=" " alt="" coords="398,149,440,154,440,159,397,154"/>
-<area shape="rect" id="Node000011" href="$namespacela__lapack__c.html#ac64d6883152338ed7f59eb91e705ed37" title="CUNMQR: overwrites the general complex M&#45;by&#45;N matrix C with SIDE = &#39;L&#39; SIDE = &#39;R&#39; TRANS = &#39;N&#39;: Q * C ..." alt="" coords="445,204,620,229"/>
-<area shape="poly" id="edge10_Node000002_Node000011" title=" " alt="" coords="346,152,446,190,470,198,468,203,444,195,345,157"/>
-<area shape="rect" id="Node000004" href="$namespacela__lapack__c.html#a34e8089e813cfbd07a3b01c1baf00696" title="CGEQRF: computes a QR factorization of a complex M&#45;by&#45;N matrix A: A = Q * ( R ), ( 0 ) where: Q is a ..." alt="" coords="672,5,839,31"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="592,51,682,31,683,36,593,56"/>
-<area shape="rect" id="Node000006" href="$namespacela__lapack__c.html#a22b0c068fad17dc5d625c20ca613a1b8" title="CGERQF: computes an RQ factorization of a complex M&#45;by&#45;N matrix A: A = R * Q." alt="" coords="672,55,839,80"/>
-<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="617,64,658,64,658,69,617,69"/>
-<area shape="poly" id="edge7_Node000003_Node000008" title=" " alt="" coords="590,76,686,98,685,104,589,81"/>
-<area shape="rect" id="Node000005" href="$namespacela__lapack__c.html#acf2e42f853f95a631303cbf93732a012" title="CGEQR2: computes a QR factorization of a complex m&#45;by&#45;n matrix A: A = Q * ( R ), ( 0 ) where: Q is a ..." alt="" coords="893,5,1063,31"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="839,15,880,15,880,21,839,21"/>
-<area shape="rect" id="Node000007" href="$namespacela__lapack__c.html#a9b582b82d6c86b98bafe2fbba8c41bfa" title="CGERQ2: computes an RQ factorization of a complex m by n matrix A: A = R * Q." alt="" coords="893,55,1063,80"/>
-<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="839,65,880,65,880,70,839,70"/>
-<area shape="rect" id="Node000009" href="$namespacela__lapack__c.html#a6e2b869d63e9dd9f1c3377d26e62cebf" title="CUNMR2: overwrites the general complex m&#45;by&#45;n matrix C with Q * C if SIDE = &#39;L&#39; and TRANS = &#39;N&#39;,..." alt="" coords="891,104,1065,129"/>
-<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="843,114,877,114,877,119,843,119"/>
-<area shape="rect" id="Node000012" href="$namespacela__lapack__c.html#a81952ea8a98e95d223cf55dbaefa51ce" title="CUNM2R: overwrites the general complex m&#45;by&#45;n matrix C with Q * C if SIDE = &#39;L&#39; and TRANS = &#39;N&#39;,..." alt="" coords="668,204,843,229"/>
-<area shape="poly" id="edge11_Node000011_Node000012" title=" " alt="" coords="620,214,654,214,654,219,620,219"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,626,183,651"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__c.html#a24364d871feb5c3c3ba6430a4d699e0f" title="CGGLSE: solves the linear equality&#45;constrained least squares (LSE) problem: minimize || c &#45; A*x ||_2 ..." alt="" coords="231,626,397,651"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="183,636,217,636,217,641,183,641"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__c.html#a2bbd383743d74cde67cfe18afe8b166b" title="CGGRQF: computes a generalized RQ factorization of an M&#45;by&#45;N matrix A and a P&#45;by&#45;N matrix B: A = R*Q,..." alt="" coords="445,575,612,601"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="368,623,460,601,462,606,369,628"/>
+<area shape="rect" id="Node000030" href="$namespacela__lapack__aux.html#aa361c7114aef95e10b685247a1b75114" title="ILAENV: is called from the LAPACK routines to choose problem&#45;dependent parameters for the local envir..." alt="" coords="883,426,1065,451"/>
+<area shape="poly" id="edge87_Node000002_Node000030" title=" " alt="" coords="334,624,444,560,549,507,596,488,659,469,767,449,869,439,869,445,767,455,661,475,598,493,551,512,447,565,336,628"/>
+<area shape="rect" id="Node000035" href="$namespacela__lapack__c.html#a0599c126166274ae8702a42d2a0a81d7" title="CUNMRQ: overwrites the general complex M&#45;by&#45;N matrix C with SIDE = &#39;L&#39; SIDE = &#39;R&#39; TRANS = &#39;N&#39;: Q * C ..." alt="" coords="660,677,835,702"/>
+<area shape="poly" id="edge86_Node000002_Node000035" title=" " alt="" coords="398,646,647,675,646,680,397,651"/>
+<area shape="rect" id="Node000037" href="$namespacela__lapack__solve__tri__comp.html#a0857635e51477b36b2b9fd5fb01a95b9" title="CTRTRS: solves a triangular system of the form A * X = B, A**T * X = B, or A**H * X = B,..." alt="" coords="1134,1119,1281,1159"/>
+<area shape="poly" id="edge74_Node000002_Node000037" title=" " alt="" coords="337,649,639,835,870,969,1115,1098,1143,1111,1140,1115,1112,1102,868,973,636,840,334,654"/>
+<area shape="rect" id="Node000039" href="$namespacela__lapack__c.html#ac64d6883152338ed7f59eb91e705ed37" title="CUNMQR: overwrites the general complex M&#45;by&#45;N matrix C with SIDE = &#39;L&#39; SIDE = &#39;R&#39; TRANS = &#39;N&#39;: Q * C ..." alt="" coords="660,626,835,651"/>
+<area shape="poly" id="edge80_Node000002_Node000039" title=" " alt="" coords="397,636,646,636,646,641,397,641"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__c.html#a34e8089e813cfbd07a3b01c1baf00696" title="CGEQRF: computes a QR factorization of a complex M&#45;by&#45;N matrix A: A = Q * ( R ), ( 0 ) where: Q is a ..." alt="" coords="664,527,831,553"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="587,573,675,553,676,558,588,578"/>
+<area shape="poly" id="edge73_Node000003_Node000030" title=" " alt="" coords="548,573,597,543,659,512,774,476,881,451,882,456,775,481,661,517,599,547,550,577"/>
+<area shape="rect" id="Node000033" href="$namespacela__lapack__c.html#a22b0c068fad17dc5d625c20ca613a1b8" title="CGERQF: computes an RQ factorization of a complex M&#45;by&#45;N matrix A: A = R * Q." alt="" coords="664,577,831,602"/>
+<area shape="poly" id="edge58_Node000003_Node000033" title=" " alt="" coords="612,586,650,586,650,591,612,591"/>
+<area shape="poly" id="edge66_Node000003_Node000035" title=" " alt="" coords="551,599,600,629,661,660,687,670,685,675,659,665,597,633,548,603"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__c.html#acf2e42f853f95a631303cbf93732a012" title="CGEQR2: computes a QR factorization of a complex m&#45;by&#45;n matrix A: A = Q * ( R ), ( 0 ) where: Q is a ..." alt="" coords="889,475,1059,501"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="803,525,904,501,906,506,804,530"/>
+<area shape="rect" id="Node000023" href="$namespacela__lapack__householder__reflectors.html#a26b24b44c901557677b4e6b3598d5e8c" title="CLARFB: applies a complex block reflector H or its transpose H**H to a complex M&#45;by&#45;N matrix C,..." alt="" coords="889,739,1059,779"/>
+<area shape="poly" id="edge35_Node000004_Node000023" title=" " alt="" coords="820,551,837,562,852,582,860,603,862,644,864,684,870,704,885,724,890,728,886,732,881,727,866,706,858,685,857,644,855,604,848,585,833,566,817,555"/>
+<area shape="rect" id="Node000028" href="$namespacela__lapack__householder__reflectors.html#a12c58ae973f7c7c0bcd2ffe9ca568742" title="CLARFT: forms the triangular factor T of a complex block reflector H of order n, which is defined as ..." alt="" coords="889,525,1059,565"/>
+<area shape="poly" id="edge45_Node000004_Node000028" title=" " alt="" coords="831,539,875,540,875,546,831,545"/>
+<area shape="poly" id="edge52_Node000004_Node000030" title=" " alt="" coords="792,525,833,506,847,494,856,483,866,472,881,460,895,454,897,459,884,465,870,476,860,487,851,498,836,510,794,530"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__householder__reflectors.html#a17fa4453bfe36f615b4787e6f44878d6" title="CLARF: applies a complex elementary reflector H to a complex M&#45;by&#45;N matrix C, from either the left or..." alt="" coords="1122,611,1293,651"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="1035,498,1067,511,1099,531,1130,554,1180,599,1176,603,1126,558,1096,535,1064,516,1033,503"/>
+<area shape="rect" id="Node000013" href="$namespacela__lapack__householder__reflectors.html#a01592f52f4ce38dc32350addde637322" title="CLARFG: generates a complex elementary reflector H of order n, such that H**H * ( alpha ) = ( beta ),..." alt="" coords="1122,319,1293,359"/>
+<area shape="poly" id="edge17_Node000005_Node000013" title=" " alt="" coords="1038,473,1064,460,1079,447,1088,434,1097,420,1111,403,1161,364,1164,369,1115,407,1102,423,1093,437,1083,451,1067,465,1040,478"/>
+<area shape="rect" id="Node000007" href="$namespacela__blas__level2__gen.html#ac20eb127776577a093cdcdfcf3976edf" title="CGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="1364,525,1511,565"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="1261,608,1369,568,1371,573,1263,613"/>
+<area shape="rect" id="Node000008" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="1984,721,2151,746"/>
+<area shape="poly" id="edge16_Node000006_Node000008" title=" " alt="" coords="1293,626,1349,625,1437,622,1526,625,1661,643,1794,667,2005,715,2004,720,1793,672,1660,648,1525,631,1437,628,1349,631,1293,631"/>
+<area shape="rect" id="Node000010" href="$namespacela__blas__level2__gen.html#a22ec663923c356759875dfacc7d74b4a" title="CGERC: performs the rank 1 operation A := alpha*x*y**H + A, where alpha is a scalar,..." alt="" coords="1364,788,1511,828"/>
+<area shape="poly" id="edge10_Node000006_Node000010" title=" " alt="" coords="1287,649,1303,661,1315,675,1323,690,1328,718,1333,746,1340,759,1351,773,1358,779,1355,783,1347,777,1335,762,1328,747,1323,719,1318,691,1311,678,1300,665,1283,653"/>
+<area shape="rect" id="Node000011" href="$namespacela__lapack__aux.html#ab49220412a0c71ba72f6a064547c57b9" title="ILACLC: scans A for its last non&#45;zero column." alt="" coords="1349,665,1525,690"/>
+<area shape="poly" id="edge12_Node000006_Node000011" title=" " alt="" coords="1293,645,1361,659,1360,664,1292,651"/>
+<area shape="rect" id="Node000012" href="$namespacela__lapack__aux.html#ab070383b8f791c7b77f51acc5928d45d" title="ILACLR: scans A for its last non&#45;zero row." alt="" coords="1350,738,1525,763"/>
+<area shape="poly" id="edge14_Node000006_Node000012" title=" " alt="" coords="1277,648,1303,660,1328,679,1351,699,1401,729,1398,734,1348,703,1324,683,1300,665,1275,653"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="1510,532,1600,525,1710,526,1768,532,1826,543,1883,559,1937,582,1976,608,2009,642,2036,677,2055,707,2050,710,2032,680,2005,645,1973,612,1935,586,1881,564,1825,548,1767,538,1709,532,1600,530,1511,537"/>
+<area shape="rect" id="Node000009" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="1573,903,1740,929"/>
+<area shape="poly" id="edge9_Node000007_Node000009" title=" " alt="" coords="1467,564,1498,592,1527,626,1571,697,1606,771,1650,889,1645,891,1601,773,1566,700,1523,630,1494,595,1463,568"/>
+<area shape="poly" id="edge8_Node000008_Node000008" title=" " alt="" coords="2034,722,2026,712,2030,702,2044,696,2067,694,2096,698,2107,707,2104,711,2094,703,2067,699,2045,701,2034,706,2032,712,2038,719"/>
+<area shape="poly" id="edge11_Node000010_Node000009" title=" " alt="" coords="1480,826,1618,895,1616,899,1478,830"/>
+<area shape="poly" id="edge13_Node000011_Node000011" title=" " alt="" coords="1402,666,1394,656,1398,646,1413,640,1437,638,1468,642,1480,651,1477,655,1466,647,1437,643,1414,645,1402,650,1399,656,1406,663"/>
+<area shape="poly" id="edge15_Node000012_Node000012" title=" " alt="" coords="1402,740,1394,730,1398,720,1413,714,1437,711,1468,715,1480,724,1477,728,1466,720,1437,717,1414,719,1402,724,1399,729,1406,736"/>
+<area shape="rect" id="Node000014" href="$namespacela__lapack__blas__like__scalar.html#aa4386e907510cacb88a240be498b8a00" title="CLADIV: := X / Y, where X and Y are complex. The computation of X / Y will not overflow on an interme..." alt="" coords="1363,181,1511,221"/>
+<area shape="poly" id="edge18_Node000013_Node000014" title=" " alt="" coords="1277,316,1300,303,1315,288,1323,272,1332,255,1348,238,1366,225,1369,230,1351,242,1336,258,1328,274,1319,291,1303,307,1280,321"/>
+<area shape="rect" id="Node000018" href="$namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="1788,261,1936,301"/>
+<area shape="poly" id="edge31_Node000013_Node000018" title=" " alt="" coords="1293,329,1774,286,1774,292,1293,334"/>
+<area shape="rect" id="Node000019" href="$namespacela__blas__level1.html#a9573e8a3d84bf41603295ae8e93d7bb6" title="CSCAL: scales a vector by a constant." alt="" coords="1370,347,1505,387"/>
+<area shape="poly" id="edge27_Node000013_Node000019" title=" " alt="" coords="1293,346,1357,354,1356,360,1292,352"/>
+<area shape="rect" id="Node000020" href="$namespacela__blas__level1.html#a818df9a899b338869177ee3f7657bece" title="CSSCAL: scales a complex vector by a real constant." alt="" coords="1370,5,1505,45"/>
+<area shape="poly" id="edge28_Node000013_Node000020" title=" " alt="" coords="1284,317,1299,304,1319,273,1327,242,1327,212,1323,182,1319,151,1319,120,1327,88,1347,56,1356,47,1360,51,1351,59,1332,90,1324,121,1324,151,1328,181,1332,212,1332,243,1324,275,1303,307,1287,321"/>
+<area shape="rect" id="Node000021" href="$namespacela__blas__level1.html#ad249878d9ae53f193c73681de3bd2734" title="!" alt="" coords="1370,93,1505,133"/>
+<area shape="poly" id="edge29_Node000013_Node000021" title=" " alt="" coords="1283,317,1299,303,1314,284,1321,265,1323,225,1325,185,1332,164,1347,144,1357,135,1360,139,1351,147,1337,167,1330,186,1328,226,1326,266,1318,286,1303,307,1286,321"/>
+<area shape="rect" id="Node000022" href="$namespacela__lapack__blas__like__scalar.html#a50f83109cac50f77476c73bf9be96171" title="SLAPY3: returns sqrt(x**2+y**2+z**2), taking care not to cause unnecessary overflow and unnecessary u..." alt="" coords="1583,232,1731,272"/>
+<area shape="poly" id="edge32_Node000013_Node000022" title=" " alt="" coords="1263,316,1349,288,1463,268,1568,256,1569,261,1464,273,1350,293,1264,321"/>
+<area shape="poly" id="edge19_Node000014_Node000014" title=" " alt="" coords="1396,182,1394,172,1400,162,1415,157,1437,155,1463,158,1477,165,1474,170,1461,163,1437,160,1416,162,1404,167,1399,173,1401,180"/>
+<area shape="rect" id="Node000015" href="$namespacela__lapack__blas__like__scalar.html#a7904fc341f85d41c6d9847eee62c3212" title="SLADIV: performs complex division in real arithmetic a + i*b p + i*q = &#45;&#45;&#45;&#45;&#45;&#45;— c + i*d The algorithm ..." alt="" coords="1583,144,1731,184"/>
+<area shape="poly" id="edge20_Node000014_Node000015" title=" " alt="" coords="1511,186,1568,176,1569,182,1512,191"/>
+<area shape="rect" id="Node000016" href="$namespacela__lapack__auxiliary.html#a8d748d5192da42c522f28e566338f2ed" title=" " alt="" coords="1788,144,1936,184"/>
+<area shape="poly" id="edge21_Node000015_Node000016" title=" " alt="" coords="1731,161,1774,161,1774,167,1731,167"/>
+<area shape="poly" id="edge24_Node000015_Node000018" title=" " alt="" coords="1716,182,1741,194,1787,222,1827,251,1824,255,1784,226,1739,198,1714,187"/>
+<area shape="rect" id="Node000017" href="$namespacela__lapack__auxiliary.html#a060d1eb779ff4b79b8e210d748d3e239" title=" " alt="" coords="1993,144,2141,184"/>
+<area shape="poly" id="edge22_Node000016_Node000017" title=" " alt="" coords="1937,161,1980,161,1980,167,1937,167"/>
+<area shape="poly" id="edge23_Node000017_Node000017" title=" " alt="" coords="2029,144,2026,134,2033,125,2046,119,2067,117,2091,120,2105,128,2102,132,2090,125,2067,123,2048,125,2036,129,2032,135,2034,143"/>
+<area shape="poly" id="edge25_Node000018_Node000008" title=" " alt="" coords="1879,300,1907,347,1938,404,1977,490,2012,576,2060,707,2055,709,2007,578,1972,492,1934,407,1903,350,1874,303"/>
+<area shape="poly" id="edge26_Node000018_Node000018" title=" " alt="" coords="1823,262,1821,252,1827,243,1841,237,1862,235,1886,238,1899,245,1897,250,1884,243,1862,240,1842,242,1831,247,1826,253,1828,260"/>
+<area shape="poly" id="edge30_Node000021_Node000021" title=" " alt="" coords="1396,94,1394,84,1400,74,1415,69,1437,67,1463,70,1477,77,1474,82,1461,75,1437,72,1416,74,1404,79,1399,85,1401,92"/>
+<area shape="poly" id="edge33_Node000022_Node000018" title=" " alt="" coords="1732,260,1775,266,1774,271,1731,265"/>
+<area shape="poly" id="edge34_Node000022_Node000022" title=" " alt="" coords="1618,232,1616,222,1622,213,1636,207,1657,205,1681,208,1694,216,1691,220,1679,213,1657,211,1637,213,1625,217,1621,223,1623,231"/>
+<area shape="poly" id="edge44_Node000023_Node000008" title=" " alt="" coords="991,777,1053,854,1099,904,1154,955,1217,1002,1285,1042,1321,1057,1359,1069,1397,1076,1436,1079,1658,1079,1744,1072,1778,1063,1809,1051,1868,1013,1934,955,1977,907,2012,853,2037,800,2055,758,2060,760,2042,803,2016,855,1981,910,1938,959,1871,1017,1811,1056,1780,1068,1745,1077,1658,1084,1436,1084,1396,1081,1357,1074,1320,1062,1283,1046,1214,1006,1151,959,1095,907,1049,858,987,781"/>
+<area shape="rect" id="Node000024" href="$namespacela__blas__level1.html#a46c9d035c419338d1b9614094e1bddda" title="CCOPY: copies a vector x to a vector y." alt="" coords="1140,853,1275,893"/>
+<area shape="poly" id="edge36_Node000023_Node000024" title=" " alt="" coords="1011,776,1115,832,1144,846,1142,850,1112,837,1008,781"/>
+<area shape="rect" id="Node000025" href="$namespacela__blas__level3__gen.html#a2b82856af968b830d01f3bb53f089e7b" title="CGEMM: performs one of the matrix&#45;matrix operations C := alpha*op( A )*op( B ) + beta*C,..." alt="" coords="1134,675,1281,715"/>
+<area shape="poly" id="edge37_Node000023_Node000025" title=" " alt="" coords="1047,736,1120,716,1121,721,1048,741"/>
+<area shape="rect" id="Node000026" href="$namespacela__lapack__blas__like__l1.html#a65e16ab6e529b6346d3ce052868e5744" title="CLACGV: conjugates a complex vector of length N." alt="" coords="1133,739,1281,779"/>
+<area shape="poly" id="edge40_Node000023_Node000026" title=" " alt="" coords="1060,756,1120,756,1120,761,1060,761"/>
+<area shape="rect" id="Node000027" href="$namespacela__blas__level3__tri.html#a1560ca1a3fd2d9263c855059c783885f" title="CTRMM: performs one of the matrix&#45;matrix operations B := alpha*op( A )*B, or B := alpha*B*op( A ) whe..." alt="" coords="1369,1004,1505,1044"/>
+<area shape="poly" id="edge41_Node000023_Node000027" title=" " alt="" coords="1060,776,1212,812,1303,839,1323,862,1331,885,1338,909,1352,936,1377,966,1404,993,1400,996,1373,970,1347,939,1333,911,1326,887,1318,865,1300,844,1211,818,1059,781"/>
+<area shape="poly" id="edge38_Node000025_Node000008" title=" " alt="" coords="1282,710,1303,725,1315,740,1322,755,1326,786,1331,814,1338,826,1351,838,1374,849,1404,856,1479,860,1569,853,1667,837,1767,815,1863,791,2013,748,2014,753,1864,796,1769,820,1668,842,1569,858,1479,866,1403,861,1372,854,1348,842,1334,830,1326,816,1321,786,1317,757,1311,742,1300,729,1279,715"/>
+<area shape="poly" id="edge39_Node000025_Node000009" title=" " alt="" coords="1283,710,1303,725,1318,745,1325,766,1326,808,1328,847,1335,865,1351,882,1375,899,1402,911,1460,926,1519,930,1573,928,1574,933,1519,936,1459,931,1400,916,1373,903,1348,886,1331,867,1323,848,1321,808,1320,767,1313,748,1299,729,1280,714"/>
+<area shape="poly" id="edge42_Node000027_Node000008" title=" " alt="" coords="1505,1015,1596,1001,1707,977,1765,959,1824,938,1881,912,1935,882,1971,853,2003,819,2049,756,2054,759,2007,822,1975,857,1937,886,1884,917,1826,943,1767,964,1708,982,1597,1007,1506,1020"/>
+<area shape="poly" id="edge43_Node000027_Node000009" title=" " alt="" coords="1484,1002,1524,983,1619,933,1622,938,1527,988,1486,1006"/>
+<area shape="poly" id="edge47_Node000028_Node000007" title=" " alt="" coords="1060,543,1350,543,1350,548,1060,548"/>
+<area shape="poly" id="edge51_Node000028_Node000008" title=" " alt="" coords="1028,523,1112,492,1272,441,1343,427,1436,421,1658,421,1741,422,1808,428,1838,436,1869,449,1902,468,1938,494,1963,517,1985,544,2021,602,2046,660,2062,706,2057,708,2041,662,2017,605,1981,547,1959,521,1934,498,1899,473,1867,454,1837,441,1807,433,1741,427,1658,427,1436,427,1344,432,1273,447,1114,497,1030,528"/>
+<area shape="poly" id="edge46_Node000028_Node000025" title=" " alt="" coords="1049,563,1067,575,1085,597,1092,619,1099,640,1115,661,1123,667,1120,671,1111,665,1094,643,1087,621,1080,600,1064,579,1046,568"/>
+<area shape="rect" id="Node000029" href="$namespacela__blas__level2__tri.html#aae978a09d323c50e0c65155bdc106032" title="CTRMV: performs one of the matrix&#45;vector operations x := A*x, or x := A**T*x, or x := A**H*x,..." alt="" coords="1369,461,1505,501"/>
+<area shape="poly" id="edge48_Node000028_Node000029" title=" " alt="" coords="1059,531,1355,490,1356,495,1060,536"/>
+<area shape="poly" id="edge49_Node000029_Node000008" title=" " alt="" coords="1505,470,1597,465,1709,469,1768,478,1827,492,1884,512,1937,540,1981,578,2016,623,2042,669,2059,707,2054,709,2037,671,2011,626,1977,581,1935,545,1882,517,1826,497,1767,483,1708,475,1597,470,1506,475"/>
+<area shape="poly" id="edge50_Node000029_Node000009" title=" " alt="" coords="1507,497,1527,511,1563,557,1592,607,1614,661,1631,716,1650,816,1657,889,1652,890,1645,817,1625,717,1609,663,1587,610,1559,560,1523,515,1504,501"/>
+<area shape="poly" id="edge55_Node000030_Node000030" title=" " alt="" coords="937,428,929,418,933,408,949,402,974,399,1006,403,1018,413,1015,417,1004,408,974,405,950,407,937,412,934,417,941,424"/>
+<area shape="rect" id="Node000031" href="$namespacela__lapack__aux.html#a72541275ada30b0ca556fbc0d3959719" title="IEEECK: is called from the ILAENV to verify that Infinity and possibly NaN arithmetic is safe (i...." alt="" coords="1115,269,1300,294"/>
+<area shape="poly" id="edge53_Node000030_Node000031" title=" " alt="" coords="983,424,1034,367,1071,333,1112,304,1129,296,1131,301,1115,309,1074,337,1037,370,987,428"/>
+<area shape="rect" id="Node000032" href="$namespacela__lapack__aux.html#ace38ae70bb7022cae6ecabe992145fda" title="This program sets problem and machine dependent parameters useful for xHSEQR and related subroutines ..." alt="" coords="1113,195,1301,221"/>
+<area shape="poly" id="edge56_Node000030_Node000032" title=" " alt="" coords="978,425,994,386,1022,333,1061,277,1085,252,1112,230,1121,224,1124,229,1115,234,1089,256,1066,281,1027,336,999,388,983,427"/>
+<area shape="poly" id="edge54_Node000031_Node000031" title=" " alt="" coords="1170,270,1162,260,1166,250,1182,244,1207,242,1240,246,1252,255,1249,260,1238,251,1207,247,1183,249,1170,254,1167,260,1174,267"/>
+<area shape="poly" id="edge57_Node000032_Node000032" title=" " alt="" coords="1170,197,1162,187,1166,177,1182,171,1207,169,1240,173,1252,182,1249,186,1238,177,1207,174,1183,176,1170,181,1167,186,1174,193"/>
+<area shape="poly" id="edge63_Node000033_Node000023" title=" " alt="" coords="818,600,836,611,849,625,856,640,862,668,867,696,873,710,885,723,891,729,888,733,881,727,869,713,862,698,857,669,851,641,845,628,833,615,815,604"/>
+<area shape="poly" id="edge64_Node000033_Node000028" title=" " alt="" coords="813,574,874,562,875,567,814,579"/>
+<area shape="poly" id="edge65_Node000033_Node000030" title=" " alt="" coords="813,574,833,562,844,550,850,538,856,513,862,486,869,473,881,461,888,456,891,460,884,465,873,476,867,488,861,514,855,540,848,553,836,566,816,579"/>
+<area shape="rect" id="Node000034" href="$namespacela__lapack__c.html#a9b582b82d6c86b98bafe2fbba8c41bfa" title="CGERQ2: computes an RQ factorization of a complex m by n matrix A: A = R * Q." alt="" coords="889,590,1059,615"/>
+<area shape="poly" id="edge59_Node000033_Node000034" title=" " alt="" coords="831,592,876,594,875,600,831,597"/>
+<area shape="poly" id="edge61_Node000034_Node000006" title=" " alt="" coords="1060,610,1109,616,1108,621,1059,616"/>
+<area shape="poly" id="edge62_Node000034_Node000013" title=" " alt="" coords="1042,588,1064,575,1088,553,1111,528,1148,473,1175,417,1193,371,1198,373,1180,420,1152,475,1115,531,1092,557,1067,580,1044,592"/>
+<area shape="poly" id="edge60_Node000034_Node000026" title=" " alt="" coords="1048,613,1067,625,1079,637,1086,650,1092,676,1098,701,1104,713,1115,725,1123,731,1120,735,1112,729,1100,716,1093,703,1087,677,1081,652,1075,640,1064,629,1046,618"/>
+<area shape="poly" id="edge67_Node000035_Node000023" title=" " alt="" coords="791,700,896,732,894,737,789,705"/>
+<area shape="poly" id="edge68_Node000035_Node000028" title=" " alt="" coords="809,674,833,661,849,640,856,619,864,597,881,575,887,570,891,575,885,579,868,600,861,621,854,643,836,665,812,679"/>
+<area shape="poly" id="edge72_Node000035_Node000030" title=" " alt="" coords="814,674,833,661,850,636,857,612,858,587,856,562,853,537,854,512,862,486,881,461,885,457,888,461,885,464,867,489,860,513,859,537,861,562,863,587,862,613,854,639,837,665,817,679"/>
+<area shape="rect" id="Node000036" href="$namespacela__lapack__c.html#a6e2b869d63e9dd9f1c3377d26e62cebf" title="CUNMR2: overwrites the general complex m&#45;by&#45;n matrix C with Q * C if SIDE = &#39;L&#39; and TRANS = &#39;N&#39;,..." alt="" coords="887,689,1061,714"/>
+<area shape="poly" id="edge69_Node000035_Node000036" title=" " alt="" coords="835,691,873,693,873,699,835,697"/>
+<area shape="poly" id="edge71_Node000036_Node000006" title=" " alt="" coords="1021,686,1065,673,1132,652,1133,657,1066,679,1022,691"/>
+<area shape="poly" id="edge70_Node000036_Node000026" title=" " alt="" coords="1027,711,1120,735,1119,740,1026,717"/>
+<area shape="poly" id="edge78_Node000037_Node000008" title=" " alt="" coords="1256,1156,1312,1178,1386,1202,1471,1223,1565,1240,1663,1246,1711,1244,1760,1238,1806,1228,1852,1212,1894,1191,1934,1165,1958,1136,1979,1092,1999,1037,2016,975,2044,852,2059,759,2065,760,2049,853,2022,976,2004,1038,1984,1094,1962,1139,1938,1169,1897,1196,1854,1217,1808,1233,1760,1243,1712,1249,1663,1251,1565,1245,1470,1229,1384,1207,1311,1183,1254,1161"/>
+<area shape="poly" id="edge79_Node000037_Node000009" title=" " alt="" coords="1220,1117,1271,1054,1307,1019,1348,990,1388,973,1445,957,1571,929,1572,934,1446,962,1390,978,1351,994,1310,1023,1275,1057,1224,1120"/>
+<area shape="rect" id="Node000038" href="$namespacela__blas__level3__tri.html#a146013b52e9ab1d998f8329b16b02f96" title="CTRSM: solves one of the matrix equations op( A )*X = alpha*B, or X*op( A ) = alpha*B,..." alt="" coords="1369,1119,1505,1159"/>
+<area shape="poly" id="edge75_Node000037_Node000038" title=" " alt="" coords="1281,1136,1356,1136,1356,1141,1281,1141"/>
+<area shape="poly" id="edge76_Node000038_Node000008" title=" " alt="" coords="1506,1152,1599,1165,1654,1169,1712,1168,1771,1162,1829,1150,1884,1129,1934,1098,1971,1062,2000,1019,2023,972,2039,923,2057,830,2063,760,2068,760,2063,830,2044,925,2028,974,2005,1022,1975,1066,1938,1102,1887,1133,1831,1155,1772,1168,1712,1174,1654,1174,1598,1171,1505,1157"/>
+<area shape="poly" id="edge77_Node000038_Node000009" title=" " alt="" coords="1459,1117,1523,1054,1633,937,1637,941,1527,1058,1462,1121"/>
+<area shape="poly" id="edge81_Node000039_Node000023" title=" " alt="" coords="811,649,836,662,852,677,861,693,870,708,884,723,895,730,892,735,881,727,865,711,857,696,848,681,833,666,808,654"/>
+<area shape="poly" id="edge82_Node000039_Node000028" title=" " alt="" coords="802,623,833,611,857,593,881,575,895,568,897,573,884,580,860,598,836,616,804,628"/>
+<area shape="poly" id="edge85_Node000039_Node000030" title=" " alt="" coords="815,624,833,611,847,593,854,575,856,538,858,499,866,480,881,461,886,457,889,461,885,465,870,482,863,500,861,538,859,576,851,596,836,615,818,628"/>
+<area shape="rect" id="Node000040" href="$namespacela__lapack__c.html#a81952ea8a98e95d223cf55dbaefa51ce" title="CUNM2R: overwrites the general complex m&#45;by&#45;n matrix C with Q * C if SIDE = &#39;L&#39; and TRANS = &#39;N&#39;,..." alt="" coords="887,639,1061,665"/>
+<area shape="poly" id="edge83_Node000039_Node000040" title=" " alt="" coords="835,641,873,643,873,649,835,646"/>
+<area shape="poly" id="edge84_Node000040_Node000006" title=" " alt="" coords="1062,641,1108,637,1108,642,1062,647"/>
 </map>

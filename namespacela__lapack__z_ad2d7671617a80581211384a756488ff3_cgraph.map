@@ -1,5 +1,0 @@
-<map id="la_lapack_z::la_zpstrf" name="la_lapack_z::la_zpstrf">
-<area shape="rect" id="Node000001" title="ZPSTRF: computes the Cholesky factorization with complete pivoting of a complex Hermitian positive se..." alt="" coords="5,5,168,31"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__z.html#ae2a2361dfb48efeecf446a753678f01b" title="ZPSTF2: computes the Cholesky factorization with complete pivoting of a complex Hermitian positive se..." alt="" coords="216,5,381,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="168,15,202,15,202,21,168,21"/>
-</map>

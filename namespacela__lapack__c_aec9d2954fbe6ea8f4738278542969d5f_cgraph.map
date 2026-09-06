@@ -1,5 +1,0 @@
-<map id="la_lapack_c::la_chetrf_aa" name="la_lapack_c::la_chetrf_aa">
-<area shape="rect" id="Node000001" title="CHETRF_AA: computes the factorization of a complex hermitian matrix A using the Aasen&#39;s algorithm...." alt="" coords="5,5,192,31"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__c.html#af3cbfefea5c520c4c4a208c4547513f8" title="CLAHEF_AA: factorizes a panel of a complex hermitian matrix A using the Aasen&#39;s algorithm...." alt="" coords="240,5,428,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="192,15,226,15,226,21,192,21"/>
-</map>

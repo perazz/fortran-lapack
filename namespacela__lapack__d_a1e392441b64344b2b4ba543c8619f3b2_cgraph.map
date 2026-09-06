@@ -1,5 +1,21 @@
 <map id="la_lapack_d::la_dlasd7" name="la_lapack_d::la_dlasd7">
-<area shape="rect" id="Node000001" title="DLASD7: merges the two sets of singular values together into a single sorted set. Then it tries to de..." alt="" coords="5,5,175,31"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__d.html#aaaf0256125b9f65d693061f49788e648" title="DLAMRG: will create a permutation list which will merge the elements of A (which is composed of two i..." alt="" coords="223,5,395,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="175,15,209,15,209,21,175,21"/>
+<area shape="rect" id="Node000001" title="DLASD7: merges the two sets of singular values together into a single sorted set. Then it tries to de..." alt="" coords="5,65,175,90"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="443,29,591,69"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="145,62,222,49,330,43,429,43,429,49,330,49,223,55,146,67"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__d.html#aaaf0256125b9f65d693061f49788e648" title="DLAMRG: will create a permutation list which will merge the elements of A (which is composed of two i..." alt="" coords="223,65,395,90"/>
+<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="175,75,209,75,209,80,175,80"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__blas__like__scalar.html#a6392f228090286d0a08702c8ba131de1" title="DLAPY2: returns sqrt(x**2+y**2), taking care not to cause unnecessary overflow and unnecessary underf..." alt="" coords="235,139,383,179"/>
+<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="126,88,242,131,240,136,124,93"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="478,30,476,20,482,11,496,5,517,3,541,6,554,13,551,18,539,11,517,8,497,10,485,15,481,21,483,28"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="639,37,805,62"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="591,47,625,47,625,52,591,52"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="688,38,681,28,685,18,699,12,722,10,751,14,762,23,759,27,748,19,722,15,700,17,689,22,686,28,692,35"/>
+<area shape="poly" id="edge11_Node000005_Node000002" title=" " alt="" coords="346,136,464,73,467,78,349,141"/>
+<area shape="poly" id="edge12_Node000005_Node000005" title=" " alt="" coords="270,139,267,129,273,120,287,114,309,112,333,115,346,122,344,127,331,120,309,117,289,119,277,124,272,130,275,138"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__blas__like__scalar.html#a942dd2e31c0d9058962f8060e510005e" title="DISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="443,139,591,179"/>
+<area shape="poly" id="edge7_Node000005_Node000006" title=" " alt="" coords="383,156,429,156,429,161,383,161"/>
+<area shape="poly" id="edge8_Node000006_Node000006" title=" " alt="" coords="478,139,476,129,482,120,496,114,517,112,541,115,554,122,551,127,539,120,517,117,497,119,485,124,481,130,483,138"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__blas__like__scalar.html#ab7bb61dcad235be9d6066eda62ea3b31" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in DISNAN...." alt="" coords="647,139,797,179"/>
+<area shape="poly" id="edge9_Node000006_Node000007" title=" " alt="" coords="591,156,633,156,633,161,591,161"/>
+<area shape="poly" id="edge10_Node000007_Node000007" title=" " alt="" coords="683,139,681,129,687,120,701,114,722,112,746,115,759,122,757,127,744,120,722,117,702,119,691,124,686,130,688,138"/>
 </map>

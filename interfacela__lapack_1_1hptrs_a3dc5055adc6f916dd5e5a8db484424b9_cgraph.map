@@ -1,5 +1,23 @@
 <map id="la_lapack::hptrs::zhptrs" name="la_lapack::hptrs::zhptrs">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,179,31"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__z.html#a7580d698526563f0bafdfecb365da27c" title="ZHPTRS: solves a system of linear equations A*X = B with a complex Hermitian matrix A stored in packe..." alt="" coords="227,5,392,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="179,15,213,15,213,21,179,21"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,179,179,204"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__solve__ldl__comp3.html#ac5d43c3a022e976200a7b9ad7c895933" title="ZHPTRS: solves a system of linear equations A*X = B with a complex Hermitian matrix A stored in packe..." alt="" coords="227,171,376,211"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="179,189,213,189,213,194,179,194"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="620,29,787,55"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="309,170,325,138,350,100,383,64,423,36,450,25,479,18,537,12,594,16,643,24,642,29,593,21,537,18,480,23,452,30,425,40,386,68,354,104,330,141,314,172"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="620,179,787,204"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="376,189,606,189,606,194,376,194"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__level1.html#ae5f23cb1df4bb3a79c79b9d489d452b9" title="ZDSCAL: scales a vector by a constant." alt="" coords="431,114,565,154"/>
+<area shape="poly" id="edge5_Node000002_Node000005" title=" " alt="" coords="370,169,417,155,418,160,371,174"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__level2__gen.html#a95408b0c6d01c367be0bd531feb85f56" title="ZGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="425,50,571,90"/>
+<area shape="poly" id="edge6_Node000002_Node000006" title=" " alt="" coords="325,169,369,135,423,100,434,94,436,98,425,104,372,139,328,173"/>
+<area shape="rect" id="Node000007" href="$namespacela__blas__level2__gen.html#a90282619c9b55681ee42754c47a8a87d" title="ZGERU: performs the rank 1 operation A := alpha*x*y**T + A, where alpha is a scalar,..." alt="" coords="425,229,571,269"/>
+<area shape="poly" id="edge9_Node000002_Node000007" title=" " alt="" coords="371,209,416,222,415,227,370,214"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__blas__like__l1.html#afc182b2e1ce1c7778564faaaff6faadc" title="ZLACGV: conjugates a complex vector of length N." alt="" coords="424,293,572,333"/>
+<area shape="poly" id="edge11_Node000002_Node000008" title=" " alt="" coords="328,209,372,243,425,278,436,284,434,289,423,283,369,248,325,214"/>
+<area shape="rect" id="Node000009" href="$namespacela__blas__level1.html#ad757f0e2b47ff2b8a75222a5ccddcd44" title="ZSWAP: interchanges two vectors." alt="" coords="431,357,565,397"/>
+<area shape="poly" id="edge12_Node000002_Node000009" title=" " alt="" coords="317,210,360,274,391,310,426,343,433,348,430,352,422,347,387,314,356,278,312,213"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="670,31,662,21,666,11,680,5,703,3,732,6,743,15,740,20,730,11,703,8,681,10,670,15,668,20,674,28"/>
+<area shape="poly" id="edge7_Node000006_Node000003" title=" " alt="" coords="571,57,606,53,607,58,572,63"/>
+<area shape="poly" id="edge8_Node000006_Node000004" title=" " alt="" coords="550,88,573,100,629,135,676,168,673,172,626,139,571,104,547,92"/>
+<area shape="poly" id="edge10_Node000007_Node000004" title=" " alt="" coords="569,226,643,205,644,210,571,231"/>
 </map>

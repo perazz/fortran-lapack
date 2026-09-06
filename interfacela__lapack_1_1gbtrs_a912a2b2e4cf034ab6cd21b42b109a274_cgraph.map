@@ -1,5 +1,5 @@
 <map id="la_lapack::gbtrs::cgbtrs" name="la_lapack::gbtrs::cgbtrs">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,179,31"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__c.html#a0d2667c260721a9614eecb5b11642bb4" title="CGBTRS: solves a system of linear equations A * X = B, A**T * X = B, or A**H * X = B with a general b..." alt="" coords="227,5,392,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="179,15,213,15,213,21,179,21"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,13,179,38"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__solve__lu__comp.html#ae8166a794138f058c7b7a18d796d72ec" title="CGBTRS: solves a system of linear equations A * X = B, A**T * X = B, or A**H * X = B with a general b..." alt="" coords="227,5,372,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="179,23,213,23,213,28,179,28"/>
 </map>

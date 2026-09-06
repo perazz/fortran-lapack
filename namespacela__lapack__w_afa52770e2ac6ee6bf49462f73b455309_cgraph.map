@@ -1,5 +1,30 @@
 <map id="la_lapack_w::la_wlalsa" name="la_lapack_w::la_wlalsa">
-<area shape="rect" id="Node000001" title="ZLALSA: is an itermediate step in solving the least squares problem by computing the SVD of the coeff..." alt="" coords="5,5,176,31"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__w.html#a355c2886ebbd962e5e88b4b47182a8ac" title="ZLALS0: applies back the multiplying factors of either the left or the right singular vector matrix o..." alt="" coords="224,5,395,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="176,15,210,15,210,21,176,21"/>
+<area shape="rect" id="Node000001" title="ZLALSA: is an itermediate step in solving the least squares problem by computing the SVD of the coeff..." alt="" coords="5,77,176,102"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__q.html#ae7b203e69bb12c3149daf64d020c9e7b" title="DLASDT: creates a tree of subproblems for bidiagonal divide and conquer." alt="" coords="226,51,393,77"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="176,77,212,73,213,78,176,82"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__w.html#a355c2886ebbd962e5e88b4b47182a8ac" title="ZLALS0: applies back the multiplying factors of either the left or the right singular vector matrix o..." alt="" coords="224,101,395,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="176,96,211,100,210,105,176,101"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__auxiliary.html#a2b1acabdc8833f4f8b5f55dafba5607a" title=" " alt="" coords="443,29,591,69"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="353,98,394,85,440,71,441,76,395,91,354,103"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__blas__like__base.html#a6c0a3bc3e8d3dc256594f08633434a50" title="WLACPY: copies all or part of a two&#45;dimensional matrix A to another matrix B." alt="" coords="443,93,591,133"/>
+<area shape="poly" id="edge5_Node000003_Node000005" title=" " alt="" coords="395,111,429,111,429,116,395,116"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__blas__like__l2.html#a8ecd768b75589bd682e3c5873bb1344c" title="WLASCL: multiplies the M by N complex matrix A by the real scalar CTO/CFROM. This is done without ove..." alt="" coords="443,191,591,231"/>
+<area shape="poly" id="edge8_Node000003_Node000007" title=" " alt="" coords="339,124,462,182,459,187,336,128"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="478,30,476,20,482,11,496,5,517,3,541,6,554,13,551,18,539,11,517,8,497,10,485,15,481,21,483,28"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="853,117,1020,142"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="591,109,639,108,722,106,806,108,847,112,846,117,805,113,722,111,639,113,591,114"/>
+<area shape="poly" id="edge7_Node000006_Node000006" title=" " alt="" coords="902,118,894,108,898,98,913,92,937,90,966,94,978,103,975,107,964,99,937,95,914,97,902,102,899,108,906,115"/>
+<area shape="poly" id="edge9_Node000007_Node000006" title=" " alt="" coords="552,188,592,168,638,152,689,141,741,133,839,126,840,132,742,139,690,146,639,157,594,173,554,193"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__blas__like__scalar.html#a0cb82d7f3b093ce99b3c7b3412dee71a" title="QISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="648,279,796,319"/>
+<area shape="poly" id="edge10_Node000007_Node000008" title=" " alt="" coords="566,228,663,271,661,276,563,233"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__auxiliary.html#a422783a9c3975903ac0fc1dc06f4ec01" title="QLAMCH: determines quad precision machine parameters." alt="" coords="648,191,796,231"/>
+<area shape="poly" id="edge14_Node000007_Node000010" title=" " alt="" coords="591,208,634,208,634,213,591,213"/>
+<area shape="rect" id="Node000011" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="639,343,805,369"/>
+<area shape="poly" id="edge17_Node000007_Node000011" title=" " alt="" coords="535,229,579,279,608,306,640,328,655,336,652,341,637,333,605,310,575,283,531,233"/>
+<area shape="poly" id="edge11_Node000008_Node000008" title=" " alt="" coords="683,279,681,269,687,260,701,254,722,252,746,255,759,262,757,267,744,260,722,257,702,259,691,264,686,270,688,278"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__blas__like__scalar.html#afb28a91ee1571cb773bdc95c40031177" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in QISNAN...." alt="" coords="861,279,1012,319"/>
+<area shape="poly" id="edge12_Node000008_Node000009" title=" " alt="" coords="796,296,848,296,848,301,796,301"/>
+<area shape="poly" id="edge13_Node000009_Node000009" title=" " alt="" coords="897,279,894,269,901,260,915,254,937,252,962,255,975,262,973,267,960,260,937,257,916,259,904,264,899,270,902,278"/>
+<area shape="poly" id="edge15_Node000010_Node000006" title=" " alt="" coords="775,188,888,144,890,149,777,193"/>
+<area shape="poly" id="edge16_Node000010_Node000010" title=" " alt="" coords="683,191,681,181,687,172,701,166,722,164,746,167,759,174,757,179,744,172,722,169,702,171,691,176,686,182,688,190"/>
 </map>

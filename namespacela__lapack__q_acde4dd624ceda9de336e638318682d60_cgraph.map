@@ -1,5 +1,20 @@
 <map id="la_lapack_q::la_qlarrd" name="la_lapack_q::la_qlarrd">
-<area shape="rect" id="Node000001" title="DLARRD: computes the eigenvalues of a symmetric tridiagonal matrix T to suitable accuracy...." alt="" coords="5,5,169,31"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__q.html#a8c4f762c01d69fb2d7351c894795b5c2" title="DLAEBZ: contains the iteration loops which compute and use the function N(w), which is the count of e..." alt="" coords="217,5,387,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="169,15,204,15,204,21,169,21"/>
+<area shape="rect" id="Node000001" title="DLARRD: computes the eigenvalues of a symmetric tridiagonal matrix T to suitable accuracy...." alt="" coords="5,123,169,148"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__aux.html#aa361c7114aef95e10b685247a1b75114" title="ILAENV: is called from the LAPACK routines to choose problem&#45;dependent parameters for the local envir..." alt="" coords="217,73,400,99"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="144,120,237,99,238,104,146,125"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__q.html#a8c4f762c01d69fb2d7351c894795b5c2" title="DLAEBZ: contains the iteration loops which compute and use the function N(w), which is the count of e..." alt="" coords="224,123,393,148"/>
+<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="169,133,210,133,210,138,169,138"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__auxiliary.html#a422783a9c3975903ac0fc1dc06f4ec01" title="QLAMCH: determines quad precision machine parameters." alt="" coords="235,197,383,237"/>
+<area shape="poly" id="edge8_Node000001_Node000006" title=" " alt="" coords="124,146,242,189,240,194,122,151"/>
+<area shape="poly" id="edge4_Node000002_Node000002" title=" " alt="" coords="273,75,265,65,269,55,284,49,309,47,339,50,352,59,348,64,337,55,309,52,285,54,272,59,270,64,277,72"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__aux.html#a72541275ada30b0ca556fbc0d3959719" title="IEEECK: is called from the ILAENV to verify that Infinity and possibly NaN arithmetic is safe (i...." alt="" coords="449,29,635,55"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="376,71,460,55,461,60,377,76"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__aux.html#ace38ae70bb7022cae6ecabe992145fda" title="This program sets problem and machine dependent parameters useful for xHSEQR and related subroutines ..." alt="" coords="448,103,636,128"/>
+<area shape="poly" id="edge5_Node000002_Node000004" title=" " alt="" coords="401,95,435,99,434,104,400,100"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="504,31,496,21,500,11,516,5,542,3,575,7,587,16,584,20,573,11,542,8,517,10,504,15,501,20,508,27"/>
+<area shape="poly" id="edge6_Node000004_Node000004" title=" " alt="" coords="504,104,496,94,500,84,516,78,542,76,575,80,587,89,584,94,573,85,542,81,517,83,504,88,501,94,508,101"/>
+<area shape="poly" id="edge11_Node000006_Node000006" title=" " alt="" coords="267,197,265,187,271,178,286,172,309,170,335,173,349,180,346,185,333,178,309,175,287,177,275,182,270,188,272,196"/>
+<area shape="rect" id="Node000007" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="459,204,625,229"/>
+<area shape="poly" id="edge9_Node000006_Node000007" title=" " alt="" coords="383,214,445,214,445,219,383,219"/>
+<area shape="poly" id="edge10_Node000007_Node000007" title=" " alt="" coords="504,206,496,196,500,186,516,180,542,177,575,181,587,191,584,195,573,186,542,183,517,185,504,190,501,195,508,202"/>
 </map>

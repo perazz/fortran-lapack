@@ -1,0 +1,8 @@
+<map id="la_lapack_solve_ldl_comp::la_zsyswapr" name="la_lapack_solve_ldl_comp::la_zsyswapr">
+<area shape="rect" id="Node000001" title="ZSYSWAPR: applies an elementary permutation on the rows and the columns of a symmetric matrix." alt="" coords="5,51,159,91"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="207,29,373,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="159,58,193,53,194,58,160,63"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__level1.html#ad757f0e2b47ff2b8a75222a5ccddcd44" title="ZSWAP: interchanges two vectors." alt="" coords="223,79,357,119"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="160,79,209,86,209,91,159,84"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="256,31,249,21,252,11,267,5,290,3,319,6,330,15,327,20,317,11,290,8,268,10,256,15,254,20,260,28"/>
+</map>

@@ -1,0 +1,8 @@
+<map id="la_lapack_solve_ldl_comp3::la_wheswapr" name="la_lapack_solve_ldl_comp3::la_wheswapr">
+<area shape="rect" id="Node000001" title="WHESWAPR: applies an elementary permutation on the rows and the columns of a hermitian matrix." alt="" coords="5,51,172,91"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="220,29,387,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="172,57,206,53,206,58,173,63"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__level1.html#a87a0f6f4a51cb922e497d49bc7597e53" title="WSWAP: interchanges two vectors." alt="" coords="236,79,371,119"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="173,80,223,86,222,91,172,85"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="268,31,261,21,265,11,279,5,303,3,333,6,345,15,342,20,331,11,303,8,281,10,269,15,266,20,273,28"/>
+</map>

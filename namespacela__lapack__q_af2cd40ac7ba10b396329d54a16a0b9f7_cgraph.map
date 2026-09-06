@@ -1,7 +1,28 @@
 <map id="la_lapack_q::la_qtrsyl" name="la_lapack_q::la_qtrsyl">
-<area shape="rect" id="Node000001" title="DTRSYL: solves the real Sylvester matrix equation: op(A)*X + X*op(B) = scale*C or op(A)*X &#45; X*op(B) =..." alt="" coords="5,31,168,56"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__q.html#a2839b24d51d2ccf7585a58f499390b80" title="DLALN2: solves a system of the form (ca A &#45; w D ) X = s B or (ca A**T &#45; w D) X = s B with possible sc..." alt="" coords="217,5,384,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="168,31,204,27,204,32,169,36"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__q.html#ad0a0f6c3d43972afb86271690316edab" title="DLASY2: solves for the N1 by N2 matrix X, 1 &lt;= N1,N2 &lt;= 2, in op(TL)*X + ISGN*X*op(TR) = SCALE*B,..." alt="" coords="216,55,385,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="169,50,203,54,202,59,168,55"/>
+<area shape="rect" id="Node000001" title="DTRSYL: solves the real Sylvester matrix equation: op(A)*X + X*op(B) = scale*C or op(A)*X &#45; X*op(B) =..." alt="" coords="5,145,168,170"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__auxiliary.html#acecd2a5f4b24222c89102e10fa753f18" title="QLABAD: takes as input the values computed by QLAMCH for underflow and overflow, and returns the squa..." alt="" coords="225,29,373,69"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="106,142,155,112,215,79,229,72,232,77,217,84,157,116,109,147"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__q.html#a2839b24d51d2ccf7585a58f499390b80" title="DLALN2: solves a system of the form (ca A &#45; w D ) X = s B or (ca A**T &#45; w D) X = s B with possible sc..." alt="" coords="216,94,383,119"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="140,142,232,120,233,125,142,147"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__auxiliary.html#a422783a9c3975903ac0fc1dc06f4ec01" title="QLAMCH: determines quad precision machine parameters." alt="" coords="648,127,796,167"/>
+<area shape="poly" id="edge12_Node000001_Node000007" title=" " alt="" coords="168,153,634,145,634,151,168,159"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__blas__like__mnorm.html#aefee269b5880abb131b1d8df3e54e5ad" title="QLANGE: returns the value of the one norm, or the Frobenius norm, or the infinity norm,..." alt="" coords="225,219,373,259"/>
+<area shape="poly" id="edge13_Node000001_Node000009" title=" " alt="" coords="122,168,234,211,232,216,120,173"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__q.html#ad0a0f6c3d43972afb86271690316edab" title="DLASY2: solves for the N1 by N2 matrix X, 1 &lt;= N1,N2 &lt;= 2, in op(TL)*X + ISGN*X*op(TR) = SCALE*B,..." alt="" coords="431,239,600,265"/>
+<area shape="poly" id="edge15_Node000001_Node000010" title=" " alt="" coords="99,168,145,220,179,248,217,268,248,277,280,283,346,284,408,277,460,266,461,271,409,282,346,290,280,288,247,283,215,273,176,252,141,224,95,172"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__blas__like__scalar.html#ad13f6e4e4281a2b7c9afdcd6e4c56594" title="QLADIV: performs complex division in real arithmetic a + i*b p + i*q = &#45;&#45;&#45;&#45;&#45;&#45;— c + i*d The algorithm ..." alt="" coords="441,29,589,69"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="347,91,427,70,429,75,349,97"/>
+<area shape="poly" id="edge11_Node000003_Node000007" title=" " alt="" coords="383,112,635,136,634,141,383,117"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__auxiliary.html#a931ac267fdb09d42261b16201c50642a" title=" " alt="" coords="648,29,796,69"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="590,47,634,47,634,52,590,52"/>
+<area shape="poly" id="edge7_Node000004_Node000007" title=" " alt="" coords="562,67,601,86,669,118,667,123,599,90,559,72"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__auxiliary.html#a088708e93ad9e6f96c089c9f0cc72bbc" title=" " alt="" coords="853,29,1001,69"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="797,47,840,47,840,52,797,52"/>
+<area shape="poly" id="edge6_Node000006_Node000006" title=" " alt="" coords="889,30,886,20,893,11,906,5,927,3,951,6,965,13,962,18,950,11,927,8,908,10,896,15,892,21,894,28"/>
+<area shape="poly" id="edge10_Node000007_Node000007" title=" " alt="" coords="683,127,681,117,687,108,701,102,722,100,746,103,759,110,757,115,744,108,722,105,702,107,691,112,686,118,688,126"/>
+<area shape="rect" id="Node000008" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="844,134,1011,159"/>
+<area shape="poly" id="edge8_Node000007_Node000008" title=" " alt="" coords="797,144,830,144,830,149,797,149"/>
+<area shape="poly" id="edge9_Node000008_Node000008" title=" " alt="" coords="894,136,886,126,890,116,904,110,927,107,956,111,967,120,964,124,954,116,927,113,905,115,894,119,892,125,898,132"/>
+<area shape="poly" id="edge14_Node000009_Node000009" title=" " alt="" coords="260,219,257,209,264,200,278,194,299,192,324,195,337,202,335,207,322,200,299,197,279,199,267,204,263,210,265,218"/>
+<area shape="poly" id="edge16_Node000010_Node000007" title=" " alt="" coords="540,237,668,171,671,175,542,242"/>
 </map>

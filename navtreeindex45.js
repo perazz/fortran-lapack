@@ -1,5 +1,16 @@
 var NAVTREEINDEX45 =
 {
+"namespacela__blas__level1.html#add865e4a3dcfb45245761d5aabd5718f":[7,0,2,16],
+"namespacela__blas__level1.html#ade1fdf3fe5383466db0f45c14f4a2999":[7,0,2,10],
+"namespacela__blas__level1.html#ae241d391edd71439a55dc09b933a131a":[7,0,2,43],
+"namespacela__blas__level1.html#ae2b6448401fe13574104d59fe4c0615c":[7,0,2,38],
+"namespacela__blas__level1.html#ae35a9ca14eb79df65733dbe502f6c337":[7,0,2,36],
+"namespacela__blas__level1.html#ae4b0fee1eb7c70fee0287ee1f9cf1428":[7,0,2,60],
+"namespacela__blas__level1.html#ae5ef74871273629cd7c5e95ec3e7b58c":[7,0,2,2],
+"namespacela__blas__level1.html#ae5f23cb1df4bb3a79c79b9d489d452b9":[7,0,2,65],
+"namespacela__blas__level1.html#ae83235d72e747f0b57434ed5da4f16b1":[7,0,2,58],
+"namespacela__blas__level1.html#af0c273da266a2d85bdb1bf32bf2d2a47":[7,0,2,53],
+"namespacela__blas__level1.html#af0c9560d34bb1a5bc4eeb76a61cb3147":[7,0,2,45],
 "namespacela__blas__level1.html#af2e0008da82b771da30767bb42f4d22a":[7,0,2,4],
 "namespacela__blas__level1.html#af422853fadb4f17a7d5dd3cbf063a4bd":[7,0,2,25],
 "namespacela__blas__level1.html#af76ede87367ea347ac47024e17661e20":[7,0,2,34],
@@ -238,16 +249,5 @@ var NAVTREEINDEX45 =
 "namespacela__constants__sp.html#a714766c2ae9d4222a982e8015ac0a5a4":[7,0,15,14],
 "namespacela__constants__sp.html#a7595e8a0b2a30da225b91be7d606d423":[7,0,15,5],
 "namespacela__constants__sp.html#a7a73e0150e07ffc82469e6504f1234d9":[7,0,15,27],
-"namespacela__constants__sp.html#a7b7b5c31ad7821fcd6c694f4581924ef":[7,0,15,21],
-"namespacela__constants__sp.html#a803dd10734830eca99dd490fc6e12799":[7,0,15,25],
-"namespacela__constants__sp.html#a86722c29edced7e69a2ddaaf20e2352c":[7,0,15,9],
-"namespacela__constants__sp.html#a893211991e990b9bc0bf01ac68909f5a":[7,0,15,8],
-"namespacela__constants__sp.html#a8c077b3bc495be8a7a4a8e528a031a0f":[7,0,15,12],
-"namespacela__constants__sp.html#a96acb25ecbf7eff294aec95616085b44":[7,0,15,16],
-"namespacela__constants__sp.html#aaa47f7c494fac3a7b8ce70adbd2aceb5":[7,0,15,23],
-"namespacela__constants__sp.html#aceb6f6b27f15acd8413432c56637d190":[7,0,15,7],
-"namespacela__constants__sp.html#ad63b81a5551efddb6600c4e78488676e":[7,0,15,17],
-"namespacela__constants__sp.html#ad6fbeef49c0ee2e30c99b33ace5c097f":[7,0,15,2],
-"namespacela__constants__sp.html#af7e29f6529a18f0dc41e110109ec0b5c":[7,0,15,4],
-"namespacela__constants__sp.html#aff402a24b5e90c25f15dceb12f740086":[7,0,15,15]
+"namespacela__constants__sp.html#a7b7b5c31ad7821fcd6c694f4581924ef":[7,0,15,21]
 };

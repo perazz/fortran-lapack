@@ -1,5 +1,0 @@
-<map id="la_lapack_d::la_dsycon_rook" name="la_lapack_d::la_dsycon_rook">
-<area shape="rect" id="Node000001" title="DSYCON_ROOK: estimates the reciprocal of the condition number (in the 1&#45;norm) of a real symmetric mat..." alt="" coords="5,5,213,31"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__d.html#ace3b1905725c7854c28b6797ba85ce69" title="DSYTRS_ROOK: solves a system of linear equations A*X = B with a real symmetric matrix A using the fac..." alt="" coords="261,5,464,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="213,15,248,15,248,21,213,21"/>
-</map>
