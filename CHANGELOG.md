@@ -40,6 +40,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   precision they were copied from are corrected: `la_qsgesv`, `la_qsposv`,
   `la_wcgesv` and `la_wcposv` become `la_qdgesv`, `la_qdposv`, `la_wzgesv` and
   `la_wzposv`. None of them is reachable through a generic interface.
+- The LAPACK orthogonal factorizations, cosine-sine decomposition and
+  bidiagonal singular-value kernels are generated from kind-templated fypp
+  topic modules instead of the six per-kind monoliths:
+  `la_lapack_orthogonal_factors_{qr,rz,ql}`, `la_lapack_cosine_sine`,
+  `la_lapack_lsq_constrained`, `la_lapack_svd_comp2`,
+  `la_lapack_svd_bidiag_qr`, `la_lapack_eigv_gen_aux` and
+  `la_lapack_eigv_gen_hess`. The `la_lapack` generic interfaces are unchanged.
 - The `generated-sources` continuous-integration job runs
   `scripts/fypp_deploy.py --check` and fails on any drift between a template
   and its committed output.

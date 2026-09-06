@@ -30,6 +30,15 @@ module la_lapack
      use la_lapack_solve_lu
      use la_lapack_solve_lu_comp
      use la_lapack_solve_tri_comp
+     use la_lapack_cosine_sine
+     use la_lapack_eigv_gen_aux
+     use la_lapack_eigv_gen_hess
+     use la_lapack_lsq_constrained
+     use la_lapack_orthogonal_factors_ql
+     use la_lapack_orthogonal_factors_qr
+     use la_lapack_orthogonal_factors_rz
+     use la_lapack_svd_bidiag_qr
+     use la_lapack_svd_comp2
      implicit none(type,external)
      public
 

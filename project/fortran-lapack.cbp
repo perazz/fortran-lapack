@@ -129,14 +129,35 @@
 		<Unit filename="../src/la_lapack_c.f90">
 			<Option weight="22" />
 		</Unit>
+		<Unit filename="../src/la_lapack_cosine_sine.f90">
+			<Option weight="15" />
+		</Unit>
 		<Unit filename="../src/la_lapack_d.f90">
 			<Option weight="23" />
+		</Unit>
+		<Unit filename="../src/la_lapack_eigv_gen_aux.f90">
+			<Option weight="13" />
+		</Unit>
+		<Unit filename="../src/la_lapack_eigv_gen_hess.f90">
+			<Option weight="14" />
 		</Unit>
 		<Unit filename="../src/la_lapack_givens_jacobi_rot.f90">
 			<Option weight="12" />
 		</Unit>
 		<Unit filename="../src/la_lapack_householder_reflectors.f90">
 			<Option weight="12" />
+		</Unit>
+		<Unit filename="../src/la_lapack_lsq_constrained.f90">
+			<Option weight="14" />
+		</Unit>
+		<Unit filename="../src/la_lapack_orthogonal_factors_ql.f90">
+			<Option weight="14" />
+		</Unit>
+		<Unit filename="../src/la_lapack_orthogonal_factors_qr.f90">
+			<Option weight="13" />
+		</Unit>
+		<Unit filename="../src/la_lapack_orthogonal_factors_rz.f90">
+			<Option weight="13" />
 		</Unit>
 		<Unit filename="../src/la_lapack_others_sm.f90">
 			<Option weight="19" />
@@ -178,6 +199,12 @@
 			<Option weight="14" />
 		</Unit>
 		<Unit filename="../src/la_lapack_solve_tri_comp.f90">
+			<Option weight="13" />
+		</Unit>
+		<Unit filename="../src/la_lapack_svd_bidiag_qr.f90">
+			<Option weight="14" />
+		</Unit>
+		<Unit filename="../src/la_lapack_svd_comp2.f90">
 			<Option weight="13" />
 		</Unit>
 		<Unit filename="../src/la_lapack_w.f90">
