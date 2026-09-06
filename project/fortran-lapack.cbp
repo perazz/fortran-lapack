@@ -138,6 +138,9 @@
 		<Unit filename="../src/la_lapack_householder_reflectors.f90">
 			<Option weight="12" />
 		</Unit>
+		<Unit filename="../src/la_lapack_others_sm.f90">
+			<Option weight="19" />
+		</Unit>
 		<Unit filename="../src/la_lapack_q.f90">
 			<Option weight="25" />
 		</Unit>
@@ -146,6 +149,36 @@
 		</Unit>
 		<Unit filename="../src/la_lapack_solve_aux.f90">
 			<Option weight="11" />
+		</Unit>
+		<Unit filename="../src/la_lapack_solve_chol.f90">
+			<Option weight="20" />
+		</Unit>
+		<Unit filename="../src/la_lapack_solve_chol_comp.f90">
+			<Option weight="14" />
+		</Unit>
+		<Unit filename="../src/la_lapack_solve_ldl.f90">
+			<Option weight="20" />
+		</Unit>
+		<Unit filename="../src/la_lapack_solve_ldl_comp.f90">
+			<Option weight="17" />
+		</Unit>
+		<Unit filename="../src/la_lapack_solve_ldl_comp2.f90">
+			<Option weight="16" />
+		</Unit>
+		<Unit filename="../src/la_lapack_solve_ldl_comp3.f90">
+			<Option weight="18" />
+		</Unit>
+		<Unit filename="../src/la_lapack_solve_ldl_comp4.f90">
+			<Option weight="19" />
+		</Unit>
+		<Unit filename="../src/la_lapack_solve_lu.f90">
+			<Option weight="15" />
+		</Unit>
+		<Unit filename="../src/la_lapack_solve_lu_comp.f90">
+			<Option weight="14" />
+		</Unit>
+		<Unit filename="../src/la_lapack_solve_tri_comp.f90">
+			<Option weight="13" />
 		</Unit>
 		<Unit filename="../src/la_lapack_w.f90">
 			<Option weight="26" />

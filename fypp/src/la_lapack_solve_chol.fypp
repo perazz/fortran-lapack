@@ -1,0 +1,1890 @@
+#:include "common.fypp"
+!> Cholesky drivers: positive definite, packed, banded and tridiagonal systems
+module la_lapack_solve_chol
+     use la_constants
+     use la_blas_aux
+     use la_blas_level1
+     use la_blas_level3_gen
+     use la_blas_level3_sym
+     use la_lapack_auxiliary
+     use la_lapack_blas_like_base
+     use la_lapack_blas_like_mnorm
+     use la_lapack_solve_chol_comp
+     use la_lapack_solve_ldl_comp4
+     implicit none(type,external)
+     private
+
+     public :: sp,dp,qp,lk,ilp
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     public :: la_${ri}$ppsv
+     public :: la_${ri}$ppsvx
+     public :: la_${ri}$ptsv
+     public :: la_${ri}$ptsvx
+#:if rkl is not None
+     public :: la_${ri}$${ril}$posv
+#:endif
+     public :: la_${ri}$pbsv
+     public :: la_${ri}$pbsvx
+     public :: la_${ri}$posv
+     public :: la_${ri}$posvx
+#:endfor
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+     public :: la_${ri}$ppsv
+     public :: la_${ri}$ppsvx
+#:if rkl is not None
+     public :: la_${ri}$${ril}$posv
+#:endif
+     public :: la_${ri}$pbsv
+     public :: la_${ri}$pbsvx
+     public :: la_${ri}$posv
+     public :: la_${ri}$posvx
+     public :: la_${ri}$ptsv
+     public :: la_${ri}$ptsvx
+#:endfor
+
+     contains
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     !> ${ri.upper()}$PPSV: computes the solution to a real system of linear equations
+     !> A * X = B,
+     !> where A is an N-by-N symmetric positive definite matrix stored in
+     !> packed format and X and B are N-by-NRHS matrices.
+     !> The Cholesky decomposition is used to factor A as
+     !> A = U**T* U,  if UPLO = 'U', or
+     !> A = L * L**T,  if UPLO = 'L',
+     !> where U is an upper triangular matrix and L is a lower triangular
+     !> matrix.  The factored form of A is then used to solve the system of
+     !> equations A * X = B.
+
+     pure subroutine la_${ri}$ppsv(uplo,n,nrhs,ap,b,ldb,info)
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldb,n,nrhs
+           ! Array Arguments
+           real(${rk}$),intent(inout) :: ap(*),b(ldb,*)
+        ! =====================================================================
+           ! Intrinsic Functions
+           intrinsic :: max
+           ! Executable Statements
+           ! test the input parameters.
+           info = 0
+           if (.not. la_lsame(uplo,'U') .and. .not. la_lsame(uplo,'L')) then
+              info = -1
+           else if (n < 0) then
+              info = -2
+           else if (nrhs < 0) then
+              info = -3
+           else if (ldb < max(1,n)) then
+              info = -6
+           end if
+           if (info /= 0) then
+              call la_xerbla('${ri.upper()}$PPSV ',-info)
+              return
+           end if
+           ! compute the cholesky factorization a = u**t*u or a = l*l**t.
+           call la_${ri}$pptrf(uplo,n,ap,info)
+           if (info == 0) then
+              ! solve the system a*x = b, overwriting b with x.
+              call la_${ri}$pptrs(uplo,n,nrhs,ap,b,ldb,info)
+           end if
+           return
+     end subroutine la_${ri}$ppsv
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     !> ${ri.upper()}$PPSVX: uses the Cholesky factorization A = U**T*U or A = L*L**T to
+     !> compute the solution to a real system of linear equations
+     !> A * X = B,
+     !> where A is an N-by-N symmetric positive definite matrix stored in
+     !> packed format and X and B are N-by-NRHS matrices.
+     !> Error bounds on the solution and a condition estimate are also
+     !> provided.
+
+     subroutine la_${ri}$ppsvx(fact,uplo,n,nrhs,ap,afp,equed,s,b,ldb,x,ldx,rcond,ferr, &
+                berr,work,iwork,info)
+        use la_constants_${rk}$,only:zero,one
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(inout) :: equed
+           character,intent(in) :: fact,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldb,ldx,n,nrhs
+           real(${rk}$),intent(out) :: rcond
+           ! Array Arguments
+           integer(ilp),intent(out) :: iwork(*)
+           real(${rk}$),intent(inout) :: afp(*),ap(*),b(ldb,*),s(*)
+           real(${rk}$),intent(out) :: berr(*),ferr(*),work(*),x(ldx,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: equil,nofact,rcequ
+           integer(ilp) :: i,infequ,j
+           real(${rk}$) :: amax,anorm,bignum,scond,smax,smin,smlnum
+           ! Intrinsic Functions
+           intrinsic :: max,min
+           ! Executable Statements
+           info = 0
+           nofact = la_lsame(fact,'N')
+           equil = la_lsame(fact,'E')
+           if (nofact .or. equil) then
+              equed = 'N'
+              rcequ = .false.
+           else
+              rcequ = la_lsame(equed,'Y')
+              smlnum = la_${ri}$lamch('SAFE MINIMUM')
+              bignum = one/smlnum
+           end if
+           ! test the input parameters.
+           if (.not. nofact .and. .not. equil .and. .not. la_lsame(fact,'F')) then
+              info = -1
+           else if (.not. la_lsame(uplo,'U') .and. .not. la_lsame(uplo,'L')) &
+                     then
+              info = -2
+           else if (n < 0) then
+              info = -3
+           else if (nrhs < 0) then
+              info = -4
+           else if (la_lsame(fact,'F') .and. .not. (rcequ .or. la_lsame(equed,'N')) &
+                      ) then
+              info = -7
+           else
+              if (rcequ) then
+                 smin = bignum
+                 smax = zero
+                 do j = 1,n
+                    smin = min(smin,s(j))
+                    smax = max(smax,s(j))
+                 end do
+                 if (smin <= zero) then
+                    info = -8
+                 else if (n > 0) then
+                    scond = max(smin,smlnum)/min(smax,bignum)
+                 else
+                    scond = one
+                 end if
+              end if
+              if (info == 0) then
+                 if (ldb < max(1,n)) then
+                    info = -10
+                 else if (ldx < max(1,n)) then
+                    info = -12
+                 end if
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('${ri.upper()}$PPSVX',-info)
+              return
+           end if
+           if (equil) then
+              ! compute row and column scalings to equilibrate the matrix a.
+              call la_${ri}$ppequ(uplo,n,ap,s,scond,amax,infequ)
+              if (infequ == 0) then
+                 ! equilibrate the matrix.
+                 call la_${ri}$laqsp(uplo,n,ap,s,scond,amax,equed)
+                 rcequ = la_lsame(equed,'Y')
+              end if
+           end if
+           ! scale the right-hand side.
+           if (rcequ) then
+              do j = 1,nrhs
+                 do i = 1,n
+                    b(i,j) = s(i)*b(i,j)
+                 end do
+              end do
+           end if
+           if (nofact .or. equil) then
+              ! compute the cholesky factorization a = u**t * u or a = l * l**t.
+              call la_${ri}$copy(n*(n + 1)/2,ap,1,afp,1)
+              call la_${ri}$pptrf(uplo,n,afp,info)
+              ! return if info is non-zero.
+              if (info > 0) then
+                 rcond = zero
+                 return
+              end if
+           end if
+           ! compute the norm of the matrix a.
+           anorm = la_${ri}$lansp('I',uplo,n,ap,work)
+           ! compute the reciprocal of the condition number of a.
+           call la_${ri}$ppcon(uplo,n,afp,anorm,rcond,work,iwork,info)
+           ! compute the solution matrix x.
+           call la_${ri}$lacpy('FULL',n,nrhs,b,ldb,x,ldx)
+           call la_${ri}$pptrs(uplo,n,nrhs,afp,x,ldx,info)
+           ! use iterative refinement to improve the computed solution and
+           ! compute error bounds and backward error estimates for it.
+           call la_${ri}$pprfs(uplo,n,nrhs,ap,afp,b,ldb,x,ldx,ferr,berr,work,iwork, &
+                     info)
+           ! transform the solution matrix x to a solution of the original
+           ! system.
+           if (rcequ) then
+              do j = 1,nrhs
+                 do i = 1,n
+                    x(i,j) = s(i)*x(i,j)
+                 end do
+              end do
+              do j = 1,nrhs
+                 ferr(j) = ferr(j)/scond
+              end do
+           end if
+           ! set info = n+1 if the matrix is singular to working precision.
+           if (rcond < la_${ri}$lamch('EPSILON')) info = n + 1
+           return
+     end subroutine la_${ri}$ppsvx
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     !> ${ri.upper()}$PTSV: computes the solution to a real system of linear equations
+     !> A*X = B, where A is an N-by-N symmetric positive definite tridiagonal
+     !> matrix, and X and B are N-by-NRHS matrices.
+     !> A is factored as A = L*D*L**T, and the factored form of A is then
+     !> used to solve the system of equations.
+
+     pure subroutine la_${ri}$ptsv(n,nrhs,d,e,b,ldb,info)
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldb,n,nrhs
+           ! Array Arguments
+           real(${rk}$),intent(inout) :: b(ldb,*),d(*),e(*)
+        ! =====================================================================
+           ! Intrinsic Functions
+           intrinsic :: max
+           ! Executable Statements
+           ! test the input parameters.
+           info = 0
+           if (n < 0) then
+              info = -1
+           else if (nrhs < 0) then
+              info = -2
+           else if (ldb < max(1,n)) then
+              info = -6
+           end if
+           if (info /= 0) then
+              call la_xerbla('${ri.upper()}$PTSV ',-info)
+              return
+           end if
+           ! compute the l*d*l**t (or u**t*d*u) factorization of a.
+           call la_${ri}$pttrf(n,d,e,info)
+           if (info == 0) then
+              ! solve the system a*x = b, overwriting b with x.
+              call la_${ri}$pttrs(n,nrhs,d,e,b,ldb,info)
+           end if
+           return
+     end subroutine la_${ri}$ptsv
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     !> ${ri.upper()}$PTSVX: uses the factorization A = L*D*L**T to compute the solution
+     !> to a real system of linear equations A*X = B, where A is an N-by-N
+     !> symmetric positive definite tridiagonal matrix and X and B are
+     !> N-by-NRHS matrices.
+     !> Error bounds on the solution and a condition estimate are also
+     !> provided.
+
+     pure subroutine la_${ri}$ptsvx(fact,n,nrhs,d,e,df,ef,b,ldb,x,ldx,rcond,ferr,berr, &
+                work,info)
+        use la_constants_${rk}$
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: fact
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldb,ldx,n,nrhs
+           real(${rk}$),intent(out) :: rcond
+           ! Array Arguments
+           real(${rk}$),intent(in) :: b(ldb,*),d(*),e(*)
+           real(${rk}$),intent(out) :: berr(*),ferr(*),work(*),x(ldx,*)
+           real(${rk}$),intent(inout) :: df(*),ef(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: nofact
+           real(${rk}$) :: anorm
+           ! Intrinsic Functions
+           intrinsic :: max
+           ! Executable Statements
+           ! test the input parameters.
+           info = 0
+           nofact = la_lsame(fact,'N')
+           if (.not. nofact .and. .not. la_lsame(fact,'F')) then
+              info = -1
+           else if (n < 0) then
+              info = -2
+           else if (nrhs < 0) then
+              info = -3
+           else if (ldb < max(1,n)) then
+              info = -9
+           else if (ldx < max(1,n)) then
+              info = -11
+           end if
+           if (info /= 0) then
+              call la_xerbla('${ri.upper()}$PTSVX',-info)
+              return
+           end if
+           if (nofact) then
+              ! compute the l*d*l**t (or u**t*d*u) factorization of a.
+              call la_${ri}$copy(n,d,1,df,1)
+              if (n > 1) call la_${ri}$copy(n - 1,e,1,ef,1)
+              call la_${ri}$pttrf(n,df,ef,info)
+              ! return if info is non-zero.
+              if (info > 0) then
+                 rcond = zero
+                 return
+              end if
+           end if
+           ! compute the norm of the matrix a.
+           anorm = la_${ri}$lanst('1',n,d,e)
+           ! compute the reciprocal of the condition number of a.
+           call la_${ri}$ptcon(n,df,ef,anorm,rcond,work,info)
+           ! compute the solution vectors x.
+           call la_${ri}$lacpy('FULL',n,nrhs,b,ldb,x,ldx)
+           call la_${ri}$pttrs(n,nrhs,df,ef,x,ldx,info)
+           ! use iterative refinement to improve the computed solutions and
+           ! compute error bounds and backward error estimates for them.
+           call la_${ri}$ptrfs(n,nrhs,d,e,df,ef,b,ldb,x,ldx,ferr,berr,work,info)
+
+           ! set info = n+1 if the matrix is singular to working precision.
+           if (rcond < la_${ri}$lamch('EPSILON')) info = n + 1
+           return
+     end subroutine la_${ri}$ptsvx
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if rkl is not None
+     !> ${ri.upper()}$${ril.upper()}$POSV: computes the solution to a real system of linear equations
+     !> A * X = B,
+     !> where A is an N-by-N symmetric positive definite matrix and X and B
+     !> are N-by-NRHS matrices.
+     !> ${ri.upper()}$${ril.upper()}$POSV first attempts to factorize the matrix in SINGLE PRECISION
+     !> and use this factorization within an iterative refinement procedure
+     !> to produce a solution with ${LA_PRECISION[rk].upper()}$ PRECISION normwise backward error
+     !> quality (see below). If the approach fails the method switches to a
+     !> ${LA_PRECISION[rk].upper()}$ PRECISION factorization and solve.
+     !> The iterative refinement is not going to be a winning strategy if
+     !> the ratio SINGLE PRECISION performance over ${LA_PRECISION[rk].upper()}$ PRECISION
+     !> performance is too small. A reasonable strategy should take the
+     !> number of right-hand sides and the size of the matrix into account.
+     !> This might be done with a call to ILAENV in the future. Up to now, we
+     !> always try iterative refinement.
+     !> The iterative refinement process is stopped if
+     !> ITER > ITERMAX
+     !> or for all the RHS we have:
+     !> RNRM < SQRT(N)*XNRM*ANRM*EPS*BWDMAX
+     !> where
+     !> o ITER is the number of the current iteration in the iterative
+     !> refinement process
+     !> o RNRM is the infinity-norm of the residual
+     !> o XNRM is the infinity-norm of the solution
+     !> o ANRM is the infinity-operator-norm of the matrix A
+     !> o EPS is the machine epsilon returned by ${ri.upper()}$LAMCH('Epsilon')
+     !> The value ITERMAX and BWDMAX are fixed to 30 and 1.0D+00
+     !> respectively.
+
+     subroutine la_${ri}$${ril}$posv(uplo,n,nrhs,a,lda,b,ldb,x,ldx,work,swork,iter,info)
+        use la_constants_${rk}$,only:negone,one
+
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info,iter
+           integer(ilp),intent(in) :: lda,ldb,ldx,n,nrhs
+           ! Array Arguments
+           real(${rkl}$),intent(out) :: swork(*)
+           real(${rk}$),intent(inout) :: a(lda,*)
+           real(${rk}$),intent(in) :: b(ldb,*)
+           real(${rk}$),intent(out) :: work(n,*),x(ldx,*)
+        ! =====================================================================
+           ! Parameters
+           logical(lk),parameter :: doitref = .true.
+           integer(ilp),parameter :: itermax = 30
+           real(${rk}$),parameter :: bwdmax = 1.0e+00_${rk}$
+
+           ! Local Scalars
+           integer(ilp) :: i,iiter,ptsa,ptsx
+           real(${rk}$) :: anrm,cte,eps,rnrm,xnrm
+           ! Intrinsic Functions
+           intrinsic :: abs,real,max,sqrt
+           ! Executable Statements
+           info = 0
+           iter = 0
+           ! test the input parameters.
+           if (.not. la_lsame(uplo,'U') .and. .not. la_lsame(uplo,'L')) then
+              info = -1
+           else if (n < 0) then
+              info = -2
+           else if (nrhs < 0) then
+              info = -3
+           else if (lda < max(1,n)) then
+              info = -5
+           else if (ldb < max(1,n)) then
+              info = -7
+           else if (ldx < max(1,n)) then
+              info = -9
+           end if
+           if (info /= 0) then
+              call la_xerbla('${ri.upper()}$${ril.upper()}$POSV',-info)
+              return
+           end if
+           ! quick return if (n==0).
+           if (n == 0) return
+           ! skip ${LA_PRECISION[rkl]}$ precision iterative refinement if a priori slower
+           ! than ${LA_PRECISION[rk]}$ precision factorization.
+           if (.not. doitref) then
+              iter = -1
+              go to 40
+           end if
+           ! compute some constants.
+           anrm = la_${ri}$lansy('I',uplo,n,a,lda,work)
+           eps = la_${ri}$lamch('EPSILON')
+           cte = anrm*eps*sqrt(real(n,KIND=${rk}$))*bwdmax
+           ! set the indices ptsa, ptsx for referencing sa and sx in swork.
+           ptsa = 1
+           ptsx = ptsa + n*n
+           ! convert b from ${LA_PRECISION[rk]}$ precision to ${LA_PRECISION[rkl]}$ precision and store the
+           ! result in sx.
+           call la_${ri}$lag2${ril}$(n,nrhs,b,ldb,swork(ptsx),n,info)
+           if (info /= 0) then
+              iter = -2
+              go to 40
+           end if
+           ! convert a from ${LA_PRECISION[rk]}$ precision to ${LA_PRECISION[rkl]}$ precision and store the
+           ! result in sa.
+           call la_${ri}$lat2${ril}$(uplo,n,a,lda,swork(ptsa),n,info)
+           if (info /= 0) then
+              iter = -2
+              go to 40
+           end if
+           ! compute the cholesky factorization of sa.
+           call la_${ril}$potrf(uplo,n,swork(ptsa),n,info)
+           if (info /= 0) then
+              iter = -3
+              go to 40
+           end if
+           ! solve the system sa*sx = sb.
+           call la_${ril}$potrs(uplo,n,nrhs,swork(ptsa),n,swork(ptsx),n,info)
+           ! convert sx back to ${LA_PRECISION[rk]}$ precision
+           call la_${ril}$lag2${ri}$(n,nrhs,swork(ptsx),n,x,ldx,info)
+           ! compute r = b - ax (r is work).
+           call la_${ri}$lacpy('ALL',n,nrhs,b,ldb,work,n)
+           call la_${ri}$symm('LEFT',uplo,n,nrhs,negone,a,lda,x,ldx,one,work,n)
+           ! check whether the nrhs normwise backward errors satisfy the
+           ! stopping criterion. if yes, set iter=0 and return.
+           do i = 1,nrhs
+              xnrm = abs(x(la_i${ri}$amax(n,x(1,i),1),i))
+              rnrm = abs(work(la_i${ri}$amax(n,work(1,i),1),i))
+              if (rnrm > xnrm*cte) go to 10
+           end do
+           ! if we are here, the nrhs normwise backward errors satisfy the
+           ! stopping criterion. we are good to exit.
+           iter = 0
+           return
+           10 continue
+           loop_30: do iiter = 1,itermax
+              ! convert r (in work) from ${LA_PRECISION[rk]}$ precision to ${LA_PRECISION[rkl]}$ precision
+              ! and store the result in sx.
+              call la_${ri}$lag2${ril}$(n,nrhs,work,n,swork(ptsx),n,info)
+              if (info /= 0) then
+                 iter = -2
+                 go to 40
+              end if
+              ! solve the system sa*sx = sr.
+              call la_${ril}$potrs(uplo,n,nrhs,swork(ptsa),n,swork(ptsx),n,info)
+              ! convert sx back to ${LA_PRECISION[rk]}$ precision and update the current
+              ! iterate.
+              call la_${ril}$lag2${ri}$(n,nrhs,swork(ptsx),n,work,n,info)
+              do i = 1,nrhs
+                 call la_${ri}$axpy(n,one,work(1,i),1,x(1,i),1)
+              end do
+              ! compute r = b - ax (r is work).
+              call la_${ri}$lacpy('ALL',n,nrhs,b,ldb,work,n)
+              call la_${ri}$symm('L',uplo,n,nrhs,negone,a,lda,x,ldx,one,work,n)
+              ! check whether the nrhs normwise backward errors satisfy the
+              ! stopping criterion. if yes, set iter=iiter>0 and return.
+              do i = 1,nrhs
+                 xnrm = abs(x(la_i${ri}$amax(n,x(1,i),1),i))
+                 rnrm = abs(work(la_i${ri}$amax(n,work(1,i),1),i))
+                 if (rnrm > xnrm*cte) go to 20
+              end do
+              ! if we are here, the nrhs normwise backward errors satisfy the
+              ! stopping criterion, we are good to exit.
+              iter = iiter
+              return
+              20 continue
+           end do loop_30
+           ! if we are at this place of the code, this is because we have
+           ! performed iter=itermax iterations and never satisfied the
+           ! stopping criterion, set up the iter flag accordingly and follow
+           ! up on ${LA_PRECISION[rk]}$ precision routine.
+           iter = -itermax - 1
+           40 continue
+           ! single-precision iterative refinement failed to converge to a
+           ! satisfactory solution, so we resort to ${LA_PRECISION[rk]}$ precision.
+           call la_${ri}$potrf(uplo,n,a,lda,info)
+           if (info /= 0) return
+           call la_${ri}$lacpy('ALL',n,nrhs,b,ldb,x,ldx)
+           call la_${ri}$potrs(uplo,n,nrhs,a,lda,x,ldx,info)
+           return
+     end subroutine la_${ri}$${ril}$posv
+#:endif
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     !> ${ri.upper()}$PBSV: computes the solution to a real system of linear equations
+     !> A * X = B,
+     !> where A is an N-by-N symmetric positive definite band matrix and X
+     !> and B are N-by-NRHS matrices.
+     !> The Cholesky decomposition is used to factor A as
+     !> A = U**T * U,  if UPLO = 'U', or
+     !> A = L * L**T,  if UPLO = 'L',
+     !> where U is an upper triangular band matrix, and L is a lower
+     !> triangular band matrix, with the same number of superdiagonals or
+     !> subdiagonals as A.  The factored form of A is then used to solve the
+     !> system of equations A * X = B.
+
+     pure subroutine la_${ri}$pbsv(uplo,n,kd,nrhs,ab,ldab,b,ldb,info)
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kd,ldab,ldb,n,nrhs
+           ! Array Arguments
+           real(${rk}$),intent(inout) :: ab(ldab,*),b(ldb,*)
+        ! =====================================================================
+           ! Intrinsic Functions
+           intrinsic :: max
+           ! Executable Statements
+           ! test the input parameters.
+           info = 0
+           if (.not. la_lsame(uplo,'U') .and. .not. la_lsame(uplo,'L')) then
+              info = -1
+           else if (n < 0) then
+              info = -2
+           else if (kd < 0) then
+              info = -3
+           else if (nrhs < 0) then
+              info = -4
+           else if (ldab < kd + 1) then
+              info = -6
+           else if (ldb < max(1,n)) then
+              info = -8
+           end if
+           if (info /= 0) then
+              call la_xerbla('${ri.upper()}$PBSV ',-info)
+              return
+           end if
+           ! compute the cholesky factorization a = u**t*u or a = l*l**t.
+           call la_${ri}$pbtrf(uplo,n,kd,ab,ldab,info)
+           if (info == 0) then
+              ! solve the system a*x = b, overwriting b with x.
+              call la_${ri}$pbtrs(uplo,n,kd,nrhs,ab,ldab,b,ldb,info)
+           end if
+           return
+     end subroutine la_${ri}$pbsv
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     !> ${ri.upper()}$PBSVX: uses the Cholesky factorization A = U**T*U or A = L*L**T to
+     !> compute the solution to a real system of linear equations
+     !> A * X = B,
+     !> where A is an N-by-N symmetric positive definite band matrix and X
+     !> and B are N-by-NRHS matrices.
+     !> Error bounds on the solution and a condition estimate are also
+     !> provided.
+
+     subroutine la_${ri}$pbsvx(fact,uplo,n,kd,nrhs,ab,ldab,afb,ldafb,equed,s,b,ldb,x, &
+               ldx,rcond,ferr,berr,work,iwork,info)
+        use la_constants_${rk}$,only:zero,one
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(inout) :: equed
+           character,intent(in) :: fact,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kd,ldab,ldafb,ldb,ldx,n,nrhs
+           real(${rk}$),intent(out) :: rcond
+           ! Array Arguments
+           integer(ilp),intent(out) :: iwork(*)
+           real(${rk}$),intent(inout) :: ab(ldab,*),afb(ldafb,*),b(ldb,*),s(*)
+           real(${rk}$),intent(out) :: berr(*),ferr(*),work(*),x(ldx,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: equil,nofact,rcequ,upper
+           integer(ilp) :: i,infequ,j,j1,j2
+           real(${rk}$) :: amax,anorm,bignum,scond,smax,smin,smlnum
+           ! Intrinsic Functions
+           intrinsic :: max,min
+           ! Executable Statements
+           info = 0
+           nofact = la_lsame(fact,'N')
+           equil = la_lsame(fact,'E')
+           upper = la_lsame(uplo,'U')
+           if (nofact .or. equil) then
+              equed = 'N'
+              rcequ = .false.
+           else
+              rcequ = la_lsame(equed,'Y')
+              smlnum = la_${ri}$lamch('SAFE MINIMUM')
+              bignum = one/smlnum
+           end if
+           ! test the input parameters.
+           if (.not. nofact .and. .not. equil .and. .not. la_lsame(fact,'F')) then
+              info = -1
+           else if (.not. upper .and. .not. la_lsame(uplo,'L')) then
+              info = -2
+           else if (n < 0) then
+              info = -3
+           else if (kd < 0) then
+              info = -4
+           else if (nrhs < 0) then
+              info = -5
+           else if (ldab < kd + 1) then
+              info = -7
+           else if (ldafb < kd + 1) then
+              info = -9
+           else if (la_lsame(fact,'F') .and. .not. (rcequ .or. la_lsame(equed,'N')) &
+                      ) then
+              info = -10
+           else
+              if (rcequ) then
+                 smin = bignum
+                 smax = zero
+                 do j = 1,n
+                    smin = min(smin,s(j))
+                    smax = max(smax,s(j))
+                 end do
+                 if (smin <= zero) then
+                    info = -11
+                 else if (n > 0) then
+                    scond = max(smin,smlnum)/min(smax,bignum)
+                 else
+                    scond = one
+                 end if
+              end if
+              if (info == 0) then
+                 if (ldb < max(1,n)) then
+                    info = -13
+                 else if (ldx < max(1,n)) then
+                    info = -15
+                 end if
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('${ri.upper()}$PBSVX',-info)
+              return
+           end if
+           if (equil) then
+              ! compute row and column scalings to equilibrate the matrix a.
+              call la_${ri}$pbequ(uplo,n,kd,ab,ldab,s,scond,amax,infequ)
+              if (infequ == 0) then
+                 ! equilibrate the matrix.
+                 call la_${ri}$laqsb(uplo,n,kd,ab,ldab,s,scond,amax,equed)
+                 rcequ = la_lsame(equed,'Y')
+              end if
+           end if
+           ! scale the right-hand side.
+           if (rcequ) then
+              do j = 1,nrhs
+                 do i = 1,n
+                    b(i,j) = s(i)*b(i,j)
+                 end do
+              end do
+           end if
+           if (nofact .or. equil) then
+              ! compute the cholesky factorization a = u**t *u or a = l*l**t.
+              if (upper) then
+                 do j = 1,n
+                    j1 = max(j - kd,1)
+                    call la_${ri}$copy(j - j1 + 1,ab(kd + 1 - j + j1,j),1,afb(kd + 1 - j + j1,j),1)
+
+                 end do
+              else
+                 do j = 1,n
+                    j2 = min(j + kd,n)
+                    call la_${ri}$copy(j2 - j + 1,ab(1,j),1,afb(1,j),1)
+                 end do
+              end if
+              call la_${ri}$pbtrf(uplo,n,kd,afb,ldafb,info)
+              ! return if info is non-zero.
+              if (info > 0) then
+                 rcond = zero
+                 return
+              end if
+           end if
+           ! compute the norm of the matrix a.
+           anorm = la_${ri}$lansb('1',uplo,n,kd,ab,ldab,work)
+           ! compute the reciprocal of the condition number of a.
+           call la_${ri}$pbcon(uplo,n,kd,afb,ldafb,anorm,rcond,work,iwork,info)
+           ! compute the solution matrix x.
+           call la_${ri}$lacpy('FULL',n,nrhs,b,ldb,x,ldx)
+           call la_${ri}$pbtrs(uplo,n,kd,nrhs,afb,ldafb,x,ldx,info)
+           ! use iterative refinement to improve the computed solution and
+           ! compute error bounds and backward error estimates for it.
+           call la_${ri}$pbrfs(uplo,n,kd,nrhs,ab,ldab,afb,ldafb,b,ldb,x,ldx,ferr,berr, &
+                      work,iwork,info)
+           ! transform the solution matrix x to a solution of the original
+           ! system.
+           if (rcequ) then
+              do j = 1,nrhs
+                 do i = 1,n
+                    x(i,j) = s(i)*x(i,j)
+                 end do
+              end do
+              do j = 1,nrhs
+                 ferr(j) = ferr(j)/scond
+              end do
+           end if
+           ! set info = n+1 if the matrix is singular to working precision.
+           if (rcond < la_${ri}$lamch('EPSILON')) info = n + 1
+           return
+     end subroutine la_${ri}$pbsvx
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     !> ${ri.upper()}$POSV: computes the solution to a real system of linear equations
+     !> A * X = B,
+     !> where A is an N-by-N symmetric positive definite matrix and X and B
+     !> are N-by-NRHS matrices.
+     !> The Cholesky decomposition is used to factor A as
+     !> A = U**T* U,  if UPLO = 'U', or
+     !> A = L * L**T,  if UPLO = 'L',
+     !> where U is an upper triangular matrix and L is a lower triangular
+     !> matrix.  The factored form of A is then used to solve the system of
+     !> equations A * X = B.
+
+     pure subroutine la_${ri}$posv(uplo,n,nrhs,a,lda,b,ldb,info)
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,n,nrhs
+           ! Array Arguments
+           real(${rk}$),intent(inout) :: a(lda,*),b(ldb,*)
+        ! =====================================================================
+           ! Intrinsic Functions
+           intrinsic :: max
+           ! Executable Statements
+           ! test the input parameters.
+           info = 0
+           if (.not. la_lsame(uplo,'U') .and. .not. la_lsame(uplo,'L')) then
+              info = -1
+           else if (n < 0) then
+              info = -2
+           else if (nrhs < 0) then
+              info = -3
+           else if (lda < max(1,n)) then
+              info = -5
+           else if (ldb < max(1,n)) then
+              info = -7
+           end if
+           if (info /= 0) then
+              call la_xerbla('${ri.upper()}$POSV ',-info)
+              return
+           end if
+           ! compute the cholesky factorization a = u**t*u or a = l*l**t.
+           call la_${ri}$potrf(uplo,n,a,lda,info)
+           if (info == 0) then
+              ! solve the system a*x = b, overwriting b with x.
+              call la_${ri}$potrs(uplo,n,nrhs,a,lda,b,ldb,info)
+           end if
+           return
+     end subroutine la_${ri}$posv
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     !> ${ri.upper()}$POSVX: uses the Cholesky factorization A = U**T*U or A = L*L**T to
+     !> compute the solution to a real system of linear equations
+     !> A * X = B,
+     !> where A is an N-by-N symmetric positive definite matrix and X and B
+     !> are N-by-NRHS matrices.
+     !> Error bounds on the solution and a condition estimate are also
+     !> provided.
+
+     subroutine la_${ri}$posvx(fact,uplo,n,nrhs,a,lda,af,ldaf,equed,s,b,ldb,x,ldx, &
+               rcond,ferr,berr,work,iwork,info)
+        use la_constants_${rk}$,only:zero,one
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(inout) :: equed
+           character,intent(in) :: fact,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldaf,ldb,ldx,n,nrhs
+           real(${rk}$),intent(out) :: rcond
+           ! Array Arguments
+           integer(ilp),intent(out) :: iwork(*)
+           real(${rk}$),intent(inout) :: a(lda,*),af(ldaf,*),b(ldb,*),s(*)
+           real(${rk}$),intent(out) :: berr(*),ferr(*),work(*),x(ldx,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: equil,nofact,rcequ
+           integer(ilp) :: i,infequ,j
+           real(${rk}$) :: amax,anorm,bignum,scond,smax,smin,smlnum
+           ! Intrinsic Functions
+           intrinsic :: max,min
+           ! Executable Statements
+           info = 0
+           nofact = la_lsame(fact,'N')
+           equil = la_lsame(fact,'E')
+           if (nofact .or. equil) then
+              equed = 'N'
+              rcequ = .false.
+           else
+              rcequ = la_lsame(equed,'Y')
+              smlnum = la_${ri}$lamch('SAFE MINIMUM')
+              bignum = one/smlnum
+           end if
+           ! test the input parameters.
+           if (.not. nofact .and. .not. equil .and. .not. la_lsame(fact,'F')) then
+              info = -1
+           else if (.not. la_lsame(uplo,'U') .and. .not. la_lsame(uplo,'L')) &
+                     then
+              info = -2
+           else if (n < 0) then
+              info = -3
+           else if (nrhs < 0) then
+              info = -4
+           else if (lda < max(1,n)) then
+              info = -6
+           else if (ldaf < max(1,n)) then
+              info = -8
+           else if (la_lsame(fact,'F') .and. .not. (rcequ .or. la_lsame(equed,'N')) &
+                      ) then
+              info = -9
+           else
+              if (rcequ) then
+                 smin = bignum
+                 smax = zero
+                 do j = 1,n
+                    smin = min(smin,s(j))
+                    smax = max(smax,s(j))
+                 end do
+                 if (smin <= zero) then
+                    info = -10
+                 else if (n > 0) then
+                    scond = max(smin,smlnum)/min(smax,bignum)
+                 else
+                    scond = one
+                 end if
+              end if
+              if (info == 0) then
+                 if (ldb < max(1,n)) then
+                    info = -12
+                 else if (ldx < max(1,n)) then
+                    info = -14
+                 end if
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('${ri.upper()}$POSVX',-info)
+              return
+           end if
+           if (equil) then
+              ! compute row and column scalings to equilibrate the matrix a.
+              call la_${ri}$poequ(n,a,lda,s,scond,amax,infequ)
+              if (infequ == 0) then
+                 ! equilibrate the matrix.
+                 call la_${ri}$laqsy(uplo,n,a,lda,s,scond,amax,equed)
+                 rcequ = la_lsame(equed,'Y')
+              end if
+           end if
+           ! scale the right hand side.
+           if (rcequ) then
+              do j = 1,nrhs
+                 do i = 1,n
+                    b(i,j) = s(i)*b(i,j)
+                 end do
+              end do
+           end if
+           if (nofact .or. equil) then
+              ! compute the cholesky factorization a = u**t *u or a = l*l**t.
+              call la_${ri}$lacpy(uplo,n,n,a,lda,af,ldaf)
+              call la_${ri}$potrf(uplo,n,af,ldaf,info)
+              ! return if info is non-zero.
+              if (info > 0) then
+                 rcond = zero
+                 return
+              end if
+           end if
+           ! compute the norm of the matrix a.
+           anorm = la_${ri}$lansy('1',uplo,n,a,lda,work)
+           ! compute the reciprocal of the condition number of a.
+           call la_${ri}$pocon(uplo,n,af,ldaf,anorm,rcond,work,iwork,info)
+           ! compute the solution matrix x.
+           call la_${ri}$lacpy('FULL',n,nrhs,b,ldb,x,ldx)
+           call la_${ri}$potrs(uplo,n,nrhs,af,ldaf,x,ldx,info)
+           ! use iterative refinement to improve the computed solution and
+           ! compute error bounds and backward error estimates for it.
+           call la_${ri}$porfs(uplo,n,nrhs,a,lda,af,ldaf,b,ldb,x,ldx,ferr,berr,work, &
+                     iwork,info)
+           ! transform the solution matrix x to a solution of the original
+           ! system.
+           if (rcequ) then
+              do j = 1,nrhs
+                 do i = 1,n
+                    x(i,j) = s(i)*x(i,j)
+                 end do
+              end do
+              do j = 1,nrhs
+                 ferr(j) = ferr(j)/scond
+              end do
+           end if
+           ! set info = n+1 if the matrix is singular to working precision.
+           if (rcond < la_${ri}$lamch('EPSILON')) info = n + 1
+           return
+     end subroutine la_${ri}$posvx
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+     !> ${ri.upper()}$PPSV: computes the solution to a complex system of linear equations
+     !> A * X = B,
+     !> where A is an N-by-N Hermitian positive definite matrix stored in
+     !> packed format and X and B are N-by-NRHS matrices.
+     !> The Cholesky decomposition is used to factor A as
+     !> A = U**H * U,  if UPLO = 'U', or
+     !> A = L * L**H,  if UPLO = 'L',
+     !> where U is an upper triangular matrix and L is a lower triangular
+     !> matrix.  The factored form of A is then used to solve the system of
+     !> equations A * X = B.
+
+     pure subroutine la_${ri}$ppsv(uplo,n,nrhs,ap,b,ldb,info)
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldb,n,nrhs
+           ! Array Arguments
+           complex(${rk}$),intent(inout) :: ap(*),b(ldb,*)
+        ! =====================================================================
+           ! Intrinsic Functions
+           intrinsic :: max
+           ! Executable Statements
+           ! test the input parameters.
+           info = 0
+           if (.not. la_lsame(uplo,'U') .and. .not. la_lsame(uplo,'L')) then
+              info = -1
+           else if (n < 0) then
+              info = -2
+           else if (nrhs < 0) then
+              info = -3
+           else if (ldb < max(1,n)) then
+              info = -6
+           end if
+           if (info /= 0) then
+              call la_xerbla('${ri.upper()}$PPSV ',-info)
+              return
+           end if
+           ! compute the cholesky factorization a = u**h *u or a = l*l**h.
+           call la_${ri}$pptrf(uplo,n,ap,info)
+           if (info == 0) then
+              ! solve the system a*x = b, overwriting b with x.
+              call la_${ri}$pptrs(uplo,n,nrhs,ap,b,ldb,info)
+           end if
+           return
+     end subroutine la_${ri}$ppsv
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if rk == "sp"
+     !> ${ri.upper()}$PPSVX: uses the Cholesky factorization A = U**H*U or A = L*L**H to
+#:else
+     !> ${ri.upper()}$PPSVX: uses the Cholesky factorization A = U**H * U or A = L * L**H to
+#:endif
+     !> compute the solution to a complex system of linear equations
+     !> A * X = B,
+     !> where A is an N-by-N Hermitian positive definite matrix stored in
+     !> packed format and X and B are N-by-NRHS matrices.
+     !> Error bounds on the solution and a condition estimate are also
+     !> provided.
+
+     subroutine la_${ri}$ppsvx(fact,uplo,n,nrhs,ap,afp,equed,s,b,ldb,x,ldx,rcond,ferr, &
+                berr,work,rwork,info)
+        use la_constants_${rk}$,only:zero,one
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(inout) :: equed
+           character,intent(in) :: fact,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldb,ldx,n,nrhs
+           real(${rk}$),intent(out) :: rcond
+           ! Array Arguments
+           real(${rk}$),intent(out) :: berr(*),ferr(*),rwork(*)
+           real(${rk}$),intent(inout) :: s(*)
+           complex(${rk}$),intent(inout) :: afp(*),ap(*),b(ldb,*)
+           complex(${rk}$),intent(out) :: work(*),x(ldx,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: equil,nofact,rcequ
+           integer(ilp) :: i,infequ,j
+           real(${rk}$) :: amax,anorm,bignum,scond,smax,smin,smlnum
+           ! Intrinsic Functions
+           intrinsic :: max,min
+           ! Executable Statements
+           info = 0
+           nofact = la_lsame(fact,'N')
+           equil = la_lsame(fact,'E')
+           if (nofact .or. equil) then
+              equed = 'N'
+              rcequ = .false.
+           else
+              rcequ = la_lsame(equed,'Y')
+              smlnum = la_${ci}$lamch('SAFE MINIMUM')
+              bignum = one/smlnum
+           end if
+           ! test the input parameters.
+           if (.not. nofact .and. .not. equil .and. .not. la_lsame(fact,'F')) then
+              info = -1
+           else if (.not. la_lsame(uplo,'U') .and. .not. la_lsame(uplo,'L')) &
+                     then
+              info = -2
+           else if (n < 0) then
+              info = -3
+           else if (nrhs < 0) then
+              info = -4
+           else if (la_lsame(fact,'F') .and. .not. (rcequ .or. la_lsame(equed,'N')) &
+                      ) then
+              info = -7
+           else
+              if (rcequ) then
+                 smin = bignum
+                 smax = zero
+                 do j = 1,n
+                    smin = min(smin,s(j))
+                    smax = max(smax,s(j))
+                 end do
+                 if (smin <= zero) then
+                    info = -8
+                 else if (n > 0) then
+                    scond = max(smin,smlnum)/min(smax,bignum)
+                 else
+                    scond = one
+                 end if
+              end if
+              if (info == 0) then
+                 if (ldb < max(1,n)) then
+                    info = -10
+                 else if (ldx < max(1,n)) then
+                    info = -12
+                 end if
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('${ri.upper()}$PPSVX',-info)
+              return
+           end if
+           if (equil) then
+              ! compute row and column scalings to equilibrate the matrix a.
+              call la_${ri}$ppequ(uplo,n,ap,s,scond,amax,infequ)
+              if (infequ == 0) then
+                 ! equilibrate the matrix.
+                 call la_${ri}$laqhp(uplo,n,ap,s,scond,amax,equed)
+                 rcequ = la_lsame(equed,'Y')
+              end if
+           end if
+           ! scale the right-hand side.
+           if (rcequ) then
+              do j = 1,nrhs
+                 do i = 1,n
+                    b(i,j) = s(i)*b(i,j)
+                 end do
+              end do
+           end if
+           if (nofact .or. equil) then
+              ! compute the cholesky factorization a = u**h * u or a = l * l**h.
+              call la_${ri}$copy(n*(n + 1)/2,ap,1,afp,1)
+              call la_${ri}$pptrf(uplo,n,afp,info)
+              ! return if info is non-zero.
+              if (info > 0) then
+                 rcond = zero
+                 return
+              end if
+           end if
+           ! compute the norm of the matrix a.
+           anorm = la_${ri}$lanhp('I',uplo,n,ap,rwork)
+           ! compute the reciprocal of the condition number of a.
+           call la_${ri}$ppcon(uplo,n,afp,anorm,rcond,work,rwork,info)
+           ! compute the solution matrix x.
+           call la_${ri}$lacpy('FULL',n,nrhs,b,ldb,x,ldx)
+           call la_${ri}$pptrs(uplo,n,nrhs,afp,x,ldx,info)
+           ! use iterative refinement to improve the computed solution and
+           ! compute error bounds and backward error estimates for it.
+           call la_${ri}$pprfs(uplo,n,nrhs,ap,afp,b,ldb,x,ldx,ferr,berr,work,rwork, &
+                     info)
+           ! transform the solution matrix x to a solution of the original
+           ! system.
+           if (rcequ) then
+              do j = 1,nrhs
+                 do i = 1,n
+                    x(i,j) = s(i)*x(i,j)
+                 end do
+              end do
+              do j = 1,nrhs
+                 ferr(j) = ferr(j)/scond
+              end do
+           end if
+           ! set info = n+1 if the matrix is singular to working precision.
+           if (rcond < la_${ci}$lamch('EPSILON')) info = n + 1
+           return
+     end subroutine la_${ri}$ppsvx
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if rkl is not None
+     !> ${ri.upper()}$${ril.upper()}$POSV: computes the solution to a complex system of linear equations
+     !> A * X = B,
+     !> where A is an N-by-N Hermitian positive definite matrix and X and B
+     !> are N-by-NRHS matrices.
+     !> ${ri.upper()}$${ril.upper()}$POSV first attempts to factorize the matrix in COMPLEX and use this
+     !> factorization within an iterative refinement procedure to produce a
+     !> solution with COMPLEX*16 normwise backward error quality (see below).
+     !> If the approach fails the method switches to a COMPLEX*16
+     !> factorization and solve.
+     !> The iterative refinement is not going to be a winning strategy if
+     !> the ratio COMPLEX performance over COMPLEX*16 performance is too
+     !> small. A reasonable strategy should take the number of right-hand
+     !> sides and the size of the matrix into account. This might be done
+     !> with a call to ILAENV in the future. Up to now, we always try
+     !> iterative refinement.
+     !> The iterative refinement process is stopped if
+     !> ITER > ITERMAX
+     !> or for all the RHS we have:
+     !> RNRM < SQRT(N)*XNRM*ANRM*EPS*BWDMAX
+     !> where
+     !> o ITER is the number of the current iteration in the iterative
+     !> refinement process
+     !> o RNRM is the infinity-norm of the residual
+     !> o XNRM is the infinity-norm of the solution
+     !> o ANRM is the infinity-operator-norm of the matrix A
+     !> o EPS is the machine epsilon returned by ${ci.upper()}$LAMCH('Epsilon')
+     !> The value ITERMAX and BWDMAX are fixed to 30 and 1.0D+00
+     !> respectively.
+
+     subroutine la_${ri}$${ril}$posv(uplo,n,nrhs,a,lda,b,ldb,x,ldx,work,swork,rwork,iter, &
+               info)
+        use la_constants_${rk}$,only:cone,cnegone
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info,iter
+           integer(ilp),intent(in) :: lda,ldb,ldx,n,nrhs
+           ! Array Arguments
+           real(${rk}$),intent(out) :: rwork(*)
+           complex(${rkl}$),intent(out) :: swork(*)
+           complex(${rk}$),intent(inout) :: a(lda,*)
+           complex(${rk}$),intent(in) :: b(ldb,*)
+           complex(${rk}$),intent(out) :: work(n,*),x(ldx,*)
+        ! =====================================================================
+           ! Parameters
+           logical(lk),parameter :: doitref = .true.
+           integer(ilp),parameter :: itermax = 30
+           real(${rk}$),parameter :: bwdmax = 1.0e+00_${rk}$
+
+           ! Local Scalars
+           integer(ilp) :: i,iiter,ptsa,ptsx
+           real(${rk}$) :: anrm,cte,eps,rnrm,xnrm
+           complex(${rk}$) :: zdum
+           ! Intrinsic Functions
+           intrinsic :: abs,real,max,sqrt
+           ! Statement Functions
+           real(${rk}$) :: cabs1
+           ! Statement Function Definitions
+           cabs1(zdum) = abs(real(zdum,KIND=${rk}$)) + abs(aimag(zdum))
+           ! Executable Statements
+           info = 0
+           iter = 0
+           ! test the input parameters.
+           if (.not. la_lsame(uplo,'U') .and. .not. la_lsame(uplo,'L')) then
+              info = -1
+           else if (n < 0) then
+              info = -2
+           else if (nrhs < 0) then
+              info = -3
+           else if (lda < max(1,n)) then
+              info = -5
+           else if (ldb < max(1,n)) then
+              info = -7
+           else if (ldx < max(1,n)) then
+              info = -9
+           end if
+           if (info /= 0) then
+              call la_xerbla('${ri.upper()}$${ril.upper()}$POSV',-info)
+              return
+           end if
+           ! quick return if (n==0).
+           if (n == 0) return
+           ! skip ${LA_PRECISION[rkl]}$ precision iterative refinement if a priori slower
+           ! than ${LA_PRECISION[rk]}$ precision factorization.
+           if (.not. doitref) then
+              iter = -1
+              go to 40
+           end if
+           ! compute some constants.
+           anrm = la_${ri}$lanhe('I',uplo,n,a,lda,rwork)
+           eps = la_${ci}$lamch('EPSILON')
+           cte = anrm*eps*sqrt(real(n,KIND=${rk}$))*bwdmax
+           ! set the indices ptsa, ptsx for referencing sa and sx in swork.
+           ptsa = 1
+           ptsx = ptsa + n*n
+           ! convert b from ${LA_PRECISION[rk]}$ precision to ${LA_PRECISION[rkl]}$ precision and store the
+           ! result in sx.
+           call la_${ri}$lag2${ril}$(n,nrhs,b,ldb,swork(ptsx),n,info)
+           if (info /= 0) then
+              iter = -2
+              go to 40
+           end if
+           ! convert a from ${LA_PRECISION[rk]}$ precision to ${LA_PRECISION[rkl]}$ precision and store the
+           ! result in sa.
+           call la_${ri}$lat2${ril}$(uplo,n,a,lda,swork(ptsa),n,info)
+           if (info /= 0) then
+              iter = -2
+              go to 40
+           end if
+           ! compute the cholesky factorization of sa.
+           call la_${ril}$potrf(uplo,n,swork(ptsa),n,info)
+           if (info /= 0) then
+              iter = -3
+              go to 40
+           end if
+           ! solve the system sa*sx = sb.
+           call la_${ril}$potrs(uplo,n,nrhs,swork(ptsa),n,swork(ptsx),n,info)
+           ! convert sx back to complex*16
+           call la_${ril}$lag2${ri}$(n,nrhs,swork(ptsx),n,x,ldx,info)
+           ! compute r = b - ax (r is work).
+           call la_${ri}$lacpy('ALL',n,nrhs,b,ldb,work,n)
+           call la_${ri}$hemm('LEFT',uplo,n,nrhs,cnegone,a,lda,x,ldx,cone,work,n)
+
+           ! check whether the nrhs normwise backward errors satisfy the
+           ! stopping criterion. if yes, set iter=0 and return.
+           do i = 1,nrhs
+              xnrm = cabs1(x(la_i${ri}$amax(n,x(1,i),1),i))
+              rnrm = cabs1(work(la_i${ri}$amax(n,work(1,i),1),i))
+              if (rnrm > xnrm*cte) go to 10
+           end do
+           ! if we are here, the nrhs normwise backward errors satisfy the
+           ! stopping criterion. we are good to exit.
+           iter = 0
+           return
+           10 continue
+           loop_30: do iiter = 1,itermax
+              ! convert r (in work) from ${LA_PRECISION[rk]}$ precision to ${LA_PRECISION[rkl]}$ precision
+              ! and store the result in sx.
+              call la_${ri}$lag2${ril}$(n,nrhs,work,n,swork(ptsx),n,info)
+              if (info /= 0) then
+                 iter = -2
+                 go to 40
+              end if
+              ! solve the system sa*sx = sr.
+              call la_${ril}$potrs(uplo,n,nrhs,swork(ptsa),n,swork(ptsx),n,info)
+              ! convert sx back to ${LA_PRECISION[rk]}$ precision and update the current
+              ! iterate.
+              call la_${ril}$lag2${ri}$(n,nrhs,swork(ptsx),n,work,n,info)
+              do i = 1,nrhs
+                 call la_${ri}$axpy(n,cone,work(1,i),1,x(1,i),1)
+              end do
+              ! compute r = b - ax (r is work).
+              call la_${ri}$lacpy('ALL',n,nrhs,b,ldb,work,n)
+              call la_${ri}$hemm('L',uplo,n,nrhs,cnegone,a,lda,x,ldx,cone,work,n)
+
+              ! check whether the nrhs normwise backward errors satisfy the
+              ! stopping criterion. if yes, set iter=iiter>0 and return.
+              do i = 1,nrhs
+                 xnrm = cabs1(x(la_i${ri}$amax(n,x(1,i),1),i))
+                 rnrm = cabs1(work(la_i${ri}$amax(n,work(1,i),1),i))
+                 if (rnrm > xnrm*cte) go to 20
+              end do
+              ! if we are here, the nrhs normwise backward errors satisfy the
+              ! stopping criterion, we are good to exit.
+              iter = iiter
+              return
+              20 continue
+           end do loop_30
+           ! if we are at this place of the code, this is because we have
+           ! performed iter=itermax iterations and never satisfied the
+           ! stopping criterion, set up the iter flag accordingly and follow
+           ! up on ${LA_PRECISION[rk]}$ precision routine.
+           iter = -itermax - 1
+           40 continue
+           ! single-precision iterative refinement failed to converge to a
+           ! satisfactory solution, so we resort to ${LA_PRECISION[rk]}$ precision.
+           call la_${ri}$potrf(uplo,n,a,lda,info)
+           if (info /= 0) return
+           call la_${ri}$lacpy('ALL',n,nrhs,b,ldb,x,ldx)
+           call la_${ri}$potrs(uplo,n,nrhs,a,lda,x,ldx,info)
+           return
+     end subroutine la_${ri}$${ril}$posv
+#:endif
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+     !> ${ri.upper()}$PBSV: computes the solution to a complex system of linear equations
+     !> A * X = B,
+     !> where A is an N-by-N Hermitian positive definite band matrix and X
+     !> and B are N-by-NRHS matrices.
+     !> The Cholesky decomposition is used to factor A as
+     !> A = U**H * U,  if UPLO = 'U', or
+     !> A = L * L**H,  if UPLO = 'L',
+     !> where U is an upper triangular band matrix, and L is a lower
+     !> triangular band matrix, with the same number of superdiagonals or
+     !> subdiagonals as A.  The factored form of A is then used to solve the
+     !> system of equations A * X = B.
+
+     pure subroutine la_${ri}$pbsv(uplo,n,kd,nrhs,ab,ldab,b,ldb,info)
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kd,ldab,ldb,n,nrhs
+           ! Array Arguments
+           complex(${rk}$),intent(inout) :: ab(ldab,*),b(ldb,*)
+        ! =====================================================================
+           ! Intrinsic Functions
+           intrinsic :: max
+           ! Executable Statements
+           ! test the input parameters.
+           info = 0
+           if (.not. la_lsame(uplo,'U') .and. .not. la_lsame(uplo,'L')) then
+              info = -1
+           else if (n < 0) then
+              info = -2
+           else if (kd < 0) then
+              info = -3
+           else if (nrhs < 0) then
+              info = -4
+           else if (ldab < kd + 1) then
+              info = -6
+           else if (ldb < max(1,n)) then
+              info = -8
+           end if
+           if (info /= 0) then
+              call la_xerbla('${ri.upper()}$PBSV ',-info)
+              return
+           end if
+#:if rk == "sp"
+           ! compute the cholesky factorization a = u**h*u or a = l*l**h.
+#:else
+           ! compute the cholesky factorization a = u**h *u or a = l*l**h.
+#:endif
+           call la_${ri}$pbtrf(uplo,n,kd,ab,ldab,info)
+           if (info == 0) then
+              ! solve the system a*x = b, overwriting b with x.
+              call la_${ri}$pbtrs(uplo,n,kd,nrhs,ab,ldab,b,ldb,info)
+           end if
+           return
+     end subroutine la_${ri}$pbsv
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+     !> ${ri.upper()}$PBSVX: uses the Cholesky factorization A = U**H*U or A = L*L**H to
+     !> compute the solution to a complex system of linear equations
+     !> A * X = B,
+     !> where A is an N-by-N Hermitian positive definite band matrix and X
+     !> and B are N-by-NRHS matrices.
+     !> Error bounds on the solution and a condition estimate are also
+     !> provided.
+
+     subroutine la_${ri}$pbsvx(fact,uplo,n,kd,nrhs,ab,ldab,afb,ldafb,equed,s,b,ldb,x, &
+               ldx,rcond,ferr,berr,work,rwork,info)
+        use la_constants_${rk}$,only:zero,one
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(inout) :: equed
+           character,intent(in) :: fact,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kd,ldab,ldafb,ldb,ldx,n,nrhs
+           real(${rk}$),intent(out) :: rcond
+           ! Array Arguments
+           real(${rk}$),intent(out) :: berr(*),ferr(*),rwork(*)
+           real(${rk}$),intent(inout) :: s(*)
+           complex(${rk}$),intent(inout) :: ab(ldab,*),afb(ldafb,*),b(ldb,*)
+           complex(${rk}$),intent(out) :: work(*),x(ldx,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: equil,nofact,rcequ,upper
+           integer(ilp) :: i,infequ,j,j1,j2
+           real(${rk}$) :: amax,anorm,bignum,scond,smax,smin,smlnum
+           ! Intrinsic Functions
+           intrinsic :: max,min
+           ! Executable Statements
+           info = 0
+           nofact = la_lsame(fact,'N')
+           equil = la_lsame(fact,'E')
+           upper = la_lsame(uplo,'U')
+           if (nofact .or. equil) then
+              equed = 'N'
+              rcequ = .false.
+           else
+              rcequ = la_lsame(equed,'Y')
+              smlnum = la_${ci}$lamch('SAFE MINIMUM')
+              bignum = one/smlnum
+           end if
+           ! test the input parameters.
+           if (.not. nofact .and. .not. equil .and. .not. la_lsame(fact,'F')) then
+              info = -1
+           else if (.not. upper .and. .not. la_lsame(uplo,'L')) then
+              info = -2
+           else if (n < 0) then
+              info = -3
+           else if (kd < 0) then
+              info = -4
+           else if (nrhs < 0) then
+              info = -5
+           else if (ldab < kd + 1) then
+              info = -7
+           else if (ldafb < kd + 1) then
+              info = -9
+           else if (la_lsame(fact,'F') .and. .not. (rcequ .or. la_lsame(equed,'N')) &
+                      ) then
+              info = -10
+           else
+              if (rcequ) then
+                 smin = bignum
+                 smax = zero
+                 do j = 1,n
+                    smin = min(smin,s(j))
+                    smax = max(smax,s(j))
+                 end do
+                 if (smin <= zero) then
+                    info = -11
+                 else if (n > 0) then
+                    scond = max(smin,smlnum)/min(smax,bignum)
+                 else
+                    scond = one
+                 end if
+              end if
+              if (info == 0) then
+                 if (ldb < max(1,n)) then
+                    info = -13
+                 else if (ldx < max(1,n)) then
+                    info = -15
+                 end if
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('${ri.upper()}$PBSVX',-info)
+              return
+           end if
+           if (equil) then
+              ! compute row and column scalings to equilibrate the matrix a.
+              call la_${ri}$pbequ(uplo,n,kd,ab,ldab,s,scond,amax,infequ)
+              if (infequ == 0) then
+                 ! equilibrate the matrix.
+                 call la_${ri}$laqhb(uplo,n,kd,ab,ldab,s,scond,amax,equed)
+                 rcequ = la_lsame(equed,'Y')
+              end if
+           end if
+           ! scale the right-hand side.
+           if (rcequ) then
+              do j = 1,nrhs
+                 do i = 1,n
+                    b(i,j) = s(i)*b(i,j)
+                 end do
+              end do
+           end if
+           if (nofact .or. equil) then
+              ! compute the cholesky factorization a = u**h *u or a = l*l**h.
+              if (upper) then
+                 do j = 1,n
+                    j1 = max(j - kd,1)
+                    call la_${ri}$copy(j - j1 + 1,ab(kd + 1 - j + j1,j),1,afb(kd + 1 - j + j1,j),1)
+
+                 end do
+              else
+                 do j = 1,n
+                    j2 = min(j + kd,n)
+                    call la_${ri}$copy(j2 - j + 1,ab(1,j),1,afb(1,j),1)
+                 end do
+              end if
+              call la_${ri}$pbtrf(uplo,n,kd,afb,ldafb,info)
+              ! return if info is non-zero.
+              if (info > 0) then
+                 rcond = zero
+                 return
+              end if
+           end if
+           ! compute the norm of the matrix a.
+           anorm = la_${ri}$lanhb('1',uplo,n,kd,ab,ldab,rwork)
+           ! compute the reciprocal of the condition number of a.
+           call la_${ri}$pbcon(uplo,n,kd,afb,ldafb,anorm,rcond,work,rwork,info)
+           ! compute the solution matrix x.
+           call la_${ri}$lacpy('FULL',n,nrhs,b,ldb,x,ldx)
+           call la_${ri}$pbtrs(uplo,n,kd,nrhs,afb,ldafb,x,ldx,info)
+           ! use iterative refinement to improve the computed solution and
+           ! compute error bounds and backward error estimates for it.
+           call la_${ri}$pbrfs(uplo,n,kd,nrhs,ab,ldab,afb,ldafb,b,ldb,x,ldx,ferr,berr, &
+                      work,rwork,info)
+           ! transform the solution matrix x to a solution of the original
+           ! system.
+           if (rcequ) then
+              do j = 1,nrhs
+                 do i = 1,n
+                    x(i,j) = s(i)*x(i,j)
+                 end do
+              end do
+              do j = 1,nrhs
+                 ferr(j) = ferr(j)/scond
+              end do
+           end if
+           ! set info = n+1 if the matrix is singular to working precision.
+           if (rcond < la_${ci}$lamch('EPSILON')) info = n + 1
+           return
+     end subroutine la_${ri}$pbsvx
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+     !> ${ri.upper()}$POSV: computes the solution to a complex system of linear equations
+     !> A * X = B,
+     !> where A is an N-by-N Hermitian positive definite matrix and X and B
+     !> are N-by-NRHS matrices.
+     !> The Cholesky decomposition is used to factor A as
+     !> A = U**H* U,  if UPLO = 'U', or
+     !> A = L * L**H,  if UPLO = 'L',
+     !> where U is an upper triangular matrix and  L is a lower triangular
+     !> matrix.  The factored form of A is then used to solve the system of
+     !> equations A * X = B.
+
+     pure subroutine la_${ri}$posv(uplo,n,nrhs,a,lda,b,ldb,info)
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,n,nrhs
+           ! Array Arguments
+           complex(${rk}$),intent(inout) :: a(lda,*),b(ldb,*)
+        ! =====================================================================
+           ! Intrinsic Functions
+           intrinsic :: max
+           ! Executable Statements
+           ! test the input parameters.
+           info = 0
+           if (.not. la_lsame(uplo,'U') .and. .not. la_lsame(uplo,'L')) then
+              info = -1
+           else if (n < 0) then
+              info = -2
+           else if (nrhs < 0) then
+              info = -3
+           else if (lda < max(1,n)) then
+              info = -5
+           else if (ldb < max(1,n)) then
+              info = -7
+           end if
+           if (info /= 0) then
+              call la_xerbla('${ri.upper()}$POSV ',-info)
+              return
+           end if
+#:if rk == "sp"
+           ! compute the cholesky factorization a = u**h*u or a = l*l**h.
+#:else
+           ! compute the cholesky factorization a = u**h *u or a = l*l**h.
+#:endif
+           call la_${ri}$potrf(uplo,n,a,lda,info)
+           if (info == 0) then
+              ! solve the system a*x = b, overwriting b with x.
+              call la_${ri}$potrs(uplo,n,nrhs,a,lda,b,ldb,info)
+           end if
+           return
+     end subroutine la_${ri}$posv
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+     !> ${ri.upper()}$POSVX: uses the Cholesky factorization A = U**H*U or A = L*L**H to
+     !> compute the solution to a complex system of linear equations
+     !> A * X = B,
+     !> where A is an N-by-N Hermitian positive definite matrix and X and B
+     !> are N-by-NRHS matrices.
+     !> Error bounds on the solution and a condition estimate are also
+     !> provided.
+
+     subroutine la_${ri}$posvx(fact,uplo,n,nrhs,a,lda,af,ldaf,equed,s,b,ldb,x,ldx, &
+               rcond,ferr,berr,work,rwork,info)
+        use la_constants_${rk}$,only:zero,one
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(inout) :: equed
+           character,intent(in) :: fact,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldaf,ldb,ldx,n,nrhs
+           real(${rk}$),intent(out) :: rcond
+           ! Array Arguments
+           real(${rk}$),intent(out) :: berr(*),ferr(*),rwork(*)
+           real(${rk}$),intent(inout) :: s(*)
+           complex(${rk}$),intent(inout) :: a(lda,*),af(ldaf,*),b(ldb,*)
+           complex(${rk}$),intent(out) :: work(*),x(ldx,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: equil,nofact,rcequ
+           integer(ilp) :: i,infequ,j
+           real(${rk}$) :: amax,anorm,bignum,scond,smax,smin,smlnum
+           ! Intrinsic Functions
+           intrinsic :: max,min
+           ! Executable Statements
+           info = 0
+           nofact = la_lsame(fact,'N')
+           equil = la_lsame(fact,'E')
+           if (nofact .or. equil) then
+              equed = 'N'
+              rcequ = .false.
+           else
+              rcequ = la_lsame(equed,'Y')
+              smlnum = la_${ci}$lamch('SAFE MINIMUM')
+              bignum = one/smlnum
+           end if
+           ! test the input parameters.
+           if (.not. nofact .and. .not. equil .and. .not. la_lsame(fact,'F')) then
+              info = -1
+           else if (.not. la_lsame(uplo,'U') .and. .not. la_lsame(uplo,'L')) &
+                     then
+              info = -2
+           else if (n < 0) then
+              info = -3
+           else if (nrhs < 0) then
+              info = -4
+           else if (lda < max(1,n)) then
+              info = -6
+           else if (ldaf < max(1,n)) then
+              info = -8
+           else if (la_lsame(fact,'F') .and. .not. (rcequ .or. la_lsame(equed,'N')) &
+                      ) then
+              info = -9
+           else
+              if (rcequ) then
+                 smin = bignum
+                 smax = zero
+                 do j = 1,n
+                    smin = min(smin,s(j))
+                    smax = max(smax,s(j))
+                 end do
+                 if (smin <= zero) then
+                    info = -10
+                 else if (n > 0) then
+                    scond = max(smin,smlnum)/min(smax,bignum)
+                 else
+                    scond = one
+                 end if
+              end if
+              if (info == 0) then
+                 if (ldb < max(1,n)) then
+                    info = -12
+                 else if (ldx < max(1,n)) then
+                    info = -14
+                 end if
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('${ri.upper()}$POSVX',-info)
+              return
+           end if
+           if (equil) then
+              ! compute row and column scalings to equilibrate the matrix a.
+              call la_${ri}$poequ(n,a,lda,s,scond,amax,infequ)
+              if (infequ == 0) then
+                 ! equilibrate the matrix.
+                 call la_${ri}$laqhe(uplo,n,a,lda,s,scond,amax,equed)
+                 rcequ = la_lsame(equed,'Y')
+              end if
+           end if
+           ! scale the right hand side.
+           if (rcequ) then
+              do j = 1,nrhs
+                 do i = 1,n
+                    b(i,j) = s(i)*b(i,j)
+                 end do
+              end do
+           end if
+           if (nofact .or. equil) then
+              ! compute the cholesky factorization a = u**h *u or a = l*l**h.
+              call la_${ri}$lacpy(uplo,n,n,a,lda,af,ldaf)
+              call la_${ri}$potrf(uplo,n,af,ldaf,info)
+              ! return if info is non-zero.
+              if (info > 0) then
+                 rcond = zero
+                 return
+              end if
+           end if
+           ! compute the norm of the matrix a.
+           anorm = la_${ri}$lanhe('1',uplo,n,a,lda,rwork)
+           ! compute the reciprocal of the condition number of a.
+           call la_${ri}$pocon(uplo,n,af,ldaf,anorm,rcond,work,rwork,info)
+           ! compute the solution matrix x.
+           call la_${ri}$lacpy('FULL',n,nrhs,b,ldb,x,ldx)
+           call la_${ri}$potrs(uplo,n,nrhs,af,ldaf,x,ldx,info)
+           ! use iterative refinement to improve the computed solution and
+           ! compute error bounds and backward error estimates for it.
+           call la_${ri}$porfs(uplo,n,nrhs,a,lda,af,ldaf,b,ldb,x,ldx,ferr,berr,work, &
+                     rwork,info)
+           ! transform the solution matrix x to a solution of the original
+           ! system.
+           if (rcequ) then
+              do j = 1,nrhs
+                 do i = 1,n
+                    x(i,j) = s(i)*x(i,j)
+                 end do
+              end do
+              do j = 1,nrhs
+                 ferr(j) = ferr(j)/scond
+              end do
+           end if
+           ! set info = n+1 if the matrix is singular to working precision.
+           if (rcond < la_${ci}$lamch('EPSILON')) info = n + 1
+           return
+     end subroutine la_${ri}$posvx
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+     !> ${ri.upper()}$PTSV: computes the solution to a complex system of linear equations
+     !> A*X = B, where A is an N-by-N Hermitian positive definite tridiagonal
+     !> matrix, and X and B are N-by-NRHS matrices.
+     !> A is factored as A = L*D*L**H, and the factored form of A is then
+     !> used to solve the system of equations.
+
+     pure subroutine la_${ri}$ptsv(n,nrhs,d,e,b,ldb,info)
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldb,n,nrhs
+           ! Array Arguments
+           real(${rk}$),intent(inout) :: d(*)
+           complex(${rk}$),intent(inout) :: b(ldb,*),e(*)
+        ! =====================================================================
+           ! Intrinsic Functions
+           intrinsic :: max
+           ! Executable Statements
+           ! test the input parameters.
+           info = 0
+           if (n < 0) then
+              info = -1
+           else if (nrhs < 0) then
+              info = -2
+           else if (ldb < max(1,n)) then
+              info = -6
+           end if
+           if (info /= 0) then
+              call la_xerbla('${ri.upper()}$PTSV ',-info)
+              return
+           end if
+           ! compute the l*d*l**h (or u**h*d*u) factorization of a.
+           call la_${ri}$pttrf(n,d,e,info)
+           if (info == 0) then
+              ! solve the system a*x = b, overwriting b with x.
+              call la_${ri}$pttrs('LOWER',n,nrhs,d,e,b,ldb,info)
+           end if
+           return
+     end subroutine la_${ri}$ptsv
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+     !> ${ri.upper()}$PTSVX: uses the factorization A = L*D*L**H to compute the solution
+     !> to a complex system of linear equations A*X = B, where A is an
+     !> N-by-N Hermitian positive definite tridiagonal matrix and X and B
+     !> are N-by-NRHS matrices.
+     !> Error bounds on the solution and a condition estimate are also
+     !> provided.
+
+     pure subroutine la_${ri}$ptsvx(fact,n,nrhs,d,e,df,ef,b,ldb,x,ldx,rcond,ferr,berr, &
+                work,rwork,info)
+        use la_constants_${rk}$
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: fact
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldb,ldx,n,nrhs
+           real(${rk}$),intent(out) :: rcond
+           ! Array Arguments
+           real(${rk}$),intent(out) :: berr(*),ferr(*),rwork(*)
+           real(${rk}$),intent(in) :: d(*)
+           real(${rk}$),intent(inout) :: df(*)
+           complex(${rk}$),intent(in) :: b(ldb,*),e(*)
+           complex(${rk}$),intent(inout) :: ef(*)
+           complex(${rk}$),intent(out) :: work(*),x(ldx,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: nofact
+           real(${rk}$) :: anorm
+           ! Intrinsic Functions
+           intrinsic :: max
+           ! Executable Statements
+           ! test the input parameters.
+           info = 0
+           nofact = la_lsame(fact,'N')
+           if (.not. nofact .and. .not. la_lsame(fact,'F')) then
+              info = -1
+           else if (n < 0) then
+              info = -2
+           else if (nrhs < 0) then
+              info = -3
+           else if (ldb < max(1,n)) then
+              info = -9
+           else if (ldx < max(1,n)) then
+              info = -11
+           end if
+           if (info /= 0) then
+              call la_xerbla('${ri.upper()}$PTSVX',-info)
+              return
+           end if
+           if (nofact) then
+              ! compute the l*d*l**h (or u**h*d*u) factorization of a.
+              call la_${ci}$copy(n,d,1,df,1)
+              if (n > 1) call la_${ri}$copy(n - 1,e,1,ef,1)
+              call la_${ri}$pttrf(n,df,ef,info)
+              ! return if info is non-zero.
+              if (info > 0) then
+                 rcond = zero
+                 return
+              end if
+           end if
+           ! compute the norm of the matrix a.
+           anorm = la_${ri}$lanht('1',n,d,e)
+           ! compute the reciprocal of the condition number of a.
+           call la_${ri}$ptcon(n,df,ef,anorm,rcond,rwork,info)
+           ! compute the solution vectors x.
+           call la_${ri}$lacpy('FULL',n,nrhs,b,ldb,x,ldx)
+           call la_${ri}$pttrs('LOWER',n,nrhs,df,ef,x,ldx,info)
+           ! use iterative refinement to improve the computed solutions and
+           ! compute error bounds and backward error estimates for them.
+           call la_${ri}$ptrfs('LOWER',n,nrhs,d,e,df,ef,b,ldb,x,ldx,ferr,berr,work, &
+                     rwork,info)
+           ! set info = n+1 if the matrix is singular to working precision.
+           if (rcond < la_${ci}$lamch('EPSILON')) info = n + 1
+           return
+     end subroutine la_${ri}$ptsvx
+#:endfor
+
+end module la_lapack_solve_chol

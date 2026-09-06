@@ -10,6 +10,7 @@ kind-neutral form by replacing every token that encodes a precision with a role 
     @RLI@ @RLK@ @CLI@   the same three, one precision down
     @RUI@ @RUK@ @CUI@   the same three, one precision up
     @PREC@ @PRECU@      the word a doc comment uses for the own precision, lower and upper case
+    @PRECL@             the word a doc comment uses for the precision one below
 
 Two bodies of the same routine at different precisions normalize to the same text unless they
 really differ.  The placeholders map one to one onto the fypp loop variables of LA_REAL_KINDS
@@ -151,6 +152,19 @@ def normalize(text, letter, upper_bases=frozenset()):
     return text
 
 
+def lower_precision_word(text, letter):
+    """Map the doc word of the precision one below `letter` onto @PRECL@.
+
+    A routine that exists nowhere without a precision below it names that precision in its doc.
+    Only the lower-case spaced form is templated: that is the one the per-kind copies rewrote,
+    while the hyphenated form and the upper-case doc block keep the reference spelling.
+    """
+    i = INDEX[letter]
+    if i == 0:
+        return text
+    return re.sub(r"\b%s(?= precision\b)" % PRECISION[KND[i - 1]], "@PRECL@", text)
+
+
 def strip_comment(line):
     """Drop a trailing `!` comment, ignoring `!` inside a character literal."""
     out, quoted = [], False
@@ -268,6 +282,7 @@ def to_fypp(text):
     """Turn placeholder text into fypp: `@RI@gemm` -> `${ri}$gemm`, `@RI@GEMM` -> `${ri.upper()}$GEMM`."""
     text = text.replace("@PREC@", "${LA_PRECISION[rk]}$")
     text = text.replace("@PRECU@", "${LA_PRECISION[rk].upper()}$")
+    text = text.replace("@PRECL@", "${LA_PRECISION[rkl]}$")
     run = re.compile(r"((?:@[A-Z0-9]+@)+)([A-Za-z0-9_]*)")
 
     def repl(m):

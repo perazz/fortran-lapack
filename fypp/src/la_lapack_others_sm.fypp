@@ -1,0 +1,1885 @@
+#:include "common.fypp"
+!> Extra-precise refinement helpers: condition numbers and pivot growth
+module la_lapack_others_sm
+     use la_constants
+     use la_blas_aux
+     use la_lapack_aux
+     use la_lapack_auxiliary
+     use la_lapack_solve_aux
+     use la_lapack_solve_chol_comp
+     use la_lapack_solve_ldl_comp
+     use la_lapack_solve_ldl_comp3
+     use la_lapack_solve_lu_comp
+     implicit none(type,external)
+     private
+
+     public :: sp,dp,qp,lk,ilp
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     public :: la_${ri}$la_gerpvgrw
+     public :: la_${ri}$la_syamv
+     public :: la_${ri}$la_syrcond
+     public :: la_${ri}$la_syrpvgrw
+#:endfor
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+     public :: la_${ri}$la_gerpvgrw
+     public :: la_${ri}$la_syamv
+     public :: la_${ri}$la_gbrcond_c
+     public :: la_${ri}$la_gercond_c
+     public :: la_${ri}$la_hercond_c
+     public :: la_${ri}$la_porcond_c
+     public :: la_${ri}$la_syrcond_c
+     public :: la_${ri}$la_syrpvgrw
+#:endfor
+
+     contains
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     !> ${ri.upper()}$LA_GERPVGRW: computes the reciprocal pivot growth factor
+     !> norm(A)/norm(U). The "max absolute element" norm is used. If this is
+     !> much less than 1, the stability of the LU factorization of the
+     !> (equilibrated) matrix A could be poor. This also means that the
+     !> solution X, estimated condition numbers, and error bounds could be
+     !> unreliable.
+
+     pure real(${rk}$) function la_${ri}$la_gerpvgrw(n,ncols,a,lda,af,ldaf)
+        use la_constants_${rk}$
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           integer(ilp),intent(in) :: n,ncols,lda,ldaf
+           ! Array Arguments
+           real(${rk}$),intent(in) :: a(lda,*),af(ldaf,*)
+        ! =====================================================================
+           ! Local Scalars
+           integer(ilp) :: i,j
+           real(${rk}$) :: amax,umax,rpvgrw
+           ! Intrinsic Functions
+           intrinsic :: abs,max,min
+           ! Executable Statements
+           rpvgrw = one
+           do j = 1,ncols
+              amax = zero
+              umax = zero
+              do i = 1,n
+                 amax = max(abs(a(i,j)),amax)
+              end do
+              do i = 1,j
+                 umax = max(abs(af(i,j)),umax)
+              end do
+#:if rk == "sp"
+              if (umax /= 0.0_${rk}$) then
+#:else
+              if (umax /= zero) then
+#:endif
+                 rpvgrw = min(amax/umax,rpvgrw)
+              end if
+           end do
+           la_${ri}$la_gerpvgrw = rpvgrw
+     end function la_${ri}$la_gerpvgrw
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     !> ${ri.upper()}$LA_SYAMV:  performs the matrix-vector operation
+     !> y := alpha*abs(A)*abs(x) + beta*abs(y),
+     !> where alpha and beta are scalars, x and y are vectors and A is an
+     !> n by n symmetric matrix.
+     !> This function is primarily used in calculating error bounds.
+     !> To protect against underflow during evaluation, components in
+     !> the resulting vector are perturbed away from zero by (N+1)
+     !> times the underflow threshold.  To prevent unnecessarily large
+     !> errors for block-structure embedded in general matrices,
+     !> "symbolically" zero components are not perturbed.  A zero
+     !> entry is considered "symbolic" if all multiplications involved
+     !> in computing that entry have at least one zero multiplicand.
+
+     subroutine la_${ri}$la_syamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
+        use la_constants_${rk}$
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           real(${rk}$),intent(in) :: alpha,beta
+           integer(ilp),intent(in) :: incx,incy,lda,n,uplo
+           ! Array Arguments
+           real(${rk}$),intent(in) :: a(lda,*),x(*)
+           real(${rk}$),intent(inout) :: y(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: symb_zero
+           real(${rk}$) :: temp,safe1
+           integer(ilp) :: i,info,iy,j,jx,kx,ky
+           ! Intrinsic Functions
+           intrinsic :: max,abs,sign
+           ! Executable Statements
+           ! test the input parameters.
+           info = 0
+           if (uplo /= la_ilauplo('U') .and. uplo /= la_ilauplo('L')) then
+              info = 1
+           else if (n < 0) then
+              info = 2
+           else if (lda < max(1,n)) then
+              info = 5
+           else if (incx == 0) then
+              info = 7
+           else if (incy == 0) then
+              info = 10
+           end if
+           if (info /= 0) then
+              call la_xerbla('${ri.upper()}$LA_SYAMV',info)
+              return
+           end if
+           ! quick return if possible.
+           if ((n == 0) .or. ((alpha == zero) .and. (beta == one))) return
+           ! set up the start points in  x  and  y.
+           if (incx > 0) then
+              kx = 1
+           else
+              kx = 1 - (n - 1)*incx
+           end if
+           if (incy > 0) then
+              ky = 1
+           else
+              ky = 1 - (n - 1)*incy
+           end if
+           ! set safe1 essentially to be the underflow threshold times the
+           ! number of additions in each row.
+           safe1 = la_${ri}$lamch('SAFE MINIMUM')
+           safe1 = (n + 1)*safe1
+           ! form  y := alpha*abs(a)*abs(x) + beta*abs(y).
+           ! the o(n^2) symb_zero tests could be replaced by o(n) queries to
+           ! the inexact flag.  still doesn't help change the iteration order
+           ! to per-column.
+           iy = ky
+           if (incx == 1) then
+              if (uplo == la_ilauplo('U')) then
+                 do i = 1,n
+                    if (beta == zero) then
+                       symb_zero = .true.
+                       y(iy) = zero
+                    else if (y(iy) == zero) then
+                       symb_zero = .true.
+                    else
+                       symb_zero = .false.
+                       y(iy) = beta*abs(y(iy))
+                    end if
+                    if (alpha /= zero) then
+                       do j = 1,i
+                          temp = abs(a(j,i))
+                          symb_zero = symb_zero .and. (x(j) == zero .or. temp == zero)
+                          y(iy) = y(iy) + alpha*abs(x(j))*temp
+                       end do
+                       do j = i + 1,n
+                          temp = abs(a(i,j))
+                          symb_zero = symb_zero .and. (x(j) == zero .or. temp == zero)
+                          y(iy) = y(iy) + alpha*abs(x(j))*temp
+                       end do
+                    end if
+                    if (.not. symb_zero) y(iy) = y(iy) + sign(safe1,y(iy))
+                    iy = iy + incy
+                 end do
+              else
+                 do i = 1,n
+                    if (beta == zero) then
+                       symb_zero = .true.
+                       y(iy) = zero
+                    else if (y(iy) == zero) then
+                       symb_zero = .true.
+                    else
+                       symb_zero = .false.
+                       y(iy) = beta*abs(y(iy))
+                    end if
+                    if (alpha /= zero) then
+                       do j = 1,i
+                          temp = abs(a(i,j))
+                          symb_zero = symb_zero .and. (x(j) == zero .or. temp == zero)
+                          y(iy) = y(iy) + alpha*abs(x(j))*temp
+                       end do
+                       do j = i + 1,n
+                          temp = abs(a(j,i))
+                          symb_zero = symb_zero .and. (x(j) == zero .or. temp == zero)
+                          y(iy) = y(iy) + alpha*abs(x(j))*temp
+                       end do
+                    end if
+                    if (.not. symb_zero) y(iy) = y(iy) + sign(safe1,y(iy))
+                    iy = iy + incy
+                 end do
+              end if
+           else
+              if (uplo == la_ilauplo('U')) then
+                 do i = 1,n
+                    if (beta == zero) then
+                       symb_zero = .true.
+                       y(iy) = zero
+                    else if (y(iy) == zero) then
+                       symb_zero = .true.
+                    else
+                       symb_zero = .false.
+                       y(iy) = beta*abs(y(iy))
+                    end if
+                    jx = kx
+                    if (alpha /= zero) then
+                       do j = 1,i
+                          temp = abs(a(j,i))
+                          symb_zero = symb_zero .and. (x(j) == zero .or. temp == zero)
+                          y(iy) = y(iy) + alpha*abs(x(jx))*temp
+                          jx = jx + incx
+                       end do
+                       do j = i + 1,n
+                          temp = abs(a(i,j))
+                          symb_zero = symb_zero .and. (x(j) == zero .or. temp == zero)
+                          y(iy) = y(iy) + alpha*abs(x(jx))*temp
+                          jx = jx + incx
+                       end do
+                    end if
+                    if (.not. symb_zero) y(iy) = y(iy) + sign(safe1,y(iy))
+                    iy = iy + incy
+                 end do
+              else
+                 do i = 1,n
+                    if (beta == zero) then
+                       symb_zero = .true.
+                       y(iy) = zero
+                    else if (y(iy) == zero) then
+                       symb_zero = .true.
+                    else
+                       symb_zero = .false.
+                       y(iy) = beta*abs(y(iy))
+                    end if
+                    jx = kx
+                    if (alpha /= zero) then
+                       do j = 1,i
+                          temp = abs(a(i,j))
+                          symb_zero = symb_zero .and. (x(j) == zero .or. temp == zero)
+                          y(iy) = y(iy) + alpha*abs(x(jx))*temp
+                          jx = jx + incx
+                       end do
+                       do j = i + 1,n
+                          temp = abs(a(j,i))
+                          symb_zero = symb_zero .and. (x(j) == zero .or. temp == zero)
+                          y(iy) = y(iy) + alpha*abs(x(jx))*temp
+                          jx = jx + incx
+                       end do
+                    end if
+                    if (.not. symb_zero) y(iy) = y(iy) + sign(safe1,y(iy))
+                    iy = iy + incy
+                 end do
+              end if
+           end if
+           return
+     end subroutine la_${ri}$la_syamv
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     !> ${ri.upper()}$LA_SYRCOND: estimates the Skeel condition number of  op(A) * op2(C)
+     !> where op2 is determined by CMODE as follows
+     !> CMODE =  1    op2(C) = C
+     !> CMODE =  0    op2(C) = I
+     !> CMODE = -1    op2(C) = inv(C)
+     !> The Skeel condition number cond(A) = norminf( |inv(A)||A| )
+     !> is computed by computing scaling factors R such that
+     !> diag(R)*A*op2(C) is row equilibrated and computing the standard
+     !> infinity-norm condition number.
+
+     real(${rk}$) function la_${ri}$la_syrcond(uplo,n,a,lda,af,ldaf,ipiv,cmode,c,info,work, &
+               iwork)
+        use la_constants_${rk}$,only:zero,one
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: n,lda,ldaf,cmode
+           integer(ilp),intent(out) :: info
+           ! Array Arguments
+           integer(ilp),intent(out) :: iwork(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           real(${rk}$),intent(in) :: a(lda,*),af(ldaf,*),c(*)
+           real(${rk}$),intent(out) :: work(*)
+        ! =====================================================================
+           ! Local Scalars
+           character :: normin
+           integer(ilp) :: kase,i,j
+           real(${rk}$) :: ainvnm,smlnum,tmp
+           logical(lk) :: up
+           ! Local Arrays
+           integer(ilp) :: isave(3)
+           ! Intrinsic Functions
+           intrinsic :: abs,max
+           ! Executable Statements
+           la_${ri}$la_syrcond = zero
+           info = 0
+           if (n < 0) then
+              info = -2
+           else if (lda < max(1,n)) then
+              info = -4
+           else if (ldaf < max(1,n)) then
+              info = -6
+           end if
+           if (info /= 0) then
+              call la_xerbla('${ri.upper()}$LA_SYRCOND',-info)
+              return
+           end if
+           if (n == 0) then
+              la_${ri}$la_syrcond = one
+              return
+           end if
+           up = .false.
+           if (la_lsame(uplo,'U')) up = .true.
+           ! compute the equilibration matrix r such that
+           ! inv(r)*a*c has unit 1-norm.
+           if (up) then
+              do i = 1,n
+                 tmp = zero
+                 if (cmode == 1) then
+                    do j = 1,i
+                       tmp = tmp + abs(a(j,i)*c(j))
+                    end do
+                    do j = i + 1,n
+                       tmp = tmp + abs(a(i,j)*c(j))
+                    end do
+                 else if (cmode == 0) then
+                    do j = 1,i
+                       tmp = tmp + abs(a(j,i))
+                    end do
+                    do j = i + 1,n
+                       tmp = tmp + abs(a(i,j))
+                    end do
+                 else
+                    do j = 1,i
+                       tmp = tmp + abs(a(j,i)/c(j))
+                    end do
+                    do j = i + 1,n
+                       tmp = tmp + abs(a(i,j)/c(j))
+                    end do
+                 end if
+                 work(2*n + i) = tmp
+              end do
+           else
+              do i = 1,n
+                 tmp = zero
+                 if (cmode == 1) then
+                    do j = 1,i
+                       tmp = tmp + abs(a(i,j)*c(j))
+                    end do
+                    do j = i + 1,n
+                       tmp = tmp + abs(a(j,i)*c(j))
+                    end do
+                 else if (cmode == 0) then
+                    do j = 1,i
+                       tmp = tmp + abs(a(i,j))
+                    end do
+                    do j = i + 1,n
+                       tmp = tmp + abs(a(j,i))
+                    end do
+                 else
+                    do j = 1,i
+                       tmp = tmp + abs(a(i,j)/c(j))
+                    end do
+                    do j = i + 1,n
+                       tmp = tmp + abs(a(j,i)/c(j))
+                    end do
+                 end if
+                 work(2*n + i) = tmp
+              end do
+           end if
+           ! estimate the norm of inv(op(a)).
+           smlnum = la_${ri}$lamch('SAFE MINIMUM')
+           ainvnm = zero
+           normin = 'N'
+           kase = 0
+           10 continue
+           call la_${ri}$lacn2(n,work(n + 1),work,iwork,ainvnm,kase,isave)
+           if (kase /= 0) then
+              if (kase == 2) then
+                 ! multiply by r.
+                 do i = 1,n
+                    work(i) = work(i)*work(2*n + i)
+                 end do
+                 if (up) then
+                    call la_${ri}$sytrs('U',n,1,af,ldaf,ipiv,work,n,info)
+                 else
+                    call la_${ri}$sytrs('L',n,1,af,ldaf,ipiv,work,n,info)
+                 end if
+                 ! multiply by inv(c).
+                 if (cmode == 1) then
+                    do i = 1,n
+                       work(i) = work(i)/c(i)
+                    end do
+                 else if (cmode == -1) then
+                    do i = 1,n
+                       work(i) = work(i)*c(i)
+                    end do
+                 end if
+              else
+                 ! multiply by inv(c**t).
+                 if (cmode == 1) then
+                    do i = 1,n
+                       work(i) = work(i)/c(i)
+                    end do
+                 else if (cmode == -1) then
+                    do i = 1,n
+                       work(i) = work(i)*c(i)
+                    end do
+                 end if
+                 if (up) then
+                    call la_${ri}$sytrs('U',n,1,af,ldaf,ipiv,work,n,info)
+                 else
+                    call la_${ri}$sytrs('L',n,1,af,ldaf,ipiv,work,n,info)
+                 end if
+                 ! multiply by r.
+                 do i = 1,n
+                    work(i) = work(i)*work(2*n + i)
+                 end do
+              end if
+              go to 10
+           end if
+           ! compute the estimate of the reciprocal condition number.
+#:if rk == "sp"
+           if (ainvnm /= 0.0_${rk}$) la_${ri}$la_syrcond = (1.0_${rk}$/ainvnm)
+#:else
+           if (ainvnm /= zero) la_${ri}$la_syrcond = (one/ainvnm)
+#:endif
+           return
+     end function la_${ri}$la_syrcond
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     !> ${ri.upper()}$LA_SYRPVGRW: computes the reciprocal pivot growth factor
+     !> norm(A)/norm(U). The "max absolute element" norm is used. If this is
+     !> much less than 1, the stability of the LU factorization of the
+     !> (equilibrated) matrix A could be poor. This also means that the
+     !> solution X, estimated condition numbers, and error bounds could be
+     !> unreliable.
+
+     real(${rk}$) function la_${ri}$la_syrpvgrw(uplo,n,info,a,lda,af,ldaf,ipiv,work)
+        use la_constants_${rk}$
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: n,info,lda,ldaf
+           ! Array Arguments
+           integer(ilp),intent(in) :: ipiv(*)
+           real(${rk}$),intent(in) :: a(lda,*),af(ldaf,*)
+           real(${rk}$),intent(out) :: work(*)
+        ! =====================================================================
+           ! Local Scalars
+           integer(ilp) :: ncols,i,j,k,kp
+           real(${rk}$) :: amax,umax,rpvgrw,tmp
+           logical(lk) :: upper
+           ! Intrinsic Functions
+           intrinsic :: abs,max,min
+           ! Executable Statements
+           upper = la_lsame('UPPER',uplo)
+           if (info == 0) then
+              if (upper) then
+                 ncols = 1
+              else
+                 ncols = n
+              end if
+           else
+              ncols = info
+           end if
+           rpvgrw = one
+           do i = 1,2*n
+              work(i) = zero
+           end do
+           ! find the max magnitude entry of each column of a.  compute the max
+           ! for all n columns so we can apply the pivot permutation while
+           ! looping below.  assume a full factorization is the common case.
+           if (upper) then
+              do j = 1,n
+                 do i = 1,j
+                    work(n + i) = max(abs(a(i,j)),work(n + i))
+                    work(n + j) = max(abs(a(i,j)),work(n + j))
+                 end do
+              end do
+           else
+              do j = 1,n
+                 do i = j,n
+                    work(n + i) = max(abs(a(i,j)),work(n + i))
+                    work(n + j) = max(abs(a(i,j)),work(n + j))
+                 end do
+              end do
+           end if
+           ! now find the max magnitude entry of each column of u or l.  also
+           ! permute the magnitudes of a above so they're in the same order as
+           ! the factor.
+           ! the iteration orders and permutations were copied from la_${ri}$sytrs.
+#:if rk == "sp"
+           ! calls to la_${ri}$swap would be severe overkill.
+#:else
+           ! calls to la_${ril}$swap would be severe overkill.
+#:endif
+           if (upper) then
+              k = n
+              do while (k < ncols .and. k > 0)
+                 if (ipiv(k) > 0) then
+                    ! 1x1 pivot
+                    kp = ipiv(k)
+                    if (kp /= k) then
+                       tmp = work(n + k)
+                       work(n + k) = work(n + kp)
+                       work(n + kp) = tmp
+                    end if
+                    do i = 1,k
+                       work(k) = max(abs(af(i,k)),work(k))
+                    end do
+                    k = k - 1
+                 else
+                    ! 2x2 pivot
+                    kp = -ipiv(k)
+                    tmp = work(n + k - 1)
+                    work(n + k - 1) = work(n + kp)
+                    work(n + kp) = tmp
+                    do i = 1,k - 1
+                       work(k) = max(abs(af(i,k)),work(k))
+                       work(k - 1) = max(abs(af(i,k - 1)),work(k - 1))
+                    end do
+                    work(k) = max(abs(af(k,k)),work(k))
+                    k = k - 2
+                 end if
+              end do
+              k = ncols
+              do while (k <= n)
+                 if (ipiv(k) > 0) then
+                    kp = ipiv(k)
+                    if (kp /= k) then
+                       tmp = work(n + k)
+                       work(n + k) = work(n + kp)
+                       work(n + kp) = tmp
+                    end if
+                    k = k + 1
+                 else
+                    kp = -ipiv(k)
+                    tmp = work(n + k)
+                    work(n + k) = work(n + kp)
+                    work(n + kp) = tmp
+                    k = k + 2
+                 end if
+              end do
+           else
+              k = 1
+              do while (k <= ncols)
+                 if (ipiv(k) > 0) then
+                    ! 1x1 pivot
+                    kp = ipiv(k)
+                    if (kp /= k) then
+                       tmp = work(n + k)
+                       work(n + k) = work(n + kp)
+                       work(n + kp) = tmp
+                    end if
+                    do i = k,n
+                       work(k) = max(abs(af(i,k)),work(k))
+                    end do
+                    k = k + 1
+                 else
+                    ! 2x2 pivot
+                    kp = -ipiv(k)
+                    tmp = work(n + k + 1)
+                    work(n + k + 1) = work(n + kp)
+                    work(n + kp) = tmp
+                    do i = k + 1,n
+                       work(k) = max(abs(af(i,k)),work(k))
+                       work(k + 1) = max(abs(af(i,k + 1)),work(k + 1))
+                    end do
+                    work(k) = max(abs(af(k,k)),work(k))
+                    k = k + 2
+                 end if
+              end do
+              k = ncols
+              do while (k >= 1)
+                 if (ipiv(k) > 0) then
+                    kp = ipiv(k)
+                    if (kp /= k) then
+                       tmp = work(n + k)
+                       work(n + k) = work(n + kp)
+                       work(n + kp) = tmp
+                    end if
+                    k = k - 1
+                 else
+                    kp = -ipiv(k)
+                    tmp = work(n + k)
+                    work(n + k) = work(n + kp)
+                    work(n + kp) = tmp
+                    k = k - 2
+                 end if
+              end do
+           end if
+           ! compute the *inverse* of the max element growth factor.  dividing
+           ! by zero would imply the largest entry of the factor's column is
+           ! zero.  than can happen when either the column of a is zero or
+           ! massive pivots made the factor underflow to zero.  neither counts
+           ! as growth in itself, so simply ignore terms with zero
+           ! denominators.
+           if (upper) then
+              do i = ncols,n
+                 umax = work(i)
+                 amax = work(n + i)
+#:if rk == "sp"
+                 if (umax /= 0.0_${rk}$) then
+#:else
+                 if (umax /= zero) then
+#:endif
+                    rpvgrw = min(amax/umax,rpvgrw)
+                 end if
+              end do
+           else
+              do i = 1,ncols
+                 umax = work(i)
+                 amax = work(n + i)
+#:if rk == "sp"
+                 if (umax /= 0.0_${rk}$) then
+#:else
+                 if (umax /= zero) then
+#:endif
+                    rpvgrw = min(amax/umax,rpvgrw)
+                 end if
+              end do
+           end if
+           la_${ri}$la_syrpvgrw = rpvgrw
+     end function la_${ri}$la_syrpvgrw
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+     !> ${ri.upper()}$LA_GERPVGRW: computes the reciprocal pivot growth factor
+     !> norm(A)/norm(U). The "max absolute element" norm is used. If this is
+     !> much less than 1, the stability of the LU factorization of the
+     !> (equilibrated) matrix A could be poor. This also means that the
+     !> solution X, estimated condition numbers, and error bounds could be
+     !> unreliable.
+
+     pure real(${rk}$) function la_${ri}$la_gerpvgrw(n,ncols,a,lda,af,ldaf)
+        use la_constants_${rk}$
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           integer(ilp),intent(in) :: n,ncols,lda,ldaf
+           ! Array Arguments
+           complex(${rk}$),intent(in) :: a(lda,*),af(ldaf,*)
+        ! =====================================================================
+           ! Local Scalars
+           integer(ilp) :: i,j
+           real(${rk}$) :: amax,umax,rpvgrw
+           complex(${rk}$) :: zdum
+           ! Intrinsic Functions
+           intrinsic :: max,min,abs,real,aimag
+           ! Statement Functions
+           real(${rk}$) :: cabs1
+           ! Statement Function Definitions
+           cabs1(zdum) = abs(real(zdum,KIND=${rk}$)) + abs(aimag(zdum))
+           ! Executable Statements
+           rpvgrw = one
+           do j = 1,ncols
+              amax = zero
+              umax = zero
+              do i = 1,n
+                 amax = max(cabs1(a(i,j)),amax)
+              end do
+              do i = 1,j
+                 umax = max(cabs1(af(i,j)),umax)
+              end do
+#:if rk == "sp"
+              if (umax /= 0.0_${rk}$) then
+#:else
+              if (umax /= zero) then
+#:endif
+                 rpvgrw = min(amax/umax,rpvgrw)
+              end if
+           end do
+           la_${ri}$la_gerpvgrw = rpvgrw
+     end function la_${ri}$la_gerpvgrw
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+     !> ${ri.upper()}$LA_SYAMV:  performs the matrix-vector operation
+     !> y := alpha*abs(A)*abs(x) + beta*abs(y),
+     !> where alpha and beta are scalars, x and y are vectors and A is an
+     !> n by n symmetric matrix.
+     !> This function is primarily used in calculating error bounds.
+     !> To protect against underflow during evaluation, components in
+     !> the resulting vector are perturbed away from zero by (N+1)
+     !> times the underflow threshold.  To prevent unnecessarily large
+     !> errors for block-structure embedded in general matrices,
+     !> "symbolically" zero components are not perturbed.  A zero
+     !> entry is considered "symbolic" if all multiplications involved
+     !> in computing that entry have at least one zero multiplicand.
+
+     subroutine la_${ri}$la_syamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
+        use la_constants_${rk}$
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           real(${rk}$),intent(in) :: alpha,beta
+           integer(ilp),intent(in) :: incx,incy,lda,n
+           integer(ilp),intent(in) :: uplo
+           ! Array Arguments
+           complex(${rk}$),intent(in) :: a(lda,*),x(*)
+           real(${rk}$),intent(inout) :: y(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: symb_zero
+           real(${rk}$) :: temp,safe1
+           integer(ilp) :: i,info,iy,j,jx,kx,ky
+           complex(${rk}$) :: zdum
+           ! Intrinsic Functions
+           intrinsic :: max,abs,sign,real,aimag
+           ! Statement Functions
+           real(${rk}$) :: cabs1
+           ! Statement Function Definitions
+           cabs1(zdum) = abs(real(zdum,KIND=${rk}$)) + abs(aimag(zdum))
+           ! Executable Statements
+           ! test the input parameters.
+           info = 0
+           if (uplo /= la_ilauplo('U') .and. uplo /= la_ilauplo('L')) then
+              info = 1
+           else if (n < 0) then
+              info = 2
+           else if (lda < max(1,n)) then
+              info = 5
+           else if (incx == 0) then
+              info = 7
+           else if (incy == 0) then
+              info = 10
+           end if
+           if (info /= 0) then
+              call la_xerbla('${ri.upper()}$LA_SYAMV',info)
+              return
+           end if
+           ! quick return if possible.
+           if ((n == 0) .or. ((alpha == zero) .and. (beta == one))) return
+           ! set up the start points in  x  and  y.
+           if (incx > 0) then
+              kx = 1
+           else
+              kx = 1 - (n - 1)*incx
+           end if
+           if (incy > 0) then
+              ky = 1
+           else
+              ky = 1 - (n - 1)*incy
+           end if
+           ! set safe1 essentially to be the underflow threshold times the
+           ! number of additions in each row.
+           safe1 = la_${ci}$lamch('SAFE MINIMUM')
+           safe1 = (n + 1)*safe1
+           ! form  y := alpha*abs(a)*abs(x) + beta*abs(y).
+           ! the o(n^2) symb_zero tests could be replaced by o(n) queries to
+           ! the inexact flag.  still doesn't help change the iteration order
+           ! to per-column.
+           iy = ky
+           if (incx == 1) then
+              if (uplo == la_ilauplo('U')) then
+                 do i = 1,n
+                    if (beta == zero) then
+                       symb_zero = .true.
+                       y(iy) = zero
+                    else if (y(iy) == zero) then
+                       symb_zero = .true.
+                    else
+                       symb_zero = .false.
+                       y(iy) = beta*abs(y(iy))
+                    end if
+                    if (alpha /= zero) then
+                       do j = 1,i
+                          temp = cabs1(a(j,i))
+                          symb_zero = symb_zero .and. (x(j) == zero .or. temp == zero)
+                          y(iy) = y(iy) + alpha*cabs1(x(j))*temp
+                       end do
+                       do j = i + 1,n
+                          temp = cabs1(a(i,j))
+                          symb_zero = symb_zero .and. (x(j) == zero .or. temp == zero)
+                          y(iy) = y(iy) + alpha*cabs1(x(j))*temp
+                       end do
+                    end if
+                    if (.not. symb_zero) y(iy) = y(iy) + sign(safe1,y(iy))
+                    iy = iy + incy
+                 end do
+              else
+                 do i = 1,n
+                    if (beta == zero) then
+                       symb_zero = .true.
+                       y(iy) = zero
+                    else if (y(iy) == zero) then
+                       symb_zero = .true.
+                    else
+                       symb_zero = .false.
+                       y(iy) = beta*abs(y(iy))
+                    end if
+                    if (alpha /= zero) then
+                       do j = 1,i
+                          temp = cabs1(a(i,j))
+                          symb_zero = symb_zero .and. (x(j) == zero .or. temp == zero)
+                          y(iy) = y(iy) + alpha*cabs1(x(j))*temp
+                       end do
+                       do j = i + 1,n
+                          temp = cabs1(a(j,i))
+                          symb_zero = symb_zero .and. (x(j) == zero .or. temp == zero)
+                          y(iy) = y(iy) + alpha*cabs1(x(j))*temp
+                       end do
+                    end if
+                    if (.not. symb_zero) y(iy) = y(iy) + sign(safe1,y(iy))
+                    iy = iy + incy
+                 end do
+              end if
+           else
+              if (uplo == la_ilauplo('U')) then
+                 do i = 1,n
+                    if (beta == zero) then
+                       symb_zero = .true.
+                       y(iy) = zero
+                    else if (y(iy) == zero) then
+                       symb_zero = .true.
+                    else
+                       symb_zero = .false.
+                       y(iy) = beta*abs(y(iy))
+                    end if
+                    jx = kx
+                    if (alpha /= zero) then
+                       do j = 1,i
+                          temp = cabs1(a(j,i))
+                          symb_zero = symb_zero .and. (x(j) == zero .or. temp == zero)
+                          y(iy) = y(iy) + alpha*cabs1(x(jx))*temp
+                          jx = jx + incx
+                       end do
+                       do j = i + 1,n
+                          temp = cabs1(a(i,j))
+                          symb_zero = symb_zero .and. (x(j) == zero .or. temp == zero)
+                          y(iy) = y(iy) + alpha*cabs1(x(jx))*temp
+                          jx = jx + incx
+                       end do
+                    end if
+                    if (.not. symb_zero) y(iy) = y(iy) + sign(safe1,y(iy))
+                    iy = iy + incy
+                 end do
+              else
+                 do i = 1,n
+                    if (beta == zero) then
+                       symb_zero = .true.
+                       y(iy) = zero
+                    else if (y(iy) == zero) then
+                       symb_zero = .true.
+                    else
+                       symb_zero = .false.
+                       y(iy) = beta*abs(y(iy))
+                    end if
+                    jx = kx
+                    if (alpha /= zero) then
+                       do j = 1,i
+                          temp = cabs1(a(i,j))
+                          symb_zero = symb_zero .and. (x(j) == zero .or. temp == zero)
+                          y(iy) = y(iy) + alpha*cabs1(x(jx))*temp
+                          jx = jx + incx
+                       end do
+                       do j = i + 1,n
+                          temp = cabs1(a(j,i))
+                          symb_zero = symb_zero .and. (x(j) == zero .or. temp == zero)
+                          y(iy) = y(iy) + alpha*cabs1(x(jx))*temp
+                          jx = jx + incx
+                       end do
+                    end if
+                    if (.not. symb_zero) y(iy) = y(iy) + sign(safe1,y(iy))
+                    iy = iy + incy
+                 end do
+              end if
+           end if
+           return
+     end subroutine la_${ri}$la_syamv
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+     !> ${ri.upper()}$LA_GBRCOND_C: Computes the infinity norm condition number of
+#:if rk == "sp"
+     !> op(A) * inv(diag(C)) where C is a REAL vector.
+#:else
+     !> op(A) * inv(diag(C)) where C is a ${LA_PRECISION[rk].upper()}$ PRECISION vector.
+#:endif
+
+     real(${rk}$) function la_${ri}$la_gbrcond_c(trans,n,kl,ku,ab,ldab,afb,ldafb,ipiv,c, &
+               capply,info,work,rwork)
+        use la_constants_${rk}$
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: trans
+           logical(lk),intent(in) :: capply
+           integer(ilp),intent(in) :: n,kl,ku,ldab,ldafb
+           integer(ilp) :: kd,ke
+           integer(ilp),intent(out) :: info
+           ! Array Arguments
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(${rk}$),intent(in) :: ab(ldab,*),afb(ldafb,*)
+           complex(${rk}$),intent(out) :: work(*)
+           real(${rk}$),intent(in) :: c(*)
+           real(${rk}$),intent(out) :: rwork(*)
+        ! =====================================================================
+           ! Local Scalars
+           logical(lk) :: notrans
+           integer(ilp) :: kase,i,j
+           real(${rk}$) :: ainvnm,anorm,tmp
+           complex(${rk}$) :: zdum
+           ! Local Arrays
+           integer(ilp) :: isave(3)
+           ! Intrinsic Functions
+           intrinsic :: abs,max
+           ! Statement Functions
+           real(${rk}$) :: cabs1
+           ! Statement Function Definitions
+           cabs1(zdum) = abs(real(zdum,KIND=${rk}$)) + abs(aimag(zdum))
+           ! Executable Statements
+           la_${ri}$la_gbrcond_c = zero
+           info = 0
+           notrans = la_lsame(trans,'N')
+           if (.not. notrans .and. .not. la_lsame(trans,'T') .and. .not. la_lsame( &
+                     trans,'C')) then
+              info = -1
+           else if (n < 0) then
+              info = -2
+           else if (kl < 0 .or. kl > n - 1) then
+              info = -3
+           else if (ku < 0 .or. ku > n - 1) then
+              info = -4
+           else if (ldab < kl + ku + 1) then
+              info = -6
+           else if (ldafb < 2*kl + ku + 1) then
+              info = -8
+           end if
+           if (info /= 0) then
+              call la_xerbla('${ri.upper()}$LA_GBRCOND_C',-info)
+              return
+           end if
+           ! compute norm of op(a)*op2(c).
+           anorm = zero
+           kd = ku + 1
+           ke = kl + 1
+           if (notrans) then
+              do i = 1,n
+                 tmp = zero
+                 if (capply) then
+                    do j = max(i - kl,1),min(i + ku,n)
+                       tmp = tmp + cabs1(ab(kd + i - j,j))/c(j)
+                    end do
+                 else
+                    do j = max(i - kl,1),min(i + ku,n)
+                       tmp = tmp + cabs1(ab(kd + i - j,j))
+                    end do
+                 end if
+                 rwork(i) = tmp
+                 anorm = max(anorm,tmp)
+              end do
+           else
+              do i = 1,n
+                 tmp = zero
+                 if (capply) then
+                    do j = max(i - kl,1),min(i + ku,n)
+                       tmp = tmp + cabs1(ab(ke - i + j,i))/c(j)
+                    end do
+                 else
+                    do j = max(i - kl,1),min(i + ku,n)
+                       tmp = tmp + cabs1(ab(ke - i + j,i))
+                    end do
+                 end if
+                 rwork(i) = tmp
+                 anorm = max(anorm,tmp)
+              end do
+           end if
+           ! quick return if possible.
+           if (n == 0) then
+              la_${ri}$la_gbrcond_c = one
+              return
+           else if (anorm == zero) then
+              return
+           end if
+           ! estimate the norm of inv(op(a)).
+           ainvnm = zero
+           kase = 0
+           10 continue
+           call la_${ri}$lacn2(n,work(n + 1),work,ainvnm,kase,isave)
+           if (kase /= 0) then
+              if (kase == 2) then
+                 ! multiply by r.
+                 do i = 1,n
+                    work(i) = work(i)*rwork(i)
+                 end do
+                 if (notrans) then
+                    call la_${ri}$gbtrs('NO TRANSPOSE',n,kl,ku,1,afb,ldafb,ipiv,work,n, &
+                              info)
+                 else
+                    call la_${ri}$gbtrs('CONJUGATE TRANSPOSE',n,kl,ku,1,afb,ldafb,ipiv, &
+                              work,n,info)
+                 end if
+                 ! multiply by inv(c).
+                 if (capply) then
+                    do i = 1,n
+                       work(i) = work(i)*c(i)
+                    end do
+                 end if
+              else
+                 ! multiply by inv(c**h).
+                 if (capply) then
+                    do i = 1,n
+                       work(i) = work(i)*c(i)
+                    end do
+                 end if
+                 if (notrans) then
+                    call la_${ri}$gbtrs('CONJUGATE TRANSPOSE',n,kl,ku,1,afb,ldafb,ipiv, &
+                              work,n,info)
+                 else
+                    call la_${ri}$gbtrs('NO TRANSPOSE',n,kl,ku,1,afb,ldafb,ipiv,work,n, &
+                              info)
+                 end if
+                 ! multiply by r.
+                 do i = 1,n
+                    work(i) = work(i)*rwork(i)
+                 end do
+              end if
+              go to 10
+           end if
+           ! compute the estimate of the reciprocal condition number.
+           if (ainvnm /= zero) la_${ri}$la_gbrcond_c = one/ainvnm
+           return
+     end function la_${ri}$la_gbrcond_c
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+     !> ${ri.upper()}$LA_GERCOND_C: computes the infinity norm condition number of
+#:if rk == "sp"
+     !> op(A) * inv(diag(C)) where C is a REAL vector.
+#:else
+     !> op(A) * inv(diag(C)) where C is a ${LA_PRECISION[rk].upper()}$ PRECISION vector.
+#:endif
+
+     real(${rk}$) function la_${ri}$la_gercond_c(trans,n,a,lda,af,ldaf,ipiv,c,capply,info, &
+               work,rwork)
+        use la_constants_${rk}$
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: trans
+           logical(lk),intent(in) :: capply
+           integer(ilp),intent(in) :: n,lda,ldaf
+           integer(ilp),intent(out) :: info
+           ! Array Arguments
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(${rk}$),intent(in) :: a(lda,*),af(ldaf,*)
+           complex(${rk}$),intent(out) :: work(*)
+           real(${rk}$),intent(in) :: c(*)
+           real(${rk}$),intent(out) :: rwork(*)
+        ! =====================================================================
+           ! Local Scalars
+           logical(lk) :: notrans
+           integer(ilp) :: kase,i,j
+           real(${rk}$) :: ainvnm,anorm,tmp
+           complex(${rk}$) :: zdum
+           ! Local Arrays
+           integer(ilp) :: isave(3)
+           ! Intrinsic Functions
+           intrinsic :: abs,max,real,aimag
+           ! Statement Functions
+           real(${rk}$) :: cabs1
+           ! Statement Function Definitions
+           cabs1(zdum) = abs(real(zdum,KIND=${rk}$)) + abs(aimag(zdum))
+           ! Executable Statements
+           la_${ri}$la_gercond_c = zero
+           info = 0
+           notrans = la_lsame(trans,'N')
+           if (.not. notrans .and. .not. la_lsame(trans,'T') .and. .not. la_lsame( &
+                     trans,'C')) then
+              info = -1
+           else if (n < 0) then
+              info = -2
+           else if (lda < max(1,n)) then
+              info = -4
+           else if (ldaf < max(1,n)) then
+              info = -6
+           end if
+           if (info /= 0) then
+              call la_xerbla('${ri.upper()}$LA_GERCOND_C',-info)
+              return
+           end if
+           ! compute norm of op(a)*op2(c).
+           anorm = zero
+           if (notrans) then
+              do i = 1,n
+                 tmp = zero
+                 if (capply) then
+                    do j = 1,n
+                       tmp = tmp + cabs1(a(i,j))/c(j)
+                    end do
+                 else
+                    do j = 1,n
+                       tmp = tmp + cabs1(a(i,j))
+                    end do
+                 end if
+                 rwork(i) = tmp
+                 anorm = max(anorm,tmp)
+              end do
+           else
+              do i = 1,n
+                 tmp = zero
+                 if (capply) then
+                    do j = 1,n
+                       tmp = tmp + cabs1(a(j,i))/c(j)
+                    end do
+                 else
+                    do j = 1,n
+                       tmp = tmp + cabs1(a(j,i))
+                    end do
+                 end if
+                 rwork(i) = tmp
+                 anorm = max(anorm,tmp)
+              end do
+           end if
+           ! quick return if possible.
+           if (n == 0) then
+              la_${ri}$la_gercond_c = one
+              return
+           else if (anorm == zero) then
+              return
+           end if
+           ! estimate the norm of inv(op(a)).
+           ainvnm = zero
+           kase = 0
+           10 continue
+           call la_${ri}$lacn2(n,work(n + 1),work,ainvnm,kase,isave)
+           if (kase /= 0) then
+              if (kase == 2) then
+                 ! multiply by r.
+                 do i = 1,n
+                    work(i) = work(i)*rwork(i)
+                 end do
+                 if (notrans) then
+                    call la_${ri}$getrs('NO TRANSPOSE',n,1,af,ldaf,ipiv,work,n,info)
+
+                 else
+                    call la_${ri}$getrs('CONJUGATE TRANSPOSE',n,1,af,ldaf,ipiv,work,n,info &
+                              )
+                 end if
+                 ! multiply by inv(c).
+                 if (capply) then
+                    do i = 1,n
+                       work(i) = work(i)*c(i)
+                    end do
+                 end if
+              else
+                 ! multiply by inv(c**h).
+                 if (capply) then
+                    do i = 1,n
+                       work(i) = work(i)*c(i)
+                    end do
+                 end if
+                 if (notrans) then
+                    call la_${ri}$getrs('CONJUGATE TRANSPOSE',n,1,af,ldaf,ipiv,work,n,info &
+                              )
+                 else
+                    call la_${ri}$getrs('NO TRANSPOSE',n,1,af,ldaf,ipiv,work,n,info)
+
+                 end if
+                 ! multiply by r.
+                 do i = 1,n
+                    work(i) = work(i)*rwork(i)
+                 end do
+              end if
+              go to 10
+           end if
+           ! compute the estimate of the reciprocal condition number.
+           if (ainvnm /= zero) la_${ri}$la_gercond_c = one/ainvnm
+           return
+     end function la_${ri}$la_gercond_c
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+     !> ${ri.upper()}$LA_HERCOND_C: computes the infinity norm condition number of
+#:if rk == "sp"
+     !> op(A) * inv(diag(C)) where C is a REAL vector.
+#:else
+     !> op(A) * inv(diag(C)) where C is a ${LA_PRECISION[rk].upper()}$ PRECISION vector.
+#:endif
+
+#:if rk == "sp"
+     real(${rk}$) function la_${ri}$la_hercond_c(uplo,n,a,lda,af,ldaf,ipiv,c,capply,info, &
+               work,rwork)
+#:else
+     real(${rk}$) function la_${ri}$la_hercond_c(uplo,n,a,lda,af,ldaf,ipiv,c,capply,info,work, &
+                rwork)
+#:endif
+        use la_constants_${rk}$
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           logical(lk),intent(in) :: capply
+           integer(ilp),intent(in) :: n,lda,ldaf
+           integer(ilp),intent(out) :: info
+           ! Array Arguments
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(${rk}$),intent(in) :: a(lda,*),af(ldaf,*)
+           complex(${rk}$),intent(out) :: work(*)
+           real(${rk}$),intent(in) :: c(*)
+           real(${rk}$),intent(out) :: rwork(*)
+        ! =====================================================================
+           ! Local Scalars
+           integer(ilp) :: kase,i,j
+           real(${rk}$) :: ainvnm,anorm,tmp
+           logical(lk) :: up,upper
+           complex(${rk}$) :: zdum
+           ! Local Arrays
+           integer(ilp) :: isave(3)
+           ! Intrinsic Functions
+           intrinsic :: abs,max
+           ! Statement Functions
+           real(${rk}$) :: cabs1
+           ! Statement Function Definitions
+           cabs1(zdum) = abs(real(zdum,KIND=${rk}$)) + abs(aimag(zdum))
+           ! Executable Statements
+           la_${ri}$la_hercond_c = zero
+           info = 0
+           upper = la_lsame(uplo,'U')
+           if (.not. upper .and. .not. la_lsame(uplo,'L')) then
+              info = -1
+           else if (n < 0) then
+              info = -2
+           else if (lda < max(1,n)) then
+              info = -4
+           else if (ldaf < max(1,n)) then
+              info = -6
+           end if
+           if (info /= 0) then
+              call la_xerbla('${ri.upper()}$LA_HERCOND_C',-info)
+              return
+           end if
+           up = .false.
+           if (la_lsame(uplo,'U')) up = .true.
+           ! compute norm of op(a)*op2(c).
+           anorm = zero
+           if (up) then
+              do i = 1,n
+                 tmp = zero
+                 if (capply) then
+                    do j = 1,i
+                       tmp = tmp + cabs1(a(j,i))/c(j)
+                    end do
+                    do j = i + 1,n
+                       tmp = tmp + cabs1(a(i,j))/c(j)
+                    end do
+                 else
+                    do j = 1,i
+                       tmp = tmp + cabs1(a(j,i))
+                    end do
+                    do j = i + 1,n
+                       tmp = tmp + cabs1(a(i,j))
+                    end do
+                 end if
+                 rwork(i) = tmp
+                 anorm = max(anorm,tmp)
+              end do
+           else
+              do i = 1,n
+                 tmp = zero
+                 if (capply) then
+                    do j = 1,i
+                       tmp = tmp + cabs1(a(i,j))/c(j)
+                    end do
+                    do j = i + 1,n
+                       tmp = tmp + cabs1(a(j,i))/c(j)
+                    end do
+                 else
+                    do j = 1,i
+                       tmp = tmp + cabs1(a(i,j))
+                    end do
+                    do j = i + 1,n
+                       tmp = tmp + cabs1(a(j,i))
+                    end do
+                 end if
+                 rwork(i) = tmp
+                 anorm = max(anorm,tmp)
+              end do
+           end if
+           ! quick return if possible.
+           if (n == 0) then
+              la_${ri}$la_hercond_c = one
+              return
+           else if (anorm == zero) then
+              return
+           end if
+           ! estimate the norm of inv(op(a)).
+           ainvnm = zero
+           kase = 0
+           10 continue
+           call la_${ri}$lacn2(n,work(n + 1),work,ainvnm,kase,isave)
+           if (kase /= 0) then
+              if (kase == 2) then
+                 ! multiply by r.
+                 do i = 1,n
+                    work(i) = work(i)*rwork(i)
+                 end do
+                 if (up) then
+                    call la_${ri}$hetrs('U',n,1,af,ldaf,ipiv,work,n,info)
+                 else
+                    call la_${ri}$hetrs('L',n,1,af,ldaf,ipiv,work,n,info)
+                 end if
+                 ! multiply by inv(c).
+                 if (capply) then
+                    do i = 1,n
+                       work(i) = work(i)*c(i)
+                    end do
+                 end if
+              else
+                 ! multiply by inv(c**h).
+                 if (capply) then
+                    do i = 1,n
+                       work(i) = work(i)*c(i)
+                    end do
+                 end if
+                 if (up) then
+                    call la_${ri}$hetrs('U',n,1,af,ldaf,ipiv,work,n,info)
+                 else
+                    call la_${ri}$hetrs('L',n,1,af,ldaf,ipiv,work,n,info)
+                 end if
+                 ! multiply by r.
+                 do i = 1,n
+                    work(i) = work(i)*rwork(i)
+                 end do
+              end if
+              go to 10
+           end if
+           ! compute the estimate of the reciprocal condition number.
+           if (ainvnm /= zero) la_${ri}$la_hercond_c = one/ainvnm
+           return
+     end function la_${ri}$la_hercond_c
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+     !> ${ri.upper()}$LA_PORCOND_C: Computes the infinity norm condition number of
+#:if rk == "sp"
+     !> op(A) * inv(diag(C)) where C is a REAL vector
+#:else
+     !> op(A) * inv(diag(C)) where C is a ${LA_PRECISION[rk].upper()}$ PRECISION vector
+#:endif
+
+     real(${rk}$) function la_${ri}$la_porcond_c(uplo,n,a,lda,af,ldaf,c,capply,info,work, &
+               rwork)
+        use la_constants_${rk}$
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           logical(lk),intent(in) :: capply
+           integer(ilp),intent(in) :: n,lda,ldaf
+           integer(ilp),intent(out) :: info
+           ! Array Arguments
+           complex(${rk}$),intent(in) :: a(lda,*),af(ldaf,*)
+           complex(${rk}$),intent(out) :: work(*)
+           real(${rk}$),intent(in) :: c(*)
+           real(${rk}$),intent(out) :: rwork(*)
+        ! =====================================================================
+           ! Local Scalars
+           integer(ilp) :: kase
+           real(${rk}$) :: ainvnm,anorm,tmp
+           integer(ilp) :: i,j
+           logical(lk) :: up,upper
+           complex(${rk}$) :: zdum
+           ! Local Arrays
+           integer(ilp) :: isave(3)
+           ! Intrinsic Functions
+           intrinsic :: abs,max,real,aimag
+           ! Statement Functions
+           real(${rk}$) :: cabs1
+           ! Statement Function Definitions
+           cabs1(zdum) = abs(real(zdum,KIND=${rk}$)) + abs(aimag(zdum))
+           ! Executable Statements
+           la_${ri}$la_porcond_c = zero
+           info = 0
+           upper = la_lsame(uplo,'U')
+           if (.not. upper .and. .not. la_lsame(uplo,'L')) then
+              info = -1
+           else if (n < 0) then
+              info = -2
+           else if (lda < max(1,n)) then
+              info = -4
+           else if (ldaf < max(1,n)) then
+              info = -6
+           end if
+           if (info /= 0) then
+              call la_xerbla('${ri.upper()}$LA_PORCOND_C',-info)
+              return
+           end if
+           up = .false.
+           if (la_lsame(uplo,'U')) up = .true.
+           ! compute norm of op(a)*op2(c).
+           anorm = zero
+           if (up) then
+              do i = 1,n
+                 tmp = zero
+                 if (capply) then
+                    do j = 1,i
+                       tmp = tmp + cabs1(a(j,i))/c(j)
+                    end do
+                    do j = i + 1,n
+                       tmp = tmp + cabs1(a(i,j))/c(j)
+                    end do
+                 else
+                    do j = 1,i
+                       tmp = tmp + cabs1(a(j,i))
+                    end do
+                    do j = i + 1,n
+                       tmp = tmp + cabs1(a(i,j))
+                    end do
+                 end if
+                 rwork(i) = tmp
+                 anorm = max(anorm,tmp)
+              end do
+           else
+              do i = 1,n
+                 tmp = zero
+                 if (capply) then
+                    do j = 1,i
+                       tmp = tmp + cabs1(a(i,j))/c(j)
+                    end do
+                    do j = i + 1,n
+                       tmp = tmp + cabs1(a(j,i))/c(j)
+                    end do
+                 else
+                    do j = 1,i
+                       tmp = tmp + cabs1(a(i,j))
+                    end do
+                    do j = i + 1,n
+                       tmp = tmp + cabs1(a(j,i))
+                    end do
+                 end if
+                 rwork(i) = tmp
+                 anorm = max(anorm,tmp)
+              end do
+           end if
+           ! quick return if possible.
+           if (n == 0) then
+              la_${ri}$la_porcond_c = one
+              return
+           else if (anorm == zero) then
+              return
+           end if
+           ! estimate the norm of inv(op(a)).
+           ainvnm = zero
+           kase = 0
+           10 continue
+           call la_${ri}$lacn2(n,work(n + 1),work,ainvnm,kase,isave)
+           if (kase /= 0) then
+              if (kase == 2) then
+                 ! multiply by r.
+                 do i = 1,n
+                    work(i) = work(i)*rwork(i)
+                 end do
+                 if (up) then
+                    call la_${ri}$potrs('U',n,1,af,ldaf,work,n,info)
+                 else
+                    call la_${ri}$potrs('L',n,1,af,ldaf,work,n,info)
+                 end if
+                 ! multiply by inv(c).
+                 if (capply) then
+                    do i = 1,n
+                       work(i) = work(i)*c(i)
+                    end do
+                 end if
+              else
+                 ! multiply by inv(c**h).
+                 if (capply) then
+                    do i = 1,n
+                       work(i) = work(i)*c(i)
+                    end do
+                 end if
+                 if (up) then
+                    call la_${ri}$potrs('U',n,1,af,ldaf,work,n,info)
+                 else
+                    call la_${ri}$potrs('L',n,1,af,ldaf,work,n,info)
+                 end if
+                 ! multiply by r.
+                 do i = 1,n
+                    work(i) = work(i)*rwork(i)
+                 end do
+              end if
+              go to 10
+           end if
+           ! compute the estimate of the reciprocal condition number.
+           if (ainvnm /= zero) la_${ri}$la_porcond_c = one/ainvnm
+           return
+     end function la_${ri}$la_porcond_c
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+     !> ${ri.upper()}$LA_SYRCOND_C: Computes the infinity norm condition number of
+#:if rk == "sp"
+     !> op(A) * inv(diag(C)) where C is a REAL vector.
+#:else
+     !> op(A) * inv(diag(C)) where C is a ${LA_PRECISION[rk].upper()}$ PRECISION vector.
+#:endif
+
+#:if rk == "sp"
+     real(${rk}$) function la_${ri}$la_syrcond_c(uplo,n,a,lda,af,ldaf,ipiv,c,capply,info, &
+               work,rwork)
+#:else
+     real(${rk}$) function la_${ri}$la_syrcond_c(uplo,n,a,lda,af,ldaf,ipiv,c,capply,info,work, &
+                rwork)
+#:endif
+        use la_constants_${rk}$
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           logical(lk),intent(in) :: capply
+           integer(ilp),intent(in) :: n,lda,ldaf
+           integer(ilp),intent(out) :: info
+           ! Array Arguments
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(${rk}$),intent(in) :: a(lda,*),af(ldaf,*)
+           complex(${rk}$),intent(out) :: work(*)
+           real(${rk}$),intent(in) :: c(*)
+           real(${rk}$),intent(out) :: rwork(*)
+        ! =====================================================================
+           ! Local Scalars
+           integer(ilp) :: kase
+           real(${rk}$) :: ainvnm,anorm,tmp
+           integer(ilp) :: i,j
+           logical(lk) :: up,upper
+           complex(${rk}$) :: zdum
+           ! Local Arrays
+           integer(ilp) :: isave(3)
+           ! Intrinsic Functions
+           intrinsic :: abs,max
+           ! Statement Functions
+           real(${rk}$) :: cabs1
+           ! Statement Function Definitions
+           cabs1(zdum) = abs(real(zdum,KIND=${rk}$)) + abs(aimag(zdum))
+           ! Executable Statements
+           la_${ri}$la_syrcond_c = zero
+           info = 0
+           upper = la_lsame(uplo,'U')
+           if (.not. upper .and. .not. la_lsame(uplo,'L')) then
+              info = -1
+           else if (n < 0) then
+              info = -2
+           else if (lda < max(1,n)) then
+              info = -4
+           else if (ldaf < max(1,n)) then
+              info = -6
+           end if
+           if (info /= 0) then
+              call la_xerbla('${ri.upper()}$LA_SYRCOND_C',-info)
+              return
+           end if
+           up = .false.
+           if (la_lsame(uplo,'U')) up = .true.
+           ! compute norm of op(a)*op2(c).
+           anorm = zero
+           if (up) then
+              do i = 1,n
+                 tmp = zero
+                 if (capply) then
+                    do j = 1,i
+                       tmp = tmp + cabs1(a(j,i))/c(j)
+                    end do
+                    do j = i + 1,n
+                       tmp = tmp + cabs1(a(i,j))/c(j)
+                    end do
+                 else
+                    do j = 1,i
+                       tmp = tmp + cabs1(a(j,i))
+                    end do
+                    do j = i + 1,n
+                       tmp = tmp + cabs1(a(i,j))
+                    end do
+                 end if
+                 rwork(i) = tmp
+                 anorm = max(anorm,tmp)
+              end do
+           else
+              do i = 1,n
+                 tmp = zero
+                 if (capply) then
+                    do j = 1,i
+                       tmp = tmp + cabs1(a(i,j))/c(j)
+                    end do
+                    do j = i + 1,n
+                       tmp = tmp + cabs1(a(j,i))/c(j)
+                    end do
+                 else
+                    do j = 1,i
+                       tmp = tmp + cabs1(a(i,j))
+                    end do
+                    do j = i + 1,n
+                       tmp = tmp + cabs1(a(j,i))
+                    end do
+                 end if
+                 rwork(i) = tmp
+                 anorm = max(anorm,tmp)
+              end do
+           end if
+           ! quick return if possible.
+           if (n == 0) then
+              la_${ri}$la_syrcond_c = one
+              return
+           else if (anorm == zero) then
+              return
+           end if
+           ! estimate the norm of inv(op(a)).
+           ainvnm = zero
+           kase = 0
+           10 continue
+           call la_${ri}$lacn2(n,work(n + 1),work,ainvnm,kase,isave)
+           if (kase /= 0) then
+              if (kase == 2) then
+                 ! multiply by r.
+                 do i = 1,n
+                    work(i) = work(i)*rwork(i)
+                 end do
+                 if (up) then
+                    call la_${ri}$sytrs('U',n,1,af,ldaf,ipiv,work,n,info)
+                 else
+                    call la_${ri}$sytrs('L',n,1,af,ldaf,ipiv,work,n,info)
+                 end if
+                 ! multiply by inv(c).
+                 if (capply) then
+                    do i = 1,n
+                       work(i) = work(i)*c(i)
+                    end do
+                 end if
+              else
+                 ! multiply by inv(c**t).
+                 if (capply) then
+                    do i = 1,n
+                       work(i) = work(i)*c(i)
+                    end do
+                 end if
+                 if (up) then
+                    call la_${ri}$sytrs('U',n,1,af,ldaf,ipiv,work,n,info)
+                 else
+                    call la_${ri}$sytrs('L',n,1,af,ldaf,ipiv,work,n,info)
+                 end if
+                 ! multiply by r.
+                 do i = 1,n
+                    work(i) = work(i)*rwork(i)
+                 end do
+              end if
+              go to 10
+           end if
+           ! compute the estimate of the reciprocal condition number.
+           if (ainvnm /= zero) la_${ri}$la_syrcond_c = one/ainvnm
+           return
+     end function la_${ri}$la_syrcond_c
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+     !> ${ri.upper()}$LA_SYRPVGRW: computes the reciprocal pivot growth factor
+     !> norm(A)/norm(U). The "max absolute element" norm is used. If this is
+     !> much less than 1, the stability of the LU factorization of the
+     !> (equilibrated) matrix A could be poor. This also means that the
+     !> solution X, estimated condition numbers, and error bounds could be
+     !> unreliable.
+
+     real(${rk}$) function la_${ri}$la_syrpvgrw(uplo,n,info,a,lda,af,ldaf,ipiv,work)
+        use la_constants_${rk}$
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: n,info,lda,ldaf
+           ! Array Arguments
+           complex(${rk}$),intent(in) :: a(lda,*),af(ldaf,*)
+           real(${rk}$),intent(out) :: work(*)
+           integer(ilp),intent(in) :: ipiv(*)
+        ! =====================================================================
+           ! Local Scalars
+           integer(ilp) :: ncols,i,j,k,kp
+           real(${rk}$) :: amax,umax,rpvgrw,tmp
+           logical(lk) :: upper
+           complex(${rk}$) :: zdum
+           ! Intrinsic Functions
+           intrinsic :: abs,real,aimag,max,min
+           ! Statement Functions
+           real(${rk}$) :: cabs1
+           ! Statement Function Definitions
+           cabs1(zdum) = abs(real(zdum,KIND=${rk}$)) + abs(aimag(zdum))
+           ! Executable Statements
+           upper = la_lsame('UPPER',uplo)
+           if (info == 0) then
+              if (upper) then
+                 ncols = 1
+              else
+                 ncols = n
+              end if
+           else
+              ncols = info
+           end if
+           rpvgrw = one
+           do i = 1,2*n
+              work(i) = zero
+           end do
+           ! find the max magnitude entry of each column of a.  compute the max
+           ! for all n columns so we can apply the pivot permutation while
+           ! looping below.  assume a full factorization is the common case.
+           if (upper) then
+              do j = 1,n
+                 do i = 1,j
+                    work(n + i) = max(cabs1(a(i,j)),work(n + i))
+                    work(n + j) = max(cabs1(a(i,j)),work(n + j))
+                 end do
+              end do
+           else
+              do j = 1,n
+                 do i = j,n
+                    work(n + i) = max(cabs1(a(i,j)),work(n + i))
+                    work(n + j) = max(cabs1(a(i,j)),work(n + j))
+                 end do
+              end do
+           end if
+           ! now find the max magnitude entry of each column of u or l.  also
+           ! permute the magnitudes of a above so they're in the same order as
+           ! the factor.
+           ! the iteration orders and permutations were copied from la_${ri}$sytrs.
+#:if rk == "sp"
+           ! calls to la_${ci}$swap would be severe overkill.
+#:else
+           ! calls to la_${cil}$swap would be severe overkill.
+#:endif
+           if (upper) then
+              k = n
+              do while (k < ncols .and. k > 0)
+                 if (ipiv(k) > 0) then
+                    ! 1x1 pivot
+                    kp = ipiv(k)
+                    if (kp /= k) then
+                       tmp = work(n + k)
+                       work(n + k) = work(n + kp)
+                       work(n + kp) = tmp
+                    end if
+                    do i = 1,k
+                       work(k) = max(cabs1(af(i,k)),work(k))
+                    end do
+                    k = k - 1
+                 else
+                    ! 2x2 pivot
+                    kp = -ipiv(k)
+                    tmp = work(n + k - 1)
+                    work(n + k - 1) = work(n + kp)
+                    work(n + kp) = tmp
+                    do i = 1,k - 1
+                       work(k) = max(cabs1(af(i,k)),work(k))
+                       work(k - 1) = max(cabs1(af(i,k - 1)),work(k - 1))
+                    end do
+                    work(k) = max(cabs1(af(k,k)),work(k))
+                    k = k - 2
+                 end if
+              end do
+              k = ncols
+              do while (k <= n)
+                 if (ipiv(k) > 0) then
+                    kp = ipiv(k)
+                    if (kp /= k) then
+                       tmp = work(n + k)
+                       work(n + k) = work(n + kp)
+                       work(n + kp) = tmp
+                    end if
+                    k = k + 1
+                 else
+                    kp = -ipiv(k)
+                    tmp = work(n + k)
+                    work(n + k) = work(n + kp)
+                    work(n + kp) = tmp
+                    k = k + 2
+                 end if
+              end do
+           else
+              k = 1
+              do while (k <= ncols)
+                 if (ipiv(k) > 0) then
+                    ! 1x1 pivot
+                    kp = ipiv(k)
+                    if (kp /= k) then
+                       tmp = work(n + k)
+                       work(n + k) = work(n + kp)
+                       work(n + kp) = tmp
+                    end if
+                    do i = k,n
+                       work(k) = max(cabs1(af(i,k)),work(k))
+                    end do
+                    k = k + 1
+                 else
+                    ! 2x2 pivot
+                    kp = -ipiv(k)
+                    tmp = work(n + k + 1)
+                    work(n + k + 1) = work(n + kp)
+                    work(n + kp) = tmp
+                    do i = k + 1,n
+                       work(k) = max(cabs1(af(i,k)),work(k))
+                       work(k + 1) = max(cabs1(af(i,k + 1)),work(k + 1))
+                    end do
+                    work(k) = max(cabs1(af(k,k)),work(k))
+                    k = k + 2
+                 end if
+              end do
+              k = ncols
+              do while (k >= 1)
+                 if (ipiv(k) > 0) then
+                    kp = ipiv(k)
+                    if (kp /= k) then
+                       tmp = work(n + k)
+                       work(n + k) = work(n + kp)
+                       work(n + kp) = tmp
+                    end if
+                    k = k - 1
+                 else
+                    kp = -ipiv(k)
+                    tmp = work(n + k)
+                    work(n + k) = work(n + kp)
+                    work(n + kp) = tmp
+                    k = k - 2
+                 end if
+              end do
+           end if
+           ! compute the *inverse* of the max element growth factor.  dividing
+           ! by zero would imply the largest entry of the factor's column is
+           ! zero.  than can happen when either the column of a is zero or
+           ! massive pivots made the factor underflow to zero.  neither counts
+           ! as growth in itself, so simply ignore terms with zero
+           ! denominators.
+           if (upper) then
+              do i = ncols,n
+                 umax = work(i)
+                 amax = work(n + i)
+#:if rk == "sp"
+                 if (umax /= 0.0_${rk}$) then
+#:else
+                 if (umax /= zero) then
+#:endif
+                    rpvgrw = min(amax/umax,rpvgrw)
+                 end if
+              end do
+           else
+              do i = 1,ncols
+                 umax = work(i)
+                 amax = work(n + i)
+#:if rk == "sp"
+                 if (umax /= 0.0_${rk}$) then
+#:else
+                 if (umax /= zero) then
+#:endif
+                    rpvgrw = min(amax/umax,rpvgrw)
+                 end if
+              end do
+           end if
+           la_${ri}$la_syrpvgrw = rpvgrw
+     end function la_${ri}$la_syrpvgrw
+#:endfor
+
+end module la_lapack_others_sm

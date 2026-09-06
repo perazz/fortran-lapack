@@ -10,6 +10,10 @@ la_qzsum1	la_qwsum1	real sum over complex data at qp; the complex companion of q
 la_wdrscl	la_wqrscl	complex vector scaled by a real reciprocal at qp; the real companion of qp is q, not d
 la_wlag2c	la_wlag2z	converter from qp to the precision below, which is z, not c
 la_wlat2c	la_wlat2z	triangular converter from qp to the precision below, which is z, not c
+la_qsgesv	la_qdgesv	mixed-precision LU driver at qp; the factorization precision below qp is dp, not sp
+la_qsposv	la_qdposv	mixed-precision Cholesky driver at qp; the factorization precision below qp is dp, not sp
+la_wcgesv	la_wzgesv	mixed-precision LU driver at qp; the complex precision below w is z, not c
+la_wcposv	la_wzposv	mixed-precision Cholesky driver at qp; the complex precision below w is z, not c
 la_ilaqiag	REMOVED	unreachable misnamed copy of la_iladiag, removed before the templating
 la_qlag2q	REMOVED	unreachable converter between a kind and itself, removed before the templating
 la_wlag2w	REMOVED	unreachable converter between a kind and itself, removed before the templating
@@ -17,3 +21,10 @@ la_ieeeck	REFORMATTED	the only hand edit to a generated file the pipeline had no
 la_wladiv	DOCTEXT	the w copy carries an older upstream doc line than the z donor it is templated from; code identical
 la_qlag2d	DOCTEXT	the q copy's doc kept the donor's upper-case DOUBLE PRECISION; code identical
 la_qlat2d	DOCTEXT	the q copy's doc kept the donor's upper-case DOUBLE PRECISION; code identical
+la_qdgesv	DOCTEXT	the q copy's doc header kept the donor's upper-case precision words; code identical
+la_qdposv	DOCTEXT	the q copy's doc header kept the donor's upper-case precision words; code identical
+la_wla_gbrcond_c	DOCTEXT	the w copy's doc kept the donor's upper-case DOUBLE PRECISION; code identical
+la_wla_gercond_c	DOCTEXT	the w copy's doc kept the donor's upper-case DOUBLE PRECISION; code identical
+la_wla_hercond_c	DOCTEXT	the w copy's doc kept the donor's upper-case DOUBLE PRECISION; code identical
+la_wla_porcond_c	DOCTEXT	the w copy's doc kept the donor's upper-case DOUBLE PRECISION; code identical
+la_wla_syrcond_c	DOCTEXT	the w copy's doc kept the donor's upper-case DOUBLE PRECISION; code identical
