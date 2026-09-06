@@ -32,7 +32,6 @@ module la_lapack_aux
      public :: la_xerbla
      public :: la_xerbla_array
      public :: la_qroundup_lwork
-     public :: la_ilaqiag
      public :: la_ilaqlc
      public :: la_ilaqlr
      public :: la_ilawlc
@@ -927,35 +926,6 @@ module la_lapack_aux
            end if
            return
      end function la_qroundup_lwork
-
-     !> This subroutine translated from a character string specifying if a
-     !> matrix has unit diagonal or not to the relevant BLAST-specified
-     !> integer constant.
-     !> ILADIAG: returns an INTEGER.  If ILADIAG: < 0, then the input is not a
-     !> character indicating a unit or non-unit diagonal.  Otherwise ILADIAG
-     !> returns the constant value corresponding to DIAG.
-
-     integer(ilp) function la_ilaqiag(diag)
-        ! -- lapack computational routine --
-        ! -- lapack is a software package provided by univ. of tennessee,    --
-        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! Scalar Arguments
-           character :: diag
-        ! =====================================================================
-           ! Parameters
-           integer(ilp),parameter :: blas_non_unit_qiag = 131
-           integer(ilp),parameter :: blas_unit_qiag = 132
-           
-           ! Executable Statements
-           if (la_lsame(diag,'N')) then
-              la_ilaqiag = blas_non_unit_qiag
-           else if (la_lsame(diag,'U')) then
-              la_ilaqiag = blas_unit_qiag
-           else
-              la_ilaqiag = -1
-           end if
-           return
-     end function la_ilaqiag
 
      !> ILADLC: scans A for its last non-zero column.
 
