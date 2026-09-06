@@ -35,7 +35,13 @@ module la_solve
      interface solve
         #:for nd,ndsuf,nde in ALL_RANKS
         #:for rk,rt,ri in ALL_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         module procedure la_${ri}$solve${ndsuf}$
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #:endfor
         #:endfor
      end interface solve
@@ -72,6 +78,9 @@ module la_solve
 
      #:for nd,ndsuf,nde in ALL_RANKS
      #:for rk,rt,ri in ALL_KINDS_TYPES
+     #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+     #:endif
      !> Linear system solve, ${ndsuf}$, ${rt}$
      function la_${ri}$solve${ndsuf}$(a,b,overwrite_a,err) result(x)
          !> Input matrix a[n,n]
@@ -139,6 +148,9 @@ module la_solve
          call err0%handle(err)
 
      end function la_${ri}$solve${ndsuf}$
+     #:if LA_GUARD[rk]
+#endif
+     #:endif
 
      #:endfor
      #:endfor

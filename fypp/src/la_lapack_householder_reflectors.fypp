@@ -18,6 +18,9 @@ module la_lapack_householder_reflectors
 
      public :: sp,dp,qp,lk,ilp
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$larf
      public :: la_${ri}$larfb
      public :: la_${ri}$larft
@@ -25,8 +28,14 @@ module la_lapack_householder_reflectors
      public :: la_${ri}$larfy
      public :: la_${ri}$larfg
      public :: la_${ri}$larfgp
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$larf
      public :: la_${ri}$larfb
      public :: la_${ri}$larfg
@@ -34,11 +43,17 @@ module la_lapack_householder_reflectors
      public :: la_${ri}$larft
      public :: la_${ri}$larfx
      public :: la_${ri}$larfy
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
      contains
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LARF: applies a real elementary reflector H to a real m by n matrix
      !> C, from either the left or the right. H is represented in the form
      !> H = I - tau * v * v**T
@@ -116,9 +131,15 @@ module la_lapack_householder_reflectors
            end if
            return
      end subroutine la_${ri}$larf
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LARFB: applies a real block reflector H or its transpose H**T to a
      !> real m by n matrix C, from either the left or the right.
 
@@ -449,9 +470,15 @@ module la_lapack_householder_reflectors
            end if
            return
      end subroutine la_${ri}$larfb
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LARFT: forms the triangular factor T of a real block reflector H
      !> of order n, which is defined as a product of k elementary reflectors.
      !> If DIRECT = 'F', H = H(1) H(2) . . . H(k) and T is upper triangular;
@@ -579,9 +606,15 @@ module la_lapack_householder_reflectors
            end if
            return
      end subroutine la_${ri}$larft
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LARFX: applies a real elementary reflector H to a real m by n
      !> matrix C, from either the left or the right. H is represented in the
      !> form
@@ -1089,9 +1122,15 @@ module la_lapack_householder_reflectors
            return
 #:endif
      end subroutine la_${ri}$larfx
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LARFY: applies an elementary reflector, or Householder matrix, H,
      !> to an n x n symmetric matrix C, from both the left and the right.
      !> H is represented in the form
@@ -1126,9 +1165,15 @@ module la_lapack_householder_reflectors
            call la_${ri}$syr2(uplo,n,-tau,v,incv,work,1,c,ldc)
            return
      end subroutine la_${ri}$larfy
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LARFG: generates a real elementary reflector H of order n, such
      !> that
      !> H * ( alpha ) = ( beta ),   H**T * H = I.
@@ -1198,9 +1243,15 @@ module la_lapack_householder_reflectors
            end if
            return
      end subroutine la_${ri}$larfg
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LARFGP: generates a real elementary reflector H of order n, such
      !> that
      !> H * ( alpha ) = ( beta ),   H**T * H = I.
@@ -1313,9 +1364,15 @@ module la_lapack_householder_reflectors
            end if
            return
      end subroutine la_${ri}$larfgp
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LARF: applies a complex elementary reflector H to a complex M-by-N
      !> matrix C, from either the left or the right. H is represented in the
      !> form
@@ -1400,9 +1457,15 @@ module la_lapack_householder_reflectors
            end if
            return
      end subroutine la_${ri}$larf
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LARFB: applies a complex block reflector H or its transpose H**H to a
      !> complex M-by-N matrix C, from either the left or the right.
 
@@ -1735,9 +1798,15 @@ module la_lapack_householder_reflectors
            end if
            return
      end subroutine la_${ri}$larfb
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LARFG: generates a complex elementary reflector H of order n, such
      !> that
      !> H**H * ( alpha ) = ( beta ),   H**H * H = I.
@@ -1816,9 +1885,15 @@ module la_lapack_householder_reflectors
            end if
            return
      end subroutine la_${ri}$larfg
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LARFGP: generates a complex elementary reflector H of order n, such
      !> that
      !> H**H * ( alpha ) = ( beta ),   H**H * H = I.
@@ -1959,9 +2034,15 @@ module la_lapack_householder_reflectors
            end if
            return
      end subroutine la_${ri}$larfgp
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LARFT: forms the triangular factor T of a complex block reflector H
      !> of order n, which is defined as a product of k elementary reflectors.
      !> If DIRECT = 'F', H = H(1) H(2) . . . H(k) and T is upper triangular;
@@ -2089,9 +2170,15 @@ module la_lapack_householder_reflectors
            end if
            return
      end subroutine la_${ri}$larft
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LARFX: applies a complex elementary reflector H to a complex m by n
      !> matrix C, from either the left or the right. H is represented in the
      !> form
@@ -2601,9 +2688,15 @@ module la_lapack_householder_reflectors
            return
 #:endif
      end subroutine la_${ri}$larfx
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LARFY: applies an elementary reflector, or Householder matrix, H,
      !> to an n x n Hermitian matrix C, from both the left and the right.
      !> H is represented in the form
@@ -2638,6 +2731,9 @@ module la_lapack_householder_reflectors
            call la_${ri}$her2(uplo,n,-tau,v,incv,work,1,c,ldc)
            return
      end subroutine la_${ri}$larfy
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 end module la_lapack_householder_reflectors

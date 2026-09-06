@@ -25,11 +25,20 @@ module test_linalg_mnorm
         call add_test(tests,new_unittest("test_mnorm_d_4d",test_mnorm_d_4d))
         call add_test(tests,new_unittest("test_mnorm_d_5d",test_mnorm_d_5d))
         call add_test(tests,new_unittest("test_mnorm_d_6d",test_mnorm_d_6d))
+#ifdef LA_WITH_XDP
+        call add_test(tests,new_unittest("test_matrix_norms_x",test_matrix_norms_x))
+        call add_test(tests,new_unittest("test_mnorm_x_3d",test_mnorm_x_3d))
+        call add_test(tests,new_unittest("test_mnorm_x_4d",test_mnorm_x_4d))
+        call add_test(tests,new_unittest("test_mnorm_x_5d",test_mnorm_x_5d))
+        call add_test(tests,new_unittest("test_mnorm_x_6d",test_mnorm_x_6d))
+#endif
+#ifdef LA_WITH_QP
         call add_test(tests,new_unittest("test_matrix_norms_q",test_matrix_norms_q))
         call add_test(tests,new_unittest("test_mnorm_q_3d",test_mnorm_q_3d))
         call add_test(tests,new_unittest("test_mnorm_q_4d",test_mnorm_q_4d))
         call add_test(tests,new_unittest("test_mnorm_q_5d",test_mnorm_q_5d))
         call add_test(tests,new_unittest("test_mnorm_q_6d",test_mnorm_q_6d))
+#endif
         call add_test(tests,new_unittest("test_matrix_norms_c",test_matrix_norms_c))
         call add_test(tests,new_unittest("test_mnorm_c_3d",test_mnorm_c_3d))
         call add_test(tests,new_unittest("test_mnorm_c_4d",test_mnorm_c_4d))
@@ -40,11 +49,20 @@ module test_linalg_mnorm
         call add_test(tests,new_unittest("test_mnorm_z_4d",test_mnorm_z_4d))
         call add_test(tests,new_unittest("test_mnorm_z_5d",test_mnorm_z_5d))
         call add_test(tests,new_unittest("test_mnorm_z_6d",test_mnorm_z_6d))
+#ifdef LA_WITH_XDP
+        call add_test(tests,new_unittest("test_matrix_norms_y",test_matrix_norms_y))
+        call add_test(tests,new_unittest("test_mnorm_y_3d",test_mnorm_y_3d))
+        call add_test(tests,new_unittest("test_mnorm_y_4d",test_mnorm_y_4d))
+        call add_test(tests,new_unittest("test_mnorm_y_5d",test_mnorm_y_5d))
+        call add_test(tests,new_unittest("test_mnorm_y_6d",test_mnorm_y_6d))
+#endif
+#ifdef LA_WITH_QP
         call add_test(tests,new_unittest("test_matrix_norms_w",test_matrix_norms_w))
         call add_test(tests,new_unittest("test_mnorm_w_3d",test_mnorm_w_3d))
         call add_test(tests,new_unittest("test_mnorm_w_4d",test_mnorm_w_4d))
         call add_test(tests,new_unittest("test_mnorm_w_5d",test_mnorm_w_5d))
         call add_test(tests,new_unittest("test_mnorm_w_6d",test_mnorm_w_6d))
+#endif
         
     end subroutine test_matrix_norms
     
@@ -682,6 +700,326 @@ module test_linalg_mnorm
         
     end subroutine test_mnorm_d_6d
     
+#ifdef LA_WITH_XDP
+    !> Test 1-norm, 2-norm (Euclidean), and infinity norm for real(xdp) matrices
+    subroutine test_matrix_norms_x(error)
+        type(error_type),allocatable,intent(out) :: error
+        
+        integer(ilp) :: i
+        integer(ilp),parameter :: mtx_dim = 5
+        real(xdp),parameter :: tol = 10*sqrt(epsilon(0.0_xdp))
+        real(xdp),allocatable :: A(:,:)
+        type(la_state) :: err
+
+        allocate (A(mtx_dim,mtx_dim))
+
+        ! Initialize matrix with small values to avoid overflow
+        A = reshape([(0.01_xdp*(i - mtx_dim/2_ilp),i=1_ilp,mtx_dim*mtx_dim)], [mtx_dim,mtx_dim])
+
+        ! 1-norm (Maximum absolute column sum)
+        call check(error,abs(mnorm(A,'1',err) - maxval(sum(abs(A),dim=1),1)) < tol*mnorm(A,'1',err), &
+                   'Matrix 1-norm does not match expected value')
+        if (allocated(error)) return
+
+        ! 2-norm (Frobenius norm)
+        call check(error,abs(mnorm(A,'2',err) - sqrt(sum(A**2))) < tol*mnorm(A,'2',err), &
+                   'Matrix Frobenius norm does not match expected value')
+        if (allocated(error)) return
+
+        ! Inf-norm (Maximum absolute row sum)
+        call check(error,abs(mnorm(A,'Inf',err) - maxval(sum(abs(A),dim=2),1)) < tol*mnorm(A,'Inf',err), &
+                   'Matrix Infinity norm does not match expected value')
+        if (allocated(error)) return
+
+    end subroutine test_matrix_norms_x
+    
+    !> Test N-D norms
+    subroutine test_mnorm_x_3d(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        integer(ilp) :: i,j,k,l,dim1,dim2,dim(2),dim_sizes(2),ptr(3)
+        character(3),parameter :: orders(*) = ['1  ','2  ','fro','inf']
+        integer(ilp),parameter :: ndim = 3
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim1,dim1=1,ndim)]
+        real(xdp),parameter :: tol = 10*sqrt(epsilon(0.0_xdp))
+        real(xdp) :: one_nrm
+        real(xdp),allocatable :: bnrm(:)
+        real(xdp),allocatable :: a(:),b(:,:,:),one_mat(:,:)
+        character(:),allocatable :: order
+        
+        character(64) :: msg
+        
+        allocate (a(n),b(2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_xdp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        ! Test norm as collapsed around dimensions
+        do k = 1,size(orders)
+            order = trim(orders(k))
+            do dim1 = 1,ndim
+                do dim2 = 1,ndim
+                    
+                    if (dim1 == dim2) cycle
+                                    
+                    dim = [dim1,dim2]
+                    dim_sizes = [size(b,dim1,kind=ilp),size(b,dim2,kind=ilp)]
+                    
+                    ! Get norms collapsed on these dims
+                    bnrm = mnorm(b,order,dim)
+                                   
+                    ! Assert size
+                    write (msg,"('dim=[',i0,',',i0,'] order=',a,' xdp norm returned wrong shape')") dim,order
+                    call check(error,all(shape(bnrm) == pack(shape(b),dims /= dim1 .and. dims /= dim2)),trim(msg))
+                    if (allocated(error)) return
+                    
+                    ! Assert some matrix results: check that those on same index i.e. (l,l,l,:,l,l,:) etc.
+                    ! are equal to the corresponding 2d-array result
+                    do l = 1,minval(shape(b))
+                    
+                       ptr = l
+                    
+                       allocate (one_mat(dim_sizes(1),dim_sizes(2)))
+                       do j = 1,dim_sizes(2)
+                           ptr(dim(2)) = j
+                           do i = 1,dim_sizes(1)
+                               ptr(dim(1)) = i
+                               one_mat(i,j) = b(ptr(1),ptr(2),ptr(3))
+                           end do
+                       end do
+                       one_nrm = mnorm(one_mat,order)
+                    
+                       write (msg,"('dim=[',i0,',',i0,'] order=',a,' xdp ',i0,'-th norm is wrong')") dim,order,l
+                       call check(error,abs(one_nrm - bnrm(l)) < tol*one_nrm,trim(msg))
+                       if (allocated(error)) return
+                       deallocate (one_mat)
+                    
+                    end do
+                                   
+                end do
+            end do
+        end do
+        
+    end subroutine test_mnorm_x_3d
+    !> Test N-D norms
+    subroutine test_mnorm_x_4d(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        integer(ilp) :: i,j,k,l,dim1,dim2,dim(2),dim_sizes(2),ptr(4)
+        character(3),parameter :: orders(*) = ['1  ','2  ','fro','inf']
+        integer(ilp),parameter :: ndim = 4
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim1,dim1=1,ndim)]
+        real(xdp),parameter :: tol = 10*sqrt(epsilon(0.0_xdp))
+        real(xdp) :: one_nrm
+        real(xdp),allocatable :: bnrm(:,:)
+        real(xdp),allocatable :: a(:),b(:,:,:,:),one_mat(:,:)
+        character(:),allocatable :: order
+        
+        character(64) :: msg
+        
+        allocate (a(n),b(2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_xdp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        ! Test norm as collapsed around dimensions
+        do k = 1,size(orders)
+            order = trim(orders(k))
+            do dim1 = 1,ndim
+                do dim2 = 1,ndim
+                    
+                    if (dim1 == dim2) cycle
+                                    
+                    dim = [dim1,dim2]
+                    dim_sizes = [size(b,dim1,kind=ilp),size(b,dim2,kind=ilp)]
+                    
+                    ! Get norms collapsed on these dims
+                    bnrm = mnorm(b,order,dim)
+                                   
+                    ! Assert size
+                    write (msg,"('dim=[',i0,',',i0,'] order=',a,' xdp norm returned wrong shape')") dim,order
+                    call check(error,all(shape(bnrm) == pack(shape(b),dims /= dim1 .and. dims /= dim2)),trim(msg))
+                    if (allocated(error)) return
+                    
+                    ! Assert some matrix results: check that those on same index i.e. (l,l,l,:,l,l,:) etc.
+                    ! are equal to the corresponding 2d-array result
+                    do l = 1,minval(shape(b))
+                    
+                       ptr = l
+                    
+                       allocate (one_mat(dim_sizes(1),dim_sizes(2)))
+                       do j = 1,dim_sizes(2)
+                           ptr(dim(2)) = j
+                           do i = 1,dim_sizes(1)
+                               ptr(dim(1)) = i
+                               one_mat(i,j) = b(ptr(1),ptr(2),ptr(3),ptr(4))
+                           end do
+                       end do
+                       one_nrm = mnorm(one_mat,order)
+                    
+                       write (msg,"('dim=[',i0,',',i0,'] order=',a,' xdp ',i0,'-th norm is wrong')") dim,order,l
+                       call check(error,abs(one_nrm - bnrm(l,l)) < tol*one_nrm,trim(msg))
+                       if (allocated(error)) return
+                       deallocate (one_mat)
+                    
+                    end do
+                                   
+                end do
+            end do
+        end do
+        
+    end subroutine test_mnorm_x_4d
+    !> Test N-D norms
+    subroutine test_mnorm_x_5d(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        integer(ilp) :: i,j,k,l,dim1,dim2,dim(2),dim_sizes(2),ptr(5)
+        character(3),parameter :: orders(*) = ['1  ','2  ','fro','inf']
+        integer(ilp),parameter :: ndim = 5
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim1,dim1=1,ndim)]
+        real(xdp),parameter :: tol = 10*sqrt(epsilon(0.0_xdp))
+        real(xdp) :: one_nrm
+        real(xdp),allocatable :: bnrm(:,:,:)
+        real(xdp),allocatable :: a(:),b(:,:,:,:,:),one_mat(:,:)
+        character(:),allocatable :: order
+        
+        character(64) :: msg
+        
+        allocate (a(n),b(2,2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_xdp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        ! Test norm as collapsed around dimensions
+        do k = 1,size(orders)
+            order = trim(orders(k))
+            do dim1 = 1,ndim
+                do dim2 = 1,ndim
+                    
+                    if (dim1 == dim2) cycle
+                                    
+                    dim = [dim1,dim2]
+                    dim_sizes = [size(b,dim1,kind=ilp),size(b,dim2,kind=ilp)]
+                    
+                    ! Get norms collapsed on these dims
+                    bnrm = mnorm(b,order,dim)
+                                   
+                    ! Assert size
+                    write (msg,"('dim=[',i0,',',i0,'] order=',a,' xdp norm returned wrong shape')") dim,order
+                    call check(error,all(shape(bnrm) == pack(shape(b),dims /= dim1 .and. dims /= dim2)),trim(msg))
+                    if (allocated(error)) return
+                    
+                    ! Assert some matrix results: check that those on same index i.e. (l,l,l,:,l,l,:) etc.
+                    ! are equal to the corresponding 2d-array result
+                    do l = 1,minval(shape(b))
+                    
+                       ptr = l
+                    
+                       allocate (one_mat(dim_sizes(1),dim_sizes(2)))
+                       do j = 1,dim_sizes(2)
+                           ptr(dim(2)) = j
+                           do i = 1,dim_sizes(1)
+                               ptr(dim(1)) = i
+                               one_mat(i,j) = b(ptr(1),ptr(2),ptr(3),ptr(4),ptr(5))
+                           end do
+                       end do
+                       one_nrm = mnorm(one_mat,order)
+                    
+                       write (msg,"('dim=[',i0,',',i0,'] order=',a,' xdp ',i0,'-th norm is wrong')") dim,order,l
+                       call check(error,abs(one_nrm - bnrm(l,l,l)) < tol*one_nrm,trim(msg))
+                       if (allocated(error)) return
+                       deallocate (one_mat)
+                    
+                    end do
+                                   
+                end do
+            end do
+        end do
+        
+    end subroutine test_mnorm_x_5d
+    !> Test N-D norms
+    subroutine test_mnorm_x_6d(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        integer(ilp) :: i,j,k,l,dim1,dim2,dim(2),dim_sizes(2),ptr(6)
+        character(3),parameter :: orders(*) = ['1  ','2  ','fro','inf']
+        integer(ilp),parameter :: ndim = 6
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim1,dim1=1,ndim)]
+        real(xdp),parameter :: tol = 10*sqrt(epsilon(0.0_xdp))
+        real(xdp) :: one_nrm
+        real(xdp),allocatable :: bnrm(:,:,:,:)
+        real(xdp),allocatable :: a(:),b(:,:,:,:,:,:),one_mat(:,:)
+        character(:),allocatable :: order
+        
+        character(64) :: msg
+        
+        allocate (a(n),b(2,2,2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_xdp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        ! Test norm as collapsed around dimensions
+        do k = 1,size(orders)
+            order = trim(orders(k))
+            do dim1 = 1,ndim
+                do dim2 = 1,ndim
+                    
+                    if (dim1 == dim2) cycle
+                                    
+                    dim = [dim1,dim2]
+                    dim_sizes = [size(b,dim1,kind=ilp),size(b,dim2,kind=ilp)]
+                    
+                    ! Get norms collapsed on these dims
+                    bnrm = mnorm(b,order,dim)
+                                   
+                    ! Assert size
+                    write (msg,"('dim=[',i0,',',i0,'] order=',a,' xdp norm returned wrong shape')") dim,order
+                    call check(error,all(shape(bnrm) == pack(shape(b),dims /= dim1 .and. dims /= dim2)),trim(msg))
+                    if (allocated(error)) return
+                    
+                    ! Assert some matrix results: check that those on same index i.e. (l,l,l,:,l,l,:) etc.
+                    ! are equal to the corresponding 2d-array result
+                    do l = 1,minval(shape(b))
+                    
+                       ptr = l
+                    
+                       allocate (one_mat(dim_sizes(1),dim_sizes(2)))
+                       do j = 1,dim_sizes(2)
+                           ptr(dim(2)) = j
+                           do i = 1,dim_sizes(1)
+                               ptr(dim(1)) = i
+                               one_mat(i,j) = b(ptr(1),ptr(2),ptr(3),ptr(4),ptr(5),ptr(6))
+                           end do
+                       end do
+                       one_nrm = mnorm(one_mat,order)
+                    
+                       write (msg,"('dim=[',i0,',',i0,'] order=',a,' xdp ',i0,'-th norm is wrong')") dim,order,l
+                       call check(error,abs(one_nrm - bnrm(l,l,l,l)) < tol*one_nrm,trim(msg))
+                       if (allocated(error)) return
+                       deallocate (one_mat)
+                    
+                    end do
+                                   
+                end do
+            end do
+        end do
+        
+    end subroutine test_mnorm_x_6d
+#endif
+    
+#ifdef LA_WITH_QP
     !> Test 1-norm, 2-norm (Euclidean), and infinity norm for real(qp) matrices
     subroutine test_matrix_norms_q(error)
         type(error_type),allocatable,intent(out) :: error
@@ -998,6 +1336,7 @@ module test_linalg_mnorm
         end do
         
     end subroutine test_mnorm_q_6d
+#endif
     
     !> Test 1-norm, 2-norm (Euclidean), and infinity norm for complex(sp) matrices
     subroutine test_matrix_norms_c(error)
@@ -1633,6 +1972,326 @@ module test_linalg_mnorm
         
     end subroutine test_mnorm_z_6d
     
+#ifdef LA_WITH_XDP
+    !> Test 1-norm, 2-norm (Euclidean), and infinity norm for complex(xdp) matrices
+    subroutine test_matrix_norms_y(error)
+        type(error_type),allocatable,intent(out) :: error
+        
+        integer(ilp) :: i
+        integer(ilp),parameter :: mtx_dim = 5
+        real(xdp),parameter :: tol = 10*sqrt(epsilon(0.0_xdp))
+        complex(xdp),allocatable :: A(:,:)
+        type(la_state) :: err
+
+        allocate (A(mtx_dim,mtx_dim))
+
+        ! Initialize matrix with small values to avoid overflow
+        A = reshape([(0.01_xdp*(i - mtx_dim/2_ilp),i=1_ilp,mtx_dim*mtx_dim)], [mtx_dim,mtx_dim])
+
+        ! 1-norm (Maximum absolute column sum)
+        call check(error,abs(mnorm(A,'1',err) - maxval(sum(abs(A),dim=1),1)) < tol*mnorm(A,'1',err), &
+                   'Matrix 1-norm does not match expected value')
+        if (allocated(error)) return
+
+        ! 2-norm (Frobenius norm)
+        call check(error,abs(mnorm(A,'2',err) - sqrt(sum(A**2))) < tol*mnorm(A,'2',err), &
+                   'Matrix Frobenius norm does not match expected value')
+        if (allocated(error)) return
+
+        ! Inf-norm (Maximum absolute row sum)
+        call check(error,abs(mnorm(A,'Inf',err) - maxval(sum(abs(A),dim=2),1)) < tol*mnorm(A,'Inf',err), &
+                   'Matrix Infinity norm does not match expected value')
+        if (allocated(error)) return
+
+    end subroutine test_matrix_norms_y
+    
+    !> Test N-D norms
+    subroutine test_mnorm_y_3d(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        integer(ilp) :: i,j,k,l,dim1,dim2,dim(2),dim_sizes(2),ptr(3)
+        character(3),parameter :: orders(*) = ['1  ','2  ','fro','inf']
+        integer(ilp),parameter :: ndim = 3
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim1,dim1=1,ndim)]
+        real(xdp),parameter :: tol = 10*sqrt(epsilon(0.0_xdp))
+        real(xdp) :: one_nrm
+        real(xdp),allocatable :: bnrm(:)
+        complex(xdp),allocatable :: a(:),b(:,:,:),one_mat(:,:)
+        character(:),allocatable :: order
+        
+        character(64) :: msg
+        
+        allocate (a(n),b(2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_xdp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        ! Test norm as collapsed around dimensions
+        do k = 1,size(orders)
+            order = trim(orders(k))
+            do dim1 = 1,ndim
+                do dim2 = 1,ndim
+                    
+                    if (dim1 == dim2) cycle
+                                    
+                    dim = [dim1,dim2]
+                    dim_sizes = [size(b,dim1,kind=ilp),size(b,dim2,kind=ilp)]
+                    
+                    ! Get norms collapsed on these dims
+                    bnrm = mnorm(b,order,dim)
+                                   
+                    ! Assert size
+                    write (msg,"('dim=[',i0,',',i0,'] order=',a,' xdp norm returned wrong shape')") dim,order
+                    call check(error,all(shape(bnrm) == pack(shape(b),dims /= dim1 .and. dims /= dim2)),trim(msg))
+                    if (allocated(error)) return
+                    
+                    ! Assert some matrix results: check that those on same index i.e. (l,l,l,:,l,l,:) etc.
+                    ! are equal to the corresponding 2d-array result
+                    do l = 1,minval(shape(b))
+                    
+                       ptr = l
+                    
+                       allocate (one_mat(dim_sizes(1),dim_sizes(2)))
+                       do j = 1,dim_sizes(2)
+                           ptr(dim(2)) = j
+                           do i = 1,dim_sizes(1)
+                               ptr(dim(1)) = i
+                               one_mat(i,j) = b(ptr(1),ptr(2),ptr(3))
+                           end do
+                       end do
+                       one_nrm = mnorm(one_mat,order)
+                    
+                       write (msg,"('dim=[',i0,',',i0,'] order=',a,' xdp ',i0,'-th norm is wrong')") dim,order,l
+                       call check(error,abs(one_nrm - bnrm(l)) < tol*one_nrm,trim(msg))
+                       if (allocated(error)) return
+                       deallocate (one_mat)
+                    
+                    end do
+                                   
+                end do
+            end do
+        end do
+        
+    end subroutine test_mnorm_y_3d
+    !> Test N-D norms
+    subroutine test_mnorm_y_4d(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        integer(ilp) :: i,j,k,l,dim1,dim2,dim(2),dim_sizes(2),ptr(4)
+        character(3),parameter :: orders(*) = ['1  ','2  ','fro','inf']
+        integer(ilp),parameter :: ndim = 4
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim1,dim1=1,ndim)]
+        real(xdp),parameter :: tol = 10*sqrt(epsilon(0.0_xdp))
+        real(xdp) :: one_nrm
+        real(xdp),allocatable :: bnrm(:,:)
+        complex(xdp),allocatable :: a(:),b(:,:,:,:),one_mat(:,:)
+        character(:),allocatable :: order
+        
+        character(64) :: msg
+        
+        allocate (a(n),b(2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_xdp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        ! Test norm as collapsed around dimensions
+        do k = 1,size(orders)
+            order = trim(orders(k))
+            do dim1 = 1,ndim
+                do dim2 = 1,ndim
+                    
+                    if (dim1 == dim2) cycle
+                                    
+                    dim = [dim1,dim2]
+                    dim_sizes = [size(b,dim1,kind=ilp),size(b,dim2,kind=ilp)]
+                    
+                    ! Get norms collapsed on these dims
+                    bnrm = mnorm(b,order,dim)
+                                   
+                    ! Assert size
+                    write (msg,"('dim=[',i0,',',i0,'] order=',a,' xdp norm returned wrong shape')") dim,order
+                    call check(error,all(shape(bnrm) == pack(shape(b),dims /= dim1 .and. dims /= dim2)),trim(msg))
+                    if (allocated(error)) return
+                    
+                    ! Assert some matrix results: check that those on same index i.e. (l,l,l,:,l,l,:) etc.
+                    ! are equal to the corresponding 2d-array result
+                    do l = 1,minval(shape(b))
+                    
+                       ptr = l
+                    
+                       allocate (one_mat(dim_sizes(1),dim_sizes(2)))
+                       do j = 1,dim_sizes(2)
+                           ptr(dim(2)) = j
+                           do i = 1,dim_sizes(1)
+                               ptr(dim(1)) = i
+                               one_mat(i,j) = b(ptr(1),ptr(2),ptr(3),ptr(4))
+                           end do
+                       end do
+                       one_nrm = mnorm(one_mat,order)
+                    
+                       write (msg,"('dim=[',i0,',',i0,'] order=',a,' xdp ',i0,'-th norm is wrong')") dim,order,l
+                       call check(error,abs(one_nrm - bnrm(l,l)) < tol*one_nrm,trim(msg))
+                       if (allocated(error)) return
+                       deallocate (one_mat)
+                    
+                    end do
+                                   
+                end do
+            end do
+        end do
+        
+    end subroutine test_mnorm_y_4d
+    !> Test N-D norms
+    subroutine test_mnorm_y_5d(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        integer(ilp) :: i,j,k,l,dim1,dim2,dim(2),dim_sizes(2),ptr(5)
+        character(3),parameter :: orders(*) = ['1  ','2  ','fro','inf']
+        integer(ilp),parameter :: ndim = 5
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim1,dim1=1,ndim)]
+        real(xdp),parameter :: tol = 10*sqrt(epsilon(0.0_xdp))
+        real(xdp) :: one_nrm
+        real(xdp),allocatable :: bnrm(:,:,:)
+        complex(xdp),allocatable :: a(:),b(:,:,:,:,:),one_mat(:,:)
+        character(:),allocatable :: order
+        
+        character(64) :: msg
+        
+        allocate (a(n),b(2,2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_xdp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        ! Test norm as collapsed around dimensions
+        do k = 1,size(orders)
+            order = trim(orders(k))
+            do dim1 = 1,ndim
+                do dim2 = 1,ndim
+                    
+                    if (dim1 == dim2) cycle
+                                    
+                    dim = [dim1,dim2]
+                    dim_sizes = [size(b,dim1,kind=ilp),size(b,dim2,kind=ilp)]
+                    
+                    ! Get norms collapsed on these dims
+                    bnrm = mnorm(b,order,dim)
+                                   
+                    ! Assert size
+                    write (msg,"('dim=[',i0,',',i0,'] order=',a,' xdp norm returned wrong shape')") dim,order
+                    call check(error,all(shape(bnrm) == pack(shape(b),dims /= dim1 .and. dims /= dim2)),trim(msg))
+                    if (allocated(error)) return
+                    
+                    ! Assert some matrix results: check that those on same index i.e. (l,l,l,:,l,l,:) etc.
+                    ! are equal to the corresponding 2d-array result
+                    do l = 1,minval(shape(b))
+                    
+                       ptr = l
+                    
+                       allocate (one_mat(dim_sizes(1),dim_sizes(2)))
+                       do j = 1,dim_sizes(2)
+                           ptr(dim(2)) = j
+                           do i = 1,dim_sizes(1)
+                               ptr(dim(1)) = i
+                               one_mat(i,j) = b(ptr(1),ptr(2),ptr(3),ptr(4),ptr(5))
+                           end do
+                       end do
+                       one_nrm = mnorm(one_mat,order)
+                    
+                       write (msg,"('dim=[',i0,',',i0,'] order=',a,' xdp ',i0,'-th norm is wrong')") dim,order,l
+                       call check(error,abs(one_nrm - bnrm(l,l,l)) < tol*one_nrm,trim(msg))
+                       if (allocated(error)) return
+                       deallocate (one_mat)
+                    
+                    end do
+                                   
+                end do
+            end do
+        end do
+        
+    end subroutine test_mnorm_y_5d
+    !> Test N-D norms
+    subroutine test_mnorm_y_6d(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        integer(ilp) :: i,j,k,l,dim1,dim2,dim(2),dim_sizes(2),ptr(6)
+        character(3),parameter :: orders(*) = ['1  ','2  ','fro','inf']
+        integer(ilp),parameter :: ndim = 6
+        integer(ilp),parameter :: n = 2_ilp**ndim
+        integer(ilp),parameter :: dims(*) = [(dim1,dim1=1,ndim)]
+        real(xdp),parameter :: tol = 10*sqrt(epsilon(0.0_xdp))
+        real(xdp) :: one_nrm
+        real(xdp),allocatable :: bnrm(:,:,:,:)
+        complex(xdp),allocatable :: a(:),b(:,:,:,:,:,:),one_mat(:,:)
+        character(:),allocatable :: order
+        
+        character(64) :: msg
+        
+        allocate (a(n),b(2,2,2,2,2,2))
+        
+        ! Init as a range,but with small elements such that all power norms will
+        ! never overflow, even in single precision
+        a = [(0.01_xdp*(j - n/2_ilp),j=1_ilp,n)]
+        b = reshape(a,shape(b))
+        
+        ! Test norm as collapsed around dimensions
+        do k = 1,size(orders)
+            order = trim(orders(k))
+            do dim1 = 1,ndim
+                do dim2 = 1,ndim
+                    
+                    if (dim1 == dim2) cycle
+                                    
+                    dim = [dim1,dim2]
+                    dim_sizes = [size(b,dim1,kind=ilp),size(b,dim2,kind=ilp)]
+                    
+                    ! Get norms collapsed on these dims
+                    bnrm = mnorm(b,order,dim)
+                                   
+                    ! Assert size
+                    write (msg,"('dim=[',i0,',',i0,'] order=',a,' xdp norm returned wrong shape')") dim,order
+                    call check(error,all(shape(bnrm) == pack(shape(b),dims /= dim1 .and. dims /= dim2)),trim(msg))
+                    if (allocated(error)) return
+                    
+                    ! Assert some matrix results: check that those on same index i.e. (l,l,l,:,l,l,:) etc.
+                    ! are equal to the corresponding 2d-array result
+                    do l = 1,minval(shape(b))
+                    
+                       ptr = l
+                    
+                       allocate (one_mat(dim_sizes(1),dim_sizes(2)))
+                       do j = 1,dim_sizes(2)
+                           ptr(dim(2)) = j
+                           do i = 1,dim_sizes(1)
+                               ptr(dim(1)) = i
+                               one_mat(i,j) = b(ptr(1),ptr(2),ptr(3),ptr(4),ptr(5),ptr(6))
+                           end do
+                       end do
+                       one_nrm = mnorm(one_mat,order)
+                    
+                       write (msg,"('dim=[',i0,',',i0,'] order=',a,' xdp ',i0,'-th norm is wrong')") dim,order,l
+                       call check(error,abs(one_nrm - bnrm(l,l,l,l)) < tol*one_nrm,trim(msg))
+                       if (allocated(error)) return
+                       deallocate (one_mat)
+                    
+                    end do
+                                   
+                end do
+            end do
+        end do
+        
+    end subroutine test_mnorm_y_6d
+#endif
+    
+#ifdef LA_WITH_QP
     !> Test 1-norm, 2-norm (Euclidean), and infinity norm for complex(qp) matrices
     subroutine test_matrix_norms_w(error)
         type(error_type),allocatable,intent(out) :: error
@@ -1949,6 +2608,7 @@ module test_linalg_mnorm
         end do
         
     end subroutine test_mnorm_w_6d
+#endif
     
     ! gcc-15 bugfix utility
     subroutine add_test(tests,new_test)

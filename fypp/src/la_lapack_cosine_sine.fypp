@@ -18,6 +18,9 @@ module la_lapack_cosine_sine
 
      public :: sp,dp,qp,lk,ilp
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$lapmr
      public :: la_${ri}$lapmt
      public :: la_${ri}$orbdb6
@@ -30,8 +33,14 @@ module la_lapack_cosine_sine
      public :: la_${ri}$orbdb3
      public :: la_${ri}$orbdb4
      public :: la_${ri}$orcsd2by1
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$lapmr
      public :: la_${ri}$lapmt
      public :: la_${ri}$unbdb
@@ -44,11 +53,17 @@ module la_lapack_cosine_sine
      public :: la_${ri}$unbdb3
      public :: la_${ri}$unbdb4
      public :: la_${ri}$uncsd2by1
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
      contains
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAPMR: rearranges the rows of the M by N matrix X as specified
      !> by the permutation K(1),K(2),...,K(M) of the integers 1,...,M.
      !> If FORWRD = .TRUE.,  forward permutation:
@@ -116,9 +131,15 @@ module la_lapack_cosine_sine
            end if
            return
      end subroutine la_${ri}$lapmr
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAPMT: rearranges the columns of the M by N matrix X as specified
      !> by the permutation K(1),K(2),...,K(N) of the integers 1,...,N.
      !> If FORWRD = .TRUE.,  forward permutation:
@@ -204,9 +225,15 @@ module la_lapack_cosine_sine
            end if
            return
      end subroutine la_${ri}$lapmt
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$ORBDB6: orthogonalizes the column vector
      !> X = [ X1 ]
      !> [ X2 ]
@@ -334,9 +361,15 @@ module la_lapack_cosine_sine
            end if
            return
      end subroutine la_${ri}$orbdb6
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$BBCSD: computes the CS decomposition of an orthogonal matrix in
      !> bidiagonal-block form,
      !> [ B11 | B12 0  0 ]
@@ -942,9 +975,15 @@ module la_lapack_cosine_sine
            end do
            return
      end subroutine la_${ri}$bbcsd
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$ORBDB: simultaneously bidiagonalizes the blocks of an M-by-M
      !> partitioned orthogonal matrix X:
      !> [ B11 | B12 0  0 ]
@@ -1280,9 +1319,15 @@ module la_lapack_cosine_sine
            end if
            return
      end subroutine la_${ri}$orbdb
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$ORBDB5: orthogonalizes the column vector
      !> X = [ X1 ]
      !> [ X2 ]
@@ -1382,9 +1427,15 @@ module la_lapack_cosine_sine
            end do
            return
      end subroutine la_${ri}$orbdb5
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$ORCSD: computes the CS decomposition of an M-by-M partitioned
      !> orthogonal matrix X:
      !> [  I  0  0 |  0  0  0 ]
@@ -1691,9 +1742,15 @@ module la_lapack_cosine_sine
            return
            ! end la_${ri}$orcsd
      end subroutine la_${ri}$orcsd
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$ORBDB1: simultaneously bidiagonalizes the blocks of a tall and skinny
      !> matrix X with orthonomal columns:
      !> [ B11 ]
@@ -1797,9 +1854,15 @@ module la_lapack_cosine_sine
            end do
            return
      end subroutine la_${ri}$orbdb1
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$ORBDB2: simultaneously bidiagonalizes the blocks of a tall and skinny
      !> matrix X with orthonomal columns:
      !> [ B11 ]
@@ -1913,9 +1976,15 @@ module la_lapack_cosine_sine
            end do
            return
      end subroutine la_${ri}$orbdb2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$ORBDB3: simultaneously bidiagonalizes the blocks of a tall and skinny
      !> matrix X with orthonomal columns:
      !> [ B11 ]
@@ -2028,9 +2097,15 @@ module la_lapack_cosine_sine
            end do
            return
      end subroutine la_${ri}$orbdb3
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$ORBDB4: simultaneously bidiagonalizes the blocks of a tall and skinny
      !> matrix X with orthonomal columns:
      !> [ B11 ]
@@ -2173,9 +2248,15 @@ module la_lapack_cosine_sine
            end do
            return
      end subroutine la_${ri}$orbdb4
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$ORCSD2BY1: computes the CS decomposition of an M-by-Q matrix X with
      !> orthonormal columns that has been partitioned into a 2-by-1 block
      !> structure:
@@ -2617,9 +2698,15 @@ module la_lapack_cosine_sine
            end if
            return
      end subroutine la_${ri}$orcsd2by1
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAPMR: rearranges the rows of the M by N matrix X as specified
      !> by the permutation K(1),K(2),...,K(M) of the integers 1,...,M.
      !> If FORWRD = .TRUE.,  forward permutation:
@@ -2687,9 +2774,15 @@ module la_lapack_cosine_sine
            end if
            return
      end subroutine la_${ri}$lapmr
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAPMT: rearranges the columns of the M by N matrix X as specified
      !> by the permutation K(1),K(2),...,K(N) of the integers 1,...,N.
      !> If FORWRD = .TRUE.,  forward permutation:
@@ -2775,9 +2868,15 @@ module la_lapack_cosine_sine
            end if
            return
      end subroutine la_${ri}$lapmt
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$UNBDB: simultaneously bidiagonalizes the blocks of an M-by-M
      !> partitioned unitary matrix X:
      !> [ B11 | B12 0  0 ]
@@ -3100,9 +3199,15 @@ module la_lapack_cosine_sine
            end if
            return
      end subroutine la_${ri}$unbdb
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$UNBDB6: orthogonalizes the column vector
      !> X = [ X1 ]
      !> [ X2 ]
@@ -3230,9 +3335,15 @@ module la_lapack_cosine_sine
            end if
            return
      end subroutine la_${ri}$unbdb6
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$BBCSD: computes the CS decomposition of a unitary matrix in
      !> bidiagonal-block form,
      !> [ B11 | B12 0  0 ]
@@ -3843,9 +3954,15 @@ module la_lapack_cosine_sine
            end do
            return
      end subroutine la_${ri}$bbcsd
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$UNBDB5: orthogonalizes the column vector
      !> X = [ X1 ]
      !> [ X2 ]
@@ -3945,9 +4062,15 @@ module la_lapack_cosine_sine
            end do
            return
      end subroutine la_${ri}$unbdb5
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$UNCSD: computes the CS decomposition of an M-by-M partitioned
      !> unitary matrix X:
      !> [  I  0  0 |  0  0  0 ]
@@ -4238,9 +4361,15 @@ module la_lapack_cosine_sine
            return
            ! end la_${ri}$uncsd
      end subroutine la_${ri}$uncsd
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$UNBDB1: simultaneously bidiagonalizes the blocks of a tall and skinny
      !> matrix X with orthonomal columns:
      !> [ B11 ]
@@ -4346,9 +4475,15 @@ module la_lapack_cosine_sine
            end do
            return
      end subroutine la_${ri}$unbdb1
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$UNBDB2: simultaneously bidiagonalizes the blocks of a tall and skinny
      !> matrix X with orthonomal columns:
      !> [ B11 ]
@@ -4464,9 +4599,15 @@ module la_lapack_cosine_sine
            end do
            return
      end subroutine la_${ri}$unbdb2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$UNBDB3: simultaneously bidiagonalizes the blocks of a tall and skinny
      !> matrix X with orthonomal columns:
      !> [ B11 ]
@@ -4581,9 +4722,15 @@ module la_lapack_cosine_sine
            end do
            return
      end subroutine la_${ri}$unbdb3
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$UNBDB4: simultaneously bidiagonalizes the blocks of a tall and skinny
      !> matrix X with orthonomal columns:
      !> [ B11 ]
@@ -4733,9 +4880,15 @@ module la_lapack_cosine_sine
            end do
            return
      end subroutine la_${ri}$unbdb4
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$UNCSD2BY1: computes the CS decomposition of an M-by-Q matrix X with
      !> orthonormal columns that has been partitioned into a 2-by-1 block
      !> structure:
@@ -5179,6 +5332,9 @@ module la_lapack_cosine_sine
            end if
            return
      end subroutine la_${ri}$uncsd2by1
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 end module la_lapack_cosine_sine

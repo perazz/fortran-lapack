@@ -23,13 +23,22 @@ module test_linalg_qr
         allocate(tests(0))
         
         #:for rk,rt,ri in RC_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         call add_test(tests,new_unittest("qr_random_${ri}$",test_qr_random_${ri}$))
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #:endfor
 
     end subroutine test_qr_factorization
 
     !> QR factorization of a random matrix
     #:for rk,rt,ri in RC_KINDS_TYPES
+    #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+    #:endif
     subroutine test_qr_random_${ri}$(error)
         type(error_type), allocatable, intent(out) :: error
 
@@ -111,6 +120,9 @@ module test_linalg_qr
         if (allocated(error)) return             
         
     end subroutine test_qr_random_${ri}$
+    #:if LA_GUARD[rk]
+#endif
+    #:endif
 
     #:endfor
 

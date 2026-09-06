@@ -25,18 +25,32 @@ module test_linalg_schur
         call add_test(tests,new_unittest("schur_api_d",test_schur_api_d))
         call add_test(tests,new_unittest("schur_random_d",test_schur_random_d))
         call add_test(tests,new_unittest("schur_symmetric_d",test_schur_symmetric_d))
+#ifdef LA_WITH_XDP
+        call add_test(tests,new_unittest("schur_api_x",test_schur_api_x))
+        call add_test(tests,new_unittest("schur_random_x",test_schur_random_x))
+        call add_test(tests,new_unittest("schur_symmetric_x",test_schur_symmetric_x))
+#endif
+#ifdef LA_WITH_QP
         call add_test(tests,new_unittest("schur_api_q",test_schur_api_q))
         call add_test(tests,new_unittest("schur_random_q",test_schur_random_q))
         call add_test(tests,new_unittest("schur_symmetric_q",test_schur_symmetric_q))
+#endif
         call add_test(tests,new_unittest("schur_api_c",test_schur_api_c))
         call add_test(tests,new_unittest("schur_random_c",test_schur_random_c))
         call add_test(tests,new_unittest("schur_symmetric_c",test_schur_symmetric_c))
         call add_test(tests,new_unittest("schur_api_z",test_schur_api_z))
         call add_test(tests,new_unittest("schur_random_z",test_schur_random_z))
         call add_test(tests,new_unittest("schur_symmetric_z",test_schur_symmetric_z))
+#ifdef LA_WITH_XDP
+        call add_test(tests,new_unittest("schur_api_y",test_schur_api_y))
+        call add_test(tests,new_unittest("schur_random_y",test_schur_random_y))
+        call add_test(tests,new_unittest("schur_symmetric_y",test_schur_symmetric_y))
+#endif
+#ifdef LA_WITH_QP
         call add_test(tests,new_unittest("schur_api_w",test_schur_api_w))
         call add_test(tests,new_unittest("schur_random_w",test_schur_random_w))
         call add_test(tests,new_unittest("schur_symmetric_w",test_schur_symmetric_w))
+#endif
 
     end subroutine test_schur_decomposition
 
@@ -337,6 +351,157 @@ module test_linalg_schur
 
     end subroutine test_schur_symmetric_d
 
+#ifdef LA_WITH_XDP
+    subroutine test_schur_api_x(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        integer(ilp),parameter :: n = 15_ilp
+        integer(ilp) :: lwork
+        complex(xdp) :: eigs(n)
+        real(xdp),dimension(n,n) :: a,t,z
+        real(xdp),allocatable :: storage(:)
+        type(la_state) :: state
+        
+        call random_number(a)
+        
+        ! Test simple API
+        call schur(a,t,err=state)
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+        
+        ! Test output transformation matrix
+        call schur(a,t,z,err=state)
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        ! Test output eigenvalues
+        call schur(a,t,eigvals=eigs,err=state)
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+        
+        ! Test storage query
+        call schur_space(a,lwork,err=state)
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+        
+        ! Test with user-defined storage
+        allocate (storage(lwork))
+        call schur(a,t,eigvals=eigs,storage=storage,err=state)
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+        
+    end subroutine test_schur_api_x
+    
+    subroutine test_schur_random_x(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        integer(ilp),parameter :: n = 3_ilp
+        real(xdp),parameter :: rtol = 1.0e-4_xdp
+        real(xdp),parameter :: eps = sqrt(epsilon(0.0_xdp))
+        integer(ilp) :: lwork
+        real(xdp),allocatable :: storage(:)
+        real(xdp),dimension(n,n) :: a,t,z,aorig
+        type(la_state) :: state
+
+        call random_number(a)
+        aorig = a
+
+        ! 1) Run schur (standard)
+        call schur(a,t,z,err=state)
+        
+        ! Check return code
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+        
+        ! Check solution
+        call check(error,all(schur_error(a,z,t) <= max(rtol*abs(a),eps)), &
+                          'converged solution (real(xdp))')
+        if (allocated(error)) return
+
+        ! 2) Run schur (overwrite A)
+        call schur(a,t,z,overwrite_a=.true.,err=state)
+
+        ! Check return code
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+        
+        ! Check solution
+        call check(error,all(schur_error(aorig,z,t) <= max(rtol*abs(aorig),eps)), &
+                          'converged solution (real(xdp) - overwrite A)')
+        if (allocated(error)) return
+        
+        ! 3) Use working storage
+        a = aorig
+        call schur_space(a,lwork,err=state)
+         
+        ! Check return code
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+        
+        allocate (storage(lwork))
+        call schur(a,t,z,storage=storage,err=state)
+        
+        ! Check return code
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+        
+        ! Check solution
+        call check(error,all(schur_error(a,z,t) <= max(rtol*abs(a),eps)), &
+                          'converged solution (real(xdp) - external storage)')
+        if (allocated(error)) return
+
+    contains
+    
+        pure function schur_error(a,z,t) result(err)
+            real(xdp),intent(in),dimension(:,:) :: a,z,t
+            real(xdp),dimension(size(a,1),size(a,2)) :: err
+            
+            err = abs(matmul(matmul(z,t),transpose(z)) - a)
+        end function schur_error
+        
+    end subroutine test_schur_random_x
+
+    !> Test symmetric matrix (real eigenvalues)
+    subroutine test_schur_symmetric_x(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        integer(ilp),parameter :: n = 3_ilp
+        real(xdp),parameter :: rtol = 1.0e-4_xdp
+        real(xdp),parameter :: eps = sqrt(epsilon(0.0_xdp))
+        real(xdp) :: reigs(n)
+        real(xdp),dimension(n,n) :: a,t,z
+        type(la_state) :: state
+
+        ! Define a symmetric 3x3 matrix with real eigenvalues
+        a = reshape([3,1,0, &
+                      1,3,1, &
+                      0,1,3],shape=[n,n])
+
+        ! Return real eigenvalues (Should trigger an error if they have an imaginary part)
+        call schur(a,t,z,eigvals=reigs,err=state)
+        
+        ! Check return code
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        ! Check solution
+        call check(error,all(schur_error(a,z,t) <= max(rtol*abs(a),eps)), &
+                          'converged solution (real symmetric, real eigs)')
+        if (allocated(error)) return
+
+    contains
+    
+        pure function schur_error(a,z,t) result(err)
+            real(xdp),intent(in),dimension(:,:) :: a,z,t
+            real(xdp),dimension(size(a,1),size(a,2)) :: err
+            
+            err = abs(matmul(matmul(z,t),transpose(z)) - a)
+        end function schur_error
+
+    end subroutine test_schur_symmetric_x
+#endif
+
+#ifdef LA_WITH_QP
     subroutine test_schur_api_q(error)
         type(error_type),allocatable,intent(out) :: error
 
@@ -484,6 +649,7 @@ module test_linalg_schur
         end function schur_error
 
     end subroutine test_schur_symmetric_q
+#endif
 
     subroutine test_schur_api_c(error)
         type(error_type),allocatable,intent(out) :: error
@@ -793,6 +959,163 @@ module test_linalg_schur
 
     end subroutine test_schur_symmetric_z
 
+#ifdef LA_WITH_XDP
+    subroutine test_schur_api_y(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        integer(ilp),parameter :: n = 15_ilp
+        integer(ilp) :: lwork
+        complex(xdp) :: eigs(n)
+        complex(xdp),dimension(n,n) :: a,t,z
+        complex(xdp),allocatable :: storage(:)
+        real(xdp) :: rea(n,n),ima(n,n)
+        type(la_state) :: state
+        
+        call random_number(rea)
+        call random_number(ima)
+        a = cmplx(rea,ima,kind=xdp)
+        
+        ! Test simple API
+        call schur(a,t,err=state)
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+        
+        ! Test output transformation matrix
+        call schur(a,t,z,err=state)
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        ! Test output eigenvalues
+        call schur(a,t,eigvals=eigs,err=state)
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+        
+        ! Test storage query
+        call schur_space(a,lwork,err=state)
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+        
+        ! Test with user-defined storage
+        allocate (storage(lwork))
+        call schur(a,t,eigvals=eigs,storage=storage,err=state)
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+        
+    end subroutine test_schur_api_y
+    
+    subroutine test_schur_random_y(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        integer(ilp),parameter :: n = 3_ilp
+        real(xdp),parameter :: rtol = 1.0e-4_xdp
+        real(xdp),parameter :: eps = sqrt(epsilon(0.0_xdp))
+        integer(ilp) :: lwork
+        complex(xdp),allocatable :: storage(:)
+        complex(xdp),dimension(n,n) :: a,t,z,aorig
+        real(xdp),dimension(n,n) :: a_re,a_im
+        type(la_state) :: state
+
+        call random_number(a_re)
+        call random_number(a_im)
+        a = cmplx(a_re,a_im,kind=xdp)
+        aorig = a
+
+        ! 1) Run schur (standard)
+        call schur(a,t,z,err=state)
+        
+        ! Check return code
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+        
+        ! Check solution
+        call check(error,all(schur_error(a,z,t) <= max(rtol*abs(a),eps)), &
+                          'converged solution (complex(xdp))')
+        if (allocated(error)) return
+
+        ! 2) Run schur (overwrite A)
+        call schur(a,t,z,overwrite_a=.true.,err=state)
+
+        ! Check return code
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+        
+        ! Check solution
+        call check(error,all(schur_error(aorig,z,t) <= max(rtol*abs(aorig),eps)), &
+                          'converged solution (complex(xdp) - overwrite A)')
+        if (allocated(error)) return
+        
+        ! 3) Use working storage
+        a = aorig
+        call schur_space(a,lwork,err=state)
+         
+        ! Check return code
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+        
+        allocate (storage(lwork))
+        call schur(a,t,z,storage=storage,err=state)
+        
+        ! Check return code
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+        
+        ! Check solution
+        call check(error,all(schur_error(a,z,t) <= max(rtol*abs(a),eps)), &
+                          'converged solution (complex(xdp) - external storage)')
+        if (allocated(error)) return
+
+    contains
+    
+        pure function schur_error(a,z,t) result(err)
+            complex(xdp),intent(in),dimension(:,:) :: a,z,t
+            real(xdp),dimension(size(a,1),size(a,2)) :: err
+            
+            err = abs(matmul(matmul(z,t),conjg(transpose(z))) - a)
+        end function schur_error
+        
+    end subroutine test_schur_random_y
+
+    !> Test symmetric matrix (real eigenvalues)
+    subroutine test_schur_symmetric_y(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        integer(ilp),parameter :: n = 3_ilp
+        real(xdp),parameter :: rtol = 1.0e-4_xdp
+        real(xdp),parameter :: eps = sqrt(epsilon(0.0_xdp))
+        real(xdp) :: reigs(n)
+        complex(xdp),dimension(n,n) :: a,t,z
+        type(la_state) :: state
+
+        ! Define a symmetric 3x3 matrix with real eigenvalues
+        a = reshape([3,1,0, &
+                      1,3,1, &
+                      0,1,3],shape=[n,n])
+
+        ! Return real eigenvalues (Should trigger an error if they have an imaginary part)
+        call schur(a,t,z,eigvals=reigs,err=state)
+        
+        ! Check return code
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        ! Check solution
+        call check(error,all(schur_error(a,z,t) <= max(rtol*abs(a),eps)), &
+                          'converged solution (real symmetric, real eigs)')
+        if (allocated(error)) return
+
+    contains
+    
+        pure function schur_error(a,z,t) result(err)
+            complex(xdp),intent(in),dimension(:,:) :: a,z,t
+            real(xdp),dimension(size(a,1),size(a,2)) :: err
+            
+            err = abs(matmul(matmul(z,t),conjg(transpose(z))) - a)
+        end function schur_error
+
+    end subroutine test_schur_symmetric_y
+#endif
+
+#ifdef LA_WITH_QP
     subroutine test_schur_api_w(error)
         type(error_type),allocatable,intent(out) :: error
 
@@ -946,6 +1269,7 @@ module test_linalg_schur
         end function schur_error
 
     end subroutine test_schur_symmetric_w
+#endif
 
     ! gcc-15 bugfix utility
     subroutine add_test(tests,new_test)

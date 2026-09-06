@@ -22,6 +22,9 @@ module la_lapack_eigv_gen
 
      public :: sp,dp,qp,lk,ilp
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$gges
      public :: la_${ri}$ggesx
      public :: la_${ri}$ggev
@@ -32,8 +35,14 @@ module la_lapack_eigv_gen
      public :: la_${ri}$geevx
      public :: la_${ri}$gges3
      public :: la_${ri}$ggev3
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$gges
      public :: la_${ri}$ggesx
      public :: la_${ri}$ggev
@@ -44,11 +53,17 @@ module la_lapack_eigv_gen
      public :: la_${ri}$geevx
      public :: la_${ri}$gges3
      public :: la_${ri}$ggev3
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
      contains
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GGES: computes for a pair of N-by-N real nonsymmetric matrices (A,B),
      !> the generalized eigenvalues, the generalized real Schur form (S,T),
      !> optionally, the left and/or right matrices of Schur vectors (VSL and
@@ -381,9 +396,15 @@ module la_lapack_eigv_gen
            work(1) = maxwrk
            return
      end subroutine la_${ri}$gges
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GGESX: computes for a pair of N-by-N real nonsymmetric matrices
      !> (A,B), the generalized eigenvalues, the real Schur form (S,T), and,
      !> optionally, the left and/or right matrices of Schur vectors (VSL and
@@ -762,9 +783,15 @@ module la_lapack_eigv_gen
            iwork(1) = liwmin
            return
      end subroutine la_${ri}$ggesx
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GGEV: computes for a pair of N-by-N real nonsymmetric matrices (A,B)
      !> the generalized eigenvalues, and optionally, the left and/or right
      !> generalized eigenvectors.
@@ -1063,9 +1090,15 @@ module la_lapack_eigv_gen
            work(1) = maxwrk
            return
      end subroutine la_${ri}$ggev
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GGEVX: computes for a pair of N-by-N real nonsymmetric matrices (A,B)
      !> the generalized eigenvalues, and optionally, the left and/or right
      !> generalized eigenvectors.
@@ -1475,9 +1508,15 @@ module la_lapack_eigv_gen
            work(1) = maxwrk
            return
      end subroutine la_${ri}$ggevx
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GEES: computes for an N-by-N real nonsymmetric matrix A, the
      !> eigenvalues, the real Schur form T, and, optionally, the matrix of
      !> Schur vectors Z.  This gives the Schur factorization A = Z*T*(Z**T).
@@ -1724,9 +1763,15 @@ module la_lapack_eigv_gen
            work(1) = maxwrk
            return
      end subroutine la_${ri}$gees
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GEESX: computes for an N-by-N real nonsymmetric matrix A, the
      !> eigenvalues, the real Schur form T, and, optionally, the matrix of
      !> Schur vectors Z.  This gives the Schur factorization A = Z*T*(Z**T).
@@ -2029,9 +2074,15 @@ module la_lapack_eigv_gen
            end if
            return
      end subroutine la_${ri}$geesx
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GEEV: computes for an N-by-N real nonsymmetric matrix A, the
      !> eigenvalues and, optionally, the left and/or right eigenvectors.
      !> The right eigenvector v(j) of A satisfies
@@ -2291,9 +2342,15 @@ module la_lapack_eigv_gen
            work(1) = maxwrk
            return
      end subroutine la_${ri}$geev
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GEEVX: computes for an N-by-N real nonsymmetric matrix A, the
      !> eigenvalues and, optionally, the left and/or right eigenvectors.
      !> Optionally also, it computes a balancing transformation to improve
@@ -2606,9 +2663,15 @@ module la_lapack_eigv_gen
            work(1) = maxwrk
            return
      end subroutine la_${ri}$geevx
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GGES3: computes for a pair of N-by-N real nonsymmetric matrices (A,B),
      !> the generalized eigenvalues, the generalized real Schur form (S,T),
      !> optionally, the left and/or right matrices of Schur vectors (VSL and
@@ -2936,9 +2999,15 @@ module la_lapack_eigv_gen
            work(1) = lwkopt
            return
      end subroutine la_${ri}$gges3
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GGEV3: computes for a pair of N-by-N real nonsymmetric matrices (A,B)
      !> the generalized eigenvalues, and optionally, the left and/or right
      !> generalized eigenvectors.
@@ -3256,9 +3325,15 @@ module la_lapack_eigv_gen
 #:endif
            return
      end subroutine la_${ri}$ggev3
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GGES: computes for a pair of N-by-N complex nonsymmetric matrices
      !> (A,B), the generalized eigenvalues, the generalized complex Schur
      !> form (S, T), and optionally left and/or right Schur vectors (VSL
@@ -3510,9 +3585,15 @@ module la_lapack_eigv_gen
            work(1) = lwkopt
            return
      end subroutine la_${ri}$gges
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GGESX: computes for a pair of N-by-N complex nonsymmetric matrices
      !> (A,B), the generalized eigenvalues, the complex Schur form (S,T),
      !> and, optionally, the left and/or right matrices of Schur vectors (VSL
@@ -3822,9 +3903,15 @@ module la_lapack_eigv_gen
            iwork(1) = liwmin
            return
      end subroutine la_${ri}$ggesx
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GGEV: computes for a pair of N-by-N complex nonsymmetric matrices
      !> (A,B), the generalized eigenvalues, and optionally, the left and/or
      !> right generalized eigenvectors.
@@ -4098,9 +4185,15 @@ module la_lapack_eigv_gen
            work(1) = lwkopt
            return
      end subroutine la_${ri}$ggev
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GGEVX: computes for a pair of N-by-N complex nonsymmetric matrices
      !> (A,B) the generalized eigenvalues, and optionally, the left and/or
      !> right generalized eigenvectors.
@@ -4452,9 +4545,15 @@ module la_lapack_eigv_gen
            work(1) = maxwrk
            return
      end subroutine la_${ri}$ggevx
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GEES: computes for an N-by-N complex nonsymmetric matrix A, the
      !> eigenvalues, the Schur form T, and, optionally, the matrix of Schur
      !> vectors Z.  This gives the Schur factorization A = Z*T*(Z**H).
@@ -4626,9 +4725,15 @@ module la_lapack_eigv_gen
            work(1) = maxwrk
            return
      end subroutine la_${ri}$gees
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GEESX: computes for an N-by-N complex nonsymmetric matrix A, the
      !> eigenvalues, the Schur form T, and, optionally, the matrix of Schur
      !> vectors Z.  This gives the Schur factorization A = Z*T*(Z**H).
@@ -4831,9 +4936,15 @@ module la_lapack_eigv_gen
            work(1) = maxwrk
            return
      end subroutine la_${ri}$geesx
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GEEV: computes for an N-by-N complex nonsymmetric matrix A, the
      !> eigenvalues and, optionally, the left and/or right eigenvectors.
      !> The right eigenvector v(j) of A satisfies
@@ -5083,9 +5194,15 @@ module la_lapack_eigv_gen
            work(1) = maxwrk
            return
      end subroutine la_${ri}$geev
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GEEVX: computes for an N-by-N complex nonsymmetric matrix A, the
      !> eigenvalues and, optionally, the left and/or right eigenvectors.
      !> Optionally also, it computes a balancing transformation to improve
@@ -5388,9 +5505,15 @@ module la_lapack_eigv_gen
            work(1) = maxwrk
            return
      end subroutine la_${ri}$geevx
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GGES3: computes for a pair of N-by-N complex nonsymmetric matrices
      !> (A,B), the generalized eigenvalues, the generalized complex Schur
      !> form (S, T), and optionally left and/or right Schur vectors (VSL
@@ -5641,9 +5764,15 @@ module la_lapack_eigv_gen
            work(1) = cmplx(lwkopt,KIND=${rk}$)
            return
      end subroutine la_${ri}$gges3
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GGEV3: computes for a pair of N-by-N complex nonsymmetric matrices
      !> (A,B), the generalized eigenvalues, and optionally, the left and/or
      !> right generalized eigenvectors.
@@ -5928,6 +6057,9 @@ module la_lapack_eigv_gen
            work(1) = cmplx(lwkopt,KIND=${rk}$)
            return
      end subroutine la_${ri}$ggev3
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 end module la_lapack_eigv_gen

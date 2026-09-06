@@ -11,19 +11,34 @@ module la_lapack_solve_aux
 
      public :: sp,dp,qp,lk,ilp
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$lacn2
      public :: la_${ri}$lacon
      public :: la_${ri}$la_lin_berr
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$la_lin_berr
      public :: la_${ri}$lacn2
      public :: la_${ri}$lacon
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
      contains
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LACN2: estimates the 1-norm of a square, real matrix A.
      !> Reverse communication is used for evaluating matrix-vector products.
 
@@ -160,9 +175,15 @@ module la_lapack_solve_aux
            kase = 0
            return
      end subroutine la_${ri}$lacn2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LACON: estimates the 1-norm of a square, real matrix A.
      !> Reverse communication is used for evaluating matrix-vector products.
 
@@ -287,9 +308,15 @@ module la_lapack_solve_aux
            kase = 0
            return
      end subroutine la_${ri}$lacon
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
 #:if rk == "sp"
      !> ${ri.upper()}$LA_LIN_BERR: computes componentwise relative backward error from
 #:else
@@ -343,9 +370,15 @@ module la_lapack_solve_aux
               end do
            end do
      end subroutine la_${ri}$la_lin_berr
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LA_LIN_BERR: computes componentwise relative backward error from
      !> the formula
      !> max(i) ( abs(R(i)) / ( abs(op(A_s))*abs(Y) + abs(B_s) )(i) )
@@ -396,9 +429,15 @@ module la_lapack_solve_aux
               end do
            end do
      end subroutine la_${ri}$la_lin_berr
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LACN2: estimates the 1-norm of a square, complex matrix A.
      !> Reverse communication is used for evaluating matrix-vector products.
 
@@ -528,9 +567,15 @@ module la_lapack_solve_aux
            kase = 0
            return
      end subroutine la_${ri}$lacn2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LACON: estimates the 1-norm of a square, complex matrix A.
      !> Reverse communication is used for evaluating matrix-vector products.
 
@@ -660,6 +705,9 @@ module la_lapack_solve_aux
            kase = 0
            return
      end subroutine la_${ri}$lacon
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 end module la_lapack_solve_aux

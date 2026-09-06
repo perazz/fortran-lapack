@@ -16,6 +16,9 @@ module la_lapack_solve_chol
 
      public :: sp,dp,qp,lk,ilp
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$ppsv
      public :: la_${ri}$ppsvx
      public :: la_${ri}$ptsv
@@ -27,8 +30,14 @@ module la_lapack_solve_chol
      public :: la_${ri}$pbsvx
      public :: la_${ri}$posv
      public :: la_${ri}$posvx
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$ppsv
      public :: la_${ri}$ppsvx
 #:if rkl is not None
@@ -40,11 +49,17 @@ module la_lapack_solve_chol
      public :: la_${ri}$posvx
      public :: la_${ri}$ptsv
      public :: la_${ri}$ptsvx
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
      contains
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$PPSV: computes the solution to a real system of linear equations
      !> A * X = B,
      !> where A is an N-by-N symmetric positive definite matrix stored in
@@ -93,9 +108,15 @@ module la_lapack_solve_chol
            end if
            return
      end subroutine la_${ri}$ppsv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$PPSVX: uses the Cholesky factorization A = U**T*U or A = L*L**T to
      !> compute the solution to a real system of linear equations
      !> A * X = B,
@@ -235,9 +256,15 @@ module la_lapack_solve_chol
            if (rcond < la_${ri}$lamch('EPSILON')) info = n + 1
            return
      end subroutine la_${ri}$ppsvx
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$PTSV: computes the solution to a real system of linear equations
      !> A*X = B, where A is an N-by-N symmetric positive definite tridiagonal
      !> matrix, and X and B are N-by-NRHS matrices.
@@ -278,9 +305,15 @@ module la_lapack_solve_chol
            end if
            return
      end subroutine la_${ri}$ptsv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$PTSVX: uses the factorization A = L*D*L**T to compute the solution
      !> to a real system of linear equations A*X = B, where A is an N-by-N
      !> symmetric positive definite tridiagonal matrix and X and B are
@@ -355,9 +388,15 @@ module la_lapack_solve_chol
            if (rcond < la_${ri}$lamch('EPSILON')) info = n + 1
            return
      end subroutine la_${ri}$ptsvx
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
 #:if rkl is not None
      !> ${ri.upper()}$${ril.upper()}$POSV: computes the solution to a real system of linear equations
      !> A * X = B,
@@ -536,9 +575,15 @@ module la_lapack_solve_chol
            return
      end subroutine la_${ri}$${ril}$posv
 #:endif
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$PBSV: computes the solution to a real system of linear equations
      !> A * X = B,
      !> where A is an N-by-N symmetric positive definite band matrix and X
@@ -592,9 +637,15 @@ module la_lapack_solve_chol
            end if
            return
      end subroutine la_${ri}$pbsv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$PBSVX: uses the Cholesky factorization A = U**T*U or A = L*L**T to
      !> compute the solution to a real system of linear equations
      !> A * X = B,
@@ -751,9 +802,15 @@ module la_lapack_solve_chol
            if (rcond < la_${ri}$lamch('EPSILON')) info = n + 1
            return
      end subroutine la_${ri}$pbsvx
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$POSV: computes the solution to a real system of linear equations
      !> A * X = B,
      !> where A is an N-by-N symmetric positive definite matrix and X and B
@@ -804,9 +861,15 @@ module la_lapack_solve_chol
            end if
            return
      end subroutine la_${ri}$posv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$POSVX: uses the Cholesky factorization A = U**T*U or A = L*L**T to
      !> compute the solution to a real system of linear equations
      !> A * X = B,
@@ -950,9 +1013,15 @@ module la_lapack_solve_chol
            if (rcond < la_${ri}$lamch('EPSILON')) info = n + 1
            return
      end subroutine la_${ri}$posvx
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$PPSV: computes the solution to a complex system of linear equations
      !> A * X = B,
      !> where A is an N-by-N Hermitian positive definite matrix stored in
@@ -1001,9 +1070,15 @@ module la_lapack_solve_chol
            end if
            return
      end subroutine la_${ri}$ppsv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
 #:if rk == "sp"
      !> ${ri.upper()}$PPSVX: uses the Cholesky factorization A = U**H*U or A = L*L**H to
 #:else
@@ -1148,9 +1223,15 @@ module la_lapack_solve_chol
            if (rcond < la_${ci}$lamch('EPSILON')) info = n + 1
            return
      end subroutine la_${ri}$ppsvx
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
 #:if rkl is not None
      !> ${ri.upper()}$${ril.upper()}$POSV: computes the solution to a complex system of linear equations
      !> A * X = B,
@@ -1337,9 +1418,15 @@ module la_lapack_solve_chol
            return
      end subroutine la_${ri}$${ril}$posv
 #:endif
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$PBSV: computes the solution to a complex system of linear equations
      !> A * X = B,
      !> where A is an N-by-N Hermitian positive definite band matrix and X
@@ -1397,9 +1484,15 @@ module la_lapack_solve_chol
            end if
            return
      end subroutine la_${ri}$pbsv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$PBSVX: uses the Cholesky factorization A = U**H*U or A = L*L**H to
      !> compute the solution to a complex system of linear equations
      !> A * X = B,
@@ -1557,9 +1650,15 @@ module la_lapack_solve_chol
            if (rcond < la_${ci}$lamch('EPSILON')) info = n + 1
            return
      end subroutine la_${ri}$pbsvx
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$POSV: computes the solution to a complex system of linear equations
      !> A * X = B,
      !> where A is an N-by-N Hermitian positive definite matrix and X and B
@@ -1614,9 +1713,15 @@ module la_lapack_solve_chol
            end if
            return
      end subroutine la_${ri}$posv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$POSVX: uses the Cholesky factorization A = U**H*U or A = L*L**H to
      !> compute the solution to a complex system of linear equations
      !> A * X = B,
@@ -1761,9 +1866,15 @@ module la_lapack_solve_chol
            if (rcond < la_${ci}$lamch('EPSILON')) info = n + 1
            return
      end subroutine la_${ri}$posvx
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$PTSV: computes the solution to a complex system of linear equations
      !> A*X = B, where A is an N-by-N Hermitian positive definite tridiagonal
      !> matrix, and X and B are N-by-NRHS matrices.
@@ -1805,9 +1916,15 @@ module la_lapack_solve_chol
            end if
            return
      end subroutine la_${ri}$ptsv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$PTSVX: uses the factorization A = L*D*L**H to compute the solution
      !> to a complex system of linear equations A*X = B, where A is an
      !> N-by-N Hermitian positive definite tridiagonal matrix and X and B
@@ -1885,6 +2002,9 @@ module la_lapack_solve_chol
            if (rcond < la_${ci}$lamch('EPSILON')) info = n + 1
            return
      end subroutine la_${ri}$ptsvx
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 end module la_lapack_solve_chol

@@ -16,12 +16,24 @@ module test_la_inverse
         call cpu_time(t0)
 
         #:for rk,rt,ri in REAL_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         call test_${ri}$_eye_inverse(error)
         if (error) return
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #: endfor
         #:for ck,ct,ci in CMPL_KINDS_TYPES
+        #:if LA_GUARD[ck]
+#ifdef ${LA_GUARD[ck]}$
+        #:endif
         call test_${ci}$_eye_inverse(error)
         if (error) return
+        #:if LA_GUARD[ck]
+#endif
+        #:endif
         #: endfor
 
         call cpu_time(t1)
@@ -34,6 +46,9 @@ module test_la_inverse
 
     !> Invert identity matrix
     #:for rk,rt,ri in REAL_KINDS_TYPES
+    #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+    #:endif
     subroutine test_${ri}$_eye_inverse(error)
         logical, intent(out) :: error
 
@@ -58,11 +73,17 @@ module test_la_inverse
         error = state%error() .or. .not.all(abs(a-inva)<tiny(0.0_${rk}$))
 
     end subroutine test_${ri}$_eye_inverse
+    #:if LA_GUARD[rk]
+#endif
+    #:endif
 
     #:endfor
 
     !> Invert identity matrix
     #:for ck,ct,ci in CMPL_KINDS_TYPES
+    #:if LA_GUARD[ck]
+#ifdef ${LA_GUARD[ck]}$
+    #:endif
     subroutine test_${ci}$_eye_inverse(error)
         logical, intent(out) :: error
 
@@ -117,6 +138,9 @@ module test_la_inverse
            end function is_diagonal_inverse
 
     end subroutine test_${ci}$_eye_inverse
+    #:if LA_GUARD[ck]
+#endif
+    #:endif
 
     #:endfor
 

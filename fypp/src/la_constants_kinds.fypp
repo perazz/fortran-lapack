@@ -1,5 +1,8 @@
 #:include "common.fypp"
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
 #:set bits = LA_KIND_BITS[rk]
 !> ${bits}$-bit BLAS/LAPACK constants
 module la_constants_${rk}$
@@ -50,5 +53,8 @@ module la_constants_${rk}$
      real(${rk}$),parameter :: sbig = rradix**(-ceiling((maxexp + digits(zero) - 1)*half))
 
 end module la_constants_${rk}$
+#:if LA_GUARD[rk]
+#endif
+#:endif
 
 #:endfor

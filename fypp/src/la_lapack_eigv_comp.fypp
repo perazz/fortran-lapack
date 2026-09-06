@@ -22,23 +22,38 @@ module la_lapack_eigv_comp
 
      public :: sp,dp,qp,lk,ilp
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$ggbak
      public :: la_${ri}$ggbal
      public :: la_${ri}$gghrd
      public :: la_${ri}$gghd3
      public :: la_${ri}$hgeqz
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$ggbak
      public :: la_${ri}$ggbal
      public :: la_${ri}$gghrd
      public :: la_${ri}$gghd3
      public :: la_${ri}$hgeqz
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
      contains
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GGBAK: forms the right or left eigenvectors of a real generalized
      !> eigenvalue problem A*x = lambda*B*x, by backward transformation on
      !> the computed eigenvectors of the balanced pair of matrices output by
@@ -171,9 +186,15 @@ module la_lapack_eigv_comp
            110 continue
            return
      end subroutine la_${ri}$ggbak
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GGBAL: balances a pair of general real matrices (A,B).  This
      !> involves, first, permuting A and B by similarity transformations to
      !> isolate eigenvalues in the first 1 to ILO$-$1 and last IHI+1 to N
@@ -479,9 +500,15 @@ module la_lapack_eigv_comp
            end do
            return
      end subroutine la_${ri}$ggbal
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GGHRD: reduces a pair of real matrices (A,B) to generalized upper
      !> Hessenberg form using orthogonal transformations, where A is a
      !> general matrix and B is upper triangular.  The form of the
@@ -612,9 +639,15 @@ module la_lapack_eigv_comp
            end do
            return
      end subroutine la_${ri}$gghrd
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GGHD3: reduces a pair of real matrices (A,B) to generalized upper
      !> Hessenberg form using orthogonal transformations, where A is a
      !> general matrix and B is upper triangular.  The form of the
@@ -1142,9 +1175,15 @@ module la_lapack_eigv_comp
            work(1) = real(lwkopt,KIND=${rk}$)
            return
      end subroutine la_${ri}$gghd3
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HGEQZ: computes the eigenvalues of a real matrix pair (H,T),
      !> where H is an upper Hessenberg matrix and T is upper triangular,
      !> using the double-shift QZ method.
@@ -2024,9 +2063,15 @@ module la_lapack_eigv_comp
            work(1) = real(n,KIND=${rk}$)
            return
      end subroutine la_${ri}$hgeqz
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GGBAK: forms the right or left eigenvectors of a complex generalized
      !> eigenvalue problem A*x = lambda*B*x, by backward transformation on
      !> the computed eigenvectors of the balanced pair of matrices output by
@@ -2159,9 +2204,15 @@ module la_lapack_eigv_comp
            110 continue
            return
      end subroutine la_${ri}$ggbak
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GGBAL: balances a pair of general complex matrices (A,B).  This
      !> involves, first, permuting A and B by similarity transformations to
      !> isolate eigenvalues in the first 1 to ILO$-$1 and last IHI+1 to N
@@ -2481,9 +2532,15 @@ module la_lapack_eigv_comp
            end do
            return
      end subroutine la_${ri}$ggbal
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GGHRD: reduces a pair of complex matrices (A,B) to generalized upper
      !> Hessenberg form using unitary transformations, where A is a
 #:if rk == "sp"
@@ -2621,9 +2678,15 @@ module la_lapack_eigv_comp
            end do
            return
      end subroutine la_${ri}$gghrd
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GGHD3: reduces a pair of complex matrices (A,B) to generalized upper
      !> Hessenberg form using unitary transformations, where A is a
      !> general matrix and B is upper triangular.  The form of the
@@ -3158,9 +3221,15 @@ module la_lapack_eigv_comp
            work(1) = cmplx(lwkopt,KIND=${rk}$)
            return
      end subroutine la_${ri}$gghd3
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HGEQZ: computes the eigenvalues of a complex matrix pair (H,T),
      !> where H is an upper Hessenberg matrix and T is upper triangular,
      !> using the single-shift QZ method.
@@ -3663,6 +3732,9 @@ module la_lapack_eigv_comp
            work(1) = cmplx(n,KIND=${rk}$)
            return
      end subroutine la_${ri}$hgeqz
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 end module la_lapack_eigv_comp

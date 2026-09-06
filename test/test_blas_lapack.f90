@@ -1,7 +1,7 @@
 
 module test_blas_lapack
     use testdrive,only:new_unittest,unittest_type,error_type,check
-    use la_constants,only:sp,dp,qp,ilp,lk
+    use la_constants,only:sp,dp,xdp,qp,ilp,lk
     use linear_algebra,only:eye
     use la_blas
     use la_lapack
@@ -20,8 +20,14 @@ contains
             new_unittest("test_getrirsp",test_getrirsp), &
             new_unittest("test_gemvrdp",test_gemvrdp), &
             new_unittest("test_getrirdp",test_getrirdp), &
+#ifdef LA_WITH_XDP
+            new_unittest("test_gemvrxdp",test_gemvrxdp), &
+            new_unittest("test_getrirxdp",test_getrirxdp), &
+#endif
+#ifdef LA_WITH_QP
             new_unittest("test_gemvrqp",test_gemvrqp), &
             new_unittest("test_getrirqp",test_getrirqp), &
+#endif
             new_unittest("test_idamax",test_idamax), &
             new_unittest("test_external_blas",external_blas_test), &
             new_unittest("test_external_lapack",external_lapack_test) &
@@ -139,6 +145,64 @@ contains
         if (allocated(error)) return
 
     end subroutine test_getrirdp
+#ifdef LA_WITH_XDP
+    subroutine test_gemvrxdp(error)
+        !> Error handling
+        type(error_type),allocatable,intent(out) :: error
+
+        real(xdp) :: A(3,3),x(3),y(3),ylap(3),yintr(3),alpha,beta
+        real(xdp),parameter :: tol = 1000*epsilon(1.0_xdp)
+        call random_number(alpha)
+        call random_number(beta)
+        call random_number(A)
+        call random_number(x)
+        call random_number(y)
+        ylap = y
+        call gemv('No transpose',size(A,1),size(A,2),alpha,A,size(A,1),x,1,beta,ylap,1)
+        yintr = alpha*matmul(A,x) + beta*y
+
+        call check(error,sum(abs(ylap - yintr)) < tol, &
+            "blas vs. intrinsics axpy: sum() < tol failed")
+        if (allocated(error)) return
+
+    end subroutine test_gemvrxdp
+
+    ! Find matrix inverse from LU decomposition
+    subroutine test_getrirxdp(error)
+        !> Error handling
+        type(error_type),allocatable,intent(out) :: error
+
+        integer(ilp),parameter :: n = 3
+        real(xdp) :: A(n,n)
+        real(xdp),allocatable :: work(:)
+        integer(ilp) :: ipiv(n),info,lwork,nb
+        real(xdp),parameter :: tol = 1000*epsilon(1.0_xdp)
+
+        A = real(eye(n),xdp)
+
+        ! Factorize matrix (overwrite result)
+        call getrf(size(A,1),size(A,2),A,size(A,1),ipiv,info)
+        call check(error,info == 0,"lapack getrf returned info/=0")
+        if (allocated(error)) return
+
+        ! Get optimal worksize (returned in work(1)) (apply 2% safety parameter)
+        nb = la_ilaenv(1,'rgetri',' ',n,-1,-1,-1)
+        lwork = nint(1.02*n*nb,kind=ilp)
+        allocate (work(lwork))
+
+        ! Invert matrix
+        call getri(n,a,n,ipiv,work,lwork,info)
+
+        call check(error,info == 0,"lapack getri returned info/=0")
+        if (allocated(error)) return
+
+        call check(error,sum(abs(A - eye(3))) < tol, &
+            "lapack eye inversion: tolerance check failed")
+        if (allocated(error)) return
+
+    end subroutine test_getrirxdp
+#endif
+#ifdef LA_WITH_QP
     subroutine test_gemvrqp(error)
         !> Error handling
         type(error_type),allocatable,intent(out) :: error
@@ -194,6 +258,7 @@ contains
         if (allocated(error)) return
 
     end subroutine test_getrirqp
+#endif
 
     ! Return
     subroutine test_idamax(error)

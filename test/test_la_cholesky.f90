@@ -20,14 +20,26 @@ module test_la_cholesky
         if (error) return
         call test_cholesky_d(error)
         if (error) return
+#ifdef LA_WITH_XDP
+        call test_cholesky_x(error)
+        if (error) return
+#endif
+#ifdef LA_WITH_QP
         call test_cholesky_q(error)
         if (error) return
+#endif
         call test_cholesky_c(error)
         if (error) return
         call test_cholesky_z(error)
         if (error) return
+#ifdef LA_WITH_XDP
+        call test_cholesky_y(error)
+        if (error) return
+#endif
+#ifdef LA_WITH_QP
         call test_cholesky_w(error)
         if (error) return
+#endif
 
         call cpu_time(t1)
 
@@ -126,6 +138,53 @@ module test_la_cholesky
         
     end subroutine test_cholesky_d
 
+#ifdef LA_WITH_XDP
+    subroutine test_cholesky_x(error)
+        logical,intent(out) :: error
+
+        integer(ilp),parameter :: n = 3_ilp
+        real(xdp),parameter :: tol = 100*sqrt(epsilon(0.0_xdp))
+        real(xdp) :: a(n,n),l(n,n)
+        type(la_state) :: state
+        
+        ! Set real matrix
+        a(1,:) = [6,15,55]
+        a(2,:) = [15,55,225]
+        a(3,:) = [55,225,979]
+        
+        ! Set result (lower factor)
+        l(1,:) = [2.4495_xdp,0.0000_xdp,0.0000_xdp]
+        l(2,:) = [6.1237_xdp,4.1833_xdp,0.0000_xdp]
+        l(3,:) = [22.4537_xdp,20.9165_xdp,6.1101_xdp]
+        
+        ! 1) Cholesky factorization with full matrices
+        call cholesky(a,l,other_zeroed=.true.,err=state)
+        
+        error = .not. state%ok()
+        if (error) then
+            print *, 'cholesky (subr) :: '//state%print()
+            return
+        end if
+        
+        error = .not. all(abs(a - matmul(l,transpose(l))) < tol)
+        if (error) then
+            print *, 'cholesky (subr) :: data converged'
+            return
+        end if
+        
+        ! 2) Function interface
+        l = chol(a,other_zeroed=.true.)
+        
+        error = .not. all(abs(a - matmul(l,transpose(l))) < tol)
+        if (error) then
+            print *, 'cholesky (function) :: data converged'
+            return
+        end if
+        
+    end subroutine test_cholesky_x
+#endif
+
+#ifdef LA_WITH_QP
     subroutine test_cholesky_q(error)
         logical,intent(out) :: error
 
@@ -169,6 +228,7 @@ module test_la_cholesky
         end if
         
     end subroutine test_cholesky_q
+#endif
 
     subroutine test_cholesky_c(error)
         logical,intent(out) :: error
@@ -258,6 +318,53 @@ module test_la_cholesky
         
     end subroutine test_cholesky_z
 
+#ifdef LA_WITH_XDP
+    subroutine test_cholesky_y(error)
+        logical,intent(out) :: error
+
+        integer(ilp),parameter :: n = 3_ilp
+        real(xdp),parameter :: tol = 100*sqrt(epsilon(0.0_xdp))
+        complex(xdp) :: a(n,n),l(n,n)
+        type(la_state) :: state
+        
+        ! Set real matrix
+        a(1,:) = [6,15,55]
+        a(2,:) = [15,55,225]
+        a(3,:) = [55,225,979]
+        
+        ! Set result (lower factor)
+        l(1,:) = [2.4495_xdp,0.0000_xdp,0.0000_xdp]
+        l(2,:) = [6.1237_xdp,4.1833_xdp,0.0000_xdp]
+        l(3,:) = [22.4537_xdp,20.9165_xdp,6.1101_xdp]
+        
+        ! 1) Cholesky factorization with full matrices
+        call cholesky(a,l,other_zeroed=.true.,err=state)
+        
+        error = .not. state%ok()
+        if (error) then
+            print *, 'cholesky (subr) :: '//state%print()
+            return
+        end if
+        
+        error = .not. all(abs(a - matmul(l,transpose(l))) < tol)
+        if (error) then
+            print *, 'cholesky (subr) :: data converged'
+            return
+        end if
+        
+        ! 2) Function interface
+        l = chol(a,other_zeroed=.true.)
+        
+        error = .not. all(abs(a - matmul(l,transpose(l))) < tol)
+        if (error) then
+            print *, 'cholesky (function) :: data converged'
+            return
+        end if
+        
+    end subroutine test_cholesky_y
+#endif
+
+#ifdef LA_WITH_QP
     subroutine test_cholesky_w(error)
         logical,intent(out) :: error
 
@@ -301,5 +408,6 @@ module test_la_cholesky
         end if
         
     end subroutine test_cholesky_w
+#endif
 
 end module test_la_cholesky

@@ -61,21 +61,39 @@ module la_inverse
      ! Function interface
      interface inv
         #:for rk,rt,ri in ALL_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         module procedure la_inverse_${ri}$
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #:endfor
      end interface inv
 
      ! Subroutine interface: in-place factorization
      interface invert
         #:for rk,rt,ri in ALL_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         module procedure la_invert_${ri}$
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #:endfor
      end interface invert
 
      ! Operator interface
      interface operator(.inv.)
         #:for rk,rt,ri in ALL_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         module procedure la_inverse_${ri}$_operator
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #:endfor
      end interface operator(.inv.)
 
@@ -83,6 +101,9 @@ module la_inverse
 
      #:for rk,rt,ri in ALL_KINDS_TYPES
 
+     #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+     #:endif
      ! Compute the in-place square matrix inverse of a
      subroutine la_invert_${ri}$(a,err)
          !> Input matrix a[n,n]
@@ -179,6 +200,9 @@ module la_inverse
          endif
 
      end function la_inverse_${ri}$_operator
+     #:if LA_GUARD[rk]
+#endif
+     #:endif
 
      #:endfor
 

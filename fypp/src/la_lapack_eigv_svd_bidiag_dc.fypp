@@ -20,6 +20,9 @@ module la_lapack_eigv_svd_bidiag_dc
 
      public :: sp,dp,qp,lk,ilp
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$lasd5
      public :: la_${ri}$lasdt
      public :: la_${ri}$lasd4
@@ -33,11 +36,17 @@ module la_lapack_eigv_svd_bidiag_dc
      public :: la_${ri}$lasd0
      public :: la_${ri}$lasda
      public :: la_${ri}$lasdq
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
      contains
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> This subroutine computes the square root of the I-th eigenvalue
      !> of a positive symmetric rank-one modification of a 2-by-2 diagonal
      !> matrix
@@ -133,9 +142,15 @@ module la_lapack_eigv_svd_bidiag_dc
            end if
            return
      end subroutine la_${ri}$lasd5
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LASDT: creates a tree of subproblems for bidiagonal divide and
      !> conquer.
 
@@ -191,9 +206,15 @@ module la_lapack_eigv_svd_bidiag_dc
            nd = llst*2 - 1
            return
      end subroutine la_${ri}$lasdt
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> This subroutine computes the square root of the I-th updated
      !> eigenvalue of a positive symmetric rank-one modification to
      !> a positive diagonal matrix whose entries are given as the squares
@@ -921,9 +942,15 @@ module la_lapack_eigv_svd_bidiag_dc
            240 continue
            return
      end subroutine la_${ri}$lasd4
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LASD7: merges the two sets of singular values together into a single
      !> sorted set. Then it tries to deflate the size of the problem. There
      !> are two ways in which deflation can occur:  when two or more singular
@@ -1163,9 +1190,15 @@ module la_lapack_eigv_svd_bidiag_dc
            call la_${ri}$copy(n - 1,vlw(2),1,vl(2),1)
            return
      end subroutine la_${ri}$lasd7
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LASD8: finds the square roots of the roots of the secular equation,
      !> as defined by the values in DSIGMA and Z. It makes the appropriate
      !> calls to ${ri.upper()}$LASD4, and stores, for each  element in D, the distance
@@ -1302,9 +1335,15 @@ module la_lapack_eigv_svd_bidiag_dc
            call la_${ri}$copy(k,work(iwk3),1,vl,1)
            return
      end subroutine la_${ri}$lasd8
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LASD3: finds all the square roots of the roots of the secular
      !> equation, as defined by the values in D and Z.  It makes the
      !> appropriate calls to ${ri.upper()}$LASD4 and then updates the singular
@@ -1507,9 +1546,15 @@ module la_lapack_eigv_svd_bidiag_dc
                      ,ldvt2,zero,vt(1,nlp2),ldvt)
            return
      end subroutine la_${ri}$lasd3
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LASD6: computes the SVD of an updated upper bidiagonal matrix B
      !> obtained by merging two smaller ones by appending a row. This
      !> routine is used only for the problem which requires all singular
@@ -1638,9 +1683,15 @@ module la_lapack_eigv_svd_bidiag_dc
            call la_${ri}$lamrg(n1,n2,d,1,-1,idxq)
            return
      end subroutine la_${ri}$lasd6
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LASD2: merges the two sets of singular values together into a single
      !> sorted set.  Then it tries to deflate the size of the problem.
      !> There are two ways in which deflation can occur:  when two or more
@@ -1926,9 +1977,15 @@ module la_lapack_eigv_svd_bidiag_dc
            end do
            return
      end subroutine la_${ri}$lasd2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LASD1: computes the SVD of an upper bidiagonal N-by-M matrix B,
      !> where N = NL + NR + 1 and M = N + SQRE. ${ri.upper()}$LASD1 is called from ${ri.upper()}$LASD0.
      !> A related subroutine ${ri.upper()}$LASD7 handles the case in which the singular
@@ -2048,9 +2105,15 @@ module la_lapack_eigv_svd_bidiag_dc
            call la_${ri}$lamrg(n1,n2,d,1,-1,idxq)
            return
      end subroutine la_${ri}$lasd1
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$BDSDC: computes the singular value decomposition (SVD) of a real
      !> N-by-N (upper or lower) bidiagonal matrix B:  B = U * S * VT,
      !> using a divide and conquer method, where S is a diagonal matrix
@@ -2317,9 +2380,15 @@ module la_lapack_eigv_svd_bidiag_dc
                      ,work(n),u,ldu)
            return
      end subroutine la_${ri}$bdsdc
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> Using a divide and conquer approach, ${ri.upper()}$LASD0: computes the singular
      !> value decomposition (SVD) of a real upper bidiagonal N-by-M
      !> matrix B with diagonal D and offdiagonal E, where M = N + SQRE.
@@ -2458,9 +2527,15 @@ module la_lapack_eigv_svd_bidiag_dc
            end do loop_50
            return
      end subroutine la_${ri}$lasd0
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> Using a divide and conquer approach, ${ri.upper()}$LASDA: computes the singular
      !> value decomposition (SVD) of a real upper bidiagonal N-by-M matrix
      !> B with diagonal D and offdiagonal E, where M = N + SQRE. The
@@ -2663,9 +2738,15 @@ module la_lapack_eigv_svd_bidiag_dc
            end do loop_50
            return
      end subroutine la_${ri}$lasda
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LASDQ: computes the singular value decomposition (SVD) of a real
      !> (upper or lower) bidiagonal matrix with diagonal D and offdiagonal
      !> E, accumulating the transformations if desired. Letting B denote
@@ -2831,6 +2912,9 @@ module la_lapack_eigv_svd_bidiag_dc
            end do
            return
      end subroutine la_${ri}$lasdq
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 end module la_lapack_eigv_svd_bidiag_dc

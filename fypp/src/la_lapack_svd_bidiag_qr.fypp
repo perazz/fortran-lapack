@@ -16,6 +16,9 @@ module la_lapack_svd_bidiag_qr
 
      public :: sp,dp,qp,lk,ilp
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$lasq4
      public :: la_${ri}$lasq5
      public :: la_${ri}$lasq6
@@ -23,14 +26,26 @@ module la_lapack_svd_bidiag_qr
      public :: la_${ri}$bdsqr
      public :: la_${ri}$lasq1
      public :: la_${ri}$lasq2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$bdsqr
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
      contains
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LASQ4: computes an approximation TAU to the smallest eigenvalue
      !> using values of d from the previous transform.
 
@@ -238,9 +253,15 @@ module la_lapack_svd_bidiag_qr
            tau = s
            return
      end subroutine la_${ri}$lasq4
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LASQ5: computes one dqds transform in ping-pong form, one
      !> version for IEEE machines another for non IEEE machines.
 
@@ -469,9 +490,15 @@ module la_lapack_svd_bidiag_qr
            z(4*n0 - pp) = emin
            return
      end subroutine la_${ri}$lasq5
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LASQ6: computes one dqd (shift equal to zero) transform in
      !> ping-pong form, with protection against underflow and overflow.
 
@@ -582,9 +609,15 @@ module la_lapack_svd_bidiag_qr
            z(4*n0 - pp) = emin
            return
      end subroutine la_${ri}$lasq6
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LASQ3: checks for deflation, computes a shift (TAU) and calls dqds.
      !> In case of failure it changes shifts, and tries again until output
      !> is positive.
@@ -754,9 +787,15 @@ module la_lapack_svd_bidiag_qr
            sigma = t
            return
      end subroutine la_${ri}$lasq3
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$BDSQR: computes the singular values and, optionally, the right and/or
      !> left singular vectors from the singular value decomposition (SVD) of
      !> a real N-by-N (upper or lower) bidiagonal matrix B using the implicit
@@ -1220,9 +1259,15 @@ module la_lapack_svd_bidiag_qr
            220 continue
            return
      end subroutine la_${ri}$bdsqr
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LASQ1: computes the singular values of a real N-by-N bidiagonal
      !> matrix with diagonal D and off-diagonal E. The singular values
      !> are computed to high relative accuracy, in the absence of
@@ -1315,9 +1360,15 @@ module la_lapack_svd_bidiag_qr
            end if
            return
      end subroutine la_${ri}$lasq1
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LASQ2: computes all the eigenvalues of the symmetric positive
      !> definite tridiagonal matrix associated with the qd array Z to high
      !> relative accuracy are computed to high relative accuracy, in the
@@ -1727,9 +1778,15 @@ module la_lapack_svd_bidiag_qr
            z(2*n + 5) = hundrd*nfail/real(iter,KIND=${rk}$)
            return
      end subroutine la_${ri}$lasq2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$BDSQR: computes the singular values and, optionally, the right and/or
      !> left singular vectors from the singular value decomposition (SVD) of
      !> a real N-by-N (upper or lower) bidiagonal matrix B using the implicit
@@ -2190,6 +2247,9 @@ module la_lapack_svd_bidiag_qr
            220 continue
            return
      end subroutine la_${ri}$bdsqr
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 end module la_lapack_svd_bidiag_qr

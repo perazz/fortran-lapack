@@ -15,6 +15,9 @@ module la_lapack_eigv_tridiag2
 
      public :: sp,dp,qp,lk,ilp
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$laebz
      public :: la_${ri}$laeda
      public :: la_${ri}$lamrg
@@ -30,15 +33,27 @@ module la_lapack_eigv_tridiag2
      public :: la_${ri}$larrf
      public :: la_${ri}$larrv
      public :: la_${ri}$larre
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$lar1v
      public :: la_${ri}$larrv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
      contains
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAEBZ: contains the iteration loops which compute and use the
      !> function N(w), which is the count of eigenvalues of a symmetric
      !> tridiagonal matrix T less than or equal to its argument  w.  It
@@ -310,9 +325,15 @@ module la_lapack_eigv_tridiag2
            mout = kl
            return
      end subroutine la_${ri}$laebz
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAEDA: computes the Z vector corresponding to the merge step in the
      !> CURLVLth step of the merge process with TLVLS steps for the CURPBMth
      !> problem.
@@ -422,9 +443,15 @@ module la_lapack_eigv_tridiag2
            end do loop_70
            return
      end subroutine la_${ri}$laeda
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAMRG: will create a permutation list which will merge the elements
      !> of A (which is composed of two independently sorted sets) into a
      !> single set which is sorted in ascending order.
@@ -492,9 +519,15 @@ module la_lapack_eigv_tridiag2
            end if
            return
      end subroutine la_${ri}$lamrg
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> Compute the splitting points with threshold SPLTOL.
      !> ${ri.upper()}$LARRA: sets any "small" off-diagonal elements to zero.
 
@@ -553,9 +586,15 @@ module la_lapack_eigv_tridiag2
            isplit(nsplit) = n
            return
      end subroutine la_${ri}$larra
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> Find the number of eigenvalues of the symmetric tridiagonal matrix T
      !> that are in the interval (VL,VU] if JOBT = 'T', and of L D L^T
      !> if JOBT = 'L'.
@@ -649,9 +688,15 @@ module la_lapack_eigv_tridiag2
            eigcnt = rcnt - lcnt
            return
      end subroutine la_${ri}$larrc
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LARRD: computes the eigenvalues of a symmetric tridiagonal
      !> matrix T to suitable accuracy. This is an auxiliary code to be
      !> called from ${ri.upper()}$STEMR.
@@ -1122,9 +1167,15 @@ module la_lapack_eigv_tridiag2
            if (toofew) info = info + 2
            return
      end subroutine la_${ri}$larrd
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> Given the initial eigenvalue approximations of T, ${ri.upper()}$LARRJ:
      !> does  bisection to refine the eigenvalues of T,
      !> W( IFIRST-OFFSET ) through W( ILAST-OFFSET ), to more accuracy. Initial
@@ -1303,9 +1354,15 @@ module la_lapack_eigv_tridiag2
            end do
            return
      end subroutine la_${ri}$larrj
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LARRK: computes one eigenvalue of a symmetric tridiagonal
      !> matrix T to suitable accuracy. This is an auxiliary code to be
      !> called from ${ri.upper()}$STEMR.
@@ -1386,9 +1443,15 @@ module la_lapack_eigv_tridiag2
            werr = half*abs(right - left)
            return
      end subroutine la_${ri}$larrk
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> Perform tests to decide whether the symmetric tridiagonal matrix T
      !> warrants expensive computations which guarantee high relative accuracy
      !> in the eigenvalues.
@@ -1471,9 +1534,15 @@ module la_lapack_eigv_tridiag2
            ! to the computed eigenvectors (and the support)
            return
      end subroutine la_${ri}$larrr
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LANEG: computes the Sturm count, the number of negative pivots
      !> encountered while factoring tridiagonal T - sigma I = L D L^T.
      !> This implementation works directly on the factors without forming
@@ -1579,9 +1648,15 @@ module la_lapack_eigv_tridiag2
            if (gamma < zero) negcnt = negcnt + 1
            la_${ri}$laneg = negcnt
      end function la_${ri}$laneg
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAR1V: computes the (scaled) r-th column of the inverse of
      !> the sumbmatrix in rows B1 through BN of the tridiagonal matrix
      !> L D L**T - sigma I. When sigma is close to an eigenvalue, the
@@ -1804,9 +1879,15 @@ module la_lapack_eigv_tridiag2
            rqcorr = mingma*tmp
            return
      end subroutine la_${ri}$lar1v
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> Given the relatively robust representation(RRR) L D L^T, ${ri.upper()}$LARRB:
      !> does "limited" bisection to refine the eigenvalues of L D L^T,
      !> W( IFIRST-OFFSET ) through W( ILAST-OFFSET ), to more accuracy. Initial
@@ -1980,9 +2061,15 @@ module la_lapack_eigv_tridiag2
            end do
            return
      end subroutine la_${ri}$larrb
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> Given the initial representation L D L^T and its cluster of close
      !> eigenvalues (in a relative measure), W( CLSTRT ), W( CLSTRT+1 ), ...
      !> W( CLEND ), ${ri.upper()}$LARRF: finds a new relatively robust representation
@@ -2251,9 +2338,15 @@ module la_lapack_eigv_tridiag2
            end if
            return
      end subroutine la_${ri}$larrf
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LARRV: computes the eigenvectors of the tridiagonal matrix
      !> T = L D L**T given L, D and APPROXIMATIONS to the eigenvalues of L D L**T.
      !> The input eigenvalues should have been computed by ${ri.upper()}$LARRE.
@@ -2884,9 +2977,15 @@ module la_lapack_eigv_tridiag2
            end do loop_170
            return
      end subroutine la_${ri}$larrv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> To find the desired eigenvalues of a given real symmetric
      !> tridiagonal matrix T, ${ri.upper()}$LARRE: sets any "small" off-diagonal
      !> elements to zero, and for each unreduced block T_i, it finds
@@ -3424,9 +3523,15 @@ module la_lapack_eigv_tridiag2
            end do loop_170
            return
      end subroutine la_${ri}$larre
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAR1V: computes the (scaled) r-th column of the inverse of
      !> the sumbmatrix in rows B1 through BN of the tridiagonal matrix
      !> L D L**T - sigma I. When sigma is close to an eigenvalue, the
@@ -3649,9 +3754,15 @@ module la_lapack_eigv_tridiag2
            rqcorr = mingma*tmp
            return
      end subroutine la_${ri}$lar1v
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LARRV: computes the eigenvectors of the tridiagonal matrix
      !> T = L D L**T given L, D and APPROXIMATIONS to the eigenvalues of L D L**T.
      !> The input eigenvalues should have been computed by ${ci.upper()}$LARRE.
@@ -4300,6 +4411,9 @@ module la_lapack_eigv_tridiag2
            end do loop_170
            return
      end subroutine la_${ri}$larrv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 end module la_lapack_eigv_tridiag2

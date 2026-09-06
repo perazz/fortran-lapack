@@ -50,7 +50,13 @@ module la_eye
      interface eye
         #:for epref,esuf,earg,epresent in FUNCTION_INTERFACES
         #:for rk,rt,ri in ALL_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         module procedure la_eye_${ri}$${esuf}$
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #:endfor
         #:endfor
      end interface eye
@@ -59,8 +65,14 @@ module la_eye
      interface diag
         #:for epref,esuf,earg,epresent in FUNCTION_INTERFACES
         #:for rk,rt,ri in ALL_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         module procedure la_diag_${ri}$${esuf}$_from_scalar
         module procedure la_diag_${ri}$${esuf}$_from_array
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #:endfor
         #:endfor
      end interface diag
@@ -69,6 +81,9 @@ module la_eye
 
      #:for epref,esuf,earg,epresent in FUNCTION_INTERFACES
      #:for rk,rt,ri in ALL_KINDS_TYPES
+     #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+     #:endif
      !> Function to construct an identity matrix of size `m x n`.
      !! This function returns a diagonal identity matrix, with the diagonal elements
      !! equal to 1 and all other elements set to 0.
@@ -125,10 +140,16 @@ module la_eye
          1 call err0%handle(#{if epresent}#err#{endif}#)
 
      end function la_eye_${ri}$${esuf}$
+     #:if LA_GUARD[rk]
+#endif
+     #:endif
 
      #:endfor
 
      #:for rk,rt,ri in ALL_KINDS_TYPES
+     #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+     #:endif
      ! Return square diagonal matrix with diagonal values equal to the input scalar
      ${epref}$function la_diag_${ri}$${esuf}$_from_scalar(n,source${earg}$) result(diag)
          !> Matrix size
@@ -220,6 +241,9 @@ module la_eye
          call err0%handle(#{if epresent}#err#{endif}#)
 
      end function la_diag_${ri}$${esuf}$_from_array
+     #:if LA_GUARD[rk]
+#endif
+     #:endif
 
      #:endfor
      #:endfor

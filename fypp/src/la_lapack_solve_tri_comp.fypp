@@ -20,6 +20,9 @@ module la_lapack_solve_tri_comp
 
      public :: sp,dp,qp,lk,ilp
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$latbs
      public :: la_${ri}$latps
      public :: la_${ri}$latrs
@@ -38,8 +41,14 @@ module la_lapack_solve_tri_comp
      public :: la_${ri}$tftri
      public :: la_${ri}$tpcon
      public :: la_${ri}$trcon
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$latbs
      public :: la_${ri}$latps
      public :: la_${ri}$latrs
@@ -58,11 +67,17 @@ module la_lapack_solve_tri_comp
      public :: la_${ri}$tftri
      public :: la_${ri}$tpcon
      public :: la_${ri}$trcon
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
      contains
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LATBS: solves one of the triangular systems
      !> A *x = s*b  or  A**T*x = s*b
      !> with scaling to prevent overflow, where A is an upper or lower
@@ -515,9 +530,15 @@ module la_lapack_solve_tri_comp
            end if
            return
      end subroutine la_${ri}$latbs
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LATPS: solves one of the triangular systems
      !> A *x = s*b  or  A**T*x = s*b
      !> with scaling to prevent overflow, where A is an upper or lower
@@ -968,9 +989,15 @@ module la_lapack_solve_tri_comp
            end if
            return
      end subroutine la_${ri}$latps
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LATRS: solves one of the triangular systems
 #:if rk == "sp"
      !> A *x = s*b  or  A**T*x = s*b
@@ -1408,9 +1435,15 @@ module la_lapack_solve_tri_comp
            end if
            return
      end subroutine la_${ri}$latrs
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAUU2: computes the product U * U**T or L**T * L, where the triangular
      !> factor U or L is stored in the upper or lower triangular part of
      !> the array A.
@@ -1483,9 +1516,15 @@ module la_lapack_solve_tri_comp
            end if
            return
      end subroutine la_${ri}$lauu2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAUUM: computes the product U * U**T or L**T * L, where the triangular
      !> factor U or L is stored in the upper or lower triangular part of
      !> the array A.
@@ -1569,9 +1608,15 @@ module la_lapack_solve_tri_comp
            end if
            return
      end subroutine la_${ri}$lauum
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TBRFS: provides error bounds and backward error estimates for the
      !> solution to a system of linear equations with a triangular band
      !> coefficient matrix.
@@ -1809,9 +1854,15 @@ module la_lapack_solve_tri_comp
            end do loop_250
            return
      end subroutine la_${ri}$tbrfs
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TBTRS: solves a triangular system of the form
      !> A * X = B  or  A**T * X = B,
      !> where A is a triangular band matrix of order N, and B is an
@@ -1885,9 +1936,15 @@ module la_lapack_solve_tri_comp
            end do
            return
      end subroutine la_${ri}$tbtrs
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TPRFS: provides error bounds and backward error estimates for the
      !> solution to a system of linear equations with a triangular packed
      !> coefficient matrix.
@@ -2132,9 +2189,15 @@ module la_lapack_solve_tri_comp
            end do loop_250
            return
      end subroutine la_${ri}$tprfs
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TPTRI: computes the inverse of a real upper or lower triangular
      !> matrix A stored in packed format.
 
@@ -2225,9 +2288,15 @@ module la_lapack_solve_tri_comp
            end if
            return
      end subroutine la_${ri}$tptri
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TPTRS: solves a triangular system of the form
      !> A * X = B  or  A**T * X = B,
      !> where A is a triangular matrix of order N stored in packed format,
@@ -2301,9 +2370,15 @@ module la_lapack_solve_tri_comp
            end do
            return
      end subroutine la_${ri}$tptrs
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TRRFS: provides error bounds and backward error estimates for the
      !> solution to a system of linear equations with a triangular
      !> coefficient matrix.
@@ -2538,9 +2613,15 @@ module la_lapack_solve_tri_comp
            end do loop_250
            return
      end subroutine la_${ri}$trrfs
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TRTI2: computes the inverse of a real upper or lower triangular
      !> matrix.
      !> This is the Level 2 BLAS version of the algorithm.
@@ -2615,9 +2696,15 @@ module la_lapack_solve_tri_comp
            end if
            return
      end subroutine la_${ri}$trti2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TRTRI: computes the inverse of a real upper or lower triangular
      !> matrix A.
      !> This is the Level 3 BLAS version of the algorithm.
@@ -2705,9 +2792,15 @@ module la_lapack_solve_tri_comp
            end if
            return
      end subroutine la_${ri}$trtri
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TRTRS: solves a triangular system of the form
      !> A * X = B  or  A**T * X = B,
      !> where A is a triangular matrix of order N, and B is an N-by-NRHS
@@ -2768,9 +2861,15 @@ module la_lapack_solve_tri_comp
            call la_${ri}$trsm('LEFT',uplo,trans,diag,n,nrhs,one,a,lda,b,ldb)
            return
      end subroutine la_${ri}$trtrs
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TBCON: estimates the reciprocal of the condition number of a
      !> triangular band matrix A, in either the 1-norm or the infinity-norm.
      !> The norm of A is computed and an estimate is obtained for
@@ -2879,9 +2978,15 @@ module la_lapack_solve_tri_comp
            20 continue
            return
      end subroutine la_${ri}$tbcon
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TFTRI: computes the inverse of a triangular matrix A stored in RFP
      !> format.
      !> This is a Level 3 BLAS version of the algorithm.
@@ -3065,9 +3170,15 @@ module la_lapack_solve_tri_comp
            end if
            return
      end subroutine la_${ri}$tftri
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TPCON: estimates the reciprocal of the condition number of a packed
      !> triangular matrix A, in either the 1-norm or the infinity-norm.
      !> The norm of A is computed and an estimate is obtained for
@@ -3171,9 +3282,15 @@ module la_lapack_solve_tri_comp
            20 continue
            return
      end subroutine la_${ri}$tpcon
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TRCON: estimates the reciprocal of the condition number of a
      !> triangular matrix A, in either the 1-norm or the infinity-norm.
      !> The norm of A is computed and an estimate is obtained for
@@ -3279,9 +3396,15 @@ module la_lapack_solve_tri_comp
            20 continue
            return
      end subroutine la_${ri}$trcon
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LATBS: solves one of the triangular systems
      !> A * x = s*b,  A**T * x = s*b,  or  A**H * x = s*b,
      !> with scaling to prevent overflow, where A is an upper or lower
@@ -3894,9 +4017,15 @@ module la_lapack_solve_tri_comp
            end if
            return
      end subroutine la_${ri}$latbs
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LATPS: solves one of the triangular systems
      !> A * x = s*b,  A**T * x = s*b,  or  A**H * x = s*b,
      !> with scaling to prevent overflow, where A is an upper or lower
@@ -4504,9 +4633,15 @@ module la_lapack_solve_tri_comp
            end if
            return
      end subroutine la_${ri}$latps
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LATRS: solves one of the triangular systems
      !> A * x = s*b,  A**T * x = s*b,  or  A**H * x = s*b,
      !> with scaling to prevent overflow.  Here A is an upper or lower
@@ -5092,9 +5227,15 @@ module la_lapack_solve_tri_comp
            end if
            return
      end subroutine la_${ri}$latrs
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAUU2: computes the product U * U**H or L**H * L, where the triangular
      !> factor U or L is stored in the upper or lower triangular part of
      !> the array A.
@@ -5177,9 +5318,15 @@ module la_lapack_solve_tri_comp
            end if
            return
      end subroutine la_${ri}$lauu2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAUUM: computes the product U * U**H or L**H * L, where the triangular
      !> factor U or L is stored in the upper or lower triangular part of
      !> the array A.
@@ -5263,9 +5410,15 @@ module la_lapack_solve_tri_comp
            end if
            return
      end subroutine la_${ri}$lauum
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TBRFS: provides error bounds and backward error estimates for the
      !> solution to a system of linear equations with a triangular band
      !> coefficient matrix.
@@ -5512,9 +5665,15 @@ module la_lapack_solve_tri_comp
            end do loop_250
            return
      end subroutine la_${ri}$tbrfs
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TBTRS: solves a triangular system of the form
      !> A * X = B,  A**T * X = B,  or  A**H * X = B,
      !> where A is a triangular band matrix of order N, and B is an
@@ -5588,9 +5747,15 @@ module la_lapack_solve_tri_comp
            end do
            return
      end subroutine la_${ri}$tbtrs
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TPRFS: provides error bounds and backward error estimates for the
      !> solution to a system of linear equations with a triangular packed
      !> coefficient matrix.
@@ -5845,9 +6010,15 @@ module la_lapack_solve_tri_comp
            end do loop_250
            return
      end subroutine la_${ri}$tprfs
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TPTRI: computes the inverse of a complex upper or lower triangular
      !> matrix A stored in packed format.
 
@@ -5938,9 +6109,15 @@ module la_lapack_solve_tri_comp
            end if
            return
      end subroutine la_${ri}$tptri
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TPTRS: solves a triangular system of the form
      !> A * X = B,  A**T * X = B,  or  A**H * X = B,
      !> where A is a triangular matrix of order N stored in packed format,
@@ -6014,9 +6191,15 @@ module la_lapack_solve_tri_comp
            end do
            return
      end subroutine la_${ri}$tptrs
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TRRFS: provides error bounds and backward error estimates for the
      !> solution to a system of linear equations with a triangular
      !> coefficient matrix.
@@ -6261,9 +6444,15 @@ module la_lapack_solve_tri_comp
            end do loop_250
            return
      end subroutine la_${ri}$trrfs
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TRTI2: computes the inverse of a complex upper or lower triangular
      !> matrix.
      !> This is the Level 2 BLAS version of the algorithm.
@@ -6338,9 +6527,15 @@ module la_lapack_solve_tri_comp
            end if
            return
      end subroutine la_${ri}$trti2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TRTRI: computes the inverse of a complex upper or lower triangular
      !> matrix A.
      !> This is the Level 3 BLAS version of the algorithm.
@@ -6428,9 +6623,15 @@ module la_lapack_solve_tri_comp
            end if
            return
      end subroutine la_${ri}$trtri
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TRTRS: solves a triangular system of the form
      !> A * X = B,  A**T * X = B,  or  A**H * X = B,
      !> where A is a triangular matrix of order N, and B is an N-by-NRHS
@@ -6491,9 +6692,15 @@ module la_lapack_solve_tri_comp
            call la_${ri}$trsm('LEFT',uplo,trans,diag,n,nrhs,cone,a,lda,b,ldb)
            return
      end subroutine la_${ri}$trtrs
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TBCON: estimates the reciprocal of the condition number of a
      !> triangular band matrix A, in either the 1-norm or the infinity-norm.
      !> The norm of A is computed and an estimate is obtained for
@@ -6607,9 +6814,15 @@ module la_lapack_solve_tri_comp
            20 continue
            return
      end subroutine la_${ri}$tbcon
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TFTRI: computes the inverse of a triangular matrix A stored in RFP
      !> format.
      !> This is a Level 3 BLAS version of the algorithm.
@@ -6793,9 +7006,15 @@ module la_lapack_solve_tri_comp
            end if
            return
      end subroutine la_${ri}$tftri
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TPCON: estimates the reciprocal of the condition number of a packed
      !> triangular matrix A, in either the 1-norm or the infinity-norm.
      !> The norm of A is computed and an estimate is obtained for
@@ -6904,9 +7123,15 @@ module la_lapack_solve_tri_comp
            20 continue
            return
      end subroutine la_${ri}$tpcon
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TRCON: estimates the reciprocal of the condition number of a
      !> triangular matrix A, in either the 1-norm or the infinity-norm.
      !> The norm of A is computed and an estimate is obtained for
@@ -7017,6 +7242,9 @@ module la_lapack_solve_tri_comp
            20 continue
            return
      end subroutine la_${ri}$trcon
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 end module la_lapack_solve_tri_comp

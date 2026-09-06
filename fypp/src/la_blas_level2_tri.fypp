@@ -8,25 +8,40 @@ module la_blas_level2_tri
 
      public :: sp,dp,qp,lk,ilp
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$tbmv
      public :: la_${ri}$tbsv
      public :: la_${ri}$tpmv
      public :: la_${ri}$tpsv
      public :: la_${ri}$trmv
      public :: la_${ri}$trsv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$tbmv
      public :: la_${ri}$tbsv
      public :: la_${ri}$tpmv
      public :: la_${ri}$tpsv
      public :: la_${ri}$trmv
      public :: la_${ri}$trsv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
      contains
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TBMV:  performs one of the matrix-vector operations
      !> x := A*x,   or   x := A**T*x,
      !> where x is an n element vector and  A is an n by n unit, or non-unit,
@@ -210,9 +225,15 @@ module la_blas_level2_tri
            end if
            return
      end subroutine la_${ri}$tbmv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TBSV:  solves one of the systems of equations
      !> A*x = b,   or   A**T*x = b,
      !> where b and x are n element vectors and A is an n by n unit, or
@@ -399,9 +420,15 @@ module la_blas_level2_tri
            end if
            return
      end subroutine la_${ri}$tbsv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TPMV:  performs one of the matrix-vector operations
      !> x := A*x,   or   x := A**T*x,
      !> where x is an n element vector and  A is an n by n unit, or non-unit,
@@ -584,9 +611,15 @@ module la_blas_level2_tri
            end if
            return
      end subroutine la_${ri}$tpmv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TPSV:  solves one of the systems of equations
      !> A*x = b,   or   A**T*x = b,
      !> where b and x are n element vectors and A is an n by n unit, or
@@ -771,9 +804,15 @@ module la_blas_level2_tri
            end if
            return
      end subroutine la_${ri}$tpsv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TRMV:  performs one of the matrix-vector operations
      !> x := A*x,   or   x := A**T*x,
      !> where x is an n element vector and  A is an n by n unit, or non-unit,
@@ -940,9 +979,15 @@ module la_blas_level2_tri
            end if
            return
      end subroutine la_${ri}$trmv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TRSV:  solves one of the systems of equations
      !> A*x = b,   or   A**T*x = b,
      !> where b and x are n element vectors and A is an n by n unit, or
@@ -1115,9 +1160,15 @@ module la_blas_level2_tri
            end if
            return
      end subroutine la_${ri}$trsv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TBMV:  performs one of the matrix-vector operations
      !> x := A*x,   or   x := A**T*x,   or   x := A**H*x,
      !> where x is an n element vector and  A is an n by n unit, or non-unit,
@@ -1332,9 +1383,15 @@ module la_blas_level2_tri
            end if
            return
      end subroutine la_${ri}$tbmv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TBSV:  solves one of the systems of equations
      !> A*x = b,   or   A**T*x = b,   or   A**H*x = b,
      !> where b and x are n element vectors and A is an n by n unit, or
@@ -1552,9 +1609,15 @@ module la_blas_level2_tri
            end if
            return
      end subroutine la_${ri}$tbsv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TPMV:  performs one of the matrix-vector operations
      !> x := A*x,   or   x := A**T*x,   or   x := A**H*x,
      !> where x is an n element vector and  A is an n by n unit, or non-unit,
@@ -1772,9 +1835,15 @@ module la_blas_level2_tri
            end if
            return
      end subroutine la_${ri}$tpmv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TPSV:  solves one of the systems of equations
      !> A*x = b,   or   A**T*x = b,   or   A**H*x = b,
      !> where b and x are n element vectors and A is an n by n unit, or
@@ -1994,9 +2063,15 @@ module la_blas_level2_tri
            end if
            return
      end subroutine la_${ri}$tpsv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TRMV:  performs one of the matrix-vector operations
      !> x := A*x,   or   x := A**T*x,   or   x := A**H*x,
      !> where x is an n element vector and  A is an n by n unit, or non-unit,
@@ -2194,9 +2269,15 @@ module la_blas_level2_tri
            end if
            return
      end subroutine la_${ri}$trmv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TRSV:  solves one of the systems of equations
      !> A*x = b,   or   A**T*x = b,   or   A**H*x = b,
      !> where b and x are n element vectors and A is an n by n unit, or
@@ -2396,6 +2477,9 @@ module la_blas_level2_tri
            end if
            return
      end subroutine la_${ri}$trsv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 end module la_blas_level2_tri

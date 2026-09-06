@@ -25,18 +25,32 @@ module test_linalg_inverse
         call add_test(tests,new_unittest("d_eye_inverse",test_d_eye_inverse))
         call add_test(tests,new_unittest("d_singular_inverse",test_d_singular_inverse))
         call add_test(tests,new_unittest("d_random_spd_inverse",test_d_random_spd_inverse))
+#ifdef LA_WITH_XDP
+        call add_test(tests,new_unittest("x_eye_inverse",test_x_eye_inverse))
+        call add_test(tests,new_unittest("x_singular_inverse",test_x_singular_inverse))
+        call add_test(tests,new_unittest("x_random_spd_inverse",test_x_random_spd_inverse))
+#endif
+#ifdef LA_WITH_QP
         call add_test(tests,new_unittest("q_eye_inverse",test_q_eye_inverse))
         call add_test(tests,new_unittest("q_singular_inverse",test_q_singular_inverse))
         call add_test(tests,new_unittest("q_random_spd_inverse",test_q_random_spd_inverse))
+#endif
         call add_test(tests,new_unittest("c_eye_inverse",test_c_eye_inverse))
         call add_test(tests,new_unittest("c_singular_inverse",test_c_singular_inverse))
         call add_test(tests,new_unittest("c_random_spd_inverse",test_c_random_spd_inverse))
         call add_test(tests,new_unittest("z_eye_inverse",test_z_eye_inverse))
         call add_test(tests,new_unittest("z_singular_inverse",test_z_singular_inverse))
         call add_test(tests,new_unittest("z_random_spd_inverse",test_z_random_spd_inverse))
+#ifdef LA_WITH_XDP
+        call add_test(tests,new_unittest("y_eye_inverse",test_y_eye_inverse))
+        call add_test(tests,new_unittest("y_singular_inverse",test_y_singular_inverse))
+        call add_test(tests,new_unittest("y_random_spd_inverse",test_y_random_spd_inverse))
+#endif
+#ifdef LA_WITH_QP
         call add_test(tests,new_unittest("w_eye_inverse",test_w_eye_inverse))
         call add_test(tests,new_unittest("w_singular_inverse",test_w_singular_inverse))
         call add_test(tests,new_unittest("w_random_spd_inverse",test_w_random_spd_inverse))
+#endif
 
     end subroutine test_inverse_matrix
 
@@ -232,6 +246,105 @@ module test_linalg_inverse
     
     end subroutine test_d_random_spd_inverse
     
+#ifdef LA_WITH_XDP
+    !> Invert real identity matrix
+    subroutine test_x_eye_inverse(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        type(la_state) :: state
+
+        integer(ilp),parameter :: n = 25_ilp
+        real(xdp) :: a(n,n),inva(n,n)
+
+        a = real(eye(n),xdp)
+
+        !> Inverse function
+        inva = inv(a,err=state)
+        call check(error,state%ok(),'inverse_x_eye (function): '//state%print())
+        if (allocated(error)) return
+        
+        call check(error,all(abs(a - inva) < epsilon(0.0_xdp)),'inverse_x_eye (function): data converged')
+        if (allocated(error)) return
+        
+        !> Inverse subroutine in-place
+        call invert(a,err=state)
+
+        call check(error,state%ok(),'inverse_x_eye (in-place): '//state%print())
+        if (allocated(error)) return
+        
+        call check(error,all(abs(a - inva) < epsilon(0.0_xdp)),'inverse_x_eye (in-place): data converged')
+        if (allocated(error)) return
+
+    end subroutine test_x_eye_inverse
+
+    !> Invert singular matrix
+    subroutine test_x_singular_inverse(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        type(la_state) :: err
+
+        integer(ilp),parameter :: n = 25_ilp
+        real(xdp) :: a(n,n)
+
+        a = real(eye(n),xdp)
+        
+        !> Make rank-deficient
+        a(12,12) = 0
+        
+        !> Inverse function
+        call invert(a,err=err)
+        call check(error,err%state == LINALG_ERROR,'singular real(xdp) inverse returned '//err%print())
+        if (allocated(error)) return
+        
+    end subroutine test_x_singular_inverse
+    
+    !> Create a random symmetric positive definite matrix
+    function random_spd_matrix_x(n) result(A)
+        integer(ilp),intent(in) :: n
+        real(xdp) :: A(n,n)
+        
+        real(xdp),parameter :: half = 0.5_xdp
+        
+        !> Initialize with randoms
+        call random_number(A)
+        
+        !> Make symmetric
+        A = half*(A + transpose(A))
+        
+        !> Add diagonally dominant part
+        A = real(A + n*eye(n),xdp)
+        
+    end function random_spd_matrix_x
+
+    !> Test random symmetric positive-definite matrix
+    subroutine test_x_random_spd_inverse(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        !> Solution tolerance
+        real(xdp),parameter :: tol = sqrt(epsilon(0.0_xdp))
+
+        !> Local variables
+        integer(ilp),parameter :: n = 5_ilp
+        type(la_state) :: state
+        real(xdp) :: A(n,n),Am1(n,n)
+        
+        !> Generate random SPD matrix
+        A = random_spd_matrix_x(n)
+
+        !> Invert matrix
+        Am1 = inv(A,err=state)
+        
+        !> Check result
+        call check(error,state%ok(),'random SPD matrix (xdp): '//state%print())
+        if (allocated(error)) return
+
+        call check(error,all(abs(matmul(Am1,A) - eye(n)) < tol),'random SPD matrix (xdp): accuracy test')
+        if (allocated(error)) return
+    
+    end subroutine test_x_random_spd_inverse
+#endif
+    
+#ifdef LA_WITH_QP
     !> Invert real identity matrix
     subroutine test_q_eye_inverse(error)
         type(error_type),allocatable,intent(out) :: error
@@ -327,6 +440,7 @@ module test_linalg_inverse
         if (allocated(error)) return
     
     end subroutine test_q_random_spd_inverse
+#endif
     
     !> Invert complex identity matrix
     subroutine test_c_eye_inverse(error)
@@ -629,6 +743,159 @@ module test_linalg_inverse
         
     end subroutine test_z_singular_inverse
 
+#ifdef LA_WITH_XDP
+    subroutine test_y_eye_inverse(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        type(la_state) :: state
+
+        integer(ilp) :: i,j,failed
+        integer(ilp),parameter :: n = 25_ilp
+
+        complex(xdp) :: a(n,n),copya(n,n),inva(n,n)
+
+        do concurrent(i=1:n,j=1:n)
+          a(i,j) = merge((1.0_xdp,1.0_xdp), (0.0_xdp,0.0_xdp),i == j)
+        end do
+        copya = a
+
+        !> The inverse of a complex diagonal matrix has conjg(z_ii)/abs(z_ii)^2 on the diagonal
+        inva = inv(a,err=state)
+
+        call check(error,state%ok(),'inverse_y_eye (function): '//state%print())
+        if (allocated(error)) return
+        
+        failed = 0
+        do i = 1,n
+            do j = 1,n
+                if (.not. is_diagonal_inverse(a(i,j),inva(i,j),i,j)) failed = failed + 1
+            end do
+        end do
+
+        call check(error,failed == 0,'inverse_y_eye (function): data converged')
+        if (allocated(error)) return
+
+        !> Inverse subroutine
+        call invert(copya,err=state)
+
+        call check(error,state%ok(),'inverse_y_eye (subroutine): '//state%print())
+        if (allocated(error)) return
+
+        failed = 0
+        do i = 1,n
+            do j = 1,n
+                if (.not. is_diagonal_inverse(a(i,j),copya(i,j),i,j)) failed = failed + 1
+            end do
+        end do
+
+        call check(error,failed == 0,'inverse_y_eye (subroutine): data converged')
+        if (allocated(error)) return
+
+        contains
+
+           elemental logical function is_diagonal_inverse(aij,invaij,i,j)
+               complex(xdp),intent(in) :: aij,invaij
+               integer(ilp),intent(in) :: i,j
+               if (i /= j) then
+                  is_diagonal_inverse = max(abs(aij),abs(invaij)) < epsilon(0.0_xdp)
+               else
+                  ! Product should return the real identity
+                  is_diagonal_inverse = abs(aij*invaij - (1.0_xdp,0.0_xdp)) < epsilon(0.0_xdp)
+               end if
+           end function is_diagonal_inverse
+
+    end subroutine test_y_eye_inverse
+
+    !> Create a random symmetric positive definite matrix
+    function random_spd_matrix_y(n) result(A)
+        integer(ilp),intent(in) :: n
+        complex(xdp) :: A(n,n)
+        
+        complex(xdp),parameter :: half = (0.5_xdp,0.0_xdp)
+        real(xdp) :: reA(n,n),imA(n,n)
+        integer(ilp) :: i
+        
+        !> Initialize with randoms
+        call random_number(reA)
+        call random_number(imA)
+        
+        A = cmplx(reA,imA,kind=xdp)
+        
+        !> Make symmetric
+        A = half*(A + transpose(A))
+        
+        !> Add diagonally dominant part
+        forall (i=1:n) A(i,i) = A(i,i) + n*(1.0_xdp,0.0_xdp)
+        
+    end function random_spd_matrix_y
+
+    !> Test random symmetric positive-definite matrix
+    subroutine test_y_random_spd_inverse(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        !> Local variables
+        integer(ilp) :: failed,i,j
+        integer(ilp),parameter :: n = 5_ilp
+        type(la_state) :: state
+        complex(xdp) :: A(n,n),Am1(n,n),AA(n,n)
+        
+        !> Generate random SPD matrix
+        A = random_spd_matrix_y(n)
+
+        !> Invert matrix
+        Am1 = inv(A,err=state)
+        
+        !> Check result
+        call check(error,state%ok(),'random complex SPD matrix (xdp): '//state%print())
+        if (allocated(error)) return
+
+        failed = 0
+        AA = matmul(A,Am1)
+        do i = 1,n
+            do j = 1,n
+                if (.not. is_complex_inverse(AA(i,j),i,j)) failed = failed + 1
+            end do
+        end do
+
+        call check(error,failed == 0,'inverse_y_eye (subroutine): data converged')
+        if (allocated(error)) return
+
+        contains
+
+           elemental logical function is_complex_inverse(aij,i,j)
+               complex(xdp),intent(in) :: aij
+               integer(ilp),intent(in) :: i,j
+               real(xdp),parameter :: tol = sqrt(epsilon(0.0_xdp))
+               if (i /= j) then
+                  is_complex_inverse = abs(aij) < tol
+               else
+                  ! Product should return the real identity
+                  is_complex_inverse = abs(aij - (1.0_xdp,0.0_xdp)) < tol
+               end if
+           end function is_complex_inverse
+    
+    end subroutine test_y_random_spd_inverse
+
+    !> Invert singular matrix
+    subroutine test_y_singular_inverse(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        type(la_state) :: err
+
+        integer(ilp),parameter :: n = 25_ilp
+        complex(xdp) :: a(n,n)
+
+        a = (0.0_xdp,0.0_xdp)
+        
+        !> Inverse function
+        call invert(a,err=err)
+        call check(error,err%state == LINALG_ERROR,'singular complex(xdp) inverse returned '//err%print())
+        if (allocated(error)) return
+        
+    end subroutine test_y_singular_inverse
+#endif
+
+#ifdef LA_WITH_QP
     subroutine test_w_eye_inverse(error)
         type(error_type),allocatable,intent(out) :: error
 
@@ -778,6 +1045,7 @@ module test_linalg_inverse
         if (allocated(error)) return
         
     end subroutine test_w_singular_inverse
+#endif
 
     ! gcc-15 bugfix utility
     subroutine add_test(tests,new_test)

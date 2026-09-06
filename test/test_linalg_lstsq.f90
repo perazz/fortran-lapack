@@ -23,8 +23,14 @@ module test_linalg_least_squares
         call add_test(tests,new_unittest("least_squares_randm_s",test_lstsq_random_s))
         call add_test(tests,new_unittest("least_squares_d",test_lstsq_one_d))
         call add_test(tests,new_unittest("least_squares_randm_d",test_lstsq_random_d))
+#ifdef LA_WITH_XDP
+        call add_test(tests,new_unittest("least_squares_x",test_lstsq_one_x))
+        call add_test(tests,new_unittest("least_squares_randm_x",test_lstsq_random_x))
+#endif
+#ifdef LA_WITH_QP
         call add_test(tests,new_unittest("least_squares_q",test_lstsq_one_q))
         call add_test(tests,new_unittest("least_squares_randm_q",test_lstsq_random_q))
+#endif
 
     end subroutine test_least_squares
     
@@ -160,6 +166,75 @@ module test_linalg_least_squares
         
     end subroutine test_lstsq_random_d
     
+#ifdef LA_WITH_XDP
+    !> Simple polynomial fit
+    subroutine test_lstsq_one_x(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        type(la_state) :: state
+        integer(ilp) :: rank
+
+        !> Example scattered data
+        real(xdp),parameter :: x(*) = real([1.0,2.5,3.5,4.0,5.0,7.0,8.5],xdp)
+        real(xdp),parameter :: y(*) = real([0.3,1.1,1.5,2.0,3.2,6.6,8.6],xdp)
+        real(xdp),parameter :: ab(*) = real([0.20925829,0.12013861],xdp)
+
+        real(xdp) :: M(size(x),2),p(2)
+
+        ! Coefficient matrix for polynomial y = a + b*x**2
+        M(:,1) = x**0
+        M(:,2) = x**2
+
+        ! Find polynomial
+        p = lstsq(M,y,rank=rank,err=state)
+
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+        
+        call check(error,all(abs(p - ab) < 1.0e-4_xdp),'data converged')
+        if (allocated(error)) return
+        
+        call check(error,rank == 2,'matrix rank == 2')
+        if (allocated(error)) return
+
+    end subroutine test_lstsq_one_x
+    
+    !> Fit from random array
+    subroutine test_lstsq_random_x(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        type(la_state) :: state
+        integer(ilp),parameter :: n = 12,m = 3
+        real :: Arnd(n,m),xrnd(m)
+        real(xdp),allocatable :: x(:)
+        real(xdp) :: xsol(m),y(n),A(n,m)
+
+        ! Random coefficient matrix and solution
+        call random_number(Arnd)
+        call random_number(xrnd)
+        
+        ! Compute rhs
+        A = real(Arnd,xdp)
+        xsol = real(xrnd,xdp)
+        y = matmul(A,xsol)
+
+        ! Find polynomial
+        x = lstsq(A,y,err=state)
+
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+        
+        ! Check size
+        call check(error,size(x) == m)
+        if (allocated(error)) return
+        
+        call check(error,all(abs(x - xsol) < 1.0e-4_xdp),'data converged')
+        if (allocated(error)) return
+        
+    end subroutine test_lstsq_random_x
+#endif
+    
+#ifdef LA_WITH_QP
     !> Simple polynomial fit
     subroutine test_lstsq_one_q(error)
         type(error_type),allocatable,intent(out) :: error
@@ -225,6 +300,7 @@ module test_linalg_least_squares
         if (allocated(error)) return
         
     end subroutine test_lstsq_random_q
+#endif
     
     ! gcc-15 bugfix utility
     subroutine add_test(tests,new_test)

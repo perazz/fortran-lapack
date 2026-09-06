@@ -1,25 +1,46 @@
 #:mute
 
 #! Real kinds to be considered during templating
-#:set REAL_KINDS       = ["sp", "dp", "qp"]
-#:set REAL_INITIALS    = ["s","d","q"]
+#:set REAL_KINDS       = ["sp", "dp", "xdp", "qp"]
+#:set REAL_INITIALS    = ["s","d","x","q"]
 #:set REAL_TYPES       = ["real({})".format(k) for k in REAL_KINDS]
 #:set REAL_KINDS_TYPES = list(zip(REAL_KINDS, REAL_TYPES, REAL_INITIALS))
 
 #! Complex kinds to be considered during templating
-#:set CMPL_INITIALS    = ["c","z","w"]
+#:set CMPL_INITIALS    = ["c","z","y","w"]
 #:set CMPL_TYPES       = ["complex({})".format(k) for k in REAL_KINDS]
 #:set CMPL_KINDS_TYPES = list(zip(REAL_KINDS, CMPL_TYPES, CMPL_INITIALS))
 
 #! All kinds to be considered during templating
 #:set ALL_KINDS_TYPES  = list(zip(REAL_KINDS+REAL_KINDS,REAL_TYPES+CMPL_TYPES,REAL_INITIALS+CMPL_INITIALS))
 
+#! Optional kinds and the cpp macro a build must define to compile them in, keyed by kind
+#! name and by both initials.  A kind whose entry is None is always compiled.
+#:set LA_KIND_GUARD = {"sp": None, "dp": None, "xdp": "LA_WITH_XDP", "qp": "LA_WITH_QP"}
+#:set LA_GUARD = dict(list(LA_KIND_GUARD.items()) &
+                    & + [(ri, LA_KIND_GUARD[rk]) for rk, ri in zip(REAL_KINDS, REAL_INITIALS)] &
+                    & + [(ci, LA_KIND_GUARD[rk]) for rk, ci in zip(REAL_KINDS, CMPL_INITIALS)])
+
 #! Kind algebra used by the templated BLAS/LAPACK topic modules.
 #! Each row carries, for one precision: its own kind (rk) and type (rt), its own initial (ri),
 #! the initial of the companion type class (ci), then the same three one precision down
-#! (rkl, ril, cil; None for sp) and one precision up (rku, riu, ciu; None for qp).
-#:set LA_KINDS_DOWN = [None] + list(zip(REAL_KINDS, REAL_INITIALS, CMPL_INITIALS))[:-1]
-#:set LA_KINDS_UP   = list(zip(REAL_KINDS, REAL_INITIALS, CMPL_INITIALS))[1:] + [None]
+#! (rkl, ril, cil; None for sp) and one precision up (rku, riu, ciu; None for xdp and qp).
+#! xdp is a side branch of the chain rather than a link in it: its neighbour below is dp, and
+#! it has none above, so qp keeps dp below it and la_qdgesv, la_qlag2d, la_dlag2q, la_wzgesv,
+#! la_zlag2w and la_wlag2z keep their names.  Every mixed-precision routine then needs the
+#! guard of one kind only.
+#:set LA_KIND_DOWN  = {"sp": None, "dp": "sp", "xdp": "dp", "qp": "dp"}
+#:set LA_KIND_UP    = {"sp": "dp", "dp": "qp", "xdp": None, "qp": None}
+#:set LA_ROW_OF     = {rk: (rk, ri, ci) for rk, ri, ci in zip(REAL_KINDS, REAL_INITIALS, CMPL_INITIALS)}
+#:set LA_KINDS_DOWN = [(LA_ROW_OF[LA_KIND_DOWN[rk]] if LA_KIND_DOWN[rk] else None) for rk in REAL_KINDS]
+#:set LA_KINDS_UP   = [(LA_ROW_OF[LA_KIND_UP[rk]] if LA_KIND_UP[rk] else None) for rk in REAL_KINDS]
+
+#! Every kind that sits directly above a given kind: the chain above puts one there, and the
+#! xdp side branch puts a second one above dp.  The converters that move a matrix up one
+#! precision loop over these rows, so dp writes one to xdp and one to qp, each behind its own
+#! guard.  A row is (kind, real initial, complex initial).
+#:set LA_KIND_UPS = {"sp": ["dp"], "dp": ["xdp", "qp"], "xdp": [], "qp": []}
+#:set LA_UPS      = {rk: [LA_ROW_OF[up] for up in LA_KIND_UPS[rk]] for rk in REAL_KINDS}
 #:set LA_REAL_KINDS = [ (rk, "real({})".format(rk), ri, ci, &
                       & (dn[0] if dn else None), (dn[1] if dn else None), (dn[2] if dn else None), &
                       & (up[0] if up else None), (up[1] if up else None), (up[2] if up else None)) &
@@ -30,10 +51,10 @@
                       & for (rk, ri, ci), dn, up in zip(zip(REAL_KINDS, REAL_INITIALS, CMPL_INITIALS), LA_KINDS_DOWN, LA_KINDS_UP) ]
 
 #! Bit width of each real kind, used by the per-kind constant modules
-#:set LA_KIND_BITS = dict(zip(REAL_KINDS, ["32", "64", "128"]))
+#:set LA_KIND_BITS = dict(zip(REAL_KINDS, ["32", "64", "80", "128"]))
 
 #! Word used for a precision in doc comments
-#:set LA_PRECISION = dict(zip(REAL_KINDS, ["single", "double", "quad"]))
+#:set LA_PRECISION = dict(zip(REAL_KINDS, ["single", "double", "extended", "quad"]))
 
 #! The same rows keyed by their own initial, for tables that name a specific routine
 #:set LA_ROW_FIELDS = ("rk", "rt", "ri", "ci", "rkl", "ril", "cil", "rku", "riu", "ciu")
