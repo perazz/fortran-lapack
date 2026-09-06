@@ -75,7 +75,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The optional precisions are fpm features. `quad` carries the 128-bit kinds
   `qp`/`w` and is part of the `default` profile, so a plain `fpm build` and
   every consumer that asks for nothing keep the kinds they had. `--profile lean`
-  drops them and builds about a third faster. `xdp` carries the 80-bit extended
+  drops them, and with them a third of the library's source lines. `xdp` carries
+  the 80-bit extended
   kinds `xdp`/`x`/`y`; it is never a default, because 80-bit reals exist on x86
   and x86_64 only. `--profile allkinds` turns both on. See the new
   "Precision kinds and fpm features" section of the README.

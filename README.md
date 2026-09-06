@@ -19,7 +19,7 @@ combinations:
 
 ```bash
 fpm test                       # sp, dp, qp
-fpm test --profile lean        # sp and dp only, about a third less to compile
+fpm test --profile lean        # sp and dp only, a third fewer source lines
 fpm test --profile allkinds    # sp, dp, xdp, qp -- x86_64 only
 fpm test --profile external    # sp, dp, qp, against the reference BLAS and LAPACK
 ```
@@ -49,9 +49,9 @@ as well as `qp` lists both.
 left out is `-1`, so `use la_constants, only: qp` keeps compiling. The logical parameters
 `la_with_qp` and `la_with_xdp` say which of the two are real.
 
-Outside fpm, the same choice is made with the preprocessor: every source under `src/` is `.F90` and
-wants `-cpp`, with `-DLA_WITH_QP` for quadruple precision and `-DLA_WITH_XDP` for extended
-precision.
+Outside fpm, the same choice is made with the preprocessor: the generated sources under `src/` are
+`.F90`, the tests under `test/` carry cpp directives too, so the whole tree wants `-cpp`, with
+`-DLA_WITH_QP` for quadruple precision and `-DLA_WITH_XDP` for extended precision.
 
 # Browse API
 
