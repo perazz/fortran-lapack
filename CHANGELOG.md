@@ -20,6 +20,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   interface.
 - `scripts/fypp_deploy.py` replaces `scripts/preprocess.sh` for regenerating
   the committed sources, and has a `--check` mode.
+- The LAPACK auxiliary and base routines are generated from kind-templated
+  fypp topic modules instead of the six per-kind monoliths: `la_lapack_aux`
+  and `la_lapack_auxiliary`, `la_lapack_blas_like_{base,l1,l2,l3,scalar,mnorm}`,
+  `la_lapack_solve_aux`, `la_lapack_givens_jacobi_rot` and
+  `la_lapack_householder_reflectors`. The `la_lapack` generic interfaces are
+  unchanged.
+- Six LAPACK specific names that kept the kind letter of the precision they
+  were copied from are corrected: `la_qlag2s`, `la_qlat2s`, `la_qzsum1`,
+  `la_wdrscl`, `la_wlag2c` and `la_wlat2c` become `la_qlag2d`, `la_qlat2d`,
+  `la_qwsum1`, `la_wqrscl`, `la_wlag2z` and `la_wlat2z`. None of them is
+  reachable through a generic interface.
+- The `generated-sources` continuous-integration job runs
+  `scripts/fypp_deploy.py --check` and fails on any drift between a template
+  and its committed output.
 
 ### Fixed
 

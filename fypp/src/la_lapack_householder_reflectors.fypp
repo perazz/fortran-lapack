@@ -1,0 +1,2643 @@
+#:include "common.fypp"
+!> Householder reflectors: generation, blocking, application
+module la_lapack_householder_reflectors
+     use la_constants
+     use la_blas_aux
+     use la_blas_level1
+     use la_blas_level2_gen
+     use la_blas_level2_sym
+     use la_blas_level2_tri
+     use la_blas_level3_gen
+     use la_blas_level3_tri
+     use la_lapack_aux
+     use la_lapack_auxiliary
+     use la_lapack_blas_like_l1
+     use la_lapack_blas_like_scalar
+     implicit none(type,external)
+     private
+
+     public :: sp,dp,qp,lk,ilp
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     public :: la_${ri}$larf
+     public :: la_${ri}$larfb
+     public :: la_${ri}$larft
+     public :: la_${ri}$larfx
+     public :: la_${ri}$larfy
+     public :: la_${ri}$larfg
+     public :: la_${ri}$larfgp
+#:endfor
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+     public :: la_${ri}$larf
+     public :: la_${ri}$larfb
+     public :: la_${ri}$larfg
+     public :: la_${ri}$larfgp
+     public :: la_${ri}$larft
+     public :: la_${ri}$larfx
+     public :: la_${ri}$larfy
+#:endfor
+
+     contains
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     !> ${ri.upper()}$LARF: applies a real elementary reflector H to a real m by n matrix
+     !> C, from either the left or the right. H is represented in the form
+     !> H = I - tau * v * v**T
+     !> where tau is a real scalar and v is a real vector.
+     !> If tau = 0, then H is taken to be the unit matrix.
+
+     pure subroutine la_${ri}$larf(side,m,n,v,incv,tau,c,ldc,work)
+        use la_constants_${rk}$
+        ! -- lapack auxiliary routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: side
+           integer(ilp),intent(in) :: incv,ldc,m,n
+           real(${rk}$),intent(in) :: tau
+           ! Array Arguments
+           real(${rk}$),intent(inout) :: c(ldc,*)
+           real(${rk}$),intent(in) :: v(*)
+           real(${rk}$),intent(out) :: work(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: applyleft
+           integer(ilp) :: i,lastv,lastc
+           ! Executable Statements
+           applyleft = la_lsame(side,'L')
+           lastv = 0
+           lastc = 0
+           if (tau /= zero) then
+           ! set up variables for scanning v.  lastv begins pointing to the end
+           ! of v.
+              if (applyleft) then
+                 lastv = m
+              else
+                 lastv = n
+              end if
+              if (incv > 0) then
+                 i = 1 + (lastv - 1)*incv
+              else
+                 i = 1
+              end if
+           ! look for the last non-zero row in v.
+              do while (lastv > 0 .and. v(i) == zero)
+                 lastv = lastv - 1
+                 i = i - incv
+              end do
+              if (applyleft) then
+           ! scan for the last non-zero column in c(1:lastv,:).
+                 lastc = la_ila${ri}$lc(lastv,n,c,ldc)
+              else
+           ! scan for the last non-zero row in c(:,1:lastv).
+                 lastc = la_ila${ri}$lr(m,lastv,c,ldc)
+              end if
+           end if
+           ! note that lastc.eq.0_${rk}$ renders the blas operations null; no special
+           ! case is needed at this level.
+           if (applyleft) then
+              ! form  h * c
+              if (lastv > 0) then
+                 ! w(1:lastc,1) := c(1:lastv,1:lastc)**t * v(1:lastv,1)
+                 call la_${ri}$gemv('TRANSPOSE',lastv,lastc,one,c,ldc,v,incv,zero,work,1 &
+                           )
+                 ! c(1:lastv,1:lastc) := c(...) - v(1:lastv,1) * w(1:lastc,1)**t
+                 call la_${ri}$ger(lastv,lastc,-tau,v,incv,work,1,c,ldc)
+              end if
+           else
+              ! form  c * h
+              if (lastv > 0) then
+                 ! w(1:lastc,1) := c(1:lastc,1:lastv) * v(1:lastv,1)
+                 call la_${ri}$gemv('NO TRANSPOSE',lastc,lastv,one,c,ldc,v,incv,zero,work, &
+                            1)
+                 ! c(1:lastc,1:lastv) := c(...) - w(1:lastc,1) * v(1:lastv,1)**t
+                 call la_${ri}$ger(lastc,lastv,-tau,work,1,v,incv,c,ldc)
+              end if
+           end if
+           return
+     end subroutine la_${ri}$larf
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     !> ${ri.upper()}$LARFB: applies a real block reflector H or its transpose H**T to a
+     !> real m by n matrix C, from either the left or the right.
+
+     pure subroutine la_${ri}$larfb(side,trans,direct,storev,m,n,k,v,ldv,t,ldt,c,ldc, &
+               work,ldwork)
+        use la_constants_${rk}$
+        ! -- lapack auxiliary routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: direct,side,storev,trans
+           integer(ilp),intent(in) :: k,ldc,ldt,ldv,ldwork,m,n
+           ! Array Arguments
+           real(${rk}$),intent(inout) :: c(ldc,*)
+           real(${rk}$),intent(in) :: t(ldt,*),v(ldv,*)
+           real(${rk}$),intent(out) :: work(ldwork,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           character :: transt
+           integer(ilp) :: i,j
+           ! Executable Statements
+           ! quick return if possible
+           if (m <= 0 .or. n <= 0) return
+           if (la_lsame(trans,'N')) then
+              transt = 'T'
+           else
+              transt = 'N'
+           end if
+           if (la_lsame(storev,'C')) then
+              if (la_lsame(direct,'F')) then
+                 ! let  v =  ( v1 )    (first k rows)
+                           ! ( v2 )
+                 ! where  v1  is unit lower triangular.
+                 if (la_lsame(side,'L')) then
+                    ! form  h * c  or  h**t * c  where  c = ( c1 )
+                                                          ! ( c2 )
+                    ! w := c**t * v  =  (c1**t * v1 + c2**t * v2)  (stored in work)
+                    ! w := c1**t
+                    do j = 1,k
+                       call la_${ri}$copy(n,c(j,1),ldc,work(1,j),1)
+                    end do
+                    ! w := w * v1
+                    call la_${ri}$trmm('RIGHT','LOWER','NO TRANSPOSE','UNIT',n,k,one,v,ldv, &
+                               work,ldwork)
+                    if (m > k) then
+                       ! w := w + c2**t * v2
+                       call la_${ri}$gemm('TRANSPOSE','NO TRANSPOSE',n,k,m - k,one,c(k + 1,1), &
+                                  ldc,v(k + 1,1),ldv,one,work,ldwork)
+                    end if
+                    ! w := w * t**t  or  w * t
+                    call la_${ri}$trmm('RIGHT','UPPER',transt,'NON-UNIT',n,k,one,t,ldt, &
+                              work,ldwork)
+                    ! c := c - v * w**t
+                    if (m > k) then
+                       ! c2 := c2 - v2 * w**t
+                       call la_${ri}$gemm('NO TRANSPOSE','TRANSPOSE',m - k,n,k,-one,v(k + 1,1) &
+                                 ,ldv,work,ldwork,one,c(k + 1,1),ldc)
+                    end if
+                    ! w := w * v1**t
+                    call la_${ri}$trmm('RIGHT','LOWER','TRANSPOSE','UNIT',n,k,one,v,ldv, &
+                              work,ldwork)
+                    ! c1 := c1 - w**t
+                    do j = 1,k
+                       do i = 1,n
+                          c(j,i) = c(j,i) - work(i,j)
+                       end do
+                    end do
+                 else if (la_lsame(side,'R')) then
+                    ! form  c * h  or  c * h**t  where  c = ( c1  c2 )
+                    ! w := c * v  =  (c1*v1 + c2*v2)  (stored in work)
+                    ! w := c1
+                    do j = 1,k
+                       call la_${ri}$copy(m,c(1,j),1,work(1,j),1)
+                    end do
+                    ! w := w * v1
+                    call la_${ri}$trmm('RIGHT','LOWER','NO TRANSPOSE','UNIT',m,k,one,v,ldv, &
+                               work,ldwork)
+                    if (n > k) then
+                       ! w := w + c2 * v2
+                       call la_${ri}$gemm('NO TRANSPOSE','NO TRANSPOSE',m,k,n - k,one,c(1,k + &
+                                 1),ldc,v(k + 1,1),ldv,one,work,ldwork)
+                    end if
+                    ! w := w * t  or  w * t**t
+                    call la_${ri}$trmm('RIGHT','UPPER',trans,'NON-UNIT',m,k,one,t,ldt, &
+                              work,ldwork)
+                    ! c := c - w * v**t
+                    if (n > k) then
+                       ! c2 := c2 - w * v2**t
+                       call la_${ri}$gemm('NO TRANSPOSE','TRANSPOSE',m,n - k,k,-one,work, &
+                                 ldwork,v(k + 1,1),ldv,one,c(1,k + 1),ldc)
+                    end if
+                    ! w := w * v1**t
+                    call la_${ri}$trmm('RIGHT','LOWER','TRANSPOSE','UNIT',m,k,one,v,ldv, &
+                              work,ldwork)
+                    ! c1 := c1 - w
+                    do j = 1,k
+                       do i = 1,m
+                          c(i,j) = c(i,j) - work(i,j)
+                       end do
+                    end do
+                 end if
+              else
+                 ! let  v =  ( v1 )
+                           ! ( v2 )    (last k rows)
+                 ! where  v2  is unit upper triangular.
+                 if (la_lsame(side,'L')) then
+                    ! form  h * c  or  h**t * c  where  c = ( c1 )
+                                                          ! ( c2 )
+                    ! w := c**t * v  =  (c1**t * v1 + c2**t * v2)  (stored in work)
+                    ! w := c2**t
+                    do j = 1,k
+                       call la_${ri}$copy(n,c(m - k + j,1),ldc,work(1,j),1)
+                    end do
+                    ! w := w * v2
+                    call la_${ri}$trmm('RIGHT','UPPER','NO TRANSPOSE','UNIT',n,k,one,v(m - k + &
+                              1,1),ldv,work,ldwork)
+                    if (m > k) then
+                       ! w := w + c1**t * v1
+                       call la_${ri}$gemm('TRANSPOSE','NO TRANSPOSE',n,k,m - k,one,c,ldc,v, &
+                                 ldv,one,work,ldwork)
+                    end if
+                    ! w := w * t**t  or  w * t
+                    call la_${ri}$trmm('RIGHT','LOWER',transt,'NON-UNIT',n,k,one,t,ldt, &
+                              work,ldwork)
+                    ! c := c - v * w**t
+                    if (m > k) then
+                       ! c1 := c1 - v1 * w**t
+                       call la_${ri}$gemm('NO TRANSPOSE','TRANSPOSE',m - k,n,k,-one,v,ldv, &
+                                 work,ldwork,one,c,ldc)
+                    end if
+                    ! w := w * v2**t
+                    call la_${ri}$trmm('RIGHT','UPPER','TRANSPOSE','UNIT',n,k,one,v(m - k + 1, &
+                              1),ldv,work,ldwork)
+                    ! c2 := c2 - w**t
+                    do j = 1,k
+                       do i = 1,n
+                          c(m - k + j,i) = c(m - k + j,i) - work(i,j)
+                       end do
+                    end do
+                 else if (la_lsame(side,'R')) then
+#:if rk == "sp"
+                    ! form  c * h  or  c * h'  where  c = ( c1  c2 )
+#:else
+                    ! form  c * h  or  c * h**t  where  c = ( c1  c2 )
+#:endif
+                    ! w := c * v  =  (c1*v1 + c2*v2)  (stored in work)
+                    ! w := c2
+                    do j = 1,k
+                       call la_${ri}$copy(m,c(1,n - k + j),1,work(1,j),1)
+                    end do
+                    ! w := w * v2
+                    call la_${ri}$trmm('RIGHT','UPPER','NO TRANSPOSE','UNIT',m,k,one,v(n - k + &
+                              1,1),ldv,work,ldwork)
+                    if (n > k) then
+                       ! w := w + c1 * v1
+                       call la_${ri}$gemm('NO TRANSPOSE','NO TRANSPOSE',m,k,n - k,one,c,ldc, &
+                                 v,ldv,one,work,ldwork)
+                    end if
+                    ! w := w * t  or  w * t**t
+                    call la_${ri}$trmm('RIGHT','LOWER',trans,'NON-UNIT',m,k,one,t,ldt, &
+                              work,ldwork)
+                    ! c := c - w * v**t
+                    if (n > k) then
+                       ! c1 := c1 - w * v1**t
+                       call la_${ri}$gemm('NO TRANSPOSE','TRANSPOSE',m,n - k,k,-one,work, &
+                                 ldwork,v,ldv,one,c,ldc)
+                    end if
+                    ! w := w * v2**t
+                    call la_${ri}$trmm('RIGHT','UPPER','TRANSPOSE','UNIT',m,k,one,v(n - k + 1, &
+                              1),ldv,work,ldwork)
+                    ! c2 := c2 - w
+                    do j = 1,k
+                       do i = 1,m
+                          c(i,n - k + j) = c(i,n - k + j) - work(i,j)
+                       end do
+                    end do
+                 end if
+              end if
+           else if (la_lsame(storev,'R')) then
+              if (la_lsame(direct,'F')) then
+                 ! let  v =  ( v1  v2 )    (v1: first k columns)
+                 ! where  v1  is unit upper triangular.
+                 if (la_lsame(side,'L')) then
+                    ! form  h * c  or  h**t * c  where  c = ( c1 )
+                                                          ! ( c2 )
+                    ! w := c**t * v**t  =  (c1**t * v1**t + c2**t * v2**t) (stored in work)
+                    ! w := c1**t
+                    do j = 1,k
+                       call la_${ri}$copy(n,c(j,1),ldc,work(1,j),1)
+                    end do
+                    ! w := w * v1**t
+                    call la_${ri}$trmm('RIGHT','UPPER','TRANSPOSE','UNIT',n,k,one,v,ldv, &
+                              work,ldwork)
+                    if (m > k) then
+                       ! w := w + c2**t * v2**t
+                       call la_${ri}$gemm('TRANSPOSE','TRANSPOSE',n,k,m - k,one,c(k + 1,1), &
+                                 ldc,v(1,k + 1),ldv,one,work,ldwork)
+                    end if
+                    ! w := w * t**t  or  w * t
+                    call la_${ri}$trmm('RIGHT','UPPER',transt,'NON-UNIT',n,k,one,t,ldt, &
+                              work,ldwork)
+                    ! c := c - v**t * w**t
+                    if (m > k) then
+                       ! c2 := c2 - v2**t * w**t
+                       call la_${ri}$gemm('TRANSPOSE','TRANSPOSE',m - k,n,k,-one,v(1,k + 1), &
+                                 ldv,work,ldwork,one,c(k + 1,1),ldc)
+                    end if
+                    ! w := w * v1
+                    call la_${ri}$trmm('RIGHT','UPPER','NO TRANSPOSE','UNIT',n,k,one,v,ldv, &
+                               work,ldwork)
+                    ! c1 := c1 - w**t
+                    do j = 1,k
+                       do i = 1,n
+                          c(j,i) = c(j,i) - work(i,j)
+                       end do
+                    end do
+                 else if (la_lsame(side,'R')) then
+                    ! form  c * h  or  c * h**t  where  c = ( c1  c2 )
+                    ! w := c * v**t  =  (c1*v1**t + c2*v2**t)  (stored in work)
+                    ! w := c1
+                    do j = 1,k
+                       call la_${ri}$copy(m,c(1,j),1,work(1,j),1)
+                    end do
+                    ! w := w * v1**t
+                    call la_${ri}$trmm('RIGHT','UPPER','TRANSPOSE','UNIT',m,k,one,v,ldv, &
+                              work,ldwork)
+                    if (n > k) then
+                       ! w := w + c2 * v2**t
+                       call la_${ri}$gemm('NO TRANSPOSE','TRANSPOSE',m,k,n - k,one,c(1,k + 1), &
+                                  ldc,v(1,k + 1),ldv,one,work,ldwork)
+                    end if
+                    ! w := w * t  or  w * t**t
+                    call la_${ri}$trmm('RIGHT','UPPER',trans,'NON-UNIT',m,k,one,t,ldt, &
+                              work,ldwork)
+                    ! c := c - w * v
+                    if (n > k) then
+                       ! c2 := c2 - w * v2
+                       call la_${ri}$gemm('NO TRANSPOSE','NO TRANSPOSE',m,n - k,k,-one,work, &
+                                 ldwork,v(1,k + 1),ldv,one,c(1,k + 1),ldc)
+                    end if
+                    ! w := w * v1
+                    call la_${ri}$trmm('RIGHT','UPPER','NO TRANSPOSE','UNIT',m,k,one,v,ldv, &
+                               work,ldwork)
+                    ! c1 := c1 - w
+                    do j = 1,k
+                       do i = 1,m
+                          c(i,j) = c(i,j) - work(i,j)
+                       end do
+                    end do
+                 end if
+              else
+                 ! let  v =  ( v1  v2 )    (v2: last k columns)
+                 ! where  v2  is unit lower triangular.
+                 if (la_lsame(side,'L')) then
+                    ! form  h * c  or  h**t * c  where  c = ( c1 )
+                                                          ! ( c2 )
+                    ! w := c**t * v**t  =  (c1**t * v1**t + c2**t * v2**t) (stored in work)
+                    ! w := c2**t
+                    do j = 1,k
+                       call la_${ri}$copy(n,c(m - k + j,1),ldc,work(1,j),1)
+                    end do
+                    ! w := w * v2**t
+                    call la_${ri}$trmm('RIGHT','LOWER','TRANSPOSE','UNIT',n,k,one,v(1,m - k + &
+                              1),ldv,work,ldwork)
+                    if (m > k) then
+                       ! w := w + c1**t * v1**t
+                       call la_${ri}$gemm('TRANSPOSE','TRANSPOSE',n,k,m - k,one,c,ldc,v,ldv, &
+                                  one,work,ldwork)
+                    end if
+                    ! w := w * t**t  or  w * t
+                    call la_${ri}$trmm('RIGHT','LOWER',transt,'NON-UNIT',n,k,one,t,ldt, &
+                              work,ldwork)
+                    ! c := c - v**t * w**t
+                    if (m > k) then
+                       ! c1 := c1 - v1**t * w**t
+                       call la_${ri}$gemm('TRANSPOSE','TRANSPOSE',m - k,n,k,-one,v,ldv,work, &
+                                 ldwork,one,c,ldc)
+                    end if
+                    ! w := w * v2
+                    call la_${ri}$trmm('RIGHT','LOWER','NO TRANSPOSE','UNIT',n,k,one,v(1, &
+                              m - k + 1),ldv,work,ldwork)
+                    ! c2 := c2 - w**t
+                    do j = 1,k
+                       do i = 1,n
+                          c(m - k + j,i) = c(m - k + j,i) - work(i,j)
+                       end do
+                    end do
+                 else if (la_lsame(side,'R')) then
+#:if rk == "sp"
+                    ! form  c * h  or  c * h**t  where  c = ( c1  c2 )
+#:else
+                    ! form  c * h  or  c * h'  where  c = ( c1  c2 )
+#:endif
+                    ! w := c * v**t  =  (c1*v1**t + c2*v2**t)  (stored in work)
+                    ! w := c2
+                    do j = 1,k
+                       call la_${ri}$copy(m,c(1,n - k + j),1,work(1,j),1)
+                    end do
+                    ! w := w * v2**t
+                    call la_${ri}$trmm('RIGHT','LOWER','TRANSPOSE','UNIT',m,k,one,v(1,n - k + &
+                              1),ldv,work,ldwork)
+                    if (n > k) then
+                       ! w := w + c1 * v1**t
+                       call la_${ri}$gemm('NO TRANSPOSE','TRANSPOSE',m,k,n - k,one,c,ldc,v, &
+                                 ldv,one,work,ldwork)
+                    end if
+                    ! w := w * t  or  w * t**t
+                    call la_${ri}$trmm('RIGHT','LOWER',trans,'NON-UNIT',m,k,one,t,ldt, &
+                              work,ldwork)
+                    ! c := c - w * v
+                    if (n > k) then
+                       ! c1 := c1 - w * v1
+                       call la_${ri}$gemm('NO TRANSPOSE','NO TRANSPOSE',m,n - k,k,-one,work, &
+                                 ldwork,v,ldv,one,c,ldc)
+                    end if
+                    ! w := w * v2
+                    call la_${ri}$trmm('RIGHT','LOWER','NO TRANSPOSE','UNIT',m,k,one,v(1, &
+                              n - k + 1),ldv,work,ldwork)
+                    ! c1 := c1 - w
+                    do j = 1,k
+                       do i = 1,m
+                          c(i,n - k + j) = c(i,n - k + j) - work(i,j)
+                       end do
+                    end do
+                 end if
+              end if
+           end if
+           return
+     end subroutine la_${ri}$larfb
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     !> ${ri.upper()}$LARFT: forms the triangular factor T of a real block reflector H
+     !> of order n, which is defined as a product of k elementary reflectors.
+     !> If DIRECT = 'F', H = H(1) H(2) . . . H(k) and T is upper triangular;
+     !> If DIRECT = 'B', H = H(k) . . . H(2) H(1) and T is lower triangular.
+     !> If STOREV = 'C', the vector which defines the elementary reflector
+     !> H(i) is stored in the i-th column of the array V, and
+     !> H  =  I - V * T * V**T
+     !> If STOREV = 'R', the vector which defines the elementary reflector
+     !> H(i) is stored in the i-th row of the array V, and
+     !> H  =  I - V**T * T * V
+
+     pure subroutine la_${ri}$larft(direct,storev,n,k,v,ldv,tau,t,ldt)
+        use la_constants_${rk}$
+        ! -- lapack auxiliary routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: direct,storev
+           integer(ilp),intent(in) :: k,ldt,ldv,n
+           ! Array Arguments
+           real(${rk}$),intent(out) :: t(ldt,*)
+           real(${rk}$),intent(in) :: tau(*),v(ldv,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           integer(ilp) :: i,j,prevlastv,lastv
+           ! Executable Statements
+           ! quick return if possible
+           if (n == 0) return
+           if (la_lsame(direct,'F')) then
+              prevlastv = n
+              do i = 1,k
+                 prevlastv = max(i,prevlastv)
+                 if (tau(i) == zero) then
+                    ! h(i)  =  i
+                    do j = 1,i
+                       t(j,i) = zero
+                    end do
+                 else
+                    ! general case
+                    if (la_lsame(storev,'C')) then
+                       ! skip any trailing zeros.
+                       do lastv = n,i + 1,-1
+                          if (v(lastv,i) /= zero) exit
+                       end do
+                       do j = 1,i - 1
+                          t(j,i) = -tau(i)*v(i,j)
+                       end do
+                       j = min(lastv,prevlastv)
+                       ! t(1:i-1,i) := - tau(i) * v(i:j,1:i-1)**t * v(i:j,i)
+                       call la_${ri}$gemv('TRANSPOSE',j - i,i - 1,-tau(i),v(i + 1,1),ldv,v(i + &
+                                 1,i),1,one,t(1,i),1)
+                    else
+                       ! skip any trailing zeros.
+                       do lastv = n,i + 1,-1
+                          if (v(i,lastv) /= zero) exit
+                       end do
+                       do j = 1,i - 1
+                          t(j,i) = -tau(i)*v(j,i)
+                       end do
+                       j = min(lastv,prevlastv)
+                       ! t(1:i-1,i) := - tau(i) * v(1:i-1,i:j) * v(i,i:j)**t
+                       call la_${ri}$gemv('NO TRANSPOSE',i - 1,j - i,-tau(i),v(1,i + 1),ldv,v( &
+                                  i,i + 1),ldv,one,t(1,i),1)
+                    end if
+                    ! t(1:i-1,i) := t(1:i-1,1:i-1) * t(1:i-1,i)
+                    call la_${ri}$trmv('UPPER','NO TRANSPOSE','NON-UNIT',i - 1,t,ldt,t(1,i), &
+                               1)
+                    t(i,i) = tau(i)
+                    if (i > 1) then
+                       prevlastv = max(prevlastv,lastv)
+                    else
+                       prevlastv = lastv
+                    end if
+                 end if
+              end do
+           else
+              prevlastv = 1
+              do i = k,1,-1
+                 if (tau(i) == zero) then
+                    ! h(i)  =  i
+                    do j = i,k
+                       t(j,i) = zero
+                    end do
+                 else
+                    ! general case
+                    if (i < k) then
+                       if (la_lsame(storev,'C')) then
+                          ! skip any leading zeros.
+                          do lastv = 1,i - 1
+                             if (v(lastv,i) /= zero) exit
+                          end do
+                          do j = i + 1,k
+                             t(j,i) = -tau(i)*v(n - k + i,j)
+                          end do
+                          j = max(lastv,prevlastv)
+                          ! t(i+1:k,i) = -tau(i) * v(j:n-k+i,i+1:k)**t * v(j:n-k+i,i)
+                          call la_${ri}$gemv('TRANSPOSE',n - k + i - j,k - i,-tau(i),v(j,i + 1), &
+                                    ldv,v(j,i),1,one,t(i + 1,i),1)
+                       else
+                          ! skip any leading zeros.
+                          do lastv = 1,i - 1
+                             if (v(i,lastv) /= zero) exit
+                          end do
+                          do j = i + 1,k
+                             t(j,i) = -tau(i)*v(j,n - k + i)
+                          end do
+                          j = max(lastv,prevlastv)
+                          ! t(i+1:k,i) = -tau(i) * v(i+1:k,j:n-k+i) * v(i,j:n-k+i)**t
+                          call la_${ri}$gemv('NO TRANSPOSE',k - i,n - k + i - j,-tau(i),v(i + 1,j), &
+                                    ldv,v(i,j),ldv,one,t(i + 1,i),1)
+                       end if
+                       ! t(i+1:k,i) := t(i+1:k,i+1:k) * t(i+1:k,i)
+                       call la_${ri}$trmv('LOWER','NO TRANSPOSE','NON-UNIT',k - i,t(i + 1,i + 1), &
+                                 ldt,t(i + 1,i),1)
+                       if (i > 1) then
+                          prevlastv = min(prevlastv,lastv)
+                       else
+                          prevlastv = lastv
+                       end if
+                    end if
+                    t(i,i) = tau(i)
+                 end if
+              end do
+           end if
+           return
+     end subroutine la_${ri}$larft
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     !> ${ri.upper()}$LARFX: applies a real elementary reflector H to a real m by n
+     !> matrix C, from either the left or the right. H is represented in the
+     !> form
+     !> H = I - tau * v * v**T
+     !> where tau is a real scalar and v is a real vector.
+     !> If tau = 0, then H is taken to be the unit matrix
+     !> This version uses inline code if H has order < 11.
+
+     pure subroutine la_${ri}$larfx(side,m,n,v,tau,c,ldc,work)
+        use la_constants_${rk}$
+        ! -- lapack auxiliary routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: side
+           integer(ilp),intent(in) :: ldc,m,n
+           real(${rk}$),intent(in) :: tau
+           ! Array Arguments
+           real(${rk}$),intent(inout) :: c(ldc,*)
+           real(${rk}$),intent(in) :: v(*)
+           real(${rk}$),intent(out) :: work(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           integer(ilp) :: j
+           real(${rk}$) :: sum,t1,t10,t2,t3,t4,t5,t6,t7,t8,t9,v1,v10,v2,v3,v4,v5,v6, &
+                     v7,v8,v9
+           ! Executable Statements
+           if (tau == zero) return
+           if (la_lsame(side,'L')) then
+              ! form  h * c, where h has order m.
+              go to(10,30,50,70,90,110,130,150,170,190) m
+              ! code for general m
+              call la_${ri}$larf(side,m,n,v,1,tau,c,ldc,work)
+              go to 410
+              10 continue
+              ! special code for 1 x 1 householder
+              t1 = one - tau*v(1)*v(1)
+              do j = 1,n
+                 c(1,j) = t1*c(1,j)
+              end do
+              go to 410
+              30 continue
+              ! special code for 2 x 2 householder
+              v1 = v(1)
+              t1 = tau*v1
+              v2 = v(2)
+              t2 = tau*v2
+              do j = 1,n
+                 sum = v1*c(1,j) + v2*c(2,j)
+                 c(1,j) = c(1,j) - sum*t1
+                 c(2,j) = c(2,j) - sum*t2
+              end do
+              go to 410
+              50 continue
+              ! special code for 3 x 3 householder
+              v1 = v(1)
+              t1 = tau*v1
+              v2 = v(2)
+              t2 = tau*v2
+              v3 = v(3)
+              t3 = tau*v3
+              do j = 1,n
+                 sum = v1*c(1,j) + v2*c(2,j) + v3*c(3,j)
+                 c(1,j) = c(1,j) - sum*t1
+                 c(2,j) = c(2,j) - sum*t2
+                 c(3,j) = c(3,j) - sum*t3
+              end do
+              go to 410
+              70 continue
+              ! special code for 4 x 4 householder
+              v1 = v(1)
+              t1 = tau*v1
+              v2 = v(2)
+              t2 = tau*v2
+              v3 = v(3)
+              t3 = tau*v3
+              v4 = v(4)
+              t4 = tau*v4
+              do j = 1,n
+                 sum = v1*c(1,j) + v2*c(2,j) + v3*c(3,j) + v4*c(4,j)
+                 c(1,j) = c(1,j) - sum*t1
+                 c(2,j) = c(2,j) - sum*t2
+                 c(3,j) = c(3,j) - sum*t3
+                 c(4,j) = c(4,j) - sum*t4
+              end do
+              go to 410
+              90 continue
+              ! special code for 5 x 5 householder
+              v1 = v(1)
+              t1 = tau*v1
+              v2 = v(2)
+              t2 = tau*v2
+              v3 = v(3)
+              t3 = tau*v3
+              v4 = v(4)
+              t4 = tau*v4
+              v5 = v(5)
+              t5 = tau*v5
+              do j = 1,n
+                 sum = v1*c(1,j) + v2*c(2,j) + v3*c(3,j) + v4*c(4,j) + v5*c(5,j)
+
+                 c(1,j) = c(1,j) - sum*t1
+                 c(2,j) = c(2,j) - sum*t2
+                 c(3,j) = c(3,j) - sum*t3
+                 c(4,j) = c(4,j) - sum*t4
+                 c(5,j) = c(5,j) - sum*t5
+              end do
+              go to 410
+              110 continue
+              ! special code for 6 x 6 householder
+              v1 = v(1)
+              t1 = tau*v1
+              v2 = v(2)
+              t2 = tau*v2
+              v3 = v(3)
+              t3 = tau*v3
+              v4 = v(4)
+              t4 = tau*v4
+              v5 = v(5)
+              t5 = tau*v5
+              v6 = v(6)
+              t6 = tau*v6
+              do j = 1,n
+                 sum = v1*c(1,j) + v2*c(2,j) + v3*c(3,j) + v4*c(4,j) + v5*c(5,j) + &
+                           v6*c(6,j)
+                 c(1,j) = c(1,j) - sum*t1
+                 c(2,j) = c(2,j) - sum*t2
+                 c(3,j) = c(3,j) - sum*t3
+                 c(4,j) = c(4,j) - sum*t4
+                 c(5,j) = c(5,j) - sum*t5
+                 c(6,j) = c(6,j) - sum*t6
+              end do
+              go to 410
+              130 continue
+              ! special code for 7 x 7 householder
+              v1 = v(1)
+              t1 = tau*v1
+              v2 = v(2)
+              t2 = tau*v2
+              v3 = v(3)
+              t3 = tau*v3
+              v4 = v(4)
+              t4 = tau*v4
+              v5 = v(5)
+              t5 = tau*v5
+              v6 = v(6)
+              t6 = tau*v6
+              v7 = v(7)
+              t7 = tau*v7
+              do j = 1,n
+                 sum = v1*c(1,j) + v2*c(2,j) + v3*c(3,j) + v4*c(4,j) + v5*c(5,j) + &
+                           v6*c(6,j) + v7*c(7,j)
+                 c(1,j) = c(1,j) - sum*t1
+                 c(2,j) = c(2,j) - sum*t2
+                 c(3,j) = c(3,j) - sum*t3
+                 c(4,j) = c(4,j) - sum*t4
+                 c(5,j) = c(5,j) - sum*t5
+                 c(6,j) = c(6,j) - sum*t6
+                 c(7,j) = c(7,j) - sum*t7
+              end do
+              go to 410
+              150 continue
+              ! special code for 8 x 8 householder
+              v1 = v(1)
+              t1 = tau*v1
+              v2 = v(2)
+              t2 = tau*v2
+              v3 = v(3)
+              t3 = tau*v3
+              v4 = v(4)
+              t4 = tau*v4
+              v5 = v(5)
+              t5 = tau*v5
+              v6 = v(6)
+              t6 = tau*v6
+              v7 = v(7)
+              t7 = tau*v7
+              v8 = v(8)
+              t8 = tau*v8
+              do j = 1,n
+                 sum = v1*c(1,j) + v2*c(2,j) + v3*c(3,j) + v4*c(4,j) + v5*c(5,j) + &
+                           v6*c(6,j) + v7*c(7,j) + v8*c(8,j)
+                 c(1,j) = c(1,j) - sum*t1
+                 c(2,j) = c(2,j) - sum*t2
+                 c(3,j) = c(3,j) - sum*t3
+                 c(4,j) = c(4,j) - sum*t4
+                 c(5,j) = c(5,j) - sum*t5
+                 c(6,j) = c(6,j) - sum*t6
+                 c(7,j) = c(7,j) - sum*t7
+                 c(8,j) = c(8,j) - sum*t8
+              end do
+              go to 410
+              170 continue
+              ! special code for 9 x 9 householder
+              v1 = v(1)
+              t1 = tau*v1
+              v2 = v(2)
+              t2 = tau*v2
+              v3 = v(3)
+              t3 = tau*v3
+              v4 = v(4)
+              t4 = tau*v4
+              v5 = v(5)
+              t5 = tau*v5
+              v6 = v(6)
+              t6 = tau*v6
+              v7 = v(7)
+              t7 = tau*v7
+              v8 = v(8)
+              t8 = tau*v8
+              v9 = v(9)
+              t9 = tau*v9
+              do j = 1,n
+                 sum = v1*c(1,j) + v2*c(2,j) + v3*c(3,j) + v4*c(4,j) + v5*c(5,j) + &
+                           v6*c(6,j) + v7*c(7,j) + v8*c(8,j) + v9*c(9,j)
+                 c(1,j) = c(1,j) - sum*t1
+                 c(2,j) = c(2,j) - sum*t2
+                 c(3,j) = c(3,j) - sum*t3
+                 c(4,j) = c(4,j) - sum*t4
+                 c(5,j) = c(5,j) - sum*t5
+                 c(6,j) = c(6,j) - sum*t6
+                 c(7,j) = c(7,j) - sum*t7
+                 c(8,j) = c(8,j) - sum*t8
+                 c(9,j) = c(9,j) - sum*t9
+              end do
+              go to 410
+              190 continue
+              ! special code for 10 x 10 householder
+              v1 = v(1)
+              t1 = tau*v1
+              v2 = v(2)
+              t2 = tau*v2
+              v3 = v(3)
+              t3 = tau*v3
+              v4 = v(4)
+              t4 = tau*v4
+              v5 = v(5)
+              t5 = tau*v5
+              v6 = v(6)
+              t6 = tau*v6
+              v7 = v(7)
+              t7 = tau*v7
+              v8 = v(8)
+              t8 = tau*v8
+              v9 = v(9)
+              t9 = tau*v9
+              v10 = v(10)
+              t10 = tau*v10
+              do j = 1,n
+                 sum = v1*c(1,j) + v2*c(2,j) + v3*c(3,j) + v4*c(4,j) + v5*c(5,j) + &
+                           v6*c(6,j) + v7*c(7,j) + v8*c(8,j) + v9*c(9,j) + v10*c(10,j)
+                 c(1,j) = c(1,j) - sum*t1
+                 c(2,j) = c(2,j) - sum*t2
+                 c(3,j) = c(3,j) - sum*t3
+                 c(4,j) = c(4,j) - sum*t4
+                 c(5,j) = c(5,j) - sum*t5
+                 c(6,j) = c(6,j) - sum*t6
+                 c(7,j) = c(7,j) - sum*t7
+                 c(8,j) = c(8,j) - sum*t8
+                 c(9,j) = c(9,j) - sum*t9
+                 c(10,j) = c(10,j) - sum*t10
+              end do
+              go to 410
+           else
+              ! form  c * h, where h has order n.
+              go to(210,230,250,270,290,310,330,350,370,390) n
+              ! code for general n
+              call la_${ri}$larf(side,m,n,v,1,tau,c,ldc,work)
+              go to 410
+              210 continue
+              ! special code for 1 x 1 householder
+              t1 = one - tau*v(1)*v(1)
+              do j = 1,m
+                 c(j,1) = t1*c(j,1)
+              end do
+              go to 410
+              230 continue
+              ! special code for 2 x 2 householder
+              v1 = v(1)
+              t1 = tau*v1
+              v2 = v(2)
+              t2 = tau*v2
+              do j = 1,m
+                 sum = v1*c(j,1) + v2*c(j,2)
+                 c(j,1) = c(j,1) - sum*t1
+                 c(j,2) = c(j,2) - sum*t2
+              end do
+              go to 410
+              250 continue
+              ! special code for 3 x 3 householder
+              v1 = v(1)
+              t1 = tau*v1
+              v2 = v(2)
+              t2 = tau*v2
+              v3 = v(3)
+              t3 = tau*v3
+              do j = 1,m
+                 sum = v1*c(j,1) + v2*c(j,2) + v3*c(j,3)
+                 c(j,1) = c(j,1) - sum*t1
+                 c(j,2) = c(j,2) - sum*t2
+                 c(j,3) = c(j,3) - sum*t3
+              end do
+              go to 410
+              270 continue
+              ! special code for 4 x 4 householder
+              v1 = v(1)
+              t1 = tau*v1
+              v2 = v(2)
+              t2 = tau*v2
+              v3 = v(3)
+              t3 = tau*v3
+              v4 = v(4)
+              t4 = tau*v4
+              do j = 1,m
+                 sum = v1*c(j,1) + v2*c(j,2) + v3*c(j,3) + v4*c(j,4)
+                 c(j,1) = c(j,1) - sum*t1
+                 c(j,2) = c(j,2) - sum*t2
+                 c(j,3) = c(j,3) - sum*t3
+                 c(j,4) = c(j,4) - sum*t4
+              end do
+              go to 410
+              290 continue
+              ! special code for 5 x 5 householder
+              v1 = v(1)
+              t1 = tau*v1
+              v2 = v(2)
+              t2 = tau*v2
+              v3 = v(3)
+              t3 = tau*v3
+              v4 = v(4)
+              t4 = tau*v4
+              v5 = v(5)
+              t5 = tau*v5
+              do j = 1,m
+                 sum = v1*c(j,1) + v2*c(j,2) + v3*c(j,3) + v4*c(j,4) + v5*c(j,5)
+
+                 c(j,1) = c(j,1) - sum*t1
+                 c(j,2) = c(j,2) - sum*t2
+                 c(j,3) = c(j,3) - sum*t3
+                 c(j,4) = c(j,4) - sum*t4
+                 c(j,5) = c(j,5) - sum*t5
+              end do
+              go to 410
+              310 continue
+              ! special code for 6 x 6 householder
+              v1 = v(1)
+              t1 = tau*v1
+              v2 = v(2)
+              t2 = tau*v2
+              v3 = v(3)
+              t3 = tau*v3
+              v4 = v(4)
+              t4 = tau*v4
+              v5 = v(5)
+              t5 = tau*v5
+              v6 = v(6)
+              t6 = tau*v6
+              do j = 1,m
+                 sum = v1*c(j,1) + v2*c(j,2) + v3*c(j,3) + v4*c(j,4) + v5*c(j,5) + &
+                           v6*c(j,6)
+                 c(j,1) = c(j,1) - sum*t1
+                 c(j,2) = c(j,2) - sum*t2
+                 c(j,3) = c(j,3) - sum*t3
+                 c(j,4) = c(j,4) - sum*t4
+                 c(j,5) = c(j,5) - sum*t5
+                 c(j,6) = c(j,6) - sum*t6
+              end do
+              go to 410
+              330 continue
+              ! special code for 7 x 7 householder
+              v1 = v(1)
+              t1 = tau*v1
+              v2 = v(2)
+              t2 = tau*v2
+              v3 = v(3)
+              t3 = tau*v3
+              v4 = v(4)
+              t4 = tau*v4
+              v5 = v(5)
+              t5 = tau*v5
+              v6 = v(6)
+              t6 = tau*v6
+              v7 = v(7)
+              t7 = tau*v7
+              do j = 1,m
+                 sum = v1*c(j,1) + v2*c(j,2) + v3*c(j,3) + v4*c(j,4) + v5*c(j,5) + &
+                           v6*c(j,6) + v7*c(j,7)
+                 c(j,1) = c(j,1) - sum*t1
+                 c(j,2) = c(j,2) - sum*t2
+                 c(j,3) = c(j,3) - sum*t3
+                 c(j,4) = c(j,4) - sum*t4
+                 c(j,5) = c(j,5) - sum*t5
+                 c(j,6) = c(j,6) - sum*t6
+                 c(j,7) = c(j,7) - sum*t7
+              end do
+              go to 410
+              350 continue
+              ! special code for 8 x 8 householder
+              v1 = v(1)
+              t1 = tau*v1
+              v2 = v(2)
+              t2 = tau*v2
+              v3 = v(3)
+              t3 = tau*v3
+              v4 = v(4)
+              t4 = tau*v4
+              v5 = v(5)
+              t5 = tau*v5
+              v6 = v(6)
+              t6 = tau*v6
+              v7 = v(7)
+              t7 = tau*v7
+              v8 = v(8)
+              t8 = tau*v8
+              do j = 1,m
+                 sum = v1*c(j,1) + v2*c(j,2) + v3*c(j,3) + v4*c(j,4) + v5*c(j,5) + &
+                           v6*c(j,6) + v7*c(j,7) + v8*c(j,8)
+                 c(j,1) = c(j,1) - sum*t1
+                 c(j,2) = c(j,2) - sum*t2
+                 c(j,3) = c(j,3) - sum*t3
+                 c(j,4) = c(j,4) - sum*t4
+                 c(j,5) = c(j,5) - sum*t5
+                 c(j,6) = c(j,6) - sum*t6
+                 c(j,7) = c(j,7) - sum*t7
+                 c(j,8) = c(j,8) - sum*t8
+              end do
+              go to 410
+              370 continue
+              ! special code for 9 x 9 householder
+              v1 = v(1)
+              t1 = tau*v1
+              v2 = v(2)
+              t2 = tau*v2
+              v3 = v(3)
+              t3 = tau*v3
+              v4 = v(4)
+              t4 = tau*v4
+              v5 = v(5)
+              t5 = tau*v5
+              v6 = v(6)
+              t6 = tau*v6
+              v7 = v(7)
+              t7 = tau*v7
+              v8 = v(8)
+              t8 = tau*v8
+              v9 = v(9)
+              t9 = tau*v9
+              do j = 1,m
+                 sum = v1*c(j,1) + v2*c(j,2) + v3*c(j,3) + v4*c(j,4) + v5*c(j,5) + &
+                           v6*c(j,6) + v7*c(j,7) + v8*c(j,8) + v9*c(j,9)
+                 c(j,1) = c(j,1) - sum*t1
+                 c(j,2) = c(j,2) - sum*t2
+                 c(j,3) = c(j,3) - sum*t3
+                 c(j,4) = c(j,4) - sum*t4
+                 c(j,5) = c(j,5) - sum*t5
+                 c(j,6) = c(j,6) - sum*t6
+                 c(j,7) = c(j,7) - sum*t7
+                 c(j,8) = c(j,8) - sum*t8
+                 c(j,9) = c(j,9) - sum*t9
+              end do
+              go to 410
+              390 continue
+              ! special code for 10 x 10 householder
+              v1 = v(1)
+              t1 = tau*v1
+              v2 = v(2)
+              t2 = tau*v2
+              v3 = v(3)
+              t3 = tau*v3
+              v4 = v(4)
+              t4 = tau*v4
+              v5 = v(5)
+              t5 = tau*v5
+              v6 = v(6)
+              t6 = tau*v6
+              v7 = v(7)
+              t7 = tau*v7
+              v8 = v(8)
+              t8 = tau*v8
+              v9 = v(9)
+              t9 = tau*v9
+              v10 = v(10)
+              t10 = tau*v10
+              do j = 1,m
+                 sum = v1*c(j,1) + v2*c(j,2) + v3*c(j,3) + v4*c(j,4) + v5*c(j,5) + &
+                           v6*c(j,6) + v7*c(j,7) + v8*c(j,8) + v9*c(j,9) + v10*c(j,10)
+                 c(j,1) = c(j,1) - sum*t1
+                 c(j,2) = c(j,2) - sum*t2
+                 c(j,3) = c(j,3) - sum*t3
+                 c(j,4) = c(j,4) - sum*t4
+                 c(j,5) = c(j,5) - sum*t5
+                 c(j,6) = c(j,6) - sum*t6
+                 c(j,7) = c(j,7) - sum*t7
+                 c(j,8) = c(j,8) - sum*t8
+                 c(j,9) = c(j,9) - sum*t9
+                 c(j,10) = c(j,10) - sum*t10
+              end do
+              go to 410
+           end if
+#:if rk == "sp"
+410    return
+#:else
+           410 continue
+           return
+#:endif
+     end subroutine la_${ri}$larfx
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     !> ${ri.upper()}$LARFY: applies an elementary reflector, or Householder matrix, H,
+     !> to an n x n symmetric matrix C, from both the left and the right.
+     !> H is represented in the form
+     !> H = I - tau * v * v'
+     !> where  tau  is a scalar and  v  is a vector.
+     !> If  tau  is  zero, then  H  is taken to be the unit matrix.
+
+     pure subroutine la_${ri}$larfy(uplo,n,v,incv,tau,c,ldc,work)
+        use la_constants_${rk}$
+        ! -- lapack test routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: incv,ldc,n
+           real(${rk}$),intent(in) :: tau
+           ! Array Arguments
+           real(${rk}$),intent(inout) :: c(ldc,*)
+           real(${rk}$),intent(in) :: v(*)
+           real(${rk}$),intent(out) :: work(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           real(${rk}$) :: alpha
+           ! Executable Statements
+           if (tau == zero) return
+           ! form  w:= c * v
+           call la_${ri}$symv(uplo,n,one,c,ldc,v,incv,zero,work,1)
+           alpha = -half*tau*la_${ri}$dot(n,work,1,v,incv)
+           call la_${ri}$axpy(n,alpha,v,incv,work,1)
+           ! c := c - v * w' - w * v'
+           call la_${ri}$syr2(uplo,n,-tau,v,incv,work,1,c,ldc)
+           return
+     end subroutine la_${ri}$larfy
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     !> ${ri.upper()}$LARFG: generates a real elementary reflector H of order n, such
+     !> that
+     !> H * ( alpha ) = ( beta ),   H**T * H = I.
+     !> (   x   )   (   0  )
+     !> where alpha and beta are scalars, and x is an (n-1)-element real
+     !> vector. H is represented in the form
+     !> H = I - tau * ( 1 ) * ( 1 v**T ) ,
+     !> ( v )
+     !> where tau is a real scalar and v is a real (n-1)-element
+     !> vector.
+     !> If the elements of x are all zero, then tau = 0 and H is taken to be
+     !> the unit matrix.
+     !> Otherwise  1 <= tau <= 2.
+
+     pure subroutine la_${ri}$larfg(n,alpha,x,incx,tau)
+        use la_constants_${rk}$,only:zero,one
+        ! -- lapack auxiliary routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           integer(ilp),intent(in) :: incx,n
+           real(${rk}$),intent(inout) :: alpha
+           real(${rk}$),intent(out) :: tau
+           ! Array Arguments
+           real(${rk}$),intent(inout) :: x(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           integer(ilp) :: j,knt
+           real(${rk}$) :: beta,rsafmn,safmin,xnorm
+           ! Intrinsic Functions
+           intrinsic :: abs,sign
+           ! Executable Statements
+           if (n <= 1) then
+              tau = zero
+              return
+           end if
+           xnorm = la_${ri}$nrm2(n - 1,x,incx)
+           if (xnorm == zero) then
+              ! h  =  i
+              tau = zero
+           else
+              ! general case
+              beta = -sign(la_${ri}$lapy2(alpha,xnorm),alpha)
+              safmin = la_${ri}$lamch('S')/la_${ri}$lamch('E')
+              knt = 0
+              if (abs(beta) < safmin) then
+                 ! xnorm, beta may be inaccurate; scale x and recompute them
+                 rsafmn = one/safmin
+                 10 continue
+                 knt = knt + 1
+                 call la_${ri}$scal(n - 1,rsafmn,x,incx)
+                 beta = beta*rsafmn
+                 alpha = alpha*rsafmn
+                 if ((abs(beta) < safmin) .and. (knt < 20)) go to 10
+                 ! new beta is at most 1, at least safmin
+                 xnorm = la_${ri}$nrm2(n - 1,x,incx)
+                 beta = -sign(la_${ri}$lapy2(alpha,xnorm),alpha)
+              end if
+              tau = (beta - alpha)/beta
+              call la_${ri}$scal(n - 1,one/(alpha - beta),x,incx)
+              ! if alpha is subnormal, it may lose relative accuracy
+              do j = 1,knt
+                 beta = beta*safmin
+              end do
+              alpha = beta
+           end if
+           return
+     end subroutine la_${ri}$larfg
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     !> ${ri.upper()}$LARFGP: generates a real elementary reflector H of order n, such
+     !> that
+     !> H * ( alpha ) = ( beta ),   H**T * H = I.
+     !> (   x   )   (   0  )
+     !> where alpha and beta are scalars, beta is non-negative, and x is
+     !> an (n-1)-element real vector.  H is represented in the form
+     !> H = I - tau * ( 1 ) * ( 1 v**T ) ,
+     !> ( v )
+     !> where tau is a real scalar and v is a real (n-1)-element
+     !> vector.
+     !> If the elements of x are all zero, then tau = 0 and H is taken to be
+     !> the unit matrix.
+
+     subroutine la_${ri}$larfgp(n,alpha,x,incx,tau)
+        use la_constants_${rk}$,only:zero,one,two
+        ! -- lapack auxiliary routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           integer(ilp),intent(in) :: incx,n
+           real(${rk}$),intent(inout) :: alpha
+           real(${rk}$),intent(out) :: tau
+           ! Array Arguments
+           real(${rk}$),intent(inout) :: x(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           integer(ilp) :: j,knt
+           real(${rk}$) :: beta,bignum,savealpha,smlnum,xnorm
+           ! Intrinsic Functions
+           intrinsic :: abs,sign
+           ! Executable Statements
+           if (n <= 0) then
+              tau = zero
+              return
+           end if
+           xnorm = la_${ri}$nrm2(n - 1,x,incx)
+           if (xnorm == zero) then
+#:if rk == "sp"
+              ! h  =  [+/-1, 0; i], sign chosen so alpha >= 0.
+#:else
+              ! h  =  [+/-1, 0; i], sign chosen so alpha >= 0
+#:endif
+              if (alpha >= zero) then
+                 ! when tau.eq.zero, the vector is special-cased to be
+                 ! all zeros in the application routines.  we do not need
+                 ! to clear it.
+                 tau = zero
+              else
+                 ! however, the application routines rely on explicit
+                 ! zero checks when tau.ne.zero, and we must clear x.
+                 tau = two
+                 do j = 1,n - 1
+                    x(1 + (j - 1)*incx) = 0
+                 end do
+                 alpha = -alpha
+              end if
+           else
+              ! general case
+              beta = sign(la_${ri}$lapy2(alpha,xnorm),alpha)
+              smlnum = la_${ri}$lamch('S')/la_${ri}$lamch('E')
+              knt = 0
+              if (abs(beta) < smlnum) then
+                 ! xnorm, beta may be inaccurate; scale x and recompute them
+                 bignum = one/smlnum
+                 10 continue
+                 knt = knt + 1
+                 call la_${ri}$scal(n - 1,bignum,x,incx)
+                 beta = beta*bignum
+                 alpha = alpha*bignum
+                 if ((abs(beta) < smlnum) .and. (knt < 20)) go to 10
+                 ! new beta is at most 1, at least smlnum
+                 xnorm = la_${ri}$nrm2(n - 1,x,incx)
+                 beta = sign(la_${ri}$lapy2(alpha,xnorm),alpha)
+              end if
+              savealpha = alpha
+              alpha = alpha + beta
+              if (beta < zero) then
+                 beta = -beta
+                 tau = -alpha/beta
+              else
+                 alpha = xnorm*(xnorm/alpha)
+                 tau = alpha/beta
+                 alpha = -alpha
+              end if
+              if (abs(tau) <= smlnum) then
+                 ! in the case where the computed tau ends up being a denormalized number,
+                 ! it loses relative accuracy. this is a big problem. solution: flush tau
+                 ! to zero. this explains the next if statement.
+                 ! (bug report provided by pat quillen from mathworks on jul 29, 2009.)
+                 ! (thanks pat. thanks mathworks.)
+                 if (savealpha >= zero) then
+                    tau = zero
+                 else
+                    tau = two
+                    do j = 1,n - 1
+                       x(1 + (j - 1)*incx) = 0
+                    end do
+                    beta = -savealpha
+                 end if
+              else
+                 ! this is the general case.
+                 call la_${ri}$scal(n - 1,one/alpha,x,incx)
+              end if
+              ! if beta is subnormal, it may lose relative accuracy
+              do j = 1,knt
+                 beta = beta*smlnum
+              end do
+              alpha = beta
+           end if
+           return
+     end subroutine la_${ri}$larfgp
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+     !> ${ri.upper()}$LARF: applies a complex elementary reflector H to a complex M-by-N
+     !> matrix C, from either the left or the right. H is represented in the
+     !> form
+     !> H = I - tau * v * v**H
+     !> where tau is a complex scalar and v is a complex vector.
+     !> If tau = 0, then H is taken to be the unit matrix.
+#:if rk == "sp"
+     !> To apply H**H (the conjugate transpose of H), supply conjg(tau) instead
+#:else
+     !> To apply H**H, supply conjg(tau) instead
+#:endif
+     !> tau.
+
+     pure subroutine la_${ri}$larf(side,m,n,v,incv,tau,c,ldc,work)
+        use la_constants_${rk}$
+        ! -- lapack auxiliary routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: side
+           integer(ilp),intent(in) :: incv,ldc,m,n
+           complex(${rk}$),intent(in) :: tau
+           ! Array Arguments
+           complex(${rk}$),intent(inout) :: c(ldc,*)
+           complex(${rk}$),intent(in) :: v(*)
+           complex(${rk}$),intent(out) :: work(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: applyleft
+           integer(ilp) :: i,lastv,lastc
+           ! Executable Statements
+           applyleft = la_lsame(side,'L')
+           lastv = 0
+           lastc = 0
+           if (tau /= czero) then
+           ! set up variables for scanning v.  lastv begins pointing to the end
+           ! of v.
+              if (applyleft) then
+                 lastv = m
+              else
+                 lastv = n
+              end if
+              if (incv > 0) then
+                 i = 1 + (lastv - 1)*incv
+              else
+                 i = 1
+              end if
+           ! look for the last non-czero row in v.
+              do while (lastv > 0 .and. v(i) == czero)
+                 lastv = lastv - 1
+                 i = i - incv
+              end do
+              if (applyleft) then
+           ! scan for the last non-czero column in c(1:lastv,:).
+                 lastc = la_ila${ri}$lc(lastv,n,c,ldc)
+              else
+           ! scan for the last non-czero row in c(:,1:lastv).
+                 lastc = la_ila${ri}$lr(m,lastv,c,ldc)
+              end if
+           end if
+           ! note that lastc.eq.0_${rk}$ renders the blas operations null; no special
+           ! case is needed at this level.
+           if (applyleft) then
+              ! form  h * c
+              if (lastv > 0) then
+                 ! w(1:lastc,1) := c(1:lastv,1:lastc)**h * v(1:lastv,1)
+                 call la_${ri}$gemv('CONJUGATE TRANSPOSE',lastv,lastc,cone,c,ldc,v,incv, &
+                           czero,work,1)
+                 ! c(1:lastv,1:lastc) := c(...) - v(1:lastv,1) * w(1:lastc,1)**h
+                 call la_${ri}$gerc(lastv,lastc,-tau,v,incv,work,1,c,ldc)
+              end if
+           else
+              ! form  c * h
+              if (lastv > 0) then
+                 ! w(1:lastc,1) := c(1:lastc,1:lastv) * v(1:lastv,1)
+                 call la_${ri}$gemv('NO TRANSPOSE',lastc,lastv,cone,c,ldc,v,incv,czero, &
+                           work,1)
+                 ! c(1:lastc,1:lastv) := c(...) - w(1:lastc,1) * v(1:lastv,1)**h
+                 call la_${ri}$gerc(lastc,lastv,-tau,work,1,v,incv,c,ldc)
+              end if
+           end if
+           return
+     end subroutine la_${ri}$larf
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+     !> ${ri.upper()}$LARFB: applies a complex block reflector H or its transpose H**H to a
+     !> complex M-by-N matrix C, from either the left or the right.
+
+     pure subroutine la_${ri}$larfb(side,trans,direct,storev,m,n,k,v,ldv,t,ldt,c,ldc, &
+               work,ldwork)
+        use la_constants_${rk}$
+        ! -- lapack auxiliary routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: direct,side,storev,trans
+           integer(ilp),intent(in) :: k,ldc,ldt,ldv,ldwork,m,n
+           ! Array Arguments
+           complex(${rk}$),intent(inout) :: c(ldc,*)
+           complex(${rk}$),intent(in) :: t(ldt,*),v(ldv,*)
+           complex(${rk}$),intent(out) :: work(ldwork,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           character :: transt
+           integer(ilp) :: i,j
+           ! Intrinsic Functions
+           intrinsic :: conjg
+           ! Executable Statements
+           ! quick return if possible
+           if (m <= 0 .or. n <= 0) return
+           if (la_lsame(trans,'N')) then
+              transt = 'C'
+           else
+              transt = 'N'
+           end if
+           if (la_lsame(storev,'C')) then
+              if (la_lsame(direct,'F')) then
+                 ! let  v =  ( v1 )    (first k rows)
+                           ! ( v2 )
+                 ! where  v1  is unit lower triangular.
+                 if (la_lsame(side,'L')) then
+                    ! form  h * c  or  h**h * c  where  c = ( c1 )
+                                                          ! ( c2 )
+                    ! w := c**h * v  =  (c1**h * v1 + c2**h * v2)  (stored in work)
+                    ! w := c1**h
+                    do j = 1,k
+                       call la_${ri}$copy(n,c(j,1),ldc,work(1,j),1)
+                       call la_${ri}$lacgv(n,work(1,j),1)
+                    end do
+                    ! w := w * v1
+                    call la_${ri}$trmm('RIGHT','LOWER','NO TRANSPOSE','UNIT',n,k,cone,v, &
+                              ldv,work,ldwork)
+                    if (m > k) then
+#:if rk == "sp"
+                       ! w := w + c2**h *v2
+#:else
+                       ! w := w + c2**h * v2
+#:endif
+                       call la_${ri}$gemm('CONJUGATE TRANSPOSE','NO TRANSPOSE',n,k,m - k,cone, &
+                                 c(k + 1,1),ldc,v(k + 1,1),ldv,cone,work,ldwork)
+                    end if
+                    ! w := w * t**h  or  w * t
+                    call la_${ri}$trmm('RIGHT','UPPER',transt,'NON-UNIT',n,k,cone,t,ldt, &
+                              work,ldwork)
+                    ! c := c - v * w**h
+                    if (m > k) then
+                       ! c2 := c2 - v2 * w**h
+                       call la_${ri}$gemm('NO TRANSPOSE','CONJUGATE TRANSPOSE',m - k,n,k,-cone, &
+                                 v(k + 1,1),ldv,work,ldwork,cone,c(k + 1,1),ldc)
+                    end if
+                    ! w := w * v1**h
+                    call la_${ri}$trmm('RIGHT','LOWER','CONJUGATE TRANSPOSE','UNIT',n,k,cone, &
+                               v,ldv,work,ldwork)
+                    ! c1 := c1 - w**h
+                    do j = 1,k
+                       do i = 1,n
+                          c(j,i) = c(j,i) - conjg(work(i,j))
+                       end do
+                    end do
+                 else if (la_lsame(side,'R')) then
+                    ! form  c * h  or  c * h**h  where  c = ( c1  c2 )
+                    ! w := c * v  =  (c1*v1 + c2*v2)  (stored in work)
+                    ! w := c1
+                    do j = 1,k
+                       call la_${ri}$copy(m,c(1,j),1,work(1,j),1)
+                    end do
+                    ! w := w * v1
+                    call la_${ri}$trmm('RIGHT','LOWER','NO TRANSPOSE','UNIT',m,k,cone,v, &
+                              ldv,work,ldwork)
+                    if (n > k) then
+                       ! w := w + c2 * v2
+                       call la_${ri}$gemm('NO TRANSPOSE','NO TRANSPOSE',m,k,n - k,cone,c(1,k + &
+                                 1),ldc,v(k + 1,1),ldv,cone,work,ldwork)
+                    end if
+                    ! w := w * t  or  w * t**h
+                    call la_${ri}$trmm('RIGHT','UPPER',trans,'NON-UNIT',m,k,cone,t,ldt, &
+                              work,ldwork)
+                    ! c := c - w * v**h
+                    if (n > k) then
+                       ! c2 := c2 - w * v2**h
+                       call la_${ri}$gemm('NO TRANSPOSE','CONJUGATE TRANSPOSE',m,n - k,k,-cone, &
+                                 work,ldwork,v(k + 1,1),ldv,cone,c(1,k + 1),ldc)
+                    end if
+                    ! w := w * v1**h
+                    call la_${ri}$trmm('RIGHT','LOWER','CONJUGATE TRANSPOSE','UNIT',m,k,cone, &
+                               v,ldv,work,ldwork)
+                    ! c1 := c1 - w
+                    do j = 1,k
+                       do i = 1,m
+                          c(i,j) = c(i,j) - work(i,j)
+                       end do
+                    end do
+                 end if
+              else
+                 ! let  v =  ( v1 )
+                           ! ( v2 )    (last k rows)
+                 ! where  v2  is unit upper triangular.
+                 if (la_lsame(side,'L')) then
+                    ! form  h * c  or  h**h * c  where  c = ( c1 )
+                                                          ! ( c2 )
+                    ! w := c**h * v  =  (c1**h * v1 + c2**h * v2)  (stored in work)
+                    ! w := c2**h
+                    do j = 1,k
+                       call la_${ri}$copy(n,c(m - k + j,1),ldc,work(1,j),1)
+                       call la_${ri}$lacgv(n,work(1,j),1)
+                    end do
+                    ! w := w * v2
+                    call la_${ri}$trmm('RIGHT','UPPER','NO TRANSPOSE','UNIT',n,k,cone,v(m - &
+                              k + 1,1),ldv,work,ldwork)
+                    if (m > k) then
+                       ! w := w + c1**h * v1
+                       call la_${ri}$gemm('CONJUGATE TRANSPOSE','NO TRANSPOSE',n,k,m - k,cone, &
+                                 c,ldc,v,ldv,cone,work,ldwork)
+                    end if
+                    ! w := w * t**h  or  w * t
+                    call la_${ri}$trmm('RIGHT','LOWER',transt,'NON-UNIT',n,k,cone,t,ldt, &
+                              work,ldwork)
+                    ! c := c - v * w**h
+                    if (m > k) then
+                       ! c1 := c1 - v1 * w**h
+                       call la_${ri}$gemm('NO TRANSPOSE','CONJUGATE TRANSPOSE',m - k,n,k,-cone, &
+                                 v,ldv,work,ldwork,cone,c,ldc)
+                    end if
+                    ! w := w * v2**h
+                    call la_${ri}$trmm('RIGHT','UPPER','CONJUGATE TRANSPOSE','UNIT',n,k,cone, &
+                               v(m - k + 1,1),ldv,work,ldwork)
+                    ! c2 := c2 - w**h
+                    do j = 1,k
+                       do i = 1,n
+                          c(m - k + j,i) = c(m - k + j,i) - conjg(work(i,j))
+                       end do
+                    end do
+                 else if (la_lsame(side,'R')) then
+                    ! form  c * h  or  c * h**h  where  c = ( c1  c2 )
+                    ! w := c * v  =  (c1*v1 + c2*v2)  (stored in work)
+                    ! w := c2
+                    do j = 1,k
+                       call la_${ri}$copy(m,c(1,n - k + j),1,work(1,j),1)
+                    end do
+                    ! w := w * v2
+                    call la_${ri}$trmm('RIGHT','UPPER','NO TRANSPOSE','UNIT',m,k,cone,v(n - &
+                              k + 1,1),ldv,work,ldwork)
+                    if (n > k) then
+                       ! w := w + c1 * v1
+                       call la_${ri}$gemm('NO TRANSPOSE','NO TRANSPOSE',m,k,n - k,cone,c,ldc, &
+                                 v,ldv,cone,work,ldwork)
+                    end if
+                    ! w := w * t  or  w * t**h
+                    call la_${ri}$trmm('RIGHT','LOWER',trans,'NON-UNIT',m,k,cone,t,ldt, &
+                              work,ldwork)
+                    ! c := c - w * v**h
+                    if (n > k) then
+                       ! c1 := c1 - w * v1**h
+                       call la_${ri}$gemm('NO TRANSPOSE','CONJUGATE TRANSPOSE',m,n - k,k,-cone, &
+                                 work,ldwork,v,ldv,cone,c,ldc)
+                    end if
+                    ! w := w * v2**h
+                    call la_${ri}$trmm('RIGHT','UPPER','CONJUGATE TRANSPOSE','UNIT',m,k,cone, &
+                               v(n - k + 1,1),ldv,work,ldwork)
+                    ! c2 := c2 - w
+                    do j = 1,k
+                       do i = 1,m
+                          c(i,n - k + j) = c(i,n - k + j) - work(i,j)
+                       end do
+                    end do
+                 end if
+              end if
+           else if (la_lsame(storev,'R')) then
+              if (la_lsame(direct,'F')) then
+                 ! let  v =  ( v1  v2 )    (v1: first k columns)
+                 ! where  v1  is unit upper triangular.
+                 if (la_lsame(side,'L')) then
+                    ! form  h * c  or  h**h * c  where  c = ( c1 )
+                                                          ! ( c2 )
+                    ! w := c**h * v**h  =  (c1**h * v1**h + c2**h * v2**h) (stored in work)
+                    ! w := c1**h
+                    do j = 1,k
+                       call la_${ri}$copy(n,c(j,1),ldc,work(1,j),1)
+                       call la_${ri}$lacgv(n,work(1,j),1)
+                    end do
+                    ! w := w * v1**h
+                    call la_${ri}$trmm('RIGHT','UPPER','CONJUGATE TRANSPOSE','UNIT',n,k,cone, &
+                               v,ldv,work,ldwork)
+                    if (m > k) then
+                       ! w := w + c2**h * v2**h
+                       call la_${ri}$gemm('CONJUGATE TRANSPOSE','CONJUGATE TRANSPOSE',n,k,m - k, &
+                                 cone,c(k + 1,1),ldc,v(1,k + 1),ldv,cone,work,ldwork)
+                    end if
+                    ! w := w * t**h  or  w * t
+                    call la_${ri}$trmm('RIGHT','UPPER',transt,'NON-UNIT',n,k,cone,t,ldt, &
+                              work,ldwork)
+                    ! c := c - v**h * w**h
+                    if (m > k) then
+                       ! c2 := c2 - v2**h * w**h
+                       call la_${ri}$gemm('CONJUGATE TRANSPOSE','CONJUGATE TRANSPOSE',m - k,n,k, &
+                                 -cone,v(1,k + 1),ldv,work,ldwork,cone,c(k + 1,1),ldc)
+                    end if
+                    ! w := w * v1
+                    call la_${ri}$trmm('RIGHT','UPPER','NO TRANSPOSE','UNIT',n,k,cone,v, &
+                              ldv,work,ldwork)
+                    ! c1 := c1 - w**h
+                    do j = 1,k
+                       do i = 1,n
+                          c(j,i) = c(j,i) - conjg(work(i,j))
+                       end do
+                    end do
+                 else if (la_lsame(side,'R')) then
+                    ! form  c * h  or  c * h**h  where  c = ( c1  c2 )
+                    ! w := c * v**h  =  (c1*v1**h + c2*v2**h)  (stored in work)
+                    ! w := c1
+                    do j = 1,k
+                       call la_${ri}$copy(m,c(1,j),1,work(1,j),1)
+                    end do
+                    ! w := w * v1**h
+                    call la_${ri}$trmm('RIGHT','UPPER','CONJUGATE TRANSPOSE','UNIT',m,k,cone, &
+                               v,ldv,work,ldwork)
+                    if (n > k) then
+                       ! w := w + c2 * v2**h
+                       call la_${ri}$gemm('NO TRANSPOSE','CONJUGATE TRANSPOSE',m,k,n - k,cone, &
+                                 c(1,k + 1),ldc,v(1,k + 1),ldv,cone,work,ldwork)
+                    end if
+                    ! w := w * t  or  w * t**h
+                    call la_${ri}$trmm('RIGHT','UPPER',trans,'NON-UNIT',m,k,cone,t,ldt, &
+                              work,ldwork)
+                    ! c := c - w * v
+                    if (n > k) then
+                       ! c2 := c2 - w * v2
+                       call la_${ri}$gemm('NO TRANSPOSE','NO TRANSPOSE',m,n - k,k,-cone,work, &
+                                 ldwork,v(1,k + 1),ldv,cone,c(1,k + 1),ldc)
+                    end if
+                    ! w := w * v1
+                    call la_${ri}$trmm('RIGHT','UPPER','NO TRANSPOSE','UNIT',m,k,cone,v, &
+                              ldv,work,ldwork)
+                    ! c1 := c1 - w
+                    do j = 1,k
+                       do i = 1,m
+                          c(i,j) = c(i,j) - work(i,j)
+                       end do
+                    end do
+                 end if
+              else
+                 ! let  v =  ( v1  v2 )    (v2: last k columns)
+                 ! where  v2  is unit lower triangular.
+                 if (la_lsame(side,'L')) then
+                    ! form  h * c  or  h**h * c  where  c = ( c1 )
+                                                          ! ( c2 )
+                    ! w := c**h * v**h  =  (c1**h * v1**h + c2**h * v2**h) (stored in work)
+                    ! w := c2**h
+                    do j = 1,k
+                       call la_${ri}$copy(n,c(m - k + j,1),ldc,work(1,j),1)
+                       call la_${ri}$lacgv(n,work(1,j),1)
+                    end do
+                    ! w := w * v2**h
+                    call la_${ri}$trmm('RIGHT','LOWER','CONJUGATE TRANSPOSE','UNIT',n,k,cone, &
+                               v(1,m - k + 1),ldv,work,ldwork)
+                    if (m > k) then
+                       ! w := w + c1**h * v1**h
+                       call la_${ri}$gemm('CONJUGATE TRANSPOSE','CONJUGATE TRANSPOSE',n,k,m - k, &
+                                 cone,c,ldc,v,ldv,cone,work,ldwork)
+                    end if
+                    ! w := w * t**h  or  w * t
+                    call la_${ri}$trmm('RIGHT','LOWER',transt,'NON-UNIT',n,k,cone,t,ldt, &
+                              work,ldwork)
+                    ! c := c - v**h * w**h
+                    if (m > k) then
+                       ! c1 := c1 - v1**h * w**h
+                       call la_${ri}$gemm('CONJUGATE TRANSPOSE','CONJUGATE TRANSPOSE',m - k,n,k, &
+                                 -cone,v,ldv,work,ldwork,cone,c,ldc)
+                    end if
+                    ! w := w * v2
+                    call la_${ri}$trmm('RIGHT','LOWER','NO TRANSPOSE','UNIT',n,k,cone,v(1, &
+                              m - k + 1),ldv,work,ldwork)
+                    ! c2 := c2 - w**h
+                    do j = 1,k
+                       do i = 1,n
+                          c(m - k + j,i) = c(m - k + j,i) - conjg(work(i,j))
+                       end do
+                    end do
+                 else if (la_lsame(side,'R')) then
+                    ! form  c * h  or  c * h**h  where  c = ( c1  c2 )
+                    ! w := c * v**h  =  (c1*v1**h + c2*v2**h)  (stored in work)
+                    ! w := c2
+                    do j = 1,k
+                       call la_${ri}$copy(m,c(1,n - k + j),1,work(1,j),1)
+                    end do
+                    ! w := w * v2**h
+                    call la_${ri}$trmm('RIGHT','LOWER','CONJUGATE TRANSPOSE','UNIT',m,k,cone, &
+                               v(1,n - k + 1),ldv,work,ldwork)
+                    if (n > k) then
+                       ! w := w + c1 * v1**h
+                       call la_${ri}$gemm('NO TRANSPOSE','CONJUGATE TRANSPOSE',m,k,n - k,cone, &
+                                 c,ldc,v,ldv,cone,work,ldwork)
+                    end if
+                    ! w := w * t  or  w * t**h
+                    call la_${ri}$trmm('RIGHT','LOWER',trans,'NON-UNIT',m,k,cone,t,ldt, &
+                              work,ldwork)
+                    ! c := c - w * v
+                    if (n > k) then
+                       ! c1 := c1 - w * v1
+                       call la_${ri}$gemm('NO TRANSPOSE','NO TRANSPOSE',m,n - k,k,-cone,work, &
+                                 ldwork,v,ldv,cone,c,ldc)
+                    end if
+                    ! w := w * v2
+                    call la_${ri}$trmm('RIGHT','LOWER','NO TRANSPOSE','UNIT',m,k,cone,v(1, &
+                              n - k + 1),ldv,work,ldwork)
+                    ! c1 := c1 - w
+                    do j = 1,k
+                       do i = 1,m
+                          c(i,n - k + j) = c(i,n - k + j) - work(i,j)
+                       end do
+                    end do
+                 end if
+              end if
+           end if
+           return
+     end subroutine la_${ri}$larfb
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+     !> ${ri.upper()}$LARFG: generates a complex elementary reflector H of order n, such
+     !> that
+     !> H**H * ( alpha ) = ( beta ),   H**H * H = I.
+     !> (   x   )   (   0  )
+     !> where alpha and beta are scalars, with beta real, and x is an
+     !> (n-1)-element complex vector. H is represented in the form
+     !> H = I - tau * ( 1 ) * ( 1 v**H ) ,
+     !> ( v )
+     !> where tau is a complex scalar and v is a complex (n-1)-element
+     !> vector. Note that H is not hermitian.
+     !> If the elements of x are all zero and alpha is real, then tau = 0
+     !> and H is taken to be the unit matrix.
+     !> Otherwise  1 <= real(tau) <= 2  and  abs(tau-1) <= 1 .
+
+     pure subroutine la_${ri}$larfg(n,alpha,x,incx,tau)
+        use la_constants_${rk}$,only:zero,one
+        ! -- lapack auxiliary routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           integer(ilp),intent(in) :: incx,n
+           complex(${rk}$),intent(inout) :: alpha
+           complex(${rk}$),intent(out) :: tau
+           ! Array Arguments
+           complex(${rk}$),intent(inout) :: x(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           integer(ilp) :: j,knt
+           real(${rk}$) :: alphi,alphr,beta,rsafmn,safmin,xnorm
+           ! Intrinsic Functions
+#:if rk == "sp"
+           intrinsic :: abs,aimag,cmplx,real,sign
+#:else
+           intrinsic :: abs,real,cmplx,aimag,sign
+#:endif
+           ! Executable Statements
+           if (n <= 0) then
+              tau = zero
+              return
+           end if
+           xnorm = la_${ci}$${ri}$nrm2(n - 1,x,incx)
+           alphr = real(alpha,KIND=${rk}$)
+           alphi = aimag(alpha)
+           if (xnorm == zero .and. alphi == zero) then
+              ! h  =  i
+              tau = zero
+           else
+              ! general case
+              beta = -sign(la_${ci}$lapy3(alphr,alphi,xnorm),alphr)
+              safmin = la_${ci}$lamch('S')/la_${ci}$lamch('E')
+              rsafmn = one/safmin
+              knt = 0
+              if (abs(beta) < safmin) then
+                 ! xnorm, beta may be inaccurate; scale x and recompute them
+                 10 continue
+                 knt = knt + 1
+                 call la_${ri}$${ci}$scal(n - 1,rsafmn,x,incx)
+                 beta = beta*rsafmn
+                 alphi = alphi*rsafmn
+                 alphr = alphr*rsafmn
+                 if ((abs(beta) < safmin) .and. (knt < 20)) go to 10
+                 ! new beta is at most 1, at least safmin
+                 xnorm = la_${ci}$${ri}$nrm2(n - 1,x,incx)
+                 alpha = cmplx(alphr,alphi,KIND=${rk}$)
+                 beta = -sign(la_${ci}$lapy3(alphr,alphi,xnorm),alphr)
+              end if
+              tau = cmplx((beta - alphr)/beta,-alphi/beta,KIND=${rk}$)
+              alpha = la_${ri}$ladiv(cmplx(one,KIND=${rk}$),alpha - beta)
+              call la_${ri}$scal(n - 1,alpha,x,incx)
+              ! if alpha is subnormal, it may lose relative accuracy
+              do j = 1,knt
+                 beta = beta*safmin
+              end do
+              alpha = beta
+           end if
+           return
+     end subroutine la_${ri}$larfg
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+     !> ${ri.upper()}$LARFGP: generates a complex elementary reflector H of order n, such
+     !> that
+     !> H**H * ( alpha ) = ( beta ),   H**H * H = I.
+     !> (   x   )   (   0  )
+     !> where alpha and beta are scalars, beta is real and non-negative, and
+     !> x is an (n-1)-element complex vector.  H is represented in the form
+     !> H = I - tau * ( 1 ) * ( 1 v**H ) ,
+     !> ( v )
+     !> where tau is a complex scalar and v is a complex (n-1)-element
+     !> vector. Note that H is not hermitian.
+     !> If the elements of x are all zero and alpha is real, then tau = 0
+     !> and H is taken to be the unit matrix.
+
+     subroutine la_${ri}$larfgp(n,alpha,x,incx,tau)
+        use la_constants_${rk}$,only:zero,one,two
+        ! -- lapack auxiliary routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           integer(ilp),intent(in) :: incx,n
+           complex(${rk}$),intent(inout) :: alpha
+           complex(${rk}$),intent(out) :: tau
+           ! Array Arguments
+           complex(${rk}$),intent(inout) :: x(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           integer(ilp) :: j,knt
+           real(${rk}$) :: alphi,alphr,beta,bignum,smlnum,xnorm
+           complex(${rk}$) :: savealpha
+           ! Intrinsic Functions
+#:if rk == "sp"
+           intrinsic :: abs,aimag,cmplx,real,sign
+#:else
+           intrinsic :: abs,real,cmplx,aimag,sign
+#:endif
+           ! Executable Statements
+           if (n <= 0) then
+              tau = zero
+              return
+           end if
+           xnorm = la_${ci}$${ri}$nrm2(n - 1,x,incx)
+           alphr = real(alpha,KIND=${rk}$)
+           alphi = aimag(alpha)
+           if (xnorm == zero) then
+              ! h  =  [1-alpha/abs(alpha) 0; 0 i], sign chosen so alpha >= 0.
+              if (alphi == zero) then
+                 if (alphr >= zero) then
+                    ! when tau.eq.zero, the vector is special-cased to be
+                    ! all zeros in the application routines.  we do not need
+                    ! to clear it.
+                    tau = zero
+                 else
+                    ! however, the application routines rely on explicit
+                    ! zero checks when tau.ne.zero, and we must clear x.
+                    tau = two
+                    do j = 1,n - 1
+                       x(1 + (j - 1)*incx) = zero
+                    end do
+                    alpha = -alpha
+                 end if
+              else
+                 ! only "reflecting" the diagonal entry to be real and non-negative.
+                 xnorm = la_${ci}$lapy2(alphr,alphi)
+                 tau = cmplx(one - alphr/xnorm,-alphi/xnorm,KIND=${rk}$)
+                 do j = 1,n - 1
+                    x(1 + (j - 1)*incx) = zero
+                 end do
+                 alpha = xnorm
+              end if
+           else
+              ! general case
+              beta = sign(la_${ci}$lapy3(alphr,alphi,xnorm),alphr)
+              smlnum = la_${ci}$lamch('S')/la_${ci}$lamch('E')
+              bignum = one/smlnum
+              knt = 0
+              if (abs(beta) < smlnum) then
+                 ! xnorm, beta may be inaccurate; scale x and recompute them
+                 10 continue
+                 knt = knt + 1
+                 call la_${ri}$${ci}$scal(n - 1,bignum,x,incx)
+                 beta = beta*bignum
+                 alphi = alphi*bignum
+                 alphr = alphr*bignum
+                 if ((abs(beta) < smlnum) .and. (knt < 20)) go to 10
+                 ! new beta is at most 1, at least smlnum
+                 xnorm = la_${ci}$${ri}$nrm2(n - 1,x,incx)
+                 alpha = cmplx(alphr,alphi,KIND=${rk}$)
+                 beta = sign(la_${ci}$lapy3(alphr,alphi,xnorm),alphr)
+              end if
+              savealpha = alpha
+              alpha = alpha + beta
+              if (beta < zero) then
+                 beta = -beta
+                 tau = -alpha/beta
+              else
+                 alphr = alphi*(alphi/real(alpha,KIND=${rk}$))
+                 alphr = alphr + xnorm*(xnorm/real(alpha,KIND=${rk}$))
+                 tau = cmplx(alphr/beta,-alphi/beta,KIND=${rk}$)
+                 alpha = cmplx(-alphr,alphi,KIND=${rk}$)
+              end if
+              alpha = la_${ri}$ladiv(cmplx(one,KIND=${rk}$),alpha)
+              if (abs(tau) <= smlnum) then
+                 ! in the case where the computed tau ends up being a denormalized number,
+                 ! it loses relative accuracy. this is a big problem. solution: flush tau
+                 ! to zero (or two or whatever makes a nonnegative real number for beta).
+                 ! (bug report provided by pat quillen from mathworks on jul 29, 2009.)
+                 ! (thanks pat. thanks mathworks.)
+                 alphr = real(savealpha,KIND=${rk}$)
+                 alphi = aimag(savealpha)
+                 if (alphi == zero) then
+                    if (alphr >= zero) then
+                       tau = zero
+                    else
+                       tau = two
+                       do j = 1,n - 1
+                          x(1 + (j - 1)*incx) = zero
+                       end do
+                       beta = real(-savealpha,KIND=${rk}$)
+                    end if
+                 else
+                    xnorm = la_${ci}$lapy2(alphr,alphi)
+                    tau = cmplx(one - alphr/xnorm,-alphi/xnorm,KIND=${rk}$)
+                    do j = 1,n - 1
+                       x(1 + (j - 1)*incx) = zero
+                    end do
+                    beta = xnorm
+                 end if
+              else
+                 ! this is the general case.
+                 call la_${ri}$scal(n - 1,alpha,x,incx)
+              end if
+              ! if beta is subnormal, it may lose relative accuracy
+              do j = 1,knt
+                 beta = beta*smlnum
+              end do
+              alpha = beta
+           end if
+           return
+     end subroutine la_${ri}$larfgp
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+     !> ${ri.upper()}$LARFT: forms the triangular factor T of a complex block reflector H
+     !> of order n, which is defined as a product of k elementary reflectors.
+     !> If DIRECT = 'F', H = H(1) H(2) . . . H(k) and T is upper triangular;
+     !> If DIRECT = 'B', H = H(k) . . . H(2) H(1) and T is lower triangular.
+     !> If STOREV = 'C', the vector which defines the elementary reflector
+     !> H(i) is stored in the i-th column of the array V, and
+     !> H  =  I - V * T * V**H
+     !> If STOREV = 'R', the vector which defines the elementary reflector
+     !> H(i) is stored in the i-th row of the array V, and
+     !> H  =  I - V**H * T * V
+
+     pure subroutine la_${ri}$larft(direct,storev,n,k,v,ldv,tau,t,ldt)
+        use la_constants_${rk}$
+        ! -- lapack auxiliary routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: direct,storev
+           integer(ilp),intent(in) :: k,ldt,ldv,n
+           ! Array Arguments
+           complex(${rk}$),intent(out) :: t(ldt,*)
+           complex(${rk}$),intent(in) :: tau(*),v(ldv,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           integer(ilp) :: i,j,prevlastv,lastv
+           ! Executable Statements
+           ! quick return if possible
+           if (n == 0) return
+           if (la_lsame(direct,'F')) then
+              prevlastv = n
+              do i = 1,k
+                 prevlastv = max(prevlastv,i)
+                 if (tau(i) == czero) then
+                    ! h(i)  =  i
+                    do j = 1,i
+                       t(j,i) = czero
+                    end do
+                 else
+                    ! general case
+                    if (la_lsame(storev,'C')) then
+                       ! skip any trailing zeros.
+                       do lastv = n,i + 1,-1
+                          if (v(lastv,i) /= czero) exit
+                       end do
+                       do j = 1,i - 1
+                          t(j,i) = -tau(i)*conjg(v(i,j))
+                       end do
+                       j = min(lastv,prevlastv)
+                       ! t(1:i-1,i) := - tau(i) * v(i:j,1:i-1)**h * v(i:j,i)
+                       call la_${ri}$gemv('CONJUGATE TRANSPOSE',j - i,i - 1,-tau(i),v(i + 1,1), &
+                                 ldv,v(i + 1,i),1,cone,t(1,i),1)
+                    else
+                       ! skip any trailing zeros.
+                       do lastv = n,i + 1,-1
+                          if (v(i,lastv) /= czero) exit
+                       end do
+                       do j = 1,i - 1
+                          t(j,i) = -tau(i)*v(j,i)
+                       end do
+                       j = min(lastv,prevlastv)
+                       ! t(1:i-1,i) := - tau(i) * v(1:i-1,i:j) * v(i,i:j)**h
+                       call la_${ri}$gemm('N','C',i - 1,1,j - i,-tau(i),v(1,i + 1),ldv,v(i, &
+                                  i + 1),ldv,cone,t(1,i),ldt)
+                    end if
+                    ! t(1:i-1,i) := t(1:i-1,1:i-1) * t(1:i-1,i)
+                    call la_${ri}$trmv('UPPER','NO TRANSPOSE','NON-UNIT',i - 1,t,ldt,t(1,i), &
+                               1)
+                    t(i,i) = tau(i)
+                    if (i > 1) then
+                       prevlastv = max(prevlastv,lastv)
+                    else
+                       prevlastv = lastv
+                    end if
+                  end if
+              end do
+           else
+              prevlastv = 1
+              do i = k,1,-1
+                 if (tau(i) == czero) then
+                    ! h(i)  =  i
+                    do j = i,k
+                       t(j,i) = czero
+                    end do
+                 else
+                    ! general case
+                    if (i < k) then
+                       if (la_lsame(storev,'C')) then
+                          ! skip any leading zeros.
+                          do lastv = 1,i - 1
+                             if (v(lastv,i) /= czero) exit
+                          end do
+                          do j = i + 1,k
+                             t(j,i) = -tau(i)*conjg(v(n - k + i,j))
+                          end do
+                          j = max(lastv,prevlastv)
+                          ! t(i+1:k,i) = -tau(i) * v(j:n-k+i,i+1:k)**h * v(j:n-k+i,i)
+                          call la_${ri}$gemv('CONJUGATE TRANSPOSE',n - k + i - j,k - i,-tau(i),v(j, &
+                                    i + 1),ldv,v(j,i),1,cone,t(i + 1,i),1)
+                       else
+                          ! skip any leading zeros.
+                          do lastv = 1,i - 1
+                             if (v(i,lastv) /= czero) exit
+                          end do
+                          do j = i + 1,k
+                             t(j,i) = -tau(i)*v(j,n - k + i)
+                          end do
+                          j = max(lastv,prevlastv)
+                          ! t(i+1:k,i) = -tau(i) * v(i+1:k,j:n-k+i) * v(i,j:n-k+i)**h
+                          call la_${ri}$gemm('N','C',k - i,1,n - k + i - j,-tau(i),v(i + 1,j), &
+                                    ldv,v(i,j),ldv,cone,t(i + 1,i),ldt)
+                       end if
+                       ! t(i+1:k,i) := t(i+1:k,i+1:k) * t(i+1:k,i)
+                       call la_${ri}$trmv('LOWER','NO TRANSPOSE','NON-UNIT',k - i,t(i + 1,i + 1), &
+                                 ldt,t(i + 1,i),1)
+                       if (i > 1) then
+                          prevlastv = min(prevlastv,lastv)
+                       else
+                          prevlastv = lastv
+                       end if
+                    end if
+                    t(i,i) = tau(i)
+                 end if
+              end do
+           end if
+           return
+     end subroutine la_${ri}$larft
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+     !> ${ri.upper()}$LARFX: applies a complex elementary reflector H to a complex m by n
+     !> matrix C, from either the left or the right. H is represented in the
+     !> form
+     !> H = I - tau * v * v**H
+     !> where tau is a complex scalar and v is a complex vector.
+     !> If tau = 0, then H is taken to be the unit matrix
+     !> This version uses inline code if H has order < 11.
+
+     pure subroutine la_${ri}$larfx(side,m,n,v,tau,c,ldc,work)
+        use la_constants_${rk}$
+        ! -- lapack auxiliary routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: side
+           integer(ilp),intent(in) :: ldc,m,n
+           complex(${rk}$),intent(in) :: tau
+           ! Array Arguments
+           complex(${rk}$),intent(inout) :: c(ldc,*)
+           complex(${rk}$),intent(in) :: v(*)
+           complex(${rk}$),intent(out) :: work(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           integer(ilp) :: j
+           complex(${rk}$) :: sum,t1,t10,t2,t3,t4,t5,t6,t7,t8,t9,v1,v10,v2,v3,v4,v5, &
+                     v6,v7,v8,v9
+           ! Intrinsic Functions
+           intrinsic :: conjg
+           ! Executable Statements
+           if (tau == czero) return
+           if (la_lsame(side,'L')) then
+              ! form  h * c, where h has order m.
+              go to(10,30,50,70,90,110,130,150,170,190) m
+              ! code for general m
+              call la_${ri}$larf(side,m,n,v,1,tau,c,ldc,work)
+              go to 410
+              10 continue
+              ! special code for 1 x 1 householder
+              t1 = cone - tau*v(1)*conjg(v(1))
+              do j = 1,n
+                 c(1,j) = t1*c(1,j)
+              end do
+              go to 410
+              30 continue
+              ! special code for 2 x 2 householder
+              v1 = conjg(v(1))
+              t1 = tau*conjg(v1)
+              v2 = conjg(v(2))
+              t2 = tau*conjg(v2)
+              do j = 1,n
+                 sum = v1*c(1,j) + v2*c(2,j)
+                 c(1,j) = c(1,j) - sum*t1
+                 c(2,j) = c(2,j) - sum*t2
+              end do
+              go to 410
+              50 continue
+              ! special code for 3 x 3 householder
+              v1 = conjg(v(1))
+              t1 = tau*conjg(v1)
+              v2 = conjg(v(2))
+              t2 = tau*conjg(v2)
+              v3 = conjg(v(3))
+              t3 = tau*conjg(v3)
+              do j = 1,n
+                 sum = v1*c(1,j) + v2*c(2,j) + v3*c(3,j)
+                 c(1,j) = c(1,j) - sum*t1
+                 c(2,j) = c(2,j) - sum*t2
+                 c(3,j) = c(3,j) - sum*t3
+              end do
+              go to 410
+              70 continue
+              ! special code for 4 x 4 householder
+              v1 = conjg(v(1))
+              t1 = tau*conjg(v1)
+              v2 = conjg(v(2))
+              t2 = tau*conjg(v2)
+              v3 = conjg(v(3))
+              t3 = tau*conjg(v3)
+              v4 = conjg(v(4))
+              t4 = tau*conjg(v4)
+              do j = 1,n
+                 sum = v1*c(1,j) + v2*c(2,j) + v3*c(3,j) + v4*c(4,j)
+                 c(1,j) = c(1,j) - sum*t1
+                 c(2,j) = c(2,j) - sum*t2
+                 c(3,j) = c(3,j) - sum*t3
+                 c(4,j) = c(4,j) - sum*t4
+              end do
+              go to 410
+              90 continue
+              ! special code for 5 x 5 householder
+              v1 = conjg(v(1))
+              t1 = tau*conjg(v1)
+              v2 = conjg(v(2))
+              t2 = tau*conjg(v2)
+              v3 = conjg(v(3))
+              t3 = tau*conjg(v3)
+              v4 = conjg(v(4))
+              t4 = tau*conjg(v4)
+              v5 = conjg(v(5))
+              t5 = tau*conjg(v5)
+              do j = 1,n
+                 sum = v1*c(1,j) + v2*c(2,j) + v3*c(3,j) + v4*c(4,j) + v5*c(5,j)
+
+                 c(1,j) = c(1,j) - sum*t1
+                 c(2,j) = c(2,j) - sum*t2
+                 c(3,j) = c(3,j) - sum*t3
+                 c(4,j) = c(4,j) - sum*t4
+                 c(5,j) = c(5,j) - sum*t5
+              end do
+              go to 410
+              110 continue
+              ! special code for 6 x 6 householder
+              v1 = conjg(v(1))
+              t1 = tau*conjg(v1)
+              v2 = conjg(v(2))
+              t2 = tau*conjg(v2)
+              v3 = conjg(v(3))
+              t3 = tau*conjg(v3)
+              v4 = conjg(v(4))
+              t4 = tau*conjg(v4)
+              v5 = conjg(v(5))
+              t5 = tau*conjg(v5)
+              v6 = conjg(v(6))
+              t6 = tau*conjg(v6)
+              do j = 1,n
+                 sum = v1*c(1,j) + v2*c(2,j) + v3*c(3,j) + v4*c(4,j) + v5*c(5,j) + &
+                           v6*c(6,j)
+                 c(1,j) = c(1,j) - sum*t1
+                 c(2,j) = c(2,j) - sum*t2
+                 c(3,j) = c(3,j) - sum*t3
+                 c(4,j) = c(4,j) - sum*t4
+                 c(5,j) = c(5,j) - sum*t5
+                 c(6,j) = c(6,j) - sum*t6
+              end do
+              go to 410
+              130 continue
+              ! special code for 7 x 7 householder
+              v1 = conjg(v(1))
+              t1 = tau*conjg(v1)
+              v2 = conjg(v(2))
+              t2 = tau*conjg(v2)
+              v3 = conjg(v(3))
+              t3 = tau*conjg(v3)
+              v4 = conjg(v(4))
+              t4 = tau*conjg(v4)
+              v5 = conjg(v(5))
+              t5 = tau*conjg(v5)
+              v6 = conjg(v(6))
+              t6 = tau*conjg(v6)
+              v7 = conjg(v(7))
+              t7 = tau*conjg(v7)
+              do j = 1,n
+                 sum = v1*c(1,j) + v2*c(2,j) + v3*c(3,j) + v4*c(4,j) + v5*c(5,j) + &
+                           v6*c(6,j) + v7*c(7,j)
+                 c(1,j) = c(1,j) - sum*t1
+                 c(2,j) = c(2,j) - sum*t2
+                 c(3,j) = c(3,j) - sum*t3
+                 c(4,j) = c(4,j) - sum*t4
+                 c(5,j) = c(5,j) - sum*t5
+                 c(6,j) = c(6,j) - sum*t6
+                 c(7,j) = c(7,j) - sum*t7
+              end do
+              go to 410
+              150 continue
+              ! special code for 8 x 8 householder
+              v1 = conjg(v(1))
+              t1 = tau*conjg(v1)
+              v2 = conjg(v(2))
+              t2 = tau*conjg(v2)
+              v3 = conjg(v(3))
+              t3 = tau*conjg(v3)
+              v4 = conjg(v(4))
+              t4 = tau*conjg(v4)
+              v5 = conjg(v(5))
+              t5 = tau*conjg(v5)
+              v6 = conjg(v(6))
+              t6 = tau*conjg(v6)
+              v7 = conjg(v(7))
+              t7 = tau*conjg(v7)
+              v8 = conjg(v(8))
+              t8 = tau*conjg(v8)
+              do j = 1,n
+                 sum = v1*c(1,j) + v2*c(2,j) + v3*c(3,j) + v4*c(4,j) + v5*c(5,j) + &
+                           v6*c(6,j) + v7*c(7,j) + v8*c(8,j)
+                 c(1,j) = c(1,j) - sum*t1
+                 c(2,j) = c(2,j) - sum*t2
+                 c(3,j) = c(3,j) - sum*t3
+                 c(4,j) = c(4,j) - sum*t4
+                 c(5,j) = c(5,j) - sum*t5
+                 c(6,j) = c(6,j) - sum*t6
+                 c(7,j) = c(7,j) - sum*t7
+                 c(8,j) = c(8,j) - sum*t8
+              end do
+              go to 410
+              170 continue
+              ! special code for 9 x 9 householder
+              v1 = conjg(v(1))
+              t1 = tau*conjg(v1)
+              v2 = conjg(v(2))
+              t2 = tau*conjg(v2)
+              v3 = conjg(v(3))
+              t3 = tau*conjg(v3)
+              v4 = conjg(v(4))
+              t4 = tau*conjg(v4)
+              v5 = conjg(v(5))
+              t5 = tau*conjg(v5)
+              v6 = conjg(v(6))
+              t6 = tau*conjg(v6)
+              v7 = conjg(v(7))
+              t7 = tau*conjg(v7)
+              v8 = conjg(v(8))
+              t8 = tau*conjg(v8)
+              v9 = conjg(v(9))
+              t9 = tau*conjg(v9)
+              do j = 1,n
+                 sum = v1*c(1,j) + v2*c(2,j) + v3*c(3,j) + v4*c(4,j) + v5*c(5,j) + &
+                           v6*c(6,j) + v7*c(7,j) + v8*c(8,j) + v9*c(9,j)
+                 c(1,j) = c(1,j) - sum*t1
+                 c(2,j) = c(2,j) - sum*t2
+                 c(3,j) = c(3,j) - sum*t3
+                 c(4,j) = c(4,j) - sum*t4
+                 c(5,j) = c(5,j) - sum*t5
+                 c(6,j) = c(6,j) - sum*t6
+                 c(7,j) = c(7,j) - sum*t7
+                 c(8,j) = c(8,j) - sum*t8
+                 c(9,j) = c(9,j) - sum*t9
+              end do
+              go to 410
+              190 continue
+              ! special code for 10 x 10 householder
+              v1 = conjg(v(1))
+              t1 = tau*conjg(v1)
+              v2 = conjg(v(2))
+              t2 = tau*conjg(v2)
+              v3 = conjg(v(3))
+              t3 = tau*conjg(v3)
+              v4 = conjg(v(4))
+              t4 = tau*conjg(v4)
+              v5 = conjg(v(5))
+              t5 = tau*conjg(v5)
+              v6 = conjg(v(6))
+              t6 = tau*conjg(v6)
+              v7 = conjg(v(7))
+              t7 = tau*conjg(v7)
+              v8 = conjg(v(8))
+              t8 = tau*conjg(v8)
+              v9 = conjg(v(9))
+              t9 = tau*conjg(v9)
+              v10 = conjg(v(10))
+              t10 = tau*conjg(v10)
+              do j = 1,n
+                 sum = v1*c(1,j) + v2*c(2,j) + v3*c(3,j) + v4*c(4,j) + v5*c(5,j) + &
+                           v6*c(6,j) + v7*c(7,j) + v8*c(8,j) + v9*c(9,j) + v10*c(10,j)
+                 c(1,j) = c(1,j) - sum*t1
+                 c(2,j) = c(2,j) - sum*t2
+                 c(3,j) = c(3,j) - sum*t3
+                 c(4,j) = c(4,j) - sum*t4
+                 c(5,j) = c(5,j) - sum*t5
+                 c(6,j) = c(6,j) - sum*t6
+                 c(7,j) = c(7,j) - sum*t7
+                 c(8,j) = c(8,j) - sum*t8
+                 c(9,j) = c(9,j) - sum*t9
+                 c(10,j) = c(10,j) - sum*t10
+              end do
+              go to 410
+           else
+              ! form  c * h, where h has order n.
+              go to(210,230,250,270,290,310,330,350,370,390) n
+              ! code for general n
+              call la_${ri}$larf(side,m,n,v,1,tau,c,ldc,work)
+              go to 410
+              210 continue
+              ! special code for 1 x 1 householder
+              t1 = cone - tau*v(1)*conjg(v(1))
+              do j = 1,m
+                 c(j,1) = t1*c(j,1)
+              end do
+              go to 410
+              230 continue
+              ! special code for 2 x 2 householder
+              v1 = v(1)
+              t1 = tau*conjg(v1)
+              v2 = v(2)
+              t2 = tau*conjg(v2)
+              do j = 1,m
+                 sum = v1*c(j,1) + v2*c(j,2)
+                 c(j,1) = c(j,1) - sum*t1
+                 c(j,2) = c(j,2) - sum*t2
+              end do
+              go to 410
+              250 continue
+              ! special code for 3 x 3 householder
+              v1 = v(1)
+              t1 = tau*conjg(v1)
+              v2 = v(2)
+              t2 = tau*conjg(v2)
+              v3 = v(3)
+              t3 = tau*conjg(v3)
+              do j = 1,m
+                 sum = v1*c(j,1) + v2*c(j,2) + v3*c(j,3)
+                 c(j,1) = c(j,1) - sum*t1
+                 c(j,2) = c(j,2) - sum*t2
+                 c(j,3) = c(j,3) - sum*t3
+              end do
+              go to 410
+              270 continue
+              ! special code for 4 x 4 householder
+              v1 = v(1)
+              t1 = tau*conjg(v1)
+              v2 = v(2)
+              t2 = tau*conjg(v2)
+              v3 = v(3)
+              t3 = tau*conjg(v3)
+              v4 = v(4)
+              t4 = tau*conjg(v4)
+              do j = 1,m
+                 sum = v1*c(j,1) + v2*c(j,2) + v3*c(j,3) + v4*c(j,4)
+                 c(j,1) = c(j,1) - sum*t1
+                 c(j,2) = c(j,2) - sum*t2
+                 c(j,3) = c(j,3) - sum*t3
+                 c(j,4) = c(j,4) - sum*t4
+              end do
+              go to 410
+              290 continue
+              ! special code for 5 x 5 householder
+              v1 = v(1)
+              t1 = tau*conjg(v1)
+              v2 = v(2)
+              t2 = tau*conjg(v2)
+              v3 = v(3)
+              t3 = tau*conjg(v3)
+              v4 = v(4)
+              t4 = tau*conjg(v4)
+              v5 = v(5)
+              t5 = tau*conjg(v5)
+              do j = 1,m
+                 sum = v1*c(j,1) + v2*c(j,2) + v3*c(j,3) + v4*c(j,4) + v5*c(j,5)
+
+                 c(j,1) = c(j,1) - sum*t1
+                 c(j,2) = c(j,2) - sum*t2
+                 c(j,3) = c(j,3) - sum*t3
+                 c(j,4) = c(j,4) - sum*t4
+                 c(j,5) = c(j,5) - sum*t5
+              end do
+              go to 410
+              310 continue
+              ! special code for 6 x 6 householder
+              v1 = v(1)
+              t1 = tau*conjg(v1)
+              v2 = v(2)
+              t2 = tau*conjg(v2)
+              v3 = v(3)
+              t3 = tau*conjg(v3)
+              v4 = v(4)
+              t4 = tau*conjg(v4)
+              v5 = v(5)
+              t5 = tau*conjg(v5)
+              v6 = v(6)
+              t6 = tau*conjg(v6)
+              do j = 1,m
+                 sum = v1*c(j,1) + v2*c(j,2) + v3*c(j,3) + v4*c(j,4) + v5*c(j,5) + &
+                           v6*c(j,6)
+                 c(j,1) = c(j,1) - sum*t1
+                 c(j,2) = c(j,2) - sum*t2
+                 c(j,3) = c(j,3) - sum*t3
+                 c(j,4) = c(j,4) - sum*t4
+                 c(j,5) = c(j,5) - sum*t5
+                 c(j,6) = c(j,6) - sum*t6
+              end do
+              go to 410
+              330 continue
+              ! special code for 7 x 7 householder
+              v1 = v(1)
+              t1 = tau*conjg(v1)
+              v2 = v(2)
+              t2 = tau*conjg(v2)
+              v3 = v(3)
+              t3 = tau*conjg(v3)
+              v4 = v(4)
+              t4 = tau*conjg(v4)
+              v5 = v(5)
+              t5 = tau*conjg(v5)
+              v6 = v(6)
+              t6 = tau*conjg(v6)
+              v7 = v(7)
+              t7 = tau*conjg(v7)
+              do j = 1,m
+                 sum = v1*c(j,1) + v2*c(j,2) + v3*c(j,3) + v4*c(j,4) + v5*c(j,5) + &
+                           v6*c(j,6) + v7*c(j,7)
+                 c(j,1) = c(j,1) - sum*t1
+                 c(j,2) = c(j,2) - sum*t2
+                 c(j,3) = c(j,3) - sum*t3
+                 c(j,4) = c(j,4) - sum*t4
+                 c(j,5) = c(j,5) - sum*t5
+                 c(j,6) = c(j,6) - sum*t6
+                 c(j,7) = c(j,7) - sum*t7
+              end do
+              go to 410
+              350 continue
+              ! special code for 8 x 8 householder
+              v1 = v(1)
+              t1 = tau*conjg(v1)
+              v2 = v(2)
+              t2 = tau*conjg(v2)
+              v3 = v(3)
+              t3 = tau*conjg(v3)
+              v4 = v(4)
+              t4 = tau*conjg(v4)
+              v5 = v(5)
+              t5 = tau*conjg(v5)
+              v6 = v(6)
+              t6 = tau*conjg(v6)
+              v7 = v(7)
+              t7 = tau*conjg(v7)
+              v8 = v(8)
+              t8 = tau*conjg(v8)
+              do j = 1,m
+                 sum = v1*c(j,1) + v2*c(j,2) + v3*c(j,3) + v4*c(j,4) + v5*c(j,5) + &
+                           v6*c(j,6) + v7*c(j,7) + v8*c(j,8)
+                 c(j,1) = c(j,1) - sum*t1
+                 c(j,2) = c(j,2) - sum*t2
+                 c(j,3) = c(j,3) - sum*t3
+                 c(j,4) = c(j,4) - sum*t4
+                 c(j,5) = c(j,5) - sum*t5
+                 c(j,6) = c(j,6) - sum*t6
+                 c(j,7) = c(j,7) - sum*t7
+                 c(j,8) = c(j,8) - sum*t8
+              end do
+              go to 410
+              370 continue
+              ! special code for 9 x 9 householder
+              v1 = v(1)
+              t1 = tau*conjg(v1)
+              v2 = v(2)
+              t2 = tau*conjg(v2)
+              v3 = v(3)
+              t3 = tau*conjg(v3)
+              v4 = v(4)
+              t4 = tau*conjg(v4)
+              v5 = v(5)
+              t5 = tau*conjg(v5)
+              v6 = v(6)
+              t6 = tau*conjg(v6)
+              v7 = v(7)
+              t7 = tau*conjg(v7)
+              v8 = v(8)
+              t8 = tau*conjg(v8)
+              v9 = v(9)
+              t9 = tau*conjg(v9)
+              do j = 1,m
+                 sum = v1*c(j,1) + v2*c(j,2) + v3*c(j,3) + v4*c(j,4) + v5*c(j,5) + &
+                           v6*c(j,6) + v7*c(j,7) + v8*c(j,8) + v9*c(j,9)
+                 c(j,1) = c(j,1) - sum*t1
+                 c(j,2) = c(j,2) - sum*t2
+                 c(j,3) = c(j,3) - sum*t3
+                 c(j,4) = c(j,4) - sum*t4
+                 c(j,5) = c(j,5) - sum*t5
+                 c(j,6) = c(j,6) - sum*t6
+                 c(j,7) = c(j,7) - sum*t7
+                 c(j,8) = c(j,8) - sum*t8
+                 c(j,9) = c(j,9) - sum*t9
+              end do
+              go to 410
+              390 continue
+              ! special code for 10 x 10 householder
+              v1 = v(1)
+              t1 = tau*conjg(v1)
+              v2 = v(2)
+              t2 = tau*conjg(v2)
+              v3 = v(3)
+              t3 = tau*conjg(v3)
+              v4 = v(4)
+              t4 = tau*conjg(v4)
+              v5 = v(5)
+              t5 = tau*conjg(v5)
+              v6 = v(6)
+              t6 = tau*conjg(v6)
+              v7 = v(7)
+              t7 = tau*conjg(v7)
+              v8 = v(8)
+              t8 = tau*conjg(v8)
+              v9 = v(9)
+              t9 = tau*conjg(v9)
+              v10 = v(10)
+              t10 = tau*conjg(v10)
+              do j = 1,m
+                 sum = v1*c(j,1) + v2*c(j,2) + v3*c(j,3) + v4*c(j,4) + v5*c(j,5) + &
+                           v6*c(j,6) + v7*c(j,7) + v8*c(j,8) + v9*c(j,9) + v10*c(j,10)
+                 c(j,1) = c(j,1) - sum*t1
+                 c(j,2) = c(j,2) - sum*t2
+                 c(j,3) = c(j,3) - sum*t3
+                 c(j,4) = c(j,4) - sum*t4
+                 c(j,5) = c(j,5) - sum*t5
+                 c(j,6) = c(j,6) - sum*t6
+                 c(j,7) = c(j,7) - sum*t7
+                 c(j,8) = c(j,8) - sum*t8
+                 c(j,9) = c(j,9) - sum*t9
+                 c(j,10) = c(j,10) - sum*t10
+              end do
+              go to 410
+           end if
+#:if rk == "sp"
+410    return
+#:else
+           410 continue
+           return
+#:endif
+     end subroutine la_${ri}$larfx
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+     !> ${ri.upper()}$LARFY: applies an elementary reflector, or Householder matrix, H,
+     !> to an n x n Hermitian matrix C, from both the left and the right.
+     !> H is represented in the form
+     !> H = I - tau * v * v'
+     !> where  tau  is a scalar and  v  is a vector.
+     !> If  tau  is  zero, then  H  is taken to be the unit matrix.
+
+     pure subroutine la_${ri}$larfy(uplo,n,v,incv,tau,c,ldc,work)
+        use la_constants_${rk}$
+        ! -- lapack test routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: incv,ldc,n
+           complex(${rk}$),intent(in) :: tau
+           ! Array Arguments
+           complex(${rk}$),intent(inout) :: c(ldc,*)
+           complex(${rk}$),intent(in) :: v(*)
+           complex(${rk}$),intent(out) :: work(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           complex(${rk}$) :: alpha
+           ! Executable Statements
+           if (tau == czero) return
+           ! form  w:= c * v
+           call la_${ri}$hemv(uplo,n,cone,c,ldc,v,incv,czero,work,1)
+           alpha = -chalf*tau*la_${ri}$dotc(n,work,1,v,incv)
+           call la_${ri}$axpy(n,alpha,v,incv,work,1)
+           ! c := c - v * w' - w * v'
+           call la_${ri}$her2(uplo,n,-tau,v,incv,work,1,c,ldc)
+           return
+     end subroutine la_${ri}$larfy
+#:endfor
+
+end module la_lapack_householder_reflectors

@@ -1,0 +1,401 @@
+#:include "common.fypp"
+!> LAPACK auxiliary: machine parameters, safe division, band scaling
+module la_lapack_auxiliary
+     use la_constants
+     use la_blas_aux
+     implicit none(type,external)
+     private
+
+     public :: sp,dp,qp,lk,ilp
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     public :: la_${ri}$labad
+     public :: la_${ri}$ladiv2
+     public :: la_${ri}$lamch
+     public :: la_${ri}$lamc3
+     public :: la_${ri}$laqsb
+     public :: la_${ri}$${ci}$sum1
+     public :: la_${ri}$ladiv1
+#:endfor
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+     public :: la_${ri}$laqsb
+     public :: la_${ri}$rot
+#:endfor
+
+     contains
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     !> ${ri.upper()}$LABAD: takes as input the values computed by ${ri.upper()}$LAMCH for underflow and
+     !> overflow, and returns the square root of each of these values if the
+     !> log of LARGE is sufficiently large.  This subroutine is intended to
+     !> identify machines with a large exponent range, such as the Crays, and
+     !> redefine the underflow and overflow limits to be the square roots of
+     !> the values computed by ${ri.upper()}$LAMCH.  This subroutine is needed because
+     !> ${ri.upper()}$LAMCH does not compensate for poor arithmetic in the upper half of
+     !> the exponent range, as is found on a Cray.
+
+     pure subroutine la_${ri}$labad(small,large)
+        ! -- lapack auxiliary routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           real(${rk}$),intent(inout) :: large,small
+        ! =====================================================================
+           ! Intrinsic Functions
+           intrinsic :: log10,sqrt
+           ! Executable Statements
+           ! if it looks like we're on a cray, take the square root of
+           ! small and large to avoid overflow and underflow problems.
+#:if rk == "sp"
+           if (log10(large) > 2000.) then
+#:else
+           if (log10(large) > 2000._${rk}$) then
+#:endif
+              small = sqrt(small)
+              large = sqrt(large)
+           end if
+           return
+     end subroutine la_${ri}$labad
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     pure real(${rk}$) function la_${ri}$ladiv2(a,b,c,d,r,t)
+        use la_constants_${rk}$
+        ! -- lapack auxiliary routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           real(${rk}$),intent(in) :: a,b,c,d,r,t
+        ! =====================================================================
+
+           ! Local Scalars
+           real(${rk}$) :: br
+           ! Executable Statements
+           if (r /= zero) then
+              br = b*r
+              if (br /= zero) then
+                 la_${ri}$ladiv2 = (a + br)*t
+              else
+                 la_${ri}$ladiv2 = a*t + (b*t)*r
+              end if
+           else
+              la_${ri}$ladiv2 = (a + d*(b/c))*t
+           end if
+           return
+     end function la_${ri}$ladiv2
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     !> ${ri.upper()}$LAMCH: determines ${LA_PRECISION[rk]}$ precision machine parameters.
+
+     pure real(${rk}$) function la_${ri}$lamch(cmach)
+        use la_constants_${rk}$,only:zero,one
+        ! -- lapack auxiliary routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: cmach
+       ! =====================================================================
+
+           ! Local Scalars
+           real(${rk}$) :: rnd,eps,sfmin,small,rmach
+           ! Intrinsic Functions
+           intrinsic :: digits,epsilon,huge,maxexponent,minexponent,radix,tiny
+           ! Executable Statements
+           ! assume rounding, not chopping. always.
+           rnd = one
+           if (one == rnd) then
+              eps = epsilon(zero)*0.5
+           else
+              eps = epsilon(zero)
+           end if
+           if (la_lsame(cmach,'E')) then
+              rmach = eps
+           else if (la_lsame(cmach,'S')) then
+              sfmin = tiny(zero)
+              small = one/huge(zero)
+              if (small >= sfmin) then
+                 ! use small plus a bit, to avoid the possibility of rounding
+                 ! causing overflow when computing  1/sfmin.
+                 sfmin = small*(one + eps)
+              end if
+              rmach = sfmin
+           else if (la_lsame(cmach,'B')) then
+              rmach = radix(zero)
+           else if (la_lsame(cmach,'P')) then
+              rmach = eps*radix(zero)
+           else if (la_lsame(cmach,'N')) then
+              rmach = digits(zero)
+           else if (la_lsame(cmach,'R')) then
+              rmach = rnd
+           else if (la_lsame(cmach,'M')) then
+              rmach = minexponent(zero)
+           else if (la_lsame(cmach,'U')) then
+              rmach = tiny(zero)
+           else if (la_lsame(cmach,'L')) then
+              rmach = maxexponent(zero)
+           else if (la_lsame(cmach,'O')) then
+              rmach = huge(zero)
+           else
+              rmach = zero
+           end if
+           la_${ri}$lamch = rmach
+           return
+     end function la_${ri}$lamch
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     pure real(${rk}$) function la_${ri}$lamc3(a,b)
+        ! -- lapack auxiliary routine --
+           ! univ. of tennessee, univ. of california berkeley and nag ltd..
+           ! Scalar Arguments
+           real(${rk}$),intent(in) :: a,b
+       ! =====================================================================
+           ! Executable Statements
+           la_${ri}$lamc3 = a + b
+           return
+     end function la_${ri}$lamc3
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     !> ${ri.upper()}$LAQSB: equilibrates a symmetric band matrix A using the scaling
+     !> factors in the vector S.
+
+     pure subroutine la_${ri}$laqsb(uplo,n,kd,ab,ldab,s,scond,amax,equed)
+        use la_constants_${rk}$
+        ! -- lapack auxiliary routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(out) :: equed
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: kd,ldab,n
+           real(${rk}$),intent(in) :: amax,scond
+           ! Array Arguments
+           real(${rk}$),intent(inout) :: ab(ldab,*)
+           real(${rk}$),intent(in) :: s(*)
+        ! =====================================================================
+           ! Parameters
+           real(${rk}$),parameter :: thresh = 0.1e+0_${rk}$
+
+           ! Local Scalars
+           integer(ilp) :: i,j
+           real(${rk}$) :: cj,large,small
+           ! Intrinsic Functions
+           intrinsic :: max,min
+           ! Executable Statements
+           ! quick return if possible
+           if (n <= 0) then
+              equed = 'N'
+              return
+           end if
+           ! initialize large and small.
+           small = la_${ri}$lamch('SAFE MINIMUM')/la_${ri}$lamch('PRECISION')
+           large = one/small
+           if (scond >= thresh .and. amax >= small .and. amax <= large) then
+              ! no equilibration
+              equed = 'N'
+           else
+              ! replace a by diag(s) * a * diag(s).
+              if (la_lsame(uplo,'U')) then
+                 ! upper triangle of a is stored in band format.
+                 do j = 1,n
+                    cj = s(j)
+                    do i = max(1,j - kd),j
+                       ab(kd + 1 + i - j,j) = cj*s(i)*ab(kd + 1 + i - j,j)
+                    end do
+                 end do
+              else
+                 ! lower triangle of a is stored.
+                 do j = 1,n
+                    cj = s(j)
+                    do i = j,min(n,j + kd)
+                       ab(1 + i - j,j) = cj*s(i)*ab(1 + i - j,j)
+                    end do
+                 end do
+              end if
+              equed = 'Y'
+           end if
+           return
+     end subroutine la_${ri}$laqsb
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     !> ${ri.upper()}$${ci.upper()}$SUM1: takes the sum of the absolute values of a complex
+     !> vector and returns a ${LA_PRECISION[rk]}$ precision result.
+     !> Based on ${ri.upper()}$${ci.upper()}$ASUM from the Level 1 BLAS.
+     !> The change is to use the 'genuine' absolute value.
+
+     pure real(${rk}$) function la_${ri}$${ci}$sum1(n,cx,incx)
+        use la_constants_${rk}$
+        ! -- lapack auxiliary routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           integer(ilp),intent(in) :: incx,n
+           ! Array Arguments
+           complex(${rk}$),intent(in) :: cx(*)
+        ! =====================================================================
+           ! Local Scalars
+           integer(ilp) :: i,nincx
+           real(${rk}$) :: stemp
+           ! Intrinsic Functions
+           intrinsic :: abs
+           ! Executable Statements
+           la_${ri}$${ci}$sum1 = zero
+           stemp = zero
+           if (n <= 0) return
+           if (incx == 1) go to 20
+           ! code for increment not equal to 1
+           nincx = n*incx
+           do i = 1,nincx,incx
+              ! next line modified.
+              stemp = stemp + abs(cx(i))
+           end do
+           la_${ri}$${ci}$sum1 = stemp
+           return
+           ! code for increment equal to 1
+           20 continue
+           do i = 1,n
+              ! next line modified.
+              stemp = stemp + abs(cx(i))
+           end do
+           la_${ri}$${ci}$sum1 = stemp
+           return
+     end function la_${ri}$${ci}$sum1
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     pure subroutine la_${ri}$ladiv1(a,b,c,d,p,q)
+        use la_constants_${rk}$
+        ! -- lapack auxiliary routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           real(${rk}$),intent(inout) :: a
+           real(${rk}$),intent(in) :: b,c,d
+           real(${rk}$),intent(out) :: p,q
+        ! =====================================================================
+
+           ! Local Scalars
+           real(${rk}$) :: r,t
+           ! Executable Statements
+           r = d/c
+           t = one/(c + d*r)
+           p = la_${ri}$ladiv2(a,b,c,d,r,t)
+           a = -a
+           q = la_${ri}$ladiv2(b,a,c,d,r,t)
+           return
+     end subroutine la_${ri}$ladiv1
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+     !> ${ri.upper()}$LAQSB: equilibrates a symmetric band matrix A using the scaling
+     !> factors in the vector S.
+
+     pure subroutine la_${ri}$laqsb(uplo,n,kd,ab,ldab,s,scond,amax,equed)
+        use la_constants_${rk}$
+        ! -- lapack auxiliary routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(out) :: equed
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: kd,ldab,n
+           real(${rk}$),intent(in) :: amax,scond
+           ! Array Arguments
+           real(${rk}$),intent(in) :: s(*)
+           complex(${rk}$),intent(inout) :: ab(ldab,*)
+        ! =====================================================================
+           ! Parameters
+           real(${rk}$),parameter :: thresh = 0.1e+0_${rk}$
+
+           ! Local Scalars
+           integer(ilp) :: i,j
+           real(${rk}$) :: cj,large,small
+           ! Intrinsic Functions
+           intrinsic :: max,min
+           ! Executable Statements
+           ! quick return if possible
+           if (n <= 0) then
+              equed = 'N'
+              return
+           end if
+           ! initialize large and small.
+           small = la_${ci}$lamch('SAFE MINIMUM')/la_${ci}$lamch('PRECISION')
+           large = one/small
+           if (scond >= thresh .and. amax >= small .and. amax <= large) then
+              ! no equilibration
+              equed = 'N'
+           else
+              ! replace a by diag(s) * a * diag(s).
+              if (la_lsame(uplo,'U')) then
+                 ! upper triangle of a is stored in band format.
+                 do j = 1,n
+                    cj = s(j)
+                    do i = max(1,j - kd),j
+                       ab(kd + 1 + i - j,j) = cj*s(i)*ab(kd + 1 + i - j,j)
+                    end do
+                 end do
+              else
+                 ! lower triangle of a is stored.
+                 do j = 1,n
+                    cj = s(j)
+                    do i = j,min(n,j + kd)
+                       ab(1 + i - j,j) = cj*s(i)*ab(1 + i - j,j)
+                    end do
+                 end do
+              end if
+              equed = 'Y'
+           end if
+           return
+     end subroutine la_${ri}$laqsb
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+     !> ${ri.upper()}$ROT:   applies a plane rotation, where the cos (C) is real and the
+     !> sin (S) is complex, and the vectors CX and CY are complex.
+
+     pure subroutine la_${ri}$rot(n,cx,incx,cy,incy,c,s)
+        ! -- lapack auxiliary routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           integer(ilp),intent(in) :: incx,incy,n
+           real(${rk}$),intent(in) :: c
+           complex(${rk}$),intent(in) :: s
+           ! Array Arguments
+           complex(${rk}$),intent(inout) :: cx(*),cy(*)
+       ! =====================================================================
+           ! Local Scalars
+           integer(ilp) :: i,ix,iy
+           complex(${rk}$) :: stemp
+           ! Intrinsic Functions
+           intrinsic :: conjg
+           ! Executable Statements
+           if (n <= 0) return
+           if (incx == 1 .and. incy == 1) go to 20
+           ! code for unequal increments or equal increments not equal to 1
+           ix = 1
+           iy = 1
+           if (incx < 0) ix = (-n + 1)*incx + 1
+           if (incy < 0) iy = (-n + 1)*incy + 1
+           do i = 1,n
+              stemp = c*cx(ix) + s*cy(iy)
+              cy(iy) = c*cy(iy) - conjg(s)*cx(ix)
+              cx(ix) = stemp
+              ix = ix + incx
+              iy = iy + incy
+           end do
+           return
+           ! code for both increments equal to 1
+           20 continue
+           do i = 1,n
+              stemp = c*cx(i) + s*cy(i)
+              cy(i) = c*cy(i) - conjg(s)*cx(i)
+              cx(i) = stemp
+           end do
+           return
+     end subroutine la_${ri}$rot
+#:endfor
+
+end module la_lapack_auxiliary

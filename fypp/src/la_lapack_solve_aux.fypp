@@ -1,0 +1,665 @@
+#:include "common.fypp"
+!> Linear solve helpers: condition estimation, componentwise backward error
+module la_lapack_solve_aux
+     use la_constants
+     use la_blas_aux
+     use la_blas_level1
+     use la_lapack_aux
+     use la_lapack_auxiliary
+     implicit none(type,external)
+     private
+
+     public :: sp,dp,qp,lk,ilp
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     public :: la_${ri}$lacn2
+     public :: la_${ri}$lacon
+     public :: la_${ri}$la_lin_berr
+#:endfor
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+     public :: la_${ri}$la_lin_berr
+     public :: la_${ri}$lacn2
+     public :: la_${ri}$lacon
+#:endfor
+
+     contains
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     !> ${ri.upper()}$LACN2: estimates the 1-norm of a square, real matrix A.
+     !> Reverse communication is used for evaluating matrix-vector products.
+
+     pure subroutine la_${ri}$lacn2(n,v,x,isgn,est,kase,isave)
+        use la_constants_${rk}$
+        ! -- lapack auxiliary routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           integer(ilp),intent(inout) :: kase
+           integer(ilp),intent(in) :: n
+           real(${rk}$),intent(inout) :: est
+           ! Array Arguments
+           integer(ilp),intent(out) :: isgn(*)
+           integer(ilp),intent(inout) :: isave(3)
+           real(${rk}$),intent(out) :: v(*)
+           real(${rk}$),intent(inout) :: x(*)
+        ! =====================================================================
+           ! Parameters
+           integer(ilp),parameter :: itmax = 5
+
+           ! Local Scalars
+           integer(ilp) :: i,jlast
+           real(${rk}$) :: altsgn,estold,temp,xs
+           ! Intrinsic Functions
+#:if rk == "sp"
+           intrinsic :: abs,nint,real
+#:else
+           intrinsic :: abs,real,nint
+#:endif
+           ! Executable Statements
+           if (kase == 0) then
+              do i = 1,n
+                 x(i) = one/real(n,KIND=${rk}$)
+              end do
+              kase = 1
+              isave(1) = 1
+              return
+           end if
+           go to(20,40,70,110,140) isave(1)
+           ! ................ entry   (isave( 1 ) = 1)
+           ! first iteration.  x has been overwritten by a*x.
+           20 continue
+           if (n == 1) then
+              v(1) = x(1)
+              est = abs(v(1))
+              ! ... quit
+              go to 150
+           end if
+           est = la_${ri}$asum(n,x,1)
+           do i = 1,n
+              if (x(i) >= zero) then
+                 x(i) = one
+              else
+                 x(i) = -one
+              end if
+              isgn(i) = nint(x(i),KIND=ilp)
+           end do
+           kase = 2
+           isave(1) = 2
+           return
+           ! ................ entry   (isave( 1 ) = 2)
+           ! first iteration.  x has been overwritten by transpose(a)*x.
+           40 continue
+           isave(2) = la_i${ri}$amax(n,x,1)
+           isave(3) = 2
+           ! main loop - iterations 2,3,...,itmax.
+           50 continue
+           do i = 1,n
+              x(i) = zero
+           end do
+           x(isave(2)) = one
+           kase = 1
+           isave(1) = 3
+           return
+           ! ................ entry   (isave( 1 ) = 3)
+           ! x has been overwritten by a*x.
+           70 continue
+           call la_${ri}$copy(n,x,1,v,1)
+           estold = est
+           est = la_${ri}$asum(n,v,1)
+           do i = 1,n
+              if (x(i) >= zero) then
+                 xs = one
+              else
+                 xs = -one
+              end if
+              if (nint(xs,KIND=ilp) /= isgn(i)) go to 90
+           end do
+           ! repeated sign vector detected, hence algorithm has converged.
+           go to 120
+           90 continue
+           ! test for cycling.
+           if (est <= estold) go to 120
+           do i = 1,n
+              if (x(i) >= zero) then
+                 x(i) = one
+              else
+                 x(i) = -one
+              end if
+              isgn(i) = nint(x(i),KIND=ilp)
+           end do
+           kase = 2
+           isave(1) = 4
+           return
+           ! ................ entry   (isave( 1 ) = 4)
+           ! x has been overwritten by transpose(a)*x.
+           110 continue
+           jlast = isave(2)
+           isave(2) = la_i${ri}$amax(n,x,1)
+           if ((x(jlast) /= abs(x(isave(2)))) .and. (isave(3) < itmax)) then
+              isave(3) = isave(3) + 1
+              go to 50
+           end if
+           ! iteration complete.  final stage.
+           120 continue
+           altsgn = one
+           do i = 1,n
+              x(i) = altsgn*(one + real(i - 1,KIND=${rk}$)/real(n - 1,KIND=${rk}$))
+              altsgn = -altsgn
+           end do
+           kase = 1
+           isave(1) = 5
+           return
+           ! ................ entry   (isave( 1 ) = 5)
+           ! x has been overwritten by a*x.
+           140 continue
+           temp = two*(la_${ri}$asum(n,x,1)/real(3*n,KIND=${rk}$))
+           if (temp > est) then
+              call la_${ri}$copy(n,x,1,v,1)
+              est = temp
+           end if
+           150 continue
+           kase = 0
+           return
+     end subroutine la_${ri}$lacn2
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     !> ${ri.upper()}$LACON: estimates the 1-norm of a square, real matrix A.
+     !> Reverse communication is used for evaluating matrix-vector products.
+
+     subroutine la_${ri}$lacon(n,v,x,isgn,est,kase)
+        use la_constants_${rk}$
+        ! -- lapack auxiliary routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           integer(ilp),intent(inout) :: kase
+           integer(ilp),intent(in) :: n
+           real(${rk}$),intent(inout) :: est
+           ! Array Arguments
+           integer(ilp),intent(out) :: isgn(*)
+           real(${rk}$),intent(out) :: v(*)
+           real(${rk}$),intent(inout) :: x(*)
+        ! =====================================================================
+           ! Parameters
+           integer(ilp),parameter :: itmax = 5
+
+           ! Local Scalars
+           integer(ilp) :: i,iter,j,jlast,jump
+           real(${rk}$) :: altsgn,estold,temp
+           ! Intrinsic Functions
+#:if rk == "sp"
+           intrinsic :: abs,nint,real,sign
+#:else
+           intrinsic :: abs,real,nint,sign
+#:endif
+           ! Save Statement
+           save
+           ! Executable Statements
+           if (kase == 0) then
+              do i = 1,n
+                 x(i) = one/real(n,KIND=${rk}$)
+              end do
+              kase = 1
+              jump = 1
+              return
+           end if
+           go to(20,40,70,110,140) jump
+           ! ................ entry   (jump = 1)
+           ! first iteration.  x has been overwritten by a*x.
+           20 continue
+           if (n == 1) then
+              v(1) = x(1)
+              est = abs(v(1))
+              ! ... quit
+              go to 150
+           end if
+           est = la_${ri}$asum(n,x,1)
+           do i = 1,n
+              x(i) = sign(one,x(i))
+              isgn(i) = nint(x(i),KIND=ilp)
+           end do
+           kase = 2
+           jump = 2
+           return
+           ! ................ entry   (jump = 2)
+           ! first iteration.  x has been overwritten by transpose(a)*x.
+           40 continue
+           j = la_i${ri}$amax(n,x,1)
+           iter = 2
+           ! main loop - iterations 2,3,...,itmax.
+           50 continue
+           do i = 1,n
+              x(i) = zero
+           end do
+           x(j) = one
+           kase = 1
+           jump = 3
+           return
+           ! ................ entry   (jump = 3)
+           ! x has been overwritten by a*x.
+           70 continue
+           call la_${ri}$copy(n,x,1,v,1)
+           estold = est
+           est = la_${ri}$asum(n,v,1)
+           do i = 1,n
+              if (nint(sign(one,x(i)),KIND=ilp) /= isgn(i)) go to 90
+           end do
+           ! repeated sign vector detected, hence algorithm has converged.
+           go to 120
+           90 continue
+           ! test for cycling.
+           if (est <= estold) go to 120
+           do i = 1,n
+              x(i) = sign(one,x(i))
+              isgn(i) = nint(x(i),KIND=ilp)
+           end do
+           kase = 2
+           jump = 4
+           return
+           ! ................ entry   (jump = 4)
+           ! x has been overwritten by transpose(a)*x.
+           110 continue
+           jlast = j
+           j = la_i${ri}$amax(n,x,1)
+           if ((x(jlast) /= abs(x(j))) .and. (iter < itmax)) then
+              iter = iter + 1
+              go to 50
+           end if
+           ! iteration complete.  final stage.
+           120 continue
+           altsgn = one
+           do i = 1,n
+              x(i) = altsgn*(one + real(i - 1,KIND=${rk}$)/real(n - 1,KIND=${rk}$))
+              altsgn = -altsgn
+           end do
+           kase = 1
+           jump = 5
+           return
+           ! ................ entry   (jump = 5)
+           ! x has been overwritten by a*x.
+           140 continue
+           temp = two*(la_${ri}$asum(n,x,1)/real(3*n,KIND=${rk}$))
+           if (temp > est) then
+              call la_${ri}$copy(n,x,1,v,1)
+              est = temp
+           end if
+           150 continue
+           kase = 0
+           return
+     end subroutine la_${ri}$lacon
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if rk == "sp"
+     !> ${ri.upper()}$LA_LIN_BERR: computes componentwise relative backward error from
+#:else
+     !> ${ri.upper()}$LA_LIN_BERR: computes component-wise relative backward error from
+#:endif
+     !> the formula
+     !> max(i) ( abs(R(i)) / ( abs(op(A_s))*abs(Y) + abs(B_s) )(i) )
+#:if rk == "sp"
+     !> where abs(Z) is the componentwise absolute value of the matrix
+#:else
+     !> where abs(Z) is the component-wise absolute value of the matrix
+#:endif
+     !> or vector Z.
+
+     pure subroutine la_${ri}$la_lin_berr(n,nz,nrhs,res,ayb,berr)
+        use la_constants_${rk}$
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           integer(ilp),intent(in) :: n,nz,nrhs
+           ! Array Arguments
+           real(${rk}$),intent(in) :: ayb(n,nrhs)
+           real(${rk}$),intent(out) :: berr(nrhs)
+           real(${rk}$),intent(in) :: res(n,nrhs)
+        ! =====================================================================
+           ! Local Scalars
+           real(${rk}$) :: tmp,safe1
+           integer(ilp) :: i,j
+           ! Intrinsic Functions
+           intrinsic :: abs,max
+           ! Executable Statements
+           ! adding safe1 to the numerator guards against spuriously zero
+           ! residuals.  a similar safeguard is in the sla_yyamv routine used
+           ! to compute ayb.
+           safe1 = la_${ri}$lamch('SAFE MINIMUM')
+           safe1 = (nz + 1)*safe1
+           do j = 1,nrhs
+              berr(j) = zero
+              do i = 1,n
+#:if rk == "sp"
+                 if (ayb(i,j) /= 0.0_${rk}$) then
+#:else
+                 if (ayb(i,j) /= zero) then
+#:endif
+                    tmp = (safe1 + abs(res(i,j)))/ayb(i,j)
+                    berr(j) = max(berr(j),tmp)
+                 end if
+           ! if ayb is exactly 0.0_${rk}$ (and if computed by sla_yyamv), then we know
+           ! the true residual also must be exactly zero.
+              end do
+           end do
+     end subroutine la_${ri}$la_lin_berr
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+     !> ${ri.upper()}$LA_LIN_BERR: computes componentwise relative backward error from
+     !> the formula
+     !> max(i) ( abs(R(i)) / ( abs(op(A_s))*abs(Y) + abs(B_s) )(i) )
+     !> where abs(Z) is the componentwise absolute value of the matrix
+     !> or vector Z.
+
+     pure subroutine la_${ri}$la_lin_berr(n,nz,nrhs,res,ayb,berr)
+        use la_constants_${rk}$
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           integer(ilp),intent(in) :: n,nz,nrhs
+           ! Array Arguments
+           real(${rk}$),intent(in) :: ayb(n,nrhs)
+           real(${rk}$),intent(out) :: berr(nrhs)
+           complex(${rk}$),intent(in) :: res(n,nrhs)
+        ! =====================================================================
+           ! Local Scalars
+           real(${rk}$) :: tmp,safe1
+           integer(ilp) :: i,j
+           complex(${rk}$) :: cdum
+           ! Intrinsic Functions
+           intrinsic :: abs,real,aimag,max
+           ! Statement Functions
+           complex(${rk}$) :: cabs1
+           ! Statement Function Definitions
+           cabs1(cdum) = abs(real(cdum,KIND=${rk}$)) + abs(aimag(cdum))
+           ! Executable Statements
+           ! adding safe1 to the numerator guards against spuriously zero
+           ! residuals.  a similar safeguard is in the cla_yyamv routine used
+           ! to compute ayb.
+           safe1 = la_${ci}$lamch('SAFE MINIMUM')
+           safe1 = (nz + 1)*safe1
+           do j = 1,nrhs
+              berr(j) = zero
+              do i = 1,n
+#:if rk == "sp"
+                 if (ayb(i,j) /= 0.0_${rk}$) then
+#:else
+                 if (ayb(i,j) /= zero) then
+#:endif
+                    tmp = (safe1 + cabs1(res(i,j)))/ayb(i,j)
+                    berr(j) = max(berr(j),tmp)
+                 end if
+           ! if ayb is exactly 0.0_${rk}$ (and if computed by cla_yyamv), then we know
+           ! the true residual also must be exactly zero.
+              end do
+           end do
+     end subroutine la_${ri}$la_lin_berr
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+     !> ${ri.upper()}$LACN2: estimates the 1-norm of a square, complex matrix A.
+     !> Reverse communication is used for evaluating matrix-vector products.
+
+     pure subroutine la_${ri}$lacn2(n,v,x,est,kase,isave)
+        use la_constants_${rk}$,only:one,two,czero,cone
+        ! -- lapack auxiliary routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           integer(ilp),intent(inout) :: kase
+           integer(ilp),intent(in) :: n
+           real(${rk}$),intent(inout) :: est
+           ! Array Arguments
+           integer(ilp),intent(inout) :: isave(3)
+           complex(${rk}$),intent(out) :: v(*)
+           complex(${rk}$),intent(inout) :: x(*)
+        ! =====================================================================
+           ! Parameters
+           integer(ilp),parameter :: itmax = 5
+
+           ! Local Scalars
+           integer(ilp) :: i,jlast
+           real(${rk}$) :: absxi,altsgn,estold,safmin,temp
+           ! Intrinsic Functions
+#:if rk == "sp"
+           intrinsic :: abs,aimag,cmplx,real
+#:else
+           intrinsic :: abs,real,cmplx,aimag
+#:endif
+           ! Executable Statements
+           safmin = la_${ci}$lamch('SAFE MINIMUM')
+           if (kase == 0) then
+              do i = 1,n
+                 x(i) = cmplx(one/real(n,KIND=${rk}$),KIND=${rk}$)
+              end do
+              kase = 1
+              isave(1) = 1
+              return
+           end if
+           go to(20,40,70,90,120) isave(1)
+           ! ................ entry   (isave( 1 ) = 1)
+           ! first iteration.  x has been overwritten by a*x.
+           20 continue
+           if (n == 1) then
+              v(1) = x(1)
+              est = abs(v(1))
+              ! ... quit
+              go to 130
+           end if
+           est = la_${ci}$${ri}$sum1(n,x,1)
+           do i = 1,n
+              absxi = abs(x(i))
+              if (absxi > safmin) then
+                 x(i) = cmplx(real(x(i),KIND=${rk}$)/absxi,aimag(x(i))/absxi,KIND=${rk}$)
+
+              else
+                 x(i) = cone
+              end if
+           end do
+           kase = 2
+           isave(1) = 2
+           return
+           ! ................ entry   (isave( 1 ) = 2)
+           ! first iteration.  x has been overwritten by ctrans(a)*x.
+           40 continue
+           isave(2) = la_i${ri}$max1(n,x,1)
+           isave(3) = 2
+           ! main loop - iterations 2,3,...,itmax.
+           50 continue
+           do i = 1,n
+              x(i) = czero
+           end do
+           x(isave(2)) = cone
+           kase = 1
+           isave(1) = 3
+           return
+           ! ................ entry   (isave( 1 ) = 3)
+           ! x has been overwritten by a*x.
+           70 continue
+           call la_${ri}$copy(n,x,1,v,1)
+           estold = est
+           est = la_${ci}$${ri}$sum1(n,v,1)
+           ! test for cycling.
+           if (est <= estold) go to 100
+           do i = 1,n
+              absxi = abs(x(i))
+              if (absxi > safmin) then
+                 x(i) = cmplx(real(x(i),KIND=${rk}$)/absxi,aimag(x(i))/absxi,KIND=${rk}$)
+
+              else
+                 x(i) = cone
+              end if
+           end do
+           kase = 2
+           isave(1) = 4
+           return
+           ! ................ entry   (isave( 1 ) = 4)
+           ! x has been overwritten by ctrans(a)*x.
+           90 continue
+           jlast = isave(2)
+           isave(2) = la_i${ri}$max1(n,x,1)
+           if ((abs(x(jlast)) /= abs(x(isave(2)))) .and. (isave(3) < itmax)) &
+                     then
+              isave(3) = isave(3) + 1
+              go to 50
+           end if
+           ! iteration complete.  final stage.
+           100 continue
+           altsgn = one
+           do i = 1,n
+              x(i) = cmplx(altsgn*(one + real(i - 1,KIND=${rk}$)/real(n - 1,KIND=${rk}$)),KIND=${rk}$)
+
+              altsgn = -altsgn
+           end do
+           kase = 1
+           isave(1) = 5
+           return
+           ! ................ entry   (isave( 1 ) = 5)
+           ! x has been overwritten by a*x.
+           120 continue
+           temp = two*(la_${ci}$${ri}$sum1(n,x,1)/real(3*n,KIND=${rk}$))
+           if (temp > est) then
+              call la_${ri}$copy(n,x,1,v,1)
+              est = temp
+           end if
+           130 continue
+           kase = 0
+           return
+     end subroutine la_${ri}$lacn2
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+     !> ${ri.upper()}$LACON: estimates the 1-norm of a square, complex matrix A.
+     !> Reverse communication is used for evaluating matrix-vector products.
+
+     subroutine la_${ri}$lacon(n,v,x,est,kase)
+        use la_constants_${rk}$,only:one,two,czero,cone
+        ! -- lapack auxiliary routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           integer(ilp),intent(inout) :: kase
+           integer(ilp),intent(in) :: n
+           real(${rk}$),intent(inout) :: est
+           ! Array Arguments
+           complex(${rk}$),intent(out) :: v(n)
+           complex(${rk}$),intent(inout) :: x(n)
+        ! =====================================================================
+           ! Parameters
+           integer(ilp),parameter :: itmax = 5
+
+           ! Local Scalars
+           integer(ilp) :: i,iter,j,jlast,jump
+           real(${rk}$) :: absxi,altsgn,estold,safmin,temp
+           ! Intrinsic Functions
+#:if rk == "sp"
+           intrinsic :: abs,aimag,cmplx,real
+#:else
+           intrinsic :: abs,real,cmplx,aimag
+#:endif
+           ! Save Statement
+           save
+           ! Executable Statements
+           safmin = la_${ci}$lamch('SAFE MINIMUM')
+           if (kase == 0) then
+              do i = 1,n
+                 x(i) = cmplx(one/real(n,KIND=${rk}$),KIND=${rk}$)
+              end do
+              kase = 1
+              jump = 1
+              return
+           end if
+           go to(20,40,70,90,120) jump
+           ! ................ entry   (jump = 1)
+           ! first iteration.  x has been overwritten by a*x.
+           20 continue
+           if (n == 1) then
+              v(1) = x(1)
+              est = abs(v(1))
+              ! ... quit
+              go to 130
+           end if
+           est = la_${ci}$${ri}$sum1(n,x,1)
+           do i = 1,n
+              absxi = abs(x(i))
+              if (absxi > safmin) then
+                 x(i) = cmplx(real(x(i),KIND=${rk}$)/absxi,aimag(x(i))/absxi,KIND=${rk}$)
+
+              else
+                 x(i) = cone
+              end if
+           end do
+           kase = 2
+           jump = 2
+           return
+           ! ................ entry   (jump = 2)
+           ! first iteration.  x has been overwritten by ctrans(a)*x.
+           40 continue
+           j = la_i${ri}$max1(n,x,1)
+           iter = 2
+           ! main loop - iterations 2,3,...,itmax.
+           50 continue
+           do i = 1,n
+              x(i) = czero
+           end do
+           x(j) = cone
+           kase = 1
+           jump = 3
+           return
+           ! ................ entry   (jump = 3)
+           ! x has been overwritten by a*x.
+           70 continue
+           call la_${ri}$copy(n,x,1,v,1)
+           estold = est
+           est = la_${ci}$${ri}$sum1(n,v,1)
+           ! test for cycling.
+           if (est <= estold) go to 100
+           do i = 1,n
+              absxi = abs(x(i))
+              if (absxi > safmin) then
+                 x(i) = cmplx(real(x(i),KIND=${rk}$)/absxi,aimag(x(i))/absxi,KIND=${rk}$)
+
+              else
+                 x(i) = cone
+              end if
+           end do
+           kase = 2
+           jump = 4
+           return
+           ! ................ entry   (jump = 4)
+           ! x has been overwritten by ctrans(a)*x.
+           90 continue
+           jlast = j
+           j = la_i${ri}$max1(n,x,1)
+           if ((abs(x(jlast)) /= abs(x(j))) .and. (iter < itmax)) then
+              iter = iter + 1
+              go to 50
+           end if
+           ! iteration complete.  final stage.
+           100 continue
+           altsgn = one
+           do i = 1,n
+              x(i) = cmplx(altsgn*(one + real(i - 1,KIND=${rk}$)/real(n - 1,KIND=${rk}$)),KIND=${rk}$)
+
+              altsgn = -altsgn
+           end do
+           kase = 1
+           jump = 5
+           return
+           ! ................ entry   (jump = 5)
+           ! x has been overwritten by a*x.
+           120 continue
+           temp = two*(la_${ci}$${ri}$sum1(n,x,1)/real(3*n,KIND=${rk}$))
+           if (temp > est) then
+              call la_${ri}$copy(n,x,1,v,1)
+              est = temp
+           end if
+           130 continue
+           kase = 0
+           return
+     end subroutine la_${ri}$lacon
+#:endfor
+
+end module la_lapack_solve_aux
