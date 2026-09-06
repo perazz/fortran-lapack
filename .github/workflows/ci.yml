@@ -97,3 +97,27 @@ jobs:
           fpm test --profile debug
           --flag "${{ env.EXTERNAL_FLAGS }}"
           --link-flag "${{ env.EXTERNAL_LINK_FLAGS }}"
+
+  generated-sources:
+    name: generated sources
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install the generator toolchain
+        run: pip install fypp==3.2 fprettify==0.3.7
+
+      - name: Regenerate the committed sources and compare
+        run: python3 scripts/fypp_deploy.py --check
+
+      - name: Show the drift
+        if: failure()
+        run: cat build/fypp_deploy_check.diff
