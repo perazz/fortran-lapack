@@ -1,5 +1,5 @@
 #:include "common.fypp"
-!> Identity and diagonal matrices.
+!> Identity and diagonal matrices, matrix trace and elementary matrix products.
 module la_eye
      use la_constants
      use la_blas
@@ -27,17 +27,22 @@ module la_eye
     !! @warning Ensure that the matrix dimensions are valid and consistent with the type definition.
     public :: eye
 
-    !> @brief Return a square diagonal matrix with diagonal values.
+    !> @brief Return a square diagonal matrix with diagonal values, or extract a diagonal.
     !!
     !! This function generates a square diagonal matrix where the diagonal elements are either
     !! equal to the specified scalar value or populated by the input array.
     !! The size of the matrix is determined by the input parameter \f$n\f$ or the size of the input array.
+    !! Given a matrix instead, the function extracts one of its diagonals as a vector.
     !!
     !! @param[in] n The size of the square matrix (only used if a scalar is provided for the diagonal).
     !! @param[in] source If a scalar, this value is used to populate the diagonal of the matrix.
     !!                   If an array, the elements of the array are used for the diagonal.
+    !!                   If a matrix, its \f$k\f$-th diagonal is returned as a vector.
+    !! @param[in] k (Optional) Index of the diagonal: 0 is the main diagonal, \f$k>0\f$ the \f$k\f$-th
+    !!              superdiagonal, \f$k<0\f$ the \f$k\f$-th subdiagonal.
     !! @param[out] err (Optional) State return flag. If not provided, the function will stop on error.
-    !! @return The diagonal matrix with size \f$n \times n\f$, where the diagonal elements are populated by \f$source\f$.
+    !! @return The diagonal matrix with size \f$n \times n\f$, where the diagonal elements are populated by \f$source\f$,
+    !!         or the requested diagonal of the input matrix.
     !!
     !! @note If a scalar value is passed, the diagonal elements of the matrix will all be equal to \f$source\f$.
     !!       If an array is passed, its length determines the size of the matrix, and the array elements are placed
@@ -45,6 +50,58 @@ module la_eye
     !!       Otherwise, it returns the error state of the function.
     !!
     public :: diag
+
+    !> @brief Return the trace of a matrix.
+    !!
+    !! This function sums the elements of the main diagonal of a matrix. The matrix need not be square:
+    !! for a \f$m \times n\f$ matrix, the first \f$\min(m,n)\f$ diagonal elements are summed.
+    !!
+    !! @param[in] A The input matrix of size \f$ [m,n] \f$.
+    !! @return The sum \f$ \sum_i A_{ii} \f$, of the same type and kind as `A`.
+    !!
+    public :: trace
+
+    !> @brief Return the outer product of two vectors.
+    !!
+    !! This function computes \f$ u \otimes v \f$, the rank-2 array whose \f$(i,j)\f$ element is
+    !! \f$ u_i v_j \f$.
+    !!
+    !! @param[in] u The first input vector, of size \f$m\f$.
+    !! @param[in] v The second input vector, of size \f$n\f$.
+    !! @return The \f$ m \times n \f$ outer product matrix.
+    !!
+    public :: outer_product
+
+    !> @brief Return the cross product of two 3-dimensional vectors.
+    !!
+    !! This function computes \f$ a \times b \f$, the vector orthogonal to both input vectors.
+    !!
+    !! @param[in] a The first input vector, of size 3.
+    !! @param[in] b The second input vector, of size 3.
+    !! @return The size-3 cross product vector.
+    !!
+    public :: cross_product
+
+    !> @brief Return the Kronecker product of two matrices.
+    !!
+    !! This function computes \f$ A \otimes B \f$: given \f$ A \f$ of size \f$ m_1 \times n_1 \f$ and
+    !! \f$ B \f$ of size \f$ m_2 \times n_2 \f$, the result is the \f$ (m_1 m_2) \times (n_1 n_2) \f$
+    !! block matrix whose \f$(i,j)\f$ block is \f$ A_{ij} B \f$.
+    !!
+    !! @param[in] A The first input matrix, of size \f$ [m_1,n_1] \f$.
+    !! @param[in] B The second input matrix, of size \f$ [m_2,n_2] \f$.
+    !! @return The \f$ (m_1 m_2) \times (n_1 n_2) \f$ Kronecker product matrix.
+    !!
+    public :: kronecker_product
+
+    !> @brief Return the Hermitian transpose of a matrix.
+    !!
+    !! This function returns `conjg(transpose(a))` for a complex matrix and `transpose(a)` for a real one.
+    !!
+    !! @param[in] a The input matrix of size \f$ [m,n] \f$.
+    !! @return The \f$ n \times m \f$ matrix \f$ a^H \f$.
+    !!
+    public :: hermitian
 
      ! Identity matrix interface
      interface eye
@@ -63,7 +120,47 @@ module la_eye
         module procedure la_diag_${ri}$${esuf}$_from_array
         #:endfor
         #:endfor
+        #:for rk,rt,ri in ALL_KINDS_TYPES
+        module procedure la_diag_${ri}$_from_array_k
+        module procedure la_diag_${ri}$_from_matrix
+        module procedure la_diag_${ri}$_from_matrix_k
+        #:endfor
      end interface diag
+
+     ! Matrix trace interface
+     interface trace
+        #:for rk,rt,ri in ALL_KINDS_TYPES
+        module procedure la_trace_${ri}$
+        #:endfor
+     end interface trace
+
+     ! Outer product interface
+     interface outer_product
+        #:for rk,rt,ri in ALL_KINDS_TYPES
+        module procedure la_outer_product_${ri}$
+        #:endfor
+     end interface outer_product
+
+     ! Cross product interface
+     interface cross_product
+        #:for rk,rt,ri in ALL_KINDS_TYPES
+        module procedure la_cross_product_${ri}$
+        #:endfor
+     end interface cross_product
+
+     ! Kronecker product interface
+     interface kronecker_product
+        #:for rk,rt,ri in ALL_KINDS_TYPES
+        module procedure la_kronecker_product_${ri}$
+        #:endfor
+     end interface kronecker_product
+
+     ! Hermitian transpose interface
+     interface hermitian
+        #:for rk,rt,ri in ALL_KINDS_TYPES
+        module procedure la_hermitian_${ri}$
+        #:endfor
+     end interface hermitian
 
      contains
 
@@ -222,6 +319,177 @@ module la_eye
      end function la_diag_${ri}$${esuf}$_from_array
 
      #:endfor
+     #:endfor
+
+     #:for rk,rt,ri in ALL_KINDS_TYPES
+     ! Construct a square matrix whose k-th diagonal is filled with the input array
+     pure function la_diag_${ri}$_from_array_k(source,k) result(diag)
+         !> Array of diagonal values. Used to define the return type and the matrix size.
+         ${rt}$, intent(in) :: source(:)
+         !> Index of the diagonal: 0 is the main diagonal, k>0 the k-th superdiagonal, k<0 the k-th subdiagonal.
+         integer(ilp), intent(in) :: k
+         !> Return matrix
+         ${rt}$ :: diag(size(source,kind=ilp) + abs(k),size(source,kind=ilp) + abs(k))
+
+         !> Local variables
+         integer(ilp) :: i,n
+
+         n = size(source,kind=ilp)
+
+         diag = 0.0_${rk}$
+
+         if (k > 0) then
+            do i = 1,n
+               diag(i,k + i) = source(i)
+            end do
+         elseif (k < 0) then
+            do i = 1,n
+               diag(i + abs(k),i) = source(i)
+            end do
+         else
+            do i = 1,n
+               diag(i,i) = source(i)
+            end do
+         end if
+
+     end function la_diag_${ri}$_from_array_k
+
+     ! Extract the main diagonal of a matrix
+     pure function la_diag_${ri}$_from_matrix(A) result(diag)
+         !> Input matrix. Used to define the return type and size.
+         ${rt}$, intent(in) :: A(:,:)
+         !> Return array
+         ${rt}$ :: diag(minval(shape(A,kind=ilp)))
+
+         !> Local variables
+         integer(ilp) :: i
+
+         do i = 1,minval(shape(A,kind=ilp))
+            diag(i) = A(i,i)
+         end do
+
+     end function la_diag_${ri}$_from_matrix
+
+     ! Extract the k-th diagonal of a matrix
+     pure function la_diag_${ri}$_from_matrix_k(A,k) result(diag)
+         !> Input matrix. Used to define the return type and size.
+         ${rt}$, intent(in) :: A(:,:)
+         !> Index of the diagonal: 0 is the main diagonal, k>0 the k-th superdiagonal, k<0 the k-th subdiagonal.
+         integer(ilp), intent(in) :: k
+         !> Return array
+         ${rt}$ :: diag(minval(shape(A,kind=ilp)) - abs(k))
+
+         !> Local variables
+         integer(ilp) :: i,n
+
+         n = minval(shape(A,kind=ilp)) - abs(k)
+
+         if (k > 0) then
+            do i = 1,n
+               diag(i) = A(i,k + i)
+            end do
+         elseif (k < 0) then
+            do i = 1,n
+               diag(i) = A(i + abs(k),i)
+            end do
+         else
+            do i = 1,n
+               diag(i) = A(i,i)
+            end do
+         end if
+
+     end function la_diag_${ri}$_from_matrix_k
+
+     ! Sum of the main diagonal elements of a matrix
+     pure function la_trace_${ri}$(A) result(res)
+         !> Input matrix
+         ${rt}$, intent(in) :: A(:,:)
+         !> Trace of the input matrix
+         ${rt}$ :: res
+
+         !> Local variables
+         integer(ilp) :: i
+
+         res = 0.0_${rk}$
+         do i = 1,minval(shape(A,kind=ilp))
+            res = res + A(i,i)
+         end do
+
+     end function la_trace_${ri}$
+
+     ! Outer product of two vectors
+     pure function la_outer_product_${ri}$(u,v) result(res)
+         !> First input vector
+         ${rt}$, intent(in) :: u(:)
+         !> Second input vector
+         ${rt}$, intent(in) :: v(:)
+         !> Outer product matrix
+         ${rt}$ :: res(size(u,kind=ilp),size(v,kind=ilp))
+
+         !> Local variables
+         integer(ilp) :: col
+
+         do col = 1,size(v,kind=ilp)
+            res(:,col) = v(col)*u
+         end do
+
+     end function la_outer_product_${ri}$
+
+     ! Cross product of two 3-dimensional vectors
+     pure function la_cross_product_${ri}$(a,b) result(res)
+         !> First input vector
+         ${rt}$, intent(in) :: a(3)
+         !> Second input vector
+         ${rt}$, intent(in) :: b(3)
+         !> Cross product vector
+         ${rt}$ :: res(3)
+
+         res(1) = a(2)*b(3) - a(3)*b(2)
+         res(2) = a(3)*b(1) - a(1)*b(3)
+         res(3) = a(1)*b(2) - a(2)*b(1)
+
+     end function la_cross_product_${ri}$
+
+     ! Kronecker product of two matrices
+     pure function la_kronecker_product_${ri}$(A,B) result(C)
+         !> First input matrix
+         ${rt}$, intent(in) :: A(:,:)
+         !> Second input matrix
+         ${rt}$, intent(in) :: B(:,:)
+         !> Kronecker product matrix
+         ${rt}$ :: C(size(A,1,kind=ilp)*size(B,1,kind=ilp),size(A,2,kind=ilp)*size(B,2,kind=ilp))
+
+         !> Local variables
+         integer(ilp) :: m1,n1,maxM1,maxN1,maxM2,maxN2
+
+         maxM1 = size(A,1,kind=ilp)
+         maxN1 = size(A,2,kind=ilp)
+         maxM2 = size(B,1,kind=ilp)
+         maxN2 = size(B,2,kind=ilp)
+
+         do n1 = 1,maxN1
+            do m1 = 1,maxM1
+               C((m1 - 1)*maxM2 + 1:m1*maxM2,(n1 - 1)*maxN2 + 1:n1*maxN2) = A(m1,n1)*B(:,:)
+            end do
+         end do
+
+     end function la_kronecker_product_${ri}$
+
+     ! Hermitian transpose of a matrix
+     pure function la_hermitian_${ri}$(a) result(ah)
+         !> Input matrix
+         ${rt}$, intent(in) :: a(:,:)
+         !> Hermitian transpose of the input matrix
+         ${rt}$ :: ah(size(a,2,kind=ilp),size(a,1,kind=ilp))
+
+         #:if rt.startswith('complex')
+         ah = conjg(transpose(a))
+         #:else
+         ah = transpose(a)
+         #:endif
+
+     end function la_hermitian_${ri}$
+
      #:endfor
 
 end module la_eye

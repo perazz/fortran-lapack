@@ -1,0 +1,394 @@
+#:include "common.fypp"
+!> Matrix property checks
+module la_matrix_property_checks
+     use la_constants
+     use la_state_type
+     use iso_fortran_env,only:real32,real64,real128,int8,int16,int32,int64,stderr => error_unit
+     implicit none(type,external)
+     private
+
+     !> @brief Check whether a matrix is square.
+     !!
+     !! This function returns `.true.` if the input matrix has as many rows as columns.
+     !!
+     !! @param[in] A The input matrix of size \f$ [m,n] \f$.
+     !!
+     !! @return `.true.` if \f$ m = n \f$, `.false.` otherwise.
+     !!
+     public :: is_square
+
+     !> @brief Check whether a matrix is diagonal.
+     !!
+     !! This function returns `.true.` if every off-diagonal entry of the input matrix is zero.
+     !! The matrix need not be square.
+     !!
+     !! @param[in] A The input matrix of size \f$ [m,n] \f$.
+     !!
+     !! @return `.true.` if \f$ A_{ij} = 0 \f$ for all \f$ i \neq j \f$, `.false.` otherwise.
+     !!
+     public :: is_diagonal
+
+     !> @brief Check whether a matrix is symmetric.
+     !!
+     !! This function returns `.true.` if the input matrix equals its own transpose.
+     !! A non-square matrix is never symmetric.
+     !!
+     !! @param[in] A The input matrix of size \f$ [m,n] \f$.
+     !!
+     !! @return `.true.` if \f$ A = A^T \f$, `.false.` otherwise.
+     !!
+     public :: is_symmetric
+
+     !> @brief Check whether a matrix is skew-symmetric.
+     !!
+     !! This function returns `.true.` if the input matrix equals the negative of its own transpose.
+     !! A non-square matrix is never skew-symmetric.
+     !!
+     !! @param[in] A The input matrix of size \f$ [m,n] \f$.
+     !!
+     !! @return `.true.` if \f$ A = -A^T \f$, `.false.` otherwise.
+     !!
+     public :: is_skew_symmetric
+
+     !> @brief Check whether a matrix is Hermitian.
+     !!
+     !! This function returns `.true.` if the input matrix equals its own conjugate transpose.
+     !! For a real matrix this is the same test as [`is_symmetric`](@ref la_matrix_property_checks::is_symmetric).
+     !! A non-square matrix is never Hermitian.
+     !!
+     !! @param[in] A The input matrix of size \f$ [m,n] \f$.
+     !!
+     !! @return `.true.` if \f$ A = A^H \f$, `.false.` otherwise.
+     !!
+     public :: is_hermitian
+
+     !> @brief Check whether a matrix is triangular.
+     !!
+     !! This function returns `.true.` if every entry of the input matrix below (`uplo = 'U'`) or
+     !! above (`uplo = 'L'`) the main diagonal is zero. The matrix need not be square.
+     !!
+     !! @param[in] A The input matrix of size \f$ [m,n] \f$.
+     !! @param[in] uplo The triangle to test: `'U'` for upper, `'L'` for lower.
+     !! @param[out] err (Optional) A state return flag. If an error occurs and `err` is not provided,
+     !!                 the function will stop execution.
+     !!
+     !! @return `.true.` if `A` is triangular of the requested type, `.false.` otherwise.
+     !!
+     public :: is_triangular
+
+     !> @brief Check whether a matrix is Hessenberg.
+     !!
+     !! This function returns `.true.` if every entry of the input matrix more than one row below
+     !! (`uplo = 'U'`) or more than one row above (`uplo = 'L'`) the main diagonal is zero.
+     !! The matrix need not be square.
+     !!
+     !! @param[in] A The input matrix of size \f$ [m,n] \f$.
+     !! @param[in] uplo The Hessenberg form to test: `'U'` for upper, `'L'` for lower.
+     !! @param[out] err (Optional) A state return flag. If an error occurs and `err` is not provided,
+     !!                 the function will stop execution.
+     !!
+     !! @return `.true.` if `A` is Hessenberg of the requested type, `.false.` otherwise.
+     !!
+     public :: is_hessenberg
+
+     ! Exact inequality of two values. It is written as a relational test on the magnitude of the
+     ! difference, which the compiler does not flag as a floating-point equality comparison, and
+     ! which reports NaN operands as different exactly as `/=` does.
+     interface differ
+        #:for rk,rt,ri in ALL_KINDS_TYPES
+        module procedure la_differ_${ri}$
+        #:endfor
+     end interface differ
+
+     interface is_square
+        #:for rk,rt,ri in ALL_KINDS_TYPES
+        module procedure la_is_square_${ri}$
+        #:endfor
+     end interface is_square
+
+     interface is_diagonal
+        #:for rk,rt,ri in ALL_KINDS_TYPES
+        module procedure la_is_diagonal_${ri}$
+        #:endfor
+     end interface is_diagonal
+
+     interface is_symmetric
+        #:for rk,rt,ri in ALL_KINDS_TYPES
+        module procedure la_is_symmetric_${ri}$
+        #:endfor
+     end interface is_symmetric
+
+     interface is_skew_symmetric
+        #:for rk,rt,ri in ALL_KINDS_TYPES
+        module procedure la_is_skew_symmetric_${ri}$
+        #:endfor
+     end interface is_skew_symmetric
+
+     interface is_hermitian
+        #:for rk,rt,ri in ALL_KINDS_TYPES
+        module procedure la_is_hermitian_${ri}$
+        #:endfor
+     end interface is_hermitian
+
+     interface is_triangular
+        #:for epref,esuf,earg,epresent in FUNCTION_INTERFACES
+        #:for rk,rt,ri in ALL_KINDS_TYPES
+        module procedure la_is_triangular_${ri}$${esuf}$
+        #:endfor
+        #:endfor
+     end interface is_triangular
+
+     interface is_hessenberg
+        #:for epref,esuf,earg,epresent in FUNCTION_INTERFACES
+        #:for rk,rt,ri in ALL_KINDS_TYPES
+        module procedure la_is_hessenberg_${ri}$${esuf}$
+        #:endfor
+        #:endfor
+     end interface is_hessenberg
+
+     contains
+
+     #:for rk,rt,ri in ALL_KINDS_TYPES
+     pure elemental logical(lk) function la_differ_${ri}$(x,y) result(differs)
+         ${rt}$, intent(in) :: x,y
+
+         differs = .not. abs(x - y) <= 0.0_${rk}$
+
+     end function la_differ_${ri}$
+
+     !> Check whether a matrix is square.
+     pure logical(lk) function la_is_square_${ri}$(A) result(res)
+         !> Input matrix
+         ${rt}$, intent(in) :: A(:,:)
+
+         res = size(A,1,kind=ilp) == size(A,2,kind=ilp)
+
+     end function la_is_square_${ri}$
+
+     !> Check whether a matrix is diagonal.
+     pure logical(lk) function la_is_diagonal_${ri}$(A) result(res)
+         !> Input matrix
+         ${rt}$, intent(in) :: A(:,:)
+
+         ${rt}$, parameter :: zero = 0.0_${rk}$
+         integer(ilp) :: m,n,o,i,j
+
+         m = size(A,1,kind=ilp)
+         n = size(A,2,kind=ilp)
+
+         do j = 1,n
+            o = min(j - 1,m)
+            do i = 1,o
+               if (differ(A(i,j),zero)) then
+                  res = .false._lk
+                  return
+               end if
+            end do
+            do i = o + 2,m
+               if (differ(A(i,j),zero)) then
+                  res = .false._lk
+                  return
+               end if
+            end do
+         end do
+
+         res = .true._lk
+
+     end function la_is_diagonal_${ri}$
+
+     !> Check whether a matrix is symmetric.
+     pure logical(lk) function la_is_symmetric_${ri}$(A) result(res)
+         !> Input matrix
+         ${rt}$, intent(in) :: A(:,:)
+
+         integer(ilp) :: n,i,j
+
+         if (.not. is_square(A)) then
+            res = .false._lk
+            return
+         end if
+
+         n = size(A,1,kind=ilp)
+
+         do j = 1,n
+            do i = 1,j - 1
+               if (differ(A(i,j),A(j,i))) then
+                  res = .false._lk
+                  return
+               end if
+            end do
+         end do
+
+         res = .true._lk
+
+     end function la_is_symmetric_${ri}$
+
+     !> Check whether a matrix is skew-symmetric.
+     pure logical(lk) function la_is_skew_symmetric_${ri}$(A) result(res)
+         !> Input matrix
+         ${rt}$, intent(in) :: A(:,:)
+
+         integer(ilp) :: n,i,j
+
+         if (.not. is_square(A)) then
+            res = .false._lk
+            return
+         end if
+
+         n = size(A,1,kind=ilp)
+
+         do j = 1,n
+            do i = 1,j
+               if (differ(A(i,j),-A(j,i))) then
+                  res = .false._lk
+                  return
+               end if
+            end do
+         end do
+
+         res = .true._lk
+
+     end function la_is_skew_symmetric_${ri}$
+
+     #:endfor
+
+     #:for rk,rt,ri in REAL_KINDS_TYPES
+     !> Check whether a real matrix is Hermitian: symmetry and Hermiticity coincide.
+     pure logical(lk) function la_is_hermitian_${ri}$(A) result(res)
+         !> Input matrix
+         ${rt}$, intent(in) :: A(:,:)
+
+         res = is_symmetric(A)
+
+     end function la_is_hermitian_${ri}$
+
+     #:endfor
+
+     #:for rk,rt,ri in CMPL_KINDS_TYPES
+     !> Check whether a complex matrix is Hermitian.
+     pure logical(lk) function la_is_hermitian_${ri}$(A) result(res)
+         !> Input matrix
+         ${rt}$, intent(in) :: A(:,:)
+
+         integer(ilp) :: n,i,j
+
+         if (.not. is_square(A)) then
+            res = .false._lk
+            return
+         end if
+
+         n = size(A,1,kind=ilp)
+
+         do j = 1,n
+            do i = 1,j
+               if (differ(A(i,j),conjg(A(j,i)))) then
+                  res = .false._lk
+                  return
+               end if
+            end do
+         end do
+
+         res = .true._lk
+
+     end function la_is_hermitian_${ri}$
+
+     #:endfor
+
+     #:for epref,esuf,earg,epresent in FUNCTION_INTERFACES
+     #:for rk,rt,ri in ALL_KINDS_TYPES
+     !> Check whether a matrix is upper or lower triangular.
+     ${epref}$logical(lk) function la_is_triangular_${ri}$${esuf}$(A,uplo${earg}$) result(res)
+         !> Input matrix
+         ${rt}$, intent(in) :: A(:,:)
+         !> Triangle to be tested: 'U' for upper, 'L' for lower
+         character, intent(in) :: uplo
+         #:if epresent
+         !> [optional] state return flag. On error if not requested, the code will stop
+         type(la_state), intent(out) :: err
+         #:endif
+
+         ${rt}$, parameter :: zero = 0.0_${rk}$
+         integer(ilp) :: m,n,o,i,j
+         type(la_state) :: err0
+         character(*), parameter :: this = 'is_triangular'
+
+         m = size(A,1,kind=ilp)
+         n = size(A,2,kind=ilp)
+         res = .false._lk
+
+         select case (uplo)
+            case ('u','U')
+               do j = 1,n
+                  o = min(j - 1,m)
+                  do i = o + 2,m
+                     if (differ(A(i,j),zero)) goto 1
+                  end do
+               end do
+            case ('l','L')
+               do j = 1,n
+                  o = min(j - 1,m)
+                  do i = 1,o
+                     if (differ(A(i,j),zero)) goto 1
+                  end do
+               end do
+            case default
+               err0 = la_state(this,LINALG_VALUE_ERROR,'invalid triangle selector: uplo=',uplo)
+               goto 1
+         end select
+
+         res = .true._lk
+
+         1 call err0%handle(#{if epresent}#err#{endif}#)
+
+     end function la_is_triangular_${ri}$${esuf}$
+
+     !> Check whether a matrix is in upper or lower Hessenberg form.
+     ${epref}$logical(lk) function la_is_hessenberg_${ri}$${esuf}$(A,uplo${earg}$) result(res)
+         !> Input matrix
+         ${rt}$, intent(in) :: A(:,:)
+         !> Hessenberg form to be tested: 'U' for upper, 'L' for lower
+         character, intent(in) :: uplo
+         #:if epresent
+         !> [optional] state return flag. On error if not requested, the code will stop
+         type(la_state), intent(out) :: err
+         #:endif
+
+         ${rt}$, parameter :: zero = 0.0_${rk}$
+         integer(ilp) :: m,n,o,i,j
+         type(la_state) :: err0
+         character(*), parameter :: this = 'is_hessenberg'
+
+         m = size(A,1,kind=ilp)
+         n = size(A,2,kind=ilp)
+         res = .false._lk
+
+         select case (uplo)
+            case ('u','U')
+               do j = 1,n
+                  o = min(j - 2,m)
+                  do i = o + 4,m
+                     if (differ(A(i,j),zero)) goto 1
+                  end do
+               end do
+            case ('l','L')
+               do j = 1,n
+                  o = min(j - 2,m)
+                  do i = 1,o
+                     if (differ(A(i,j),zero)) goto 1
+                  end do
+               end do
+            case default
+               err0 = la_state(this,LINALG_VALUE_ERROR,'invalid Hessenberg selector: uplo=',uplo)
+               goto 1
+         end select
+
+         res = .true._lk
+
+         1 call err0%handle(#{if epresent}#err#{endif}#)
+
+     end function la_is_hessenberg_${ri}$${esuf}$
+
+     #:endfor
+     #:endfor
+
+end module la_matrix_property_checks

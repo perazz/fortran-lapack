@@ -803,11 +803,15 @@ where:
 
 `d = diag(n, source [, err])` for scalar input
 `d = diag(source(:) [, err])` for array input
+`d = diag(source(:), k)` for array input placed on the `k`-th diagonal
+`v = diag(a(:,:) [, k])` to extract a diagonal of a matrix
 
 ### Description
 
 This function generates a square diagonal matrix where the diagonal elements are populated either by a scalar value or an array of values. The size of the matrix is determined by the input parameter \f$n\f$ or the size of the input array. 
 If a scalar is provided, the diagonal elements are all set to the same value. If an array is provided, its length determines the size of the matrix, and its elements are placed along the diagonal.
+Given the offset `k`, the array is placed on the `k`-th superdiagonal (\f$k>0\f$) or subdiagonal (\f$k<0\f$) instead, and the matrix grows to \f$(n+|k|) \times (n+|k|)\f$.
+Given a matrix instead of a vector, the function extracts the requested diagonal and returns it as a vector.
 
 ### Arguments
 
@@ -815,11 +819,14 @@ If a scalar is provided, the diagonal elements are all set to the same value. If
 - `source`: 
   - If a scalar, this value is used to populate all the diagonal elements of the matrix.
   - If an array, the elements of the array are used to populate the diagonal of the matrix. The size of the array determines the matrix size.
+- `a`: A matrix whose `k`-th diagonal is returned as a vector.
+- `k` (optional): The index of the diagonal: 0 is the main diagonal, \f$k>0\f$ the `k`-th superdiagonal, \f$k<0\f$ the `k`-th subdiagonal.
 - `err` (optional): A state return flag of [type(la_state)](@ref la_state_type::la_state). If an error occurs and `err` is not provided, the function will stop execution.
 
 ### Return value
 
-The function returns a matrix of size \f$n \times n\f$, where the diagonal elements are either all equal to the scalar `source` or populated by the values from the input array.
+The function returns a matrix of size \f$n \times n\f$, where the diagonal elements are either all equal to the scalar `source` or populated by the values from the input array. With the offset `k`, the matrix is of size \f$(n+|k|) \times (n+|k|)\f$.
+Given a matrix, the function returns the requested diagonal as a vector; the vector has size zero when the requested diagonal lies outside the matrix.
 
 ### Errors
 
@@ -863,6 +870,339 @@ The function returns a matrix of size \f$m \times n\f$ (or \f$m \times m\f$ if \
 - The identity matrix is constructed with the specified data type, which defaults to `real(real64)` if no type is specified.
 - The `mold` scalar is used to provide a function return type. 
 - If the `err` parameter is provided, the error state of the function will be returned.
+
+## [trace](@ref la_eye::trace) - Trace of a matrix.
+
+### Syntax
+
+`t = trace(a)`
+
+### Description
+
+This function returns the sum of the main diagonal elements of a matrix. The matrix does not need to be square: for a \f$ m \times n \f$ matrix, the first \f$ \min(m,n) \f$ diagonal elements are summed.
+
+### Arguments
+
+- `a`: A `real` or `complex` matrix of size \f$ [m,n] \f$. It is an `intent(in)` argument.
+
+### Return value
+
+The function returns a scalar of the same type and kind as `a`, equal to \f$ \sum_i a_{ii} \f$.
+
+### Errors
+
+- This function is `pure` and cannot fail: an empty matrix returns zero.
+
+### Notes
+
+- `trace(a)` is equivalent to `sum(diag(a))`, computed without building the intermediate vector.
+
+
+## [outer_product](@ref la_eye::outer_product) - Outer product of two vectors.
+
+### Syntax
+
+`c = outer_product(u, v)`
+
+### Description
+
+This function returns the outer product \f$ u \otimes v \f$ of two vectors, the matrix whose \f$(i,j)\f$ element is \f$ u_i v_j \f$.
+
+### Arguments
+
+- `u`: A `real` or `complex` vector of size \f$m\f$. It is an `intent(in)` argument.
+- `v`: A vector of the same type and kind as `u`, of size \f$n\f$. It is an `intent(in)` argument.
+
+### Return value
+
+The function returns the \f$ m \times n \f$ matrix \f$ u \otimes v \f$, of the same type and kind as the inputs.
+
+### Errors
+
+- This function is `pure` and cannot fail: the two vectors may have any lengths.
+
+### Notes
+
+- No conjugation is applied to `v`. For the Hermitian outer product, pass `conjg(v)`.
+
+
+## [cross_product](@ref la_eye::cross_product) - Cross product of two 3-dimensional vectors.
+
+### Syntax
+
+`c = cross_product(a, b)`
+
+### Description
+
+This function returns the cross product \f$ a \times b \f$ of two vectors of size 3, the vector orthogonal to both inputs.
+
+### Arguments
+
+- `a`: A `real` or `complex` vector of size 3. It is an `intent(in)` argument.
+- `b`: A vector of size 3, of the same type and kind as `a`. It is an `intent(in)` argument.
+
+### Return value
+
+The function returns a vector of size 3, of the same type and kind as the inputs.
+
+### Errors
+
+- This function is `pure` and cannot fail: both arguments are declared of fixed size 3, so a wrong length is a compile-time error.
+
+### Notes
+
+- The result is computed from the usual determinant expansion, without any normalization.
+
+
+## [kronecker_product](@ref la_eye::kronecker_product) - Kronecker product of two matrices.
+
+### Syntax
+
+`c = kronecker_product(a, b)`
+
+### Description
+
+This function returns the Kronecker product \f$ A \otimes B \f$: given \f$ A \f$ of size \f$ m_1 \times n_1 \f$ and \f$ B \f$ of size \f$ m_2 \times n_2 \f$, the result is the \f$ (m_1 m_2) \times (n_1 n_2) \f$ block matrix whose \f$(i,j)\f$ block is \f$ A_{ij} B \f$.
+
+### Arguments
+
+- `a`: A `real` or `complex` matrix of size \f$ [m_1,n_1] \f$. It is an `intent(in)` argument.
+- `b`: A matrix of size \f$ [m_2,n_2] \f$, of the same type and kind as `a`. It is an `intent(in)` argument.
+
+### Return value
+
+The function returns the \f$ (m_1 m_2) \times (n_1 n_2) \f$ Kronecker product matrix, of the same type and kind as the inputs.
+
+### Errors
+
+- This function is `pure` and cannot fail: the two matrices may have any shapes.
+
+### Notes
+
+- The block ordering is the usual one, so `kronecker_product(a, b)` and `kronecker_product(b, a)` differ by a permutation of rows and columns.
+
+
+## [hermitian](@ref la_eye::hermitian) - Hermitian transpose of a matrix.
+
+### Syntax
+
+`ah = hermitian(a)`
+
+### Description
+
+This function returns the Hermitian transpose of a matrix: `conjg(transpose(a))` for a `complex` matrix, `transpose(a)` for a `real` one.
+
+### Arguments
+
+- `a`: A `real` or `complex` matrix of size \f$ [m,n] \f$. It is an `intent(in)` argument.
+
+### Return value
+
+The function returns the \f$ n \times m \f$ matrix \f$ a^H \f$, of the same type and kind as `a`.
+
+### Errors
+
+- This function is `pure` and cannot fail.
+
+### Notes
+
+- The matrix does not need to be square.
+
+
+## [is_square](@ref la_matrix_property_checks::is_square) - Check whether a matrix is square.
+
+### Syntax
+
+`l = is_square(a)`
+
+### Description
+
+This function returns `.true.` if the input matrix has as many rows as columns.
+
+### Arguments
+
+- `a`: A `real` or `complex` matrix of size \f$ [m,n] \f$. It is an `intent(in)` argument.
+
+### Return value
+
+The function returns a `logical` flag, `.true.` if \f$ m = n \f$.
+
+### Errors
+
+- This function is `pure` and cannot fail.
+
+### Notes
+
+- A zero-sized matrix with equal extents is square.
+
+
+## [is_diagonal](@ref la_matrix_property_checks::is_diagonal) - Check whether a matrix is diagonal.
+
+### Syntax
+
+`l = is_diagonal(a)`
+
+### Description
+
+This function returns `.true.` if every entry of the input matrix outside the main diagonal is exactly zero. The matrix does not need to be square.
+
+### Arguments
+
+- `a`: A `real` or `complex` matrix of size \f$ [m,n] \f$. It is an `intent(in)` argument.
+
+### Return value
+
+The function returns a `logical` flag, `.true.` if \f$ a_{ij} = 0 \f$ for all \f$ i \neq j \f$.
+
+### Errors
+
+- This function is `pure` and cannot fail.
+
+### Notes
+
+- The comparison is exact; entries that are only small are not treated as zero.
+
+
+## [is_symmetric](@ref la_matrix_property_checks::is_symmetric) - Check whether a matrix is symmetric.
+
+### Syntax
+
+`l = is_symmetric(a)`
+
+### Description
+
+This function returns `.true.` if the input matrix equals its own transpose.
+
+### Arguments
+
+- `a`: A `real` or `complex` matrix of size \f$ [m,n] \f$. It is an `intent(in)` argument.
+
+### Return value
+
+The function returns a `logical` flag, `.true.` if \f$ a = a^T \f$. A non-square matrix returns `.false.`.
+
+### Errors
+
+- This function is `pure` and cannot fail.
+
+### Notes
+
+- For a `complex` matrix this is the transpose without conjugation. Use [`is_hermitian`](@ref la_matrix_property_checks::is_hermitian) for the conjugate test.
+
+
+## [is_skew_symmetric](@ref la_matrix_property_checks::is_skew_symmetric) - Check whether a matrix is skew-symmetric.
+
+### Syntax
+
+`l = is_skew_symmetric(a)`
+
+### Description
+
+This function returns `.true.` if the input matrix equals the negative of its own transpose.
+
+### Arguments
+
+- `a`: A `real` or `complex` matrix of size \f$ [m,n] \f$. It is an `intent(in)` argument.
+
+### Return value
+
+The function returns a `logical` flag, `.true.` if \f$ a = -a^T \f$. A non-square matrix returns `.false.`.
+
+### Errors
+
+- This function is `pure` and cannot fail.
+
+### Notes
+
+- The main diagonal of a skew-symmetric matrix is zero, and the test covers it.
+
+
+## [is_hermitian](@ref la_matrix_property_checks::is_hermitian) - Check whether a matrix is Hermitian.
+
+### Syntax
+
+`l = is_hermitian(a)`
+
+### Description
+
+This function returns `.true.` if the input matrix equals its own conjugate transpose.
+
+### Arguments
+
+- `a`: A `real` or `complex` matrix of size \f$ [m,n] \f$. It is an `intent(in)` argument.
+
+### Return value
+
+The function returns a `logical` flag, `.true.` if \f$ a = a^H \f$. A non-square matrix returns `.false.`.
+
+### Errors
+
+- This function is `pure` and cannot fail.
+
+### Notes
+
+- For a `real` matrix this is the same test as [`is_symmetric`](@ref la_matrix_property_checks::is_symmetric).
+
+
+## [is_triangular](@ref la_matrix_property_checks::is_triangular) - Check whether a matrix is triangular.
+
+### Syntax
+
+`l = is_triangular(a, uplo [, err])`
+
+### Description
+
+This function returns `.true.` if every entry of the input matrix below (`uplo = 'U'`) or above (`uplo = 'L'`) the main diagonal is exactly zero. The matrix does not need to be square.
+
+### Arguments
+
+- `a`: A `real` or `complex` matrix of size \f$ [m,n] \f$. It is an `intent(in)` argument.
+- `uplo`: A `character` flag selecting the triangle to test, `'U'` for upper or `'L'` for lower. It is an `intent(in)` argument.
+- `err` (optional): A state return flag of [type(la_state)](@ref la_state_type::la_state). If an error occurs and `err` is not provided, the function will stop execution.
+
+### Return value
+
+The function returns a `logical` flag, `.true.` if `a` is triangular of the requested type.
+
+### Errors
+
+- Raises [LINALG_VALUE_ERROR](@ref la_state_type::linalg_value_error) if `uplo` is neither `'U'` nor `'L'`, and returns `.false.`.
+- If `err` is not provided, the function will stop execution on errors.
+
+### Notes
+
+- The form without `err` is `pure`.
+
+
+## [is_hessenberg](@ref la_matrix_property_checks::is_hessenberg) - Check whether a matrix is Hessenberg.
+
+### Syntax
+
+`l = is_hessenberg(a, uplo [, err])`
+
+### Description
+
+This function returns `.true.` if every entry of the input matrix more than one row below (`uplo = 'U'`) or more than one row above (`uplo = 'L'`) the main diagonal is exactly zero. The matrix does not need to be square.
+
+### Arguments
+
+- `a`: A `real` or `complex` matrix of size \f$ [m,n] \f$. It is an `intent(in)` argument.
+- `uplo`: A `character` flag selecting the Hessenberg form to test, `'U'` for upper or `'L'` for lower. It is an `intent(in)` argument.
+- `err` (optional): A state return flag of [type(la_state)](@ref la_state_type::la_state). If an error occurs and `err` is not provided, the function will stop execution.
+
+### Return value
+
+The function returns a `logical` flag, `.true.` if `a` is Hessenberg of the requested type.
+
+### Errors
+
+- Raises [LINALG_VALUE_ERROR](@ref la_state_type::linalg_value_error) if `uplo` is neither `'U'` nor `'L'`, and returns `.false.`.
+- If `err` is not provided, the function will stop execution on errors.
+
+### Notes
+
+- Every triangular matrix is Hessenberg of the same type, and so is every diagonal matrix.
+
 
 ## [qr](@ref la_qr::qr) - QR factorization of a matrix.
 
