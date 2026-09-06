@@ -54,6 +54,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `la_lapack_eigv_svd_{drivers,drivers2,bidiag_dc}`, `la_lapack_svd_comp`,
   `la_lapack_lsq` and `la_lapack_lsq_aux`. The `la_lapack` generic interfaces
   are unchanged.
+- Removed the six per-kind LAPACK modules `la_lapack_{s,d,q,c,z,w}`. Every
+  routine they held now lives in one of the 47 kind-templated topic modules,
+  which the `la_lapack` umbrella imports directly.
 - The `generated-sources` continuous-integration job runs
   `scripts/fypp_deploy.py --check` and fails on any drift between a template
   and its committed output.

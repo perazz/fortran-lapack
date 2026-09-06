@@ -3,12 +3,6 @@ module la_lapack
      use la_constants
      use la_blas
      use la_lapack_aux
-     use la_lapack_s
-     use la_lapack_d
-     use la_lapack_q
-     use la_lapack_c
-     use la_lapack_z
-     use la_lapack_w
      use la_lapack_auxiliary
      use la_lapack_blas_like_base
      use la_lapack_blas_like_l1
