@@ -1,5 +1,7 @@
 var NAVTREEINDEX22 =
 {
+"interfacela__lapack_1_1lartgs.html#af0469a0968333f44e268cce5f2adb3a3":[8,0,6,250,4],
+"interfacela__lapack_1_1lartv.html":[7,0,20,251],
 "interfacela__lapack_1_1lartv.html":[8,0,6,251],
 "interfacela__lapack_1_1lartv.html#a086b06dbb9c1700fd4eb7fec5ca59c21":[7,0,20,251,9],
 "interfacela__lapack_1_1lartv.html#a086b06dbb9c1700fd4eb7fec5ca59c21":[8,0,6,251,9],
@@ -247,7 +249,5 @@ var NAVTREEINDEX22 =
 "interfacela__lapack_1_1laset.html#a6233c9e73904b9fa5a4703573ca53743":[8,0,6,266,2],
 "interfacela__lapack_1_1laset.html#abe19fff57e188ef031aef583873f3b06":[7,0,20,266,6],
 "interfacela__lapack_1_1laset.html#abe19fff57e188ef031aef583873f3b06":[8,0,6,266,6],
-"interfacela__lapack_1_1laset.html#ac31a765f536f01871c7af1afbf2f2dca":[7,0,20,266,3],
-"interfacela__lapack_1_1laset.html#ac31a765f536f01871c7af1afbf2f2dca":[8,0,6,266,3],
-"interfacela__lapack_1_1laset.html#aed845defce3f476805419ad2e33767f3":[7,0,20,266,0]
+"interfacela__lapack_1_1laset.html#ac31a765f536f01871c7af1afbf2f2dca":[7,0,20,266,3]
 };

@@ -1,8 +1,0 @@
-<map id="la_lapack_w::la_wlaqps" name="la_lapack_w::la_wlaqps">
-<area shape="rect" id="Node000001" title="ZLAQPS: computes a step of QR factorization with column pivoting of a complex M&#45;by&#45;N matrix A by usin..." alt="" coords="5,29,180,55"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__w.html#aa9eb79b853bd27197cc061402a74d006" title="ZLARFG: generates a complex elementary reflector H of order n, such that H**H * ( alpha ) = ( beta ),..." alt="" coords="228,29,397,55"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="181,39,214,39,214,45,181,45"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__w.html#a256289e251e51bb1c01d2fe45fe134fa" title="ZLADIV: := X / Y, where X and Y are complex. The computation of X / Y will not overflow on an interme..." alt="" coords="445,29,616,55"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="398,39,431,39,431,45,398,45"/>
-<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="495,31,488,21,492,11,506,5,531,3,561,6,573,15,569,20,559,11,531,8,508,10,495,15,493,20,499,28"/>
-</map>

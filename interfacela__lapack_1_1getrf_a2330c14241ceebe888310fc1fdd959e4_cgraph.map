@@ -1,34 +1,38 @@
 <map id="la_lapack::getrf::dgetrf" name="la_lapack::getrf::dgetrf">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,213,175,239"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__d.html#afc79d7a663d3ec4aa33ad0edb065150c" title="DGETRF: computes an LU factorization of a general M&#45;by&#45;N matrix A using partial pivoting with row int..." alt="" coords="223,105,388,131"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="115,211,266,134,268,139,118,216"/>
-<area shape="rect" id="Node000006" href="$namespacela__lapack__q.html#a3f5b6dcff3e0ae5bcc7424d7290967de" title="DGETRF: computes an LU factorization of a general M&#45;by&#45;N matrix A using partial pivoting with row int..." alt="" coords="223,260,388,285"/>
-<area shape="poly" id="edge8_Node000001_Node000006" title=" " alt="" coords="150,236,233,254,232,260,149,241"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__d.html#aa1ab1b098edf7febc7d1d7c2046b4998" title="DGETRF2: computes an LU factorization of a general M&#45;by&#45;N matrix A using partial pivoting with row in..." alt="" coords="441,55,614,80"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="361,103,457,80,458,86,363,108"/>
-<area shape="rect" id="Node000005" href="$namespacela__lapack__d.html#ad2d61391ed0eea60ae22ecadcf0767ba" title="DLASWP: performs a series of row interchanges on the matrix A. One row interchange is initiated for e..." alt="" coords="675,79,847,104"/>
-<area shape="poly" id="edge7_Node000002_Node000005" title=" " alt="" coords="388,111,661,94,661,100,388,116"/>
-<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="491,56,483,46,487,36,502,30,527,28,558,32,570,41,567,45,556,37,527,33,504,35,491,40,489,46,495,53"/>
-<area shape="rect" id="Node000004" href="$namespacela__lapack__d.html#af258e93ce5d1d461c745335332ff184b" title="DLAMCH: determines double precision machine parameters." alt="" coords="673,29,848,55"/>
-<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="614,55,659,50,660,56,615,61"/>
-<area shape="poly" id="edge6_Node000003_Node000005" title=" " alt="" coords="615,74,661,78,661,84,614,79"/>
-<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="723,31,715,21,719,11,735,5,761,3,793,7,806,16,802,20,791,11,761,8,736,10,723,15,720,20,727,27"/>
-<area shape="rect" id="Node000007" href="$namespacela__lapack__aux.html#aa361c7114aef95e10b685247a1b75114" title="ILAENV: is called from the LAPACK routines to choose problem&#45;dependent parameters for the local envir..." alt="" coords="436,224,619,249"/>
-<area shape="poly" id="edge9_Node000006_Node000007" title=" " alt="" coords="384,257,435,249,436,254,384,263"/>
-<area shape="rect" id="Node000010" href="$namespacela__lapack__q.html#a24f980983ac12dddb8b58396d4cd897d" title="DGETRF2: computes an LU factorization of a general M&#45;by&#45;N matrix A using partial pivoting with row in..." alt="" coords="441,297,614,323"/>
-<area shape="poly" id="edge15_Node000006_Node000010" title=" " alt="" coords="382,283,438,292,438,298,381,288"/>
-<area shape="rect" id="Node000012" href="$namespacela__lapack__q.html#af32ee00983521185b31feae682abc840" title="DLASWP: performs a series of row interchanges on the matrix A. One row interchange is initiated for e..." alt="" coords="675,348,847,373"/>
-<area shape="poly" id="edge20_Node000006_Node000012" title=" " alt="" coords="328,283,376,309,437,333,494,345,552,353,661,360,661,365,552,359,493,350,435,338,374,314,326,288"/>
-<area shape="poly" id="edge12_Node000007_Node000007" title=" " alt="" coords="491,226,483,216,487,206,502,200,527,197,558,201,570,210,567,214,556,206,527,203,504,205,491,210,489,215,495,222"/>
-<area shape="rect" id="Node000008" href="$namespacela__lapack__aux.html#a72541275ada30b0ca556fbc0d3959719" title="IEEECK: is called from the ILAENV to verify that Infinity and possibly NaN arithmetic is safe (i...." alt="" coords="668,152,853,177"/>
-<area shape="poly" id="edge10_Node000007_Node000008" title=" " alt="" coords="562,221,666,186,693,178,695,183,667,191,564,226"/>
-<area shape="rect" id="Node000009" href="$namespacela__lapack__aux.html#ace38ae70bb7022cae6ecabe992145fda" title="This program sets problem and machine dependent parameters useful for xHSEQR and related subroutines ..." alt="" coords="667,225,855,251"/>
-<area shape="poly" id="edge13_Node000007_Node000009" title=" " alt="" coords="619,235,653,235,653,240,619,240"/>
-<area shape="poly" id="edge11_Node000008_Node000008" title=" " alt="" coords="723,154,715,144,719,134,735,128,761,125,793,129,806,139,802,143,791,134,761,131,736,133,723,138,720,143,727,150"/>
-<area shape="poly" id="edge14_Node000009_Node000009" title=" " alt="" coords="723,227,715,217,719,207,735,201,761,199,793,203,806,212,802,216,791,207,761,204,736,206,723,211,720,216,727,223"/>
-<area shape="poly" id="edge16_Node000010_Node000010" title=" " alt="" coords="491,299,483,289,487,279,502,273,527,271,558,274,570,283,567,288,556,279,527,276,504,278,491,283,489,288,495,296"/>
-<area shape="rect" id="Node000011" href="$namespacela__lapack__q.html#a5435a74c593174c3ab375e653a46f8fe" title="DLAMCH: determines quad precision machine parameters." alt="" coords="673,299,848,324"/>
-<area shape="poly" id="edge17_Node000010_Node000011" title=" " alt="" coords="615,308,659,308,659,313,615,313"/>
-<area shape="poly" id="edge19_Node000010_Node000012" title=" " alt="" coords="587,320,689,342,688,348,586,325"/>
-<area shape="poly" id="edge18_Node000011_Node000011" title=" " alt="" coords="723,300,715,290,719,280,735,274,761,272,793,276,806,285,802,290,791,281,761,277,736,279,723,284,720,290,727,297"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,233,175,258"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__d.html#afc79d7a663d3ec4aa33ad0edb065150c" title="DGETRF: computes an LU factorization of a general M&#45;by&#45;N matrix A using partial pivoting with row int..." alt="" coords="223,119,388,145"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="114,230,267,149,269,154,117,235"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__q.html#a3f5b6dcff3e0ae5bcc7424d7290967de" title="DGETRF: computes an LU factorization of a general M&#45;by&#45;N matrix A using partial pivoting with row int..." alt="" coords="223,281,388,306"/>
+<area shape="poly" id="edge10_Node000001_Node000007" title=" " alt="" coords="148,255,235,275,234,280,147,261"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__d.html#aa1ab1b098edf7febc7d1d7c2046b4998" title="DGETRF2: computes an LU factorization of a general M&#45;by&#45;N matrix A using partial pivoting with row in..." alt="" coords="441,69,614,94"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="361,117,457,94,458,100,363,122"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__d.html#ad2d61391ed0eea60ae22ecadcf0767ba" title="DLASWP: performs a series of row interchanges on the matrix A. One row interchange is initiated for e..." alt="" coords="675,94,847,119"/>
+<area shape="poly" id="edge9_Node000002_Node000006" title=" " alt="" coords="388,125,660,110,661,115,388,130"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="491,70,483,60,487,50,502,44,527,42,558,46,570,55,567,59,556,51,527,47,504,49,491,54,489,60,495,67"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="687,29,835,69"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="614,67,673,59,673,64,615,72"/>
+<area shape="poly" id="edge8_Node000003_Node000006" title=" " alt="" coords="615,88,661,93,661,99,614,93"/>
+<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="719,30,716,20,723,10,738,5,761,3,787,6,801,13,799,18,785,11,761,8,739,10,726,15,721,21,724,28"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="903,179,1069,205"/>
+<area shape="poly" id="edge6_Node000004_Node000005" title=" " alt="" coords="831,67,856,79,918,123,965,167,962,171,914,127,853,84,828,72"/>
+<area shape="poly" id="edge7_Node000005_Node000005" title=" " alt="" coords="949,181,942,171,946,161,961,155,986,153,1018,157,1030,166,1026,170,1016,161,986,158,962,160,949,165,947,170,954,177"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__aux.html#aa361c7114aef95e10b685247a1b75114" title="ILAENV: is called from the LAPACK routines to choose problem&#45;dependent parameters for the local envir..." alt="" coords="436,241,619,266"/>
+<area shape="poly" id="edge11_Node000007_Node000008" title=" " alt="" coords="376,278,442,266,443,271,377,283"/>
+<area shape="rect" id="Node000011" href="$namespacela__lapack__q.html#a24f980983ac12dddb8b58396d4cd897d" title="DGETRF2: computes an LU factorization of a general M&#45;by&#45;N matrix A using partial pivoting with row in..." alt="" coords="441,322,614,347"/>
+<area shape="poly" id="edge17_Node000007_Node000011" title=" " alt="" coords="375,303,446,317,445,322,374,309"/>
+<area shape="rect" id="Node000013" href="$namespacela__lapack__q.html#af32ee00983521185b31feae682abc840" title="DLASWP: performs a series of row interchanges on the matrix A. One row interchange is initiated for e..." alt="" coords="675,379,847,405"/>
+<area shape="poly" id="edge23_Node000007_Node000013" title=" " alt="" coords="327,304,376,332,437,357,494,371,552,380,661,389,661,394,551,386,492,376,435,363,373,337,325,308"/>
+<area shape="poly" id="edge14_Node000008_Node000008" title=" " alt="" coords="491,242,483,232,487,222,502,216,527,214,558,218,570,227,567,231,556,223,527,219,504,221,491,226,489,232,495,239"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__aux.html#a72541275ada30b0ca556fbc0d3959719" title="IEEECK: is called from the ILAENV to verify that Infinity and possibly NaN arithmetic is safe (i...." alt="" coords="668,167,853,193"/>
+<area shape="poly" id="edge12_Node000008_Node000009" title=" " alt="" coords="561,238,666,201,693,194,694,199,667,207,563,243"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__aux.html#ace38ae70bb7022cae6ecabe992145fda" title="This program sets problem and machine dependent parameters useful for xHSEQR and related subroutines ..." alt="" coords="667,241,855,266"/>
+<area shape="poly" id="edge15_Node000008_Node000010" title=" " alt="" coords="619,251,653,251,653,256,619,256"/>
+<area shape="poly" id="edge13_Node000009_Node000009" title=" " alt="" coords="724,169,716,159,720,149,736,143,761,141,792,145,804,154,801,158,790,149,761,146,737,148,724,153,721,158,728,165"/>
+<area shape="poly" id="edge16_Node000010_Node000010" title=" " alt="" coords="724,242,716,232,720,222,736,216,761,214,792,218,804,227,801,231,790,223,761,219,737,221,724,226,721,232,728,239"/>
+<area shape="poly" id="edge18_Node000011_Node000011" title=" " alt="" coords="491,324,483,314,487,304,502,298,527,295,558,299,570,308,567,312,556,304,527,301,504,303,491,308,489,313,495,320"/>
+<area shape="rect" id="Node000012" href="$namespacela__lapack__auxiliary.html#a422783a9c3975903ac0fc1dc06f4ec01" title="QLAMCH: determines quad precision machine parameters." alt="" coords="687,315,835,355"/>
+<area shape="poly" id="edge19_Node000011_Node000012" title=" " alt="" coords="615,332,673,332,673,337,615,337"/>
+<area shape="poly" id="edge22_Node000011_Node000013" title=" " alt="" coords="581,345,696,373,695,379,579,350"/>
+<area shape="poly" id="edge20_Node000012_Node000005" title=" " alt="" coords="795,312,853,276,953,210,956,215,856,281,798,317"/>
+<area shape="poly" id="edge21_Node000012_Node000012" title=" " alt="" coords="719,315,716,305,723,296,738,290,761,288,787,291,801,298,799,303,785,296,761,293,739,295,726,300,721,306,724,314"/>
 </map>

@@ -23,13 +23,13 @@
 <area shape="poly" id="edge8_Node000006_Node000006" title=" " alt="" coords="947,167,939,157,943,147,959,141,985,139,1017,143,1030,152,1026,156,1015,147,985,144,960,146,947,151,944,156,951,163"/>
 <area shape="rect" id="Node000011" href="$namespacela__lapack__w.html#ab056cbebbdc08b400ee56409e9b76766" title="ZGBTRF: computes an LU factorization of a complex m&#45;by&#45;n band matrix A using partial pivoting with ro..." alt="" coords="441,177,611,203"/>
 <area shape="poly" id="edge13_Node000010_Node000011" title=" " alt="" coords="392,187,427,187,427,193,392,193"/>
-<area shape="rect" id="Node000014" href="$namespacela__lapack__w.html#ac0a429924e497212b519243b9718b768" title="ZGBTRS: solves a system of linear equations A * X = B, A**T * X = B, or A**H * X = B with a general b..." alt="" coords="440,251,612,276"/>
-<area shape="poly" id="edge17_Node000010_Node000014" title=" " alt="" coords="347,200,475,244,473,249,345,205"/>
+<area shape="rect" id="Node000014" href="$namespacela__lapack__w.html#ac0a429924e497212b519243b9718b768" title="ZGBTRS: solves a system of linear equations A * X = B, A**T * X = B, or A**H * X = B with a general b..." alt="" coords="440,255,612,280"/>
+<area shape="poly" id="edge17_Node000010_Node000014" title=" " alt="" coords="345,200,477,247,475,252,343,205"/>
 <area shape="poly" id="edge14_Node000011_Node000004" title=" " alt="" coords="584,175,679,154,680,159,585,180"/>
 <area shape="rect" id="Node000012" href="$namespacela__lapack__w.html#a63c565ef5801e107ced1cd3d0c7ef073" title="ZGBTF2: computes an LU factorization of a complex m&#45;by&#45;n band matrix A using partial pivoting with ro..." alt="" coords="665,177,838,203"/>
 <area shape="poly" id="edge15_Node000011_Node000012" title=" " alt="" coords="612,187,651,187,651,193,612,193"/>
 <area shape="rect" id="Node000013" href="$namespacela__lapack__w.html#a7d9aeb6077250b10504a6646cae28c9f" title="ZLASWP: performs a series of row interchanges on the matrix A. One row interchange is initiated for e..." alt="" coords="663,227,840,252"/>
 <area shape="poly" id="edge16_Node000011_Node000013" title=" " alt="" coords="585,200,680,221,679,226,584,205"/>
-<area shape="rect" id="Node000015" href="$namespacela__lapack__w.html#af9fd634fd795490b65aee72c58533e2f" title="ZLACGV: conjugates a complex vector of length N." alt="" coords="664,276,839,301"/>
-<area shape="poly" id="edge18_Node000014_Node000015" title=" " alt="" coords="612,270,651,275,650,280,612,276"/>
+<area shape="rect" id="Node000015" href="$namespacela__lapack__blas__like__l1.html#afef30867af0eff7e829cc705ade205b1" title="WLACGV: conjugates a complex vector of length N." alt="" coords="677,277,825,317"/>
+<area shape="poly" id="edge18_Node000014_Node000015" title=" " alt="" coords="612,276,664,283,663,288,612,281"/>
 </map>

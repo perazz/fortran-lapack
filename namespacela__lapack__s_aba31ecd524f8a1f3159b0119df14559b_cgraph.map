@@ -1,7 +1,10 @@
 <map id="la_lapack_s::la_sgghrd" name="la_lapack_s::la_sgghrd">
-<area shape="rect" id="Node000001" title="SGGHRD: reduces a pair of real matrices (A,B) to generalized upper Hessenberg form using orthogonal t..." alt="" coords="5,31,175,56"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#aabd68a5bad03276a397dd6b4efd2bd83" title="!" alt="" coords="223,5,386,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="175,31,210,27,210,32,175,36"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__s.html#a3eaa56062a507046ea65b05c77c0104f" title="SLASET: initializes an m&#45;by&#45;n matrix A to BETA on the diagonal and ALPHA on the offdiagonals." alt="" coords="223,55,387,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="175,50,210,54,209,59,175,55"/>
+<area shape="rect" id="Node000001" title="SGGHRD: reduces a pair of real matrices (A,B) to generalized upper Hessenberg form using orthogonal t..." alt="" coords="5,45,175,70"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__givens__jacobi__rot.html#ad1f05008592f149f93b439e98ab1b32f" title="!" alt="" coords="223,5,403,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="175,43,209,38,210,43,176,48"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__blas__like__base.html#a1820d5cc47f17a2df32a206d9865b05b" title="SLASET: initializes an m&#45;by&#45;n matrix A to BETA on the diagonal and ALPHA on the offdiagonals." alt="" coords="239,69,387,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="176,67,225,74,225,79,175,72"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="451,77,617,102"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="387,87,437,87,437,92,387,92"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="498,78,490,68,494,58,509,52,534,50,565,54,577,63,574,67,563,59,534,55,510,57,498,62,495,68,502,75"/>
 </map>

@@ -1,0 +1,4 @@
+<map id="la_lapack_auxiliary::la_qwsum1" name="la_lapack_auxiliary::la_qwsum1">
+<area shape="rect" id="Node000001" title="QWSUM1: takes the sum of the absolute values of a complex vector and returns a quad precision result...." alt="" coords="5,29,153,69"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="51,29,49,20,54,11,64,5,79,3,97,6,107,13,103,17,95,11,79,8,66,10,58,14,55,21,56,28"/>
+</map>

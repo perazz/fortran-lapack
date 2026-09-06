@@ -1,6 +1,0 @@
-<map id="la_lapack_w::la_wlantr" name="la_lapack_w::la_wlantr">
-<area shape="rect" id="Node000001" title="ZLANTR: returns the value of the one norm, or the Frobenius norm, or the infinity norm,..." alt="" coords="5,29,175,55"/>
-<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="54,31,47,21,51,11,65,5,90,3,120,6,132,15,129,20,118,11,90,8,67,10,54,15,52,20,58,28"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__w.html#a2bf5a64bcaccd3676164dbf3aee36bb5" title="!" alt="" coords="223,29,396,55"/>
-<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="175,39,209,39,209,45,175,45"/>
-</map>

@@ -1,39 +1,50 @@
 <map id="la_lapack_w::la_whpsvx" name="la_lapack_w::la_whpsvx">
-<area shape="rect" id="Node000001" title="ZHPSVX: uses the diagonal pivoting factorization A = U*D*U**H or A = L*D*L**H to compute the solution..." alt="" coords="5,191,184,216"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__q.html#a5435a74c593174c3ab375e653a46f8fe" title="DLAMCH: determines quad precision machine parameters." alt="" coords="681,103,856,128"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="112,188,163,156,196,140,231,127,288,114,347,105,464,96,574,96,668,102,667,107,574,102,464,101,347,110,289,120,233,133,199,145,166,161,115,193"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__w.html#a70b85ac4109660c07521227b62d74a39" title="ZHPCON: estimates the reciprocal of the condition number of a complex Hermitian packed matrix A using..." alt="" coords="232,191,411,216"/>
-<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="185,201,218,201,218,206,185,206"/>
-<area shape="rect" id="Node000004" href="$namespacela__lapack__w.html#a7d16f7747df8f17673d2c77ae2b4422f" title="ZHPTRS: solves a system of linear equations A*X = B with a complex Hermitian matrix A stored in packe..." alt="" coords="460,241,632,267"/>
-<area shape="poly" id="edge19_Node000001_Node000004" title=" " alt="" coords="157,213,232,226,343,238,446,246,446,251,342,243,232,231,156,219"/>
-<area shape="rect" id="Node000007" href="$namespacela__lapack__w.html#a793c09d5559266da93be189c6e7885e6" title="ZHPRFS: improves the computed solution to a system of linear equations when the coefficient matrix is..." alt="" coords="235,141,407,167"/>
-<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="153,188,248,167,249,172,154,193"/>
-<area shape="rect" id="Node000008" href="$namespacela__lapack__w.html#a77b401a15c1b2ce47aeef3f90ff351c9" title="ZHPTRF: computes the factorization of a complex Hermitian packed matrix A using the Bunch&#45;Kaufman dia..." alt="" coords="236,40,407,65"/>
-<area shape="poly" id="edge11_Node000001_Node000008" title=" " alt="" coords="106,189,157,138,192,109,231,82,261,68,264,72,233,87,195,113,160,142,109,192"/>
-<area shape="rect" id="Node000012" href="$namespacela__lapack__w.html#a2bdb179a3947a0d642455755afe72807" title="ZLACPY: copies all or part of a two&#45;dimensional matrix A to another matrix B." alt="" coords="234,292,409,317"/>
-<area shape="poly" id="edge20_Node000001_Node000012" title=" " alt="" coords="120,214,233,270,270,285,268,290,231,275,118,219"/>
-<area shape="rect" id="Node000013" href="$namespacela__lapack__w.html#af645843e08ca5753878ef8d8f8191296" title="ZLANHP: returns the value of the one norm, or the Frobenius norm, or the infinity norm,..." alt="" coords="234,365,409,391"/>
-<area shape="poly" id="edge21_Node000001_Node000013" title=" " alt="" coords="110,214,161,267,234,328,282,357,279,361,230,332,158,271,106,218"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="733,104,725,94,729,84,744,78,769,76,799,80,812,89,808,93,797,85,769,81,745,83,732,88,730,94,737,101"/>
-<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="379,214,477,236,475,241,378,219"/>
-<area shape="rect" id="Node000006" href="$namespacela__lapack__w.html#a181e3ce6202dd4d6e6a0104746779391" title="ZLACN2: estimates the 1&#45;norm of a square, complex matrix A. Reverse communication is used for evaluat..." alt="" coords="459,192,633,217"/>
-<area shape="poly" id="edge6_Node000003_Node000006" title=" " alt="" coords="411,201,445,201,445,207,411,207"/>
-<area shape="rect" id="Node000005" href="$namespacela__lapack__w.html#af9fd634fd795490b65aee72c58533e2f" title="ZLACGV: conjugates a complex vector of length N." alt="" coords="681,241,856,267"/>
-<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="632,251,667,251,667,257,632,257"/>
-<area shape="poly" id="edge8_Node000007_Node000002" title=" " alt="" coords="407,144,667,121,668,127,408,149"/>
-<area shape="poly" id="edge9_Node000007_Node000004" title=" " alt="" coords="384,164,412,177,428,190,437,203,446,216,460,228,472,234,469,239,457,232,442,219,432,206,424,194,409,182,382,169"/>
-<area shape="poly" id="edge10_Node000007_Node000006" title=" " alt="" coords="379,164,477,186,475,192,378,169"/>
-<area shape="rect" id="Node000009" href="$namespacela__lapack__q.html#a582984249eedf0398706ec14537bf429" title="DLAPY2: returns sqrt(x**2+y**2), taking care not to cause unnecessary overflow and unnecessary underf..." alt="" coords="461,40,631,65"/>
-<area shape="poly" id="edge12_Node000008_Node000009" title=" " alt="" coords="407,50,447,50,447,55,407,55"/>
-<area shape="poly" id="edge17_Node000009_Node000002" title=" " alt="" coords="593,63,710,96,709,101,591,68"/>
-<area shape="poly" id="edge18_Node000009_Node000009" title=" " alt="" coords="510,42,502,32,506,22,521,16,546,13,577,17,589,26,586,30,575,22,546,19,522,21,510,26,507,31,514,38"/>
-<area shape="rect" id="Node000010" href="$namespacela__lapack__q.html#a905710846630796d062c866934101635" title="DISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="684,29,853,55"/>
-<area shape="poly" id="edge13_Node000009_Node000010" title=" " alt="" coords="632,46,670,44,671,49,632,51"/>
-<area shape="poly" id="edge14_Node000010_Node000010" title=" " alt="" coords="733,31,725,21,729,11,744,5,769,3,799,6,812,15,808,20,797,11,769,8,745,10,732,15,730,20,737,28"/>
-<area shape="rect" id="Node000011" href="$namespacela__lapack__q.html#a70bf73297aef7307a374d805b9ea5736" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in DISNAN...." alt="" coords="904,29,1085,55"/>
-<area shape="poly" id="edge15_Node000010_Node000011" title=" " alt="" coords="854,39,890,39,890,45,854,45"/>
-<area shape="poly" id="edge16_Node000011_Node000011" title=" " alt="" coords="958,31,950,21,954,11,970,5,995,3,1026,7,1038,16,1035,20,1024,11,995,8,971,10,958,15,955,20,962,27"/>
-<area shape="poly" id="edge22_Node000013_Node000013" title=" " alt="" coords="285,367,277,357,281,347,296,341,321,339,353,343,365,352,362,356,351,347,321,344,297,346,285,351,282,356,289,363"/>
-<area shape="rect" id="Node000014" href="$namespacela__lapack__w.html#a2bf5a64bcaccd3676164dbf3aee36bb5" title="!" alt="" coords="459,365,633,391"/>
-<area shape="poly" id="edge23_Node000013_Node000014" title=" " alt="" coords="409,375,446,375,446,381,409,381"/>
+<area shape="rect" id="Node000001" title="ZHPSVX: uses the diagonal pivoting factorization A = U*D*U**H or A = L*D*L**H to compute the solution..." alt="" coords="5,262,184,287"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__auxiliary.html#a422783a9c3975903ac0fc1dc06f4ec01" title="QLAMCH: determines quad precision machine parameters." alt="" coords="702,117,850,157"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="112,260,164,228,197,211,231,197,353,167,477,148,593,138,688,134,688,140,593,144,478,153,354,172,233,203,199,216,167,232,115,264"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__w.html#a70b85ac4109660c07521227b62d74a39" title="ZHPCON: estimates the reciprocal of the condition number of a complex Hermitian packed matrix A using..." alt="" coords="232,262,411,287"/>
+<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="185,272,218,272,218,277,185,277"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__w.html#a7d16f7747df8f17673d2c77ae2b4422f" title="ZHPTRS: solves a system of linear equations A*X = B with a complex Hermitian matrix A stored in packe..." alt="" coords="459,313,631,338"/>
+<area shape="poly" id="edge27_Node000001_Node000005" title=" " alt="" coords="162,285,232,296,445,317,445,322,232,301,161,290"/>
+<area shape="rect" id="Node000011" href="$namespacela__lapack__w.html#a793c09d5559266da93be189c6e7885e6" title="ZHPRFS: improves the computed solution to a system of linear equations when the coefficient matrix is..." alt="" coords="235,213,407,238"/>
+<area shape="poly" id="edge15_Node000001_Node000011" title=" " alt="" coords="153,259,248,238,249,244,154,265"/>
+<area shape="rect" id="Node000012" href="$namespacela__lapack__w.html#a77b401a15c1b2ce47aeef3f90ff351c9" title="ZHPTRF: computes the factorization of a complex Hermitian packed matrix A using the Bunch&#45;Kaufman dia..." alt="" coords="236,93,407,118"/>
+<area shape="poly" id="edge19_Node000001_Node000012" title=" " alt="" coords="104,260,155,203,191,170,231,139,266,121,268,125,233,144,194,174,158,207,108,264"/>
+<area shape="rect" id="Node000016" href="$namespacela__lapack__blas__like__base.html#a6c0a3bc3e8d3dc256594f08633434a50" title="WLACPY: copies all or part of a two&#45;dimensional matrix A to another matrix B." alt="" coords="471,403,619,443"/>
+<area shape="poly" id="edge28_Node000001_Node000016" title=" " alt="" coords="134,285,233,319,468,396,467,401,231,324,132,290"/>
+<area shape="rect" id="Node000017" href="$namespacela__lapack__blas__like__mnorm.html#af80bfc1f38f1adc3ebf51e178148727c" title="WLANHP: returns the value of the one norm, or the Frobenius norm, or the infinity norm,..." alt="" coords="246,437,397,477"/>
+<area shape="poly" id="edge30_Node000001_Node000017" title=" " alt="" coords="111,285,164,334,234,393,281,427,277,432,230,397,160,338,108,289"/>
+<area shape="poly" id="edge4_Node000002_Node000002" title=" " alt="" coords="734,118,731,108,738,98,753,93,776,91,802,94,817,101,814,106,801,99,776,96,754,98,741,103,736,109,739,116"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="921,298,1088,323"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="852,155,875,167,910,195,942,226,989,285,985,288,938,230,907,199,872,172,849,160"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="968,300,960,290,964,280,979,274,1005,271,1037,275,1049,285,1045,289,1035,280,1005,277,980,279,968,284,965,289,972,296"/>
+<area shape="poly" id="edge6_Node000004_Node000005" title=" " alt="" coords="379,285,475,307,474,312,378,290"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__solve__aux.html#ac4c709f841da3fc69882dcd45811f0dd" title="WLACN2: estimates the 1&#45;norm of a square, complex matrix A. Reverse communication is used for evaluat..." alt="" coords="466,248,623,288"/>
+<area shape="poly" id="edge8_Node000004_Node000007" title=" " alt="" coords="411,269,452,268,452,273,411,275"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__blas__like__l1.html#afef30867af0eff7e829cc705ade205b1" title="WLACGV: conjugates a complex vector of length N." alt="" coords="702,408,850,448"/>
+<area shape="poly" id="edge7_Node000005_Node000006" title=" " alt="" coords="569,336,619,364,680,394,698,401,696,406,678,398,616,369,566,341"/>
+<area shape="poly" id="edge11_Node000007_Node000002" title=" " alt="" coords="599,246,629,227,643,212,652,197,661,182,677,167,688,160,691,165,680,171,665,186,657,200,648,215,632,231,602,250"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__aux.html#ad24ad10d06fcee425f39b26966028caf" title="IWMAX1: finds the index of the first vector element of maximum absolute value. Based on IWAMAX from L..." alt="" coords="679,358,873,383"/>
+<area shape="poly" id="edge9_Node000007_Node000008" title=" " alt="" coords="602,286,632,298,740,349,737,354,630,302,600,291"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__auxiliary.html#a9fe01efca7314cc8db49eac43f581ed2" title="QWSUM1: takes the sum of the absolute values of a complex vector and returns a quad precision result...." alt="" coords="702,205,850,245"/>
+<area shape="poly" id="edge12_Node000007_Node000009" title=" " alt="" coords="623,251,688,239,689,244,624,256"/>
+<area shape="rect" id="Node000010" href="$namespacela__blas__level1.html#aab844ca282a3c70e01940b301cd90076" title="WCOPY: copies a vector, x, to a vector, y." alt="" coords="709,269,843,309"/>
+<area shape="poly" id="edge14_Node000007_Node000010" title=" " alt="" coords="624,273,695,279,695,285,623,278"/>
+<area shape="poly" id="edge10_Node000008_Node000008" title=" " alt="" coords="739,360,731,350,735,340,751,334,776,331,808,335,820,345,817,349,806,340,776,337,752,339,739,344,736,349,743,356"/>
+<area shape="poly" id="edge13_Node000009_Node000009" title=" " alt="" coords="734,206,731,196,738,186,753,181,776,179,802,182,817,189,814,194,801,187,776,184,754,186,741,191,736,197,739,204"/>
+<area shape="poly" id="edge16_Node000011_Node000002" title=" " alt="" coords="407,213,514,198,630,176,697,159,699,164,631,181,515,203,408,218"/>
+<area shape="poly" id="edge17_Node000011_Node000005" title=" " alt="" coords="387,236,412,247,428,260,437,273,446,286,460,298,474,305,472,310,457,302,442,289,433,276,424,263,409,252,385,240"/>
+<area shape="poly" id="edge18_Node000011_Node000007" title=" " alt="" coords="389,235,453,248,452,253,388,241"/>
+<area shape="rect" id="Node000013" href="$namespacela__lapack__blas__like__scalar.html#a6ca08add76aca908c622374b20d9d149" title="QLAPY2: returns sqrt(x**2+y**2), taking care not to cause unnecessary overflow and unnecessary underf..." alt="" coords="471,83,619,123"/>
+<area shape="poly" id="edge20_Node000012_Node000013" title=" " alt="" coords="407,102,457,101,457,106,407,107"/>
+<area shape="poly" id="edge25_Node000013_Node000002" title=" " alt="" coords="619,111,689,122,688,127,619,116"/>
+<area shape="poly" id="edge26_Node000013_Node000013" title=" " alt="" coords="503,83,501,73,507,64,522,58,545,56,571,59,585,66,582,71,569,64,545,61,523,63,511,68,506,74,508,82"/>
+<area shape="rect" id="Node000014" href="$namespacela__lapack__blas__like__scalar.html#a0cb82d7f3b093ce99b3c7b3412dee71a" title="QISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="702,29,850,69"/>
+<area shape="poly" id="edge21_Node000013_Node000014" title=" " alt="" coords="618,83,688,67,689,72,620,88"/>
+<area shape="poly" id="edge22_Node000014_Node000014" title=" " alt="" coords="734,30,731,20,738,10,753,5,776,3,802,6,817,13,814,18,801,11,776,8,754,10,741,15,736,21,739,28"/>
+<area shape="rect" id="Node000015" href="$namespacela__lapack__blas__like__scalar.html#afb28a91ee1571cb773bdc95c40031177" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in QISNAN...." alt="" coords="929,29,1080,69"/>
+<area shape="poly" id="edge23_Node000014_Node000015" title=" " alt="" coords="850,47,915,47,915,52,850,52"/>
+<area shape="poly" id="edge24_Node000015_Node000015" title=" " alt="" coords="962,30,960,20,967,10,982,5,1005,3,1031,6,1046,13,1043,18,1030,11,1005,8,983,10,970,15,965,21,967,28"/>
+<area shape="poly" id="edge29_Node000016_Node000003" title=" " alt="" coords="594,440,652,459,723,474,761,477,799,476,837,470,872,458,911,433,944,400,970,365,988,334,993,337,974,368,948,403,914,437,874,462,838,475,800,481,761,482,723,479,651,464,592,445"/>
+<area shape="poly" id="edge31_Node000017_Node000017" title=" " alt="" coords="280,438,277,428,284,418,299,413,321,411,347,414,361,421,359,426,346,419,321,416,300,418,287,423,283,429,285,436"/>
 </map>

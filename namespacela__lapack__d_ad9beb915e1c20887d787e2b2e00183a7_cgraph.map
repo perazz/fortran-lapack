@@ -1,15 +1,27 @@
 <map id="la_lapack_d::la_dorgtsqr" name="la_lapack_d::la_dorgtsqr">
-<area shape="rect" id="Node000001" title="DORGTSQR: generates an M&#45;by&#45;N real matrix Q_out with orthonormal columns, which are the first N colum..." alt="" coords="5,55,185,80"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__d.html#ac9bf1b9c0f309dbb7c61c26eb842f0f7" title="DLAMTSQR: overwrites the general real M&#45;by&#45;N matrix C with SIDE = &#39;L&#39; SIDE = &#39;R&#39; TRANS = &#39;N&#39;: Q * C C..." alt="" coords="233,29,417,55"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="186,55,220,51,220,56,186,60"/>
-<area shape="rect" id="Node000007" href="$namespacela__lapack__d.html#a6aa4157c4aad8803eff98a121c555c6b" title="DLASET: initializes an m&#45;by&#45;n matrix A to BETA on the diagonal and ALPHA on the offdiagonals." alt="" coords="242,79,409,104"/>
-<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="186,74,229,79,228,84,186,79"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__d.html#a03a17d1d2b0e5a386d6553440ba31a7a" title="DGEMQRT: overwrites the general real M&#45;by&#45;N matrix C with SIDE = &#39;L&#39; SIDE = &#39;R&#39; TRANS = &#39;N&#39;: Q C C Q ..." alt="" coords="465,5,647,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="417,30,452,26,452,31,418,35"/>
-<area shape="rect" id="Node000005" href="$namespacela__lapack__d.html#a989678e81c91e0bd357ac7a761627657" title="DTPMQRT: applies a real orthogonal matrix Q obtained from a &quot;triangular&#45;pentagonal&quot; real block reflec..." alt="" coords="467,55,645,80"/>
-<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="418,49,453,53,453,59,417,55"/>
-<area shape="rect" id="Node000004" href="$namespacela__lapack__d.html#a7c993a9b006074abbe4e51f11d15c32d" title="DLARFB: applies a real block reflector H or its transpose H**T to a real m by n matrix C,..." alt="" coords="695,5,859,31"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="647,15,682,15,682,21,647,21"/>
-<area shape="rect" id="Node000006" href="$namespacela__lapack__d.html#a25465115f8963f6e2364325b7a318071" title="DTPRFB: applies a real &quot;triangular&#45;pentagonal&quot; block reflector H or its transpose H**T to a real matr..." alt="" coords="695,55,860,80"/>
-<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="646,65,681,65,681,70,646,70"/>
+<area shape="rect" id="Node000001" title="DORGTSQR: generates an M&#45;by&#45;N real matrix Q_out with orthonormal columns, which are the first N colum..." alt="" coords="5,129,185,154"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__d.html#ac9bf1b9c0f309dbb7c61c26eb842f0f7" title="DLAMTSQR: overwrites the general real M&#45;by&#45;N matrix C with SIDE = &#39;L&#39; SIDE = &#39;R&#39; TRANS = &#39;N&#39;: Q * C C..." alt="" coords="233,129,417,154"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="186,139,220,139,220,144,186,144"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__d.html#a03a17d1d2b0e5a386d6553440ba31a7a" title="DGEMQRT: overwrites the general real M&#45;by&#45;N matrix C with SIDE = &#39;L&#39; SIDE = &#39;R&#39; TRANS = &#39;N&#39;: Q C C Q ..." alt="" coords="465,102,647,127"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="417,128,452,124,452,129,418,133"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__d.html#a989678e81c91e0bd357ac7a761627657" title="DTPMQRT: applies a real orthogonal matrix Q obtained from a &quot;triangular&#45;pentagonal&quot; real block reflec..." alt="" coords="467,153,645,178"/>
+<area shape="poly" id="edge13_Node000002_Node000010" title=" " alt="" coords="418,148,453,152,453,157,417,154"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__householder__reflectors.html#aca90af56199d3e1535915e758fc85de6" title="DLARFB: applies a real block reflector H or its transpose H**T to a real m by n matrix C,..." alt="" coords="695,92,865,132"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="647,111,681,111,681,116,647,116"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__level1.html#aae8bb4d5e6d345d21c204686597a16c7" title="DCOPY: copies a vector, x, to a vector, y. uses unrolled loops for increments equal to 1." alt="" coords="919,5,1054,45"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="828,89,925,48,927,53,830,94"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__level3__gen.html#a5709dfcfa0ca3c6a3635c30a7029e225" title="DGEMM: performs one of the matrix&#45;matrix operations C := alpha*op( A )*op( B ) + beta*C,..." alt="" coords="913,120,1060,160"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="866,121,900,126,899,131,865,126"/>
+<area shape="rect" id="Node000007" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="1108,127,1275,153"/>
+<area shape="poly" id="edge12_Node000004_Node000007" title=" " alt="" coords="866,102,959,100,1060,105,1136,121,1135,126,1060,111,959,105,866,108"/>
+<area shape="rect" id="Node000009" href="$namespacela__blas__level3__tri.html#a710d6b899efadca7fff77218f39cf845" title="DTRMM: performs one of the matrix&#45;matrix operations B := alpha*op( A )*B, or B := alpha*B*op( A ),..." alt="" coords="919,184,1055,224"/>
+<area shape="poly" id="edge9_Node000004_Node000009" title=" " alt="" coords="839,130,867,142,915,170,927,176,925,181,912,174,864,146,837,135"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="1060,137,1094,137,1094,143,1060,143"/>
+<area shape="rect" id="Node000008" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="1108,183,1275,209"/>
+<area shape="poly" id="edge8_Node000006_Node000008" title=" " alt="" coords="1061,157,1131,177,1130,182,1060,163"/>
+<area shape="poly" id="edge7_Node000007_Node000007" title=" " alt="" coords="1158,129,1151,119,1155,109,1168,103,1191,101,1220,104,1231,114,1227,118,1217,109,1191,106,1170,108,1158,113,1156,118,1162,126"/>
+<area shape="poly" id="edge10_Node000009_Node000007" title=" " alt="" coords="1051,181,1136,154,1138,159,1052,186"/>
+<area shape="poly" id="edge11_Node000009_Node000008" title=" " alt="" coords="1055,199,1094,197,1095,202,1055,204"/>
+<area shape="rect" id="Node000011" href="$namespacela__lapack__d.html#a25465115f8963f6e2364325b7a318071" title="DTPRFB: applies a real &quot;triangular&#45;pentagonal&quot; block reflector H or its transpose H**T to a real matr..." alt="" coords="697,157,863,182"/>
+<area shape="poly" id="edge14_Node000010_Node000011" title=" " alt="" coords="645,164,684,165,684,170,645,170"/>
 </map>

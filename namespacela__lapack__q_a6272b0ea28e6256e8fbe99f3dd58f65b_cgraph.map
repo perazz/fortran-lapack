@@ -1,12 +1,15 @@
 <map id="la_lapack_q::la_qgebal" name="la_lapack_q::la_qgebal">
-<area shape="rect" id="Node000001" title="DGEBAL: balances a general real matrix A. This involves, first, permuting A by a similarity transform..." alt="" coords="5,67,176,92"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__q.html#a905710846630796d062c866934101635" title="DISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="227,29,396,55"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="166,64,222,54,223,60,167,69"/>
-<area shape="rect" id="Node000004" href="$namespacela__lapack__q.html#a5435a74c593174c3ab375e653a46f8fe" title="DLAMCH: determines quad precision machine parameters." alt="" coords="224,103,399,128"/>
-<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="169,89,220,98,219,103,168,95"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="276,31,268,21,272,11,287,5,311,3,342,6,354,15,351,20,340,11,311,8,288,10,276,15,273,20,280,28"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__q.html#a70bf73297aef7307a374d805b9ea5736" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in DISNAN...." alt="" coords="447,29,628,55"/>
-<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="396,39,433,39,433,45,396,45"/>
-<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="501,31,493,21,497,11,512,5,537,3,569,7,581,16,578,20,567,11,537,8,513,10,501,15,498,20,505,27"/>
-<area shape="poly" id="edge6_Node000004_Node000004" title=" " alt="" coords="276,104,268,94,272,84,287,78,311,76,342,80,354,89,351,93,340,85,311,81,288,83,276,88,273,94,280,101"/>
+<area shape="rect" id="Node000001" title="DGEBAL: balances a general real matrix A. This involves, first, permuting A by a similarity transform..." alt="" coords="5,81,176,106"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__blas__like__scalar.html#a0cb82d7f3b093ce99b3c7b3412dee71a" title="QISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="224,29,372,69"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="151,78,210,65,211,71,152,83"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__auxiliary.html#a422783a9c3975903ac0fc1dc06f4ec01" title="QLAMCH: determines quad precision machine parameters." alt="" coords="224,117,372,157"/>
+<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="152,103,211,116,210,121,151,109"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="259,30,257,20,263,11,277,5,298,3,322,6,335,13,333,18,320,11,298,8,278,10,267,15,262,21,264,28"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__blas__like__scalar.html#afb28a91ee1571cb773bdc95c40031177" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in QISNAN...." alt="" coords="428,29,579,69"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="373,47,414,47,414,52,373,52"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="465,30,462,20,469,11,482,5,503,3,527,6,541,13,538,18,526,11,503,8,484,10,472,15,468,21,470,28"/>
+<area shape="poly" id="edge8_Node000004_Node000004" title=" " alt="" coords="259,118,257,108,263,99,277,93,298,91,322,94,335,101,333,106,320,99,298,96,278,98,267,103,262,109,264,116"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="420,125,587,150"/>
+<area shape="poly" id="edge6_Node000004_Node000005" title=" " alt="" coords="373,135,406,135,406,140,373,140"/>
+<area shape="poly" id="edge7_Node000005_Node000005" title=" " alt="" coords="470,126,462,116,466,106,480,100,503,98,532,102,543,111,540,115,530,107,503,103,481,105,470,110,468,116,474,123"/>
 </map>

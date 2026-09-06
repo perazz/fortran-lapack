@@ -1,0 +1,11 @@
+<map id="la_lapack_solve_aux::la_dlacon" name="la_lapack_solve_aux::la_dlacon">
+<area shape="rect" id="Node000001" title="DLACON: estimates the 1&#45;norm of a square, real matrix A. Reverse communication is used for evaluating..." alt="" coords="5,93,163,133"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__level1.html#a397c9ff0df57d565a12afe0809db14b7" title="DASUM: takes the sum of the absolute values." alt="" coords="231,29,365,69"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="151,91,217,71,218,76,152,96"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__level1.html#aae8bb4d5e6d345d21c204686597a16c7" title="DCOPY: copies a vector, x, to a vector, y. uses unrolled loops for increments equal to 1." alt="" coords="231,93,365,133"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="163,111,217,111,217,116,163,116"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#af6800bacfc44f820f5ab674a67a9e93c" title="IDAMAX: finds the index of the first element having maximum absolute value." alt="" coords="211,182,385,207"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="139,131,252,175,250,180,137,136"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="258,30,256,20,262,10,276,5,298,3,323,6,337,13,334,18,321,11,298,8,278,10,265,15,261,21,263,28"/>
+<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="263,184,256,174,259,164,274,158,298,155,328,159,339,168,336,172,326,164,298,161,275,163,263,168,261,173,267,180"/>
+</map>

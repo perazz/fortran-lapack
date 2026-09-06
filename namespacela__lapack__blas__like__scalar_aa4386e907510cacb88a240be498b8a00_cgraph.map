@@ -1,0 +1,17 @@
+<map id="la_lapack_blas_like_scalar::la_cladiv" name="la_lapack_blas_like_scalar::la_cladiv">
+<area shape="rect" id="Node000001" title="CLADIV: := X / Y, where X and Y are complex. The computation of X / Y will not overflow on an interme..." alt="" coords="5,73,153,113"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="43,74,40,64,46,55,59,49,79,47,102,50,115,57,112,61,101,55,79,52,61,54,50,59,46,65,48,72"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__blas__like__scalar.html#a7904fc341f85d41c6d9847eee62c3212" title="SLADIV: performs complex division in real arithmetic a + i*b p + i*q = &#45;&#45;&#45;&#45;&#45;&#45;— c + i*d The algorithm ..." alt="" coords="201,73,349,113"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="154,91,187,91,187,96,154,96"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__auxiliary.html#a8d748d5192da42c522f28e566338f2ed" title=" " alt="" coords="397,29,545,69"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="349,74,383,66,384,72,350,79"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="397,117,545,157"/>
+<area shape="poly" id="edge6_Node000002_Node000005" title=" " alt="" coords="350,107,384,115,383,120,349,113"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__auxiliary.html#a060d1eb779ff4b79b8e210d748d3e239" title=" " alt="" coords="603,29,751,69"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="546,47,589,47,589,52,546,52"/>
+<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="638,30,636,20,642,11,656,5,677,3,701,6,714,13,711,18,699,11,677,8,657,10,645,15,641,21,643,28"/>
+<area shape="poly" id="edge9_Node000005_Node000005" title=" " alt="" coords="435,118,432,108,438,99,451,93,471,91,494,94,507,101,504,105,493,99,471,96,453,98,442,103,438,109,440,116"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="593,125,760,150"/>
+<area shape="poly" id="edge7_Node000005_Node000006" title=" " alt="" coords="546,135,579,135,579,140,546,140"/>
+<area shape="poly" id="edge8_Node000006_Node000006" title=" " alt="" coords="643,126,636,116,639,106,653,100,677,98,705,102,717,111,713,115,703,107,677,103,655,105,643,110,641,116,647,123"/>
+</map>

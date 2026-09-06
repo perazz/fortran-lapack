@@ -1,4 +1,7 @@
 <map id="la_lapack_aux::la_lsamen" name="la_lapack_aux::la_lsamen">
 <area shape="rect" id="Node000001" title="LSAMEN: tests if the first N letters of CA are the same as the first N letters of CB,..." alt="" coords="5,29,196,55"/>
-<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="69,31,63,21,66,11,79,5,101,3,127,6,138,15,134,19,125,11,101,8,81,10,70,15,68,20,74,28"/>
+<area shape="poly" id="edge3_Node000001_Node000001" title=" " alt="" coords="64,31,56,21,60,11,75,5,101,3,133,7,145,16,141,20,131,11,101,8,76,10,64,15,61,20,68,27"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="244,29,411,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="196,39,230,39,230,45,196,45"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="290,31,282,21,287,11,302,5,327,3,359,7,371,16,368,20,357,11,327,8,303,10,290,15,288,20,294,27"/>
 </map>

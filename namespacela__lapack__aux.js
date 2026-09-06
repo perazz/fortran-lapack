@@ -36,7 +36,7 @@ var namespacela__lapack__aux =
     [ "la_ilazlr", "namespacela__lapack__aux.html#a13c619e8ff4d23f55214cb3f69867529", null ],
     [ "la_iparam2stage", "namespacela__lapack__aux.html#a3e2110ef707149601cffca6ae6a65a4f", null ],
     [ "la_iparmq", "namespacela__lapack__aux.html#ace38ae70bb7022cae6ecabe992145fda", null ],
-    [ "la_iwmax1", "namespacela__lapack__aux.html#a7d5d953c291e4043aa7b088653dd88b9", null ],
+    [ "la_iwmax1", "namespacela__lapack__aux.html#ad24ad10d06fcee425f39b26966028caf", null ],
     [ "la_izmax1", "namespacela__lapack__aux.html#a40b22eb3f7db2a2dbdf21f4ae7974556", null ],
     [ "la_lsamen", "namespacela__lapack__aux.html#a1c5e945d2668b979156a0a26dbf5d856", null ],
     [ "la_qroundup_lwork", "namespacela__lapack__aux.html#adf796ff0f5ee63a5130d588f085a48b0", null ],

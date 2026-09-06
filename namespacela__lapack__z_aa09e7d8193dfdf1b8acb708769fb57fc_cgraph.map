@@ -1,5 +1,0 @@
-<map id="la_lapack_z::la_zlags2" name="la_lapack_z::la_zlags2">
-<area shape="rect" id="Node000001" title="ZLAGS2: computes 2&#45;by&#45;2 unitary matrices U, V and Q, such that if ( UPPER ) then U**H *A*Q = U**H *( ..." alt="" coords="5,5,172,31"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__z.html#ab24869a854f908d0f48768f276f7e734" title="!" alt="" coords="220,5,383,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="172,15,206,15,206,21,172,21"/>
-</map>

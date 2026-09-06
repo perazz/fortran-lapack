@@ -1,14 +1,17 @@
 <map id="la_lapack::gebal::cgebal" name="la_lapack::gebal::cgebal">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,67,184,92"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__c.html#add5f3a714e4a601abe8ba986e6a5c455" title="CGEBAL: balances a general complex matrix A. This involves, first, permuting A by a similarity transf..." alt="" coords="232,67,400,92"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="184,77,218,77,218,82,184,82"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__s.html#af8d4b806648873f614d26ba3f9d00512" title="SISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="451,29,617,55"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="390,64,446,54,447,60,391,69"/>
-<area shape="rect" id="Node000005" href="$namespacela__lapack__s.html#abbe0ae24f069ddbf134ff3e404a19878" title="SLAMCH: determines single precision machine parameters." alt="" coords="448,103,620,128"/>
-<area shape="poly" id="edge6_Node000002_Node000005" title=" " alt="" coords="394,89,444,98,443,103,393,95"/>
-<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="499,31,491,21,495,11,510,5,534,3,564,6,576,15,573,20,562,11,534,8,511,10,499,15,496,20,503,28"/>
-<area shape="rect" id="Node000004" href="$namespacela__lapack__s.html#ab716c1e999e316ce29c31703ef379eb1" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in SISNAN...." alt="" coords="668,29,847,55"/>
-<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="618,39,654,39,654,45,618,45"/>
-<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="721,31,713,21,717,11,732,5,757,3,788,6,800,15,797,20,786,11,757,8,734,10,721,15,719,20,725,28"/>
-<area shape="poly" id="edge7_Node000005_Node000005" title=" " alt="" coords="499,104,491,94,495,84,510,78,534,76,564,80,576,89,573,93,562,85,534,81,511,83,499,88,496,94,503,101"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,81,184,106"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__c.html#add5f3a714e4a601abe8ba986e6a5c455" title="CGEBAL: balances a general complex matrix A. This involves, first, permuting A by a similarity transf..." alt="" coords="232,81,400,106"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="184,91,218,91,218,96,184,96"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__blas__like__scalar.html#a4d6735a3a0bfd81ec48d9c107c0d7893" title="SISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="448,29,596,69"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="376,78,434,65,435,71,377,83"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="448,117,596,157"/>
+<area shape="poly" id="edge6_Node000002_Node000005" title=" " alt="" coords="377,103,435,116,434,121,376,109"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="483,30,481,20,487,11,501,5,522,3,546,6,559,13,557,18,544,11,522,8,502,10,491,15,486,21,488,28"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__blas__like__scalar.html#af7a547cc3906149e087d6003dc2ab082" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in SISNAN...." alt="" coords="653,29,802,69"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="597,47,639,47,639,52,597,52"/>
+<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="689,30,686,20,693,11,706,5,727,3,751,6,765,13,762,18,750,11,727,8,708,10,696,15,692,21,694,28"/>
+<area shape="poly" id="edge9_Node000005_Node000005" title=" " alt="" coords="483,118,481,108,487,99,501,93,522,91,546,94,559,101,557,106,544,99,522,96,502,98,491,103,486,109,488,116"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="644,125,811,150"/>
+<area shape="poly" id="edge7_Node000005_Node000006" title=" " alt="" coords="597,135,630,135,630,140,597,140"/>
+<area shape="poly" id="edge8_Node000006_Node000006" title=" " alt="" coords="694,126,686,116,690,106,704,100,727,98,756,102,767,111,764,115,754,107,727,103,705,105,694,110,692,116,698,123"/>
 </map>

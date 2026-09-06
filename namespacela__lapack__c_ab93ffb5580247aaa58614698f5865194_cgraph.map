@@ -1,7 +1,0 @@
-<map id="la_lapack_c::la_cungr2" name="la_lapack_c::la_cungr2">
-<area shape="rect" id="Node000001" title="CUNGR2: generates an m by n complex matrix Q with orthonormal rows, which is defined as the last m ro..." alt="" coords="5,31,175,56"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__c.html#a458ee49506ae512d1c2d93ad1fdcbc11" title="CLACGV: conjugates a complex vector of length N." alt="" coords="223,5,389,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="175,31,209,27,210,32,175,36"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__c.html#a51b81937dc202033ec70fc927336aabc" title="CLARF: applies a complex elementary reflector H to a complex M&#45;by&#45;N matrix C, from either the left or..." alt="" coords="229,55,383,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="175,50,215,55,215,60,175,55"/>
-</map>

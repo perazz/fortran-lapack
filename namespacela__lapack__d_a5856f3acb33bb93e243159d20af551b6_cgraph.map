@@ -2,8 +2,11 @@
 <area shape="rect" id="Node000001" title="DLAORHR_COL_GETRFNP: computes the modified LU factorization without pivoting of a real general M&#45;by&#45;N..." alt="" coords="5,29,177,69"/>
 <area shape="rect" id="Node000002" href="$namespacela__lapack__d.html#a95ff990daf015eac9bfabdfa5d8f1c2f" title="DLAORHR_COL_GETRFNP2: computes the modified LU factorization without pivoting of a real general M&#45;by&#45;..." alt="" coords="225,29,397,69"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="178,47,212,47,212,52,178,52"/>
-<area shape="poly" id="edge4_Node000002_Node000002" title=" " alt="" coords="270,30,268,20,274,10,289,5,311,3,337,6,351,13,348,18,335,11,311,8,290,10,278,15,273,21,275,28"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__d.html#af258e93ce5d1d461c745335332ff184b" title="DLAMCH: determines double precision machine parameters." alt="" coords="445,37,620,62"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="398,47,432,47,432,52,398,52"/>
-<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="497,38,489,28,493,18,508,12,533,10,563,14,576,23,572,27,561,19,533,15,509,17,496,22,494,28,501,35"/>
+<area shape="poly" id="edge6_Node000002_Node000002" title=" " alt="" coords="272,30,270,20,276,10,290,5,311,3,336,6,349,13,346,18,334,11,311,8,291,10,279,15,275,21,277,28"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="445,29,593,69"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="397,47,432,47,432,52,397,52"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="481,30,478,20,485,11,498,5,519,3,543,6,557,13,554,18,542,11,519,8,500,10,488,15,484,21,486,28"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="641,37,808,62"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="594,47,627,47,627,52,594,52"/>
+<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="691,38,684,28,687,18,701,12,725,10,753,14,765,23,761,27,751,19,725,15,703,17,691,22,689,28,695,35"/>
 </map>

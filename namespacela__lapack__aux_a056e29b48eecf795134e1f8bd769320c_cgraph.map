@@ -1,4 +1,7 @@
 <map id="la_lapack_aux::la_iladiag" name="la_lapack_aux::la_iladiag">
 <area shape="rect" id="Node000001" title="This subroutine translated from a character string specifying if a matrix has unit diagonal or not to..." alt="" coords="5,29,192,55"/>
-<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="68,31,61,21,65,11,77,5,99,3,124,6,135,15,132,19,122,11,99,8,79,10,69,15,66,20,72,28"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="62,31,54,21,58,11,74,5,99,3,130,7,142,16,139,20,128,11,99,8,75,10,62,15,59,20,66,27"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="240,29,407,55"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="192,39,226,39,226,45,192,45"/>
+<area shape="poly" id="edge3_Node000002_Node000002" title=" " alt="" coords="287,31,279,21,283,11,298,5,323,3,355,7,367,16,364,20,353,11,323,8,299,10,287,15,284,20,291,27"/>
 </map>

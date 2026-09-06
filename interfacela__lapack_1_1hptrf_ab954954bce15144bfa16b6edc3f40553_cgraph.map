@@ -1,17 +1,20 @@
 <map id="la_lapack::hptrf::zhptrf" name="la_lapack::hptrf::zhptrf">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,67,173,92"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__z.html#ab7f69f806b266f15f53931b16c442873" title="ZHPTRF: computes the factorization of a complex Hermitian packed matrix A using the Bunch&#45;Kaufman dia..." alt="" coords="221,67,384,92"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="174,77,208,77,208,82,174,82"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__d.html#a3c4f675d0639f59f0786eb3019043624" title="DLAPY2: returns sqrt(x**2+y**2), taking care not to cause unnecessary overflow and unnecessary underf..." alt="" coords="432,67,603,92"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="384,77,418,77,418,82,384,82"/>
-<area shape="poly" id="edge9_Node000003_Node000003" title=" " alt="" coords="482,68,475,58,479,48,493,42,517,40,547,44,559,53,556,57,545,49,517,45,495,47,483,52,480,58,487,65"/>
-<area shape="rect" id="Node000004" href="$namespacela__lapack__d.html#a4a9c9cc2b970e1644f2f475aff87fb6e" title="DISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="653,29,823,55"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="593,64,649,54,650,60,594,69"/>
-<area shape="rect" id="Node000006" href="$namespacela__lapack__d.html#af258e93ce5d1d461c745335332ff184b" title="DLAMCH: determines double precision machine parameters." alt="" coords="651,103,825,128"/>
-<area shape="poly" id="edge7_Node000003_Node000006" title=" " alt="" coords="596,89,647,98,646,103,595,95"/>
-<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="702,31,695,21,699,11,713,5,738,3,768,6,780,15,777,20,766,11,738,8,715,10,702,15,700,20,706,28"/>
-<area shape="rect" id="Node000005" href="$namespacela__lapack__d.html#a7d6ce8ad80e116b4b65bc05ac5012e74" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in DISNAN...." alt="" coords="873,29,1055,55"/>
-<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="823,39,860,39,860,45,823,45"/>
-<area shape="poly" id="edge6_Node000005_Node000005" title=" " alt="" coords="927,31,920,21,924,11,939,5,964,3,996,7,1008,16,1004,20,994,11,964,8,940,10,927,15,925,20,932,27"/>
-<area shape="poly" id="edge8_Node000006_Node000006" title=" " alt="" coords="702,104,695,94,699,84,713,78,738,76,768,80,780,89,777,93,766,85,738,81,715,83,702,88,700,94,706,101"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,81,173,106"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__z.html#ab7f69f806b266f15f53931b16c442873" title="ZHPTRF: computes the factorization of a complex Hermitian packed matrix A using the Bunch&#45;Kaufman dia..." alt="" coords="221,81,384,106"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="174,91,208,91,208,96,174,96"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__blas__like__scalar.html#a6392f228090286d0a08702c8ba131de1" title="DLAPY2: returns sqrt(x**2+y**2), taking care not to cause unnecessary overflow and unnecessary underf..." alt="" coords="432,73,580,113"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="384,91,418,91,418,96,384,96"/>
+<area shape="poly" id="edge11_Node000003_Node000003" title=" " alt="" coords="469,74,467,64,473,55,486,49,506,47,529,50,541,57,539,61,527,55,506,52,487,54,476,59,472,65,474,72"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__blas__like__scalar.html#a942dd2e31c0d9058962f8060e510005e" title="DISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="628,29,776,69"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="580,74,614,66,615,72,581,79"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="628,117,776,157"/>
+<area shape="poly" id="edge7_Node000003_Node000006" title=" " alt="" coords="581,107,615,115,614,120,580,113"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="665,30,663,20,669,11,682,5,702,3,725,6,737,13,735,17,723,11,702,8,683,10,672,15,668,21,670,28"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__blas__like__scalar.html#ab7bb61dcad235be9d6066eda62ea3b31" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in DISNAN...." alt="" coords="832,29,983,69"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="777,47,818,47,818,52,777,52"/>
+<area shape="poly" id="edge6_Node000005_Node000005" title=" " alt="" coords="869,30,866,20,873,11,886,5,907,3,931,6,945,13,942,18,930,11,907,8,888,10,876,15,872,21,874,28"/>
+<area shape="poly" id="edge8_Node000006_Node000006" title=" " alt="" coords="665,118,663,108,669,99,682,93,702,91,725,94,737,101,735,105,723,99,702,96,683,98,672,103,668,109,670,116"/>
+<area shape="rect" id="Node000007" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="824,125,991,150"/>
+<area shape="poly" id="edge9_Node000006_Node000007" title=" " alt="" coords="777,135,810,135,810,140,777,140"/>
+<area shape="poly" id="edge10_Node000007_Node000007" title=" " alt="" coords="874,126,866,116,870,106,884,100,907,98,936,102,947,111,944,115,934,107,907,103,885,105,874,110,872,116,878,123"/>
 </map>

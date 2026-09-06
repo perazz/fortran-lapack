@@ -1,19 +1,23 @@
 <map id="la_lapack::getrf2::dgetrf2" name="la_lapack::getrf2::dgetrf2">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,109,144,149"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__d.html#aa1ab1b098edf7febc7d1d7c2046b4998" title="DGETRF2: computes an LU factorization of a general M&#45;by&#45;N matrix A using partial pivoting with row in..." alt="" coords="192,79,365,104"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="144,113,195,104,196,109,145,119"/>
-<area shape="rect" id="Node000005" href="$namespacela__lapack__q.html#a24f980983ac12dddb8b58396d4cd897d" title="DGETRF2: computes an LU factorization of a general M&#45;by&#45;N matrix A using partial pivoting with row in..." alt="" coords="192,152,365,177"/>
-<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="145,138,193,147,193,152,144,143"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="245,80,238,70,242,60,256,54,279,52,307,56,318,65,315,69,305,61,279,57,257,59,246,64,243,70,250,77"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__d.html#af258e93ce5d1d461c745335332ff184b" title="DLAMCH: determines double precision machine parameters." alt="" coords="413,29,588,55"/>
-<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="336,76,429,55,430,60,337,81"/>
-<area shape="rect" id="Node000004" href="$namespacela__lapack__d.html#ad2d61391ed0eea60ae22ecadcf0767ba" title="DLASWP: performs a series of row interchanges on the matrix A. One row interchange is initiated for e..." alt="" coords="415,79,587,104"/>
-<area shape="poly" id="edge5_Node000002_Node000004" title=" " alt="" coords="365,89,401,89,401,94,365,94"/>
-<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="465,31,457,21,461,11,476,5,501,3,531,6,544,15,540,20,529,11,501,8,477,10,464,15,462,20,469,28"/>
-<area shape="poly" id="edge7_Node000005_Node000005" title=" " alt="" coords="245,154,238,144,242,134,256,128,279,125,307,129,318,138,315,142,305,134,279,131,257,133,246,137,243,143,250,150"/>
-<area shape="rect" id="Node000006" href="$namespacela__lapack__q.html#a5435a74c593174c3ab375e653a46f8fe" title="DLAMCH: determines quad precision machine parameters." alt="" coords="413,152,588,177"/>
-<area shape="poly" id="edge8_Node000005_Node000006" title=" " alt="" coords="365,162,400,162,400,167,365,167"/>
-<area shape="rect" id="Node000007" href="$namespacela__lapack__q.html#af32ee00983521185b31feae682abc840" title="DLASWP: performs a series of row interchanges on the matrix A. One row interchange is initiated for e..." alt="" coords="415,201,587,227"/>
-<area shape="poly" id="edge10_Node000005_Node000007" title=" " alt="" coords="337,175,430,196,429,201,336,180"/>
-<area shape="poly" id="edge9_Node000006_Node000006" title=" " alt="" coords="465,154,457,144,461,134,476,128,501,125,531,129,544,138,540,142,529,134,501,131,477,133,464,138,462,143,469,150"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,128,144,168"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__d.html#aa1ab1b098edf7febc7d1d7c2046b4998" title="DGETRF2: computes an LU factorization of a general M&#45;by&#45;N matrix A using partial pivoting with row in..." alt="" coords="192,94,365,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="144,131,201,120,202,125,145,137"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__q.html#a24f980983ac12dddb8b58396d4cd897d" title="DGETRF2: computes an LU factorization of a general M&#45;by&#45;N matrix A using partial pivoting with row in..." alt="" coords="192,175,365,201"/>
+<area shape="poly" id="edge8_Node000001_Node000006" title=" " alt="" coords="145,159,201,170,200,175,144,164"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="245,96,238,86,242,76,256,70,279,67,307,71,318,80,315,84,305,76,279,73,257,75,246,79,243,85,250,92"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="425,29,573,69"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="328,91,412,69,413,74,329,97"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__d.html#ad2d61391ed0eea60ae22ecadcf0767ba" title="DLASWP: performs a series of row interchanges on the matrix A. One row interchange is initiated for e..." alt="" coords="413,94,585,119"/>
+<area shape="poly" id="edge7_Node000002_Node000005" title=" " alt="" coords="366,104,399,104,399,109,366,109"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="459,30,456,20,463,10,477,5,499,3,525,6,538,13,536,18,523,11,499,8,479,10,466,15,462,21,464,28"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="633,106,800,131"/>
+<area shape="poly" id="edge5_Node000003_Node000004" title=" " alt="" coords="564,67,664,99,662,104,562,72"/>
+<area shape="poly" id="edge6_Node000004_Node000004" title=" " alt="" coords="681,108,674,98,678,88,692,82,717,79,747,83,759,92,755,96,745,88,717,85,694,87,681,92,679,97,685,104"/>
+<area shape="poly" id="edge9_Node000006_Node000006" title=" " alt="" coords="245,177,238,167,242,157,256,151,279,149,307,152,318,162,315,166,305,157,279,154,257,156,246,161,243,166,250,174"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__auxiliary.html#a422783a9c3975903ac0fc1dc06f4ec01" title="QLAMCH: determines quad precision machine parameters." alt="" coords="425,168,573,208"/>
+<area shape="poly" id="edge10_Node000006_Node000007" title=" " alt="" coords="366,185,411,185,411,191,366,191"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__q.html#af32ee00983521185b31feae682abc840" title="DLASWP: performs a series of row interchanges on the matrix A. One row interchange is initiated for e..." alt="" coords="413,233,585,258"/>
+<area shape="poly" id="edge13_Node000006_Node000008" title=" " alt="" coords="329,198,437,227,436,232,328,203"/>
+<area shape="poly" id="edge11_Node000007_Node000004" title=" " alt="" coords="562,165,662,133,664,138,564,170"/>
+<area shape="poly" id="edge12_Node000007_Node000007" title=" " alt="" coords="459,168,456,158,463,149,477,143,499,141,525,144,538,152,536,156,523,149,499,147,479,149,466,153,462,159,464,167"/>
 </map>

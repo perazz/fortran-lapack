@@ -1,0 +1,14 @@
+<map id="la_lapack_blas_like_scalar::la_dladiv" name="la_lapack_blas_like_scalar::la_dladiv">
+<area shape="rect" id="Node000001" title="DLADIV: performs complex division in real arithmetic a + i*b p + i*q = &#45;&#45;&#45;&#45;&#45;&#45;— c + i*d The algorithm ..." alt="" coords="5,73,153,113"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__auxiliary.html#a1bf9fec8cb3f0a42fd05beb1ffd1b13e" title=" " alt="" coords="201,29,349,69"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="153,74,187,66,188,72,154,79"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="201,117,349,157"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="154,107,188,115,187,120,153,113"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__auxiliary.html#ab34a41a5a2d8aa8270e1b467aae0ae9b" title=" " alt="" coords="407,29,555,69"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="350,47,393,47,393,52,350,52"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="442,30,440,20,446,11,460,5,481,3,505,6,518,13,515,18,503,11,481,8,461,10,449,15,445,21,447,28"/>
+<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="239,118,236,108,242,99,255,93,275,91,298,94,311,101,308,105,297,99,275,96,257,98,246,103,242,109,244,116"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="397,125,564,150"/>
+<area shape="poly" id="edge6_Node000004_Node000005" title=" " alt="" coords="350,135,383,135,383,140,350,140"/>
+<area shape="poly" id="edge7_Node000005_Node000005" title=" " alt="" coords="447,126,440,116,443,106,457,100,481,98,509,102,521,111,517,115,507,107,481,103,459,105,447,110,445,116,451,123"/>
+</map>

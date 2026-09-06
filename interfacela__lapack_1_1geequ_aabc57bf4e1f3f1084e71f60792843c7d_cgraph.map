@@ -1,13 +1,17 @@
 <map id="la_lapack::geequ::sgeequ" name="la_lapack::geequ::sgeequ">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,67,192,92"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#a2aee7c53e47802d9149de5d4dc4e664d" title="SGEEQU: computes row and column scalings intended to equilibrate an M&#45;by&#45;N matrix A and reduce its co..." alt="" coords="243,36,415,61"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="192,64,229,59,230,65,192,70"/>
-<area shape="rect" id="Node000004" href="$namespacela__lapack__w.html#a3977a05ba505ad1d68eea2253cdb9228" title="ZGEEQU: computes row and column scalings intended to equilibrate an M&#45;by&#45;N matrix A and reduce its co..." alt="" coords="240,91,419,116"/>
-<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="192,86,227,90,226,95,192,92"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__s.html#abbe0ae24f069ddbf134ff3e404a19878" title="SLAMCH: determines single precision machine parameters." alt="" coords="468,29,640,55"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="416,43,454,42,454,48,416,49"/>
-<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="517,31,510,21,514,11,529,5,554,3,586,7,598,16,594,20,584,11,554,8,530,10,517,15,515,20,522,27"/>
-<area shape="rect" id="Node000005" href="$namespacela__lapack__q.html#a5435a74c593174c3ab375e653a46f8fe" title="DLAMCH: determines quad precision machine parameters." alt="" coords="467,103,641,128"/>
-<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="419,105,453,107,453,113,419,111"/>
-<area shape="poly" id="edge6_Node000005_Node000005" title=" " alt="" coords="517,104,510,94,514,84,529,78,554,76,586,80,598,89,594,93,584,85,554,81,530,83,517,88,515,94,522,101"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,82,192,107"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#a2aee7c53e47802d9149de5d4dc4e664d" title="SGEEQU: computes row and column scalings intended to equilibrate an M&#45;by&#45;N matrix A and reduce its co..." alt="" coords="243,47,415,73"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="183,79,230,72,231,77,184,85"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__w.html#a3977a05ba505ad1d68eea2253cdb9228" title="ZGEEQU: computes row and column scalings intended to equilibrate an M&#45;by&#45;N matrix A and reduce its co..." alt="" coords="240,106,419,131"/>
+<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="192,102,227,105,226,111,192,107"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="467,29,615,69"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="415,53,453,51,453,56,416,58"/>
+<area shape="poly" id="edge5_Node000003_Node000003" title=" " alt="" coords="502,30,500,20,506,11,520,5,541,3,565,6,578,13,575,18,563,11,541,8,521,10,509,15,505,21,507,28"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="663,81,829,106"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="616,63,673,75,672,80,615,68"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="712,82,705,72,709,62,723,56,746,54,775,58,786,67,783,71,772,63,746,59,724,61,713,66,710,72,716,79"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__auxiliary.html#a422783a9c3975903ac0fc1dc06f4ec01" title="QLAMCH: determines quad precision machine parameters." alt="" coords="467,117,615,157"/>
+<area shape="poly" id="edge7_Node000005_Node000006" title=" " alt="" coords="419,124,453,127,453,132,419,129"/>
+<area shape="poly" id="edge8_Node000006_Node000004" title=" " alt="" coords="615,119,672,106,673,112,616,124"/>
+<area shape="poly" id="edge9_Node000006_Node000006" title=" " alt="" coords="502,118,500,108,506,99,520,93,541,91,565,94,578,101,575,106,563,99,541,96,521,98,509,103,505,109,507,116"/>
 </map>

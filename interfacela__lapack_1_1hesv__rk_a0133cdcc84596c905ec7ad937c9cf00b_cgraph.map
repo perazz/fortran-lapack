@@ -1,28 +1,29 @@
 <map id="la_lapack::hesv_rk::zhesv_rk" name="la_lapack::hesv_rk::zhesv_rk">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,146,148,186"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__z.html#a9bcef55f0c14867ae7e3c03f6aa43a5b" title="ZHESV_RK: computes the solution to a complex system of linear equations A * X = B,..." alt="" coords="196,153,379,179"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="148,163,182,163,182,169,148,169"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__z.html#a82f5ec9b9b3769195a87a8984da44bc8" title="ZHETRF_RK: computes the factorization of a complex Hermitian matrix A using the bounded Bunch&#45;Kaufman..." alt="" coords="427,128,609,153"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="378,153,413,150,413,155,379,159"/>
-<area shape="rect" id="Node000011" href="$namespacela__lapack__z.html#adc474b7e22dbb7e1c3877b52c0134e6c" title="ZHETRS_3: solves a system of linear equations A * X = B with a complex Hermitian matrix A using the f..." alt="" coords="428,177,608,203"/>
-<area shape="poly" id="edge15_Node000002_Node000011" title=" " alt="" coords="379,173,415,177,414,182,378,178"/>
-<area shape="rect" id="Node000004" href="$namespacela__lapack__z.html#a6814495e2af729d7015e3e5fa9976f81" title="ZHETF2_RK: computes the factorization of a complex Hermitian matrix A using the bounded Bunch&#45;Kaufman..." alt="" coords="657,103,844,128"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="609,128,643,124,644,130,610,133"/>
-<area shape="rect" id="Node000009" href="$namespacela__lapack__z.html#a1e9bf5dacb944427f23292888ec7bf50" title="ZLAHEF_RK: computes a partial factorization of a complex Hermitian matrix A using the bounded Bunch&#45;K..." alt="" coords="658,152,843,177"/>
-<area shape="poly" id="edge13_Node000003_Node000009" title=" " alt="" coords="610,147,645,151,644,156,609,153"/>
-<area shape="rect" id="Node000005" href="$namespacela__lapack__d.html#af258e93ce5d1d461c745335332ff184b" title="DLAMCH: determines double precision machine parameters." alt="" coords="1111,29,1285,55"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="780,100,832,80,891,63,997,48,1097,41,1097,46,997,53,893,69,833,86,782,105"/>
-<area shape="rect" id="Node000006" href="$namespacela__lapack__d.html#a3c4f675d0639f59f0786eb3019043624" title="DLAPY2: returns sqrt(x**2+y**2), taking care not to cause unnecessary overflow and unnecessary underf..." alt="" coords="892,103,1063,128"/>
-<area shape="poly" id="edge6_Node000004_Node000006" title=" " alt="" coords="844,113,878,113,878,118,844,118"/>
-<area shape="poly" id="edge5_Node000005_Node000005" title=" " alt="" coords="1162,31,1155,21,1159,11,1173,5,1198,3,1228,6,1240,15,1237,20,1226,11,1198,8,1175,10,1162,15,1160,20,1166,28"/>
-<area shape="poly" id="edge11_Node000006_Node000005" title=" " alt="" coords="1009,100,1110,63,1135,56,1136,61,1112,69,1011,105"/>
-<area shape="poly" id="edge12_Node000006_Node000006" title=" " alt="" coords="942,104,934,94,938,84,953,78,977,76,1008,80,1020,89,1017,93,1006,85,977,81,954,83,942,88,939,94,946,101"/>
-<area shape="rect" id="Node000007" href="$namespacela__lapack__d.html#a4a9c9cc2b970e1644f2f475aff87fb6e" title="DISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="1113,103,1283,128"/>
-<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="1063,113,1100,113,1100,118,1063,118"/>
-<area shape="poly" id="edge8_Node000007_Node000007" title=" " alt="" coords="1162,104,1155,94,1159,84,1173,78,1198,76,1228,80,1240,89,1237,93,1226,85,1198,81,1175,83,1162,88,1160,94,1166,101"/>
-<area shape="rect" id="Node000008" href="$namespacela__lapack__d.html#a7d6ce8ad80e116b4b65bc05ac5012e74" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in DISNAN...." alt="" coords="1333,103,1515,128"/>
-<area shape="poly" id="edge9_Node000007_Node000008" title=" " alt="" coords="1283,113,1320,113,1320,118,1283,118"/>
-<area shape="poly" id="edge10_Node000008_Node000008" title=" " alt="" coords="1387,104,1380,94,1384,84,1399,78,1424,76,1456,80,1468,89,1464,93,1454,85,1424,81,1400,83,1387,88,1385,94,1392,101"/>
-<area shape="rect" id="Node000010" href="$namespacela__lapack__z.html#ab5e8ff36e5e3ba9ba5c24f6b2fb59e1d" title="ZLACGV: conjugates a complex vector of length N." alt="" coords="894,152,1061,177"/>
-<area shape="poly" id="edge14_Node000009_Node000010" title=" " alt="" coords="844,162,880,162,880,167,844,167"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,121,148,161"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__z.html#a9bcef55f0c14867ae7e3c03f6aa43a5b" title="ZHESV_RK: computes the solution to a complex system of linear equations A * X = B,..." alt="" coords="196,129,379,154"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="148,139,182,139,182,144,148,144"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__z.html#a82f5ec9b9b3769195a87a8984da44bc8" title="ZHETRF_RK: computes the factorization of a complex Hermitian matrix A using the bounded Bunch&#45;Kaufman..." alt="" coords="427,103,609,129"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="378,129,413,125,413,130,379,134"/>
+<area shape="rect" id="Node000011" href="$namespacela__lapack__z.html#adc474b7e22dbb7e1c3877b52c0134e6c" title="ZHETRS_3: solves a system of linear equations A * X = B with a complex Hermitian matrix A using the f..." alt="" coords="428,153,608,178"/>
+<area shape="poly" id="edge16_Node000002_Node000011" title=" " alt="" coords="379,148,415,152,414,157,378,153"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__z.html#a6814495e2af729d7015e3e5fa9976f81" title="ZHETF2_RK: computes the factorization of a complex Hermitian matrix A using the bounded Bunch&#45;Kaufman..." alt="" coords="657,78,844,103"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="609,103,643,100,644,105,610,109"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__z.html#a1e9bf5dacb944427f23292888ec7bf50" title="ZLAHEF_RK: computes a partial factorization of a complex Hermitian matrix A using the bounded Bunch&#45;K..." alt="" coords="658,127,843,153"/>
+<area shape="poly" id="edge15_Node000003_Node000010" title=" " alt="" coords="610,123,645,126,644,132,609,128"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="1088,29,1236,69"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="844,77,892,72,1074,54,1075,60,892,77,845,83"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__blas__like__scalar.html#a6392f228090286d0a08702c8ba131de1" title="DLAPY2: returns sqrt(x**2+y**2), taking care not to cause unnecessary overflow and unnecessary underf..." alt="" coords="892,111,1040,151"/>
+<area shape="poly" id="edge8_Node000004_Node000007" title=" " alt="" coords="820,101,879,112,878,117,819,106"/>
+<area shape="poly" id="edge5_Node000005_Node000005" title=" " alt="" coords="1125,30,1123,20,1129,11,1142,5,1162,3,1185,6,1197,13,1195,17,1183,11,1162,8,1143,10,1132,15,1128,21,1130,28"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="1284,37,1451,62"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="1237,47,1270,47,1270,52,1237,52"/>
+<area shape="poly" id="edge7_Node000006_Node000006" title=" " alt="" coords="1334,38,1326,28,1330,18,1344,12,1367,10,1396,14,1407,23,1404,27,1394,19,1367,15,1345,17,1334,22,1332,28,1338,35"/>
+<area shape="poly" id="edge13_Node000007_Node000005" title=" " alt="" coords="1014,108,1099,72,1101,77,1016,113"/>
+<area shape="poly" id="edge14_Node000007_Node000007" title=" " alt="" coords="929,111,927,101,933,92,946,86,966,84,989,87,1001,94,999,99,987,92,966,89,947,91,936,96,932,102,934,110"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__blas__like__scalar.html#a942dd2e31c0d9058962f8060e510005e" title="DISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="1088,117,1236,157"/>
+<area shape="poly" id="edge9_Node000007_Node000008" title=" " alt="" coords="1041,131,1074,132,1074,137,1040,136"/>
+<area shape="poly" id="edge10_Node000008_Node000008" title=" " alt="" coords="1125,118,1123,108,1129,99,1142,93,1162,91,1185,94,1197,101,1195,105,1183,99,1162,96,1143,98,1132,103,1128,109,1130,116"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__blas__like__scalar.html#ab7bb61dcad235be9d6066eda62ea3b31" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in DISNAN...." alt="" coords="1292,117,1443,157"/>
+<area shape="poly" id="edge11_Node000008_Node000009" title=" " alt="" coords="1237,135,1278,135,1278,140,1237,140"/>
+<area shape="poly" id="edge12_Node000009_Node000009" title=" " alt="" coords="1329,118,1326,108,1333,99,1346,93,1367,91,1391,94,1405,101,1402,106,1390,99,1367,96,1348,98,1336,103,1332,109,1334,116"/>
 </map>

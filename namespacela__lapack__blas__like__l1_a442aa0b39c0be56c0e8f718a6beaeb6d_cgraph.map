@@ -1,0 +1,13 @@
+<map id="la_lapack_blas_like_l1::la_qrscl" name="la_lapack_blas_like_l1::la_qrscl">
+<area shape="rect" id="Node000001" title="QRSCL: multiplies an n&#45;element real vector x by the real scalar 1/a. This is done without overflow or..." alt="" coords="5,93,153,133"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__auxiliary.html#acecd2a5f4b24222c89102e10fa753f18" title="QLABAD: takes as input the values computed by QLAMCH for underflow and overflow, and returns the squa..." alt="" coords="201,5,349,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="122,91,200,55,215,48,217,53,202,60,125,96"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__auxiliary.html#a422783a9c3975903ac0fc1dc06f4ec01" title="QLAMCH: determines quad precision machine parameters." alt="" coords="201,93,349,133"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="154,111,187,111,187,116,154,116"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__level1.html#a1ffcba958a3ab121d878ddb3f71724ab" title="QSCAL: scales a vector by a constant. uses unrolled loops for increment equal to 1." alt="" coords="208,157,343,197"/>
+<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="142,131,202,151,200,156,140,136"/>
+<area shape="poly" id="edge5_Node000003_Node000003" title=" " alt="" coords="239,94,236,84,242,75,255,69,275,67,298,70,311,77,308,81,297,75,275,72,257,74,246,79,242,85,244,92"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="397,101,564,126"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="350,111,383,111,383,116,350,116"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="447,102,440,92,443,82,457,76,481,74,509,78,521,87,517,91,507,83,481,79,459,81,447,86,445,92,451,99"/>
+</map>

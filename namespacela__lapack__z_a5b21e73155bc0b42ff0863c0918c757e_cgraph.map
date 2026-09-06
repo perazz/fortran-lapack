@@ -1,8 +1,0 @@
-<map id="la_lapack_z::la_zdrscl" name="la_lapack_z::la_zdrscl">
-<area shape="rect" id="Node000001" title="ZDRSCL: multiplies an n&#45;element complex vector x by the real scalar 1/a. This is done without overflo..." alt="" coords="5,43,168,68"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__d.html#aa5488e8cb6689a9ea38a8b10398ffb62" title="DLABAD: takes as input the values computed by DLAMCH for underflow and overflow, and returns the squa..." alt="" coords="218,5,389,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="161,40,215,30,216,36,162,45"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__d.html#af258e93ce5d1d461c745335332ff184b" title="DLAMCH: determines double precision machine parameters." alt="" coords="216,79,391,104"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="164,65,213,74,212,79,163,71"/>
-<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="268,80,260,70,264,60,279,54,303,52,333,56,345,65,342,69,331,61,303,57,280,59,268,64,266,70,272,77"/>
-</map>

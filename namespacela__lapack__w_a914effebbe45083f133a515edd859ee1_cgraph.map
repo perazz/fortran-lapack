@@ -1,8 +1,11 @@
 <map id="la_lapack_w::la_wheequb" name="la_lapack_w::la_wheequb">
-<area shape="rect" id="Node000001" title="ZHEEQUB: computes row and column scalings intended to equilibrate a Hermitian matrix A (with respect ..." alt="" coords="5,55,192,80"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__q.html#a5435a74c593174c3ab375e653a46f8fe" title="DLAMCH: determines quad precision machine parameters." alt="" coords="240,29,415,55"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="192,54,226,51,227,56,193,60"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__w.html#a2bf5a64bcaccd3676164dbf3aee36bb5" title="!" alt="" coords="241,79,414,104"/>
-<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="193,75,227,78,227,83,192,80"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="290,31,282,21,287,11,302,5,327,3,359,7,371,16,368,20,357,11,327,8,303,10,290,15,288,20,294,27"/>
+<area shape="rect" id="Node000001" title="ZHEEQUB: computes row and column scalings intended to equilibrate a Hermitian matrix A (with respect ..." alt="" coords="5,69,192,94"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__auxiliary.html#a422783a9c3975903ac0fc1dc06f4ec01" title="QLAMCH: determines quad precision machine parameters." alt="" coords="240,29,388,69"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="184,66,226,60,227,65,185,71"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__blas__like__l1.html#a5d4955ec12e23844ef1f1e18d978e9b2" title="!" alt="" coords="240,93,388,133"/>
+<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="185,91,227,98,226,103,184,97"/>
+<area shape="poly" id="edge4_Node000002_Node000002" title=" " alt="" coords="275,30,273,20,279,11,293,5,314,3,338,6,351,13,349,18,336,11,314,8,294,10,283,15,278,21,280,28"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="436,37,603,62"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="389,47,422,47,422,52,389,52"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="486,38,478,28,482,18,496,12,519,10,548,14,559,23,556,27,546,19,519,15,497,17,486,22,484,28,490,35"/>
 </map>

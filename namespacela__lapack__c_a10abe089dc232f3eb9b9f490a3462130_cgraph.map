@@ -1,5 +1,0 @@
-<map id="la_lapack_c::la_clarfb" name="la_lapack_c::la_clarfb">
-<area shape="rect" id="Node000001" title="CLARFB: applies a complex block reflector H or its transpose H**H to a complex M&#45;by&#45;N matrix C,..." alt="" coords="5,5,168,31"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__c.html#a458ee49506ae512d1c2d93ad1fdcbc11" title="CLACGV: conjugates a complex vector of length N." alt="" coords="216,5,383,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="169,15,202,15,202,21,169,21"/>
-</map>

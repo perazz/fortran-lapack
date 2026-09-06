@@ -1,6 +1,0 @@
-<map id="la_lapack_w::la_wtgevc" name="la_lapack_w::la_wtgevc">
-<area shape="rect" id="Node000001" title="ZTGEVC: computes some or all of the right and/or left eigenvectors of a pair of complex matrices (S,..." alt="" coords="5,29,180,55"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__w.html#a256289e251e51bb1c01d2fe45fe134fa" title="ZLADIV: := X / Y, where X and Y are complex. The computation of X / Y will not overflow on an interme..." alt="" coords="228,29,399,55"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="180,39,215,39,215,45,180,45"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="278,31,270,21,274,11,289,5,313,3,344,6,356,15,353,20,342,11,313,8,290,10,278,15,275,20,282,28"/>
-</map>

@@ -1,6 +1,9 @@
 <map id="la_lapack_s::la_sgbequ" name="la_lapack_s::la_sgbequ">
-<area shape="rect" id="Node000001" title="SGBEQU: computes row and column scalings intended to equilibrate an M&#45;by&#45;N band matrix A and reduce i..." alt="" coords="5,29,177,55"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#abbe0ae24f069ddbf134ff3e404a19878" title="SLAMCH: determines single precision machine parameters." alt="" coords="225,29,397,55"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="178,39,212,39,212,45,178,45"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="276,31,268,21,272,11,287,5,311,3,342,6,354,15,351,20,340,11,311,8,288,10,276,15,273,20,280,28"/>
+<area shape="rect" id="Node000001" title="SGBEQU: computes row and column scalings intended to equilibrate an M&#45;by&#45;N band matrix A and reduce i..." alt="" coords="5,37,177,62"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="225,29,373,69"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="177,47,212,47,212,52,177,52"/>
+<area shape="poly" id="edge4_Node000002_Node000002" title=" " alt="" coords="261,30,258,20,265,11,278,5,299,3,323,6,337,13,334,18,322,11,299,8,280,10,268,15,264,21,266,28"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="421,37,588,62"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="374,47,407,47,407,52,374,52"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="471,38,464,28,467,18,481,12,505,10,533,14,545,23,541,27,531,19,505,15,483,17,471,22,469,28,475,35"/>
 </map>

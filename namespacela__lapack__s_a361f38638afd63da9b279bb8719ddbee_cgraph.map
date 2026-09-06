@@ -4,8 +4,11 @@
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="190,47,224,47,224,52,190,52"/>
 <area shape="rect" id="Node000003" href="$namespacela__lapack__s.html#a4b36aefdcd735380a2912b047235df6d" title="SLAORHR_COL_GETRFNP2: computes the modified LU factorization without pivoting of a real general M&#45;by&#45;..." alt="" coords="456,29,627,69"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="408,47,442,47,442,52,408,52"/>
-<area shape="poly" id="edge5_Node000003_Node000003" title=" " alt="" coords="500,30,498,20,504,10,519,5,541,3,567,6,581,13,578,18,565,11,541,8,520,10,508,15,503,21,505,28"/>
-<area shape="rect" id="Node000004" href="$namespacela__lapack__s.html#abbe0ae24f069ddbf134ff3e404a19878" title="SLAMCH: determines single precision machine parameters." alt="" coords="675,37,847,62"/>
+<area shape="poly" id="edge7_Node000003_Node000003" title=" " alt="" coords="503,30,500,20,507,11,520,5,541,3,565,6,579,13,576,18,564,11,541,8,522,10,510,15,506,21,508,28"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="675,29,823,69"/>
 <area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="627,47,661,47,661,52,627,52"/>
-<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="725,38,717,28,721,18,736,12,761,10,791,14,803,23,800,27,789,19,761,15,737,17,725,22,722,28,729,35"/>
+<area shape="poly" id="edge6_Node000004_Node000004" title=" " alt="" coords="710,30,708,20,714,11,728,5,749,3,773,6,786,13,783,18,771,11,749,8,729,10,717,15,713,21,715,28"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="871,37,1037,62"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="823,47,857,47,857,52,823,52"/>
+<area shape="poly" id="edge5_Node000005_Node000005" title=" " alt="" coords="920,38,913,28,917,18,931,12,954,10,983,14,994,23,991,27,980,19,954,15,932,17,921,22,918,28,924,35"/>
 </map>

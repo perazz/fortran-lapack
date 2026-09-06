@@ -1,9 +1,0 @@
-<map id="la_lapack_q::la_qlartgs" name="la_lapack_q::la_qlartgs">
-<area shape="rect" id="Node000001" title="DLARTGS: generates a plane rotation designed to introduce a bulge in Golub&#45;Reinsch&#45;style implicit QR ..." alt="" coords="5,29,176,55"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__q.html#a5435a74c593174c3ab375e653a46f8fe" title="DLAMCH: determines quad precision machine parameters." alt="" coords="444,29,619,55"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="176,39,430,39,430,45,176,45"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__q.html#a83c0341e7066c93fa532880dbfbf51d3" title="DLARTGP: generates a plane rotation so that [ CS SN ] . [ F ] = [ R ] where CS**2 + SN**2 = 1...." alt="" coords="224,55,396,80"/>
-<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="177,49,211,53,210,59,176,55"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="495,31,487,21,491,11,506,5,531,3,562,6,574,15,571,20,560,11,531,8,508,10,495,15,493,20,499,28"/>
-<area shape="poly" id="edge4_Node000003_Node000002" title=" " alt="" coords="396,55,430,51,431,56,397,60"/>
-</map>

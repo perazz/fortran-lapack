@@ -1,0 +1,22 @@
+<map id="la_lapack_householder_reflectors::la_wlarfy" name="la_lapack_householder_reflectors::la_wlarfy">
+<area shape="rect" id="Node000001" title="WLARFY: applies an elementary reflector, or Householder matrix, H, to an n x n Hermitian matrix C,..." alt="" coords="5,142,176,182"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__level1.html#abad2b44df1624c0f6524882cddcfea94" title="WAXPY: constant times a vector plus a vector." alt="" coords="230,22,365,62"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="118,139,166,106,223,72,234,66,237,70,225,76,169,111,121,144"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__level1.html#af0c273da266a2d85bdb1bf32bf2d2a47" title="WDOTC: forms the dot product of two complex vectors WDOTC = X^H * Y." alt="" coords="230,110,365,150"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="176,146,216,140,216,145,177,151"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__level2__gen.html#a4788edb99df5f89744d80029d8e510ac" title="WHEMV: performs the matrix&#45;vector operation y := alpha*A*x + beta*y, where alpha and beta are scalars..." alt="" coords="224,174,371,214"/>
+<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="177,173,211,178,210,183,176,178"/>
+<area shape="rect" id="Node000008" href="$namespacela__blas__level2__gen.html#a28fb462888fe985397eaeabc66b678ee" title="WHER2: performs the hermitian rank 2 operation A := alpha*x*y**H + conjg( alpha )*y*x**H + A,..." alt="" coords="224,238,371,278"/>
+<area shape="poly" id="edge10_Node000001_Node000008" title=" " alt="" coords="134,180,225,224,239,230,237,235,223,228,132,185"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#a2c19bf75051669e20853bdcccda20e0d" title="QCABS1: computes |Re(.)| + |Im(.)| of a double complex number." alt="" coords="419,29,591,55"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="365,39,405,39,405,45,365,45"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="471,31,464,21,467,11,481,5,505,3,533,6,545,15,541,20,531,11,505,8,483,10,471,15,469,20,475,28"/>
+<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="259,110,256,100,263,91,276,85,297,83,321,86,335,94,332,98,320,91,297,89,278,91,266,95,262,101,264,109"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="421,249,588,275"/>
+<area shape="poly" id="edge7_Node000005_Node000006" title=" " alt="" coords="360,212,453,242,451,247,358,217"/>
+<area shape="rect" id="Node000007" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="421,176,588,201"/>
+<area shape="poly" id="edge9_Node000005_Node000007" title=" " alt="" coords="371,189,408,188,408,194,371,195"/>
+<area shape="poly" id="edge8_Node000006_Node000006" title=" " alt="" coords="471,251,464,241,467,231,481,225,505,223,533,226,545,235,541,240,531,231,505,228,483,230,471,235,469,240,475,248"/>
+<area shape="poly" id="edge11_Node000008_Node000006" title=" " alt="" coords="371,257,408,257,408,263,371,262"/>
+<area shape="poly" id="edge12_Node000008_Node000007" title=" " alt="" coords="348,235,418,210,442,203,443,208,420,215,350,240"/>
+</map>

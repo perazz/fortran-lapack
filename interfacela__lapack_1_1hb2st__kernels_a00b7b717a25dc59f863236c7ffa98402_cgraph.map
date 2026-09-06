@@ -1,29 +1,75 @@
 <map id="la_lapack::hb2st_kernels::chb2st_kernels" name="la_lapack::hb2st_kernels::chb2st_kernels">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,154,188,194"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__c.html#ac3d7429d9af7ce422ae8861b590273c6" title="CHB2ST_KERNELS: is an internal routine used by the CHETRD_HB2ST subroutine." alt="" coords="239,105,407,145"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="188,151,225,143,226,148,189,157"/>
-<area shape="rect" id="Node000008" href="$namespacela__lapack__w.html#a242b8c0b6c006cda434cee2abd0da091" title="ZHB2ST_KERNELS: is an internal routine used by the ZHETRD_HB2ST subroutine." alt="" coords="236,186,411,226"/>
-<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="189,184,223,189,222,194,188,190"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__c.html#a12e172bbfbe3a52b09166d7ba722dac7" title="CLARFG: generates a complex elementary reflector H of order n, such that H**H * ( alpha ) = ( beta ),..." alt="" coords="462,29,625,55"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="366,102,458,64,480,56,481,61,460,68,368,107"/>
-<area shape="rect" id="Node000005" href="$namespacela__lapack__c.html#adb287e76b7ff428e7ac9e0ffa722bc44" title="CLARFX: applies a complex elementary reflector H to a complex m by n matrix C, from either the left o..." alt="" coords="462,79,625,104"/>
-<area shape="poly" id="edge5_Node000002_Node000005" title=" " alt="" coords="407,109,448,103,449,108,408,115"/>
-<area shape="rect" id="Node000007" href="$namespacela__lapack__c.html#a2d70a88a9dd889f92b76ce831629738d" title="CLARFY: applies an elementary reflector, or Householder matrix, H, to an n x n Hermitian matrix C,..." alt="" coords="463,128,624,153"/>
-<area shape="poly" id="edge7_Node000002_Node000007" title=" " alt="" coords="408,128,449,131,449,136,407,133"/>
-<area shape="rect" id="Node000004" href="$namespacela__lapack__c.html#a6e1497c47c4ec8521fd6c8d29fc75e98" title="CLADIV: := X / Y, where X and Y are complex. The computation of X / Y will not overflow on an interme..." alt="" coords="679,29,843,55"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="625,39,666,39,666,45,625,45"/>
-<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="726,31,718,21,722,11,737,5,761,3,791,6,803,15,800,20,789,11,761,8,738,10,726,15,724,20,730,28"/>
-<area shape="rect" id="Node000006" href="$namespacela__lapack__c.html#a51b81937dc202033ec70fc927336aabc" title="CLARF: applies a complex elementary reflector H to a complex M&#45;by&#45;N matrix C, from either the left or..." alt="" coords="684,79,839,104"/>
-<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="625,89,670,89,670,94,625,94"/>
-<area shape="rect" id="Node000009" href="$namespacela__lapack__w.html#aa9eb79b853bd27197cc061402a74d006" title="ZLARFG: generates a complex elementary reflector H of order n, such that H**H * ( alpha ) = ( beta ),..." alt="" coords="459,177,628,203"/>
-<area shape="poly" id="edge9_Node000008_Node000009" title=" " alt="" coords="411,197,445,194,445,200,411,202"/>
-<area shape="rect" id="Node000011" href="$namespacela__lapack__w.html#a4214b241889b4f5f5197d841c55e6b9c" title="ZLARFX: applies a complex elementary reflector H to a complex m by n matrix C, from either the left o..." alt="" coords="459,227,628,252"/>
-<area shape="poly" id="edge12_Node000008_Node000011" title=" " alt="" coords="412,217,446,222,445,227,411,222"/>
-<area shape="rect" id="Node000013" href="$namespacela__lapack__w.html#ab698d8fcda110b0f855ec6a06a087f0e" title="ZLARFY: applies an elementary reflector, or Householder matrix, H, to an n x n Hermitian matrix C,..." alt="" coords="459,276,627,301"/>
-<area shape="poly" id="edge14_Node000008_Node000013" title=" " alt="" coords="369,224,460,261,485,269,483,274,458,266,367,229"/>
-<area shape="rect" id="Node000010" href="$namespacela__lapack__w.html#a256289e251e51bb1c01d2fe45fe134fa" title="ZLADIV: := X / Y, where X and Y are complex. The computation of X / Y will not overflow on an interme..." alt="" coords="676,177,847,203"/>
-<area shape="poly" id="edge10_Node000009_Node000010" title=" " alt="" coords="629,187,662,187,662,193,629,193"/>
-<area shape="poly" id="edge11_Node000010_Node000010" title=" " alt="" coords="726,179,718,169,722,159,737,153,761,151,791,154,803,163,800,168,789,159,761,156,738,158,726,163,724,168,730,176"/>
-<area shape="rect" id="Node000012" href="$namespacela__lapack__w.html#ab2f5450aa341432c5faa2bc8ca33821a" title="ZLARF: applies a complex elementary reflector H to a complex M&#45;by&#45;N matrix C, from either the left or..." alt="" coords="681,227,842,252"/>
-<area shape="poly" id="edge13_Node000011_Node000012" title=" " alt="" coords="629,237,667,237,667,242,629,242"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,487,188,527"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__c.html#ac3d7429d9af7ce422ae8861b590273c6" title="CHB2ST_KERNELS: is an internal routine used by the CHETRD_HB2ST subroutine." alt="" coords="239,455,407,495"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="188,491,225,486,226,491,189,496"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__w.html#a242b8c0b6c006cda434cee2abd0da091" title="ZHB2ST_KERNELS: is an internal routine used by the ZHETRD_HB2ST subroutine." alt="" coords="236,519,411,559"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="189,517,223,522,222,527,188,522"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__householder__reflectors.html#ab9c175f4ac8d05d770478724dfbdaa3a" title="WLARFG: generates a complex elementary reflector H of order n, such that H**H * ( alpha ) = ( beta ),..." alt="" coords="459,245,629,285"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="392,516,409,505,432,482,453,456,488,399,513,344,530,298,535,300,518,346,493,402,457,459,436,485,412,509,395,521"/>
+<area shape="rect" id="Node000015" href="$namespacela__lapack__householder__reflectors.html#a34b1a455b174ef9f2cc780aabd132439" title="WLARFX: applies a complex elementary reflector H to a complex m by n matrix C, from either the left o..." alt="" coords="677,519,848,559"/>
+<area shape="poly" id="edge22_Node000003_Node000015" title=" " alt="" coords="411,536,664,536,664,541,411,541"/>
+<area shape="rect" id="Node000022" href="$namespacela__lapack__householder__reflectors.html#aaddc188c533e944d0f329a140deba3ad" title="WLARFY: applies an elementary reflector, or Householder matrix, H, to an n x n Hermitian matrix C,..." alt="" coords="896,891,1067,931"/>
+<area shape="poly" id="edge35_Node000003_Node000022" title=" " alt="" coords="361,556,934,882,932,886,359,561"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__auxiliary.html#a422783a9c3975903ac0fc1dc06f4ec01" title="QLAMCH: determines quad precision machine parameters." alt="" coords="1131,331,1279,371"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="621,283,678,295,797,312,916,326,1117,343,1117,348,915,331,796,318,677,300,620,288"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__blas__like__scalar.html#a1c93eae33d2ecde50fab3a9ed6d9d04b" title="QLAPY3: returns sqrt(x**2+y**2+z**2), taking care not to cause unnecessary overflow and unnecessary u..." alt="" coords="907,384,1055,424"/>
+<area shape="poly" id="edge8_Node000004_Node000007" title=" " alt="" coords="575,283,622,312,678,339,733,357,790,371,895,391,894,396,788,377,732,362,676,344,620,317,572,288"/>
+<area shape="rect" id="Node000008" href="$namespacela__blas__level1.html#ae35a9ca14eb79df65733dbe502f6c337" title="!" alt="" coords="695,29,830,69"/>
+<area shape="poly" id="edge11_Node000004_Node000008" title=" " alt="" coords="552,244,571,209,598,165,634,119,676,79,683,74,686,78,679,83,638,123,603,168,576,212,557,246"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__blas__like__scalar.html#a8fef28d7eea18f13e974dd25a1bff6ad" title="WLADIV = X / Y, where X and Y are complex. The computation of X / Y will not overflow on an intermedi..." alt="" coords="689,117,837,157"/>
+<area shape="poly" id="edge13_Node000004_Node000009" title=" " alt="" coords="567,243,616,205,676,167,689,161,691,165,679,172,619,210,570,247"/>
+<area shape="rect" id="Node000013" href="$namespacela__blas__level1.html#a8370fbe3dcdbbbf38621046a2d6937cc" title="WQSCAL: scales a vector by a constant." alt="" coords="695,181,830,221"/>
+<area shape="poly" id="edge20_Node000004_Node000013" title=" " alt="" coords="612,243,681,222,683,227,614,248"/>
+<area shape="rect" id="Node000014" href="$namespacela__blas__level1.html#ae83235d72e747f0b57434ed5da4f16b1" title="WSCAL: scales a vector by a constant." alt="" coords="695,245,830,285"/>
+<area shape="poly" id="edge21_Node000004_Node000014" title=" " alt="" coords="629,263,682,263,682,268,629,268"/>
+<area shape="poly" id="edge7_Node000005_Node000005" title=" " alt="" coords="1163,331,1161,321,1167,312,1182,306,1205,304,1231,307,1245,314,1242,319,1229,312,1205,309,1183,311,1171,316,1166,322,1168,330"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="1345,603,1512,629"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="1229,369,1297,441,1362,522,1412,590,1408,593,1358,525,1293,444,1225,373"/>
+<area shape="poly" id="edge6_Node000006_Node000006" title=" " alt="" coords="1392,605,1384,595,1388,585,1404,579,1429,577,1460,581,1472,590,1469,594,1458,585,1429,582,1405,584,1392,589,1389,594,1396,601"/>
+<area shape="poly" id="edge9_Node000007_Node000005" title=" " alt="" coords="1055,384,1117,369,1118,374,1056,389"/>
+<area shape="poly" id="edge10_Node000007_Node000007" title=" " alt="" coords="940,384,938,374,944,365,959,359,981,357,1007,360,1021,368,1018,372,1005,365,981,363,960,365,948,369,943,375,945,383"/>
+<area shape="poly" id="edge12_Node000008_Node000008" title=" " alt="" coords="722,30,719,20,726,10,740,5,763,3,788,6,802,13,800,18,787,11,763,8,742,10,729,15,724,21,727,28"/>
+<area shape="poly" id="edge19_Node000009_Node000009" title=" " alt="" coords="722,118,719,108,726,98,740,93,763,91,788,94,802,101,800,106,787,99,763,96,742,98,729,103,724,109,727,116"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__blas__like__scalar.html#ad13f6e4e4281a2b7c9afdcd6e4c56594" title="QLADIV: performs complex division in real arithmetic a + i*b p + i*q = &#45;&#45;&#45;&#45;&#45;&#45;— c + i*d The algorithm ..." alt="" coords="907,217,1055,257"/>
+<area shape="poly" id="edge14_Node000009_Node000010" title=" " alt="" coords="821,155,849,167,933,208,930,213,847,172,818,160"/>
+<area shape="poly" id="edge18_Node000010_Node000005" title=" " alt="" coords="1023,255,1153,322,1150,327,1020,260"/>
+<area shape="rect" id="Node000011" href="$namespacela__lapack__auxiliary.html#a931ac267fdb09d42261b16201c50642a" title=" " alt="" coords="1131,217,1279,257"/>
+<area shape="poly" id="edge15_Node000010_Node000011" title=" " alt="" coords="1056,235,1117,235,1117,240,1056,240"/>
+<area shape="rect" id="Node000012" href="$namespacela__lapack__auxiliary.html#a088708e93ad9e6f96c089c9f0cc72bbc" title=" " alt="" coords="1355,217,1503,257"/>
+<area shape="poly" id="edge16_Node000011_Node000012" title=" " alt="" coords="1279,235,1340,235,1340,240,1279,240"/>
+<area shape="poly" id="edge17_Node000012_Node000012" title=" " alt="" coords="1387,218,1384,208,1391,198,1406,193,1429,191,1455,194,1469,201,1467,206,1453,199,1429,196,1407,198,1394,203,1389,209,1392,216"/>
+<area shape="poly" id="edge23_Node000015_Node000006" title=" " alt="" coords="814,516,907,487,966,473,1029,462,1096,456,1164,457,1231,466,1296,486,1333,507,1366,534,1413,590,1409,594,1362,538,1330,511,1294,490,1230,471,1164,462,1096,462,1030,468,967,479,909,492,816,521"/>
+<area shape="rect" id="Node000016" href="$namespacela__lapack__householder__reflectors.html#aec048fd46989f38d9f079339835ce961" title="WLARF: applies a complex elementary reflector H to a complex M&#45;by&#45;N matrix C, from either the left or..." alt="" coords="896,595,1067,635"/>
+<area shape="poly" id="edge24_Node000015_Node000016" title=" " alt="" coords="822,556,911,588,909,593,820,561"/>
+<area shape="poly" id="edge29_Node000016_Node000006" title=" " alt="" coords="1067,610,1115,609,1295,609,1332,610,1332,615,1295,615,1115,615,1067,615"/>
+<area shape="rect" id="Node000017" href="$namespacela__lapack__aux.html#a16b5c7a23a8a184e7b776946447ff912" title="ILAWLC: scans A for its last non&#45;zero column." alt="" coords="1115,713,1295,738"/>
+<area shape="poly" id="edge25_Node000016_Node000017" title=" " alt="" coords="1024,632,1167,704,1164,709,1021,637"/>
+<area shape="rect" id="Node000018" href="$namespacela__lapack__aux.html#aac6c6ab199049f459026d238178e6c90" title="ILAWLR: scans A for its last non&#45;zero row." alt="" coords="1115,523,1294,549"/>
+<area shape="poly" id="edge27_Node000016_Node000018" title=" " alt="" coords="1038,592,1153,551,1155,556,1040,597"/>
+<area shape="rect" id="Node000019" href="$namespacela__blas__level2__gen.html#acbe942fabd4be7d74974d609f711e94c" title="WGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="1131,624,1278,664"/>
+<area shape="poly" id="edge30_Node000016_Node000019" title=" " alt="" coords="1067,623,1118,630,1117,635,1066,628"/>
+<area shape="rect" id="Node000021" href="$namespacela__blas__level2__gen.html#ab527e69e381d5c645257a5b477c33432" title="WGERC: performs the rank 1 operation A := alpha*x*y**H + A, where alpha is a scalar,..." alt="" coords="1131,763,1278,803"/>
+<area shape="poly" id="edge33_Node000016_Node000021" title=" " alt="" coords="1000,633,1048,690,1080,721,1116,748,1126,754,1123,759,1113,753,1077,725,1044,694,995,637"/>
+<area shape="poly" id="edge26_Node000017_Node000017" title=" " alt="" coords="1169,714,1161,704,1165,694,1180,688,1205,686,1235,690,1248,699,1244,703,1233,695,1205,691,1181,693,1168,698,1166,704,1173,711"/>
+<area shape="poly" id="edge28_Node000018_Node000018" title=" " alt="" coords="1169,525,1161,515,1165,505,1180,499,1205,497,1235,500,1248,509,1244,514,1233,505,1205,502,1181,504,1168,509,1166,514,1173,522"/>
+<area shape="poly" id="edge31_Node000019_Node000006" title=" " alt="" coords="1278,632,1331,625,1332,631,1279,637"/>
+<area shape="rect" id="Node000020" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="1345,802,1512,827"/>
+<area shape="poly" id="edge32_Node000019_Node000020" title=" " alt="" coords="1271,662,1296,675,1331,702,1364,733,1412,789,1408,793,1360,737,1328,706,1293,680,1269,667"/>
+<area shape="poly" id="edge34_Node000021_Node000020" title=" " alt="" coords="1279,791,1332,798,1331,803,1278,796"/>
+<area shape="rect" id="Node000023" href="$namespacela__blas__level1.html#abad2b44df1624c0f6524882cddcfea94" title="WAXPY: constant times a vector plus a vector." alt="" coords="1137,1043,1272,1083"/>
+<area shape="poly" id="edge36_Node000022_Node000023" title=" " alt="" coords="1002,929,1051,978,1082,1005,1116,1028,1128,1035,1125,1039,1113,1033,1079,1009,1047,982,998,933"/>
+<area shape="rect" id="Node000025" href="$namespacela__blas__level1.html#af0c273da266a2d85bdb1bf32bf2d2a47" title="WDOTC: forms the dot product of two complex vectors WDOTC = X^H * Y." alt="" coords="1137,979,1272,1019"/>
+<area shape="poly" id="edge39_Node000022_Node000025" title=" " alt="" coords="1034,928,1141,971,1139,976,1032,933"/>
+<area shape="rect" id="Node000026" href="$namespacela__blas__level2__gen.html#a4788edb99df5f89744d80029d8e510ac" title="WHEMV: performs the matrix&#45;vector operation y := alpha*A*x + beta*y, where alpha and beta are scalars..." alt="" coords="1131,891,1278,931"/>
+<area shape="poly" id="edge41_Node000022_Node000026" title=" " alt="" coords="1067,908,1117,908,1117,913,1067,913"/>
+<area shape="rect" id="Node000027" href="$namespacela__blas__level2__gen.html#a28fb462888fe985397eaeabc66b678ee" title="WHER2: performs the hermitian rank 2 operation A := alpha*x*y**H + conjg( alpha )*y*x**H + A,..." alt="" coords="1131,827,1278,867"/>
+<area shape="poly" id="edge44_Node000022_Node000027" title=" " alt="" coords="1051,888,1120,868,1122,873,1053,893"/>
+<area shape="rect" id="Node000024" href="$namespacela__blas__aux.html#a2c19bf75051669e20853bdcccda20e0d" title="QCABS1: computes |Re(.)| + |Im(.)| of a double complex number." alt="" coords="1343,1050,1515,1075"/>
+<area shape="poly" id="edge37_Node000023_Node000024" title=" " alt="" coords="1272,1060,1329,1060,1329,1065,1272,1065"/>
+<area shape="poly" id="edge38_Node000024_Node000024" title=" " alt="" coords="1392,1052,1384,1042,1388,1032,1404,1026,1429,1023,1460,1027,1472,1037,1469,1041,1458,1032,1429,1029,1405,1031,1392,1036,1389,1041,1396,1048"/>
+<area shape="poly" id="edge40_Node000025_Node000025" title=" " alt="" coords="1163,979,1161,969,1167,960,1182,954,1205,952,1231,955,1245,962,1242,967,1229,960,1205,957,1183,959,1171,964,1166,970,1168,978"/>
+<area shape="poly" id="edge42_Node000026_Node000006" title=" " alt="" coords="1276,888,1293,877,1345,780,1413,640,1418,642,1349,782,1297,880,1279,893"/>
+<area shape="poly" id="edge43_Node000026_Node000020" title=" " alt="" coords="1264,888,1294,876,1390,831,1392,836,1296,881,1265,893"/>
+<area shape="poly" id="edge45_Node000027_Node000006" title=" " alt="" coords="1274,824,1293,813,1335,772,1369,724,1396,678,1414,640,1419,642,1401,680,1374,727,1339,775,1296,817,1277,829"/>
+<area shape="poly" id="edge46_Node000027_Node000020" title=" " alt="" coords="1278,834,1331,826,1332,831,1279,839"/>
 </map>

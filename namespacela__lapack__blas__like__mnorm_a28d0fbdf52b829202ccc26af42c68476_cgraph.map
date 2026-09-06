@@ -1,0 +1,15 @@
+<map id="la_lapack_blas_like_mnorm::la_slangb" name="la_lapack_blas_like_mnorm::la_slangb">
+<area shape="rect" id="Node000001" title="SLANGB: returns the value of the one norm, or the Frobenius norm, or the infinity norm,..." alt="" coords="5,103,153,143"/>
+<area shape="poly" id="edge7_Node000001_Node000001" title=" " alt="" coords="41,104,38,94,45,85,58,79,79,77,103,80,117,87,114,92,102,85,79,82,60,84,48,89,44,95,46,102"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="201,29,368,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="119,101,200,65,225,56,226,61,202,70,121,106"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__blas__like__scalar.html#a4d6735a3a0bfd81ec48d9c107c0d7893" title="SISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="211,103,359,143"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="154,121,197,121,197,126,154,126"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__blas__like__l1.html#ae5c2169a6c71e36b2c609ff76788d83b" title="!" alt="" coords="211,167,359,207"/>
+<area shape="poly" id="edge8_Node000001_Node000005" title=" " alt="" coords="145,141,208,161,206,166,143,146"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="251,31,244,21,247,11,261,5,285,3,313,6,325,15,321,20,311,11,285,8,263,10,251,15,249,20,255,28"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="246,104,244,94,250,85,264,79,285,77,309,80,322,87,319,92,307,85,285,82,265,84,253,89,249,95,251,102"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__blas__like__scalar.html#af7a547cc3906149e087d6003dc2ab082" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in SISNAN...." alt="" coords="416,103,565,143"/>
+<area shape="poly" id="edge5_Node000003_Node000004" title=" " alt="" coords="359,121,402,121,402,126,359,126"/>
+<area shape="poly" id="edge6_Node000004_Node000004" title=" " alt="" coords="452,104,450,94,456,85,470,79,491,77,515,80,528,87,525,92,513,85,491,82,471,84,459,89,455,95,457,102"/>
+</map>

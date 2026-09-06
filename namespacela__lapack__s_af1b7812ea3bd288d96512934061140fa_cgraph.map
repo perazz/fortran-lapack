@@ -1,9 +1,12 @@
 <map id="la_lapack_s::la_slartgs" name="la_lapack_s::la_slartgs">
-<area shape="rect" id="Node000001" title="SLARTGS: generates a plane rotation designed to introduce a bulge in Golub&#45;Reinsch&#45;style implicit QR ..." alt="" coords="5,29,175,55"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#abbe0ae24f069ddbf134ff3e404a19878" title="SLAMCH: determines single precision machine parameters." alt="" coords="441,29,613,55"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="175,39,428,39,428,45,175,45"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__s.html#af339f24767ab40f6bc796ff5c5560f7c" title="SLARTGP: generates a plane rotation so that [ CS SN ] . [ F ] = [ R ] where CS**2 + SN**2 = 1...." alt="" coords="223,55,393,80"/>
-<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="176,49,209,53,208,58,175,55"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="492,31,484,21,488,11,503,5,527,3,558,6,570,15,567,20,556,11,527,8,504,10,492,15,489,20,496,28"/>
-<area shape="poly" id="edge4_Node000003_Node000002" title=" " alt="" coords="393,55,428,51,428,56,394,60"/>
+<area shape="rect" id="Node000001" title="SLARTGS: generates a plane rotation designed to introduce a bulge in Golub&#45;Reinsch&#45;style implicit QR ..." alt="" coords="5,37,175,62"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="451,29,599,69"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="175,44,223,43,403,43,437,43,437,49,403,48,223,48,175,49"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__givens__jacobi__rot.html#ae191925468045badd96cfde4207c08cd" title="SLARTGP: generates a plane rotation so that [ CS SN ] . [ F ] = [ R ] where CS**2 + SN**2 = 1...." alt="" coords="223,57,403,97"/>
+<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="175,57,210,62,209,67,175,63"/>
+<area shape="poly" id="edge4_Node000002_Node000002" title=" " alt="" coords="486,30,484,20,490,11,504,5,525,3,549,6,562,13,559,18,547,11,525,8,505,10,493,15,489,21,491,28"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="647,37,813,62"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="599,47,633,47,633,52,599,52"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="696,38,689,28,693,18,707,12,730,10,759,14,770,23,767,27,756,19,730,15,708,17,697,22,694,28,700,35"/>
+<area shape="poly" id="edge6_Node000004_Node000002" title=" " alt="" coords="402,63,436,58,437,64,403,68"/>
 </map>

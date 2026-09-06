@@ -1,8 +1,0 @@
-<map id="la_lapack_q::la_qsyequb" name="la_lapack_q::la_qsyequb">
-<area shape="rect" id="Node000001" title="DSYEQUB: computes row and column scalings intended to equilibrate a symmetric matrix A (with respect ..." alt="" coords="5,55,187,80"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__q.html#a5435a74c593174c3ab375e653a46f8fe" title="DLAMCH: determines quad precision machine parameters." alt="" coords="235,29,409,55"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="187,55,221,51,221,56,187,60"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__q.html#ae52696bd9e5bb3687dcfdc6176da6ea5" title="!" alt="" coords="238,79,406,104"/>
-<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="187,74,225,78,224,84,187,80"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="285,31,278,21,282,11,297,5,322,3,354,7,366,16,362,20,352,11,322,8,298,10,285,15,283,20,290,27"/>
-</map>

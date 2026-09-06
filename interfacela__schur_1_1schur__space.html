@@ -124,16 +124,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:af7398cbd4c0470d694dc872d570b1509" id="r_af7398cbd4c0470d694dc872d570b1509"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af7398cbd4c0470d694dc872d570b1509">get_schur_s_workspace</a> (a, lwork, err)</td></tr>
 <tr class="separator:af7398cbd4c0470d694dc872d570b1509"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a75f98f2374864c6faf00de940157967f" id="r_a75f98f2374864c6faf00de940157967f"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a75f98f2374864c6faf00de940157967f">get_schur_d_workspace</a> (a, lwork, err)</td></tr>
-<tr class="memdesc:a75f98f2374864c6faf00de940157967f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Input matrix a[m,m].  <br /></td></tr>
 <tr class="separator:a75f98f2374864c6faf00de940157967f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5d30dea0fd5b5337ead283134d0ce60a" id="r_a5d30dea0fd5b5337ead283134d0ce60a"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5d30dea0fd5b5337ead283134d0ce60a">get_schur_q_workspace</a> (a, lwork, err)</td></tr>
-<tr class="memdesc:a5d30dea0fd5b5337ead283134d0ce60a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Input matrix a[m,m].  <br /></td></tr>
 <tr class="separator:a5d30dea0fd5b5337ead283134d0ce60a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa829896d9ff0fd7d2129a828ac54ec19" id="r_aa829896d9ff0fd7d2129a828ac54ec19"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa829896d9ff0fd7d2129a828ac54ec19">get_schur_c_workspace</a> (a, lwork, err)</td></tr>
-<tr class="memdesc:aa829896d9ff0fd7d2129a828ac54ec19"><td class="mdescLeft">&#160;</td><td class="mdescRight">Input matrix a[m,m].  <br /></td></tr>
 <tr class="separator:aa829896d9ff0fd7d2129a828ac54ec19"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a68fd856a4bff6e038098698ff12e11fd" id="r_a68fd856a4bff6e038098698ff12e11fd"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a68fd856a4bff6e038098698ff12e11fd">get_schur_z_workspace</a> (a, lwork, err)</td></tr>
-<tr class="memdesc:a68fd856a4bff6e038098698ff12e11fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Input matrix a[m,m].  <br /></td></tr>
 <tr class="separator:a68fd856a4bff6e038098698ff12e11fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4dd91976ee7af23e4d015c9f609b022e" id="r_a4dd91976ee7af23e4d015c9f609b022e"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4dd91976ee7af23e4d015c9f609b022e">get_schur_w_workspace</a> (a, lwork, err)</td></tr>
 <tr class="separator:a4dd91976ee7af23e4d015c9f609b022e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -174,12 +170,10 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Input matrix a[m,m]. </p>
-<p>Schur form of A: upper-triangular or quasi-upper-triangular matrix T Unitary/orthonormal transformation matrix Z Output eigenvalues that appear on the diagonal of T [optional] Provide pre-allocated workspace, size to be checked with <a class="el" href="interfacela__schur_1_1schur__space.html" title="Compute the required workspace size for Schur decomposition.">schur_space</a> [optional] Can A data be overwritten and destroyed? [optional] State return flag. On error if not requested, the code will stop Compute Schur decomposition with complex eigenvalues </p><dl class="params"><dt>Parameters</dt><dd>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">a</td><td>Input matrix a[m,m] </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">lwork</td><td>Minimum workspace size for the decomposition operation </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">a</td><td>Input matrix a[m,m]</td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">lwork</td><td>Minimum workspace size for the decomposition operation</td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>State return flag. Returns an error if the query failed </td></tr>
   </table>
   </dd>
@@ -210,12 +204,10 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Input matrix a[m,m]. </p>
-<p>Schur form of A: upper-triangular or quasi-upper-triangular matrix T Unitary/orthonormal transformation matrix Z Output eigenvalues that appear on the diagonal of T [optional] Provide pre-allocated workspace, size to be checked with <a class="el" href="interfacela__schur_1_1schur__space.html" title="Compute the required workspace size for Schur decomposition.">schur_space</a> [optional] Can A data be overwritten and destroyed? [optional] State return flag. On error if not requested, the code will stop Compute Schur decomposition with complex eigenvalues </p><dl class="params"><dt>Parameters</dt><dd>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">a</td><td>Input matrix a[m,m] </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">lwork</td><td>Minimum workspace size for the decomposition operation </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">a</td><td>Input matrix a[m,m]</td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">lwork</td><td>Minimum workspace size for the decomposition operation</td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>State return flag. Returns an error if the query failed </td></tr>
   </table>
   </dd>
@@ -246,12 +238,10 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Input matrix a[m,m]. </p>
-<p>Schur form of A: upper-triangular or quasi-upper-triangular matrix T Unitary/orthonormal transformation matrix Z Output eigenvalues that appear on the diagonal of T [optional] Provide pre-allocated workspace, size to be checked with <a class="el" href="interfacela__schur_1_1schur__space.html" title="Compute the required workspace size for Schur decomposition.">schur_space</a> [optional] Can A data be overwritten and destroyed? [optional] State return flag. On error if not requested, the code will stop Compute Schur decomposition with complex eigenvalues </p><dl class="params"><dt>Parameters</dt><dd>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">a</td><td>Input matrix a[m,m] </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">lwork</td><td>Minimum workspace size for the decomposition operation </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">a</td><td>Input matrix a[m,m]</td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">lwork</td><td>Minimum workspace size for the decomposition operation</td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>State return flag. Returns an error if the query failed </td></tr>
   </table>
   </dd>
@@ -350,12 +340,10 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Input matrix a[m,m]. </p>
-<p>Schur form of A: upper-triangular or quasi-upper-triangular matrix T Unitary/orthonormal transformation matrix Z Output eigenvalues that appear on the diagonal of T [optional] Provide pre-allocated workspace, size to be checked with <a class="el" href="interfacela__schur_1_1schur__space.html" title="Compute the required workspace size for Schur decomposition.">schur_space</a> [optional] Can A data be overwritten and destroyed? [optional] State return flag. On error if not requested, the code will stop Compute Schur decomposition with complex eigenvalues </p><dl class="params"><dt>Parameters</dt><dd>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">a</td><td>Input matrix a[m,m] </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">lwork</td><td>Minimum workspace size for the decomposition operation </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">a</td><td>Input matrix a[m,m]</td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">lwork</td><td>Minimum workspace size for the decomposition operation</td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>State return flag. Returns an error if the query failed </td></tr>
   </table>
   </dd>

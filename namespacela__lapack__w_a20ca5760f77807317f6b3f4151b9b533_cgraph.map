@@ -1,8 +1,0 @@
-<map id="la_lapack_w::la_wtpqrt2" name="la_lapack_w::la_wtpqrt2">
-<area shape="rect" id="Node000001" title="ZTPQRT2: computes a QR factorization of a complex &quot;triangular&#45;pentagonal&quot; matrix C,..." alt="" coords="5,29,184,55"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__w.html#aa9eb79b853bd27197cc061402a74d006" title="ZLARFG: generates a complex elementary reflector H of order n, such that H**H * ( alpha ) = ( beta ),..." alt="" coords="232,29,401,55"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="185,39,218,39,218,45,185,45"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__w.html#a256289e251e51bb1c01d2fe45fe134fa" title="ZLADIV: := X / Y, where X and Y are complex. The computation of X / Y will not overflow on an interme..." alt="" coords="449,29,620,55"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="402,39,435,39,435,45,402,45"/>
-<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="499,31,492,21,496,11,510,5,535,3,565,6,577,15,573,20,563,11,535,8,512,10,499,15,497,20,503,28"/>
-</map>

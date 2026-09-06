@@ -1,6 +1,9 @@
 <map id="la_lapack_c::la_cggbal" name="la_lapack_c::la_cggbal">
-<area shape="rect" id="Node000001" title="CGGBAL: balances a pair of general complex matrices (A,B). This involves, first, permuting A and B by..." alt="" coords="5,29,173,55"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#abbe0ae24f069ddbf134ff3e404a19878" title="SLAMCH: determines single precision machine parameters." alt="" coords="221,29,393,55"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="174,39,208,39,208,45,174,45"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="272,31,264,21,268,11,283,5,307,3,337,6,349,15,346,20,335,11,307,8,284,10,272,15,270,20,276,28"/>
+<area shape="rect" id="Node000001" title="CGGBAL: balances a pair of general complex matrices (A,B). This involves, first, permuting A and B by..." alt="" coords="5,37,173,62"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="221,29,369,69"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="173,47,208,47,208,52,173,52"/>
+<area shape="poly" id="edge4_Node000002_Node000002" title=" " alt="" coords="257,30,254,20,261,11,274,5,295,3,319,6,333,13,330,18,318,11,295,8,276,10,264,15,260,21,262,28"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="417,37,584,62"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="370,47,403,47,403,52,370,52"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="467,38,460,28,463,18,477,12,501,10,529,14,541,23,537,27,527,19,501,15,479,17,467,22,465,28,471,35"/>
 </map>

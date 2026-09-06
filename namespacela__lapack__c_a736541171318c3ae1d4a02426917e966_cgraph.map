@@ -1,9 +1,0 @@
-<map id="la_lapack_c::la_clahqr" name="la_lapack_c::la_clahqr">
-<area shape="rect" id="Node000001" title="CLAHQR: is an auxiliary routine called by CHSEQR to update the eigenvalues and Schur decomposition al..." alt="" coords="5,29,171,55"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__c.html#a6e1497c47c4ec8521fd6c8d29fc75e98" title="CLADIV: := X / Y, where X and Y are complex. The computation of X / Y will not overflow on an interme..." alt="" coords="429,29,593,55"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="171,39,416,39,416,45,171,45"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__c.html#a12e172bbfbe3a52b09166d7ba722dac7" title="CLARFG: generates a complex elementary reflector H of order n, such that H**H * ( alpha ) = ( beta ),..." alt="" coords="219,55,381,80"/>
-<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="171,49,205,53,205,59,171,55"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="477,31,469,21,473,11,488,5,511,3,541,6,552,15,549,20,539,11,511,8,489,10,477,15,475,20,481,28"/>
-<area shape="poly" id="edge4_Node000003_Node000002" title=" " alt="" coords="381,55,415,51,416,56,382,60"/>
-</map>

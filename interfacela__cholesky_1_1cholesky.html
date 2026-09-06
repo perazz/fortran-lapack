@@ -153,8 +153,7 @@ Summary</h3>
 <p>Pure subroutine interface for computing the Cholesky triangular factors.</p>
 <h3><a class="anchor" id="autotoc_md1"></a>
 Description</h3>
-<p>This interface provides methods for computing the lower- or upper-triangular matrix from the Cholesky factorization of a <code>real</code> symmetric or <code>complex</code> Hermitian matrix. Supported data types include <code>real</code> and <code>complex</code>. <br  />
- The factorization is computed in-place if only one matrix argument is present; or returned into a second matrix argument, if present. The <code>lower</code> <code>logical</code> flag allows to select between upper or lower factorization; the <code>other_zeroed</code> optional <code>logical</code> flag allows to choose whether the unused part of the triangular matrix should be filled with zeroes.</p>
+<p>This interface provides methods for computing the lower- or upper-triangular matrix from the Cholesky factorization of a <code>real</code> symmetric or <code>complex</code> Hermitian matrix. Supported data types include <code>real</code> and <code>complex</code>. The factorization is computed in-place if only one matrix argument is present; or returned into a second matrix argument, if present. The <code>lower</code> <code>logical</code> flag allows to select between upper or lower factorization; the <code>other_zeroed</code> optional <code>logical</code> flag allows to choose whether the unused part of the triangular matrix should be filled with zeroes.</p>
 <dl class="section note"><dt>Note</dt><dd>The solution is based on LAPACK's <a class="el" href="interfacela__lapack_1_1potrf.html">POTRF</a> methods.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">

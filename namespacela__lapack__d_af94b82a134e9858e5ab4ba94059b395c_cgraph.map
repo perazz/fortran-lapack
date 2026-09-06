@@ -1,7 +1,10 @@
 <map id="la_lapack_d::la_dsytrs_aa" name="la_lapack_d::la_dsytrs_aa">
-<area shape="rect" id="Node000001" title="DSYTRS_AA: solves a system of linear equations A*X = B with a real symmetric matrix A using the facto..." alt="" coords="5,31,195,56"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__d.html#a6bdb7bd5752fa83d37c279e690865a14" title="DGTSV: solves the equation A*X = B, where A is an n by n tridiagonal matrix, by Gaussian elimination ..." alt="" coords="246,5,409,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="195,30,232,26,233,31,196,35"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__d.html#a9262c98a06dd8a45eb80fb9ca662212d" title="DLACPY: copies all or part of a two&#45;dimensional matrix A to another matrix B." alt="" coords="243,55,412,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="196,51,229,54,229,60,195,56"/>
+<area shape="rect" id="Node000001" title="DSYTRS_AA: solves a system of linear equations A*X = B with a real symmetric matrix A using the facto..." alt="" coords="5,35,195,60"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__d.html#a6bdb7bd5752fa83d37c279e690865a14" title="DGTSV: solves the equation A*X = B, where A is an n by n tridiagonal matrix, by Gaussian elimination ..." alt="" coords="243,5,405,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="195,32,229,28,229,33,196,38"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__blas__like__base.html#a0ceeb0ea602555c3d55fb10fa6c97c24" title="DLACPY: copies all or part of a two&#45;dimensional matrix A to another matrix B." alt="" coords="250,55,398,95"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="196,57,237,62,236,67,195,62"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="453,63,620,88"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="398,73,440,73,440,78,398,78"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="502,64,495,54,499,44,513,38,537,36,566,40,578,49,574,53,564,45,537,41,514,43,502,48,500,54,506,61"/>
 </map>

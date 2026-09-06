@@ -1,0 +1,31 @@
+<map id="la_lapack_householder_reflectors::la_clarfg" name="la_lapack_householder_reflectors::la_clarfg">
+<area shape="rect" id="Node000001" title="CLARFG: generates a complex elementary reflector H of order n, such that H**H * ( alpha ) = ( beta ),..." alt="" coords="5,191,176,231"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__blas__like__scalar.html#aa4386e907510cacb88a240be498b8a00" title="CLADIV: := X / Y, where X and Y are complex. The computation of X / Y will not overflow on an interme..." alt="" coords="224,44,372,84"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="112,188,161,146,223,100,242,88,245,93,225,105,165,150,116,193"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="616,117,764,157"/>
+<area shape="poly" id="edge15_Node000001_Node000006" title=" " alt="" coords="122,188,169,164,223,144,324,127,426,120,522,121,602,126,602,131,521,126,426,126,325,132,225,149,171,169,125,193"/>
+<area shape="rect" id="Node000008" href="$namespacela__blas__level1.html#a9573e8a3d84bf41603295ae8e93d7bb6" title="CSCAL: scales a vector by a constant." alt="" coords="231,159,365,199"/>
+<area shape="poly" id="edge11_Node000001_Node000008" title=" " alt="" coords="176,195,217,188,218,194,177,200"/>
+<area shape="rect" id="Node000009" href="$namespacela__blas__level1.html#a818df9a899b338869177ee3f7657bece" title="CSSCAL: scales a complex vector by a real constant." alt="" coords="231,223,365,263"/>
+<area shape="poly" id="edge12_Node000001_Node000009" title=" " alt="" coords="177,221,218,228,217,233,176,227"/>
+<area shape="rect" id="Node000010" href="$namespacela__blas__level1.html#ad249878d9ae53f193c73681de3bd2734" title="!" alt="" coords="231,311,365,351"/>
+<area shape="poly" id="edge13_Node000001_Node000010" title=" " alt="" coords="128,228,252,301,249,306,125,233"/>
+<area shape="rect" id="Node000011" href="$namespacela__lapack__blas__like__scalar.html#a50f83109cac50f77476c73bf9be96171" title="SLAPY3: returns sqrt(x**2+y**2+z**2), taking care not to cause unnecessary overflow and unnecessary u..." alt="" coords="420,275,568,315"/>
+<area shape="poly" id="edge16_Node000001_Node000011" title=" " alt="" coords="104,229,123,261,149,298,184,333,225,360,264,374,296,376,330,371,371,360,415,343,454,320,456,325,417,348,373,365,331,376,297,382,263,379,223,365,180,337,145,301,118,264,100,232"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="261,44,259,34,265,25,278,19,298,17,321,20,333,28,331,32,319,25,298,23,279,25,268,29,264,35,266,43"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__blas__like__scalar.html#a7904fc341f85d41c6d9847eee62c3212" title="SLADIV: performs complex division in real arithmetic a + i*b p + i*q = &#45;&#45;&#45;&#45;&#45;&#45;— c + i*d The algorithm ..." alt="" coords="420,44,568,84"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="372,61,406,61,406,67,372,67"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__auxiliary.html#a8d748d5192da42c522f28e566338f2ed" title=" " alt="" coords="616,29,764,69"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="568,56,602,53,602,59,569,61"/>
+<area shape="poly" id="edge7_Node000003_Node000006" title=" " alt="" coords="549,82,624,110,622,115,547,87"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__auxiliary.html#a060d1eb779ff4b79b8e210d748d3e239" title=" " alt="" coords="821,29,969,69"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="765,47,808,47,808,52,765,52"/>
+<area shape="poly" id="edge6_Node000005_Node000005" title=" " alt="" coords="857,30,854,20,861,11,874,5,895,3,919,6,933,13,930,18,918,11,895,8,876,10,864,15,860,21,862,28"/>
+<area shape="poly" id="edge10_Node000006_Node000006" title=" " alt="" coords="653,118,651,108,657,99,670,93,690,91,713,94,725,101,723,105,711,99,690,96,671,98,660,103,656,109,658,116"/>
+<area shape="rect" id="Node000007" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="812,125,979,150"/>
+<area shape="poly" id="edge8_Node000006_Node000007" title=" " alt="" coords="765,135,798,135,798,140,765,140"/>
+<area shape="poly" id="edge9_Node000007_Node000007" title=" " alt="" coords="862,126,854,116,858,106,872,100,895,98,924,102,935,111,932,115,922,107,895,103,873,105,862,110,860,116,866,123"/>
+<area shape="poly" id="edge14_Node000010_Node000010" title=" " alt="" coords="261,311,259,301,265,292,278,286,298,284,321,287,333,294,331,299,319,292,298,289,279,291,268,296,264,302,266,310"/>
+<area shape="poly" id="edge17_Node000011_Node000006" title=" " alt="" coords="519,272,651,164,655,168,522,276"/>
+<area shape="poly" id="edge18_Node000011_Node000011" title=" " alt="" coords="457,275,455,265,461,256,474,250,494,248,517,251,529,258,527,263,515,256,494,253,475,255,464,260,460,266,462,274"/>
+</map>

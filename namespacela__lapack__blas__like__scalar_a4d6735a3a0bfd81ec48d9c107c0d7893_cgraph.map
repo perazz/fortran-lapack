@@ -1,0 +1,7 @@
+<map id="la_lapack_blas_like_scalar::la_sisnan" name="la_lapack_blas_like_scalar::la_sisnan">
+<area shape="rect" id="Node000001" title="SISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="5,29,153,69"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="43,30,40,20,46,11,59,5,79,3,102,6,115,13,112,17,101,11,79,8,61,10,50,15,46,21,48,28"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__blas__like__scalar.html#af7a547cc3906149e087d6003dc2ab082" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in SISNAN...." alt="" coords="201,29,351,69"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="153,47,187,47,187,52,153,52"/>
+<area shape="poly" id="edge3_Node000002_Node000002" title=" " alt="" coords="239,30,237,20,243,11,256,5,276,3,299,6,311,13,309,17,297,11,276,8,257,10,246,15,242,21,244,28"/>
+</map>

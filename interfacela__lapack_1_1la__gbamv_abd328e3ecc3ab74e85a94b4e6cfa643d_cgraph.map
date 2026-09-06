@@ -1,11 +1,17 @@
 <map id="la_lapack::la_gbamv::zla_gbamv" name="la_lapack::la_gbamv::zla_gbamv">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,59,161,99"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__z.html#a32430fcfa381f8404b50559fd4b29143" title="ZLA_GBAMV: performs one of the matrix&#45;vector operations y := alpha*abs(A)*abs(x) + beta*abs(y),..." alt="" coords="209,59,353,99"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="162,77,196,77,196,82,162,82"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__d.html#af258e93ce5d1d461c745335332ff184b" title="DLAMCH: determines double precision machine parameters." alt="" coords="409,29,584,55"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="353,64,409,54,410,60,354,70"/>
-<area shape="rect" id="Node000004" href="$namespacela__lapack__aux.html#ad063c781b15b262a8e05abdbbf0f00c0" title="This subroutine translates from a character string specifying a transposition operation to the releva..." alt="" coords="401,103,592,128"/>
-<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="354,89,407,98,407,103,353,94"/>
-<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="462,31,454,21,458,11,473,5,497,3,526,6,538,15,535,20,524,11,497,8,474,10,462,15,459,20,466,28"/>
-<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="462,104,454,94,458,84,473,78,497,76,526,80,538,89,535,93,524,85,497,81,474,83,462,88,459,94,466,101"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,111,161,151"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__blas__like__l2.html#aa919ba3bed03e8b82f7eedeb95e76bc4" title="ZLA_GBAMV: performs one of the matrix&#45;vector operations y := alpha*abs(A)*abs(x) + beta*abs(y),..." alt="" coords="209,111,357,151"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="162,128,195,128,195,133,162,133"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="427,29,575,69"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="331,108,404,79,424,72,426,77,406,84,333,113"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__aux.html#ad063c781b15b262a8e05abdbbf0f00c0" title="This subroutine translates from a character string specifying a transposition operation to the releva..." alt="" coords="405,118,596,143"/>
+<area shape="poly" id="edge6_Node000002_Node000005" title=" " alt="" coords="357,128,391,128,391,133,357,133"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="417,167,584,193"/>
+<area shape="poly" id="edge9_Node000002_Node000006" title=" " alt="" coords="358,145,431,162,430,167,357,150"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="460,30,458,20,464,10,479,5,501,3,526,6,540,13,537,18,524,11,501,8,480,10,467,15,463,21,465,28"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="644,78,811,103"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="575,60,644,73,643,78,574,65"/>
+<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="690,80,682,70,687,60,702,54,727,51,759,55,771,65,768,69,757,60,727,57,703,59,690,64,688,69,694,76"/>
+<area shape="poly" id="edge8_Node000005_Node000004" title=" " alt="" coords="573,115,641,103,642,108,574,121"/>
+<area shape="poly" id="edge7_Node000005_Node000005" title=" " alt="" coords="465,120,458,110,462,100,476,94,501,91,531,95,543,104,539,108,529,100,501,97,478,99,465,104,463,109,469,116"/>
 </map>

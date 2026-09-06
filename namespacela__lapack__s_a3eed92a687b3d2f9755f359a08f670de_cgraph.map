@@ -1,8 +1,19 @@
 <map id="la_lapack_s::la_stbrfs" name="la_lapack_s::la_stbrfs">
-<area shape="rect" id="Node000001" title="STBRFS: provides error bounds and backward error estimates for the solution to a system of linear equ..." alt="" coords="5,43,168,68"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#a7f5f2af31221a1cf8d74880aedc775ca" title="SLACN2: estimates the 1&#45;norm of a square, real matrix A. Reverse communication is used for evaluating..." alt="" coords="219,5,385,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="160,40,214,30,215,36,161,45"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__s.html#abbe0ae24f069ddbf134ff3e404a19878" title="SLAMCH: determines single precision machine parameters." alt="" coords="216,79,388,104"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="163,65,213,74,212,79,163,71"/>
-<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="267,80,260,70,263,60,278,54,302,52,332,56,343,65,340,69,330,61,302,57,279,59,267,64,265,70,271,77"/>
+<area shape="rect" id="Node000001" title="STBRFS: provides error bounds and backward error estimates for the solution to a system of linear equ..." alt="" coords="5,184,168,209"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__solve__aux.html#a3e2127b8555861dda8f66ca3b195e971" title="SLACN2: estimates the 1&#45;norm of a square, real matrix A. Reverse communication is used for evaluating..." alt="" coords="216,118,373,158"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="132,181,209,159,211,164,133,187"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="221,221,369,261"/>
+<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="148,207,208,220,207,225,147,212"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#a843a382709914f66727d3bc6cc2770df" title="ISAMAX: finds the index of the first element having maximum absolute value." alt="" coords="421,29,596,55"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="326,116,370,90,420,65,443,56,445,61,422,70,372,95,328,120"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__level1.html#a54c02c2da4a131219e1d231424179d3e" title="SASUM: takes the sum of the absolute values. uses unrolled loops for increment equal to one." alt="" coords="441,103,576,143"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="373,130,428,126,428,132,374,135"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__level1.html#a62fb48eb347a3888135df44b367cf888" title="SCOPY: copies a vector, x, to a vector, y. uses unrolled loops for increments equal to 1." alt="" coords="441,167,576,207"/>
+<area shape="poly" id="edge6_Node000002_Node000005" title=" " alt="" coords="374,153,429,166,427,171,373,159"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="474,31,466,21,470,11,485,5,509,3,538,6,550,15,547,20,536,11,509,8,486,10,474,15,471,20,478,28"/>
+<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="469,104,466,94,473,84,487,79,509,77,534,80,547,87,545,92,532,85,509,82,488,84,476,89,471,95,474,102"/>
+<area shape="poly" id="edge10_Node000006_Node000006" title=" " alt="" coords="256,221,253,211,259,202,273,196,295,194,319,197,332,204,330,209,317,202,295,199,275,201,263,206,258,212,261,220"/>
+<area shape="rect" id="Node000007" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="425,256,592,281"/>
+<area shape="poly" id="edge8_Node000006_Node000007" title=" " alt="" coords="369,248,412,253,411,259,368,253"/>
+<area shape="poly" id="edge9_Node000007_Node000007" title=" " alt="" coords="474,258,466,248,470,238,485,232,509,229,538,233,550,242,547,246,536,238,509,235,486,237,474,242,471,247,478,254"/>
 </map>

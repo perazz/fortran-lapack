@@ -1,24 +1,27 @@
 <map id="la_lapack_s::la_ssysv_rook" name="la_lapack_s::la_ssysv_rook">
-<area shape="rect" id="Node000001" title="SSYSV_ROOK: computes the solution to a real system of linear equations A * X = B, where A is an N&#45;by&#45;..." alt="" coords="5,171,204,196"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#a924dc023316d51a09504295f7565700e" title="SSYTRF_ROOK: computes the factorization of a real symmetric matrix A using the bounded Bunch&#45;Kaufman ..." alt="" coords="253,145,451,171"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="204,171,239,167,239,172,204,176"/>
-<area shape="rect" id="Node000009" href="$namespacela__lapack__s.html#a84c553a9036dfa3167c15614ab476486" title="SSYTRS_ROOK: solves a system of linear equations A*X = B with a real symmetric matrix A using the fac..." alt="" coords="252,195,452,220"/>
-<area shape="poly" id="edge13_Node000001_Node000009" title=" " alt="" coords="204,190,239,194,238,199,204,196"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__aux.html#aa361c7114aef95e10b685247a1b75114" title="ILAENV: is called from the LAPACK routines to choose problem&#45;dependent parameters for the local envir..." alt="" coords="509,96,692,121"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="416,143,522,121,523,127,417,148"/>
-<area shape="rect" id="Node000006" href="$namespacela__lapack__s.html#a4c937c58f7811181b8f0d1b2d0540b8e" title="SLASYF_ROOK: computes a partial factorization of a real symmetric matrix A using the bounded Bunch&#45;Ka..." alt="" coords="501,145,701,171"/>
-<area shape="poly" id="edge8_Node000002_Node000006" title=" " alt="" coords="452,155,487,155,487,161,452,161"/>
-<area shape="rect" id="Node000008" href="$namespacela__lapack__s.html#a8d69369e783031f0d68b34dd94a79834" title="SSYTF2_ROOK: computes the factorization of a real symmetric matrix A using the bounded Bunch&#45;Kaufman ..." alt="" coords="500,195,701,220"/>
-<area shape="poly" id="edge11_Node000002_Node000008" title=" " alt="" coords="417,168,523,189,522,195,416,173"/>
-<area shape="poly" id="edge5_Node000003_Node000003" title=" " alt="" coords="561,98,553,88,557,78,574,72,601,69,635,73,645,78,648,84,644,87,641,82,634,78,601,75,575,77,561,82,558,87,565,94"/>
+<area shape="rect" id="Node000001" title="SSYSV_ROOK: computes the solution to a real system of linear equations A * X = B, where A is an N&#45;by&#45;..." alt="" coords="5,172,204,197"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#a924dc023316d51a09504295f7565700e" title="SSYTRF_ROOK: computes the factorization of a real symmetric matrix A using the bounded Bunch&#45;Kaufman ..." alt="" coords="253,147,451,172"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="204,172,239,168,239,174,204,177"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__s.html#a84c553a9036dfa3167c15614ab476486" title="SSYTRS_ROOK: solves a system of linear equations A*X = B with a real symmetric matrix A using the fac..." alt="" coords="252,196,452,221"/>
+<area shape="poly" id="edge15_Node000001_Node000010" title=" " alt="" coords="204,192,239,195,238,200,204,197"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__aux.html#aa361c7114aef95e10b685247a1b75114" title="ILAENV: is called from the LAPACK routines to choose problem&#45;dependent parameters for the local envir..." alt="" coords="509,97,692,123"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="416,144,522,123,523,128,417,149"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__s.html#a4c937c58f7811181b8f0d1b2d0540b8e" title="SLASYF_ROOK: computes a partial factorization of a real symmetric matrix A using the bounded Bunch&#45;Ka..." alt="" coords="501,147,701,172"/>
+<area shape="poly" id="edge8_Node000002_Node000006" title=" " alt="" coords="452,157,487,157,487,162,452,162"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__s.html#a8d69369e783031f0d68b34dd94a79834" title="SSYTF2_ROOK: computes the factorization of a real symmetric matrix A using the bounded Bunch&#45;Kaufman ..." alt="" coords="500,196,701,221"/>
+<area shape="poly" id="edge13_Node000002_Node000009" title=" " alt="" coords="417,169,523,191,522,196,416,175"/>
+<area shape="poly" id="edge5_Node000003_Node000003" title=" " alt="" coords="561,99,553,89,557,79,574,73,601,71,635,75,645,79,648,85,644,88,641,83,634,80,601,76,575,78,561,83,558,88,565,95"/>
 <area shape="rect" id="Node000004" href="$namespacela__lapack__aux.html#a72541275ada30b0ca556fbc0d3959719" title="IEEECK: is called from the ILAENV to verify that Infinity and possibly NaN arithmetic is safe (i...." alt="" coords="751,29,936,55"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="644,93,749,63,778,56,779,61,750,69,646,98"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="642,95,749,63,778,56,779,61,750,69,644,100"/>
 <area shape="rect" id="Node000005" href="$namespacela__lapack__aux.html#ace38ae70bb7022cae6ecabe992145fda" title="This program sets problem and machine dependent parameters useful for xHSEQR and related subroutines ..." alt="" coords="749,103,937,128"/>
-<area shape="poly" id="edge6_Node000003_Node000005" title=" " alt="" coords="692,109,735,110,735,115,692,114"/>
-<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="804,31,795,21,800,11,816,5,843,3,878,7,887,11,891,17,887,20,884,15,876,12,843,8,817,10,803,15,801,20,808,27"/>
-<area shape="poly" id="edge7_Node000005_Node000005" title=" " alt="" coords="804,104,795,94,800,84,816,78,843,76,878,80,887,85,891,90,887,93,884,89,876,85,843,81,817,83,803,88,801,94,808,101"/>
-<area shape="rect" id="Node000007" href="$namespacela__lapack__s.html#abbe0ae24f069ddbf134ff3e404a19878" title="SLAMCH: determines single precision machine parameters." alt="" coords="757,183,929,208"/>
-<area shape="poly" id="edge9_Node000006_Node000007" title=" " alt="" coords="684,168,747,178,746,183,683,173"/>
-<area shape="poly" id="edge10_Node000007_Node000007" title=" " alt="" coords="804,184,795,174,800,164,816,158,843,156,878,160,887,165,891,170,887,173,884,169,876,165,843,161,817,163,803,168,801,174,808,181"/>
-<area shape="poly" id="edge12_Node000008_Node000007" title=" " alt="" coords="701,200,743,198,744,203,701,205"/>
+<area shape="poly" id="edge6_Node000003_Node000005" title=" " alt="" coords="692,109,735,110,735,116,692,115"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="807,31,799,21,803,11,818,5,843,3,875,7,887,16,884,20,873,11,843,8,819,10,807,15,804,20,811,27"/>
+<area shape="poly" id="edge7_Node000005_Node000005" title=" " alt="" coords="807,104,799,94,803,84,818,78,843,76,875,80,887,89,884,93,873,85,843,81,819,83,807,88,804,94,811,101"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="769,181,917,221"/>
+<area shape="poly" id="edge9_Node000006_Node000007" title=" " alt="" coords="676,169,756,183,755,188,676,175"/>
+<area shape="poly" id="edge12_Node000007_Node000007" title=" " alt="" coords="801,181,799,171,806,162,821,156,843,154,869,157,884,164,881,169,868,162,843,159,822,161,809,166,804,172,807,180"/>
+<area shape="rect" id="Node000008" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="985,188,1152,213"/>
+<area shape="poly" id="edge10_Node000007_Node000008" title=" " alt="" coords="918,198,971,198,971,203,918,203"/>
+<area shape="poly" id="edge11_Node000008_Node000008" title=" " alt="" coords="1032,190,1024,180,1028,170,1044,164,1069,161,1100,165,1112,175,1109,179,1098,170,1069,167,1045,169,1032,174,1029,179,1036,186"/>
+<area shape="poly" id="edge14_Node000009_Node000007" title=" " alt="" coords="701,203,755,201,755,206,701,208"/>
 </map>

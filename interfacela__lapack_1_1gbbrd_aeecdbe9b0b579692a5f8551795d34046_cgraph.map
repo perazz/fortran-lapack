@@ -1,23 +1,27 @@
 <map id="la_lapack::gbbrd::dgbbrd" name="la_lapack::gbbrd::dgbbrd">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,179,188,204"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__d.html#a0adcd887410c305b8e017256cbb9fd57" title="DGBBRD: reduces a real general m&#45;by&#45;n band matrix A to upper bidiagonal form B by an orthogonal trans..." alt="" coords="236,104,407,129"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="135,176,268,131,270,136,137,181"/>
-<area shape="rect" id="Node000007" href="$namespacela__lapack__q.html#ac16ffe7db3f4981c2d46b9a1178920f1" title="DGBBRD: reduces a real general m&#45;by&#45;n band matrix A to upper bidiagonal form B by an orthogonal trans..." alt="" coords="236,252,407,277"/>
-<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="138,202,269,245,268,250,136,207"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__d.html#a454a2ab68e2aa796726291164cbdc52a" title="DLARGV: generates a vector of real plane rotations, determined by elements of the real vectors x and ..." alt="" coords="455,5,621,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="341,102,391,71,454,40,472,32,474,37,456,44,393,76,343,106"/>
-<area shape="rect" id="Node000004" href="$namespacela__lapack__d.html#a1c3d35d67a6c6ddc5ee9832f2d673494" title="!" alt="" coords="456,55,620,80"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="377,101,468,80,469,86,378,107"/>
-<area shape="rect" id="Node000005" href="$namespacela__lapack__d.html#a8fc0d9d0a43520e718e80f4690dc205c" title="DLARTV: applies a vector of real plane rotations to elements of the real vectors x and y...." alt="" coords="456,104,620,129"/>
-<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="407,114,442,114,442,119,407,119"/>
-<area shape="rect" id="Node000006" href="$namespacela__lapack__d.html#a6aa4157c4aad8803eff98a121c555c6b" title="DLASET: initializes an m&#45;by&#45;n matrix A to BETA on the diagonal and ALPHA on the offdiagonals." alt="" coords="455,153,621,179"/>
-<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="378,127,469,148,468,153,377,132"/>
-<area shape="rect" id="Node000008" href="$namespacela__lapack__q.html#a47b20d80aed3499aecc016bad4d856d9" title="DLARGV: generates a vector of real plane rotations, determined by elements of the real vectors x and ..." alt="" coords="455,203,621,228"/>
-<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="377,249,468,228,469,234,378,255"/>
-<area shape="rect" id="Node000009" href="$namespacela__lapack__q.html#a4052efe340c0e142ec6f49add576bbf0" title="!" alt="" coords="456,252,620,277"/>
-<area shape="poly" id="edge8_Node000007_Node000009" title=" " alt="" coords="407,262,442,262,442,267,407,267"/>
-<area shape="rect" id="Node000010" href="$namespacela__lapack__q.html#a2be7f5254e237a7eda5230a33a15e280" title="DLARTV: applies a vector of real plane rotations to elements of the real vectors x and y...." alt="" coords="456,301,620,327"/>
-<area shape="poly" id="edge9_Node000007_Node000010" title=" " alt="" coords="378,275,469,296,468,301,377,280"/>
-<area shape="rect" id="Node000011" href="$namespacela__lapack__q.html#aea8c25dcc46ceaf8d39ba10cb1584312" title="DLASET: initializes an m&#45;by&#45;n matrix A to BETA on the diagonal and ALPHA on the offdiagonals." alt="" coords="455,351,621,376"/>
-<area shape="poly" id="edge10_Node000007_Node000011" title=" " alt="" coords="344,275,394,305,456,336,478,344,476,349,454,340,391,309,341,280"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,237,188,262"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__d.html#a0adcd887410c305b8e017256cbb9fd57" title="DGBBRD: reduces a real general m&#45;by&#45;n band matrix A to upper bidiagonal form B by an orthogonal trans..." alt="" coords="236,141,407,166"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="126,234,277,169,279,174,129,239"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__q.html#ac16ffe7db3f4981c2d46b9a1178920f1" title="DGBBRD: reduces a real general m&#45;by&#45;n band matrix A to upper bidiagonal form B by an orthogonal trans..." alt="" coords="236,333,407,358"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="129,260,279,325,277,330,126,265"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__givens__jacobi__rot.html#a2027adfee2ef27b9d898d2fd615983d2" title="DLARGV: generates a vector of real plane rotations, determined by elements of the real vectors x and ..." alt="" coords="455,5,635,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="336,139,386,98,453,55,467,48,469,53,456,60,389,103,339,143"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__givens__jacobi__rot.html#a5e19ce2e6daf72f87b31eef6d574e075" title="!" alt="" coords="455,69,635,109"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="366,138,460,111,462,116,368,143"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__givens__jacobi__rot.html#a96a0402b0c24db265daaba4b209d2a66" title="DLARTV: applies a vector of real plane rotations to elements of the real vectors x and y...." alt="" coords="455,133,635,173"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="407,151,441,151,441,156,407,156"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__blas__like__base.html#a9d8bc9b29dbe646f52c4b0a259bd4ed8" title="DLASET: initializes an m&#45;by&#45;n matrix A to BETA on the diagonal and ALPHA on the offdiagonals." alt="" coords="471,197,619,237"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="368,164,462,191,460,196,366,169"/>
+<area shape="rect" id="Node000007" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="683,333,849,358"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="610,235,636,247,694,284,742,322,738,326,691,289,633,252,608,240"/>
+<area shape="poly" id="edge7_Node000007_Node000007" title=" " alt="" coords="730,334,722,324,726,314,741,308,766,306,797,310,809,319,806,323,795,315,766,311,742,313,730,318,727,324,734,331"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__givens__jacobi__rot.html#a5ddae37b37b821adc2288f46f7eac382" title="QLARGV: generates a vector of real plane rotations, determined by elements of the real vectors x and ..." alt="" coords="455,261,635,301"/>
+<area shape="poly" id="edge9_Node000008_Node000009" title=" " alt="" coords="366,330,460,303,462,308,368,335"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__givens__jacobi__rot.html#af71d687d6524c8948c82aae1e3d75261" title="!" alt="" coords="455,325,635,365"/>
+<area shape="poly" id="edge10_Node000008_Node000010" title=" " alt="" coords="407,343,441,343,441,348,407,348"/>
+<area shape="rect" id="Node000011" href="$namespacela__lapack__givens__jacobi__rot.html#ac6ec5e21badaaba5aed0894c5d3f4176" title="QLARTV: applies a vector of real plane rotations to elements of the real vectors x and y...." alt="" coords="455,389,635,429"/>
+<area shape="poly" id="edge11_Node000008_Node000011" title=" " alt="" coords="368,356,462,383,460,388,366,361"/>
+<area shape="rect" id="Node000012" href="$namespacela__lapack__blas__like__base.html#acaaee05bbef5139ff3d6f7741c2f2553" title="QLASET: initializes an m&#45;by&#45;n matrix A to BETA on the diagonal and ALPHA on the offdiagonals." alt="" coords="471,453,619,493"/>
+<area shape="poly" id="edge12_Node000008_Node000012" title=" " alt="" coords="339,356,389,396,456,439,469,446,467,450,453,444,386,400,336,360"/>
+<area shape="poly" id="edge13_Node000012_Node000007" title=" " alt="" coords="608,451,633,439,691,402,738,365,742,369,694,406,636,444,610,456"/>
 </map>

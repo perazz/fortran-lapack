@@ -1,5 +1,0 @@
-<map id="la_lapack_c::la_ctrrfs" name="la_lapack_c::la_ctrrfs">
-<area shape="rect" id="Node000001" title="CTRRFS: provides error bounds and backward error estimates for the solution to a system of linear equ..." alt="" coords="5,5,164,31"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__c.html#aa8a18fed030896d19839b3aef3aa48ca" title="CLACN2: estimates the 1&#45;norm of a square, complex matrix A. Reverse communication is used for evaluat..." alt="" coords="212,5,379,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="164,15,198,15,198,21,164,21"/>
-</map>

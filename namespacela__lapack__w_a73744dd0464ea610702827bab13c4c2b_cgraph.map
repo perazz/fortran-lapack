@@ -1,5 +1,0 @@
-<map id="la_lapack_w::la_wsyequb" name="la_lapack_w::la_wsyequb">
-<area shape="rect" id="Node000001" title="ZSYEQUB: computes row and column scalings intended to equilibrate a symmetric matrix A (with respect ..." alt="" coords="5,5,192,31"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__w.html#a2bf5a64bcaccd3676164dbf3aee36bb5" title="!" alt="" coords="240,5,413,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="192,15,226,15,226,21,192,21"/>
-</map>

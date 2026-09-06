@@ -1,17 +1,33 @@
 <map id="la_lapack::la_gbrcond::dla_gbrcond" name="la_lapack::la_gbrcond::dla_gbrcond">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,73,168,113"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__d.html#af087e52db4dde9697a47ff350015d0bb" title="DLA_GBRCOND: Estimates the Skeel condition number of op(A) * op2(C) where op2 is determined by CMODE ..." alt="" coords="216,29,363,69"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="168,73,202,66,203,71,169,78"/>
-<area shape="rect" id="Node000005" href="$namespacela__lapack__q.html#a61ecacfd3737e0926eb1df61c2758a6b" title="DLA_GBRCOND: Estimates the Skeel condition number of op(A) * op2(C) where op2 is determined by CMODE ..." alt="" coords="216,117,363,157"/>
-<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="169,108,203,116,202,121,168,114"/>
-<area shape="poly" id="edge3_Node000002_Node000002" title=" " alt="" coords="251,30,249,20,255,11,269,5,289,3,313,6,326,13,323,18,311,11,289,8,270,10,258,15,254,21,256,28"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__d.html#aaf073aa1d4a5c717bff86e6161acf1e0" title="DGBTRS: solves a system of linear equations A * X = B or A**T * X = B with a general band matrix A us..." alt="" coords="412,6,579,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="363,36,398,30,399,36,363,41"/>
-<area shape="rect" id="Node000004" href="$namespacela__lapack__d.html#ae42ad3a826b8dcf34dffab0b71c5baeb" title="DLACN2: estimates the 1&#45;norm of a square, real matrix A. Reverse communication is used for evaluating..." alt="" coords="411,55,580,81"/>
-<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="363,53,397,56,397,62,363,59"/>
-<area shape="poly" id="edge7_Node000005_Node000005" title=" " alt="" coords="251,118,249,108,255,99,269,93,289,91,313,94,326,101,323,106,311,99,289,96,270,98,258,103,254,109,256,116"/>
-<area shape="rect" id="Node000006" href="$namespacela__lapack__q.html#a001dd22b5def5b1fa000fad9b0519194" title="DGBTRS: solves a system of linear equations A * X = B or A**T * X = B with a general band matrix A us..." alt="" coords="412,114,579,139"/>
-<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="363,131,398,129,399,134,363,136"/>
-<area shape="rect" id="Node000007" href="$namespacela__lapack__q.html#aeea11d99daa996e31dda1dbc449bfb44" title="DLACN2: estimates the 1&#45;norm of a square, real matrix A. Reverse communication is used for evaluating..." alt="" coords="411,163,580,189"/>
-<area shape="poly" id="edge8_Node000005_Node000007" title=" " alt="" coords="363,148,414,158,413,163,362,154"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,217,168,257"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__d.html#af087e52db4dde9697a47ff350015d0bb" title="DLA_GBRCOND: Estimates the Skeel condition number of op(A) * op2(C) where op2 is determined by CMODE ..." alt="" coords="216,135,363,175"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="135,215,226,177,228,182,137,220"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__q.html#a61ecacfd3737e0926eb1df61c2758a6b" title="DLA_GBRCOND: Estimates the Skeel condition number of op(A) * op2(C) where op2 is determined by CMODE ..." alt="" coords="216,265,363,305"/>
+<area shape="poly" id="edge10_Node000001_Node000008" title=" " alt="" coords="169,254,203,262,202,267,168,259"/>
+<area shape="poly" id="edge3_Node000002_Node000002" title=" " alt="" coords="251,135,249,125,255,116,269,110,289,108,313,111,326,118,323,123,311,116,289,113,270,115,258,120,254,126,256,134"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__d.html#aaf073aa1d4a5c717bff86e6161acf1e0" title="DGBTRS: solves a system of linear equations A * X = B or A**T * X = B with a general band matrix A us..." alt="" coords="411,85,577,110"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="361,132,434,111,435,116,362,137"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__solve__aux.html#a5d29d58a4745f1b5b1e32789b3cbaec1" title="DLACN2: estimates the 1&#45;norm of a square, real matrix A. Reverse communication is used for evaluating..." alt="" coords="415,135,573,175"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="363,152,402,152,402,157,363,157"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__level1.html#a397c9ff0df57d565a12afe0809db14b7" title="DASUM: takes the sum of the absolute values." alt="" coords="645,29,780,69"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="550,132,576,119,600,99,624,79,636,73,638,77,627,84,603,103,579,124,553,137"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__level1.html#aae8bb4d5e6d345d21c204686597a16c7" title="DCOPY: copies a vector, x, to a vector, y. uses unrolled loops for increments equal to 1." alt="" coords="645,93,780,133"/>
+<area shape="poly" id="edge7_Node000004_Node000006" title=" " alt="" coords="572,137,632,126,633,131,573,142"/>
+<area shape="rect" id="Node000007" href="$namespacela__blas__aux.html#af6800bacfc44f820f5ab674a67a9e93c" title="IDAMAX: finds the index of the first element having maximum absolute value." alt="" coords="625,182,800,207"/>
+<area shape="poly" id="edge8_Node000004_Node000007" title=" " alt="" coords="573,166,630,177,629,182,572,172"/>
+<area shape="poly" id="edge6_Node000005_Node000005" title=" " alt="" coords="672,30,669,20,676,10,690,5,713,3,738,6,752,13,750,18,737,11,713,8,692,10,679,15,674,21,677,28"/>
+<area shape="poly" id="edge9_Node000007_Node000007" title=" " alt="" coords="677,184,669,174,673,164,688,158,713,155,743,159,755,168,752,172,741,164,713,161,689,163,677,168,674,173,681,180"/>
+<area shape="poly" id="edge12_Node000008_Node000008" title=" " alt="" coords="251,266,249,256,255,247,269,241,289,239,313,242,326,249,323,254,311,247,289,244,270,246,258,251,254,257,256,264"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__q.html#a001dd22b5def5b1fa000fad9b0519194" title="DGBTRS: solves a system of linear equations A * X = B or A**T * X = B with a general band matrix A us..." alt="" coords="411,273,577,298"/>
+<area shape="poly" id="edge11_Node000008_Node000009" title=" " alt="" coords="363,283,397,283,397,288,363,288"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__solve__aux.html#ac5ae215af73ec598b2840b8a94d67ab3" title="QLACN2: estimates the 1&#45;norm of a square, real matrix A. Reverse communication is used for evaluating..." alt="" coords="415,325,573,365"/>
+<area shape="poly" id="edge13_Node000008_Node000010" title=" " alt="" coords="359,303,412,319,411,324,358,308"/>
+<area shape="rect" id="Node000011" href="$namespacela__blas__aux.html#ae7dbb22fd3a69f212d6ddfaade65f5c3" title="IQAMAX: finds the index of the first element having maximum absolute value." alt="" coords="625,255,800,281"/>
+<area shape="poly" id="edge14_Node000010_Node000011" title=" " alt="" coords="542,323,624,291,651,282,653,287,626,296,543,328"/>
+<area shape="rect" id="Node000012" href="$namespacela__blas__level1.html#ad6be202ec4e687016b219a97a3efe147" title="QASUM: takes the sum of the absolute values." alt="" coords="645,329,780,369"/>
+<area shape="poly" id="edge16_Node000010_Node000012" title=" " alt="" coords="573,344,632,345,631,351,573,349"/>
+<area shape="rect" id="Node000013" href="$namespacela__blas__level1.html#af422853fadb4f17a7d5dd3cbf063a4bd" title="QCOPY: copies a vector, x, to a vector, y. uses unrolled loops for increments equal to 1." alt="" coords="645,393,780,433"/>
+<area shape="poly" id="edge18_Node000010_Node000013" title=" " alt="" coords="560,363,636,387,634,392,558,368"/>
+<area shape="poly" id="edge15_Node000011_Node000011" title=" " alt="" coords="677,257,669,247,673,237,688,231,713,229,743,232,755,241,752,246,741,237,713,234,689,236,677,241,674,246,681,254"/>
+<area shape="poly" id="edge17_Node000012_Node000012" title=" " alt="" coords="672,330,669,320,676,310,690,305,713,303,738,306,752,313,750,318,737,311,713,308,692,310,679,315,674,321,677,328"/>
 </map>

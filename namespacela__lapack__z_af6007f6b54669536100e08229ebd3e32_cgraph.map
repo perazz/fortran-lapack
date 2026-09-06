@@ -1,5 +1,0 @@
-<map id="la_lapack_z::la_zlahef_rook" name="la_lapack_z::la_zlahef_rook">
-<area shape="rect" id="Node000001" title="ZLAHEF_ROOK: computes a partial factorization of a complex Hermitian matrix A using the bounded Bunch..." alt="" coords="5,5,207,31"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__z.html#ab5e8ff36e5e3ba9ba5c24f6b2fb59e1d" title="ZLACGV: conjugates a complex vector of length N." alt="" coords="255,5,421,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="207,15,241,15,241,21,207,21"/>
-</map>

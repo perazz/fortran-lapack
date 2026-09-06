@@ -1,6 +1,9 @@
 <map id="la_lapack_q::la_qgetf2" name="la_lapack_q::la_qgetf2">
-<area shape="rect" id="Node000001" title="DGETF2: computes an LU factorization of a general m&#45;by&#45;n matrix A using partial pivoting with row int..." alt="" coords="5,29,173,55"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__q.html#a5435a74c593174c3ab375e653a46f8fe" title="DLAMCH: determines quad precision machine parameters." alt="" coords="221,29,396,55"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="174,39,208,39,208,45,174,45"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="273,31,265,21,269,11,284,5,309,3,339,6,351,15,348,20,337,11,309,8,285,10,273,15,270,20,277,28"/>
+<area shape="rect" id="Node000001" title="DGETF2: computes an LU factorization of a general m&#45;by&#45;n matrix A using partial pivoting with row int..." alt="" coords="5,37,173,62"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__auxiliary.html#a422783a9c3975903ac0fc1dc06f4ec01" title="QLAMCH: determines quad precision machine parameters." alt="" coords="221,29,369,69"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="173,47,208,47,208,52,173,52"/>
+<area shape="poly" id="edge4_Node000002_Node000002" title=" " alt="" coords="257,30,254,20,261,11,274,5,295,3,319,6,333,13,330,18,318,11,295,8,276,10,264,15,260,21,262,28"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="417,37,584,62"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="370,47,403,47,403,52,370,52"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="467,38,460,28,463,18,477,12,501,10,529,14,541,23,537,27,527,19,501,15,479,17,467,22,465,28,471,35"/>
 </map>

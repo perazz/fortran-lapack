@@ -1,5 +1,0 @@
-<map id="la_lapack_z::la_zsptrf" name="la_lapack_z::la_zsptrf">
-<area shape="rect" id="Node000001" title="ZSPTRF: computes the factorization of a complex symmetric matrix A stored in packed format using the ..." alt="" coords="5,5,168,31"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__z.html#ae2267c01cfa1983a3f86164abc51af44" title="ZSPR: performs the symmetric rank 1 operation A := alpha*x*x**H + A, where alpha is a complex scalar,..." alt="" coords="216,5,368,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="168,15,202,15,202,21,168,21"/>
-</map>

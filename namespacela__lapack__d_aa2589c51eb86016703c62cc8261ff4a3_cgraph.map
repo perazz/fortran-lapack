@@ -1,4 +1,0 @@
-<map id="la_lapack_d::la_dzsum1" name="la_lapack_d::la_dzsum1">
-<area shape="rect" id="Node000001" title="DZSUM1: takes the sum of the absolute values of a complex vector and returns a double precision resul..." alt="" coords="5,29,183,55"/>
-<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="65,31,59,21,62,11,74,5,94,3,118,6,128,15,125,19,116,11,94,8,75,10,66,15,64,20,69,28"/>
-</map>

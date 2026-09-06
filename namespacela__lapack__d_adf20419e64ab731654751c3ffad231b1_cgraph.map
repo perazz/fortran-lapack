@@ -1,8 +1,19 @@
 <map id="la_lapack_d::la_dtrrfs" name="la_lapack_d::la_dtrrfs">
-<area shape="rect" id="Node000001" title="DTRRFS: provides error bounds and backward error estimates for the solution to a system of linear equ..." alt="" coords="5,43,167,68"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__d.html#ae42ad3a826b8dcf34dffab0b71c5baeb" title="DLACN2: estimates the 1&#45;norm of a square, real matrix A. Reverse communication is used for evaluating..." alt="" coords="217,5,387,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="160,40,214,30,215,36,161,45"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__d.html#af258e93ce5d1d461c745335332ff184b" title="DLAMCH: determines double precision machine parameters." alt="" coords="215,79,389,104"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="163,65,212,74,211,79,162,71"/>
-<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="267,80,259,70,263,60,278,54,302,52,332,56,344,65,341,69,330,61,302,57,279,59,267,64,264,70,271,77"/>
+<area shape="rect" id="Node000001" title="DTRRFS: provides error bounds and backward error estimates for the solution to a system of linear equ..." alt="" coords="5,178,167,203"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__solve__aux.html#a5d29d58a4745f1b5b1e32789b3cbaec1" title="DLACN2: estimates the 1&#45;norm of a square, real matrix A. Reverse communication is used for evaluating..." alt="" coords="215,111,372,151"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="130,175,210,152,212,157,131,181"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="219,215,367,255"/>
+<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="147,201,206,213,205,219,146,206"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__level1.html#a397c9ff0df57d565a12afe0809db14b7" title="DASUM: takes the sum of the absolute values." alt="" coords="440,29,575,69"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="344,108,419,79,438,72,439,77,421,84,346,113"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__level1.html#aae8bb4d5e6d345d21c204686597a16c7" title="DCOPY: copies a vector, x, to a vector, y. uses unrolled loops for increments equal to 1." alt="" coords="440,93,575,133"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="372,122,426,117,427,123,372,127"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#af6800bacfc44f820f5ab674a67a9e93c" title="IDAMAX: finds the index of the first element having maximum absolute value." alt="" coords="420,182,595,207"/>
+<area shape="poly" id="edge5_Node000002_Node000005" title=" " alt="" coords="362,148,452,175,450,181,360,153"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="467,30,465,20,471,10,486,5,507,3,532,6,546,13,543,18,531,11,507,8,487,10,475,15,470,21,472,28"/>
+<area shape="poly" id="edge6_Node000005_Node000005" title=" " alt="" coords="472,184,465,174,469,164,483,158,507,155,537,159,549,168,546,172,535,164,507,161,485,163,473,168,470,173,477,180"/>
+<area shape="poly" id="edge8_Node000006_Node000006" title=" " alt="" coords="255,215,252,205,259,196,272,190,293,188,317,191,331,198,328,203,316,196,293,193,274,195,262,200,258,206,260,214"/>
+<area shape="rect" id="Node000007" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="424,255,591,281"/>
+<area shape="poly" id="edge9_Node000006_Node000007" title=" " alt="" coords="368,244,412,251,412,256,367,249"/>
+<area shape="poly" id="edge10_Node000007_Node000007" title=" " alt="" coords="472,257,465,247,469,237,483,231,507,229,537,232,549,241,546,246,535,237,507,234,485,236,473,241,470,246,477,254"/>
 </map>

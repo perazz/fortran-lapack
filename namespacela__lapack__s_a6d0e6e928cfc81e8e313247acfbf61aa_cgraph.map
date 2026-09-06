@@ -1,5 +1,8 @@
 <map id="la_lapack_s::la_sorm22" name="la_lapack_s::la_sorm22">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,180,31"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#aaf1967e81244ac5e46fcdee355359852" title="SLACPY: copies all or part of a two&#45;dimensional matrix A to another matrix B." alt="" coords="228,5,395,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="181,15,214,15,214,21,181,21"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,29,180,55"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__blas__like__base.html#a78fc6b1ac043e5e6a0c79c414cc6c71e" title="SLACPY: copies all or part of a two&#45;dimensional matrix A to another matrix B." alt="" coords="228,22,376,62"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="180,39,214,39,214,45,180,45"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="424,29,591,55"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="377,39,410,39,410,45,377,45"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="474,31,466,21,470,11,484,5,507,3,536,6,547,15,544,20,534,11,507,8,485,10,474,15,472,20,478,28"/>
 </map>

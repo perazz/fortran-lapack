@@ -1,31 +1,56 @@
 <map id="la_lapack::gemlq::sgemlq" name="la_lapack::gemlq::sgemlq">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,80,195,105"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#a9b93de31e4b4147cd66afbe3e2024964" title="SGEMLQ: overwrites the general real M&#45;by&#45;N matrix C with SIDE = &#39;L&#39; SIDE = &#39;R&#39; TRANS = &#39;N&#39;: Q * C C *..." alt="" coords="246,55,419,80"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="195,80,232,76,233,81,195,85"/>
-<area shape="rect" id="Node000008" href="$namespacela__lapack__w.html#accd017e735250b77a8085fc9a42fe925" title="ZGEMLQ: overwrites the general real M&#45;by&#45;N matrix C with SIDE = &#39;L&#39; SIDE = &#39;R&#39; TRANS = &#39;N&#39;: Q * C C *..." alt="" coords="243,105,423,131"/>
-<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="195,100,229,104,229,109,195,106"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__s.html#ae960ee808a7063af5a4954b3f218f1a7" title="DGEMLQT overwrites the general real M&#45;by&#45;N matrix C with SIDE = &#39;L&#39; SIDE = &#39;R&#39; TRANS = &#39;N&#39;: Q C C Q T..." alt="" coords="717,5,895,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="394,52,470,39,591,27,703,20,703,25,591,32,471,45,395,57"/>
-<area shape="rect" id="Node000005" href="$namespacela__lapack__s.html#a9d4a3e29c1f59649a6e7179edbd496d0" title="SLAMSWLQ: overwrites the general real M&#45;by&#45;N matrix C with SIDE = &#39;L&#39; SIDE = &#39;R&#39; TRANS = &#39;N&#39;: Q * C C..." alt="" coords="475,55,661,80"/>
-<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="420,65,461,65,461,70,420,70"/>
-<area shape="rect" id="Node000004" href="$namespacela__lapack__s.html#a88f424ab78fa97dff58d431a8ab51b7c" title="SLARFB: applies a real block reflector H or its transpose H**T to a real m by n matrix C,..." alt="" coords="951,5,1113,31"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="896,15,937,15,937,21,896,21"/>
-<area shape="poly" id="edge5_Node000005_Node000003" title=" " alt="" coords="629,52,730,31,731,36,630,57"/>
-<area shape="rect" id="Node000006" href="$namespacela__lapack__s.html#adc5eb71b9fe848c7e199635f3022c444" title="STPMLQT: applies a real orthogonal matrix Q obtained from a &quot;triangular&#45;pentagonal&quot; real block reflec..." alt="" coords="719,55,893,80"/>
-<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="662,65,705,65,705,70,662,70"/>
-<area shape="rect" id="Node000007" href="$namespacela__lapack__s.html#a3c5dcc0b6f70342c48aa1525aa0d0df8" title="STPRFB: applies a real &quot;triangular&#45;pentagonal&quot; block reflector H or its conjugate transpose H^H to a ..." alt="" coords="951,55,1113,80"/>
-<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="894,65,937,65,937,70,894,70"/>
-<area shape="rect" id="Node000009" href="$namespacela__lapack__w.html#ad377a44371c6c8f7121d8ca7c32911fb" title="ZGEMLQT: overwrites the general complex M&#45;by&#45;N matrix C with SIDE = &#39;L&#39; SIDE = &#39;R&#39; TRANS = &#39;N&#39;: Q C C..." alt="" coords="713,105,899,131"/>
-<area shape="poly" id="edge9_Node000008_Node000009" title=" " alt="" coords="423,115,700,115,700,121,423,121"/>
-<area shape="rect" id="Node000012" href="$namespacela__lapack__w.html#a534d5faa9619141241aab04d15be2cef" title="ZLAMSWLQ: overwrites the general complex M&#45;by&#45;N matrix C with SIDE = &#39;L&#39; SIDE = &#39;R&#39; TRANS = &#39;N&#39;: Q * ..." alt="" coords="471,156,665,181"/>
-<area shape="poly" id="edge12_Node000008_Node000012" title=" " alt="" coords="393,128,496,150,495,156,392,133"/>
-<area shape="rect" id="Node000010" href="$namespacela__lapack__w.html#a3f55478b3a303207019b864ee0d4a681" title="ZLARFB: applies a complex block reflector H or its transpose H**H to a complex M&#45;by&#45;N matrix C,..." alt="" coords="947,105,1117,131"/>
-<area shape="poly" id="edge10_Node000009_Node000010" title=" " alt="" coords="899,115,934,115,934,121,899,121"/>
-<area shape="rect" id="Node000011" href="$namespacela__lapack__w.html#af9fd634fd795490b65aee72c58533e2f" title="ZLACGV: conjugates a complex vector of length N." alt="" coords="1165,105,1340,131"/>
-<area shape="poly" id="edge11_Node000010_Node000011" title=" " alt="" coords="1117,115,1152,115,1152,121,1117,121"/>
-<area shape="poly" id="edge13_Node000012_Node000009" title=" " alt="" coords="628,153,732,131,733,136,629,158"/>
-<area shape="rect" id="Node000013" href="$namespacela__lapack__w.html#a1827f1732c95fad46ce755ddaf2c9408" title="ZTPMLQT: applies a complex unitary matrix Q obtained from a &quot;triangular&#45;pentagonal&quot; complex block ref..." alt="" coords="715,156,897,181"/>
-<area shape="poly" id="edge14_Node000012_Node000013" title=" " alt="" coords="665,166,701,166,701,171,665,171"/>
-<area shape="rect" id="Node000014" href="$namespacela__lapack__w.html#a71d546591b52c26a9f34f39357be4557" title="ZTPRFB: applies a complex &quot;triangular&#45;pentagonal&quot; block reflector H or its conjugate transpose H**H t..." alt="" coords="947,156,1117,181"/>
-<area shape="poly" id="edge15_Node000013_Node000014" title=" " alt="" coords="898,166,933,166,933,171,898,171"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,309,195,334"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#a9b93de31e4b4147cd66afbe3e2024964" title="SGEMLQ: overwrites the general real M&#45;by&#45;N matrix C with SIDE = &#39;L&#39; SIDE = &#39;R&#39; TRANS = &#39;N&#39;: Q * C C *..." alt="" coords="246,217,419,242"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="132,306,286,245,288,250,134,311"/>
+<area shape="rect" id="Node000013" href="$namespacela__lapack__w.html#accd017e735250b77a8085fc9a42fe925" title="ZGEMLQ: overwrites the general real M&#45;by&#45;N matrix C with SIDE = &#39;L&#39; SIDE = &#39;R&#39; TRANS = &#39;N&#39;: Q * C C *..." alt="" coords="243,337,423,362"/>
+<area shape="poly" id="edge17_Node000001_Node000013" title=" " alt="" coords="195,330,229,334,229,340,195,335"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__s.html#ae960ee808a7063af5a4954b3f218f1a7" title="DGEMLQT overwrites the general real M&#45;by&#45;N matrix C with SIDE = &#39;L&#39; SIDE = &#39;R&#39; TRANS = &#39;N&#39;: Q C C Q T..." alt="" coords="717,166,895,191"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="394,214,470,201,591,189,703,181,703,186,591,194,471,207,395,219"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__s.html#a9d4a3e29c1f59649a6e7179edbd496d0" title="SLAMSWLQ: overwrites the general real M&#45;by&#45;N matrix C with SIDE = &#39;L&#39; SIDE = &#39;R&#39; TRANS = &#39;N&#39;: Q * C C..." alt="" coords="475,217,661,242"/>
+<area shape="poly" id="edge13_Node000002_Node000010" title=" " alt="" coords="420,227,461,227,461,232,420,232"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__householder__reflectors.html#ab08d2cf0648c74c2193a570168eb70d8" title="SLARFB: applies a real block reflector H or its transpose H**T to a real m by n matrix C,..." alt="" coords="947,120,1117,160"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="881,163,933,154,934,159,882,169"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="1361,214,1528,239"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="1085,117,1134,103,1192,93,1254,92,1285,97,1314,106,1350,125,1382,150,1428,201,1424,205,1378,154,1347,129,1312,110,1284,102,1254,97,1193,98,1135,108,1086,122"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__level1.html#a62fb48eb347a3888135df44b367cf888" title="SCOPY: copies a vector, x, to a vector, y. uses unrolled loops for increments equal to 1." alt="" coords="1172,5,1307,45"/>
+<area shape="poly" id="edge6_Node000004_Node000006" title=" " alt="" coords="1067,117,1164,62,1187,49,1189,54,1167,66,1069,122"/>
+<area shape="rect" id="Node000007" href="$namespacela__blas__level3__gen.html#aa64658f1a260d8d48fc960ed25c24678" title="SGEMM: performs one of the matrix&#45;matrix operations C := alpha*op( A )*op( B ) + beta*C,..." alt="" coords="1166,235,1313,275"/>
+<area shape="poly" id="edge7_Node000004_Node000007" title=" " alt="" coords="1071,158,1192,226,1189,230,1068,163"/>
+<area shape="rect" id="Node000009" href="$namespacela__blas__level3__tri.html#ad8755549c75331273849e73b47fb4e09" title="STRMM: performs one of the matrix&#45;matrix operations B := alpha*op( A )*B, or B := alpha*B*op( A ),..." alt="" coords="1171,120,1307,160"/>
+<area shape="poly" id="edge10_Node000004_Node000009" title=" " alt="" coords="1118,137,1158,137,1158,143,1118,143"/>
+<area shape="poly" id="edge5_Node000005_Node000005" title=" " alt="" coords="1411,216,1404,206,1407,196,1421,190,1445,187,1473,191,1485,200,1481,204,1471,196,1445,193,1423,195,1411,199,1409,205,1415,212"/>
+<area shape="poly" id="edge8_Node000007_Node000005" title=" " alt="" coords="1312,242,1348,237,1348,242,1313,247"/>
+<area shape="rect" id="Node000008" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="1361,270,1528,295"/>
+<area shape="poly" id="edge9_Node000007_Node000008" title=" " alt="" coords="1313,262,1348,267,1348,272,1312,267"/>
+<area shape="poly" id="edge11_Node000009_Node000005" title=" " alt="" coords="1289,158,1402,206,1400,211,1287,163"/>
+<area shape="poly" id="edge12_Node000009_Node000008" title=" " alt="" coords="1260,158,1304,204,1332,228,1363,250,1388,263,1386,267,1360,254,1329,232,1300,208,1256,162"/>
+<area shape="poly" id="edge14_Node000010_Node000003" title=" " alt="" coords="628,214,732,192,733,197,629,219"/>
+<area shape="rect" id="Node000011" href="$namespacela__lapack__s.html#adc5eb71b9fe848c7e199635f3022c444" title="STPMLQT: applies a real orthogonal matrix Q obtained from a &quot;triangular&#45;pentagonal&quot; real block reflec..." alt="" coords="719,217,893,242"/>
+<area shape="poly" id="edge15_Node000010_Node000011" title=" " alt="" coords="662,227,705,227,705,232,662,232"/>
+<area shape="rect" id="Node000012" href="$namespacela__lapack__s.html#a3c5dcc0b6f70342c48aa1525aa0d0df8" title="STPRFB: applies a real &quot;triangular&#45;pentagonal&quot; block reflector H or its conjugate transpose H^H to a ..." alt="" coords="951,217,1113,242"/>
+<area shape="poly" id="edge16_Node000011_Node000012" title=" " alt="" coords="894,227,937,227,937,232,894,232"/>
+<area shape="rect" id="Node000014" href="$namespacela__lapack__w.html#ad377a44371c6c8f7121d8ca7c32911fb" title="ZGEMLQT: overwrites the general complex M&#45;by&#45;N matrix C with SIDE = &#39;L&#39; SIDE = &#39;R&#39; TRANS = &#39;N&#39;: Q C C..." alt="" coords="713,338,899,363"/>
+<area shape="poly" id="edge18_Node000013_Node000014" title=" " alt="" coords="423,347,700,348,700,353,423,352"/>
+<area shape="rect" id="Node000020" href="$namespacela__lapack__w.html#a534d5faa9619141241aab04d15be2cef" title="ZLAMSWLQ: overwrites the general complex M&#45;by&#45;N matrix C with SIDE = &#39;L&#39; SIDE = &#39;R&#39; TRANS = &#39;N&#39;: Q * ..." alt="" coords="471,387,665,413"/>
+<area shape="poly" id="edge29_Node000013_Node000020" title=" " alt="" coords="393,360,496,382,495,387,392,365"/>
+<area shape="rect" id="Node000015" href="$namespacela__lapack__householder__reflectors.html#a0e3bd749c238ebb41130f220d53de22f" title="WLARFB: applies a complex block reflector H or its transpose H**H to a complex M&#45;by&#45;N matrix C,..." alt="" coords="947,331,1117,371"/>
+<area shape="poly" id="edge19_Node000014_Node000015" title=" " alt="" coords="899,348,933,348,933,353,899,353"/>
+<area shape="poly" id="edge20_Node000015_Node000005" title=" " alt="" coords="1049,328,1107,266,1138,237,1164,220,1218,205,1275,200,1329,203,1377,209,1376,214,1328,208,1275,206,1219,211,1166,225,1142,242,1111,270,1053,332"/>
+<area shape="rect" id="Node000016" href="$namespacela__blas__level1.html#aab844ca282a3c70e01940b301cd90076" title="WCOPY: copies a vector, x, to a vector, y." alt="" coords="1172,363,1307,403"/>
+<area shape="poly" id="edge21_Node000015_Node000016" title=" " alt="" coords="1118,361,1159,368,1158,373,1117,367"/>
+<area shape="rect" id="Node000017" href="$namespacela__blas__level3__gen.html#a2e5ed65da1e0129d86b12a70f5bb8058" title="WGEMM: performs one of the matrix&#45;matrix operations C := alpha*op( A )*op( B ) + beta*C,..." alt="" coords="1166,299,1313,339"/>
+<area shape="poly" id="edge22_Node000015_Node000017" title=" " alt="" coords="1117,335,1152,329,1153,335,1118,340"/>
+<area shape="rect" id="Node000018" href="$namespacela__lapack__blas__like__l1.html#afef30867af0eff7e829cc705ade205b1" title="WLACGV: conjugates a complex vector of length N." alt="" coords="1165,427,1313,467"/>
+<area shape="poly" id="edge25_Node000015_Node000018" title=" " alt="" coords="1089,368,1119,382,1167,412,1178,418,1176,423,1164,417,1116,386,1087,373"/>
+<area shape="rect" id="Node000019" href="$namespacela__blas__level3__tri.html#ae0457a4159e8bbc9dfb225f30fc4e202" title="WTRMM: performs one of the matrix&#45;matrix operations B := alpha*op( A )*B, or B := alpha*B*op( A ) whe..." alt="" coords="1171,491,1307,531"/>
+<area shape="poly" id="edge26_Node000015_Node000019" title=" " alt="" coords="1100,369,1119,382,1137,406,1144,430,1151,454,1167,477,1172,481,1168,485,1163,480,1146,456,1139,432,1132,409,1115,386,1097,373"/>
+<area shape="poly" id="edge23_Node000017_Node000005" title=" " alt="" coords="1287,296,1312,284,1360,256,1394,242,1396,247,1363,261,1315,289,1289,301"/>
+<area shape="poly" id="edge24_Node000017_Node000008" title=" " alt="" coords="1312,303,1358,295,1359,300,1313,308"/>
+<area shape="poly" id="edge27_Node000019_Node000005" title=" " alt="" coords="1298,489,1311,477,1328,449,1336,422,1337,395,1334,368,1332,341,1333,314,1341,286,1359,257,1375,244,1378,248,1363,260,1346,288,1338,315,1337,341,1339,368,1342,395,1341,423,1333,451,1315,480,1302,493"/>
+<area shape="poly" id="edge28_Node000019_Node000008" title=" " alt="" coords="1294,488,1312,477,1352,435,1385,389,1430,306,1435,309,1390,392,1356,439,1315,481,1297,493"/>
+<area shape="poly" id="edge30_Node000020_Node000014" title=" " alt="" coords="629,385,730,364,731,369,630,390"/>
+<area shape="rect" id="Node000021" href="$namespacela__lapack__w.html#a1827f1732c95fad46ce755ddaf2c9408" title="ZTPMLQT: applies a complex unitary matrix Q obtained from a &quot;triangular&#45;pentagonal&quot; complex block ref..." alt="" coords="715,390,897,415"/>
+<area shape="poly" id="edge31_Node000020_Node000021" title=" " alt="" coords="665,398,701,399,701,404,665,404"/>
+<area shape="rect" id="Node000022" href="$namespacela__lapack__w.html#a71d546591b52c26a9f34f39357be4557" title="ZTPRFB: applies a complex &quot;triangular&#45;pentagonal&quot; block reflector H or its conjugate transpose H**H t..." alt="" coords="947,395,1117,421"/>
+<area shape="poly" id="edge32_Node000021_Node000022" title=" " alt="" coords="898,402,933,403,933,408,897,407"/>
 </map>

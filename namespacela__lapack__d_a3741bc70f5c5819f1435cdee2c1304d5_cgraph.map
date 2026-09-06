@@ -1,9 +1,0 @@
-<map id="la_lapack_d::la_dlarf" name="la_lapack_d::la_dlarf">
-<area shape="rect" id="Node000001" title="DLARF: applies a real elementary reflector H to a real m by n matrix C, from either the left or the r..." alt="" coords="5,67,161,92"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__aux.html#a845d7f5885e62862eb1bcf34846710e9" title="ILADLC: scans A for its last non&#45;zero column." alt="" coords="209,29,387,55"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="157,64,211,54,212,60,157,69"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__aux.html#aafd792571e06ccf234fa3b824c1cc524" title="ILADLR: scans A for its last non&#45;zero row." alt="" coords="211,103,385,128"/>
-<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="160,89,209,98,208,103,159,95"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="263,31,256,21,259,11,274,5,298,3,328,6,339,15,336,20,326,11,298,8,275,10,263,15,261,20,267,28"/>
-<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="263,104,256,94,259,84,274,78,298,76,328,80,339,89,336,93,326,85,298,81,275,83,263,88,261,94,267,101"/>
-</map>

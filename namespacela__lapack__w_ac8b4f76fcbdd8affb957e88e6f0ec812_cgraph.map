@@ -1,10 +1,24 @@
 <map id="la_lapack_w::la_wla_gbrcond_c" name="la_lapack_w::la_wla_gbrcond_c">
-<area shape="rect" id="Node000001" title="ZLA_GBRCOND_C: Computes the infinity norm condition number of op(A) * inv(diag(C)) where C is a DOUBL..." alt="" coords="5,29,156,69"/>
-<area shape="poly" id="edge3_Node000001_Node000001" title=" " alt="" coords="41,30,39,20,45,10,59,5,81,3,105,6,119,13,116,18,104,11,81,8,60,10,48,15,44,21,46,28"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__w.html#ac0a429924e497212b519243b9718b768" title="ZGBTRS: solves a system of linear equations A * X = B, A**T * X = B, or A**H * X = B with a general b..." alt="" coords="205,11,377,37"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="156,38,191,33,192,39,157,43"/>
-<area shape="rect" id="Node000004" href="$namespacela__lapack__w.html#a181e3ce6202dd4d6e6a0104746779391" title="ZLACN2: estimates the 1&#45;norm of a square, complex matrix A. Reverse communication is used for evaluat..." alt="" coords="204,61,379,86"/>
-<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="157,55,191,59,190,65,156,61"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__w.html#af9fd634fd795490b65aee72c58533e2f" title="ZLACGV: conjugates a complex vector of length N." alt="" coords="427,11,601,37"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="378,21,413,21,413,27,378,27"/>
+<area shape="rect" id="Node000001" title="ZLA_GBRCOND_C: Computes the infinity norm condition number of op(A) * inv(diag(C)) where C is a DOUBL..." alt="" coords="5,140,156,180"/>
+<area shape="poly" id="edge3_Node000001_Node000001" title=" " alt="" coords="42,140,39,130,45,121,59,115,81,113,105,116,118,124,116,128,103,121,81,119,61,121,49,125,44,131,47,139"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__w.html#ac0a429924e497212b519243b9718b768" title="ZGBTRS: solves a system of linear equations A * X = B, A**T * X = B, or A**H * X = B with a general b..." alt="" coords="204,66,376,91"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="132,137,242,94,244,99,134,142"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__solve__aux.html#ac4c709f841da3fc69882dcd45811f0dd" title="WLACN2: estimates the 1&#45;norm of a square, complex matrix A. Reverse communication is used for evaluat..." alt="" coords="211,168,369,208"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="156,167,198,173,198,178,156,173"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__blas__like__l1.html#afef30867af0eff7e829cc705ade205b1" title="WLACGV: conjugates a complex vector of length N." alt="" coords="447,5,595,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="345,63,433,43,434,48,347,68"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__aux.html#ad24ad10d06fcee425f39b26966028caf" title="IWMAX1: finds the index of the first vector element of maximum absolute value. Based on IWAMAX from L..." alt="" coords="424,94,619,119"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="334,165,423,129,453,120,454,125,425,135,336,170"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__auxiliary.html#a422783a9c3975903ac0fc1dc06f4ec01" title="QLAMCH: determines quad precision machine parameters." alt="" coords="447,168,595,208"/>
+<area shape="poly" id="edge7_Node000004_Node000006" title=" " alt="" coords="369,185,434,185,434,191,369,191"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__auxiliary.html#a9fe01efca7314cc8db49eac43f581ed2" title="QWSUM1: takes the sum of the absolute values of a complex vector and returns a quad precision result...." alt="" coords="447,256,595,296"/>
+<area shape="poly" id="edge11_Node000004_Node000008" title=" " alt="" coords="345,206,456,249,454,254,343,211"/>
+<area shape="rect" id="Node000009" href="$namespacela__blas__level1.html#aab844ca282a3c70e01940b301cd90076" title="WCOPY: copies a vector, x, to a vector, y." alt="" coords="454,320,589,360"/>
+<area shape="poly" id="edge13_Node000004_Node000009" title=" " alt="" coords="311,206,359,256,391,282,425,306,443,314,440,319,423,310,388,287,356,260,307,210"/>
+<area shape="poly" id="edge6_Node000005_Node000005" title=" " alt="" coords="484,96,476,86,481,76,496,70,521,67,553,71,565,81,562,85,551,76,521,73,497,75,484,80,482,85,488,92"/>
+<area shape="poly" id="edge10_Node000006_Node000006" title=" " alt="" coords="479,168,476,158,483,149,498,143,521,141,548,144,562,151,560,156,546,149,521,147,500,149,486,153,482,159,484,167"/>
+<area shape="rect" id="Node000007" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="667,175,833,201"/>
+<area shape="poly" id="edge8_Node000006_Node000007" title=" " alt="" coords="595,185,653,185,653,191,595,191"/>
+<area shape="poly" id="edge9_Node000007_Node000007" title=" " alt="" coords="713,177,705,167,709,157,725,151,750,149,782,153,794,162,791,166,780,157,750,154,726,156,713,161,710,166,717,173"/>
+<area shape="poly" id="edge12_Node000008_Node000008" title=" " alt="" coords="479,256,476,246,483,237,498,231,521,229,548,232,562,239,560,244,546,237,521,235,500,237,486,241,482,247,484,255"/>
 </map>

@@ -1,0 +1,7 @@
+<map id="la_lapack_auxiliary::la_slamch" name="la_lapack_auxiliary::la_slamch">
+<area shape="rect" id="Node000001" title="SLAMCH: determines single precision machine parameters." alt="" coords="5,29,153,69"/>
+<area shape="poly" id="edge3_Node000001_Node000001" title=" " alt="" coords="41,30,38,20,45,11,58,5,79,3,103,6,117,13,114,18,102,11,79,8,60,10,48,15,44,21,46,28"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="201,37,368,62"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="154,47,187,47,187,52,154,52"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="251,38,244,28,247,18,261,12,285,10,313,14,325,23,321,27,311,19,285,15,263,17,251,22,249,28,255,35"/>
+</map>

@@ -1,16 +1,19 @@
 <map id="la_lapack_c::la_chetf2" name="la_lapack_c::la_chetf2">
-<area shape="rect" id="Node000001" title="CHETF2: computes the factorization of a complex Hermitian matrix A using the Bunch&#45;Kaufman diagonal p..." alt="" coords="5,65,172,91"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#af8d4b806648873f614d26ba3f9d00512" title="SISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="439,29,605,55"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="172,68,425,47,425,53,172,74"/>
-<area shape="rect" id="Node000004" href="$namespacela__lapack__s.html#a9e70d6d165ba95d10e4f8592c02475c7" title="SLAPY2: returns sqrt(x**2+y**2), taking care not to cause unnecessary overflow and unnecessary underf..." alt="" coords="220,103,388,128"/>
-<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="163,88,217,98,216,103,162,93"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="487,31,479,21,483,11,498,5,522,3,552,6,564,15,561,20,550,11,522,8,499,10,487,15,484,20,491,28"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__s.html#ab716c1e999e316ce29c31703ef379eb1" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in SISNAN...." alt="" coords="656,29,835,55"/>
-<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="606,39,642,39,642,45,606,45"/>
-<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="709,31,701,21,705,11,720,5,745,3,776,6,788,15,785,20,774,11,745,8,722,10,709,15,707,20,713,28"/>
-<area shape="poly" id="edge6_Node000004_Node000002" title=" " alt="" coords="338,100,435,65,462,56,464,61,437,70,339,105"/>
-<area shape="poly" id="edge9_Node000004_Node000004" title=" " alt="" coords="269,104,262,94,265,84,280,78,304,76,334,80,345,89,342,93,332,85,304,81,281,83,269,88,267,94,273,101"/>
-<area shape="rect" id="Node000005" href="$namespacela__lapack__s.html#abbe0ae24f069ddbf134ff3e404a19878" title="SLAMCH: determines single precision machine parameters." alt="" coords="436,103,608,128"/>
-<area shape="poly" id="edge7_Node000004_Node000005" title=" " alt="" coords="389,113,422,113,422,118,389,118"/>
-<area shape="poly" id="edge8_Node000005_Node000005" title=" " alt="" coords="487,104,479,94,483,84,498,78,522,76,552,80,564,89,561,93,550,85,522,81,499,83,487,88,484,94,491,101"/>
+<area shape="rect" id="Node000001" title="CHETF2: computes the factorization of a complex Hermitian matrix A using the Bunch&#45;Kaufman diagonal p..." alt="" coords="5,78,172,103"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__blas__like__scalar.html#a4d6735a3a0bfd81ec48d9c107c0d7893" title="SISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="416,29,564,69"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="172,78,220,72,402,54,403,60,220,77,172,83"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__blas__like__scalar.html#a3d85f08c38ed8387e3f9b3282b67ee25" title="SLAPY2: returns sqrt(x**2+y**2), taking care not to cause unnecessary overflow and unnecessary underf..." alt="" coords="220,111,368,151"/>
+<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="155,101,207,111,206,116,154,106"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="453,30,451,20,457,11,470,5,490,3,513,6,525,13,523,17,511,11,490,8,471,10,460,15,456,21,458,28"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__blas__like__scalar.html#af7a547cc3906149e087d6003dc2ab082" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in SISNAN...." alt="" coords="621,29,770,69"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="565,47,607,47,607,52,565,52"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="657,30,654,20,661,11,674,5,695,3,719,6,733,13,730,18,718,11,695,8,676,10,664,15,660,21,662,28"/>
+<area shape="poly" id="edge6_Node000004_Node000002" title=" " alt="" coords="342,108,427,72,429,77,344,113"/>
+<area shape="poly" id="edge11_Node000004_Node000004" title=" " alt="" coords="257,111,255,101,261,92,274,86,294,84,317,87,329,94,327,99,315,92,294,89,275,91,264,96,260,102,262,110"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="416,117,564,157"/>
+<area shape="poly" id="edge7_Node000004_Node000005" title=" " alt="" coords="369,131,402,132,402,137,368,136"/>
+<area shape="poly" id="edge10_Node000005_Node000005" title=" " alt="" coords="453,118,451,108,457,99,470,93,490,91,513,94,525,101,523,105,511,99,490,96,471,98,460,103,456,109,458,116"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="612,125,779,150"/>
+<area shape="poly" id="edge8_Node000005_Node000006" title=" " alt="" coords="565,135,598,135,598,140,565,140"/>
+<area shape="poly" id="edge9_Node000006_Node000006" title=" " alt="" coords="662,126,654,116,658,106,672,100,695,98,724,102,735,111,732,115,722,107,695,103,673,105,662,110,660,116,666,123"/>
 </map>

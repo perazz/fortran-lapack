@@ -1,65 +1,59 @@
 <map id="la_lapack_s::la_sgbsvx" name="la_lapack_s::la_sgbsvx">
-<area shape="rect" id="Node000001" title="SGBSVX: uses the LU factorization to compute the solution to a real system of linear equations A * X ..." alt="" coords="5,383,176,408"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#a691b5a25a19f7f6e4446c9af3abd8079" title="SGBCON: estimates the reciprocal of the condition number of a real general band matrix A,..." alt="" coords="225,257,395,283"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="113,380,274,287,276,292,115,385"/>
-<area shape="rect" id="Node000004" href="$namespacela__lapack__s.html#abbe0ae24f069ddbf134ff3e404a19878" title="SLAMCH: determines single precision machine parameters." alt="" coords="683,156,855,181"/>
-<area shape="poly" id="edge27_Node000001_Node000004" title=" " alt="" coords="98,381,147,317,182,278,222,243,279,203,326,176,377,157,444,141,513,132,583,133,649,140,705,150,704,156,648,146,583,138,513,137,444,146,378,162,328,181,281,207,226,247,186,282,151,320,103,384"/>
-<area shape="rect" id="Node000008" href="$namespacela__lapack__s.html#adc981cb784519e5487f18375b3cdb090" title="SGBEQU: computes row and column scalings intended to equilibrate an M&#45;by&#45;N band matrix A and reduce i..." alt="" coords="224,5,396,31"/>
-<area shape="poly" id="edge10_Node000001_Node000008" title=" " alt="" coords="90,382,97,321,117,229,134,178,157,128,186,81,222,40,228,36,231,40,226,44,190,84,162,131,139,180,123,230,103,322,95,383"/>
-<area shape="rect" id="Node000009" href="$namespacela__lapack__s.html#a1a0bc542af8023ac3b2b01fa44b669a3" title="SGBRFS: improves the computed solution to a system of linear equations when the coefficient matrix is..." alt="" coords="227,357,393,383"/>
-<area shape="poly" id="edge12_Node000001_Node000009" title=" " alt="" coords="176,383,213,378,214,384,177,388"/>
-<area shape="rect" id="Node000010" href="$namespacela__lapack__s.html#a30f617d917ac43140e6e413894e5d055" title="SGBTRS: solves a system of linear equations A * X = B or A**T * X = B with a general band matrix A us..." alt="" coords="453,408,618,433"/>
-<area shape="poly" id="edge25_Node000001_Node000010" title=" " alt="" coords="176,397,439,413,439,418,176,403"/>
-<area shape="rect" id="Node000011" href="$namespacela__lapack__s.html#a0d1f5cbf6c3cbdbd87c07730258e690e" title="SGBTRF: computes an LU factorization of a real m&#45;by&#45;n band matrix A using partial pivoting with row i..." alt="" coords="229,459,391,484"/>
-<area shape="poly" id="edge16_Node000001_Node000011" title=" " alt="" coords="129,406,260,452,259,457,127,411"/>
-<area shape="rect" id="Node000017" href="$namespacela__lapack__s.html#aaf1967e81244ac5e46fcdee355359852" title="SLACPY: copies all or part of a two&#45;dimensional matrix A to another matrix B." alt="" coords="227,508,393,533"/>
-<area shape="poly" id="edge26_Node000001_Node000017" title=" " alt="" coords="107,406,157,449,190,472,225,493,244,501,242,506,223,498,187,477,154,453,104,410"/>
-<area shape="rect" id="Node000018" href="$namespacela__lapack__s.html#a353bfd9fb23298734c63bf8be6b937ea" title="SLANGB: returns the value of the one norm, or the Frobenius norm, or the infinity norm,..." alt="" coords="226,679,394,704"/>
-<area shape="poly" id="edge28_Node000001_Node000018" title=" " alt="" coords="99,407,114,450,140,511,178,578,201,611,226,640,246,657,268,670,265,675,243,661,222,644,196,614,173,581,136,513,109,452,94,409"/>
-<area shape="rect" id="Node000022" href="$namespacela__lapack__s.html#a4c8dba4fdb90668e621166ed11291c63" title="SLANTB: returns the value of the one norm, or the Frobenius norm, or the infinity norm,..." alt="" coords="227,605,393,631"/>
-<area shape="poly" id="edge35_Node000001_Node000022" title=" " alt="" coords="104,407,155,467,226,543,284,595,280,599,222,547,151,470,100,410"/>
-<area shape="rect" id="Node000023" href="$namespacela__lapack__s.html#a22040e5601b043326db071a8fc7fd445" title="SLAQGB: equilibrates a general M by N band matrix A with KL subdiagonals and KU superdiagonals using ..." alt="" coords="226,55,394,80"/>
-<area shape="poly" id="edge39_Node000001_Node000023" title=" " alt="" coords="91,382,103,330,126,255,144,213,165,171,191,132,222,97,242,83,245,88,226,101,195,135,170,174,148,215,131,256,108,332,97,383"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__s.html#a7f5f2af31221a1cf8d74880aedc775ca" title="SLACN2: estimates the 1&#45;norm of a square, real matrix A. Reverse communication is used for evaluating..." alt="" coords="452,307,619,332"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="369,280,464,301,463,306,368,285"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="368,255,696,182,697,187,369,260"/>
-<area shape="rect" id="Node000005" href="$namespacela__lapack__s.html#a5481cf6f93198b518dfe6b2f6797187a" title="SLATBS: solves one of the triangular systems A *x = s*b or A**T*x = s*b with scaling to prevent overf..." alt="" coords="453,156,617,181"/>
-<area shape="poly" id="edge5_Node000002_Node000005" title=" " alt="" coords="332,255,382,228,443,198,481,183,483,188,445,203,385,232,335,260"/>
-<area shape="rect" id="Node000006" href="$namespacela__lapack__s.html#a783c8ae4ebd73b3e7afebebd367a6492" title="SRSCL: multiplies an n&#45;element real vector x by the real scalar 1/a. This is done without overflow or..." alt="" coords="458,257,613,283"/>
-<area shape="poly" id="edge7_Node000002_Node000006" title=" " alt="" coords="396,267,444,267,444,273,396,273"/>
-<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="731,158,723,148,727,138,743,132,769,129,801,133,814,143,810,147,799,138,769,135,744,137,731,142,728,147,735,154"/>
-<area shape="poly" id="edge6_Node000005_Node000004" title=" " alt="" coords="617,166,669,166,669,171,617,171"/>
-<area shape="poly" id="edge9_Node000006_Node000004" title=" " alt="" coords="575,255,626,236,730,185,732,190,628,240,577,260"/>
-<area shape="rect" id="Node000007" href="$namespacela__lapack__s.html#a8c70bc25650d02927495d8a3635d03f8" title="SLABAD: takes as input the values computed by SLAMCH for underflow and overflow, and returns the squa..." alt="" coords="685,257,853,283"/>
-<area shape="poly" id="edge8_Node000006_Node000007" title=" " alt="" coords="613,267,671,267,671,273,613,273"/>
-<area shape="poly" id="edge11_Node000008_Node000004" title=" " alt="" coords="397,18,509,32,569,45,628,65,662,82,694,103,746,145,743,149,691,107,659,87,626,70,568,50,508,37,396,23"/>
-<area shape="poly" id="edge14_Node000009_Node000003" title=" " alt="" coords="367,355,465,332,466,338,368,360"/>
-<area shape="poly" id="edge15_Node000009_Node000004" title=" " alt="" coords="382,380,439,384,503,382,567,369,597,357,625,341,645,320,652,297,658,271,673,243,703,212,734,187,737,191,706,216,677,246,663,273,657,299,649,323,628,345,599,362,568,374,503,387,439,390,382,385"/>
-<area shape="poly" id="edge13_Node000009_Node000010" title=" " alt="" coords="368,380,466,402,465,408,367,385"/>
-<area shape="rect" id="Node000012" href="$namespacela__lapack__aux.html#aa361c7114aef95e10b685247a1b75114" title="ILAENV: is called from the LAPACK routines to choose problem&#45;dependent parameters for the local envir..." alt="" coords="444,580,627,605"/>
-<area shape="poly" id="edge17_Node000011_Node000012" title=" " alt="" coords="372,482,397,493,413,505,423,517,432,529,446,541,495,571,492,576,442,545,428,532,419,520,409,509,395,498,370,487"/>
-<area shape="rect" id="Node000015" href="$namespacela__lapack__s.html#ac2a1b6dead03c04fe7e2cfc1f921876a" title="SGBTF2: computes an LU factorization of a real m&#45;by&#45;n band matrix A using partial pivoting with row i..." alt="" coords="452,457,619,483"/>
-<area shape="poly" id="edge23_Node000011_Node000015" title=" " alt="" coords="392,468,438,468,438,473,392,474"/>
-<area shape="rect" id="Node000016" href="$namespacela__lapack__s.html#a32210a3155cf4bcf4884b373e585f34f" title="SLASWP: performs a series of row interchanges on the matrix A. One row interchange is initiated for e..." alt="" coords="450,507,621,532"/>
-<area shape="poly" id="edge24_Node000011_Node000016" title=" " alt="" coords="371,481,462,501,461,506,370,487"/>
-<area shape="poly" id="edge20_Node000012_Node000012" title=" " alt="" coords="499,582,491,572,495,562,510,556,535,553,567,557,579,567,576,571,565,562,535,559,511,561,499,566,496,571,503,578"/>
-<area shape="rect" id="Node000013" href="$namespacela__lapack__aux.html#a72541275ada30b0ca556fbc0d3959719" title="IEEECK: is called from the ILAENV to verify that Infinity and possibly NaN arithmetic is safe (i...." alt="" coords="676,531,861,556"/>
-<area shape="poly" id="edge18_Node000012_Node000013" title=" " alt="" coords="596,577,694,556,695,562,597,583"/>
-<area shape="rect" id="Node000014" href="$namespacela__lapack__aux.html#ace38ae70bb7022cae6ecabe992145fda" title="This program sets problem and machine dependent parameters useful for xHSEQR and related subroutines ..." alt="" coords="675,604,863,629"/>
-<area shape="poly" id="edge21_Node000012_Node000014" title=" " alt="" coords="627,599,661,603,661,608,627,605"/>
-<area shape="poly" id="edge19_Node000013_Node000013" title=" " alt="" coords="731,532,723,522,727,512,743,506,769,504,801,508,814,517,810,522,799,513,769,509,744,511,731,516,728,522,735,529"/>
-<area shape="poly" id="edge22_Node000014_Node000014" title=" " alt="" coords="731,606,723,596,727,586,743,580,769,577,801,581,814,591,810,595,799,586,769,583,744,585,731,590,728,595,735,602"/>
-<area shape="poly" id="edge33_Node000018_Node000018" title=" " alt="" coords="274,680,267,670,271,660,285,654,310,652,340,656,352,665,349,669,338,661,310,657,287,659,274,664,272,670,278,677"/>
-<area shape="rect" id="Node000019" href="$namespacela__lapack__s.html#af8d4b806648873f614d26ba3f9d00512" title="SISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="452,703,619,728"/>
-<area shape="poly" id="edge29_Node000018_Node000019" title=" " alt="" coords="395,698,439,702,438,708,394,703"/>
-<area shape="rect" id="Node000021" href="$namespacela__lapack__s.html#a67ffb8da40d4b0e1ec3c776507a088cc" title="!" alt="" coords="452,629,619,655"/>
-<area shape="poly" id="edge34_Node000018_Node000021" title=" " alt="" coords="368,676,463,655,464,660,369,681"/>
-<area shape="poly" id="edge30_Node000019_Node000019" title=" " alt="" coords="499,704,491,694,495,684,510,678,535,676,567,680,579,689,576,693,565,685,535,681,511,683,499,688,496,694,503,701"/>
-<area shape="rect" id="Node000020" href="$namespacela__lapack__s.html#ab716c1e999e316ce29c31703ef379eb1" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in SISNAN...." alt="" coords="679,703,858,728"/>
-<area shape="poly" id="edge31_Node000019_Node000020" title=" " alt="" coords="619,713,666,713,666,718,619,718"/>
-<area shape="poly" id="edge32_Node000020_Node000020" title=" " alt="" coords="731,704,723,694,727,684,743,678,769,676,801,680,814,689,810,694,799,685,769,681,744,683,731,688,728,694,735,701"/>
-<area shape="poly" id="edge36_Node000022_Node000019" title=" " alt="" coords="364,628,397,640,500,694,498,699,395,644,362,633"/>
-<area shape="poly" id="edge38_Node000022_Node000021" title=" " alt="" coords="393,624,439,629,438,634,393,629"/>
-<area shape="poly" id="edge37_Node000022_Node000022" title=" " alt="" coords="274,607,267,597,271,587,285,581,310,579,340,582,352,591,349,596,338,587,310,584,287,586,274,591,272,596,278,604"/>
-<area shape="poly" id="edge40_Node000023_Node000004" title=" " alt="" coords="395,65,506,73,568,83,627,97,687,120,737,147,734,151,684,125,626,102,567,88,506,79,394,70"/>
+<area shape="rect" id="Node000001" title="SGBSVX: uses the LU factorization to compute the solution to a real system of linear equations A * X ..." alt="" coords="5,273,176,298"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__s.html#a691b5a25a19f7f6e4446c9af3abd8079" title="SGBCON: estimates the reciprocal of the condition number of a real general band matrix A,..." alt="" coords="225,130,395,155"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="104,271,155,228,223,179,262,159,265,163,225,184,158,232,108,275"/>
+<area shape="rect" id="Node000013" href="$namespacela__lapack__s.html#adc981cb784519e5487f18375b3cdb090" title="SGBEQU: computes row and column scalings intended to equilibrate an M&#45;by&#45;N band matrix A and reduce i..." alt="" coords="224,194,396,219"/>
+<area shape="poly" id="edge18_Node000001_Node000013" title=" " alt="" coords="126,270,260,222,262,227,128,275"/>
+<area shape="rect" id="Node000014" href="$namespacela__lapack__s.html#a1a0bc542af8023ac3b2b01fa44b669a3" title="SGBRFS: improves the computed solution to a system of linear equations when the coefficient matrix is..." alt="" coords="227,326,393,351"/>
+<area shape="poly" id="edge20_Node000001_Node000014" title=" " alt="" coords="145,296,245,320,243,325,143,301"/>
+<area shape="rect" id="Node000015" href="$namespacela__lapack__s.html#a30f617d917ac43140e6e413894e5d055" title="SGBTRS: solves a system of linear equations A * X = B or A**T * X = B with a general band matrix A us..." alt="" coords="453,397,618,422"/>
+<area shape="poly" id="edge33_Node000001_Node000015" title=" " alt="" coords="110,296,160,329,225,360,279,376,335,388,439,402,439,407,334,393,277,381,223,365,157,333,107,300"/>
+<area shape="rect" id="Node000016" href="$namespacela__lapack__s.html#a0d1f5cbf6c3cbdbd87c07730258e690e" title="SGBTRF: computes an LU factorization of a real m&#45;by&#45;n band matrix A using partial pivoting with row i..." alt="" coords="229,505,391,530"/>
+<area shape="poly" id="edge24_Node000001_Node000016" title=" " alt="" coords="106,296,289,493,285,496,102,300"/>
+<area shape="rect" id="Node000022" href="$namespacela__lapack__s.html#a22040e5601b043326db071a8fc7fd445" title="SLAQGB: equilibrates a general M by N band matrix A with KL subdiagonals and KU superdiagonals using ..." alt="" coords="226,258,394,283"/>
+<area shape="poly" id="edge34_Node000001_Node000022" title=" " alt="" coords="176,277,212,275,213,280,177,282"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__solve__aux.html#a3e2127b8555861dda8f66ca3b195e971" title="SLACN2: estimates the 1&#45;norm of a square, real matrix A. Reverse communication is used for evaluating..." alt="" coords="457,332,614,372"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="350,153,374,164,398,179,435,212,467,250,517,318,512,321,463,253,431,216,394,183,372,169,348,158"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="695,160,843,200"/>
+<area shape="poly" id="edge8_Node000002_Node000007" title=" " alt="" coords="396,147,681,170,681,176,395,152"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__s.html#a5481cf6f93198b518dfe6b2f6797187a" title="SLATBS: solves one of the triangular systems A *x = s*b or A**T*x = s*b with scaling to prevent overf..." alt="" coords="453,79,617,105"/>
+<area shape="poly" id="edge12_Node000002_Node000009" title=" " alt="" coords="367,127,465,105,466,110,368,132"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__blas__like__l1.html#ac5fdb9acece6bb437139bbc099165e39" title="SRSCL: multiplies an n&#45;element real vector x by the real scalar 1/a. This is done without overflow or..." alt="" coords="461,15,609,55"/>
+<area shape="poly" id="edge14_Node000002_Node000010" title=" " alt="" coords="330,128,380,97,443,64,459,57,461,62,445,69,383,102,332,132"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#a843a382709914f66727d3bc6cc2770df" title="ISAMAX: finds the index of the first element having maximum absolute value." alt="" coords="681,407,856,433"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="605,369,712,401,710,406,604,375"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__level1.html#a54c02c2da4a131219e1d231424179d3e" title="SASUM: takes the sum of the absolute values. uses unrolled loops for increment equal to one." alt="" coords="701,255,836,295"/>
+<area shape="poly" id="edge5_Node000003_Node000005" title=" " alt="" coords="596,329,694,296,696,301,598,334"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__level1.html#a62fb48eb347a3888135df44b367cf888" title="SCOPY: copies a vector, x, to a vector, y. uses unrolled loops for increments equal to 1." alt="" coords="701,319,836,359"/>
+<area shape="poly" id="edge7_Node000003_Node000006" title=" " alt="" coords="614,345,688,341,688,346,614,350"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="732,409,724,399,728,389,744,383,769,381,800,385,812,394,809,398,798,389,769,386,745,388,732,393,729,398,736,405"/>
+<area shape="poly" id="edge6_Node000005_Node000005" title=" " alt="" coords="727,255,724,245,731,236,746,230,769,228,795,231,809,238,807,243,793,236,769,233,747,235,734,240,729,246,732,254"/>
+<area shape="poly" id="edge11_Node000007_Node000007" title=" " alt="" coords="727,160,724,150,731,141,746,135,769,133,795,136,809,143,807,148,793,141,769,139,747,141,734,145,729,151,732,159"/>
+<area shape="rect" id="Node000008" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="911,167,1077,193"/>
+<area shape="poly" id="edge9_Node000007_Node000008" title=" " alt="" coords="843,177,897,177,897,183,843,183"/>
+<area shape="poly" id="edge10_Node000008_Node000008" title=" " alt="" coords="957,169,950,159,954,149,969,143,994,141,1026,145,1038,154,1034,158,1024,149,994,146,970,148,957,153,955,158,962,165"/>
+<area shape="poly" id="edge13_Node000009_Node000007" title=" " alt="" coords="574,102,628,122,707,152,705,157,626,126,573,107"/>
+<area shape="poly" id="edge16_Node000010_Node000007" title=" " alt="" coords="607,53,628,64,644,78,654,91,663,105,676,119,720,151,717,155,673,123,658,108,649,94,640,82,625,69,604,57"/>
+<area shape="rect" id="Node000011" href="$namespacela__lapack__auxiliary.html#a07a0b8e445fa8e2b62507c416c668bac" title="SLABAD: takes as input the values computed by SLAMCH for underflow and overflow, and returns the squa..." alt="" coords="695,5,843,45"/>
+<area shape="poly" id="edge15_Node000010_Node000011" title=" " alt="" coords="610,29,681,26,681,31,610,34"/>
+<area shape="rect" id="Node000012" href="$namespacela__blas__level1.html#ab7e08b64fdc3707adeba9f3c65715ba9" title="SSCAL: scales a vector by a constant. uses unrolled loops for increment equal to 1." alt="" coords="701,69,836,109"/>
+<area shape="poly" id="edge17_Node000010_Node000012" title=" " alt="" coords="610,49,689,68,687,73,609,55"/>
+<area shape="poly" id="edge19_Node000013_Node000007" title=" " alt="" coords="396,199,680,182,681,188,396,204"/>
+<area shape="poly" id="edge22_Node000014_Node000003" title=" " alt="" coords="393,341,443,344,443,349,393,346"/>
+<area shape="poly" id="edge23_Node000014_Node000007" title=" " alt="" coords="377,323,495,294,561,272,625,247,649,232,673,216,701,203,703,208,676,221,652,237,628,252,563,277,496,299,378,328"/>
+<area shape="poly" id="edge21_Node000014_Node000015" title=" " alt="" coords="348,349,445,381,475,390,473,395,443,387,346,354"/>
+<area shape="rect" id="Node000017" href="$namespacela__lapack__aux.html#aa361c7114aef95e10b685247a1b75114" title="ILAENV: is called from the LAPACK routines to choose problem&#45;dependent parameters for the local envir..." alt="" coords="444,481,627,506"/>
+<area shape="poly" id="edge25_Node000016_Node000017" title=" " alt="" coords="391,506,430,502,431,507,392,511"/>
+<area shape="rect" id="Node000020" href="$namespacela__lapack__s.html#ac2a1b6dead03c04fe7e2cfc1f921876a" title="SGBTF2: computes an LU factorization of a real m&#45;by&#45;n band matrix A using partial pivoting with row i..." alt="" coords="452,530,619,555"/>
+<area shape="poly" id="edge31_Node000016_Node000020" title=" " alt="" coords="392,524,439,529,438,534,391,529"/>
+<area shape="rect" id="Node000021" href="$namespacela__lapack__s.html#a32210a3155cf4bcf4884b373e585f34f" title="SLASWP: performs a series of row interchanges on the matrix A. One row interchange is initiated for e..." alt="" coords="450,579,621,605"/>
+<area shape="poly" id="edge32_Node000016_Node000021" title=" " alt="" coords="343,528,445,565,470,573,468,578,443,571,341,533"/>
+<area shape="poly" id="edge28_Node000017_Node000017" title=" " alt="" coords="499,482,491,472,495,462,510,456,535,454,567,458,579,467,576,471,565,463,535,459,511,461,499,466,496,472,503,479"/>
+<area shape="rect" id="Node000018" href="$namespacela__lapack__aux.html#a72541275ada30b0ca556fbc0d3959719" title="IEEECK: is called from the ILAENV to verify that Infinity and possibly NaN arithmetic is safe (i...." alt="" coords="676,481,861,506"/>
+<area shape="poly" id="edge26_Node000017_Node000018" title=" " alt="" coords="627,491,662,491,662,496,627,496"/>
+<area shape="rect" id="Node000019" href="$namespacela__lapack__aux.html#ace38ae70bb7022cae6ecabe992145fda" title="This program sets problem and machine dependent parameters useful for xHSEQR and related subroutines ..." alt="" coords="675,554,863,579"/>
+<area shape="poly" id="edge29_Node000017_Node000019" title=" " alt="" coords="584,503,627,516,720,547,718,552,626,521,583,509"/>
+<area shape="poly" id="edge27_Node000018_Node000018" title=" " alt="" coords="732,482,724,472,728,462,744,456,769,454,800,458,812,467,809,471,798,463,769,459,745,461,732,466,729,472,736,479"/>
+<area shape="poly" id="edge30_Node000019_Node000019" title=" " alt="" coords="732,556,724,546,728,536,744,530,769,527,800,531,812,541,809,545,798,536,769,533,745,535,732,540,729,545,736,552"/>
+<area shape="poly" id="edge35_Node000022_Node000007" title=" " alt="" coords="375,255,681,195,682,200,376,261"/>
 </map>

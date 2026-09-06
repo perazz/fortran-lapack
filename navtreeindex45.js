@@ -1,5 +1,17 @@
 var NAVTREEINDEX45 =
 {
+"namespacela__blas__level1.html#af2e0008da82b771da30767bb42f4d22a":[7,0,2,4],
+"namespacela__blas__level1.html#af422853fadb4f17a7d5dd3cbf063a4bd":[7,0,2,25],
+"namespacela__blas__level1.html#af76ede87367ea347ac47024e17661e20":[7,0,2,34],
+"namespacela__blas__level1.html#afb67704426cd471890e50a68b075c580":[7,0,2,44],
+"namespacela__blas__level2__ban.html":[7,0,3],
+"namespacela__blas__level2__ban.html#a0eceb3487d224c4c16c529ec91968e55":[7,0,3,4],
+"namespacela__blas__level2__ban.html#a11cb14f0876f22cf05b09efa2a715a94":[7,0,3,7],
+"namespacela__blas__level2__ban.html#a1e2220e2c48e4a2d3a78eac98b1a7d50":[7,0,3,6],
+"namespacela__blas__level2__ban.html#a223df00e7d689429011b03a43e7fab86":[7,0,3,2],
+"namespacela__blas__level2__ban.html#a27d6e9b1a9a69bd2f3b3c18fa01e843e":[7,0,3,5],
+"namespacela__blas__level2__ban.html#a3e83ff6e132b7236f55ed0655f45638a":[7,0,3,0],
+"namespacela__blas__level2__ban.html#ab4d4f445080532bb107f5926dae60648":[7,0,3,3],
 "namespacela__blas__level2__ban.html#ab61be1a317b7de1ae2f1267a9ebd1257":[7,0,3,8],
 "namespacela__blas__level2__ban.html#acb933e476af33dd65fa107ac2a2bfddc":[7,0,3,1],
 "namespacela__blas__level2__gen.html":[7,0,4],
@@ -237,17 +249,5 @@ var NAVTREEINDEX45 =
 "namespacela__constants__sp.html#ad63b81a5551efddb6600c4e78488676e":[7,0,15,17],
 "namespacela__constants__sp.html#ad6fbeef49c0ee2e30c99b33ace5c097f":[7,0,15,2],
 "namespacela__constants__sp.html#af7e29f6529a18f0dc41e110109ec0b5c":[7,0,15,4],
-"namespacela__constants__sp.html#aff402a24b5e90c25f15dceb12f740086":[7,0,15,15],
-"namespacela__determinant.html":[7,0,16],
-"namespacela__eig.html":[7,0,17],
-"namespacela__eye.html":[7,0,18],
-"namespacela__inverse.html":[7,0,19],
-"namespacela__lapack.html":[7,0,20],
-"namespacela__lapack__aux.html":[7,0,21],
-"namespacela__lapack__aux.html#a056e29b48eecf795134e1f8bd769320c":[7,0,21,18],
-"namespacela__lapack__aux.html#a0ddc6b964721a6d9231d020318f7f17b":[7,0,21,12],
-"namespacela__lapack__aux.html#a13c619e8ff4d23f55214cb3f69867529":[7,0,21,33],
-"namespacela__lapack__aux.html#a16b5c7a23a8a184e7b776946447ff912":[7,0,21,30],
-"namespacela__lapack__aux.html#a19c9d128f088e2ed933a636e97a59cb0":[7,0,21,22],
-"namespacela__lapack__aux.html#a1abc101c5f65760eafb8b98e3f41e083":[7,0,21,27]
+"namespacela__constants__sp.html#aff402a24b5e90c25f15dceb12f740086":[7,0,15,15]
 };

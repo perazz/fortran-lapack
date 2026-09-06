@@ -1,7 +1,10 @@
 <map id="la_lapack_d::la_dlaorhr_col_getrfnp2" name="la_lapack_d::la_dlaorhr_col_getrfnp2">
 <area shape="rect" id="Node000001" title="DLAORHR_COL_GETRFNP2: computes the modified LU factorization without pivoting of a real general M&#45;by&#45;..." alt="" coords="5,29,177,69"/>
-<area shape="poly" id="edge3_Node000001_Node000001" title=" " alt="" coords="50,30,47,20,54,10,69,5,91,3,117,6,131,13,129,18,116,11,91,8,70,10,57,15,53,21,55,28"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__d.html#af258e93ce5d1d461c745335332ff184b" title="DLAMCH: determines double precision machine parameters." alt="" coords="225,37,400,62"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="178,47,212,47,212,52,178,52"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="277,38,269,28,273,18,288,12,313,10,343,14,356,23,352,27,341,19,313,15,289,17,276,22,274,28,281,35"/>
+<area shape="poly" id="edge5_Node000001_Node000001" title=" " alt="" coords="52,30,50,20,56,10,70,5,91,3,116,6,129,13,126,18,114,11,91,8,71,10,59,15,55,21,57,28"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="225,29,373,69"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="177,47,212,47,212,52,177,52"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="261,30,258,20,265,11,278,5,299,3,323,6,337,13,334,18,322,11,299,8,280,10,268,15,264,21,266,28"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="421,37,588,62"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="374,47,407,47,407,52,374,52"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="471,38,464,28,467,18,481,12,505,10,533,14,545,23,541,27,531,19,505,15,483,17,471,22,469,28,475,35"/>
 </map>

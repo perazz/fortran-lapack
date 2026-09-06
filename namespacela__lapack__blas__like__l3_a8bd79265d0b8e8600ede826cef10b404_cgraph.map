@@ -1,0 +1,16 @@
+<map id="la_lapack_blas_like_l3::la_ssfrk" name="la_lapack_blas_like_l3::la_ssfrk">
+<area shape="rect" id="Node000001" title="Level 3 BLAS like routine for C in RFP Format. SSFRK: performs one of the symmetric rank–k operations..." alt="" coords="5,58,153,98"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="400,33,567,59"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="107,56,150,31,201,12,262,3,325,6,383,15,432,27,431,32,382,20,324,11,263,9,202,17,152,36,110,60"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__level3__gen.html#aa64658f1a260d8d48fc960ed25c24678" title="SGEMM: performs one of the matrix&#45;matrix operations C := alpha*op( A )*op( B ) + beta*C,..." alt="" coords="203,26,350,66"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="153,64,189,58,190,63,154,69"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="400,97,567,123"/>
+<area shape="poly" id="edge9_Node000001_Node000004" title=" " alt="" coords="110,96,152,120,202,140,263,148,324,145,382,136,431,124,432,129,383,141,325,150,262,153,201,145,150,125,107,100"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__level3__sym.html#a844ac8c8ba5332df18d566e700f7746f" title="SSYRK: performs one of the symmetric rank k operations C := alpha*A*A**T + beta*C,..." alt="" coords="201,90,352,130"/>
+<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="154,88,188,93,187,98,153,93"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="450,35,442,25,446,15,460,9,483,7,512,11,523,20,520,24,510,15,483,12,461,14,450,19,448,24,454,32"/>
+<area shape="poly" id="edge4_Node000003_Node000002" title=" " alt="" coords="350,43,386,43,386,49,350,49"/>
+<area shape="poly" id="edge5_Node000003_Node000004" title=" " alt="" coords="343,64,429,91,428,96,341,69"/>
+<area shape="poly" id="edge7_Node000005_Node000002" title=" " alt="" coords="341,88,428,60,429,65,343,93"/>
+<area shape="poly" id="edge8_Node000005_Node000004" title=" " alt="" coords="352,107,386,107,386,113,352,113"/>
+</map>

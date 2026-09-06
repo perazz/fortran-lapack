@@ -1,6 +1,0 @@
-<map id="la_lapack_q::la_qlarrr" name="la_lapack_q::la_qlarrr">
-<area shape="rect" id="Node000001" title="Perform tests to decide whether the symmetric tridiagonal matrix T warrants expensive computations wh..." alt="" coords="5,29,167,55"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__q.html#a5435a74c593174c3ab375e653a46f8fe" title="DLAMCH: determines quad precision machine parameters." alt="" coords="215,29,389,55"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="167,39,201,39,201,45,167,45"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="267,31,259,21,263,11,278,5,302,3,332,6,344,15,341,20,330,11,302,8,279,10,267,15,264,20,271,28"/>
-</map>

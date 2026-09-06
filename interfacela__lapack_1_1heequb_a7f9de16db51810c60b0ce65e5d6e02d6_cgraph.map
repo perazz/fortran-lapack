@@ -1,14 +1,15 @@
 <map id="la_lapack::heequb::cheequb" name="la_lapack::heequb::cheequb">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,47,153,87"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__c.html#a4b0bd415668ce4f6afe55c4c0eee8d7f" title="CHEEQUB: computes row and column scalings intended to equilibrate a Hermitian matrix A (with respect ..." alt="" coords="205,17,385,43"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="153,52,207,42,208,48,154,57"/>
-<area shape="rect" id="Node000004" href="$namespacela__lapack__w.html#a914effebbe45083f133a515edd859ee1" title="ZHEEQUB: computes row and column scalings intended to equilibrate a Hermitian matrix A (with respect ..." alt="" coords="201,79,388,104"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="154,73,188,77,187,82,154,78"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__c.html#a9238bcdce69d7296d0322567095afa73" title="!" alt="" coords="440,5,607,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="385,23,426,20,426,26,385,28"/>
-<area shape="rect" id="Node000005" href="$namespacela__lapack__q.html#a5435a74c593174c3ab375e653a46f8fe" title="DLAMCH: determines quad precision machine parameters." alt="" coords="436,79,611,104"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="389,89,422,89,422,94,389,94"/>
-<area shape="rect" id="Node000006" href="$namespacela__lapack__w.html#a2bf5a64bcaccd3676164dbf3aee36bb5" title="!" alt="" coords="437,128,610,153"/>
-<area shape="poly" id="edge6_Node000004_Node000006" title=" " alt="" coords="355,101,451,122,450,128,354,107"/>
-<area shape="poly" id="edge5_Node000005_Node000005" title=" " alt="" coords="486,80,478,70,483,60,498,54,523,52,555,56,567,65,564,69,553,61,523,57,499,59,486,64,484,70,490,77"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,37,153,77"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__c.html#a4b0bd415668ce4f6afe55c4c0eee8d7f" title="CHEEQUB: computes row and column scalings intended to equilibrate a Hermitian matrix A (with respect ..." alt="" coords="205,19,385,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="154,46,191,42,191,47,154,51"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__w.html#a914effebbe45083f133a515edd859ee1" title="ZHEEQUB: computes row and column scalings intended to equilibrate a Hermitian matrix A (with respect ..." alt="" coords="201,69,388,94"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="154,63,188,67,187,72,154,68"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__auxiliary.html#a422783a9c3975903ac0fc1dc06f4ec01" title="QLAMCH: determines quad precision machine parameters." alt="" coords="436,29,584,69"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="380,66,422,60,423,65,381,71"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__blas__like__l1.html#a5d4955ec12e23844ef1f1e18d978e9b2" title="!" alt="" coords="436,93,584,133"/>
+<area shape="poly" id="edge7_Node000003_Node000006" title=" " alt="" coords="381,91,423,98,422,103,380,97"/>
+<area shape="poly" id="edge6_Node000004_Node000004" title=" " alt="" coords="471,30,469,20,475,11,489,5,510,3,534,6,547,13,545,18,532,11,510,8,490,10,479,15,474,21,476,28"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="632,37,799,62"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="585,47,618,47,618,52,585,52"/>
+<area shape="poly" id="edge5_Node000005_Node000005" title=" " alt="" coords="682,38,674,28,678,18,692,12,715,10,744,14,755,23,752,27,742,19,715,15,693,17,682,22,680,28,686,35"/>
 </map>

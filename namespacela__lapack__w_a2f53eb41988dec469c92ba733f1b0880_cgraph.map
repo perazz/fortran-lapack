@@ -1,17 +1,34 @@
 <map id="la_lapack_w::la_whbtrd" name="la_lapack_w::la_whbtrd">
-<area shape="rect" id="Node000001" title="ZHBTRD: reduces a complex Hermitian band matrix A to real symmetric tridiagonal form T by a unitary s..." alt="" coords="5,153,179,179"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__w.html#af9fd634fd795490b65aee72c58533e2f" title="ZLACGV: conjugates a complex vector of length N." alt="" coords="227,5,401,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="102,151,151,97,186,66,225,40,239,33,241,38,228,44,189,71,155,101,106,155"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__w.html#a3a6a6d2806d0f7e63000d212375d5a78" title="ZLAR2V: applies a vector of complex plane rotations with real cosines from both sides to a sequence o..." alt="" coords="228,55,400,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="112,151,162,120,226,89,245,82,247,87,228,94,165,125,114,155"/>
-<area shape="rect" id="Node000004" href="$namespacela__lapack__w.html#a9011fa05addd8b771d1547ddb73dfd55" title="ZLARGV: generates a vector of complex plane rotations with real cosines, determined by elements of th..." alt="" coords="228,104,400,129"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="149,151,242,130,243,135,150,156"/>
-<area shape="rect" id="Node000005" href="$namespacela__lapack__w.html#ac13f3299220b4bc549736e039e2de2ef" title="!" alt="" coords="229,153,399,179"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="179,163,216,163,216,169,179,169"/>
-<area shape="rect" id="Node000006" href="$namespacela__lapack__w.html#a29211e2ce4dd7c83414c4ffd08a9b202" title="ZLARTV: applies a vector of complex plane rotations with real cosines to elements of the complex vect..." alt="" coords="229,203,399,228"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="150,176,243,197,242,202,149,181"/>
-<area shape="rect" id="Node000007" href="$namespacela__lapack__w.html#a511f532e396be36dddfb639d4e9f31a9" title="ZLASET: initializes a 2&#45;D array A to BETA on the diagonal and ALPHA on the offdiagonals." alt="" coords="229,252,399,277"/>
-<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="115,177,165,206,228,237,251,245,249,250,226,242,163,211,112,181"/>
-<area shape="rect" id="Node000008" href="$namespacela__lapack__w.html#a5eb5821fca8d8864b83cab2d6b2a9b70" title="ZROT: applies a plane rotation, where the cos (C) is real and the sin (S) is complex,..." alt="" coords="235,301,393,327"/>
-<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="106,177,155,230,190,260,228,286,244,294,242,299,225,291,186,264,151,234,102,181"/>
+<area shape="rect" id="Node000001" title="ZHBTRD: reduces a complex Hermitian band matrix A to real symmetric tridiagonal form T by a unitary s..." alt="" coords="5,205,179,230"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__blas__like__l1.html#afef30867af0eff7e829cc705ade205b1" title="WLACGV: conjugates a complex vector of length N." alt="" coords="243,5,391,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="98,203,146,134,182,92,225,55,234,49,237,54,228,59,186,96,150,137,103,206"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__givens__jacobi__rot.html#a584208a8b47c756a4cac0d54d0dd4718" title="WLAR2V: applies a vector of complex plane rotations with real cosines from both sides to a sequence o..." alt="" coords="227,69,407,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="106,203,157,163,225,119,239,112,241,117,228,124,160,167,110,207"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__givens__jacobi__rot.html#a307cdb0e4aacbbf5c857070f5e7fa15d" title="WLARGV: generates a vector of complex plane rotations with real cosines, determined by elements of th..." alt="" coords="227,133,407,173"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="137,202,232,175,233,180,138,207"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__givens__jacobi__rot.html#ab4f15cf35d378e771bf60f6d379eb912" title="!" alt="" coords="227,197,407,237"/>
+<area shape="poly" id="edge15_Node000001_Node000010" title=" " alt="" coords="179,215,213,215,213,220,179,220"/>
+<area shape="rect" id="Node000011" href="$namespacela__lapack__givens__jacobi__rot.html#a1f8ea83f518a0a38badfe6e9f24409a3" title="WLARTV: applies a vector of complex plane rotations with real cosines to elements of the complex vect..." alt="" coords="227,261,407,301"/>
+<area shape="poly" id="edge16_Node000001_Node000011" title=" " alt="" coords="138,228,233,255,232,260,137,233"/>
+<area shape="rect" id="Node000012" href="$namespacela__lapack__blas__like__base.html#aa91408cb2f904ccb74161381336f691d" title="WLASET: initializes a 2&#45;D array A to BETA on the diagonal and ALPHA on the offdiagonals." alt="" coords="455,313,603,353"/>
+<area shape="poly" id="edge17_Node000001_Node000012" title=" " alt="" coords="108,228,157,271,191,293,228,311,281,326,337,334,441,337,441,343,336,339,280,331,226,316,188,298,154,275,104,232"/>
+<area shape="rect" id="Node000013" href="$namespacela__lapack__auxiliary.html#a944e706e872d488051fe33353e5b6415" title="WROT: applies a plane rotation, where the cos (C) is real and the sin (S) is complex,..." alt="" coords="243,376,391,416"/>
+<area shape="poly" id="edge19_Node000001_Node000013" title=" " alt="" coords="105,228,154,288,189,323,228,355,249,368,246,372,225,360,185,327,150,291,101,232"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__auxiliary.html#a422783a9c3975903ac0fc1dc06f4ec01" title="QLAMCH: determines quad precision machine parameters." alt="" coords="651,204,799,244"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="399,171,455,183,638,211,637,216,454,188,398,176"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__blas__like__scalar.html#a6ca08add76aca908c622374b20d9d149" title="QLAPY2: returns sqrt(x**2+y**2), taking care not to cause unnecessary overflow and unnecessary underf..." alt="" coords="455,133,603,173"/>
+<area shape="poly" id="edge8_Node000004_Node000007" title=" " alt="" coords="407,151,441,151,441,156,407,156"/>
+<area shape="poly" id="edge7_Node000005_Node000005" title=" " alt="" coords="688,204,686,194,692,185,705,179,725,177,748,180,760,188,757,192,746,185,725,183,706,185,695,189,691,195,693,203"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="847,239,1013,265"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="800,231,833,236,833,241,799,237"/>
+<area shape="poly" id="edge6_Node000006_Node000006" title=" " alt="" coords="896,241,889,231,893,221,907,215,930,213,959,216,970,225,967,230,956,221,930,218,908,220,897,225,894,230,900,238"/>
+<area shape="poly" id="edge13_Node000007_Node000005" title=" " alt="" coords="586,171,657,197,655,202,584,176"/>
+<area shape="poly" id="edge14_Node000007_Node000007" title=" " alt="" coords="492,134,490,124,496,115,509,109,529,107,552,110,564,117,561,121,550,115,529,112,510,114,499,119,495,125,497,132"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__blas__like__scalar.html#a0cb82d7f3b093ce99b3c7b3412dee71a" title="QISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="651,116,799,156"/>
+<area shape="poly" id="edge9_Node000007_Node000008" title=" " alt="" coords="603,144,636,141,637,146,603,149"/>
+<area shape="poly" id="edge10_Node000008_Node000008" title=" " alt="" coords="688,116,686,106,692,97,705,91,725,89,748,92,760,100,757,104,746,97,725,95,706,97,695,101,691,107,693,115"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__blas__like__scalar.html#afb28a91ee1571cb773bdc95c40031177" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in QISNAN...." alt="" coords="855,116,1005,156"/>
+<area shape="poly" id="edge11_Node000008_Node000009" title=" " alt="" coords="799,133,841,133,841,139,799,139"/>
+<area shape="poly" id="edge12_Node000009_Node000009" title=" " alt="" coords="891,116,889,106,895,97,909,91,930,89,954,92,967,100,965,104,952,97,930,95,910,97,899,101,894,107,896,115"/>
+<area shape="poly" id="edge18_Node000012_Node000006" title=" " alt="" coords="603,316,853,265,854,270,604,321"/>
 </map>
