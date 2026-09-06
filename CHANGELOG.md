@@ -81,6 +81,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `invert(a, inva [, pivot] [, err])`, which writes the inverse into a second
   matrix instead of overwriting `a`, and an optional `pivot` argument on both
   forms of `invert`.
+- `la_lapack` exposes seven more kind-agnostic generics, whose specifics were
+  already there for all six kinds: `geqp3`, `ggev3`, `gges3`, `gghd3`, `geevx`,
+  `geesx` and `gesvx`. As for every other generic, the quadruple-precision
+  procedures stay outside the `LA_EXTERNAL_LAPACK` selection.
+- `scripts/templatize.py --add-lapack-generic <name>...` builds the interface
+  table entry of a generic from the declarations of its specifics and inserts it
+  in alphabetical order, so `include/la_lapack_interfaces.fypp` never needs to be
+  written by hand.
 
 ### Changed
 

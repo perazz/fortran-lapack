@@ -1336,6 +1336,96 @@ module la_lapack
 #endif
           end interface gees
 
+          !> GEESX: computes for an N-by-N real nonsymmetric matrix A, the
+          !> eigenvalues, the real Schur form T, and, optionally, the matrix of
+          !> Schur vectors Z.  This gives the Schur factorization A = Z*T*(Z**T).
+          !> Optionally, it also orders the eigenvalues on the diagonal of the
+          !> real Schur form so that selected eigenvalues are at the top left;
+          !> computes a reciprocal condition number for the average of the
+          !> selected eigenvalues (RCONDE); and computes a reciprocal condition
+          !> number for the right invariant subspace corresponding to the
+          !> selected eigenvalues (RCONDV).  The leading columns of Z form an
+          !> orthonormal basis for this invariant subspace.
+          !> For further explanation of the reciprocal condition numbers RCONDE
+          !> and RCONDV, see Section 4.10 of the LAPACK Users' Guide (where
+          !> these quantities are called s and sep respectively).
+          !> A real matrix is in real Schur form if it is upper quasi-triangular
+          !> with 1-by-1 and 2-by-2 blocks. 2-by-2 blocks will be standardized in
+          !> the form
+          !> [  a  b  ]
+          !> [  c  a  ]
+          !> where b*c < 0. The eigenvalues of such a block are a +- sqrt(bc).
+          interface geesx
+#ifdef LA_EXTERNAL_LAPACK
+               subroutine cgeesx(jobvs,sort,select,sense,n,a,lda,sdim,w,vs,ldvs,rconde, &
+                         rcondv,work,lwork,rwork,bwork,info)
+                    import sp,dp,qp,ilp,lk
+                    implicit none(type,external)
+                    character,intent(in) :: jobvs,sense,sort
+                    integer(ilp),intent(out) :: info,sdim
+                    integer(ilp),intent(in) :: lda,ldvs,lwork,n
+                    real(sp),intent(out) :: rconde,rcondv,rwork(*)
+                    logical(lk),intent(out) :: bwork(*)
+                    complex(sp),intent(inout) :: a(lda,*)
+                    complex(sp),intent(out) :: vs(ldvs,*),w(*),work(*)
+                    procedure(la_select_c) :: select
+               end subroutine cgeesx
+#else
+               module procedure la_cgeesx
+#endif
+#ifdef LA_EXTERNAL_LAPACK
+               subroutine dgeesx(jobvs,sort,select,sense,n,a,lda,sdim,wr,wi,vs,ldvs, &
+                         rconde,rcondv,work,lwork,iwork,liwork,bwork,info)
+                    import sp,dp,qp,ilp,lk
+                    implicit none(type,external)
+                    character,intent(in) :: jobvs,sense,sort
+                    integer(ilp),intent(out) :: info,sdim,iwork(*)
+                    integer(ilp),intent(in) :: lda,ldvs,liwork,lwork,n
+                    real(dp),intent(out) :: rconde,rcondv,vs(ldvs,*),wi(*),work(*),wr(*)
+                    logical(lk),intent(out) :: bwork(*)
+                    real(dp),intent(inout) :: a(lda,*)
+                    procedure(la_select_d) :: select
+               end subroutine dgeesx
+#else
+               module procedure la_dgeesx
+#endif
+               module procedure la_qgeesx
+#ifdef LA_EXTERNAL_LAPACK
+               subroutine sgeesx(jobvs,sort,select,sense,n,a,lda,sdim,wr,wi,vs,ldvs, &
+                         rconde,rcondv,work,lwork,iwork,liwork,bwork,info)
+                    import sp,dp,qp,ilp,lk
+                    implicit none(type,external)
+                    character,intent(in) :: jobvs,sense,sort
+                    integer(ilp),intent(out) :: info,sdim,iwork(*)
+                    integer(ilp),intent(in) :: lda,ldvs,liwork,lwork,n
+                    real(sp),intent(out) :: rconde,rcondv,vs(ldvs,*),wi(*),work(*),wr(*)
+                    logical(lk),intent(out) :: bwork(*)
+                    real(sp),intent(inout) :: a(lda,*)
+                    procedure(la_select_s) :: select
+               end subroutine sgeesx
+#else
+               module procedure la_sgeesx
+#endif
+               module procedure la_wgeesx
+#ifdef LA_EXTERNAL_LAPACK
+               subroutine zgeesx(jobvs,sort,select,sense,n,a,lda,sdim,w,vs,ldvs,rconde, &
+                         rcondv,work,lwork,rwork,bwork,info)
+                    import sp,dp,qp,ilp,lk
+                    implicit none(type,external)
+                    character,intent(in) :: jobvs,sense,sort
+                    integer(ilp),intent(out) :: info,sdim
+                    integer(ilp),intent(in) :: lda,ldvs,lwork,n
+                    real(dp),intent(out) :: rconde,rcondv,rwork(*)
+                    logical(lk),intent(out) :: bwork(*)
+                    complex(dp),intent(inout) :: a(lda,*)
+                    complex(dp),intent(out) :: vs(ldvs,*),w(*),work(*)
+                    procedure(la_select_z) :: select
+               end subroutine zgeesx
+#else
+               module procedure la_zgeesx
+#endif
+          end interface geesx
+
           !> GEEV: computes for an N-by-N complex nonsymmetric matrix A, the
           !> eigenvalues and, optionally, the left and/or right eigenvectors.
           !> The right eigenvector v(j) of A satisfies
@@ -1408,6 +1498,96 @@ module la_lapack
                module procedure la_zgeev
 #endif
           end interface geev
+
+          !> GEEVX: computes for an N-by-N real nonsymmetric matrix A, the
+          !> eigenvalues and, optionally, the left and/or right eigenvectors.
+          !> Optionally also, it computes a balancing transformation to improve
+          !> the conditioning of the eigenvalues and eigenvectors (ILO, IHI,
+          !> SCALE, and ABNRM), reciprocal condition numbers for the eigenvalues
+          !> (RCONDE), and reciprocal condition numbers for the right
+          !> eigenvectors (RCONDV).
+          !> The right eigenvector v(j) of A satisfies
+          !> A * v(j) = lambda(j) * v(j)
+          !> where lambda(j) is its eigenvalue.
+          !> The left eigenvector u(j) of A satisfies
+          !> u(j)**H * A = lambda(j) * u(j)**H
+          !> where u(j)**H denotes the conjugate-transpose of u(j).
+          !> The computed eigenvectors are normalized to have Euclidean norm
+          !> equal to 1 and largest component real.
+          !> Balancing a matrix means permuting the rows and columns to make it
+          !> more nearly upper triangular, and applying a diagonal similarity
+          !> transformation D * A * D**(-1), where D is a diagonal matrix, to
+          !> make its rows and columns closer in norm and the condition numbers
+          !> of its eigenvalues and eigenvectors smaller.  The computed
+          !> reciprocal condition numbers correspond to the balanced matrix.
+          !> Permuting rows and columns will not change the condition numbers
+          !> (in exact arithmetic) but diagonal scaling will.  For further
+          !> explanation of balancing, see section 4.10.2 of the LAPACK
+          !> Users' Guide.
+          interface geevx
+#ifdef LA_EXTERNAL_LAPACK
+               subroutine cgeevx(balanc,jobvl,jobvr,sense,n,a,lda,w,vl,ldvl,vr,ldvr,ilo, &
+                         ihi,scale,abnrm,rconde,rcondv,work,lwork,rwork,info)
+                    import sp,dp,qp,ilp,lk
+                    implicit none(type,external)
+                    character,intent(in) :: balanc,jobvl,jobvr,sense
+                    integer(ilp),intent(out) :: ihi,ilo,info
+                    integer(ilp),intent(in) :: lda,ldvl,ldvr,lwork,n
+                    real(sp),intent(out) :: abnrm,rconde(*),rcondv(*),rwork(*),scale(*)
+                    complex(sp),intent(inout) :: a(lda,*)
+                    complex(sp),intent(out) :: vl(ldvl,*),vr(ldvr,*),w(*),work(*)
+               end subroutine cgeevx
+#else
+               module procedure la_cgeevx
+#endif
+#ifdef LA_EXTERNAL_LAPACK
+               subroutine dgeevx(balanc,jobvl,jobvr,sense,n,a,lda,wr,wi,vl,ldvl,vr,ldvr, &
+                         ilo,ihi,scale,abnrm,rconde,rcondv,work,lwork,iwork,info)
+                    import sp,dp,qp,ilp,lk
+                    implicit none(type,external)
+                    character,intent(in) :: balanc,jobvl,jobvr,sense
+                    integer(ilp),intent(out) :: ihi,ilo,info,iwork(*)
+                    integer(ilp),intent(in) :: lda,ldvl,ldvr,lwork,n
+                    real(dp),intent(out) :: abnrm,rconde(*),rcondv(*),scale(*),vl(ldvl,*), &
+                              vr(ldvr,*),wi(*),work(*),wr(*)
+                    real(dp),intent(inout) :: a(lda,*)
+               end subroutine dgeevx
+#else
+               module procedure la_dgeevx
+#endif
+               module procedure la_qgeevx
+#ifdef LA_EXTERNAL_LAPACK
+               subroutine sgeevx(balanc,jobvl,jobvr,sense,n,a,lda,wr,wi,vl,ldvl,vr,ldvr, &
+                         ilo,ihi,scale,abnrm,rconde,rcondv,work,lwork,iwork,info)
+                    import sp,dp,qp,ilp,lk
+                    implicit none(type,external)
+                    character,intent(in) :: balanc,jobvl,jobvr,sense
+                    integer(ilp),intent(out) :: ihi,ilo,info,iwork(*)
+                    integer(ilp),intent(in) :: lda,ldvl,ldvr,lwork,n
+                    real(sp),intent(out) :: abnrm,rconde(*),rcondv(*),scale(*),vl(ldvl,*), &
+                              vr(ldvr,*),wi(*),work(*),wr(*)
+                    real(sp),intent(inout) :: a(lda,*)
+               end subroutine sgeevx
+#else
+               module procedure la_sgeevx
+#endif
+               module procedure la_wgeevx
+#ifdef LA_EXTERNAL_LAPACK
+               subroutine zgeevx(balanc,jobvl,jobvr,sense,n,a,lda,w,vl,ldvl,vr,ldvr,ilo, &
+                         ihi,scale,abnrm,rconde,rcondv,work,lwork,rwork,info)
+                    import sp,dp,qp,ilp,lk
+                    implicit none(type,external)
+                    character,intent(in) :: balanc,jobvl,jobvr,sense
+                    integer(ilp),intent(out) :: ihi,ilo,info
+                    integer(ilp),intent(in) :: lda,ldvl,ldvr,lwork,n
+                    real(dp),intent(out) :: abnrm,rconde(*),rcondv(*),rwork(*),scale(*)
+                    complex(dp),intent(inout) :: a(lda,*)
+                    complex(dp),intent(out) :: vl(ldvl,*),vr(ldvr,*),w(*),work(*)
+               end subroutine zgeevx
+#else
+               module procedure la_zgeevx
+#endif
+          end interface geevx
 
           !> GEHRD: reduces a complex general matrix A to upper Hessenberg form H by
           !> an unitary similarity transformation:  Q**H * A * Q = H .
@@ -2451,6 +2631,67 @@ module la_lapack
 #endif
           end interface geqlf
 
+          !> GEQP3: computes a QR factorization with column pivoting of a
+          !> matrix A:  A*P = Q*R  using Level 3 BLAS.
+          interface geqp3
+#ifdef LA_EXTERNAL_LAPACK
+               pure subroutine cgeqp3(m,n,a,lda,jpvt,tau,work,lwork,rwork,info)
+                    import sp,dp,qp,ilp,lk
+                    implicit none(type,external)
+                    integer(ilp),intent(out) :: info
+                    integer(ilp),intent(in) :: lda,lwork,m,n
+                    integer(ilp),intent(inout) :: jpvt(*)
+                    real(sp),intent(out) :: rwork(*)
+                    complex(sp),intent(inout) :: a(lda,*)
+                    complex(sp),intent(out) :: tau(*),work(*)
+               end subroutine cgeqp3
+#else
+               module procedure la_cgeqp3
+#endif
+#ifdef LA_EXTERNAL_LAPACK
+               pure subroutine dgeqp3(m,n,a,lda,jpvt,tau,work,lwork,info)
+                    import sp,dp,qp,ilp,lk
+                    implicit none(type,external)
+                    integer(ilp),intent(out) :: info
+                    integer(ilp),intent(in) :: lda,lwork,m,n
+                    integer(ilp),intent(inout) :: jpvt(*)
+                    real(dp),intent(inout) :: a(lda,*)
+                    real(dp),intent(out) :: tau(*),work(*)
+               end subroutine dgeqp3
+#else
+               module procedure la_dgeqp3
+#endif
+               module procedure la_qgeqp3
+#ifdef LA_EXTERNAL_LAPACK
+               pure subroutine sgeqp3(m,n,a,lda,jpvt,tau,work,lwork,info)
+                    import sp,dp,qp,ilp,lk
+                    implicit none(type,external)
+                    integer(ilp),intent(out) :: info
+                    integer(ilp),intent(in) :: lda,lwork,m,n
+                    integer(ilp),intent(inout) :: jpvt(*)
+                    real(sp),intent(inout) :: a(lda,*)
+                    real(sp),intent(out) :: tau(*),work(*)
+               end subroutine sgeqp3
+#else
+               module procedure la_sgeqp3
+#endif
+               module procedure la_wgeqp3
+#ifdef LA_EXTERNAL_LAPACK
+               pure subroutine zgeqp3(m,n,a,lda,jpvt,tau,work,lwork,rwork,info)
+                    import sp,dp,qp,ilp,lk
+                    implicit none(type,external)
+                    integer(ilp),intent(out) :: info
+                    integer(ilp),intent(in) :: lda,lwork,m,n
+                    integer(ilp),intent(inout) :: jpvt(*)
+                    real(dp),intent(out) :: rwork(*)
+                    complex(dp),intent(inout) :: a(lda,*)
+                    complex(dp),intent(out) :: tau(*),work(*)
+               end subroutine zgeqp3
+#else
+               module procedure la_zgeqp3
+#endif
+          end interface geqp3
+
           !> GEQR: computes a QR factorization of a complex M-by-N matrix A:
           !> A = Q * ( R ),
           !> ( 0 )
@@ -3345,6 +3586,85 @@ module la_lapack
 #endif
           end interface gesvj
 
+          !> GESVX: uses the LU factorization to compute the solution to a real
+          !> system of linear equations
+          !> A * X = B,
+          !> where A is an N-by-N matrix and X and B are N-by-NRHS matrices.
+          !> Error bounds on the solution and a condition estimate are also
+          !> provided.
+          interface gesvx
+#ifdef LA_EXTERNAL_LAPACK
+               subroutine cgesvx(fact,trans,n,nrhs,a,lda,af,ldaf,ipiv,equed,r,c,b,ldb,x, &
+                         ldx,rcond,ferr,berr,work,rwork,info)
+                    import sp,dp,qp,ilp,lk
+                    implicit none(type,external)
+                    character,intent(inout) :: equed
+                    character,intent(in) :: fact,trans
+                    integer(ilp),intent(out) :: info
+                    integer(ilp),intent(in) :: lda,ldaf,ldb,ldx,n,nrhs
+                    real(sp),intent(out) :: rcond,berr(*),ferr(*),rwork(*)
+                    integer(ilp),intent(inout) :: ipiv(*)
+                    real(sp),intent(inout) :: c(*),r(*)
+                    complex(sp),intent(inout) :: a(lda,*),af(ldaf,*),b(ldb,*)
+                    complex(sp),intent(out) :: work(*),x(ldx,*)
+               end subroutine cgesvx
+#else
+               module procedure la_cgesvx
+#endif
+#ifdef LA_EXTERNAL_LAPACK
+               subroutine dgesvx(fact,trans,n,nrhs,a,lda,af,ldaf,ipiv,equed,r,c,b,ldb,x, &
+                         ldx,rcond,ferr,berr,work,iwork,info)
+                    import sp,dp,qp,ilp,lk
+                    implicit none(type,external)
+                    character,intent(inout) :: equed
+                    character,intent(in) :: fact,trans
+                    integer(ilp),intent(out) :: info,iwork(*)
+                    integer(ilp),intent(in) :: lda,ldaf,ldb,ldx,n,nrhs
+                    real(dp),intent(out) :: rcond,berr(*),ferr(*),work(*),x(ldx,*)
+                    integer(ilp),intent(inout) :: ipiv(*)
+                    real(dp),intent(inout) :: a(lda,*),af(ldaf,*),b(ldb,*),c(*),r(*)
+               end subroutine dgesvx
+#else
+               module procedure la_dgesvx
+#endif
+               module procedure la_qgesvx
+#ifdef LA_EXTERNAL_LAPACK
+               subroutine sgesvx(fact,trans,n,nrhs,a,lda,af,ldaf,ipiv,equed,r,c,b,ldb,x, &
+                         ldx,rcond,ferr,berr,work,iwork,info)
+                    import sp,dp,qp,ilp,lk
+                    implicit none(type,external)
+                    character,intent(inout) :: equed
+                    character,intent(in) :: fact,trans
+                    integer(ilp),intent(out) :: info,iwork(*)
+                    integer(ilp),intent(in) :: lda,ldaf,ldb,ldx,n,nrhs
+                    real(sp),intent(out) :: rcond,berr(*),ferr(*),work(*),x(ldx,*)
+                    integer(ilp),intent(inout) :: ipiv(*)
+                    real(sp),intent(inout) :: a(lda,*),af(ldaf,*),b(ldb,*),c(*),r(*)
+               end subroutine sgesvx
+#else
+               module procedure la_sgesvx
+#endif
+               module procedure la_wgesvx
+#ifdef LA_EXTERNAL_LAPACK
+               subroutine zgesvx(fact,trans,n,nrhs,a,lda,af,ldaf,ipiv,equed,r,c,b,ldb,x, &
+                         ldx,rcond,ferr,berr,work,rwork,info)
+                    import sp,dp,qp,ilp,lk
+                    implicit none(type,external)
+                    character,intent(inout) :: equed
+                    character,intent(in) :: fact,trans
+                    integer(ilp),intent(out) :: info
+                    integer(ilp),intent(in) :: lda,ldaf,ldb,ldx,n,nrhs
+                    real(dp),intent(out) :: rcond,berr(*),ferr(*),rwork(*)
+                    integer(ilp),intent(inout) :: ipiv(*)
+                    real(dp),intent(inout) :: c(*),r(*)
+                    complex(dp),intent(inout) :: a(lda,*),af(ldaf,*),b(ldb,*)
+                    complex(dp),intent(out) :: work(*),x(ldx,*)
+               end subroutine zgesvx
+#else
+               module procedure la_zgesvx
+#endif
+          end interface gesvx
+
           !> GETRF: computes an LU factorization of a general M-by-N matrix A
           !> using partial pivoting with row interchanges.
           !> The factorization has the form
@@ -3962,6 +4282,107 @@ module la_lapack
 #endif
           end interface gges
 
+          !> GGES3: computes for a pair of N-by-N real nonsymmetric matrices (A,B),
+          !> the generalized eigenvalues, the generalized real Schur form (S,T),
+          !> optionally, the left and/or right matrices of Schur vectors (VSL and
+          !> VSR). This gives the generalized Schur factorization
+          !> (A,B) = ( (VSL)*S*(VSR)**T, (VSL)*T*(VSR)**T )
+          !> Optionally, it also orders the eigenvalues so that a selected cluster
+          !> of eigenvalues appears in the leading diagonal blocks of the upper
+          !> quasi-triangular matrix S and the upper triangular matrix T.The
+          !> leading columns of VSL and VSR then form an orthonormal basis for the
+          !> corresponding left and right eigenspaces (deflating subspaces).
+          !> (If only the generalized eigenvalues are needed, use the driver
+          !> GGEV instead, which is faster.)
+          !> A generalized eigenvalue for a pair of matrices (A,B) is a scalar w
+          !> or a ratio alpha/beta = w, such that  A - w*B is singular.  It is
+          !> usually represented as the pair (alpha,beta), as there is a
+          !> reasonable interpretation for beta=0 or both being zero.
+          !> A pair of matrices (S,T) is in generalized real Schur form if T is
+          !> upper triangular with non-negative diagonal and S is block upper
+          !> triangular with 1-by-1 and 2-by-2 blocks.  1-by-1 blocks correspond
+          !> to real generalized eigenvalues, while 2-by-2 blocks of S will be
+          !> "standardized" by making the corresponding elements of T have the
+          !> form:
+          !> [  a  0  ]
+          !> [  0  b  ]
+          !> and the pair of corresponding 2-by-2 blocks in S and T will have a
+          !> complex conjugate pair of generalized eigenvalues.
+          interface gges3
+#ifdef LA_EXTERNAL_LAPACK
+               subroutine cgges3(jobvsl,jobvsr,sort,selctg,n,a,lda,b,ldb,sdim,alpha,beta, &
+                         vsl,ldvsl,vsr,ldvsr,work,lwork,rwork,bwork,info)
+                    import sp,dp,qp,ilp,lk
+                    implicit none(type,external)
+                    character,intent(in) :: jobvsl,jobvsr,sort
+                    integer(ilp),intent(out) :: info,sdim
+                    integer(ilp),intent(in) :: lda,ldb,ldvsl,ldvsr,lwork,n
+                    logical(lk),intent(out) :: bwork(*)
+                    real(sp),intent(out) :: rwork(*)
+                    complex(sp),intent(inout) :: a(lda,*),b(ldb,*)
+                    complex(sp),intent(out) :: alpha(*),beta(*),vsl(ldvsl,*),vsr(ldvsr,*), &
+                              work(*)
+                    procedure(la_selctg_c) :: selctg
+               end subroutine cgges3
+#else
+               module procedure la_cgges3
+#endif
+#ifdef LA_EXTERNAL_LAPACK
+               subroutine dgges3(jobvsl,jobvsr,sort,selctg,n,a,lda,b,ldb,sdim,alphar, &
+                         alphai,beta,vsl,ldvsl,vsr,ldvsr,work,lwork,bwork,info)
+                    import sp,dp,qp,ilp,lk
+                    implicit none(type,external)
+                    character,intent(in) :: jobvsl,jobvsr,sort
+                    integer(ilp),intent(out) :: info,sdim
+                    integer(ilp),intent(in) :: lda,ldb,ldvsl,ldvsr,lwork,n
+                    logical(lk),intent(out) :: bwork(*)
+                    real(dp),intent(inout) :: a(lda,*),b(ldb,*)
+                    real(dp),intent(out) :: alphai(*),alphar(*),beta(*),vsl(ldvsl,*),vsr( &
+                              ldvsr,*),work(*)
+                    procedure(la_selctg_d) :: selctg
+               end subroutine dgges3
+#else
+               module procedure la_dgges3
+#endif
+               module procedure la_qgges3
+#ifdef LA_EXTERNAL_LAPACK
+               subroutine sgges3(jobvsl,jobvsr,sort,selctg,n,a,lda,b,ldb,sdim,alphar, &
+                         alphai,beta,vsl,ldvsl,vsr,ldvsr,work,lwork,bwork,info)
+                    import sp,dp,qp,ilp,lk
+                    implicit none(type,external)
+                    character,intent(in) :: jobvsl,jobvsr,sort
+                    integer(ilp),intent(out) :: info,sdim
+                    integer(ilp),intent(in) :: lda,ldb,ldvsl,ldvsr,lwork,n
+                    logical(lk),intent(out) :: bwork(*)
+                    real(sp),intent(inout) :: a(lda,*),b(ldb,*)
+                    real(sp),intent(out) :: alphai(*),alphar(*),beta(*),vsl(ldvsl,*),vsr( &
+                              ldvsr,*),work(*)
+                    procedure(la_selctg_s) :: selctg
+               end subroutine sgges3
+#else
+               module procedure la_sgges3
+#endif
+               module procedure la_wgges3
+#ifdef LA_EXTERNAL_LAPACK
+               subroutine zgges3(jobvsl,jobvsr,sort,selctg,n,a,lda,b,ldb,sdim,alpha,beta, &
+                         vsl,ldvsl,vsr,ldvsr,work,lwork,rwork,bwork,info)
+                    import sp,dp,qp,ilp,lk
+                    implicit none(type,external)
+                    character,intent(in) :: jobvsl,jobvsr,sort
+                    integer(ilp),intent(out) :: info,sdim
+                    integer(ilp),intent(in) :: lda,ldb,ldvsl,ldvsr,lwork,n
+                    logical(lk),intent(out) :: bwork(*)
+                    real(dp),intent(out) :: rwork(*)
+                    complex(dp),intent(inout) :: a(lda,*),b(ldb,*)
+                    complex(dp),intent(out) :: alpha(*),beta(*),vsl(ldvsl,*),vsr(ldvsr,*), &
+                              work(*)
+                    procedure(la_selctg_z) :: selctg
+               end subroutine zgges3
+#else
+               module procedure la_zgges3
+#endif
+          end interface gges3
+
           !> GGEV: computes for a pair of N-by-N complex nonsymmetric matrices
           !> (A,B), the generalized eigenvalues, and optionally, the left and/or
           !> right generalized eigenvectors.
@@ -4044,6 +4465,88 @@ module la_lapack
 #endif
           end interface ggev
 
+          !> GGEV3: computes for a pair of N-by-N real nonsymmetric matrices (A,B)
+          !> the generalized eigenvalues, and optionally, the left and/or right
+          !> generalized eigenvectors.
+          !> A generalized eigenvalue for a pair of matrices (A,B) is a scalar
+          !> lambda or a ratio alpha/beta = lambda, such that A - lambda*B is
+          !> singular. It is usually represented as the pair (alpha,beta), as
+          !> there is a reasonable interpretation for beta=0, and even for both
+          !> being zero.
+          !> The right eigenvector v(j) corresponding to the eigenvalue lambda(j)
+          !> of (A,B) satisfies
+          !> A * v(j) = lambda(j) * B * v(j).
+          !> The left eigenvector u(j) corresponding to the eigenvalue lambda(j)
+          !> of (A,B) satisfies
+          !> u(j)**H * A  = lambda(j) * u(j)**H * B .
+          !> where u(j)**H is the conjugate-transpose of u(j).
+          interface ggev3
+#ifdef LA_EXTERNAL_LAPACK
+               subroutine cggev3(jobvl,jobvr,n,a,lda,b,ldb,alpha,beta,vl,ldvl,vr,ldvr, &
+                         work,lwork,rwork,info)
+                    import sp,dp,qp,ilp,lk
+                    implicit none(type,external)
+                    character,intent(in) :: jobvl,jobvr
+                    integer(ilp),intent(out) :: info
+                    integer(ilp),intent(in) :: lda,ldb,ldvl,ldvr,lwork,n
+                    real(sp),intent(out) :: rwork(*)
+                    complex(sp),intent(inout) :: a(lda,*),b(ldb,*)
+                    complex(sp),intent(out) :: alpha(*),beta(*),vl(ldvl,*),vr(ldvr,*), &
+                              work(*)
+               end subroutine cggev3
+#else
+               module procedure la_cggev3
+#endif
+#ifdef LA_EXTERNAL_LAPACK
+               subroutine dggev3(jobvl,jobvr,n,a,lda,b,ldb,alphar,alphai,beta,vl,ldvl,vr, &
+                         ldvr,work,lwork,info)
+                    import sp,dp,qp,ilp,lk
+                    implicit none(type,external)
+                    character,intent(in) :: jobvl,jobvr
+                    integer(ilp),intent(out) :: info
+                    integer(ilp),intent(in) :: lda,ldb,ldvl,ldvr,lwork,n
+                    real(dp),intent(inout) :: a(lda,*),b(ldb,*)
+                    real(dp),intent(out) :: alphai(*),alphar(*),beta(*),vl(ldvl,*),vr( &
+                              ldvr,*),work(*)
+               end subroutine dggev3
+#else
+               module procedure la_dggev3
+#endif
+               module procedure la_qggev3
+#ifdef LA_EXTERNAL_LAPACK
+               subroutine sggev3(jobvl,jobvr,n,a,lda,b,ldb,alphar,alphai,beta,vl,ldvl,vr, &
+                         ldvr,work,lwork,info)
+                    import sp,dp,qp,ilp,lk
+                    implicit none(type,external)
+                    character,intent(in) :: jobvl,jobvr
+                    integer(ilp),intent(out) :: info
+                    integer(ilp),intent(in) :: lda,ldb,ldvl,ldvr,lwork,n
+                    real(sp),intent(inout) :: a(lda,*),b(ldb,*)
+                    real(sp),intent(out) :: alphai(*),alphar(*),beta(*),vl(ldvl,*),vr( &
+                              ldvr,*),work(*)
+               end subroutine sggev3
+#else
+               module procedure la_sggev3
+#endif
+               module procedure la_wggev3
+#ifdef LA_EXTERNAL_LAPACK
+               subroutine zggev3(jobvl,jobvr,n,a,lda,b,ldb,alpha,beta,vl,ldvl,vr,ldvr, &
+                         work,lwork,rwork,info)
+                    import sp,dp,qp,ilp,lk
+                    implicit none(type,external)
+                    character,intent(in) :: jobvl,jobvr
+                    integer(ilp),intent(out) :: info
+                    integer(ilp),intent(in) :: lda,ldb,ldvl,ldvr,lwork,n
+                    real(dp),intent(out) :: rwork(*)
+                    complex(dp),intent(inout) :: a(lda,*),b(ldb,*)
+                    complex(dp),intent(out) :: alpha(*),beta(*),vl(ldvl,*),vr(ldvr,*), &
+                              work(*)
+               end subroutine zggev3
+#else
+               module procedure la_zggev3
+#endif
+          end interface ggev3
+
           !> GGGLM: solves a general Gauss-Markov linear model (GLM) problem:
           !> minimize || y ||_2   subject to   d = A*x + B*y
           !> x
@@ -4118,6 +4621,92 @@ module la_lapack
                module procedure la_zggglm
 #endif
           end interface ggglm
+
+          !> GGHD3: reduces a pair of real matrices (A,B) to generalized upper
+          !> Hessenberg form using orthogonal transformations, where A is a
+          !> general matrix and B is upper triangular.  The form of the
+          !> generalized eigenvalue problem is
+          !> A*x = lambda*B*x,
+          !> and B is typically made upper triangular by computing its QR
+          !> factorization and moving the orthogonal matrix Q to the left side
+          !> of the equation.
+          !> This subroutine simultaneously reduces A to a Hessenberg matrix H:
+          !> Q**T*A*Z = H
+          !> and transforms B to another upper triangular matrix T:
+          !> Q**T*B*Z = T
+          !> in order to reduce the problem to its standard form
+          !> H*y = lambda*T*y
+          !> where y = Z**T*x.
+          !> The orthogonal matrices Q and Z are determined as products of Givens
+          !> rotations.  They may either be formed explicitly, or they may be
+          !> postmultiplied into input matrices Q1 and Z1, so that
+          !> Q1 * A * Z1**T = (Q1*Q) * H * (Z1*Z)**T
+          !> Q1 * B * Z1**T = (Q1*Q) * T * (Z1*Z)**T
+          !> If Q1 is the orthogonal matrix from the QR factorization of B in the
+          !> original equation A*x = lambda*B*x, then GGHD3 reduces the original
+          !> problem to generalized Hessenberg form.
+          !> This is a blocked variant of GGHRD, using matrix-matrix
+          !> multiplications for parts of the computation to enhance performance.
+          interface gghd3
+#ifdef LA_EXTERNAL_LAPACK
+               pure subroutine cgghd3(compq,compz,n,ilo,ihi,a,lda,b,ldb,q,ldq,z,ldz,work, &
+                         lwork,info)
+                    import sp,dp,qp,ilp,lk
+                    implicit none(type,external)
+                    character,intent(in) :: compq,compz
+                    integer(ilp),intent(in) :: ihi,ilo,lda,ldb,ldq,ldz,n,lwork
+                    integer(ilp),intent(out) :: info
+                    complex(sp),intent(inout) :: a(lda,*),b(ldb,*),q(ldq,*),z(ldz,*)
+                    complex(sp),intent(out) :: work(*)
+               end subroutine cgghd3
+#else
+               module procedure la_cgghd3
+#endif
+#ifdef LA_EXTERNAL_LAPACK
+               pure subroutine dgghd3(compq,compz,n,ilo,ihi,a,lda,b,ldb,q,ldq,z,ldz,work, &
+                         lwork,info)
+                    import sp,dp,qp,ilp,lk
+                    implicit none(type,external)
+                    character,intent(in) :: compq,compz
+                    integer(ilp),intent(in) :: ihi,ilo,lda,ldb,ldq,ldz,n,lwork
+                    integer(ilp),intent(out) :: info
+                    real(dp),intent(inout) :: a(lda,*),b(ldb,*),q(ldq,*),z(ldz,*)
+                    real(dp),intent(out) :: work(*)
+               end subroutine dgghd3
+#else
+               module procedure la_dgghd3
+#endif
+               module procedure la_qgghd3
+#ifdef LA_EXTERNAL_LAPACK
+               pure subroutine sgghd3(compq,compz,n,ilo,ihi,a,lda,b,ldb,q,ldq,z,ldz,work, &
+                         lwork,info)
+                    import sp,dp,qp,ilp,lk
+                    implicit none(type,external)
+                    character,intent(in) :: compq,compz
+                    integer(ilp),intent(in) :: ihi,ilo,lda,ldb,ldq,ldz,n,lwork
+                    integer(ilp),intent(out) :: info
+                    real(sp),intent(inout) :: a(lda,*),b(ldb,*),q(ldq,*),z(ldz,*)
+                    real(sp),intent(out) :: work(*)
+               end subroutine sgghd3
+#else
+               module procedure la_sgghd3
+#endif
+               module procedure la_wgghd3
+#ifdef LA_EXTERNAL_LAPACK
+               pure subroutine zgghd3(compq,compz,n,ilo,ihi,a,lda,b,ldb,q,ldq,z,ldz,work, &
+                         lwork,info)
+                    import sp,dp,qp,ilp,lk
+                    implicit none(type,external)
+                    character,intent(in) :: compq,compz
+                    integer(ilp),intent(in) :: ihi,ilo,lda,ldb,ldq,ldz,n,lwork
+                    integer(ilp),intent(out) :: info
+                    complex(dp),intent(inout) :: a(lda,*),b(ldb,*),q(ldq,*),z(ldz,*)
+                    complex(dp),intent(out) :: work(*)
+               end subroutine zgghd3
+#else
+               module procedure la_zgghd3
+#endif
+          end interface gghd3
 
           !> GGHRD: reduces a pair of complex matrices (A,B) to generalized upper
           !> Hessenberg form using unitary transformations, where A is a

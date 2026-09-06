@@ -1,0 +1,277 @@
+#:include "common.fypp"
+! Kind-agnostic LAPACK generics of the blocked and expert drivers
+module test_la_lapack_generics
+    use la_constants, only: sp, dp, qp, ilp, lk
+    use la_lapack, only: geqp3, ggev3, gges3, gghd3, geevx, geesx, gesvx
+    use testdrive, only: error_type, check, new_unittest, unittest_type
+
+    implicit none (type,external)
+    private
+
+    public :: test_lapack_generics
+
+    contains
+
+    !> Every generic the umbrella gained, called once per kind
+    subroutine test_lapack_generics(tests)
+        !> Collection of tests
+        type(unittest_type), allocatable, intent(out) :: tests(:)
+
+        allocate(tests(0))
+
+        #:for rk,rt,ri in ALL_KINDS_TYPES
+        call add_test(tests,new_unittest("lapack_generics_${ri}$",test_${ri}$_generics))
+        #:endfor
+
+    end subroutine test_lapack_generics
+
+    #:for rk,rt,ri in REAL_KINDS_TYPES
+    !> Eigenvalue selector of the generalized drivers, ${rt}$
+    pure logical(lk) function keep_${ri}$(alphar,alphai,beta)
+        real(${rk}$), intent(in) :: alphar,alphai,beta
+        keep_${ri}$ = alphar > 0.0_${rk}$ .and. alphai >= 0.0_${rk}$ .and. beta > 0.0_${rk}$
+    end function keep_${ri}$
+
+    !> Eigenvalue selector of the Schur drivers, ${rt}$
+    pure logical(lk) function keep_schur_${ri}$(alphar,alphai)
+        real(${rk}$), intent(in) :: alphar,alphai
+        keep_schur_${ri}$ = alphar > 0.0_${rk}$ .and. alphai >= 0.0_${rk}$
+    end function keep_schur_${ri}$
+
+    #:endfor
+    #:for ck,ct,ci in CMPL_KINDS_TYPES
+    !> Eigenvalue selector of the generalized drivers, ${ct}$
+    pure logical(lk) function keep_${ci}$(alpha,beta)
+        complex(${ck}$), intent(in) :: alpha,beta
+        keep_${ci}$ = real(alpha,${ck}$) > 0.0_${ck}$ .and. real(beta,${ck}$) > 0.0_${ck}$
+    end function keep_${ci}$
+
+    !> Eigenvalue selector of the Schur drivers, ${ct}$
+    pure logical(lk) function keep_schur_${ci}$(alpha)
+        complex(${ck}$), intent(in) :: alpha
+        keep_schur_${ci}$ = real(alpha,${ck}$) > 0.0_${ck}$
+    end function keep_schur_${ci}$
+
+    #:endfor
+    #:for rk,rt,ri in REAL_KINDS_TYPES
+    !> geqp3, ggev3, gges3, gghd3, geevx, geesx and gesvx, ${rt}$
+    subroutine test_${ri}$_generics(error)
+        type(error_type), allocatable, intent(out) :: error
+
+        integer(ilp), parameter :: n = 3_ilp, lwork = 512_ilp
+        real(${rk}$), parameter :: tol = 100*sqrt(epsilon(0.0_${rk}$))
+
+        integer(ilp) :: i,info,sdim,ilo,ihi,jpvt(n),ipiv(n),iwork(8*n)
+        logical(lk) :: bwork(n)
+        character :: equed
+        real(${rk}$) :: a(n,n),eye(n,n),acopy(n,n),bcopy(n,n),af(n,n)
+        real(${rk}$) :: q(n,n),z(n,n),vl(n,n),vr(n,n),vs(n,n),vsl(n,n),vsr(n,n)
+        real(${rk}$) :: rhs(n,1),bmat(n,1),x(n,1)
+        real(${rk}$) :: tau(n),work(lwork),alphar(n),alphai(n),beta(n),wr(n),wi(n)
+        real(${rk}$) :: scal(n),rconde(n),rcondv(n),rowsc(n),colsc(n),ferr(1),berr(1)
+        real(${rk}$) :: abnrm,rcond,rce,rcv
+
+        a = transpose(reshape([${rt}$ :: 4, 1, 0, &
+                                        1, 3, 1, &
+                                        0, 1, 2], [n,n]))
+        eye = 0.0_${rk}$
+        do concurrent (i=1:n)
+          eye(i,i) = 1.0_${rk}$
+        end do
+        rhs(:,1) = [${rt}$ :: 1, 2, 3]
+
+        !> Pivoted QR factorization
+        acopy = a
+        jpvt = 0_ilp
+        call geqp3(n,n,acopy,n,jpvt,tau,work,lwork,info)
+        call check(error,info==0,'geqp3 ${ri}$ failed')
+        if (allocated(error)) return
+        call check(error,all(jpvt>=1_ilp) .and. all(jpvt<=n) .and. sum(jpvt)==n*(n+1)/2, &
+                   'geqp3 ${ri}$ did not return a permutation')
+        if (allocated(error)) return
+
+        !> Generalized eigenvalues, blocked
+        acopy = a
+        bcopy = eye
+        call ggev3('N','V',n,acopy,n,bcopy,n,alphar,alphai,beta,vl,n,vr,n,work,lwork,info)
+        call check(error,info==0,'ggev3 ${ri}$ failed')
+        if (allocated(error)) return
+
+        !> Generalized Schur form, blocked
+        acopy = a
+        bcopy = eye
+        call gges3('N','N','N',keep_${ri}$,n,acopy,n,bcopy,n,sdim,alphar,alphai,beta, &
+                   vsl,n,vsr,n,work,lwork,bwork,info)
+        call check(error,info==0,'gges3 ${ri}$ failed')
+        if (allocated(error)) return
+
+        !> Generalized Hessenberg form, blocked
+        acopy = a
+        bcopy = eye
+        call gghd3('N','N',n,1_ilp,n,acopy,n,bcopy,n,q,n,z,n,work,lwork,info)
+        call check(error,info==0,'gghd3 ${ri}$ failed')
+        if (allocated(error)) return
+
+        !> Eigenvalues with condition numbers
+        acopy = a
+        call geevx('B','V','V','B',n,acopy,n,wr,wi,vl,n,vr,n,ilo,ihi,scal,abnrm, &
+                   rconde,rcondv,work,lwork,iwork,info)
+        call check(error,info==0,'geevx ${ri}$ failed')
+        if (allocated(error)) return
+
+        !> Schur form with condition numbers
+        acopy = a
+        call geesx('N','N',keep_schur_${ri}$,'N',n,acopy,n,sdim,wr,wi,vs,n,rce,rcv, &
+                   work,lwork,iwork,size(iwork,kind=ilp),bwork,info)
+        call check(error,info==0,'geesx ${ri}$ failed')
+        if (allocated(error)) return
+
+        !> Expert linear solve
+        acopy = a
+        bmat = rhs
+        equed = 'N'
+        call gesvx('N','N',n,1_ilp,acopy,n,af,n,ipiv,equed,rowsc,colsc,bmat,n,x,n, &
+                   rcond,ferr,berr,work,iwork,info)
+        call check(error,info==0,'gesvx ${ri}$ failed')
+        if (allocated(error)) return
+        call check(error,all(abs(matmul(a,x(:,1))-rhs(:,1))<tol),'gesvx ${ri}$ residual too large')
+        if (allocated(error)) return
+
+    end subroutine test_${ri}$_generics
+
+    #:endfor
+    #:for ck,ct,ci in CMPL_KINDS_TYPES
+    !> geqp3, ggev3, gges3, gghd3, geevx, geesx and gesvx, ${ct}$
+    subroutine test_${ci}$_generics(error)
+        type(error_type), allocatable, intent(out) :: error
+
+        integer(ilp), parameter :: n = 3_ilp, lwork = 512_ilp
+        real(${ck}$), parameter :: tol = 100*sqrt(epsilon(0.0_${ck}$))
+
+        integer(ilp) :: i,info,sdim,ilo,ihi,jpvt(n),ipiv(n)
+        logical(lk) :: bwork(n)
+        character :: equed
+        complex(${ck}$) :: a(n,n),eye(n,n),acopy(n,n),bcopy(n,n),af(n,n)
+        complex(${ck}$) :: q(n,n),z(n,n),vl(n,n),vr(n,n),vs(n,n),vsl(n,n),vsr(n,n)
+        complex(${ck}$) :: rhs(n,1),bmat(n,1),x(n,1)
+        complex(${ck}$) :: tau(n),work(lwork),alpha(n),beta(n),w(n)
+        real(${ck}$) :: rwork(8*n),scal(n),rconde(n),rcondv(n),rowsc(n),colsc(n),ferr(1),berr(1)
+        real(${ck}$) :: abnrm,rcond,rce,rcv
+
+        a = transpose(reshape([${ct}$ :: 4, 1, 0, &
+                                        1, 3, 1, &
+                                        0, 1, 2], [n,n]))
+        eye = 0.0_${ck}$
+        do concurrent (i=1:n)
+          eye(i,i) = 1.0_${ck}$
+        end do
+        rhs(:,1) = [${ct}$ :: 1, 2, 3]
+
+        !> Pivoted QR factorization
+        acopy = a
+        jpvt = 0_ilp
+        call geqp3(n,n,acopy,n,jpvt,tau,work,lwork,rwork,info)
+        call check(error,info==0,'geqp3 ${ci}$ failed')
+        if (allocated(error)) return
+        call check(error,all(jpvt>=1_ilp) .and. all(jpvt<=n) .and. sum(jpvt)==n*(n+1)/2, &
+                   'geqp3 ${ci}$ did not return a permutation')
+        if (allocated(error)) return
+
+        !> Generalized eigenvalues, blocked
+        acopy = a
+        bcopy = eye
+        call ggev3('N','V',n,acopy,n,bcopy,n,alpha,beta,vl,n,vr,n,work,lwork,rwork,info)
+        call check(error,info==0,'ggev3 ${ci}$ failed')
+        if (allocated(error)) return
+
+        !> Generalized Schur form, blocked
+        acopy = a
+        bcopy = eye
+        call gges3('N','N','N',keep_${ci}$,n,acopy,n,bcopy,n,sdim,alpha,beta, &
+                   vsl,n,vsr,n,work,lwork,rwork,bwork,info)
+        call check(error,info==0,'gges3 ${ci}$ failed')
+        if (allocated(error)) return
+
+        !> Generalized Hessenberg form, blocked
+        acopy = a
+        bcopy = eye
+        call gghd3('N','N',n,1_ilp,n,acopy,n,bcopy,n,q,n,z,n,work,lwork,info)
+        call check(error,info==0,'gghd3 ${ci}$ failed')
+        if (allocated(error)) return
+
+        !> Eigenvalues with condition numbers
+        acopy = a
+        call geevx('B','V','V','B',n,acopy,n,w,vl,n,vr,n,ilo,ihi,scal,abnrm, &
+                   rconde,rcondv,work,lwork,rwork,info)
+        call check(error,info==0,'geevx ${ci}$ failed')
+        if (allocated(error)) return
+
+        !> Schur form with condition numbers
+        acopy = a
+        call geesx('N','N',keep_schur_${ci}$,'N',n,acopy,n,sdim,w,vs,n,rce,rcv, &
+                   work,lwork,rwork,bwork,info)
+        call check(error,info==0,'geesx ${ci}$ failed')
+        if (allocated(error)) return
+
+        !> Expert linear solve
+        acopy = a
+        bmat = rhs
+        equed = 'N'
+        call gesvx('N','N',n,1_ilp,acopy,n,af,n,ipiv,equed,rowsc,colsc,bmat,n,x,n, &
+                   rcond,ferr,berr,work,rwork,info)
+        call check(error,info==0,'gesvx ${ci}$ failed')
+        if (allocated(error)) return
+        call check(error,all(abs(matmul(a,x(:,1))-rhs(:,1))<tol),'gesvx ${ci}$ residual too large')
+        if (allocated(error)) return
+
+    end subroutine test_${ci}$_generics
+
+    #:endfor
+    ! gcc-15 bugfix utility
+    subroutine add_test(tests,new_test)
+        type(unittest_type), allocatable, intent(inout) :: tests(:)
+        type(unittest_type), intent(in) :: new_test
+
+        integer :: n
+        type(unittest_type), allocatable :: new_tests(:)
+
+        if (allocated(tests)) then
+            n = size(tests)
+        else
+            n = 0
+        end if
+
+        allocate(new_tests(n+1))
+        if (n>0) new_tests(1:n) = tests(1:n)
+                 new_tests(1+n) = new_test
+        call move_alloc(from=new_tests,to=tests)
+
+    end subroutine add_test
+
+end module test_la_lapack_generics
+
+program test_lapack_generics_program
+     use, intrinsic :: iso_fortran_env, only : error_unit
+     use testdrive, only : run_testsuite, new_testsuite, testsuite_type
+     use test_la_lapack_generics, only : test_lapack_generics
+     implicit none
+     integer :: stat, is
+     type(testsuite_type), allocatable :: testsuites(:)
+     character(len=*), parameter :: fmt = '("#", *(1x, a))'
+
+     stat = 0
+
+     testsuites = [ &
+         new_testsuite("la_lapack_generics", test_lapack_generics) &
+         ]
+
+     do is = 1, size(testsuites)
+         write(error_unit, fmt) "Testing:", testsuites(is)%name
+         call run_testsuite(testsuites(is)%collect, error_unit, stat)
+     end do
+
+     if (stat > 0) then
+         write(error_unit, '(i0, 1x, a)') stat, "test(s) failed!"
+         error stop
+     end if
+end program test_lapack_generics_program
