@@ -1,0 +1,54 @@
+#:include "common.fypp"
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:set bits = LA_KIND_BITS[rk]
+!> ${bits}$-bit BLAS/LAPACK constants
+module la_constants_${rk}$
+     use la_constants
+     implicit none(type,external)
+     private
+
+     public :: negone,zero,half,one,two,three,four,eight,ten
+     public :: czero,chalf,cone,cnegone
+     public :: maxexp,minexp,rradix,ulp,eps,safmin,safmax,smlnum,bignum,rtmin,rtmax
+     public :: tsml,tbig,ssml,sbig
+
+     ! ${bits}$-bit real constants
+     real(${rk}$),parameter :: negone = -1.00_${rk}$
+     real(${rk}$),parameter :: zero = 0.00_${rk}$
+     real(${rk}$),parameter :: half = 0.50_${rk}$
+     real(${rk}$),parameter :: one = 1.00_${rk}$
+     real(${rk}$),parameter :: two = 2.00_${rk}$
+     real(${rk}$),parameter :: three = 3.00_${rk}$
+     real(${rk}$),parameter :: four = 4.00_${rk}$
+     real(${rk}$),parameter :: eight = 8.00_${rk}$
+     real(${rk}$),parameter :: ten = 10.00_${rk}$
+
+     ! ${bits}$-bit complex constants
+     complex(${rk}$),parameter :: czero = (0.0_${rk}$,0.0_${rk}$)
+     complex(${rk}$),parameter :: chalf = (0.5_${rk}$,0.0_${rk}$)
+     complex(${rk}$),parameter :: cone = (1.0_${rk}$,0.0_${rk}$)
+     complex(${rk}$),parameter :: cnegone = (-1.0_${rk}$,0.0_${rk}$)
+
+     ! ${bits}$-bit scaling constants
+     integer,parameter :: maxexp = maxexponent(zero)
+     integer,parameter :: minexp = minexponent(zero)
+     real(${rk}$),parameter :: rradix = real(radix(zero),${rk}$)
+     real(${rk}$),parameter :: ulp = epsilon(zero)
+     real(${rk}$),parameter :: eps = ulp*half
+     real(${rk}$),parameter :: safmin = rradix**max(minexp - 1,1 - maxexp)
+     real(${rk}$),parameter :: safmax = one/safmin
+     real(${rk}$),parameter :: smlnum = safmin/ulp
+     real(${rk}$),parameter :: bignum = safmax*ulp
+     real(${rk}$),parameter :: rtmin = sqrt(smlnum)
+     real(${rk}$),parameter :: rtmax = sqrt(bignum)
+
+     ! ${bits}$-bit Blue's scaling constants
+     ! ssml>=1/s and sbig==1/S with s,S as defined in https://doi.org/10.1145/355769.355771
+     real(${rk}$),parameter :: tsml = rradix**ceiling((minexp - 1)*half)
+     real(${rk}$),parameter :: tbig = rradix**floor((maxexp - digits(zero) + 1)*half)
+     real(${rk}$),parameter :: ssml = rradix**(-floor((minexp - digits(zero))*half))
+     real(${rk}$),parameter :: sbig = rradix**(-ceiling((maxexp + digits(zero) - 1)*half))
+
+end module la_constants_${rk}$
+
+#:endfor

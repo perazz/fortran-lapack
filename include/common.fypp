@@ -14,6 +14,31 @@
 #! All kinds to be considered during templating
 #:set ALL_KINDS_TYPES  = list(zip(REAL_KINDS+REAL_KINDS,REAL_TYPES+CMPL_TYPES,REAL_INITIALS+CMPL_INITIALS))
 
+#! Kind algebra used by the templated BLAS/LAPACK topic modules.
+#! Each row carries, for one precision: its own kind (rk) and type (rt), its own initial (ri),
+#! the initial of the companion type class (ci), then the same three one precision down
+#! (rkl, ril, cil; None for sp) and one precision up (rku, riu, ciu; None for qp).
+#:set LA_KINDS_DOWN = [None] + list(zip(REAL_KINDS, REAL_INITIALS, CMPL_INITIALS))[:-1]
+#:set LA_KINDS_UP   = list(zip(REAL_KINDS, REAL_INITIALS, CMPL_INITIALS))[1:] + [None]
+#:set LA_REAL_KINDS = [ (rk, "real({})".format(rk), ri, ci, &
+                      & (dn[0] if dn else None), (dn[1] if dn else None), (dn[2] if dn else None), &
+                      & (up[0] if up else None), (up[1] if up else None), (up[2] if up else None)) &
+                      & for (rk, ri, ci), dn, up in zip(zip(REAL_KINDS, REAL_INITIALS, CMPL_INITIALS), LA_KINDS_DOWN, LA_KINDS_UP) ]
+#:set LA_CMPL_KINDS = [ (rk, "complex({})".format(rk), ci, ri, &
+                      & (dn[0] if dn else None), (dn[2] if dn else None), (dn[1] if dn else None), &
+                      & (up[0] if up else None), (up[2] if up else None), (up[1] if up else None)) &
+                      & for (rk, ri, ci), dn, up in zip(zip(REAL_KINDS, REAL_INITIALS, CMPL_INITIALS), LA_KINDS_DOWN, LA_KINDS_UP) ]
+
+#! Bit width of each real kind, used by the per-kind constant modules
+#:set LA_KIND_BITS = dict(zip(REAL_KINDS, ["32", "64", "128"]))
+
+#! Word used for a precision in doc comments
+#:set LA_PRECISION = dict(zip(REAL_KINDS, ["single", "double", "quad"]))
+
+#! The same rows keyed by their own initial, for tables that name a specific routine
+#:set LA_ROW_FIELDS = ("rk", "rt", "ri", "ci", "rkl", "ril", "cil", "rku", "riu", "ciu")
+#:set LA_BY_INITIAL = {row[2]: dict(zip(LA_ROW_FIELDS, row)) for row in LA_REAL_KINDS + LA_CMPL_KINDS}
+
 #:set MAXRANK = 7
 
 #:set RANK_SUFFIX      = ["_one","_multiple"]
