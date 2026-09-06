@@ -1,0 +1,16 @@
+<map id="la_lapack_eigv_gen_aux::la_dlasy2" name="la_lapack_eigv_gen_aux::la_dlasy2">
+<area shape="rect" id="Node000001" title="DLASY2: solves for the N1 by N2 matrix X, 1 &lt;= N1,N2 &lt;= 2, in op(TL)*X + ISGN*X*op(TR) = SCALE*B,..." alt="" coords="5,125,156,165"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__level1.html#aae8bb4d5e6d345d21c204686597a16c7" title="DCOPY: copies a vector, x, to a vector, y. uses unrolled loops for increments equal to 1." alt="" coords="224,5,359,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="104,123,149,89,203,55,216,48,219,53,205,60,152,93,108,127"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="217,93,365,133"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="156,131,203,124,204,129,157,137"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__level1.html#a994a029162ceccb497f081b70e6d4b10" title="DSWAP: interchanges two vectors. uses unrolled loops for increments equal to 1." alt="" coords="224,157,359,197"/>
+<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="157,154,211,162,210,168,156,159"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__aux.html#af6800bacfc44f820f5ab674a67a9e93c" title="IDAMAX: finds the index of the first element having maximum absolute value." alt="" coords="204,246,379,271"/>
+<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="120,163,256,237,253,242,117,168"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="252,94,249,84,256,74,270,69,291,67,316,70,329,77,327,82,314,75,291,72,271,74,259,79,255,85,257,92"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="427,101,593,126"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="366,111,413,111,413,116,366,116"/>
+<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="474,102,467,92,471,82,485,76,510,74,540,78,552,87,549,91,538,83,510,79,487,81,474,86,472,92,478,99"/>
+<area shape="poly" id="edge8_Node000006_Node000006" title=" " alt="" coords="257,248,249,238,253,228,268,222,291,219,321,223,332,232,329,236,319,228,291,225,269,227,257,231,255,237,261,244"/>
+</map>

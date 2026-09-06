@@ -1,0 +1,17 @@
+<map id="la_lapack_orthogonal_factors_qr::la_dlarfb_gett" name="la_lapack_orthogonal_factors_qr::la_dlarfb_gett">
+<area shape="rect" id="Node000001" title="DLARFB_GETT: applies a real Householder block reflector H from the left to a real (K+M)&#45;by&#45;N &quot;triangu..." alt="" coords="5,92,197,132"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__level1.html#aae8bb4d5e6d345d21c204686597a16c7" title="DCOPY: copies a vector, x, to a vector, y. uses unrolled loops for increments equal to 1." alt="" coords="251,5,386,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="151,89,254,48,256,53,153,94"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__level3__gen.html#a5709dfcfa0ca3c6a3635c30a7029e225" title="DGEMM: performs one of the matrix&#45;matrix operations C := alpha*op( A )*op( B ) + beta*C,..." alt="" coords="245,120,392,160"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="198,122,232,126,231,131,197,127"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="440,127,607,153"/>
+<area shape="poly" id="edge9_Node000001_Node000004" title=" " alt="" coords="197,102,292,99,392,105,468,121,467,126,392,111,292,105,198,107"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__level3__tri.html#a710d6b899efadca7fff77218f39cf845" title="DTRMM: performs one of the matrix&#45;matrix operations B := alpha*op( A )*B, or B := alpha*B*op( A ),..." alt="" coords="251,184,387,224"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="151,130,259,176,257,181,149,135"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="392,137,426,137,426,143,392,143"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="440,183,607,209"/>
+<area shape="poly" id="edge5_Node000003_Node000005" title=" " alt="" coords="393,157,463,177,462,182,392,163"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="490,129,483,119,487,109,500,103,523,101,552,104,563,114,559,118,549,109,523,106,502,108,490,113,488,118,494,126"/>
+<area shape="poly" id="edge7_Node000006_Node000004" title=" " alt="" coords="383,181,468,154,470,159,384,186"/>
+<area shape="poly" id="edge8_Node000006_Node000005" title=" " alt="" coords="387,199,426,197,427,202,387,204"/>
+</map>

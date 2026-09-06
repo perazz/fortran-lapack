@@ -1,0 +1,22 @@
+<map id="la_lapack_orthogonal_factors_qr::la_wlaunhr_col_getrfnp2" name="la_lapack_orthogonal_factors_qr::la_wlaunhr_col_getrfnp2">
+<area shape="rect" id="Node000001" title="WLAUNHR_COL_GETRFNP2: computes the modified LU factorization without pivoting of a complex general M&#45;..." alt="" coords="5,150,179,205"/>
+<area shape="poly" id="edge8_Node000001_Node000001" title=" " alt="" coords="51,150,51,140,59,131,72,125,92,123,116,126,129,134,126,139,114,131,92,129,74,131,62,135,56,142,56,150"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__auxiliary.html#a422783a9c3975903ac0fc1dc06f4ec01" title="QLAMCH: determines quad precision machine parameters." alt="" coords="227,29,375,69"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="125,148,172,113,225,79,236,73,239,78,228,84,175,118,129,152"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__level3__gen.html#a2e5ed65da1e0129d86b12a70f5bb8058" title="WGEMM: performs one of the matrix&#45;matrix operations C := alpha*op( A )*op( B ) + beta*C,..." alt="" coords="227,157,374,197"/>
+<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="179,175,213,175,213,180,179,180"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="423,165,589,190"/>
+<area shape="poly" id="edge13_Node000001_Node000005" title=" " alt="" coords="179,198,227,207,301,213,374,207,450,191,451,196,375,212,301,218,226,212,178,204"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__level1.html#ae83235d72e747f0b57434ed5da4f16b1" title="WSCAL: scales a vector by a constant." alt="" coords="233,272,368,312"/>
+<area shape="poly" id="edge9_Node000001_Node000006" title=" " alt="" coords="142,202,228,251,251,263,248,268,225,256,139,207"/>
+<area shape="rect" id="Node000007" href="$namespacela__blas__level3__tri.html#ac7ebed601d7857e709e28ef2f6bc0467" title="WTRSM: solves one of the matrix equations op( A )*X = alpha*B, or X*op( A ) = alpha*B,..." alt="" coords="233,93,369,133"/>
+<area shape="poly" id="edge10_Node000001_Node000007" title=" " alt="" coords="178,148,221,135,222,140,180,153"/>
+<area shape="poly" id="edge4_Node000002_Node000002" title=" " alt="" coords="262,30,260,20,266,11,280,5,301,3,325,6,338,13,335,18,323,11,301,8,281,10,269,15,265,21,267,28"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="423,101,589,126"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="366,67,452,94,451,99,365,72"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="472,102,465,92,469,82,483,76,506,74,535,78,546,87,543,91,532,83,506,79,484,81,473,86,470,92,476,99"/>
+<area shape="poly" id="edge6_Node000004_Node000003" title=" " alt="" coords="365,155,451,128,452,133,366,160"/>
+<area shape="poly" id="edge7_Node000004_Node000005" title=" " alt="" coords="374,175,409,175,409,180,374,180"/>
+<area shape="poly" id="edge11_Node000007_Node000003" title=" " alt="" coords="369,111,409,111,409,116,369,116"/>
+<area shape="poly" id="edge12_Node000007_Node000005" title=" " alt="" coords="366,131,452,158,451,163,365,136"/>
+</map>

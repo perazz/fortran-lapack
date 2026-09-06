@@ -1,8 +1,0 @@
-<map id="la_lapack_d::la_dorm22" name="la_lapack_d::la_dorm22">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,29,181,55"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__blas__like__base.html#a0ceeb0ea602555c3d55fb10fa6c97c24" title="DLACPY: copies all or part of a two&#45;dimensional matrix A to another matrix B." alt="" coords="229,22,377,62"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="181,39,215,39,215,45,181,45"/>
-<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="425,29,592,55"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="378,39,411,39,411,45,378,45"/>
-<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="475,31,468,21,471,11,485,5,509,3,537,6,549,15,545,20,535,11,509,8,487,10,475,15,473,20,479,28"/>
-</map>

@@ -1,9 +1,0 @@
-<map id="la_lapack_s::la_slagts" name="la_lapack_s::la_slagts">
-<area shape="rect" id="Node000001" title="SLAGTS: may be used to solve one of the systems of equations (T &#45; lambda*I)*x = y or (T &#45; lambda*I)**..." alt="" coords="5,37,169,62"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="217,29,365,69"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="169,47,203,47,203,52,169,52"/>
-<area shape="poly" id="edge4_Node000002_Node000002" title=" " alt="" coords="253,30,251,20,257,11,271,5,291,3,315,6,328,13,325,18,313,11,291,8,272,10,260,15,256,21,258,28"/>
-<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="413,37,580,62"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="366,47,399,47,399,52,366,52"/>
-<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="463,38,456,28,459,18,473,12,497,10,525,14,537,23,533,27,523,19,497,15,475,17,463,22,461,28,467,35"/>
-</map>

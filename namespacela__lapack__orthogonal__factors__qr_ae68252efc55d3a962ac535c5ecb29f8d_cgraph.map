@@ -1,0 +1,24 @@
+<map id="la_lapack_orthogonal_factors_qr::la_qorm2r" name="la_lapack_orthogonal_factors_qr::la_qorm2r">
+<area shape="rect" id="Node000001" title="QORM2R: overwrites the general real m by n matrix C with Q * C if SIDE = &#39;L&#39; and TRANS = &#39;N&#39;,..." alt="" coords="5,170,173,210"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="665,29,832,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="121,168,179,135,256,95,346,58,439,30,495,22,551,19,655,25,655,30,551,25,495,27,441,35,347,63,258,100,181,139,124,172"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__householder__reflectors.html#a52a8729fe2f7462f0c5f8088a667c74a" title="QLARF: applies a real elementary reflector H to a real m by n matrix C, from either the left or the r..." alt="" coords="221,170,392,210"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="174,187,207,187,207,193,174,193"/>
+<area shape="rect" id="Node000007" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="665,299,832,324"/>
+<area shape="poly" id="edge14_Node000001_Node000007" title=" " alt="" coords="125,208,183,240,259,278,348,314,441,341,490,349,528,350,617,341,693,325,694,330,618,346,528,356,489,354,439,346,346,319,257,283,180,245,122,212"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="713,31,705,21,709,11,724,5,749,3,779,6,791,15,788,20,777,11,749,8,725,10,713,15,710,20,717,28"/>
+<area shape="poly" id="edge8_Node000003_Node000002" title=" " alt="" coords="320,168,368,115,401,87,439,65,492,47,547,37,601,32,651,31,651,37,601,37,547,42,493,52,441,70,404,91,372,118,324,172"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__aux.html#a89c999353d6bf1a6ec63f15a8c2e26f9" title="ILAQLC: scans A for its last non&#45;zero column." alt="" coords="440,104,617,129"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="357,167,439,138,464,131,466,136,441,143,359,172"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__aux.html#a2a0245021a95a162a43b7716204498a0" title="ILAQLR: scans A for its last non&#45;zero row." alt="" coords="441,177,616,203"/>
+<area shape="poly" id="edge6_Node000003_Node000005" title=" " alt="" coords="392,187,428,187,428,193,392,193"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__level2__gen.html#aecd73c3541f591fb801540fa6e7e3883" title="QGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="455,227,602,267"/>
+<area shape="poly" id="edge9_Node000003_Node000006" title=" " alt="" coords="385,207,443,222,441,228,384,213"/>
+<area shape="rect" id="Node000008" href="$namespacela__blas__level2__gen.html#a2babbc60e4573bf86995dc3e7360db8b" title="QGER: performs the rank 1 operation A := alpha*x*y**T + A, where alpha is a scalar,..." alt="" coords="455,291,602,331"/>
+<area shape="poly" id="edge12_Node000003_Node000008" title=" " alt="" coords="335,208,383,242,441,277,455,283,453,288,439,282,380,247,332,212"/>
+<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="493,106,485,96,489,86,504,80,529,77,559,81,571,90,568,94,557,86,529,83,505,85,493,90,490,95,497,102"/>
+<area shape="poly" id="edge7_Node000005_Node000005" title=" " alt="" coords="493,179,485,169,489,159,504,153,529,151,559,154,571,163,568,168,557,159,529,156,505,158,493,163,490,168,497,176"/>
+<area shape="poly" id="edge10_Node000006_Node000002" title=" " alt="" coords="594,225,616,212,654,177,687,137,732,65,737,68,691,140,658,181,619,216,596,230"/>
+<area shape="poly" id="edge11_Node000006_Node000007" title=" " alt="" coords="599,265,692,292,690,297,597,270"/>
+<area shape="poly" id="edge13_Node000008_Node000007" title=" " alt="" coords="602,309,651,309,651,314,602,314"/>
+</map>

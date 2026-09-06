@@ -121,81 +121,16 @@ $(function(){initNavTree('interfacela__lapack_1_1heswapr.html',''); initResizabl
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a6feff7fe3dced5a1d3c06872db73d5f3" id="r_a6feff7fe3dced5a1d3c06872db73d5f3"><td class="memItemLeft" align="right" valign="top">pure subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6feff7fe3dced5a1d3c06872db73d5f3">cheswapr</a> (uplo, n, a, lda, i1, i2)</td></tr>
-<tr class="separator:a6feff7fe3dced5a1d3c06872db73d5f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5a112cb87e76ac5cd5b11cc1ce123817" id="r_a5a112cb87e76ac5cd5b11cc1ce123817"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5a112cb87e76ac5cd5b11cc1ce123817">la_cheswapr</a></td></tr>
 <tr class="separator:a5a112cb87e76ac5cd5b11cc1ce123817"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1801f4332c354cae8e70d8e825a6e6e6" id="r_a1801f4332c354cae8e70d8e825a6e6e6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1801f4332c354cae8e70d8e825a6e6e6">la_wheswapr</a></td></tr>
 <tr class="separator:a1801f4332c354cae8e70d8e825a6e6e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a908e41482c681597638daffe7cc57b17" id="r_a908e41482c681597638daffe7cc57b17"><td class="memItemLeft" align="right" valign="top">pure subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a908e41482c681597638daffe7cc57b17">zheswapr</a> (uplo, n, a, lda, i1, i2)</td></tr>
-<tr class="separator:a908e41482c681597638daffe7cc57b17"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aae67661510d6490cb1de6b53aabcdce0" id="r_aae67661510d6490cb1de6b53aabcdce0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aae67661510d6490cb1de6b53aabcdce0">la_zheswapr</a></td></tr>
 <tr class="separator:aae67661510d6490cb1de6b53aabcdce0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>HESWAPR: applies an elementary permutation on the rows and the columns of a hermitian matrix. </p>
 </div><h2 class="groupheader">Member Function/Subroutine Documentation</h2>
-<a id="a6feff7fe3dced5a1d3c06872db73d5f3" name="a6feff7fe3dced5a1d3c06872db73d5f3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6feff7fe3dced5a1d3c06872db73d5f3">&#9670;&#160;</a></span>cheswapr()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">pure subroutine la_lapack::heswapr::cheswapr </td>
-          <td>(</td>
-          <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>uplo</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>n</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>), dimension(lda,n), intent(inout)</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>lda</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>i1</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>i2</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="interfacela__lapack_1_1heswapr_a6feff7fe3dced5a1d3c06872db73d5f3_cgraph.png" border="0" usemap="#ainterfacela__lapack_1_1heswapr_a6feff7fe3dced5a1d3c06872db73d5f3_cgraph" alt=""/></div>
-<map name="ainterfacela__lapack_1_1heswapr_a6feff7fe3dced5a1d3c06872db73d5f3_cgraph" id="ainterfacela__lapack_1_1heswapr_a6feff7fe3dced5a1d3c06872db73d5f3_cgraph">
-<area shape="rect" title=" " alt="" coords="5,84,152,124"/>
-<area shape="rect" href="namespacela__lapack__solve__ldl__comp3.html#a81cbdcbb85c8c4806cbd84109b6dbcf1" title="CHESWAPR: applies an elementary permutation on the rows and the columns of a hermitian matrix." alt="" coords="202,52,365,92"/>
-<area shape="poly" title=" " alt="" coords="152,90,188,84,189,89,153,95"/>
-<area shape="rect" href="namespacela__lapack__solve__ldl__comp3.html#a0ccf75244954e5256ca7a5e040bfb447" title="WHESWAPR: applies an elementary permutation on the rows and the columns of a hermitian matrix." alt="" coords="200,116,367,156"/>
-<area shape="poly" title=" " alt="" coords="153,113,187,118,186,123,152,118"/>
-<area shape="rect" href="namespacela__blas__level1.html#a4fb9af59b508cde93dace0cd181faeeb" title="CSWAP: interchanges two vectors." alt="" coords="431,5,565,45"/>
-<area shape="poly" title=" " alt="" coords="364,52,417,40,418,45,365,57"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="415,94,581,119"/>
-<area shape="poly" title=" " alt="" coords="365,82,406,89,405,94,364,88"/>
-<area shape="poly" title=" " alt="" coords="463,96,456,86,459,76,474,70,498,67,528,71,539,80,536,84,526,76,498,73,475,75,463,80,461,85,467,92"/>
-<area shape="poly" title=" " alt="" coords="367,122,400,117,401,123,368,127"/>
-<area shape="rect" href="namespacela__blas__level1.html#a87a0f6f4a51cb922e497d49bc7597e53" title="WSWAP: interchanges two vectors." alt="" coords="431,144,565,184"/>
-<area shape="poly" title=" " alt="" coords="368,144,417,151,417,156,367,150"/>
-</map>
-</div>
-
-</div>
-</div>
 <a id="a5a112cb87e76ac5cd5b11cc1ce123817" name="a5a112cb87e76ac5cd5b11cc1ce123817"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5a112cb87e76ac5cd5b11cc1ce123817">&#9670;&#160;</a></span>la_cheswapr()</h2>
 
@@ -238,64 +173,8 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="a908e41482c681597638daffe7cc57b17" name="a908e41482c681597638daffe7cc57b17"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a908e41482c681597638daffe7cc57b17">&#9670;&#160;</a></span>zheswapr()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">pure subroutine la_lapack::heswapr::zheswapr </td>
-          <td>(</td>
-          <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>uplo</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>n</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>), dimension(lda,n), intent(inout)</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>lda</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>i1</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>i2</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="interfacela__lapack_1_1heswapr_a908e41482c681597638daffe7cc57b17_cgraph.png" border="0" usemap="#ainterfacela__lapack_1_1heswapr_a908e41482c681597638daffe7cc57b17_cgraph" alt=""/></div>
-<map name="ainterfacela__lapack_1_1heswapr_a908e41482c681597638daffe7cc57b17_cgraph" id="ainterfacela__lapack_1_1heswapr_a908e41482c681597638daffe7cc57b17_cgraph">
-<area shape="rect" title=" " alt="" coords="5,51,152,91"/>
-<area shape="rect" href="namespacela__lapack__solve__ldl__comp3.html#a3741e356396a1b3a8475a9f37ba0f931" title="ZHESWAPR: applies an elementary permutation on the rows and the columns of a hermitian matrix." alt="" coords="200,51,363,91"/>
-<area shape="poly" title=" " alt="" coords="152,69,186,69,186,74,152,74"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="411,29,577,55"/>
-<area shape="poly" title=" " alt="" coords="363,57,397,53,398,58,364,63"/>
-<area shape="rect" href="namespacela__blas__level1.html#ad757f0e2b47ff2b8a75222a5ccddcd44" title="ZSWAP: interchanges two vectors." alt="" coords="427,79,561,119"/>
-<area shape="poly" title=" " alt="" coords="364,79,413,86,413,91,363,85"/>
-<area shape="poly" title=" " alt="" coords="459,31,452,21,456,11,470,5,494,3,523,6,535,15,532,20,521,11,494,8,472,10,460,15,457,20,464,28"/>
-</map>
-</div>
-
-</div>
-</div>
 <hr/>The documentation for this interface was generated from the following file:<ul>
-<li><a class="el" href="la__lapack_8f90.html">la_lapack.f90</a></li>
+<li><a class="el" href="la__lapack_8_f90.html">la_lapack.F90</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

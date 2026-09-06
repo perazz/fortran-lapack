@@ -121,81 +121,16 @@ $(function(){initNavTree('interfacela__lapack_1_1lahef.html',''); initResizable(
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a2c0e2adaa22d6d78e4a36be8ec4d7df9" id="r_a2c0e2adaa22d6d78e4a36be8ec4d7df9"><td class="memItemLeft" align="right" valign="top">pure subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2c0e2adaa22d6d78e4a36be8ec4d7df9">clahef</a> (uplo, n, nb, kb, a, lda, ipiv, w, ldw, info)</td></tr>
-<tr class="separator:a2c0e2adaa22d6d78e4a36be8ec4d7df9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9073505873eedc08da9643b38057b2c0" id="r_a9073505873eedc08da9643b38057b2c0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9073505873eedc08da9643b38057b2c0">la_clahef</a></td></tr>
 <tr class="separator:a9073505873eedc08da9643b38057b2c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a08db540e5bf52c7667671edecd2e5fae" id="r_a08db540e5bf52c7667671edecd2e5fae"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a08db540e5bf52c7667671edecd2e5fae">la_wlahef</a></td></tr>
 <tr class="separator:a08db540e5bf52c7667671edecd2e5fae"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adaa85b1ec9e81c65bf64af7e62a83f93" id="r_adaa85b1ec9e81c65bf64af7e62a83f93"><td class="memItemLeft" align="right" valign="top">pure subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adaa85b1ec9e81c65bf64af7e62a83f93">zlahef</a> (uplo, n, nb, kb, a, lda, ipiv, w, ldw, info)</td></tr>
-<tr class="separator:adaa85b1ec9e81c65bf64af7e62a83f93"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2f3ab0cafa0cf11b822f2ee0b14c146b" id="r_a2f3ab0cafa0cf11b822f2ee0b14c146b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2f3ab0cafa0cf11b822f2ee0b14c146b">la_zlahef</a></td></tr>
 <tr class="separator:a2f3ab0cafa0cf11b822f2ee0b14c146b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>LAHEF: computes a partial factorization of a complex Hermitian matrix A using the Bunch-Kaufman diagonal pivoting method. The partial factorization has the form: A = ( I U12 ) ( A11 0 ) ( I 0 ) if UPLO = 'U', or: ( 0 U22 ) ( 0 D ) ( U12**H U22**H ) A = ( L11 0 ) ( D 0 ) ( L11**H L21**H ) if UPLO = 'L' ( L21 I ) ( 0 A22 ) ( 0 I ) where the order of D is at most NB. The actual order is returned in the argument KB, and is either NB or NB-1, or N if N &lt;= NB. Note that U**H denotes the conjugate transpose of U. LAHEF is an auxiliary routine called by CHETRF. It uses blocked code (calling Level 3 BLAS) to update the submatrix A11 (if UPLO = 'U') or A22 (if UPLO = 'L'). </p>
 </div><h2 class="groupheader">Member Function/Subroutine Documentation</h2>
-<a id="a2c0e2adaa22d6d78e4a36be8ec4d7df9" name="a2c0e2adaa22d6d78e4a36be8ec4d7df9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2c0e2adaa22d6d78e4a36be8ec4d7df9">&#9670;&#160;</a></span>clahef()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">pure subroutine la_lapack::lahef::clahef </td>
-          <td>(</td>
-          <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>uplo</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>n</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>nb</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(out)</td>          <td class="paramname"><span class="paramname"><em>kb</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>), dimension(lda,*), intent(inout)</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>lda</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), dimension(*), intent(out)</td>          <td class="paramname"><span class="paramname"><em>ipiv</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>), dimension(ldw,*), intent(out)</td>          <td class="paramname"><span class="paramname"><em>w</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>ldw</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(out)</td>          <td class="paramname"><span class="paramname"><em>info</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="a9073505873eedc08da9643b38057b2c0" name="a9073505873eedc08da9643b38057b2c0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9073505873eedc08da9643b38057b2c0">&#9670;&#160;</a></span>la_clahef()</h2>
 
@@ -238,69 +173,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="adaa85b1ec9e81c65bf64af7e62a83f93" name="adaa85b1ec9e81c65bf64af7e62a83f93"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adaa85b1ec9e81c65bf64af7e62a83f93">&#9670;&#160;</a></span>zlahef()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">pure subroutine la_lapack::lahef::zlahef </td>
-          <td>(</td>
-          <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>uplo</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>n</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>nb</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(out)</td>          <td class="paramname"><span class="paramname"><em>kb</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>), dimension(lda,*), intent(inout)</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>lda</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), dimension(*), intent(out)</td>          <td class="paramname"><span class="paramname"><em>ipiv</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>), dimension(ldw,*), intent(out)</td>          <td class="paramname"><span class="paramname"><em>w</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>ldw</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(out)</td>          <td class="paramname"><span class="paramname"><em>info</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <hr/>The documentation for this interface was generated from the following file:<ul>
-<li><a class="el" href="la__lapack_8f90.html">la_lapack.f90</a></li>
+<li><a class="el" href="la__lapack_8_f90.html">la_lapack.F90</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

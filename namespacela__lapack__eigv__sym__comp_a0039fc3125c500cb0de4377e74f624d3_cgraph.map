@@ -1,0 +1,24 @@
+<map id="la_lapack_eigv_sym_comp::la_dsygs2" name="la_lapack_eigv_sym_comp::la_dsygs2">
+<area shape="rect" id="Node000001" title="DSYGS2: reduces a real symmetric&#45;definite generalized eigenproblem to standard form...." alt="" coords="5,184,160,224"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__level1.html#ade1fdf3fe5383466db0f45c14f4a2999" title="DAXPY: constant times a vector plus a vector. uses unrolled loops for increments equal to one." alt="" coords="216,5,351,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="94,182,139,121,171,86,206,55,214,50,217,54,210,59,175,90,144,124,99,185"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__level1.html#a74ba718e1843e245ad196e1a72a1f9ab" title="DSCAL: scales a vector by a constant. uses unrolled loops for increment equal to 1." alt="" coords="216,69,351,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="114,181,207,126,229,114,231,118,209,130,117,186"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__level2__sym.html#a09017dc1ebcf4412300bee47d69cfdad" title="DSYR2: performs the symmetric rank 2 operation A := alpha*x*y**T + alpha*y*x**T + A,..." alt="" coords="208,184,359,224"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="161,201,194,201,194,207,161,207"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="407,227,573,253"/>
+<area shape="poly" id="edge13_Node000001_Node000005" title=" " alt="" coords="147,181,194,171,247,163,304,162,359,169,415,191,461,217,458,222,412,195,358,175,303,167,248,169,195,176,148,187"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="407,283,573,309"/>
+<area shape="poly" id="edge14_Node000001_Node000006" title=" " alt="" coords="95,223,111,256,136,295,169,333,188,349,209,362,248,376,281,378,316,372,358,361,412,341,458,314,461,319,415,345,359,367,317,377,282,384,247,381,207,366,185,353,165,337,132,298,107,259,90,226"/>
+<area shape="rect" id="Node000007" href="$namespacela__blas__level2__tri.html#a5dc999c70ce48df0f53922903ec69add" title="DTRMV: performs one of the matrix&#45;vector operations x := A*x, or x := A**T*x, where x is an n element..." alt="" coords="215,248,351,288"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="147,222,208,241,206,246,145,227"/>
+<area shape="rect" id="Node000008" href="$namespacela__blas__level2__tri.html#a618b93ee1bc57f991ebd8325af4b6cea" title="DTRSV: solves one of the systems of equations A*x = b, or A**T*x = b, where b and x are n element vec..." alt="" coords="215,312,351,352"/>
+<area shape="poly" id="edge10_Node000001_Node000008" title=" " alt="" coords="108,222,154,259,209,298,220,304,218,308,207,302,150,264,105,226"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="359,214,404,222,403,228,358,220"/>
+<area shape="poly" id="edge6_Node000004_Node000006" title=" " alt="" coords="334,222,360,234,408,262,441,276,439,281,405,266,357,238,332,226"/>
+<area shape="poly" id="edge5_Node000005_Node000005" title=" " alt="" coords="456,229,449,219,453,209,467,203,490,201,519,204,530,213,527,218,516,209,490,206,468,208,457,213,454,218,460,226"/>
+<area shape="poly" id="edge8_Node000007_Node000005" title=" " alt="" coords="351,256,393,250,393,256,352,261"/>
+<area shape="poly" id="edge9_Node000007_Node000006" title=" " alt="" coords="352,275,393,280,393,286,351,280"/>
+<area shape="poly" id="edge11_Node000008_Node000005" title=" " alt="" coords="333,310,357,298,405,268,436,255,438,260,408,273,360,302,335,314"/>
+<area shape="poly" id="edge12_Node000008_Node000006" title=" " alt="" coords="351,318,403,308,404,314,352,323"/>
+</map>

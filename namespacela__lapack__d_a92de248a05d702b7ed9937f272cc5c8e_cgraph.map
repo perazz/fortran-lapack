@@ -1,9 +1,0 @@
-<map id="la_lapack_d::la_dggbal" name="la_lapack_d::la_dggbal">
-<area shape="rect" id="Node000001" title="DGGBAL: balances a pair of general real matrices (A,B). This involves, first, permuting A and B by si..." alt="" coords="5,37,176,62"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="224,29,372,69"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="176,47,210,47,210,52,176,52"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="259,30,257,20,263,11,277,5,298,3,322,6,335,13,333,18,320,11,298,8,278,10,267,15,262,21,264,28"/>
-<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="420,37,587,62"/>
-<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="373,47,406,47,406,52,373,52"/>
-<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="470,38,462,28,466,18,480,12,503,10,532,14,543,23,540,27,530,19,503,15,481,17,470,22,468,28,474,35"/>
-</map>

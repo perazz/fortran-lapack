@@ -1,0 +1,7 @@
+<map id="la_lapack_eigv_gen3::la_qlaqz2" name="la_lapack_eigv_gen3::la_qlaqz2">
+<area shape="rect" id="Node000001" title="QLAQZ2: chases a 2x2 shift bulge in a matrix pencil down a single position." alt="" coords="5,35,164,75"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__givens__jacobi__rot.html#af71d687d6524c8948c82aae1e3d75261" title="!" alt="" coords="212,5,392,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="164,41,198,37,199,42,164,47"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__level1.html#a287d433ea91b714145112b0354b86914" title="QROT: applies a plane rotation." alt="" coords="218,70,386,95"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="164,62,205,67,204,73,164,67"/>
+</map>

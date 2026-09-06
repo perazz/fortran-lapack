@@ -1,9 +1,0 @@
-<map id="la_lapack_s::la_slarrk" name="la_lapack_s::la_slarrk">
-<area shape="rect" id="Node000001" title="SLARRK: computes one eigenvalue of a symmetric tridiagonal matrix T to suitable accuracy...." alt="" coords="5,37,168,62"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="216,29,364,69"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="168,47,202,47,202,52,168,52"/>
-<area shape="poly" id="edge4_Node000002_Node000002" title=" " alt="" coords="252,30,250,20,256,11,269,5,290,3,314,6,327,13,324,18,312,11,290,8,271,10,259,15,255,21,257,28"/>
-<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="412,37,579,62"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="365,47,398,47,398,52,365,52"/>
-<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="462,38,454,28,458,18,472,12,495,10,524,14,535,23,532,27,522,19,495,15,473,17,462,22,460,28,466,35"/>
-</map>

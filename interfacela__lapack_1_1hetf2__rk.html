@@ -121,141 +121,16 @@ $(function(){initNavTree('interfacela__lapack_1_1hetf2__rk.html',''); initResiza
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ae40163c0a8a792a4849c1ddec33ca694" id="r_ae40163c0a8a792a4849c1ddec33ca694"><td class="memItemLeft" align="right" valign="top">pure subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae40163c0a8a792a4849c1ddec33ca694">chetf2_rk</a> (uplo, n, a, lda, e, ipiv, info)</td></tr>
-<tr class="separator:ae40163c0a8a792a4849c1ddec33ca694"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a51f4c6e3a1bbf713ccbcc2eb75536bb2" id="r_a51f4c6e3a1bbf713ccbcc2eb75536bb2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a51f4c6e3a1bbf713ccbcc2eb75536bb2">la_chetf2_rk</a></td></tr>
 <tr class="separator:a51f4c6e3a1bbf713ccbcc2eb75536bb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a301c69c21df635a08b9e2902764cc838" id="r_a301c69c21df635a08b9e2902764cc838"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a301c69c21df635a08b9e2902764cc838">la_whetf2_rk</a></td></tr>
 <tr class="separator:a301c69c21df635a08b9e2902764cc838"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a10d2ab1b0aff99e43f3afdbd6bfbd90a" id="r_a10d2ab1b0aff99e43f3afdbd6bfbd90a"><td class="memItemLeft" align="right" valign="top">pure subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a10d2ab1b0aff99e43f3afdbd6bfbd90a">zhetf2_rk</a> (uplo, n, a, lda, e, ipiv, info)</td></tr>
-<tr class="separator:a10d2ab1b0aff99e43f3afdbd6bfbd90a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a02274bc8d640bee978bb7776aeb4879e" id="r_a02274bc8d640bee978bb7776aeb4879e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a02274bc8d640bee978bb7776aeb4879e">la_zhetf2_rk</a></td></tr>
 <tr class="separator:a02274bc8d640bee978bb7776aeb4879e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>HETF2_RK: computes the factorization of a complex Hermitian matrix A using the bounded Bunch-Kaufman (rook) diagonal pivoting method: A = P*U*D*(U**H)*(P**T) or A = P*L*D*(L**H)*(P**T), where U (or L) is unit upper (or lower) triangular matrix, U**H (or L**H) is the conjugate of U (or L), P is a permutation matrix, P**T is the transpose of P, and D is Hermitian and block diagonal with 1-by-1 and 2-by-2 diagonal blocks. This is the unblocked version of the algorithm, calling Level 2 BLAS. For more information see Further Details section. </p>
 </div><h2 class="groupheader">Member Function/Subroutine Documentation</h2>
-<a id="ae40163c0a8a792a4849c1ddec33ca694" name="ae40163c0a8a792a4849c1ddec33ca694"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae40163c0a8a792a4849c1ddec33ca694">&#9670;&#160;</a></span>chetf2_rk()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">pure subroutine la_lapack::hetf2_rk::chetf2_rk </td>
-          <td>(</td>
-          <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>uplo</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>n</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>), dimension(lda,*), intent(inout)</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>lda</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>), dimension(*), intent(out)</td>          <td class="paramname"><span class="paramname"><em>e</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), dimension(*), intent(out)</td>          <td class="paramname"><span class="paramname"><em>ipiv</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(out)</td>          <td class="paramname"><span class="paramname"><em>info</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="interfacela__lapack_1_1hetf2__rk_ae40163c0a8a792a4849c1ddec33ca694_cgraph.png" border="0" usemap="#ainterfacela__lapack_1_1hetf2__rk_ae40163c0a8a792a4849c1ddec33ca694_cgraph" alt=""/></div>
-<map name="ainterfacela__lapack_1_1hetf2__rk_ae40163c0a8a792a4849c1ddec33ca694_cgraph" id="ainterfacela__lapack_1_1hetf2__rk_ae40163c0a8a792a4849c1ddec33ca694_cgraph">
-<area shape="rect" title=" " alt="" coords="5,515,152,555"/>
-<area shape="rect" href="namespacela__lapack__solve__ldl__comp4.html#ac1e88617d365625fd4cf2079c410abbc" title="CHETF2_RK: computes the factorization of a complex Hermitian matrix A using the bounded Bunch&#45;Kaufman..." alt="" coords="202,313,363,353"/>
-<area shape="poly" title=" " alt="" coords="98,513,249,362,253,366,102,517"/>
-<area shape="rect" href="namespacela__lapack__solve__ldl__comp4.html#a88fb867bc8ebc865faa3b70f29498e01" title="WHETF2_RK: computes the factorization of a complex Hermitian matrix A using the bounded Bunch&#45;Kaufman..." alt="" coords="200,715,365,755"/>
-<area shape="poly" title=" " alt="" coords="102,553,253,703,249,706,99,557"/>
-<area shape="rect" href="namespacela__blas__level2__gen.html#a80f9a5785a0b279d14362d1c536bfb7a" title="CHER: performs the hermitian rank 1 operation A := alpha*x*x**H + A, where alpha is a real scalar,..." alt="" coords="429,428,576,468"/>
-<area shape="poly" title=" " alt="" coords="317,351,415,407,442,420,439,425,412,412,315,356"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="860,527,1027,553"/>
-<area shape="poly" title=" " alt="" coords="362,351,623,419,813,473,864,496,909,519,907,523,862,500,811,479,621,425,361,356"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="643,529,809,554"/>
-<area shape="poly" title=" " alt="" coords="298,352,344,416,377,450,415,478,467,502,522,519,578,530,629,536,629,541,577,535,521,524,465,507,412,482,373,454,340,419,294,355"/>
-<area shape="rect" href="namespacela__blas__level1.html#a818df9a899b338869177ee3f7657bece" title="CSSCAL: scales a complex vector by a real constant." alt="" coords="435,249,570,289"/>
-<area shape="poly" title=" " alt="" coords="351,311,421,290,423,295,353,316"/>
-<area shape="rect" href="namespacela__blas__level1.html#a4fb9af59b508cde93dace0cd181faeeb" title="CSWAP: interchanges two vectors." alt="" coords="435,313,570,353"/>
-<area shape="poly" title=" " alt="" coords="364,331,422,331,422,336,364,336"/>
-<area shape="rect" href="namespacela__blas__aux.html#a745c462c73bd13729a6fc690e56ba8f3" title="ICAMAX: finds the index of the first element having maximum |Re(.)| + |Im(.)|." alt="" coords="415,199,590,225"/>
-<area shape="poly" title=" " alt="" coords="304,311,352,273,412,235,432,227,434,232,415,240,355,277,307,315"/>
-<area shape="rect" href="namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="652,117,800,157"/>
-<area shape="poly" title=" " alt="" coords="290,312,307,277,334,235,369,194,389,175,412,160,468,138,527,126,585,122,638,123,638,129,585,127,527,131,469,143,415,165,392,180,372,197,338,238,312,280,295,314"/>
-<area shape="rect" href="namespacela__lapack__blas__like__scalar.html#a3d85f08c38ed8387e3f9b3282b67ee25" title="SLAPY2: returns sqrt(x**2+y**2), taking care not to cause unnecessary overflow and unnecessary underf..." alt="" coords="429,60,577,100"/>
-<area shape="poly" title=" " alt="" coords="289,312,306,272,332,220,367,165,412,117,429,104,432,109,415,121,372,168,337,222,311,274,294,314"/>
-<area shape="poly" title=" " alt="" coords="577,461,869,522,868,527,576,466"/>
-<area shape="poly" title=" " alt="" coords="552,466,683,521,681,526,550,470"/>
-<area shape="poly" title=" " alt="" coords="908,529,900,519,904,509,919,503,943,501,973,504,985,513,982,518,971,509,943,506,920,508,908,513,906,518,912,526"/>
-<area shape="poly" title=" " alt="" coords="467,201,459,191,463,181,478,175,503,173,533,176,545,185,542,190,531,181,503,178,479,180,467,185,464,190,471,198"/>
-<area shape="rect" href="namespacela__blas__aux.html#a5cdaa4eb6de0902d42a840357101ae38" title="SCABS1: computes |Re(.)| + |Im(.)| of a complex number." alt="" coords="641,206,811,231"/>
-<area shape="poly" title=" " alt="" coords="591,212,627,213,627,218,590,217"/>
-<area shape="poly" title=" " alt="" coords="691,208,683,198,687,188,702,182,726,179,756,183,768,192,765,196,754,188,726,185,703,187,691,192,688,197,695,204"/>
-<area shape="poly" title=" " alt="" coords="798,155,814,167,847,209,875,255,896,304,913,353,934,445,943,513,938,514,929,446,908,355,891,306,870,257,843,212,810,171,795,159"/>
-<area shape="poly" title=" " alt="" coords="685,118,683,108,690,98,704,93,726,91,751,94,765,101,763,106,750,99,726,96,705,98,693,103,688,109,691,116"/>
-<area shape="poly" title=" " alt="" coords="578,96,639,112,638,118,576,102"/>
-<area shape="poly" title=" " alt="" coords="462,60,459,50,466,41,480,35,503,33,528,36,542,44,540,48,527,41,503,39,482,41,469,45,464,51,467,59"/>
-<area shape="rect" href="namespacela__lapack__blas__like__scalar.html#a4d6735a3a0bfd81ec48d9c107c0d7893" title="SISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="652,29,800,69"/>
-<area shape="poly" title=" " alt="" coords="576,67,638,59,639,64,577,73"/>
-<area shape="poly" title=" " alt="" coords="685,30,683,20,690,10,704,5,726,3,751,6,765,13,763,18,750,11,726,8,705,10,693,15,688,21,691,28"/>
-<area shape="rect" href="namespacela__lapack__blas__like__scalar.html#af7a547cc3906149e087d6003dc2ab082" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in SISNAN...." alt="" coords="869,29,1018,69"/>
-<area shape="poly" title=" " alt="" coords="800,47,855,47,855,52,800,52"/>
-<area shape="poly" title=" " alt="" coords="903,30,900,20,907,10,921,5,943,3,969,6,982,13,980,18,967,11,943,8,923,10,910,15,906,21,908,28"/>
-<area shape="poly" title=" " alt="" coords="366,733,474,727,533,719,591,707,685,674,775,633,853,592,910,558,912,562,855,596,777,638,687,679,593,712,534,725,475,733,366,739"/>
-<area shape="poly" title=" " alt="" coords="292,713,311,682,337,645,371,609,412,579,465,557,521,543,577,536,629,533,629,539,577,541,522,548,467,562,415,584,375,613,341,649,315,685,297,716"/>
-<area shape="rect" href="namespacela__blas__aux.html#a468e46dc4c2738ec2488f91497db7d36" title="IWAMAX: finds the index of the first element having maximum |Re(.)| + |Im(.)|." alt="" coords="413,935,592,961"/>
-<area shape="poly" title=" " alt="" coords="298,753,345,821,378,861,415,897,462,927,459,931,412,901,374,864,341,824,294,756"/>
-<area shape="rect" href="namespacela__lapack__auxiliary.html#a422783a9c3975903ac0fc1dc06f4ec01" title="QLAMCH: determines quad precision machine parameters." alt="" coords="652,780,800,820"/>
-<area shape="poly" title=" " alt="" coords="366,744,639,785,638,790,365,749"/>
-<area shape="rect" href="namespacela__lapack__blas__like__scalar.html#a6ca08add76aca908c622374b20d9d149" title="QLAPY2: returns sqrt(x**2+y**2), taking care not to cause unnecessary overflow and unnecessary underf..." alt="" coords="429,847,577,887"/>
-<area shape="poly" title=" " alt="" coords="318,752,458,837,455,842,316,757"/>
-<area shape="rect" href="namespacela__blas__level2__gen.html#a1961b99c35f2a1a294cb8a2b1cfe390c" title="WHER: performs the hermitian rank 1 operation A := alpha*x*x**H + A, where alpha is a real scalar,..." alt="" coords="429,593,576,633"/>
-<area shape="poly" title=" " alt="" coords="307,712,355,678,412,643,426,636,428,641,415,648,358,682,311,717"/>
-<area shape="rect" href="namespacela__blas__level1.html#a8370fbe3dcdbbbf38621046a2d6937cc" title="WQSCAL: scales a vector by a constant." alt="" coords="435,985,570,1025"/>
-<area shape="poly" title=" " alt="" coords="292,754,307,798,332,857,368,918,390,946,415,971,425,979,422,983,412,975,386,950,363,921,327,859,302,800,287,756"/>
-<area shape="rect" href="namespacela__blas__level1.html#a87a0f6f4a51cb922e497d49bc7597e53" title="WSWAP: interchanges two vectors." alt="" coords="435,657,570,697"/>
-<area shape="poly" title=" " alt="" coords="359,712,421,696,423,701,361,717"/>
-<area shape="poly" title=" " alt="" coords="467,937,459,927,463,917,478,911,503,909,533,912,545,921,542,926,531,917,503,914,479,916,467,921,464,926,471,934"/>
-<area shape="rect" href="namespacela__blas__aux.html#a2c19bf75051669e20853bdcccda20e0d" title="QCABS1: computes |Re(.)| + |Im(.)| of a double complex number." alt="" coords="640,957,812,982"/>
-<area shape="poly" title=" " alt="" coords="593,954,626,957,626,962,592,959"/>
-<area shape="poly" title=" " alt="" coords="691,958,683,948,687,938,702,932,726,930,756,934,768,943,765,947,754,939,726,935,703,937,691,942,688,948,695,955"/>
-<area shape="poly" title=" " alt="" coords="758,778,785,758,810,735,847,691,880,644,927,564,931,567,884,647,851,695,814,739,788,762,762,782"/>
-<area shape="poly" title=" " alt="" coords="685,780,683,770,690,761,704,755,726,753,751,756,765,764,763,768,750,761,726,759,705,761,693,765,688,771,691,779"/>
-<area shape="poly" title=" " alt="" coords="569,844,644,821,646,827,571,849"/>
-<area shape="poly" title=" " alt="" coords="462,847,459,837,466,828,480,822,503,820,528,823,542,830,540,835,527,828,503,825,482,827,469,832,464,838,467,846"/>
-<area shape="rect" href="namespacela__lapack__blas__like__scalar.html#a0cb82d7f3b093ce99b3c7b3412dee71a" title="QISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="652,868,800,908"/>
-<area shape="poly" title=" " alt="" coords="577,871,638,877,638,882,577,876"/>
-<area shape="poly" title=" " alt="" coords="685,868,683,858,690,849,704,843,726,841,751,844,765,852,763,856,750,849,726,847,705,849,693,853,688,859,691,867"/>
-<area shape="rect" href="namespacela__lapack__blas__like__scalar.html#afb28a91ee1571cb773bdc95c40031177" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in QISNAN...." alt="" coords="868,868,1019,908"/>
-<area shape="poly" title=" " alt="" coords="800,885,854,885,854,891,800,891"/>
-<area shape="poly" title=" " alt="" coords="903,868,900,858,907,849,921,843,943,841,969,844,982,852,980,856,967,849,943,847,923,849,910,853,906,859,908,867"/>
-<area shape="poly" title=" " alt="" coords="576,600,812,563,866,553,866,558,812,568,577,605"/>
-<area shape="poly" title=" " alt="" coords="565,591,672,556,674,561,566,596"/>
-</map>
-</div>
-
-</div>
-</div>
 <a id="a51f4c6e3a1bbf713ccbcc2eb75536bb2" name="a51f4c6e3a1bbf713ccbcc2eb75536bb2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a51f4c6e3a1bbf713ccbcc2eb75536bb2">&#9670;&#160;</a></span>la_chetf2_rk()</h2>
 
@@ -298,97 +173,8 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="a10d2ab1b0aff99e43f3afdbd6bfbd90a" name="a10d2ab1b0aff99e43f3afdbd6bfbd90a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a10d2ab1b0aff99e43f3afdbd6bfbd90a">&#9670;&#160;</a></span>zhetf2_rk()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">pure subroutine la_lapack::hetf2_rk::zhetf2_rk </td>
-          <td>(</td>
-          <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>uplo</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>n</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>), dimension(lda,*), intent(inout)</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>lda</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>), dimension(*), intent(out)</td>          <td class="paramname"><span class="paramname"><em>e</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), dimension(*), intent(out)</td>          <td class="paramname"><span class="paramname"><em>ipiv</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(out)</td>          <td class="paramname"><span class="paramname"><em>info</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="interfacela__lapack_1_1hetf2__rk_a10d2ab1b0aff99e43f3afdbd6bfbd90a_cgraph.png" border="0" usemap="#ainterfacela__lapack_1_1hetf2__rk_a10d2ab1b0aff99e43f3afdbd6bfbd90a_cgraph" alt=""/></div>
-<map name="ainterfacela__lapack_1_1hetf2__rk_a10d2ab1b0aff99e43f3afdbd6bfbd90a_cgraph" id="ainterfacela__lapack_1_1hetf2__rk_a10d2ab1b0aff99e43f3afdbd6bfbd90a_cgraph">
-<area shape="rect" title=" " alt="" coords="5,279,152,319"/>
-<area shape="rect" href="namespacela__lapack__solve__ldl__comp4.html#a27897080912241e8b3c3784ca7f92297" title="ZHETF2_RK: computes the factorization of a complex Hermitian matrix A using the bounded Bunch&#45;Kaufman..." alt="" coords="200,279,361,319"/>
-<area shape="poly" title=" " alt="" coords="153,296,186,296,186,301,153,301"/>
-<area shape="rect" href="namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="644,117,792,157"/>
-<area shape="poly" title=" " alt="" coords="294,277,340,224,372,196,408,174,463,153,521,140,578,134,630,131,630,137,578,139,522,145,465,158,411,178,375,200,344,227,298,280"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="852,182,1019,207"/>
-<area shape="poly" title=" " alt="" coords="304,276,351,245,379,229,408,217,464,203,522,192,638,180,747,179,839,183,838,188,747,184,638,186,523,197,465,208,410,223,381,234,353,249,308,281"/>
-<area shape="rect" href="namespacela__lapack__blas__like__scalar.html#a6392f228090286d0a08702c8ba131de1" title="DLAPY2: returns sqrt(x**2+y**2), taking care not to cause unnecessary overflow and unnecessary underf..." alt="" coords="423,67,571,107"/>
-<area shape="poly" title=" " alt="" coords="290,277,335,204,369,161,408,123,426,111,429,116,411,127,373,165,340,207,295,280"/>
-<area shape="rect" href="namespacela__blas__aux.html#a20e052647a3005c80f1c0d0d972aa196" title="IZAMAX: finds the index of the first element having maximum |Re(.)| + |Im(.)|." alt="" coords="409,257,584,282"/>
-<area shape="poly" title=" " alt="" coords="361,285,395,280,396,286,362,290"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="635,399,801,425"/>
-<area shape="poly" title=" " alt="" coords="297,317,342,372,374,400,410,420,441,430,474,437,540,440,603,435,658,425,659,430,604,440,540,446,473,442,440,436,408,425,371,404,339,376,293,321"/>
-<area shape="rect" href="namespacela__blas__level1.html#ae5f23cb1df4bb3a79c79b9d489d452b9" title="ZDSCAL: scales a vector by a constant." alt="" coords="429,371,564,411"/>
-<area shape="poly" title=" " alt="" coords="323,316,410,356,427,363,425,368,408,361,321,321"/>
-<area shape="rect" href="namespacela__blas__level2__gen.html#a0c0fc399a4b6cf760c0d1e45c6234033" title="ZHER: performs the hermitian rank 1 operation A := alpha*x*x**H + A, where alpha is a real scalar,..." alt="" coords="423,307,570,347"/>
-<area shape="poly" title=" " alt="" coords="362,306,410,313,410,318,361,312"/>
-<area shape="rect" href="namespacela__blas__level1.html#ad757f0e2b47ff2b8a75222a5ccddcd44" title="ZSWAP: interchanges two vectors." alt="" coords="429,485,564,525"/>
-<area shape="poly" title=" " alt="" coords="295,317,340,388,373,429,411,465,429,477,426,481,408,469,369,432,336,391,291,320"/>
-<area shape="poly" title=" " alt="" coords="677,118,675,108,682,98,696,93,718,91,743,94,757,101,755,106,742,99,718,96,697,98,685,103,680,109,683,116"/>
-<area shape="poly" title=" " alt="" coords="793,154,874,176,873,181,791,159"/>
-<area shape="poly" title=" " alt="" coords="900,184,892,174,896,164,911,158,935,155,965,159,977,168,974,172,963,164,935,161,912,163,900,168,898,173,904,180"/>
-<area shape="poly" title=" " alt="" coords="571,101,631,115,630,120,570,106"/>
-<area shape="poly" title=" " alt="" coords="456,67,454,57,460,48,475,42,497,40,522,43,536,50,533,55,520,48,497,45,476,47,463,52,459,58,461,66"/>
-<area shape="rect" href="namespacela__lapack__blas__like__scalar.html#a942dd2e31c0d9058962f8060e510005e" title="DISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="644,29,792,69"/>
-<area shape="poly" title=" " alt="" coords="570,72,630,61,631,67,571,77"/>
-<area shape="poly" title=" " alt="" coords="677,30,675,20,682,10,696,5,718,3,743,6,757,13,755,18,742,11,718,8,697,10,685,15,680,21,683,28"/>
-<area shape="rect" href="namespacela__lapack__blas__like__scalar.html#ab7bb61dcad235be9d6066eda62ea3b31" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in DISNAN...." alt="" coords="860,29,1011,69"/>
-<area shape="poly" title=" " alt="" coords="792,47,846,47,846,52,792,52"/>
-<area shape="poly" title=" " alt="" coords="895,30,892,20,899,10,913,5,935,3,961,6,974,13,972,18,959,11,935,8,915,10,902,15,898,21,900,28"/>
-<area shape="poly" title=" " alt="" coords="461,258,454,248,458,238,472,232,497,230,527,234,539,243,535,247,525,239,497,235,474,237,461,242,459,248,465,255"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc3c4ed9b8c6c0e19beb39f657485056" title="DCABS1: computes |Re(.)| + |Im(.)| of a double complex number." alt="" coords="632,257,804,282"/>
-<area shape="poly" title=" " alt="" coords="584,267,618,267,618,272,584,272"/>
-<area shape="poly" title=" " alt="" coords="683,258,675,248,679,238,694,232,718,230,748,234,760,243,757,247,746,239,718,235,695,237,683,242,680,248,687,255"/>
-<area shape="poly" title=" " alt="" coords="570,327,623,326,682,321,744,310,803,292,835,276,864,256,911,215,914,219,867,261,837,281,805,297,745,316,683,326,623,332,571,333"/>
-<area shape="poly" title=" " alt="" coords="554,344,585,356,674,392,672,397,583,361,552,349"/>
-</map>
-</div>
-
-</div>
-</div>
 <hr/>The documentation for this interface was generated from the following file:<ul>
-<li><a class="el" href="la__lapack_8f90.html">la_lapack.f90</a></li>
+<li><a class="el" href="la__lapack_8_f90.html">la_lapack.F90</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

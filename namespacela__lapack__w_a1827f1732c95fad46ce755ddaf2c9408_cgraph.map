@@ -1,5 +1,0 @@
-<map id="la_lapack_w::la_wtpmlqt" name="la_lapack_w::la_wtpmlqt">
-<area shape="rect" id="Node000001" title="ZTPMLQT: applies a complex unitary matrix Q obtained from a &quot;triangular&#45;pentagonal&quot; complex block ref..." alt="" coords="5,5,188,31"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__w.html#a71d546591b52c26a9f34f39357be4557" title="ZTPRFB: applies a complex &quot;triangular&#45;pentagonal&quot; block reflector H or its conjugate transpose H**H t..." alt="" coords="236,5,407,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="188,15,222,15,222,21,188,21"/>
-</map>

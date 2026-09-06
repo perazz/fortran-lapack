@@ -1,0 +1,14 @@
+<map id="la_lapack_eigv_svd_bidiag_dc::la_qlasd4" name="la_lapack_eigv_svd_bidiag_dc::la_qlasd4">
+<area shape="rect" id="Node000001" title="This subroutine computes the square root of the I&#45;th updated eigenvalue of a positive symmetric rank&#45;..." alt="" coords="5,63,167,103"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__eigv__tridiag.html#ae931d3af6cc8c0aed4d9574304a649d8" title="QLAED6: computes the positive or negative root (closest to the origin) of z(1) z(2) z(3) f(x) = rho +..." alt="" coords="215,5,383,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="160,60,210,46,211,52,161,65"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__auxiliary.html#a422783a9c3975903ac0fc1dc06f4ec01" title="QLAMCH: determines quad precision machine parameters." alt="" coords="431,35,579,75"/>
+<area shape="poly" id="edge6_Node000001_Node000003" title=" " alt="" coords="167,75,417,58,417,63,167,80"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__eigv__svd__bidiag__dc.html#a7a9257ab55ea40ac5994b0f328a8639e" title="This subroutine computes the square root of the I&#45;th eigenvalue of a positive symmetric rank&#45;one modi..." alt="" coords="218,120,379,160"/>
+<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="161,100,211,114,210,119,160,105"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="383,35,418,40,417,45,382,40"/>
+<area shape="poly" id="edge5_Node000003_Node000003" title=" " alt="" coords="466,35,464,25,470,16,484,10,505,8,529,11,542,18,539,23,527,16,505,13,485,15,473,20,469,26,471,34"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="627,42,793,67"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="579,52,613,52,613,57,579,57"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="676,44,669,34,673,24,687,18,710,15,739,19,750,28,747,32,736,24,710,21,688,23,677,27,674,33,680,40"/>
+</map>

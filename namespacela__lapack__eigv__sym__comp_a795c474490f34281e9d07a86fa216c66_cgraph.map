@@ -1,0 +1,24 @@
+<map id="la_lapack_eigv_sym_comp::la_sopmtr" name="la_lapack_eigv_sym_comp::la_sopmtr">
+<area shape="rect" id="Node000001" title="SOPMTR: overwrites the general real M&#45;by&#45;N matrix C with SIDE = &#39;L&#39; SIDE = &#39;R&#39; TRANS = &#39;N&#39;: Q * C C *..." alt="" coords="5,170,160,210"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="651,29,817,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="114,168,170,135,246,95,334,58,426,30,481,22,538,19,642,25,641,30,538,24,482,27,427,35,336,63,248,100,173,139,117,172"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__householder__reflectors.html#a2ee79213a7a583b5aed9d93210a83a30" title="SLARF: applies a real elementary reflector H to a real m by n matrix C, from either the left or the r..." alt="" coords="208,170,379,210"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="160,187,194,187,194,193,160,193"/>
+<area shape="rect" id="Node000007" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="651,299,817,324"/>
+<area shape="poly" id="edge14_Node000001_Node000007" title=" " alt="" coords="118,208,174,240,249,278,336,314,427,341,476,349,514,350,602,341,678,325,679,330,603,346,514,356,475,354,426,346,335,319,247,283,172,245,115,212"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="698,31,691,21,695,11,709,5,734,3,764,6,776,15,773,20,762,11,734,8,711,10,698,15,696,20,702,28"/>
+<area shape="poly" id="edge8_Node000003_Node000002" title=" " alt="" coords="307,168,355,115,388,87,426,65,478,47,533,37,587,32,637,32,637,37,587,37,534,42,479,52,428,70,391,91,359,118,311,172"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__aux.html#ab982c17ecc1d9fcfd510bef30fe083be" title="ILASLC: scans A for its last non&#45;zero column." alt="" coords="427,104,603,129"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="344,167,426,138,451,131,452,136,428,143,346,172"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__aux.html#a1abc101c5f65760eafb8b98e3f41e083" title="ILASLR: scans A for its last non&#45;zero row." alt="" coords="427,177,602,203"/>
+<area shape="poly" id="edge6_Node000003_Node000005" title=" " alt="" coords="379,187,414,187,414,193,379,193"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__level2__gen.html#aabf3c89a12ae7a8d106099c21fe31389" title="SGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="441,227,588,267"/>
+<area shape="poly" id="edge9_Node000003_Node000006" title=" " alt="" coords="372,207,429,222,427,228,370,213"/>
+<area shape="rect" id="Node000008" href="$namespacela__blas__level2__gen.html#ae16b7630b03f75d1b6cd6ade153ccec8" title="SGER: performs the rank 1 operation A := alpha*x*y**T + A, where alpha is a scalar,..." alt="" coords="441,291,588,331"/>
+<area shape="poly" id="edge12_Node000003_Node000008" title=" " alt="" coords="322,208,370,242,428,277,442,284,440,289,425,282,367,247,319,212"/>
+<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="479,106,471,96,475,86,490,80,515,77,545,81,557,90,554,94,543,86,515,83,491,85,479,90,476,95,483,102"/>
+<area shape="poly" id="edge7_Node000005_Node000005" title=" " alt="" coords="479,179,471,169,475,159,490,153,515,151,545,154,557,163,554,168,543,159,515,156,491,158,479,163,476,168,483,176"/>
+<area shape="poly" id="edge10_Node000006_Node000002" title=" " alt="" coords="579,225,601,212,639,177,672,137,718,65,722,68,676,140,643,181,604,216,582,229"/>
+<area shape="poly" id="edge11_Node000006_Node000007" title=" " alt="" coords="585,265,677,292,676,297,583,270"/>
+<area shape="poly" id="edge13_Node000008_Node000007" title=" " alt="" coords="588,309,637,309,637,314,588,314"/>
+</map>

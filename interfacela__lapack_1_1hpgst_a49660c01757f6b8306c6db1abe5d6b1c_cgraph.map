@@ -1,7 +1,66 @@
 <map id="la_lapack::hpgst::chpgst" name="la_lapack::hpgst::chpgst">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,31,184,56"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__c.html#acbbbda92a89fb723be1f0848405d2afc" title="CHPGST: reduces a complex Hermitian&#45;definite generalized eigenproblem to standard form,..." alt="" coords="235,5,403,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="184,31,221,26,222,32,185,36"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__w.html#ab0093a60c6fb5fb4806b78c437a4a505" title="ZHPGST: reduces a complex Hermitian&#45;definite generalized eigenproblem to standard form,..." alt="" coords="232,55,407,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="185,50,218,54,218,59,184,56"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,628,184,653"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__eigv__sym__comp.html#ab1510e3cf67431f210a06014875f1cc8" title="CHPGST: reduces a complex Hermitian&#45;definite generalized eigenproblem to standard form,..." alt="" coords="232,346,387,386"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="104,626,282,395,286,399,108,629"/>
+<area shape="rect" id="Node000013" href="$namespacela__lapack__eigv__sym__comp.html#a9a1a23d158bede00d7d43c3f4f44b78d" title="WHPGST: reduces a complex Hermitian&#45;definite generalized eigenproblem to standard form,..." alt="" coords="232,806,387,846"/>
+<area shape="poly" id="edge23_Node000001_Node000013" title=" " alt="" coords="112,651,276,795,273,799,109,655"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__level1.html#a4a3595b7258c7afacaed7fd4e193c31d" title="CAXPY: constant times a vector plus a vector." alt="" coords="440,22,575,62"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="311,345,323,292,346,220,381,142,405,105,433,72,437,68,441,72,437,76,409,108,386,145,351,222,328,294,317,346"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__level1.html#ae5ef74871273629cd7c5e95ec3e7b58c" title="CDOTC: forms the dot product of two complex vectors CDOTC = X^H * Y." alt="" coords="440,110,575,150"/>
+<area shape="poly" id="edge5_Node000002_Node000005" title=" " alt="" coords="317,345,360,261,393,212,433,167,447,155,451,159,436,171,397,215,364,264,322,347"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__level2__pac.html#a4acdc709b0590b5fd3e13eb8f7e2bb70" title="CHPMV: performs the matrix&#45;vector operation y := alpha*A*x + beta*y, where alpha and beta are scalars..." alt="" coords="435,289,580,329"/>
+<area shape="poly" id="edge7_Node000002_Node000006" title=" " alt="" coords="378,343,424,330,425,335,380,349"/>
+<area shape="rect" id="Node000007" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="631,507,797,532"/>
+<area shape="poly" id="edge21_Node000002_Node000007" title=" " alt="" coords="317,344,334,313,359,275,393,238,433,210,474,193,509,186,544,191,581,210,615,239,643,273,665,312,682,353,704,432,713,493,708,493,699,433,677,355,660,315,639,276,612,243,579,215,542,196,509,192,475,198,436,215,396,242,364,278,339,316,322,347"/>
+<area shape="rect" id="Node000008" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="631,624,797,649"/>
+<area shape="poly" id="edge22_Node000002_Node000008" title=" " alt="" coords="318,385,332,427,356,481,390,536,412,560,436,581,467,595,512,607,617,624,617,630,510,612,465,600,433,586,408,564,386,539,351,483,327,429,313,387"/>
+<area shape="rect" id="Node000009" href="$namespacela__blas__level2__pac.html#ac1595431ed0ed4aca624cb867ae59d6b" title="CHPR2: performs the hermitian rank 2 operation A := alpha*x*y**H + conjg( alpha )*y*x**H + A,..." alt="" coords="435,403,580,443"/>
+<area shape="poly" id="edge11_Node000002_Node000009" title=" " alt="" coords="380,383,425,397,424,402,378,389"/>
+<area shape="rect" id="Node000010" href="$namespacela__blas__level1.html#a818df9a899b338869177ee3f7657bece" title="CSSCAL: scales a complex vector by a real constant." alt="" coords="440,225,575,265"/>
+<area shape="poly" id="edge14_Node000002_Node000010" title=" " alt="" coords="334,344,379,310,433,274,444,268,447,273,436,279,382,314,337,348"/>
+<area shape="rect" id="Node000011" href="$namespacela__blas__level2__tri.html#a7dae0dc5ef7651b4d53d9d7f32f36305" title="CTPMV: performs one of the matrix&#45;vector operations x := A*x, or x := A**T*x, or x := A**H*x,..." alt="" coords="439,531,575,571"/>
+<area shape="poly" id="edge15_Node000002_Node000011" title=" " alt="" coords="325,385,370,449,401,485,436,517,443,522,440,526,433,521,397,489,365,452,321,388"/>
+<area shape="rect" id="Node000012" href="$namespacela__blas__level2__tri.html#a044be051aaa87fd89e803cb3c2f8141b" title="CTPSV: solves one of the systems of equations A*x = b, or A**T*x = b, or A**H*x = b,..." alt="" coords="439,467,575,507"/>
+<area shape="poly" id="edge18_Node000002_Node000012" title=" " alt="" coords="337,384,382,418,436,453,447,459,444,464,433,458,379,422,334,388"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#a5cdaa4eb6de0902d42a840357101ae38" title="SCABS1: computes |Re(.)| + |Im(.)| of a complex number." alt="" coords="629,29,799,55"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="575,39,615,39,615,45,575,45"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="680,31,673,21,677,11,691,5,714,3,743,6,754,15,751,20,740,11,714,8,692,10,681,15,678,20,684,28"/>
+<area shape="poly" id="edge6_Node000005_Node000005" title=" " alt="" coords="470,110,468,100,474,91,487,85,507,83,531,86,543,94,541,98,529,91,507,89,488,91,477,95,473,101,475,109"/>
+<area shape="poly" id="edge8_Node000006_Node000007" title=" " alt="" coords="554,327,582,345,619,382,653,423,701,493,696,496,648,426,615,386,578,349,551,331"/>
+<area shape="poly" id="edge10_Node000006_Node000008" title=" " alt="" coords="532,327,558,355,582,390,600,432,606,467,613,502,630,542,658,581,689,612,685,616,654,584,626,545,608,503,601,468,595,433,578,393,554,359,528,331"/>
+<area shape="poly" id="edge9_Node000007_Node000007" title=" " alt="" coords="680,508,673,498,677,488,691,482,714,480,743,484,754,493,751,497,740,489,714,485,692,487,681,492,678,498,684,505"/>
+<area shape="poly" id="edge12_Node000009_Node000007" title=" " alt="" coords="555,441,581,453,676,498,674,503,579,458,553,446"/>
+<area shape="poly" id="edge13_Node000009_Node000008" title=" " alt="" coords="565,441,582,453,600,475,609,496,617,517,630,542,661,580,691,612,687,616,657,583,626,545,612,520,604,498,595,478,578,457,562,446"/>
+<area shape="poly" id="edge16_Node000011_Node000007" title=" " alt="" coords="575,538,618,531,619,537,576,543"/>
+<area shape="poly" id="edge17_Node000011_Node000008" title=" " alt="" coords="558,569,671,616,669,621,555,574"/>
+<area shape="poly" id="edge19_Node000012_Node000007" title=" " alt="" coords="576,495,619,502,618,507,575,500"/>
+<area shape="poly" id="edge20_Node000012_Node000008" title=" " alt="" coords="560,505,581,517,644,566,693,612,690,616,641,570,579,522,558,510"/>
+<area shape="poly" id="edge24_Node000013_Node000007" title=" " alt="" coords="311,805,324,715,349,588,366,524,386,466,408,419,433,389,470,369,504,365,540,373,581,389,619,410,651,438,699,493,695,497,648,441,616,414,579,394,538,378,504,370,472,374,436,393,412,422,391,468,371,525,355,589,330,716,316,806"/>
+<area shape="poly" id="edge43_Node000013_Node000008" title=" " alt="" coords="341,844,390,871,451,896,484,903,517,905,549,900,579,888,607,866,632,839,652,809,669,777,693,714,705,663,711,664,698,715,674,779,657,812,636,842,611,870,581,892,550,906,517,910,483,908,449,901,387,876,339,849"/>
+<area shape="rect" id="Node000014" href="$namespacela__blas__level1.html#abad2b44df1624c0f6524882cddcfea94" title="WAXPY: constant times a vector plus a vector." alt="" coords="440,1105,575,1145"/>
+<area shape="poly" id="edge25_Node000013_Node000014" title=" " alt="" coords="317,846,331,894,354,959,389,1029,411,1062,437,1091,441,1095,437,1099,433,1095,407,1065,384,1032,349,961,325,896,312,847"/>
+<area shape="rect" id="Node000016" href="$namespacela__blas__level1.html#af0c273da266a2d85bdb1bf32bf2d2a47" title="WDOTC: forms the dot product of two complex vectors WDOTC = X^H * Y." alt="" coords="440,977,575,1017"/>
+<area shape="poly" id="edge28_Node000013_Node000016" title=" " alt="" coords="336,844,474,965,471,969,332,848"/>
+<area shape="rect" id="Node000017" href="$namespacela__blas__level2__pac.html#a1a7f3050ca53100a1d97a4238eb2aedb" title="WHPMV: performs the matrix&#45;vector operation y := alpha*A*x + beta*y, where alpha and beta are scalars..." alt="" coords="435,838,580,878"/>
+<area shape="poly" id="edge30_Node000013_Node000017" title=" " alt="" coords="387,836,421,841,421,847,386,841"/>
+<area shape="rect" id="Node000018" href="$namespacela__blas__level2__pac.html#a59a48a35f41cae80c84a486503bfdde2" title="WHPR2: performs the hermitian rank 2 operation A := alpha*x*y**H + conjg( alpha )*y*x**H + A,..." alt="" coords="435,646,580,686"/>
+<area shape="poly" id="edge33_Node000013_Node000018" title=" " alt="" coords="324,804,370,752,400,722,433,696,441,691,444,695,436,700,404,726,374,755,328,808"/>
+<area shape="rect" id="Node000019" href="$namespacela__blas__level1.html#a8370fbe3dcdbbbf38621046a2d6937cc" title="WQSCAL: scales a vector by a constant." alt="" coords="440,1041,575,1081"/>
+<area shape="poly" id="edge36_Node000013_Node000019" title=" " alt="" coords="321,846,337,883,362,931,396,982,436,1027,442,1031,438,1035,433,1031,391,985,358,934,332,886,316,848"/>
+<area shape="rect" id="Node000020" href="$namespacela__blas__level2__tri.html#ac8895ccb5735a53eefac2e166fb4219b" title="WTPMV: performs one of the matrix&#45;vector operations x := A*x, or x := A**T*x, or x := A**H*x,..." alt="" coords="439,774,575,814"/>
+<area shape="poly" id="edge37_Node000013_Node000020" title=" " alt="" coords="386,811,425,805,426,810,387,816"/>
+<area shape="rect" id="Node000021" href="$namespacela__blas__level2__tri.html#a1ec5bc7afe7464dfebf9536eea0e4e27" title="WTPSV: solves one of the systems of equations A*x = b, or A**T*x = b, or A**H*x = b,..." alt="" coords="439,710,575,750"/>
+<area shape="poly" id="edge40_Node000013_Node000021" title=" " alt="" coords="347,803,433,760,447,753,449,758,436,764,350,808"/>
+<area shape="rect" id="Node000015" href="$namespacela__blas__aux.html#a2c19bf75051669e20853bdcccda20e0d" title="QCABS1: computes |Re(.)| + |Im(.)| of a double complex number." alt="" coords="628,1112,800,1137"/>
+<area shape="poly" id="edge26_Node000014_Node000015" title=" " alt="" coords="575,1122,614,1122,614,1127,575,1127"/>
+<area shape="poly" id="edge27_Node000015_Node000015" title=" " alt="" coords="680,1114,673,1104,677,1094,691,1088,714,1085,743,1089,754,1098,751,1102,740,1094,714,1091,692,1093,681,1097,678,1103,684,1110"/>
+<area shape="poly" id="edge29_Node000016_Node000016" title=" " alt="" coords="470,977,468,967,474,958,487,952,507,950,531,953,543,960,541,965,529,958,507,955,488,957,477,962,473,968,475,976"/>
+<area shape="poly" id="edge31_Node000017_Node000007" title=" " alt="" coords="565,836,578,824,596,797,605,772,608,747,608,723,607,671,613,642,626,610,653,571,684,539,688,543,657,574,630,613,618,643,613,671,613,723,613,748,610,773,600,800,582,828,569,840"/>
+<area shape="poly" id="edge32_Node000017_Node000008" title=" " alt="" coords="561,836,578,824,618,784,652,740,698,660,703,663,656,743,622,788,582,828,563,840"/>
+<area shape="poly" id="edge34_Node000018_Node000007" title=" " alt="" coords="535,644,682,538,685,542,538,648"/>
+<area shape="poly" id="edge35_Node000018_Node000008" title=" " alt="" coords="580,653,617,648,617,653,580,658"/>
+<area shape="poly" id="edge38_Node000020_Node000007" title=" " alt="" coords="564,772,578,760,592,742,600,724,606,689,610,653,615,632,626,610,654,571,685,539,689,543,658,574,630,613,620,634,615,654,611,690,605,726,596,744,582,764,568,776"/>
+<area shape="poly" id="edge39_Node000020_Node000008" title=" " alt="" coords="558,772,578,760,642,708,691,658,695,661,646,712,582,764,561,776"/>
+<area shape="poly" id="edge41_Node000021_Node000007" title=" " alt="" coords="562,708,578,696,595,675,604,656,612,635,626,610,657,572,687,540,691,543,661,575,630,613,617,637,609,658,600,678,582,700,565,712"/>
+<area shape="poly" id="edge42_Node000021_Node000008" title=" " alt="" coords="553,708,579,696,672,653,674,658,581,700,555,712"/>
 </map>

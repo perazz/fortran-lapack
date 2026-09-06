@@ -1,0 +1,35 @@
+<map id="la_lapack_eigv_comp::la_whgeqz" name="la_lapack_eigv_comp::la_whgeqz">
+<area shape="rect" id="Node000001" title="WHGEQZ: computes the eigenvalues of a complex matrix pair (H,T), where H is an upper Hessenberg matri..." alt="" coords="5,259,168,299"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="836,70,1003,95"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="95,257,113,225,139,187,173,150,215,120,264,103,330,90,409,82,495,76,671,73,822,76,822,81,671,79,495,82,409,87,331,96,266,108,217,125,177,154,143,190,118,228,100,260"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__auxiliary.html#a422783a9c3975903ac0fc1dc06f4ec01" title="QLAMCH: determines quad precision machine parameters." alt="" coords="640,144,788,184"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="100,257,146,204,178,177,215,156,268,139,323,128,378,123,434,121,539,128,627,141,626,147,538,133,434,127,379,128,323,134,269,144,217,161,181,181,149,207,104,260"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__blas__like__scalar.html#a8fef28d7eea18f13e974dd25a1bff6ad" title="WLADIV = X / Y, where X and Y are complex. The computation of X / Y will not overflow on an intermedi..." alt="" coords="232,347,380,387"/>
+<area shape="poly" id="edge6_Node000001_Node000004" title=" " alt="" coords="139,296,244,339,242,344,137,301"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__blas__like__mnorm.html#a506c94c6b5f7b03e652601f279f91db9" title="WLANHS: returns the value of the one norm, or the Frobenius norm, or the infinity norm,..." alt="" coords="231,195,381,235"/>
+<area shape="poly" id="edge13_Node000001_Node000008" title=" " alt="" coords="155,256,223,236,225,241,157,261"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__givens__jacobi__rot.html#ab4f15cf35d378e771bf60f6d379eb912" title="!" alt="" coords="216,259,396,299"/>
+<area shape="poly" id="edge15_Node000001_Node000009" title=" " alt="" coords="168,276,202,276,202,281,168,281"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__blas__like__base.html#aa91408cb2f904ccb74161381336f691d" title="WLASET: initializes a 2&#45;D array A to BETA on the diagonal and ALPHA on the offdiagonals." alt="" coords="444,5,592,45"/>
+<area shape="poly" id="edge16_Node000001_Node000010" title=" " alt="" coords="91,258,105,215,130,161,166,107,189,82,215,62,266,36,322,22,379,15,430,15,430,20,379,21,323,27,268,41,217,66,192,86,170,110,135,164,110,217,96,259"/>
+<area shape="rect" id="Node000011" href="$namespacela__lapack__auxiliary.html#a944e706e872d488051fe33353e5b6415" title="WROT: applies a plane rotation, where the cos (C) is real and the sin (S) is complex,..." alt="" coords="232,411,380,451"/>
+<area shape="poly" id="edge18_Node000001_Node000011" title=" " alt="" coords="107,297,154,346,184,373,217,396,228,402,226,407,215,401,181,377,150,350,103,301"/>
+<area shape="rect" id="Node000012" href="$namespacela__blas__level1.html#ae83235d72e747f0b57434ed5da4f16b1" title="WSCAL: scales a vector by a constant." alt="" coords="239,475,373,515"/>
+<area shape="poly" id="edge19_Node000001_Node000012" title=" " alt="" coords="99,298,117,333,143,376,177,421,218,461,228,467,225,472,214,465,173,425,139,379,112,335,95,300"/>
+<area shape="rect" id="Node000013" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="223,539,389,565"/>
+<area shape="poly" id="edge20_Node000001_Node000013" title=" " alt="" coords="95,298,109,345,133,406,169,470,191,499,218,525,226,531,223,535,214,529,187,503,164,473,128,408,104,347,90,300"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="886,72,878,62,882,52,896,46,919,43,948,47,959,56,956,60,946,52,919,49,897,51,886,55,884,61,890,68"/>
+<area shape="poly" id="edge4_Node000003_Node000002" title=" " alt="" coords="764,141,873,98,875,103,766,146"/>
+<area shape="poly" id="edge5_Node000003_Node000003" title=" " alt="" coords="677,144,675,134,681,125,694,119,714,117,737,120,749,128,747,132,735,125,714,123,695,125,684,129,680,135,682,143"/>
+<area shape="poly" id="edge12_Node000004_Node000004" title=" " alt="" coords="266,347,264,337,270,328,285,322,306,320,331,323,344,330,342,335,329,328,306,325,286,327,274,332,269,338,272,346"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__blas__like__scalar.html#ad13f6e4e4281a2b7c9afdcd6e4c56594" title="QLADIV: performs complex division in real arithmetic a + i*b p + i*q = &#45;&#45;&#45;&#45;&#45;&#45;— c + i*d The algorithm ..." alt="" coords="444,277,592,317"/>
+<area shape="poly" id="edge7_Node000004_Node000005" title=" " alt="" coords="367,344,443,319,444,324,369,349"/>
+<area shape="poly" id="edge11_Node000005_Node000003" title=" " alt="" coords="547,275,671,190,674,194,550,279"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__auxiliary.html#a931ac267fdb09d42261b16201c50642a" title=" " alt="" coords="640,277,788,317"/>
+<area shape="poly" id="edge8_Node000005_Node000006" title=" " alt="" coords="592,295,626,295,626,300,592,300"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__auxiliary.html#a088708e93ad9e6f96c089c9f0cc72bbc" title=" " alt="" coords="845,277,993,317"/>
+<area shape="poly" id="edge9_Node000006_Node000007" title=" " alt="" coords="789,295,832,295,832,300,789,300"/>
+<area shape="poly" id="edge10_Node000007_Node000007" title=" " alt="" coords="881,278,878,268,885,259,898,253,919,251,943,254,957,261,954,266,942,259,919,256,900,258,888,263,884,269,886,276"/>
+<area shape="poly" id="edge14_Node000008_Node000008" title=" " alt="" coords="266,195,264,185,270,176,285,170,306,168,331,171,344,178,342,183,329,176,306,173,286,175,274,180,269,186,272,194"/>
+<area shape="poly" id="edge17_Node000010_Node000002" title=" " alt="" coords="593,33,823,66,822,72,592,38"/>
+</map>

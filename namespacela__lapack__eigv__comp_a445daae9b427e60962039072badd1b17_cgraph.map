@@ -1,0 +1,29 @@
+<map id="la_lapack_eigv_comp::la_wggbal" name="la_lapack_eigv_comp::la_wggbal">
+<area shape="rect" id="Node000001" title="WGGBAL: balances a pair of general complex matrices (A,B). This involves, first, permuting A and B by..." alt="" coords="5,293,168,333"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__aux.html#a468e46dc4c2738ec2488f91497db7d36" title="IWAMAX: finds the index of the first element having maximum |Re(.)| + |Im(.)|." alt="" coords="216,29,395,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="91,292,106,247,131,188,166,126,189,97,214,72,236,58,239,62,218,76,193,101,171,129,135,191,111,249,96,293"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="445,201,612,227"/>
+<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="92,291,107,252,132,202,167,154,190,133,215,116,262,96,303,92,345,100,396,116,428,130,459,149,507,189,504,193,456,153,426,135,394,120,344,105,303,97,263,101,217,120,193,137,171,157,136,205,112,254,97,293"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__level1.html#a028370694e6e0a792cc8a082facc9488" title="QAXPY: constant times a vector plus a vector. uses unrolled loops for increments equal to one." alt="" coords="238,130,373,170"/>
+<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="101,290,148,236,180,206,215,180,225,174,228,178,217,184,183,210,152,240,105,294"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__level1.html#a611be53df18d64a8deec856401d3dbf6" title="QDOT: forms the dot product of two vectors. uses unrolled loops for increments equal to one." alt="" coords="220,219,391,244"/>
+<area shape="poly" id="edge8_Node000001_Node000006" title=" " alt="" coords="129,290,215,254,242,245,243,250,217,259,131,295"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__auxiliary.html#a422783a9c3975903ac0fc1dc06f4ec01" title="QLAMCH: determines quad precision machine parameters." alt="" coords="231,293,379,333"/>
+<area shape="poly" id="edge10_Node000001_Node000007" title=" " alt="" coords="168,310,218,310,218,315,168,315"/>
+<area shape="rect" id="Node000008" href="$namespacela__blas__level1.html#a1ffcba958a3ab121d878ddb3f71724ab" title="QSCAL: scales a vector by a constant. uses unrolled loops for increment equal to 1." alt="" coords="238,357,373,397"/>
+<area shape="poly" id="edge13_Node000001_Node000008" title=" " alt="" coords="157,330,226,351,224,356,155,335"/>
+<area shape="rect" id="Node000009" href="$namespacela__blas__level1.html#a8370fbe3dcdbbbf38621046a2d6937cc" title="WQSCAL: scales a vector by a constant." alt="" coords="238,421,373,461"/>
+<area shape="poly" id="edge14_Node000001_Node000009" title=" " alt="" coords="112,331,159,368,217,406,230,413,228,417,215,411,156,373,109,335"/>
+<area shape="rect" id="Node000010" href="$namespacela__blas__level1.html#a87a0f6f4a51cb922e497d49bc7597e53" title="WSWAP: interchanges two vectors." alt="" coords="238,485,373,525"/>
+<area shape="poly" id="edge15_Node000001_Node000010" title=" " alt="" coords="101,331,147,399,180,437,218,471,227,477,224,481,214,475,176,441,142,402,97,334"/>
+<area shape="rect" id="Node000011" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="222,549,389,575"/>
+<area shape="poly" id="edge16_Node000001_Node000011" title=" " alt="" coords="96,332,111,374,136,429,171,486,193,512,218,535,227,541,224,546,214,539,189,516,167,489,131,432,106,376,91,334"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="270,31,262,21,266,11,281,5,305,3,336,6,348,15,345,20,334,11,305,8,282,10,270,15,267,20,274,28"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#a2c19bf75051669e20853bdcccda20e0d" title="QCABS1: computes |Re(.)| + |Im(.)| of a double complex number." alt="" coords="443,29,615,55"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="395,39,429,39,429,45,395,45"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="493,31,485,21,489,11,504,5,529,3,559,6,572,15,568,20,557,11,529,8,505,10,492,15,490,20,497,28"/>
+<area shape="poly" id="edge6_Node000004_Node000004" title=" " alt="" coords="493,203,485,193,489,183,504,177,529,175,559,178,572,187,568,192,557,183,529,180,505,182,492,187,490,192,497,200"/>
+<area shape="poly" id="edge9_Node000006_Node000006" title=" " alt="" coords="270,220,262,210,266,200,281,194,305,192,336,196,348,205,345,209,334,201,305,197,282,199,270,204,267,210,274,217"/>
+<area shape="poly" id="edge11_Node000007_Node000004" title=" " alt="" coords="351,290,485,230,487,235,353,295"/>
+<area shape="poly" id="edge12_Node000007_Node000007" title=" " alt="" coords="264,293,262,283,268,274,283,268,305,266,331,269,345,276,342,281,329,274,305,271,284,273,272,278,267,284,269,292"/>
+</map>

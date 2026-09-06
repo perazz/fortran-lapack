@@ -1,0 +1,58 @@
+<map id="la_lapack_orthogonal_factors_ql::la_dorglq" name="la_lapack_orthogonal_factors_ql::la_dorglq">
+<area shape="rect" id="Node000001" title="DORGLQ: generates an M&#45;by&#45;N real matrix Q with orthonormal rows, which is defined as the first M rows..." alt="" coords="5,683,167,723"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__householder__reflectors.html#aca90af56199d3e1535915e758fc85de6" title="DLARFB: applies a real block reflector H or its transpose H**T to a real m by n matrix C,..." alt="" coords="454,221,625,261"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="99,681,147,615,213,537,290,457,371,382,501,268,505,272,374,386,294,461,217,540,152,619,103,684"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="907,421,1073,446"/>
+<area shape="poly" id="edge37_Node000001_Node000006" title=" " alt="" coords="167,707,332,718,535,723,635,720,727,712,803,697,833,687,857,675,885,654,908,628,928,599,944,568,968,508,981,459,986,460,973,510,949,571,932,602,912,631,888,658,860,680,835,692,804,702,727,717,636,725,535,728,332,723,167,712"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__householder__reflectors.html#aa70d97d291f909f24a84406edf4b563a" title="DLARFT: forms the triangular factor T of a real block reflector H of order n, which is defined as a p..." alt="" coords="454,381,625,421"/>
+<area shape="poly" id="edge11_Node000001_Node000008" title=" " alt="" coords="116,680,495,427,498,431,119,685"/>
+<area shape="rect" id="Node000011" href="$namespacela__lapack__orthogonal__factors__ql.html#a1e11876dcfd4d5f6a1b6c2d98c3bd560" title="DORGL2: generates an m by n real matrix Q with orthonormal rows, which is defined as the first m rows..." alt="" coords="225,740,387,780"/>
+<area shape="poly" id="edge19_Node000001_Node000011" title=" " alt="" coords="164,720,216,734,215,739,163,725"/>
+<area shape="rect" id="Node000017" href="$namespacela__lapack__aux.html#aa361c7114aef95e10b685247a1b75114" title="ILAENV: is called from the LAPACK routines to choose problem&#45;dependent parameters for the local envir..." alt="" coords="215,879,397,905"/>
+<area shape="poly" id="edge31_Node000001_Node000017" title=" " alt="" coords="112,721,281,868,278,872,109,725"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__level1.html#aae8bb4d5e6d345d21c204686597a16c7" title="DCOPY: copies a vector, x, to a vector, y. uses unrolled loops for increments equal to 1." alt="" coords="703,5,837,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="550,220,600,145,637,101,680,62,699,49,702,54,683,66,641,105,605,148,554,223"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__level3__gen.html#a5709dfcfa0ca3c6a3635c30a7029e225" title="DGEMM: performs one of the matrix&#45;matrix operations C := alpha*op( A )*op( B ) + beta*C,..." alt="" coords="697,285,843,325"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="613,259,685,279,684,284,611,264"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="907,229,1073,254"/>
+<area shape="poly" id="edge10_Node000002_Node000005" title=" " alt="" coords="553,219,604,163,640,134,680,112,729,96,770,90,811,96,860,112,896,133,929,160,975,215,971,219,925,164,893,137,858,117,810,101,770,96,730,101,682,117,643,138,608,167,557,223"/>
+<area shape="rect" id="Node000007" href="$namespacela__blas__level3__tri.html#a710d6b899efadca7fff77218f39cf845" title="DTRMM: performs one of the matrix&#45;matrix operations B := alpha*op( A )*B, or B := alpha*B*op( A ),..." alt="" coords="702,221,838,261"/>
+<area shape="poly" id="edge7_Node000002_Node000007" title=" " alt="" coords="625,239,688,239,688,244,625,244"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="839,283,932,255,933,260,840,288"/>
+<area shape="poly" id="edge6_Node000004_Node000006" title=" " alt="" coords="834,323,860,335,918,372,966,410,962,414,915,377,857,340,832,328"/>
+<area shape="poly" id="edge5_Node000005_Node000005" title=" " alt="" coords="954,230,947,220,951,210,965,204,990,202,1020,206,1032,215,1029,219,1018,211,990,207,967,209,954,214,952,220,958,227"/>
+<area shape="poly" id="edge8_Node000007_Node000005" title=" " alt="" coords="838,239,893,239,893,244,838,244"/>
+<area shape="poly" id="edge9_Node000007_Node000006" title=" " alt="" coords="839,259,860,271,898,303,930,340,977,407,972,410,926,344,894,307,857,276,837,264"/>
+<area shape="poly" id="edge18_Node000008_Node000005" title=" " alt="" coords="555,379,592,331,631,272,643,241,648,212,657,187,666,174,680,163,704,150,726,142,766,139,809,148,859,163,889,173,917,188,964,218,961,222,915,192,887,178,858,168,808,153,766,144,727,147,706,155,683,168,670,178,661,189,653,214,648,242,636,275,596,335,560,383"/>
+<area shape="rect" id="Node000009" href="$namespacela__blas__level2__gen.html#a9c2a31bb0d2d592ea44f94e08a22d9bb" title="DGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="697,413,843,453"/>
+<area shape="poly" id="edge12_Node000008_Node000009" title=" " alt="" coords="625,411,683,419,682,424,625,416"/>
+<area shape="rect" id="Node000010" href="$namespacela__blas__level2__tri.html#a5dc999c70ce48df0f53922903ec69add" title="DTRMV: performs one of the matrix&#45;vector operations x := A*x, or x := A**T*x, where x is an n element..." alt="" coords="702,349,838,389"/>
+<area shape="poly" id="edge15_Node000008_Node000010" title=" " alt="" coords="625,387,688,378,689,383,625,392"/>
+<area shape="poly" id="edge13_Node000009_Node000005" title=" " alt="" coords="837,411,857,399,894,367,926,331,972,264,977,267,930,334,898,371,860,404,839,416"/>
+<area shape="poly" id="edge14_Node000009_Node000006" title=" " alt="" coords="844,431,893,431,893,436,844,436"/>
+<area shape="poly" id="edge16_Node000010_Node000005" title=" " alt="" coords="832,347,857,335,915,298,962,261,966,265,918,302,860,340,834,352"/>
+<area shape="poly" id="edge17_Node000010_Node000006" title=" " alt="" coords="839,386,933,414,932,419,838,392"/>
+<area shape="poly" id="edge30_Node000011_Node000006" title=" " alt="" coords="387,761,507,764,645,761,712,756,772,748,822,736,857,719,888,693,913,661,934,625,950,588,972,516,983,459,988,460,977,517,955,590,939,628,917,664,892,696,860,724,824,741,773,753,713,762,646,767,507,770,387,767"/>
+<area shape="rect" id="Node000012" href="$namespacela__lapack__householder__reflectors.html#aa59fe80fa85cb1f51fb74ae2a659bf95" title="DLARF: applies a real elementary reflector H to a real m by n matrix C, from either the left or the r..." alt="" coords="454,531,625,571"/>
+<area shape="poly" id="edge20_Node000011_Node000012" title=" " alt="" coords="328,738,504,578,508,582,331,742"/>
+<area shape="rect" id="Node000016" href="$namespacela__blas__level1.html#a74ba718e1843e245ad196e1a72a1f9ab" title="DSCAL: scales a vector by a constant. uses unrolled loops for increment equal to 1." alt="" coords="472,791,607,831"/>
+<area shape="poly" id="edge29_Node000011_Node000016" title=" " alt="" coords="387,775,459,791,458,796,386,780"/>
+<area shape="poly" id="edge28_Node000012_Node000005" title=" " alt="" coords="559,529,596,487,631,432,642,399,645,368,641,311,640,284,644,258,656,232,680,207,712,188,748,178,785,175,823,178,895,197,953,220,951,225,894,202,822,184,785,180,749,183,714,193,683,211,661,235,649,259,645,284,647,311,651,369,647,400,636,434,601,490,563,532"/>
+<area shape="poly" id="edge21_Node000012_Node000009" title=" " alt="" coords="568,528,620,496,680,463,695,456,697,461,683,468,622,501,571,533"/>
+<area shape="rect" id="Node000013" href="$namespacela__blas__level2__gen.html#ab5786638251654dbe30bee93c5ba21a1" title="DGER: performs the rank 1 operation A := alpha*x*y**T + A, where alpha is a scalar,..." alt="" coords="697,625,843,665"/>
+<area shape="poly" id="edge22_Node000012_Node000013" title=" " alt="" coords="586,568,682,610,703,618,701,623,680,614,584,573"/>
+<area shape="rect" id="Node000014" href="$namespacela__lapack__aux.html#a845d7f5885e62862eb1bcf34846710e9" title="ILADLC: scans A for its last non&#45;zero column." alt="" coords="681,575,859,601"/>
+<area shape="poly" id="edge24_Node000012_Node000014" title=" " alt="" coords="625,562,678,571,678,576,624,567"/>
+<area shape="rect" id="Node000015" href="$namespacela__lapack__aux.html#aafd792571e06ccf234fa3b824c1cc524" title="ILADLR: scans A for its last non&#45;zero row." alt="" coords="683,502,857,527"/>
+<area shape="poly" id="edge26_Node000012_Node000015" title=" " alt="" coords="625,535,674,527,675,532,625,540"/>
+<area shape="poly" id="edge23_Node000013_Node000006" title=" " alt="" coords="836,623,857,610,896,574,929,532,974,457,979,460,933,535,900,577,860,614,838,627"/>
+<area shape="poly" id="edge25_Node000014_Node000014" title=" " alt="" coords="734,577,727,567,731,557,745,551,770,549,800,552,812,561,809,566,798,557,770,554,747,556,734,561,732,566,738,574"/>
+<area shape="poly" id="edge27_Node000015_Node000015" title=" " alt="" coords="734,504,727,494,731,484,745,478,770,475,800,479,812,488,809,492,798,484,770,481,747,483,734,488,732,493,738,500"/>
+<area shape="poly" id="edge34_Node000017_Node000017" title=" " alt="" coords="270,881,263,871,267,861,281,855,306,853,336,856,348,865,345,870,334,861,306,858,283,860,270,865,268,870,274,878"/>
+<area shape="rect" id="Node000018" href="$namespacela__lapack__aux.html#a72541275ada30b0ca556fbc0d3959719" title="IEEECK: is called from the ILAENV to verify that Infinity and possibly NaN arithmetic is safe (i...." alt="" coords="447,879,632,905"/>
+<area shape="poly" id="edge32_Node000017_Node000018" title=" " alt="" coords="398,889,433,889,433,895,398,895"/>
+<area shape="rect" id="Node000019" href="$namespacela__lapack__aux.html#ace38ae70bb7022cae6ecabe992145fda" title="This program sets problem and machine dependent parameters useful for xHSEQR and related subroutines ..." alt="" coords="445,953,633,978"/>
+<area shape="poly" id="edge35_Node000017_Node000019" title=" " alt="" coords="348,902,486,946,484,951,347,907"/>
+<area shape="poly" id="edge33_Node000018_Node000018" title=" " alt="" coords="502,881,494,871,498,861,514,855,539,853,572,857,584,866,581,870,570,861,539,858,515,860,502,865,499,870,506,877"/>
+<area shape="poly" id="edge36_Node000019_Node000019" title=" " alt="" coords="502,954,494,944,498,934,514,928,539,926,572,930,584,939,581,944,570,935,539,931,515,933,502,938,499,944,506,951"/>
+</map>

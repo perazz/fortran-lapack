@@ -1,0 +1,21 @@
+<map id="la_lapack_orthogonal_factors_ql::la_sgemlqt" name="la_lapack_orthogonal_factors_ql::la_sgemlqt">
+<area shape="rect" id="Node000001" title="DGEMLQT overwrites the general real M&#45;by&#45;N matrix C with SIDE = &#39;L&#39; SIDE = &#39;R&#39; TRANS = &#39;N&#39;: Q C C Q T..." alt="" coords="5,82,179,122"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="640,62,807,87"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="139,80,224,50,337,20,399,9,464,4,529,4,593,13,645,31,691,53,688,57,643,35,591,18,529,10,464,9,400,15,338,25,226,55,141,85"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__householder__reflectors.html#ab08d2cf0648c74c2193a570168eb70d8" title="SLARFB: applies a real block reflector H or its transpose H**T to a real m by n matrix C,..." alt="" coords="227,82,397,122"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="179,100,213,100,213,105,179,105"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="640,186,807,211"/>
+<area shape="poly" id="edge12_Node000001_Node000006" title=" " alt="" coords="135,120,270,178,357,207,446,228,518,235,592,228,667,212,668,218,592,233,518,240,445,233,355,212,269,183,133,125"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="690,63,683,53,687,44,700,37,723,35,752,39,763,48,759,52,749,44,723,40,702,42,690,47,688,53,694,60"/>
+<area shape="poly" id="edge4_Node000003_Node000002" title=" " alt="" coords="343,80,390,55,445,36,486,28,518,27,592,36,674,55,673,60,592,41,518,32,486,34,446,41,392,60,346,85"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__level1.html#a62fb48eb347a3888135df44b367cf888" title="SCOPY: copies a vector, x, to a vector, y. uses unrolled loops for increments equal to 1." alt="" coords="451,50,586,90"/>
+<area shape="poly" id="edge5_Node000003_Node000004" title=" " alt="" coords="397,87,437,80,438,86,398,92"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__level3__gen.html#aa64658f1a260d8d48fc960ed25c24678" title="SGEMM: performs one of the matrix&#45;matrix operations C := alpha*op( A )*op( B ) + beta*C,..." alt="" coords="445,114,592,154"/>
+<area shape="poly" id="edge6_Node000003_Node000005" title=" " alt="" coords="398,113,432,118,431,124,397,118"/>
+<area shape="rect" id="Node000007" href="$namespacela__blas__level3__tri.html#ad8755549c75331273849e73b47fb4e09" title="STRMM: performs one of the matrix&#45;matrix operations B := alpha*op( A )*B, or B := alpha*B*op( A ),..." alt="" coords="451,178,587,218"/>
+<area shape="poly" id="edge9_Node000003_Node000007" title=" " alt="" coords="355,120,446,164,460,170,458,175,444,169,353,125"/>
+<area shape="poly" id="edge7_Node000005_Node000002" title=" " alt="" coords="587,112,666,88,667,94,589,117"/>
+<area shape="poly" id="edge8_Node000005_Node000006" title=" " alt="" coords="584,152,670,179,668,184,583,157"/>
+<area shape="poly" id="edge10_Node000007_Node000002" title=" " alt="" coords="567,176,591,164,647,128,694,93,697,98,650,133,593,169,570,181"/>
+<area shape="poly" id="edge11_Node000007_Node000006" title=" " alt="" coords="587,196,626,196,626,201,587,201"/>
+</map>

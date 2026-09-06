@@ -1,5 +1,0 @@
-<map id="la_lapack_c::la_ctpmqrt" name="la_lapack_c::la_ctpmqrt">
-<area shape="rect" id="Node000001" title="CTPMQRT: applies a complex orthogonal matrix Q obtained from a &quot;triangular&#45;pentagonal&quot; complex block ..." alt="" coords="5,5,181,31"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__c.html#abc94fb0d819034c2a95628d99fde1c49" title="CTPRFB: applies a complex &quot;triangular&#45;pentagonal&quot; block reflector H or its conjugate transpose H**H t..." alt="" coords="229,5,392,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="181,15,216,15,216,21,181,21"/>
-</map>

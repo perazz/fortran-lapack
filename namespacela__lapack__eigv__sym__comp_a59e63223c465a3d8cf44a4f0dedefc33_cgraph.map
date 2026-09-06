@@ -1,0 +1,26 @@
+<map id="la_lapack_eigv_sym_comp::la_qsbgst" name="la_lapack_eigv_sym_comp::la_qsbgst">
+<area shape="rect" id="Node000001" title="QSBGST: reduces a real symmetric&#45;definite banded generalized eigenproblem A*x = lambda*B*x to standar..." alt="" coords="5,267,160,307"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="436,261,603,286"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="94,265,112,238,138,208,170,178,207,156,256,139,298,134,339,140,389,156,424,174,456,199,502,248,498,251,452,202,421,179,387,161,338,145,298,139,257,144,209,161,173,183,142,211,117,241,98,268"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__level2__gen.html#a2babbc60e4573bf86995dc3e7360db8b" title="QGER: performs the rank 1 operation A := alpha*x*y**T + A, where alpha is a scalar,..." alt="" coords="225,5,371,45"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="88,266,103,224,128,170,162,113,206,62,222,50,225,54,210,66,166,116,132,173,108,226,93,268"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="436,42,603,67"/>
+<area shape="poly" id="edge13_Node000001_Node000004" title=" " alt="" coords="92,265,109,234,135,196,167,158,207,126,258,99,314,79,370,66,422,58,423,63,371,71,316,84,261,104,209,130,171,162,139,199,114,237,96,268"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__givens__jacobi__rot.html#a5419081ef64e5f2f85831e419797dd4b" title="QLAR2V: applies a vector of real plane rotations from both sides to a sequence of 2&#45;by&#45;2 real symmetr..." alt="" coords="208,171,388,211"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="119,264,207,220,224,213,226,218,209,225,121,269"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__givens__jacobi__rot.html#a5ddae37b37b821adc2288f46f7eac382" title="QLARGV: generates a vector of real plane rotations, determined by elements of the real vectors x and ..." alt="" coords="208,235,388,275"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="160,273,194,267,195,273,161,278"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__givens__jacobi__rot.html#af71d687d6524c8948c82aae1e3d75261" title="!" alt="" coords="208,299,388,339"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="161,295,195,301,194,306,160,301"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__givens__jacobi__rot.html#ac6ec5e21badaaba5aed0894c5d3f4176" title="QLARTV: applies a vector of real plane rotations to elements of the real vectors x and y...." alt="" coords="208,363,388,403"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="121,304,209,348,226,355,224,360,207,353,119,309"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__blas__like__base.html#acaaee05bbef5139ff3d6f7741c2f2553" title="QLASET: initializes an m&#45;by&#45;n matrix A to BETA on the diagonal and ALPHA on the offdiagonals." alt="" coords="224,427,372,467"/>
+<area shape="poly" id="edge9_Node000001_Node000009" title=" " alt="" coords="101,305,146,358,176,387,209,412,219,418,217,423,207,417,173,391,142,362,97,308"/>
+<area shape="rect" id="Node000010" href="$namespacela__blas__level1.html#a287d433ea91b714145112b0354b86914" title="QROT: applies a plane rotation." alt="" coords="214,491,382,517"/>
+<area shape="poly" id="edge11_Node000001_Node000010" title=" " alt="" coords="94,306,110,343,135,389,168,436,210,477,220,483,217,488,206,481,164,440,130,392,105,345,89,308"/>
+<area shape="rect" id="Node000011" href="$namespacela__blas__level1.html#a1ffcba958a3ab121d878ddb3f71724ab" title="QSCAL: scales a vector by a constant. uses unrolled loops for increment equal to 1." alt="" coords="231,541,365,581"/>
+<area shape="poly" id="edge12_Node000001_Node000011" title=" " alt="" coords="91,306,105,351,129,411,163,473,185,502,210,527,220,535,217,539,206,531,181,505,159,476,124,413,100,353,86,308"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="483,262,475,252,479,242,494,236,519,234,550,238,562,247,559,251,548,243,519,239,496,241,483,246,481,252,487,259"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="372,32,423,39,422,44,371,38"/>
+<area shape="poly" id="edge10_Node000009_Node000002" title=" " alt="" coords="365,424,387,412,421,385,453,354,500,296,504,299,457,357,425,389,389,417,367,429"/>
+</map>

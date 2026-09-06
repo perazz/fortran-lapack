@@ -1,0 +1,19 @@
+<map id="la_lapack_eigv_gen_aux::la_slanv2" name="la_lapack_eigv_gen_aux::la_slanv2">
+<area shape="rect" id="Node000001" title="SLANV2: computes the Schur factorization of a real 2&#45;by&#45;2 nonsymmetric matrix in standard form: [ A B..." alt="" coords="5,71,156,111"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="400,29,548,69"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="156,78,204,72,386,54,386,59,204,77,156,83"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__blas__like__scalar.html#a3d85f08c38ed8387e3f9b3282b67ee25" title="SLAPY2: returns sqrt(x**2+y**2), taking care not to cause unnecessary overflow and unnecessary underf..." alt="" coords="204,111,352,151"/>
+<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="157,103,191,110,190,116,156,109"/>
+<area shape="poly" id="edge4_Node000002_Node000002" title=" " alt="" coords="437,30,435,20,441,11,454,5,474,3,497,6,509,13,507,17,495,11,474,8,455,10,444,15,440,21,442,28"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="596,37,763,62"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="549,47,582,47,582,52,549,52"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="646,38,638,28,642,18,656,12,679,10,708,14,719,23,716,27,706,19,679,15,657,17,646,22,644,28,650,35"/>
+<area shape="poly" id="edge10_Node000004_Node000002" title=" " alt="" coords="326,108,411,72,413,77,328,113"/>
+<area shape="poly" id="edge11_Node000004_Node000004" title=" " alt="" coords="241,111,239,101,245,92,258,86,278,84,301,87,313,94,311,99,299,92,278,89,259,91,248,96,244,102,246,110"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__blas__like__scalar.html#a4d6735a3a0bfd81ec48d9c107c0d7893" title="SISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="400,117,548,157"/>
+<area shape="poly" id="edge6_Node000004_Node000005" title=" " alt="" coords="353,131,386,132,386,137,352,136"/>
+<area shape="poly" id="edge7_Node000005_Node000005" title=" " alt="" coords="437,118,435,108,441,99,454,93,474,91,497,94,509,101,507,105,495,99,474,96,455,98,444,103,440,109,442,116"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__blas__like__scalar.html#af7a547cc3906149e087d6003dc2ab082" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in SISNAN...." alt="" coords="605,117,754,157"/>
+<area shape="poly" id="edge8_Node000005_Node000006" title=" " alt="" coords="549,135,591,135,591,140,549,140"/>
+<area shape="poly" id="edge9_Node000006_Node000006" title=" " alt="" coords="641,118,638,108,645,99,658,93,679,91,703,94,717,101,714,106,702,99,679,96,660,98,648,103,644,109,646,116"/>
+</map>

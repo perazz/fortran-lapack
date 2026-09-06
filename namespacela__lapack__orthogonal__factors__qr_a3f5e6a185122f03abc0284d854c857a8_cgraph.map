@@ -1,0 +1,36 @@
+<map id="la_lapack_orthogonal_factors_qr::la_dlaorhr_col_getrfnp" name="la_lapack_orthogonal_factors_qr::la_dlaorhr_col_getrfnp">
+<area shape="rect" id="Node000001" title="DLAORHR_COL_GETRFNP: computes the modified LU factorization without pivoting of a real general M&#45;by&#45;N..." alt="" coords="5,265,172,319"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__level3__gen.html#a5709dfcfa0ca3c6a3635c30a7029e225" title="DGEMM: performs one of the matrix&#45;matrix operations C := alpha*op( A )*op( B ) + beta*C,..." alt="" coords="471,272,618,312"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="172,289,457,289,457,295,172,295"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="687,250,853,275"/>
+<area shape="poly" id="edge23_Node000001_Node000004" title=" " alt="" coords="172,308,268,324,385,336,512,338,576,332,638,321,691,303,736,280,739,285,693,308,639,327,577,337,513,343,385,342,267,330,172,313"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__orthogonal__factors__qr.html#a42d9b64fe023db7ec73234d0ba73f14d" title="DLAORHR_COL_GETRFNP2: computes the modified LU factorization without pivoting of a real general M&#45;by&#45;..." alt="" coords="228,175,395,230"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="157,262,229,233,231,238,159,267"/>
+<area shape="rect" id="Node000008" href="$namespacela__blas__level3__tri.html#a6989662f34efa7a1d24849adb3ff4d3f" title="DTRSM: solves one of the matrix equations op( A )*X = alpha*B, or X*op( A ) = alpha*B,..." alt="" coords="477,5,613,45"/>
+<area shape="poly" id="edge16_Node000001_Node000008" title=" " alt="" coords="105,263,151,200,183,166,218,136,279,102,343,74,406,53,463,38,464,43,407,58,345,79,281,106,222,141,186,170,155,203,109,266"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__aux.html#aa361c7114aef95e10b685247a1b75114" title="ILAENV: is called from the LAPACK routines to choose problem&#45;dependent parameters for the local envir..." alt="" coords="220,411,403,437"/>
+<area shape="poly" id="edge17_Node000001_Node000009" title=" " alt="" coords="137,317,278,402,275,406,134,322"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="687,101,853,126"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="569,270,740,133,744,137,573,274"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="618,280,673,273,673,278,619,285"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="733,102,726,92,730,82,745,76,770,74,802,78,814,87,810,91,800,83,770,79,746,81,733,86,731,92,738,99"/>
+<area shape="poly" id="edge6_Node000005_Node000002" title=" " alt="" coords="385,228,480,265,478,269,383,233"/>
+<area shape="poly" id="edge15_Node000005_Node000004" title=" " alt="" coords="395,211,673,247,673,253,394,216"/>
+<area shape="poly" id="edge10_Node000005_Node000005" title=" " alt="" coords="268,175,268,165,276,156,290,151,311,149,336,152,351,160,348,164,335,157,311,154,292,156,279,161,273,167,273,175"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="471,93,619,133"/>
+<area shape="poly" id="edge7_Node000005_Node000006" title=" " alt="" coords="375,173,450,143,470,136,471,141,452,148,377,178"/>
+<area shape="rect" id="Node000007" href="$namespacela__blas__level1.html#a74ba718e1843e245ad196e1a72a1f9ab" title="DSCAL: scales a vector by a constant. uses unrolled loops for increment equal to 1." alt="" coords="477,157,612,197"/>
+<area shape="poly" id="edge11_Node000005_Node000007" title=" " alt="" coords="395,191,463,183,464,189,396,196"/>
+<area shape="poly" id="edge12_Node000005_Node000008" title=" " alt="" coords="330,174,380,114,413,83,449,55,463,48,465,52,452,60,416,87,384,118,334,177"/>
+<area shape="poly" id="edge9_Node000006_Node000003" title=" " alt="" coords="619,111,673,111,673,116,619,116"/>
+<area shape="poly" id="edge8_Node000006_Node000006" title=" " alt="" coords="503,94,500,84,507,74,522,69,545,67,571,70,585,77,583,82,569,75,545,72,523,74,510,79,505,85,508,92"/>
+<area shape="poly" id="edge13_Node000008_Node000003" title=" " alt="" coords="607,43,640,55,729,92,727,97,638,60,605,48"/>
+<area shape="poly" id="edge14_Node000008_Node000004" title=" " alt="" coords="614,40,640,55,659,74,669,93,689,136,755,237,750,240,684,139,664,95,655,77,637,59,611,44"/>
+<area shape="poly" id="edge20_Node000009_Node000009" title=" " alt="" coords="275,413,267,403,271,393,286,387,311,385,342,388,354,397,351,402,340,393,311,390,288,392,275,397,273,402,279,410"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__aux.html#a72541275ada30b0ca556fbc0d3959719" title="IEEECK: is called from the ILAENV to verify that Infinity and possibly NaN arithmetic is safe (i...." alt="" coords="452,411,637,437"/>
+<area shape="poly" id="edge18_Node000009_Node000010" title=" " alt="" coords="403,421,438,421,438,427,403,427"/>
+<area shape="rect" id="Node000011" href="$namespacela__lapack__aux.html#ace38ae70bb7022cae6ecabe992145fda" title="This program sets problem and machine dependent parameters useful for xHSEQR and related subroutines ..." alt="" coords="451,485,639,510"/>
+<area shape="poly" id="edge21_Node000009_Node000011" title=" " alt="" coords="354,434,491,478,489,483,352,439"/>
+<area shape="poly" id="edge19_Node000010_Node000010" title=" " alt="" coords="508,413,500,403,504,393,520,387,545,385,576,389,588,398,585,402,574,393,545,390,521,392,508,397,505,402,512,409"/>
+<area shape="poly" id="edge22_Node000011_Node000011" title=" " alt="" coords="508,486,500,476,504,466,520,460,545,458,576,462,588,471,585,475,574,467,545,463,521,465,508,470,505,476,512,483"/>
+</map>

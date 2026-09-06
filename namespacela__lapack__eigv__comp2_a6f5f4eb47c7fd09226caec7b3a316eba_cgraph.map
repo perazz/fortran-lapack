@@ -1,0 +1,34 @@
+<map id="la_lapack_eigv_comp2::la_qtgevc" name="la_lapack_eigv_comp2::la_qtgevc">
+<area shape="rect" id="Node000001" title="QTGEVC: computes some or all of the right and/or left eigenvectors of a pair of real matrices (S,..." alt="" coords="5,268,176,308"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="837,246,1004,271"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="166,265,224,253,305,242,388,236,553,232,703,237,824,246,824,251,703,242,553,237,388,241,305,248,224,259,167,271"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__level2__gen.html#aecd73c3541f591fb801540fa6e7e3883" title="QGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="228,296,375,336"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="176,297,215,302,214,307,176,302"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="427,249,593,274"/>
+<area shape="poly" id="edge20_Node000001_Node000004" title=" " alt="" coords="176,280,413,265,413,270,176,285"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__auxiliary.html#acecd2a5f4b24222c89102e10fa753f18" title="QLABAD: takes as input the values computed by QLAMCH for underflow and overflow, and returns the squa..." alt="" coords="227,411,375,451"/>
+<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="117,306,165,347,225,390,246,402,244,407,223,394,162,351,113,310"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__blas__like__base.html#a67381a499db733350bf326b814cc19d8" title="QLACPY: copies all or part of a two&#45;dimensional matrix A to another matrix B." alt="" coords="436,352,584,392"/>
+<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="128,306,173,327,225,345,275,356,326,363,422,370,422,375,326,369,274,361,223,351,171,332,126,310"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__eigv__sym__comp.html#a3d004e79ca53a197adc97df1e5889935" title="QLAG2: computes the eigenvalues of a 2 x 2 generalized eigenvalue problem A &#45; w B,..." alt="" coords="224,475,379,515"/>
+<area shape="poly" id="edge9_Node000001_Node000007" title=" " alt="" coords="105,307,151,381,186,423,226,461,233,466,230,470,222,465,182,427,147,384,100,309"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__eigv__gen__aux.html#a0341537b0d63ac5fa64ae38bfa2337ef" title="QLALN2: solves a system of the form (ca A &#45; w D ) X = s B or (ca A**T &#45; w D) X = s B with possible sc..." alt="" coords="226,80,377,120"/>
+<area shape="poly" id="edge10_Node000001_Node000008" title=" " alt="" coords="104,266,152,205,186,169,222,137,240,125,243,129,226,141,189,173,156,208,108,270"/>
+<area shape="rect" id="Node000012" href="$namespacela__lapack__auxiliary.html#a422783a9c3975903ac0fc1dc06f4ec01" title="QLAMCH: determines quad precision machine parameters." alt="" coords="641,124,789,164"/>
+<area shape="poly" id="edge19_Node000001_Node000012" title=" " alt="" coords="110,266,158,224,189,203,223,187,275,170,329,156,438,140,541,135,627,135,627,141,541,140,438,146,330,162,276,175,225,192,192,208,161,229,113,270"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="887,248,880,238,883,228,897,222,921,219,949,223,961,232,957,236,947,228,921,225,899,227,887,231,885,237,891,244"/>
+<area shape="poly" id="edge4_Node000003_Node000002" title=" " alt="" coords="375,307,823,265,824,270,375,312"/>
+<area shape="poly" id="edge5_Node000003_Node000004" title=" " alt="" coords="374,294,447,275,448,280,375,299"/>
+<area shape="poly" id="edge8_Node000006_Node000002" title=" " alt="" coords="584,366,683,355,736,344,788,329,843,305,889,277,892,281,846,310,790,335,738,349,684,360,585,372"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__blas__like__scalar.html#ad13f6e4e4281a2b7c9afdcd6e4c56594" title="QLADIV: performs complex division in real arithmetic a + i*b p + i*q = &#45;&#45;&#45;&#45;&#45;&#45;— c + i*d The algorithm ..." alt="" coords="436,29,584,69"/>
+<area shape="poly" id="edge11_Node000008_Node000009" title=" " alt="" coords="376,79,422,68,423,73,378,84"/>
+<area shape="poly" id="edge18_Node000008_Node000012" title=" " alt="" coords="377,105,628,132,627,137,376,111"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__auxiliary.html#a931ac267fdb09d42261b16201c50642a" title=" " alt="" coords="641,29,789,69"/>
+<area shape="poly" id="edge12_Node000009_Node000010" title=" " alt="" coords="585,47,628,47,628,52,585,52"/>
+<area shape="poly" id="edge15_Node000009_Node000012" title=" " alt="" coords="555,67,660,116,658,121,553,72"/>
+<area shape="rect" id="Node000011" href="$namespacela__lapack__auxiliary.html#a088708e93ad9e6f96c089c9f0cc72bbc" title=" " alt="" coords="847,29,995,69"/>
+<area shape="poly" id="edge13_Node000010_Node000011" title=" " alt="" coords="790,47,833,47,833,52,790,52"/>
+<area shape="poly" id="edge14_Node000011_Node000011" title=" " alt="" coords="882,30,880,20,886,11,900,5,921,3,945,6,958,13,955,18,943,11,921,8,901,10,889,15,885,21,887,28"/>
+<area shape="poly" id="edge16_Node000012_Node000002" title=" " alt="" coords="754,162,886,237,884,241,751,167"/>
+<area shape="poly" id="edge17_Node000012_Node000012" title=" " alt="" coords="677,124,674,114,681,105,694,99,715,97,739,100,753,108,750,112,738,105,715,103,696,105,684,109,680,115,682,123"/>
+</map>

@@ -1,0 +1,31 @@
+<map id="la_lapack_eigv_sym_comp::la_sspgst" name="la_lapack_eigv_sym_comp::la_sspgst">
+<area shape="rect" id="Node000001" title="SSPGST: reduces a real symmetric&#45;definite generalized eigenproblem to standard form,..." alt="" coords="5,234,160,274"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="427,113,593,138"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="85,233,98,188,121,130,137,100,156,72,179,47,207,27,251,7,291,4,331,12,380,27,412,41,442,61,489,101,486,105,439,65,409,46,378,32,330,17,291,9,253,13,209,32,183,51,160,76,141,103,125,132,103,189,91,234"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__level1.html#ae2b6448401fe13574104d59fe4c0615c" title="SAXPY: constant times a vector plus a vector. uses unrolled loops for increments equal to one." alt="" coords="226,348,361,388"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="116,271,209,327,235,340,232,345,207,332,113,276"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__level1.html#a9e8204d671c92f661cbb8dfbc09407e9" title="SDOT: forms the dot product of two vectors. uses unrolled loops for increments equal to one." alt="" coords="208,437,379,462"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="100,272,146,332,176,367,210,398,255,428,252,433,206,402,172,370,141,336,96,276"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__level1.html#ab7e08b64fdc3707adeba9f3c65715ba9" title="SSCAL: scales a vector by a constant. uses unrolled loops for increment equal to 1." alt="" coords="226,487,361,527"/>
+<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="93,273,108,314,132,368,166,424,187,450,210,473,216,478,213,482,206,477,183,453,161,427,127,370,103,316,88,275"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__level2__pac.html#a026e76104a3a589a4a38063aa283396d" title="SSPMV: performs the matrix&#45;vector operation y := alpha*A*x + beta*y, where alpha and beta are scalars..." alt="" coords="221,106,366,146"/>
+<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="104,231,150,194,207,155,219,149,222,154,209,160,153,198,108,235"/>
+<area shape="rect" id="Node000007" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="427,177,593,202"/>
+<area shape="poly" id="edge19_Node000001_Node000007" title=" " alt="" coords="142,271,193,284,253,294,316,295,348,291,378,283,409,269,439,250,486,210,489,214,442,255,412,274,380,288,349,296,317,300,253,299,192,290,141,276"/>
+<area shape="rect" id="Node000008" href="$namespacela__blas__level2__pac.html#a40b768b95fd5fc5e270dae63b4be6aee" title="SSPR2: performs the symmetric rank 2 operation A := alpha*x*y**T + alpha*y*x**T + A,..." alt="" coords="221,170,366,210"/>
+<area shape="poly" id="edge10_Node000001_Node000008" title=" " alt="" coords="148,231,213,211,215,216,150,236"/>
+<area shape="rect" id="Node000009" href="$namespacela__blas__level2__tri.html#a7a8cd649b79a6144da4f8e8f2c13300f" title="STPMV: performs one of the matrix&#45;vector operations x := A*x, or x := A**T*x, where x is an n element..." alt="" coords="225,234,361,274"/>
+<area shape="poly" id="edge13_Node000001_Node000009" title=" " alt="" coords="160,251,211,251,211,256,160,256"/>
+<area shape="rect" id="Node000010" href="$namespacela__blas__level2__tri.html#a654eb4dc18e0016ed835068cb464ee20" title="STPSV: solves one of the systems of equations A*x = b, or A**T*x = b, where b and x are n element vec..." alt="" coords="225,42,361,82"/>
+<area shape="poly" id="edge16_Node000001_Node000010" title=" " alt="" coords="92,232,136,164,169,125,206,91,214,86,217,91,210,96,173,129,141,167,97,235"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="475,115,467,105,471,95,486,88,510,86,540,90,552,99,549,103,538,95,510,92,487,94,475,98,472,104,479,111"/>
+<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="259,438,251,429,255,419,270,412,293,410,323,414,334,423,331,427,321,419,293,416,271,418,259,422,257,428,263,435"/>
+<area shape="poly" id="edge8_Node000006_Node000002" title=" " alt="" coords="367,123,413,123,413,128,367,128"/>
+<area shape="poly" id="edge9_Node000006_Node000007" title=" " alt="" coords="363,143,454,170,452,175,361,148"/>
+<area shape="poly" id="edge11_Node000008_Node000002" title=" " alt="" coords="361,167,452,140,454,145,363,172"/>
+<area shape="poly" id="edge12_Node000008_Node000007" title=" " alt="" coords="367,187,413,187,413,192,367,192"/>
+<area shape="poly" id="edge14_Node000009_Node000002" title=" " alt="" coords="357,231,377,219,392,206,401,193,410,178,425,163,461,142,464,146,428,168,414,182,405,196,396,209,380,224,359,236"/>
+<area shape="poly" id="edge15_Node000009_Node000007" title=" " alt="" coords="361,231,452,204,454,209,363,236"/>
+<area shape="poly" id="edge17_Node000010_Node000002" title=" " alt="" coords="363,79,454,106,452,111,361,84"/>
+<area shape="poly" id="edge18_Node000010_Node000007" title=" " alt="" coords="359,79,380,91,396,106,405,120,414,134,428,149,462,169,459,174,425,153,410,138,401,123,392,110,377,96,357,84"/>
+</map>

@@ -1,5 +1,0 @@
-<map id="la_lapack_s::la_slaqz2" name="la_lapack_s::la_slaqz2">
-<area shape="rect" id="Node000001" title="SLAQZ2: chases a 2x2 shift bulge in a matrix pencil down a single position." alt="" coords="5,13,172,38"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__givens__jacobi__rot.html#ad1f05008592f149f93b439e98ab1b32f" title="!" alt="" coords="220,5,400,45"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="172,23,206,23,206,28,172,28"/>
-</map>

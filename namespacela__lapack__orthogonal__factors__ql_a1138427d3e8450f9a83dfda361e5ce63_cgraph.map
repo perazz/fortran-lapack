@@ -1,0 +1,44 @@
+<map id="la_lapack_orthogonal_factors_ql::la_qgelq2" name="la_lapack_orthogonal_factors_ql::la_qgelq2">
+<area shape="rect" id="Node000001" title="QGELQ2: computes an LQ factorization of a real m&#45;by&#45;n matrix A: A = ( L 0 ) * Q where: Q is a n&#45;by&#45;n ..." alt="" coords="5,325,169,365"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__householder__reflectors.html#a52a8729fe2f7462f0c5f8088a667c74a" title="QLARF: applies a real elementary reflector H to a real m by n matrix C, from either the left or the r..." alt="" coords="217,175,388,215"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="116,322,260,221,263,225,119,327"/>
+<area shape="rect" id="Node000007" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="661,275,828,300"/>
+<area shape="poly" id="edge27_Node000001_Node000007" title=" " alt="" coords="170,343,372,338,493,330,613,317,687,301,688,306,614,322,493,336,372,344,170,348"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__householder__reflectors.html#a15293b1e4918d9310471d7c55674fa6f" title="QLARFG: generates a real elementary reflector H of order n, such that H * ( alpha ) = ( beta ),..." alt="" coords="217,457,388,497"/>
+<area shape="poly" id="edge13_Node000001_Node000009" title=" " alt="" coords="122,362,259,447,256,452,120,367"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__aux.html#a89c999353d6bf1a6ec63f15a8c2e26f9" title="ILAQLC: scans A for its last non&#45;zero column." alt="" coords="436,29,613,55"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="317,173,365,119,398,89,435,64,448,57,450,62,437,68,402,93,369,122,321,177"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__aux.html#a2a0245021a95a162a43b7716204498a0" title="ILAQLR: scans A for its last non&#45;zero row." alt="" coords="437,103,612,128"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="358,173,475,130,477,135,360,178"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="876,211,1043,236"/>
+<area shape="poly" id="edge6_Node000002_Node000005" title=" " alt="" coords="388,190,436,189,632,188,828,202,864,206,863,211,828,207,632,193,436,194,388,195"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__level2__gen.html#aecd73c3541f591fb801540fa6e7e3883" title="QGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="451,203,598,243"/>
+<area shape="poly" id="edge8_Node000002_Node000006" title=" " alt="" coords="389,203,438,210,437,215,388,209"/>
+<area shape="rect" id="Node000008" href="$namespacela__blas__level2__gen.html#a2babbc60e4573bf86995dc3e7360db8b" title="QGER: performs the rank 1 operation A := alpha*x*y**T + A, where alpha is a scalar,..." alt="" coords="451,267,598,307"/>
+<area shape="poly" id="edge11_Node000002_Node000008" title=" " alt="" coords="347,213,437,253,455,260,453,265,435,258,345,218"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="489,31,481,21,485,11,500,5,525,3,555,6,567,15,564,20,553,11,525,8,501,10,489,15,486,20,493,28"/>
+<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="489,104,481,94,485,84,500,78,525,76,555,80,567,89,564,93,553,85,525,81,501,83,489,88,486,94,493,101"/>
+<area shape="poly" id="edge7_Node000005_Node000005" title=" " alt="" coords="924,212,917,202,921,192,935,186,959,184,989,188,1001,197,998,201,987,193,959,189,937,191,925,196,922,202,929,209"/>
+<area shape="poly" id="edge9_Node000006_Node000005" title=" " alt="" coords="598,221,862,221,862,226,598,226"/>
+<area shape="poly" id="edge10_Node000006_Node000007" title=" " alt="" coords="595,241,688,268,686,273,593,246"/>
+<area shape="poly" id="edge12_Node000008_Node000007" title=" " alt="" coords="598,285,647,285,647,290,598,290"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__auxiliary.html#a422783a9c3975903ac0fc1dc06f4ec01" title="QLAMCH: determines quad precision machine parameters." alt="" coords="671,371,819,411"/>
+<area shape="poly" id="edge14_Node000009_Node000010" title=" " alt="" coords="342,454,386,435,435,418,492,406,550,398,656,390,657,395,551,403,493,411,437,423,388,439,344,459"/>
+<area shape="rect" id="Node000011" href="$namespacela__lapack__blas__like__scalar.html#a6ca08add76aca908c622374b20d9d149" title="QLAPY2: returns sqrt(x**2+y**2), taking care not to cause unnecessary overflow and unnecessary underf..." alt="" coords="451,457,599,497"/>
+<area shape="poly" id="edge17_Node000009_Node000011" title=" " alt="" coords="388,474,437,474,437,479,388,479"/>
+<area shape="rect" id="Node000014" href="$namespacela__blas__level1.html#a2a4ce41f30aaa0b17d67096e8445e24b" title="!" alt="" coords="457,545,592,585"/>
+<area shape="poly" id="edge24_Node000009_Node000014" title=" " alt="" coords="355,494,462,537,460,542,353,499"/>
+<area shape="rect" id="Node000015" href="$namespacela__blas__level1.html#a1ffcba958a3ab121d878ddb3f71724ab" title="QSCAL: scales a vector by a constant. uses unrolled loops for increment equal to 1." alt="" coords="457,609,592,649"/>
+<area shape="poly" id="edge26_Node000009_Node000015" title=" " alt="" coords="323,495,372,544,403,571,437,594,448,600,446,605,435,599,400,575,368,548,319,499"/>
+<area shape="poly" id="edge15_Node000010_Node000005" title=" " alt="" coords="770,369,930,242,933,246,773,373"/>
+<area shape="poly" id="edge16_Node000010_Node000010" title=" " alt="" coords="705,372,702,362,709,352,723,347,745,345,770,348,783,355,781,360,768,353,745,350,724,352,712,357,707,363,710,370"/>
+<area shape="poly" id="edge22_Node000011_Node000010" title=" " alt="" coords="576,454,660,421,678,414,680,419,662,426,578,459"/>
+<area shape="poly" id="edge23_Node000011_Node000011" title=" " alt="" coords="484,457,481,447,488,438,502,432,525,430,550,433,564,440,562,445,549,438,525,435,504,437,491,442,486,448,489,456"/>
+<area shape="rect" id="Node000012" href="$namespacela__lapack__blas__like__scalar.html#a0cb82d7f3b093ce99b3c7b3412dee71a" title="QISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="671,459,819,499"/>
+<area shape="poly" id="edge18_Node000011_Node000012" title=" " alt="" coords="599,475,657,476,657,481,599,480"/>
+<area shape="poly" id="edge19_Node000012_Node000012" title=" " alt="" coords="705,460,702,450,709,440,723,435,745,433,770,436,783,443,781,448,768,441,745,438,724,440,712,445,707,451,710,458"/>
+<area shape="rect" id="Node000013" href="$namespacela__lapack__blas__like__scalar.html#afb28a91ee1571cb773bdc95c40031177" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in QISNAN...." alt="" coords="884,459,1035,499"/>
+<area shape="poly" id="edge20_Node000012_Node000013" title=" " alt="" coords="819,477,870,477,870,482,819,482"/>
+<area shape="poly" id="edge21_Node000013_Node000013" title=" " alt="" coords="919,460,917,450,923,440,938,435,959,433,984,436,998,443,995,448,983,441,959,438,939,440,927,445,922,451,924,458"/>
+<area shape="poly" id="edge25_Node000014_Node000014" title=" " alt="" coords="484,545,481,535,488,526,502,520,525,518,550,521,564,528,562,533,549,526,525,523,504,525,491,530,486,536,489,544"/>
+</map>

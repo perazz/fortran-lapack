@@ -1,0 +1,34 @@
+<map id="la_lapack_orthogonal_factors_ql::la_slamswlq" name="la_lapack_orthogonal_factors_ql::la_slamswlq">
+<area shape="rect" id="Node000001" title="SLAMSWLQ: overwrites the general real M&#45;by&#45;N matrix C with SIDE = &#39;L&#39; SIDE = &#39;R&#39; TRANS = &#39;N&#39;: Q * C C..." alt="" coords="5,172,188,212"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="871,203,1037,228"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="129,169,246,106,329,70,422,37,522,13,574,6,625,3,676,5,727,11,776,24,824,44,846,57,867,74,901,113,927,154,945,189,940,191,922,157,897,116,863,78,843,62,821,49,775,29,726,17,676,10,625,8,574,11,523,18,424,42,331,75,249,111,131,174"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__orthogonal__factors__ql.html#a4123f6f23178b0771b5a2ba3dc24fd6a" title="DGEMLQT overwrites the general real M&#45;by&#45;N matrix C with SIDE = &#39;L&#39; SIDE = &#39;R&#39; TRANS = &#39;N&#39;: Q C C Q T..." alt="" coords="236,162,409,202"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="188,185,222,184,222,189,188,190"/>
+<area shape="rect" id="Node000007" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="871,432,1037,458"/>
+<area shape="poly" id="edge22_Node000001_Node000007" title=" " alt="" coords="114,210,163,273,241,357,289,400,342,441,398,477,458,505,511,523,557,534,598,540,637,540,720,528,822,505,875,486,921,462,923,467,877,491,823,510,721,533,638,545,598,545,556,539,509,528,456,510,396,482,339,446,286,404,238,361,159,276,110,213"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__orthogonal__factors__ql.html#a0cef1fb17b89313338a30dc6fe7c236e" title="STPMLQT: applies a real orthogonal matrix Q obtained from a &quot;triangular&#45;pentagonal&quot; real block reflec..." alt="" coords="237,257,408,297"/>
+<area shape="poly" id="edge15_Node000001_Node000009" title=" " alt="" coords="151,209,257,250,255,255,149,214"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="921,204,914,195,917,185,931,178,954,176,982,180,994,189,990,193,980,185,954,182,932,184,921,188,919,194,925,201"/>
+<area shape="poly" id="edge4_Node000003_Node000002" title=" " alt="" coords="356,159,440,116,496,92,558,71,624,56,692,49,759,54,792,62,824,73,862,97,895,128,922,160,941,189,936,192,917,163,891,131,859,101,822,78,790,67,758,59,692,54,625,61,559,76,498,97,442,120,358,164"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__householder__reflectors.html#ab08d2cf0648c74c2193a570168eb70d8" title="SLARFB: applies a real block reflector H or its transpose H**T to a real m by n matrix C,..." alt="" coords="457,141,628,181"/>
+<area shape="poly" id="edge5_Node000003_Node000004" title=" " alt="" coords="410,171,443,168,444,173,410,176"/>
+<area shape="poly" id="edge14_Node000003_Node000007" title=" " alt="" coords="361,200,387,219,411,243,428,273,434,300,440,325,459,350,503,382,552,407,604,426,658,439,712,447,764,451,857,451,857,457,764,456,711,452,657,444,603,431,550,412,500,386,455,353,436,327,428,301,423,275,407,246,384,223,358,204"/>
+<area shape="poly" id="edge6_Node000004_Node000002" title=" " alt="" coords="629,169,823,194,857,199,857,204,822,200,628,174"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__level1.html#a62fb48eb347a3888135df44b367cf888" title="SCOPY: copies a vector, x, to a vector, y. uses unrolled loops for increments equal to 1." alt="" coords="682,88,817,128"/>
+<area shape="poly" id="edge7_Node000004_Node000005" title=" " alt="" coords="620,138,668,126,669,131,621,143"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__level3__gen.html#aa64658f1a260d8d48fc960ed25c24678" title="SGEMM: performs one of the matrix&#45;matrix operations C := alpha*op( A )*op( B ) + beta*C,..." alt="" coords="676,368,823,408"/>
+<area shape="poly" id="edge8_Node000004_Node000006" title=" " alt="" coords="564,179,722,355,718,358,560,183"/>
+<area shape="rect" id="Node000008" href="$namespacela__blas__level3__tri.html#ad8755549c75331273849e73b47fb4e09" title="STRMM: performs one of the matrix&#45;matrix operations B := alpha*op( A )*B, or B := alpha*B*op( A ),..." alt="" coords="681,253,817,293"/>
+<area shape="poly" id="edge11_Node000004_Node000008" title=" " alt="" coords="582,179,701,244,698,249,579,183"/>
+<area shape="poly" id="edge9_Node000006_Node000002" title=" " alt="" coords="792,365,821,347,884,290,932,237,936,241,888,294,824,351,795,370"/>
+<area shape="poly" id="edge10_Node000006_Node000007" title=" " alt="" coords="822,405,895,426,894,431,821,410"/>
+<area shape="poly" id="edge12_Node000008_Node000002" title=" " alt="" coords="817,251,894,229,895,235,818,256"/>
+<area shape="poly" id="edge13_Node000008_Node000007" title=" " alt="" coords="776,291,928,421,925,425,773,295"/>
+<area shape="poly" id="edge16_Node000009_Node000002" title=" " alt="" coords="408,265,676,238,857,221,857,227,676,244,409,271"/>
+<area shape="poly" id="edge21_Node000009_Node000007" title=" " alt="" coords="334,296,350,334,376,381,412,426,434,446,459,461,516,484,577,497,639,501,701,499,760,492,815,482,903,459,904,464,816,487,761,498,701,505,639,507,576,502,514,489,456,466,431,450,409,430,372,383,345,336,329,298"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__orthogonal__factors__qr.html#a7051b7dcf622eb742c7d815e72748ac1" title="STPRFB: applies a real &quot;triangular&#45;pentagonal&quot; block reflector H or its conjugate transpose H^H to a ..." alt="" coords="462,300,623,340"/>
+<area shape="poly" id="edge17_Node000009_Node000010" title=" " alt="" coords="409,291,449,299,448,304,408,296"/>
+<area shape="poly" id="edge18_Node000010_Node000002" title=" " alt="" coords="624,324,720,322,772,315,822,302,852,289,881,272,928,235,931,239,884,276,855,294,824,307,773,320,721,328,624,329"/>
+<area shape="poly" id="edge19_Node000010_Node000006" title=" " alt="" coords="605,337,676,361,674,366,603,342"/>
+<area shape="poly" id="edge20_Node000010_Node000008" title=" " alt="" coords="623,299,667,289,668,294,624,304"/>
+</map>

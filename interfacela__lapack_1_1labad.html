@@ -121,41 +121,16 @@ $(function(){initNavTree('interfacela__lapack_1_1labad.html',''); initResizable(
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a6be640faddc207250b3f4a1db0a7dd94" id="r_a6be640faddc207250b3f4a1db0a7dd94"><td class="memItemLeft" align="right" valign="top">pure subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6be640faddc207250b3f4a1db0a7dd94">dlabad</a> (small, large)</td></tr>
-<tr class="separator:a6be640faddc207250b3f4a1db0a7dd94"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae92440a400fdf6f646326146aef1eb69" id="r_ae92440a400fdf6f646326146aef1eb69"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae92440a400fdf6f646326146aef1eb69">la_dlabad</a></td></tr>
 <tr class="separator:ae92440a400fdf6f646326146aef1eb69"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a79700ee742ec6e56d8e6fae18c99dad0" id="r_a79700ee742ec6e56d8e6fae18c99dad0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a79700ee742ec6e56d8e6fae18c99dad0">la_qlabad</a></td></tr>
 <tr class="separator:a79700ee742ec6e56d8e6fae18c99dad0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a413d26ed9c0e1fe5f80d264509d36749" id="r_a413d26ed9c0e1fe5f80d264509d36749"><td class="memItemLeft" align="right" valign="top">pure subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a413d26ed9c0e1fe5f80d264509d36749">slabad</a> (small, large)</td></tr>
-<tr class="separator:a413d26ed9c0e1fe5f80d264509d36749"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a52b233e9bd4c98386064723951b93b64" id="r_a52b233e9bd4c98386064723951b93b64"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a52b233e9bd4c98386064723951b93b64">la_slabad</a></td></tr>
 <tr class="separator:a52b233e9bd4c98386064723951b93b64"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>LABAD: takes as input the values computed by DLAMCH for underflow and overflow, and returns the square root of each of these values if the log of LARGE is sufficiently large. This subroutine is intended to identify machines with a large exponent range, such as the Crays, and redefine the underflow and overflow limits to be the square roots of the values computed by DLAMCH. This subroutine is needed because DLAMCH does not compensate for poor arithmetic in the upper half of the exponent range, as is found on a Cray. </p>
 </div><h2 class="groupheader">Member Function/Subroutine Documentation</h2>
-<a id="a6be640faddc207250b3f4a1db0a7dd94" name="a6be640faddc207250b3f4a1db0a7dd94"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6be640faddc207250b3f4a1db0a7dd94">&#9670;&#160;</a></span>dlabad()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">pure subroutine la_lapack::labad::dlabad </td>
-          <td>(</td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>), intent(inout)</td>          <td class="paramname"><span class="paramname"><em>small</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>), intent(inout)</td>          <td class="paramname"><span class="paramname"><em>large</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="ae92440a400fdf6f646326146aef1eb69" name="ae92440a400fdf6f646326146aef1eb69"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae92440a400fdf6f646326146aef1eb69">&#9670;&#160;</a></span>la_dlabad()</h2>
 
@@ -198,29 +173,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a413d26ed9c0e1fe5f80d264509d36749" name="a413d26ed9c0e1fe5f80d264509d36749"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a413d26ed9c0e1fe5f80d264509d36749">&#9670;&#160;</a></span>slabad()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">pure subroutine la_lapack::labad::slabad </td>
-          <td>(</td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>), intent(inout)</td>          <td class="paramname"><span class="paramname"><em>small</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>), intent(inout)</td>          <td class="paramname"><span class="paramname"><em>large</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <hr/>The documentation for this interface was generated from the following file:<ul>
-<li><a class="el" href="la__lapack_8f90.html">la_lapack.f90</a></li>
+<li><a class="el" href="la__lapack_8_f90.html">la_lapack.F90</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

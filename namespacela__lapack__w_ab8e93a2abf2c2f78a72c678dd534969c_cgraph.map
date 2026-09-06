@@ -1,5 +1,0 @@
-<map id="la_lapack_w::la_wlaev2" name="la_lapack_w::la_wlaev2">
-<area shape="rect" id="Node000001" title="ZLAEV2: computes the eigendecomposition of a 2&#45;by&#45;2 Hermitian matrix [ A B ] [ CONJG(B) C ]...." alt="" coords="5,5,180,31"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__q.html#a208411852bbb17f33f3c27e0c5da297b" title="DLAEV2: computes the eigendecomposition of a 2&#45;by&#45;2 symmetric matrix [ A B ] [ B C ]...." alt="" coords="228,5,399,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="180,15,215,15,215,21,180,21"/>
-</map>

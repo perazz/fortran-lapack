@@ -1,0 +1,29 @@
+<map id="la_lapack_cosine_sine::la_cbbcsd" name="la_lapack_cosine_sine::la_cbbcsd">
+<area shape="rect" id="Node000001" title="CBBCSD: computes the CS decomposition of a unitary matrix in bidiagonal&#45;block form,..." alt="" coords="5,235,172,275"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__givens__jacobi__rot.html#a42efe09c377b1641ace6372cb6374f78" title="CLASR: applies a sequence of real plane rotations to a complex matrix A, from either the left or the ..." alt="" coords="220,5,400,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="97,233,142,152,177,104,218,62,236,50,239,54,222,66,181,108,146,155,102,235"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="872,121,1039,146"/>
+<area shape="poly" id="edge7_Node000001_Node000003" title=" " alt="" coords="108,232,155,192,186,171,219,156,273,143,344,134,518,124,702,124,858,127,858,132,702,129,518,130,344,139,274,148,221,161,188,176,158,196,111,236"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="455,69,621,94"/>
+<area shape="poly" id="edge17_Node000001_Node000004" title=" " alt="" coords="100,233,146,171,179,138,219,112,273,91,331,79,388,73,441,72,441,77,389,78,332,84,275,96,221,117,183,143,150,175,104,236"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__level1.html#a9573e8a3d84bf41603295ae8e93d7bb6" title="CSCAL: scales a vector by a constant." alt="" coords="243,171,377,211"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="158,232,228,211,230,216,159,237"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__level1.html#a4fb9af59b508cde93dace0cd181faeeb" title="CSWAP: interchanges two vectors." alt="" coords="243,235,377,275"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="172,252,229,252,229,257,172,257"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="676,320,824,360"/>
+<area shape="poly" id="edge8_Node000001_Node000007" title=" " alt="" coords="164,272,220,284,340,302,460,316,663,332,662,338,459,321,339,307,220,289,163,277"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__givens__jacobi__rot.html#ae191925468045badd96cfde4207c08cd" title="SLARTGP: generates a plane rotation so that [ CS SN ] . [ F ] = [ R ] where CS**2 + SN**2 = 1...." alt="" coords="448,349,628,389"/>
+<area shape="poly" id="edge11_Node000001_Node000008" title=" " alt="" coords="118,273,165,302,221,328,274,343,330,354,435,365,434,370,329,359,273,348,219,333,162,307,115,277"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__svd__comp2.html#a8c47863b1a932ef73befe6ed63603d0f" title="SLARTGS: generates a plane rotation designed to introduce a bulge in Golub&#45;Reinsch&#45;style implicit QR ..." alt="" coords="227,400,393,440"/>
+<area shape="poly" id="edge13_Node000001_Node000009" title=" " alt="" coords="109,273,157,325,188,353,221,379,243,392,241,396,219,384,184,358,153,329,105,277"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__svd__comp2.html#af4a7189d2a90adb8282e77d8708af594" title="SLAS2: computes the singular values of the 2&#45;by&#45;2 matrix [ F G ] [ 0 H ]. On return,..." alt="" coords="227,464,393,504"/>
+<area shape="poly" id="edge16_Node000001_Node000010" title=" " alt="" coords="101,274,118,311,144,359,179,407,222,450,229,455,226,459,218,454,175,411,140,361,113,314,96,276"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="400,28,510,38,628,53,774,83,897,114,895,120,773,88,628,59,509,43,400,33"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="393,43,473,63,472,68,391,48"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="922,122,914,112,918,102,932,96,955,94,984,98,995,107,992,111,982,103,955,99,933,101,922,106,920,112,926,119"/>
+<area shape="poly" id="edge9_Node000007_Node000003" title=" " alt="" coords="769,318,930,154,934,158,773,322"/>
+<area shape="poly" id="edge10_Node000007_Node000007" title=" " alt="" coords="711,320,709,310,715,301,729,295,750,293,774,296,787,304,785,308,772,301,750,299,730,301,719,305,714,311,716,319"/>
+<area shape="poly" id="edge12_Node000008_Node000007" title=" " alt="" coords="628,354,662,349,662,355,628,360"/>
+<area shape="poly" id="edge14_Node000009_Node000007" title=" " alt="" coords="393,422,505,419,567,411,627,399,668,384,705,365,707,369,670,389,629,404,568,417,506,424,393,427"/>
+<area shape="poly" id="edge15_Node000009_Node000008" title=" " alt="" coords="392,399,434,390,435,395,393,404"/>
+</map>

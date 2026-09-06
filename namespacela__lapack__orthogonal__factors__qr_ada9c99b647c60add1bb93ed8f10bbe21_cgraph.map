@@ -1,0 +1,23 @@
+<map id="la_lapack_orthogonal_factors_qr::la_qorgtsqr_row" name="la_lapack_orthogonal_factors_qr::la_qorgtsqr_row">
+<area shape="rect" id="Node000001" title="QORGTSQR_ROW: generates an M&#45;by&#45;N real matrix Q_out with orthonormal columns from the output of QLATS..." alt="" coords="5,123,212,163"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__orthogonal__factors__qr.html#a158414b9cc1c4e5602617a8cf8da41ff" title="QLARFB_GETT: applies a real Householder block reflector H from the left to a real (K+M)&#45;by&#45;N &quot;triangu..." alt="" coords="260,123,452,163"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="212,140,246,140,246,145,212,145"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="695,221,861,246"/>
+<area shape="poly" id="edge13_Node000001_Node000006" title=" " alt="" coords="158,160,309,215,404,243,500,263,573,269,646,263,722,247,723,252,647,268,573,275,500,268,402,248,307,220,157,165"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__blas__like__base.html#acaaee05bbef5139ff3d6f7741c2f2553" title="QLASET: initializes an m&#45;by&#45;n matrix A to BETA on the diagonal and ALPHA on the offdiagonals." alt="" coords="282,5,430,45"/>
+<area shape="poly" id="edge11_Node000001_Node000008" title=" " alt="" coords="151,120,299,49,302,54,153,125"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="695,97,861,122"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="387,120,438,93,499,71,540,63,573,62,647,71,729,90,727,95,646,76,573,67,541,69,501,76,440,98,389,125"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__level1.html#af422853fadb4f17a7d5dd3cbf063a4bd" title="QCOPY: copies a vector, x, to a vector, y. uses unrolled loops for increments equal to 1." alt="" coords="506,85,641,125"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="452,124,492,117,493,122,453,129"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__level3__gen.html#a6546efd65d999e7a75cfc45f3f31667d" title="QGEMM: performs one of the matrix&#45;matrix operations C := alpha*op( A )*op( B ) + beta*C,..." alt="" coords="500,213,647,253"/>
+<area shape="poly" id="edge5_Node000002_Node000005" title=" " alt="" coords="406,160,513,206,511,210,404,165"/>
+<area shape="rect" id="Node000007" href="$namespacela__blas__level3__tri.html#ac96c622c460273e71906568c001fcb6d" title="QTRMM: performs one of the matrix&#45;matrix operations B := alpha*op( A )*B, or B := alpha*B*op( A ),..." alt="" coords="505,149,641,189"/>
+<area shape="poly" id="edge8_Node000002_Node000007" title=" " alt="" coords="452,152,492,157,491,162,452,157"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="745,98,738,88,741,78,755,72,778,70,806,74,818,83,814,87,804,79,778,75,756,77,745,82,743,88,749,95"/>
+<area shape="poly" id="edge6_Node000005_Node000003" title=" " alt="" coords="622,211,645,199,702,163,749,128,752,133,705,167,648,204,625,216"/>
+<area shape="poly" id="edge7_Node000005_Node000006" title=" " alt="" coords="647,231,681,231,681,236,647,236"/>
+<area shape="poly" id="edge9_Node000007_Node000003" title=" " alt="" coords="641,147,720,123,721,129,642,152"/>
+<area shape="poly" id="edge10_Node000007_Node000006" title=" " alt="" coords="639,187,724,214,723,219,637,192"/>
+<area shape="poly" id="edge12_Node000008_Node000003" title=" " alt="" coords="431,22,534,29,591,36,647,48,699,66,744,88,741,92,697,71,646,53,590,42,534,34,430,28"/>
+</map>

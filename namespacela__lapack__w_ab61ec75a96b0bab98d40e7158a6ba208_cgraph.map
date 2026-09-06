@@ -1,7 +1,0 @@
-<map id="la_lapack_w::la_wlaqz1" name="la_lapack_w::la_wlaqz1">
-<area shape="rect" id="Node000001" title="ZLAQZ1: chases a 1x1 shift bulge in a matrix pencil down a single position." alt="" coords="5,45,180,70"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__givens__jacobi__rot.html#ab4f15cf35d378e771bf60f6d379eb912" title="!" alt="" coords="228,5,408,45"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="180,42,214,37,215,43,180,48"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__auxiliary.html#a944e706e872d488051fe33353e5b6415" title="WROT: applies a plane rotation, where the cos (C) is real and the sin (S) is complex,..." alt="" coords="244,69,392,109"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="180,67,231,74,230,80,180,72"/>
-</map>

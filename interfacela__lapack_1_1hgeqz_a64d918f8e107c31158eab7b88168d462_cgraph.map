@@ -1,32 +1,37 @@
 <map id="la_lapack::hgeqz::chgeqz" name="la_lapack::hgeqz::chgeqz">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,223,191,249"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__c.html#adcc87397c2fbccecf4934eba0fdb5ba8" title="CHGEQZ: computes the eigenvalues of a complex matrix pair (H,T), where H is an upper Hessenberg matri..." alt="" coords="239,223,409,249"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="191,233,225,233,225,239,191,239"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__blas__like__scalar.html#aa4386e907510cacb88a240be498b8a00" title="CLADIV: := X / Y, where X and Y are complex. The computation of X / Y will not overflow on an interme..." alt="" coords="473,45,621,85"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="333,221,383,165,417,132,456,102,478,89,481,93,459,106,421,136,386,169,337,225"/>
-<area shape="rect" id="Node000007" href="$namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="881,117,1029,157"/>
-<area shape="poly" id="edge18_Node000002_Node000007" title=" " alt="" coords="337,221,386,182,420,161,456,145,510,131,565,122,676,113,780,115,868,122,867,128,780,120,676,119,566,127,511,137,458,151,423,166,390,186,340,225"/>
-<area shape="rect" id="Node000009" href="$namespacela__lapack__blas__like__mnorm.html#a00d47f414840cdd8b9ab784f8c3adade" title="CLANHS: returns the value of the one norm, or the Frobenius norm, or the infinity norm,..." alt="" coords="473,184,621,224"/>
-<area shape="poly" id="edge12_Node000002_Node000009" title=" " alt="" coords="409,221,459,214,460,219,410,226"/>
-<area shape="rect" id="Node000010" href="$namespacela__lapack__givens__jacobi__rot.html#a1425fe877046e0f6263dacc802467bbf" title="!" alt="" coords="457,248,637,288"/>
-<area shape="poly" id="edge14_Node000002_Node000010" title=" " alt="" coords="410,246,444,251,443,256,409,251"/>
-<area shape="rect" id="Node000011" href="$namespacela__lapack__blas__like__base.html#a2515780aa0e463d42a6afc8406bee3ae" title="CLASET: initializes a 2&#45;D array A to BETA on the diagonal and ALPHA on the offdiagonals." alt="" coords="685,283,833,323"/>
-<area shape="poly" id="edge15_Node000002_Node000011" title=" " alt="" coords="346,247,396,274,426,288,458,297,513,307,568,311,672,309,672,315,568,316,512,312,457,303,424,292,393,279,344,251"/>
-<area shape="rect" id="Node000012" href="$namespacela__lapack__auxiliary.html#a277a1d747eac876341fedc2f79826ef5" title="CROT: applies a plane rotation, where the cos (C) is real and the sin (S) is complex,..." alt="" coords="473,363,621,403"/>
-<area shape="poly" id="edge17_Node000002_Node000012" title=" " alt="" coords="340,247,390,292,459,342,482,354,479,359,456,346,387,296,336,251"/>
-<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="508,46,505,36,512,26,526,21,547,19,572,22,585,29,583,34,570,27,547,24,527,26,515,31,511,37,513,44"/>
-<area shape="rect" id="Node000004" href="$namespacela__lapack__blas__like__scalar.html#a7904fc341f85d41c6d9847eee62c3212" title="SLADIV: performs complex division in real arithmetic a + i*b p + i*q = &#45;&#45;&#45;&#45;&#45;&#45;— c + i*d The algorithm ..." alt="" coords="685,45,833,85"/>
-<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="622,63,672,63,672,68,622,68"/>
-<area shape="rect" id="Node000005" href="$namespacela__lapack__auxiliary.html#a8d748d5192da42c522f28e566338f2ed" title=" " alt="" coords="881,29,1029,69"/>
-<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="834,57,867,54,867,59,834,62"/>
-<area shape="poly" id="edge8_Node000004_Node000007" title=" " alt="" coords="815,83,888,110,886,115,814,88"/>
-<area shape="rect" id="Node000006" href="$namespacela__lapack__auxiliary.html#a060d1eb779ff4b79b8e210d748d3e239" title=" " alt="" coords="1087,29,1235,69"/>
-<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="1030,47,1073,47,1073,52,1030,52"/>
-<area shape="poly" id="edge7_Node000006_Node000006" title=" " alt="" coords="1122,30,1120,20,1126,11,1140,5,1161,3,1185,6,1198,13,1195,18,1183,11,1161,8,1141,10,1129,15,1125,21,1127,28"/>
-<area shape="poly" id="edge11_Node000007_Node000007" title=" " alt="" coords="919,118,916,108,922,99,935,93,955,91,978,94,991,101,988,105,977,99,955,96,937,98,926,103,922,109,924,116"/>
-<area shape="rect" id="Node000008" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="1077,153,1244,178"/>
-<area shape="poly" id="edge9_Node000007_Node000008" title=" " alt="" coords="1030,145,1064,149,1063,155,1029,150"/>
-<area shape="poly" id="edge10_Node000008_Node000008" title=" " alt="" coords="1127,154,1120,144,1123,134,1137,128,1161,126,1189,130,1201,139,1197,143,1187,135,1161,131,1139,133,1127,138,1125,144,1131,151"/>
-<area shape="poly" id="edge13_Node000009_Node000009" title=" " alt="" coords="508,184,505,174,512,165,526,159,547,157,572,160,585,168,583,172,570,165,547,163,527,165,515,169,511,175,513,183"/>
-<area shape="poly" id="edge16_Node000011_Node000008" title=" " alt="" coords="818,280,1108,180,1110,185,820,285"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,327,191,353"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__eigv__comp.html#a06586acadbf9120a2569ab0aa6bcf0f2" title="CHGEQZ: computes the eigenvalues of a complex matrix pair (H,T), where H is an upper Hessenberg matri..." alt="" coords="239,320,401,360"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="191,337,225,337,225,343,191,343"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__blas__like__scalar.html#aa4386e907510cacb88a240be498b8a00" title="CLADIV: := X / Y, where X and Y are complex. The computation of X / Y will not overflow on an interme..." alt="" coords="465,67,613,107"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="326,318,343,278,369,226,404,172,448,123,464,111,468,115,451,127,408,175,373,229,348,280,331,320"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="873,117,1021,157"/>
+<area shape="poly" id="edge20_Node000002_Node000007" title=" " alt="" coords="328,319,345,285,371,245,406,205,448,174,481,161,525,151,634,139,753,134,860,133,860,138,753,139,634,144,526,157,482,166,451,178,409,209,375,248,350,288,333,321"/>
+<area shape="rect" id="Node000008" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="1069,182,1236,207"/>
+<area shape="poly" id="edge19_Node000002_Node000008" title=" " alt="" coords="333,318,380,265,412,238,448,218,499,203,565,193,730,183,906,183,1055,187,1055,193,905,188,730,188,566,198,500,208,450,222,415,243,383,269,337,321"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__blas__like__mnorm.html#a00d47f414840cdd8b9ab784f8c3adade" title="CLANHS: returns the value of the one norm, or the Frobenius norm, or the infinity norm,..." alt="" coords="465,256,613,296"/>
+<area shape="poly" id="edge12_Node000002_Node000009" title=" " alt="" coords="389,317,457,297,458,302,390,322"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__givens__jacobi__rot.html#a1425fe877046e0f6263dacc802467bbf" title="!" alt="" coords="449,320,629,360"/>
+<area shape="poly" id="edge14_Node000002_Node000010" title=" " alt="" coords="401,337,436,337,436,343,401,343"/>
+<area shape="rect" id="Node000011" href="$namespacela__lapack__blas__like__base.html#a2515780aa0e463d42a6afc8406bee3ae" title="CLASET: initializes a 2&#45;D array A to BETA on the diagonal and ALPHA on the offdiagonals." alt="" coords="677,304,825,344"/>
+<area shape="poly" id="edge15_Node000002_Node000011" title=" " alt="" coords="389,357,450,369,540,379,579,377,629,369,664,360,697,347,699,352,665,365,630,375,579,382,540,384,449,375,388,363"/>
+<area shape="rect" id="Node000012" href="$namespacela__lapack__auxiliary.html#a277a1d747eac876341fedc2f79826ef5" title="CROT: applies a plane rotation, where the cos (C) is real and the sin (S) is complex,..." alt="" coords="465,435,613,475"/>
+<area shape="poly" id="edge17_Node000002_Node000012" title=" " alt="" coords="354,358,451,414,478,427,475,431,448,418,351,362"/>
+<area shape="rect" id="Node000013" href="$namespacela__blas__level1.html#a9573e8a3d84bf41603295ae8e93d7bb6" title="CSCAL: scales a vector by a constant." alt="" coords="472,499,607,539"/>
+<area shape="poly" id="edge18_Node000002_Node000013" title=" " alt="" coords="336,359,382,421,415,455,451,484,461,491,458,495,448,489,411,459,378,424,332,362"/>
+<area shape="rect" id="Node000014" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="456,563,623,589"/>
+<area shape="poly" id="edge21_Node000002_Node000014" title=" " alt="" coords="330,359,346,400,371,451,406,504,427,528,451,549,461,555,458,560,448,553,424,531,402,507,367,453,341,402,325,361"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="500,67,497,57,504,48,518,42,539,40,564,43,577,50,575,55,562,48,539,45,519,47,507,52,503,58,505,66"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__blas__like__scalar.html#a7904fc341f85d41c6d9847eee62c3212" title="SLADIV: performs complex division in real arithmetic a + i*b p + i*q = &#45;&#45;&#45;&#45;&#45;&#45;— c + i*d The algorithm ..." alt="" coords="677,67,825,107"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="614,84,664,84,664,89,614,89"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__auxiliary.html#a8d748d5192da42c522f28e566338f2ed" title=" " alt="" coords="873,29,1021,69"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="825,70,859,63,860,69,826,75"/>
+<area shape="poly" id="edge8_Node000004_Node000007" title=" " alt="" coords="826,103,860,112,859,117,825,108"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__auxiliary.html#a060d1eb779ff4b79b8e210d748d3e239" title=" " alt="" coords="1079,29,1227,69"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="1022,47,1065,47,1065,52,1022,52"/>
+<area shape="poly" id="edge7_Node000006_Node000006" title=" " alt="" coords="1114,30,1112,20,1118,11,1132,5,1153,3,1177,6,1190,13,1187,18,1175,11,1153,8,1133,10,1121,15,1117,21,1119,28"/>
+<area shape="poly" id="edge11_Node000007_Node000007" title=" " alt="" coords="911,118,908,108,914,99,927,93,947,91,970,94,983,101,980,105,969,99,947,96,929,98,918,103,914,109,916,116"/>
+<area shape="poly" id="edge9_Node000007_Node000008" title=" " alt="" coords="1020,155,1094,176,1092,181,1019,160"/>
+<area shape="poly" id="edge10_Node000008_Node000008" title=" " alt="" coords="1119,184,1112,174,1115,164,1129,158,1153,155,1181,159,1193,168,1189,172,1179,164,1153,161,1131,163,1119,167,1117,173,1123,180"/>
+<area shape="poly" id="edge13_Node000009_Node000009" title=" " alt="" coords="500,256,497,246,504,237,518,231,539,229,564,232,577,240,575,244,562,237,539,235,519,237,507,241,503,247,505,255"/>
+<area shape="poly" id="edge16_Node000011_Node000008" title=" " alt="" coords="814,301,1099,209,1100,214,815,306"/>
 </map>

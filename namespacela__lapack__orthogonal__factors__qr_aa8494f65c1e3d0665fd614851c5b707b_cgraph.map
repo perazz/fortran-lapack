@@ -1,0 +1,24 @@
+<map id="la_lapack_orthogonal_factors_qr::la_dormr2" name="la_lapack_orthogonal_factors_qr::la_dormr2">
+<area shape="rect" id="Node000001" title="DORMR2: overwrites the general real m by n matrix C with Q * C if SIDE = &#39;L&#39; and TRANS = &#39;N&#39;,..." alt="" coords="5,180,173,220"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__householder__reflectors.html#aa59fe80fa85cb1f51fb74ae2a659bf95" title="DLARF: applies a real elementary reflector H to a real m by n matrix C, from either the left or the r..." alt="" coords="221,180,392,220"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="174,197,207,197,207,202,174,202"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="665,187,832,212"/>
+<area shape="poly" id="edge13_Node000001_Node000004" title=" " alt="" coords="118,177,175,141,252,97,343,55,391,37,439,24,490,11,531,4,571,6,619,24,641,38,662,55,696,95,722,137,740,173,735,176,718,140,692,99,658,59,638,42,616,29,570,12,531,9,491,16,441,29,393,42,345,60,255,102,178,146,121,182"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="665,308,832,334"/>
+<area shape="poly" id="edge14_Node000001_Node000005" title=" " alt="" coords="125,218,183,250,259,288,348,324,441,350,490,359,528,360,617,350,693,335,694,340,618,356,528,365,489,364,439,356,346,329,257,292,180,254,122,222"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__level2__gen.html#a9c2a31bb0d2d592ea44f94e08a22d9bb" title="DGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="455,237,602,277"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="385,217,443,232,441,237,384,222"/>
+<area shape="poly" id="edge12_Node000002_Node000004" title=" " alt="" coords="392,197,652,197,652,202,392,202"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__level2__gen.html#ab5786638251654dbe30bee93c5ba21a1" title="DGER: performs the rank 1 operation A := alpha*x*y**T + A, where alpha is a scalar,..." alt="" coords="455,301,602,341"/>
+<area shape="poly" id="edge6_Node000002_Node000006" title=" " alt="" coords="335,218,383,252,441,287,455,293,453,298,439,291,380,256,332,222"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__aux.html#a845d7f5885e62862eb1bcf34846710e9" title="ILADLC: scans A for its last non&#45;zero column." alt="" coords="440,63,617,88"/>
+<area shape="poly" id="edge8_Node000002_Node000007" title=" " alt="" coords="327,178,376,137,439,97,455,90,457,95,441,102,379,141,331,182"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__aux.html#aafd792571e06ccf234fa3b824c1cc524" title="ILADLR: scans A for its last non&#45;zero row." alt="" coords="441,136,616,162"/>
+<area shape="poly" id="edge10_Node000002_Node000008" title=" " alt="" coords="392,178,458,162,459,167,393,183"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="602,235,685,213,687,218,603,241"/>
+<area shape="poly" id="edge5_Node000003_Node000005" title=" " alt="" coords="599,275,692,302,690,307,597,280"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="713,189,705,179,709,169,724,163,749,160,779,164,791,173,788,177,777,169,749,166,725,168,713,173,710,178,717,185"/>
+<area shape="poly" id="edge7_Node000006_Node000005" title=" " alt="" coords="602,318,651,318,651,324,602,324"/>
+<area shape="poly" id="edge9_Node000007_Node000007" title=" " alt="" coords="493,65,485,55,489,45,504,39,529,36,559,40,571,49,568,53,557,45,529,42,505,44,493,49,490,54,497,61"/>
+<area shape="poly" id="edge11_Node000008_Node000008" title=" " alt="" coords="493,138,485,128,489,118,504,112,529,110,559,113,571,122,568,127,557,118,529,115,505,117,493,122,490,127,497,135"/>
+</map>

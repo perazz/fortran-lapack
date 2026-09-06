@@ -1,0 +1,13 @@
+<map id="la_lapack_svd_comp2::la_clags2" name="la_lapack_svd_comp2::la_clags2">
+<area shape="rect" id="Node000001" title="CLAGS2: computes 2&#45;by&#45;2 unitary matrices U, V and Q, such that if ( UPPER ) then U**H *A*Q = U**H *( ..." alt="" coords="5,37,171,77"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__givens__jacobi__rot.html#a1425fe877046e0f6263dacc802467bbf" title="!" alt="" coords="219,5,399,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="171,43,205,38,206,43,172,48"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__svd__comp2.html#af26c76fa48bb6e67a108f9e2868df59f" title="SLASV2: computes the singular value decomposition of a 2&#45;by&#45;2 triangular matrix [ F G ] [ 0 H ]...." alt="" coords="226,69,391,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="172,67,213,73,212,78,171,72"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="447,69,595,109"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="392,87,433,87,433,92,392,92"/>
+<area shape="poly" id="edge6_Node000004_Node000004" title=" " alt="" coords="482,70,480,60,486,51,500,45,521,43,545,46,558,53,555,58,543,51,521,48,501,50,489,55,485,61,487,68"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="643,77,809,102"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="595,87,629,87,629,92,595,92"/>
+<area shape="poly" id="edge5_Node000005_Node000005" title=" " alt="" coords="692,78,685,68,689,58,703,52,726,50,755,54,766,63,763,67,752,59,726,55,704,57,693,62,690,68,696,75"/>
+</map>

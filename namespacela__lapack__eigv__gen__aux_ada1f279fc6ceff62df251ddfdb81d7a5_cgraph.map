@@ -1,0 +1,12 @@
+<map id="la_lapack_eigv_gen_aux::la_ztrexc" name="la_lapack_eigv_gen_aux::la_ztrexc">
+<area shape="rect" id="Node000001" title="ZTREXC: reorders the Schur factorization of a complex matrix A = Q*T*Q**H, so that the diagonal eleme..." alt="" coords="5,101,156,141"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="211,29,377,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="122,98,203,64,226,56,228,61,205,68,124,103"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="211,79,377,104"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="156,108,197,102,197,107,157,113"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__givens__jacobi__rot.html#aae614052b091e4931bced2b4638120be" title="!" alt="" coords="204,129,384,169"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="157,128,191,132,190,138,156,133"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__auxiliary.html#a75a204a7e87f4ca35a85d3bc72613aee" title="ZROT: applies a plane rotation, where the cos (C) is real and the sin (S) is complex,..." alt="" coords="220,193,368,233"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="121,138,205,178,222,185,220,190,203,183,119,143"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="259,31,252,21,255,11,270,5,294,3,324,6,335,15,332,20,322,11,294,8,271,10,259,15,257,20,263,28"/>
+</map>

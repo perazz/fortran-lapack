@@ -1,0 +1,12 @@
+<map id="la_lapack_lsq_aux::la_qlaic1" name="la_lapack_lsq_aux::la_qlaic1">
+<area shape="rect" id="Node000001" title="QLAIC1: applies one step of incremental condition estimation in its simplest version: Let x,..." alt="" coords="5,63,155,103"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__level1.html#a611be53df18d64a8deec856401d3dbf6" title="QDOT: forms the dot product of two vectors. uses unrolled loops for increments equal to one." alt="" coords="203,29,373,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="154,66,209,55,210,60,155,71"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__auxiliary.html#a422783a9c3975903ac0fc1dc06f4ec01" title="QLAMCH: determines quad precision machine parameters." alt="" coords="214,103,362,143"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="155,95,201,104,200,109,154,100"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="254,31,247,21,250,11,265,5,288,3,317,6,328,15,325,20,315,11,288,8,266,10,254,15,252,20,258,28"/>
+<area shape="poly" id="edge6_Node000003_Node000003" title=" " alt="" coords="249,104,247,94,253,84,267,79,288,77,312,80,326,87,323,92,311,85,288,82,268,84,256,89,252,95,254,102"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="421,111,588,136"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="362,121,407,121,407,126,362,126"/>
+<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="469,112,462,102,466,92,480,86,505,84,535,88,547,97,543,101,533,93,505,89,482,91,469,96,467,102,473,109"/>
+</map>

@@ -1,0 +1,34 @@
+<map id="la_lapack_eigv_sym_comp::la_dopgtr" name="la_lapack_eigv_sym_comp::la_dopgtr">
+<area shape="rect" id="Node000001" title="DOPGTR: generates a real orthogonal matrix Q which is defined as the product of n&#45;1 elementary reflec..." alt="" coords="5,249,160,289"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__orthogonal__factors__ql.html#a51db6b04ef38dcffdc63fe53a68d6648" title="DORG2L: generates an m by n real matrix Q with orthonormal columns, which is defined as the last n co..." alt="" coords="209,281,370,321"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="161,278,196,284,195,289,160,284"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="863,339,1029,364"/>
+<area shape="poly" id="edge20_Node000001_Node000005" title=" " alt="" coords="118,287,160,310,209,330,297,358,373,376,442,386,506,390,642,384,814,369,861,364,862,369,815,374,642,389,506,395,441,392,372,381,296,363,207,335,158,315,115,291"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="863,143,1029,168"/>
+<area shape="poly" id="edge21_Node000001_Node000006" title=" " alt="" coords="112,246,197,193,323,125,397,91,475,61,556,36,637,20,728,4,768,5,816,20,854,42,886,71,913,102,932,130,928,133,909,106,882,75,850,46,814,25,767,10,728,9,638,25,557,41,477,66,399,96,326,129,200,197,115,251"/>
+<area shape="rect" id="Node000011" href="$namespacela__lapack__orthogonal__factors__qr.html#a591fc1e353872029d83118a191cd319d" title="DORG2R: generates an m by n real matrix Q with orthonormal columns, which is defined as the first n c..." alt="" coords="208,217,371,257"/>
+<area shape="poly" id="edge16_Node000001_Node000011" title=" " alt="" coords="160,254,194,249,195,254,161,260"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__householder__reflectors.html#aa59fe80fa85cb1f51fb74ae2a659bf95" title="DLARF: applies a real elementary reflector H to a real m by n matrix C, from either the left or the r..." alt="" coords="419,217,589,257"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="356,278,422,258,424,263,358,283"/>
+<area shape="poly" id="edge15_Node000002_Node000006" title=" " alt="" coords="348,318,441,344,499,355,561,363,626,365,690,361,754,347,813,324,855,294,888,255,914,214,932,180,937,182,919,217,893,258,858,298,816,329,755,353,691,366,626,370,561,368,498,360,440,349,346,324"/>
+<area shape="rect" id="Node000010" href="$namespacela__blas__level1.html#a74ba718e1843e245ad196e1a72a1f9ab" title="DSCAL: scales a vector by a constant. uses unrolled loops for increment equal to 1." alt="" coords="437,281,571,321"/>
+<area shape="poly" id="edge14_Node000002_Node000010" title=" " alt="" coords="370,298,423,298,423,304,370,304"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__level2__gen.html#a9c2a31bb0d2d592ea44f94e08a22d9bb" title="DGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="653,274,799,314"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="583,254,640,269,639,275,581,260"/>
+<area shape="poly" id="edge13_Node000003_Node000005" title=" " alt="" coords="570,255,591,267,606,282,615,298,623,312,639,324,690,344,744,355,798,360,849,359,849,365,798,365,743,360,688,349,636,329,619,315,610,300,602,285,588,271,567,259"/>
+<area shape="rect" id="Node000007" href="$namespacela__blas__level2__gen.html#ab5786638251654dbe30bee93c5ba21a1" title="DGER: performs the rank 1 operation A := alpha*x*y**T + A, where alpha is a scalar,..." alt="" coords="653,136,799,176"/>
+<area shape="poly" id="edge7_Node000003_Node000007" title=" " alt="" coords="558,214,636,185,656,178,658,183,638,190,560,219"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__aux.html#a845d7f5885e62862eb1bcf34846710e9" title="ILADLC: scans A for its last non&#45;zero column." alt="" coords="637,224,815,250"/>
+<area shape="poly" id="edge9_Node000003_Node000008" title=" " alt="" coords="590,234,624,234,624,240,590,240"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__aux.html#aafd792571e06ccf234fa3b824c1cc524" title="ILADLR: scans A for its last non&#45;zero row." alt="" coords="639,86,813,111"/>
+<area shape="poly" id="edge11_Node000003_Node000009" title=" " alt="" coords="522,215,570,168,602,143,636,121,653,113,655,118,639,126,605,147,574,172,525,219"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="800,311,884,333,883,338,799,316"/>
+<area shape="poly" id="edge6_Node000004_Node000006" title=" " alt="" coords="787,272,813,259,873,217,920,176,924,180,876,221,816,263,789,276"/>
+<area shape="poly" id="edge5_Node000005_Node000005" title=" " alt="" coords="910,340,903,331,907,321,921,314,946,312,976,316,988,325,985,329,974,321,946,318,923,320,910,324,908,330,914,337"/>
+<area shape="poly" id="edge8_Node000007_Node000006" title=" " alt="" coords="800,153,849,153,849,158,800,158"/>
+<area shape="poly" id="edge10_Node000008_Node000008" title=" " alt="" coords="690,226,683,216,687,206,701,200,726,198,756,201,768,210,765,215,754,206,726,203,703,205,690,210,688,215,694,222"/>
+<area shape="poly" id="edge12_Node000009_Node000009" title=" " alt="" coords="690,87,683,77,687,67,701,61,726,59,756,63,768,72,765,76,754,68,726,64,703,66,690,71,688,76,694,84"/>
+<area shape="poly" id="edge17_Node000011_Node000003" title=" " alt="" coords="371,234,405,234,405,240,371,240"/>
+<area shape="poly" id="edge19_Node000011_Node000006" title=" " alt="" coords="315,215,370,176,447,127,539,81,587,61,637,46,686,34,727,29,767,32,816,46,850,63,881,85,928,131,924,135,877,89,847,68,814,51,766,38,727,34,687,40,638,51,589,66,541,86,450,132,373,180,318,219"/>
+<area shape="poly" id="edge18_Node000011_Node000010" title=" " alt="" coords="358,254,424,274,422,279,356,260"/>
+</map>

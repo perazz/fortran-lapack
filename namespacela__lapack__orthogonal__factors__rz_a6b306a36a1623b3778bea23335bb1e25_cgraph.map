@@ -1,0 +1,18 @@
+<map id="la_lapack_orthogonal_factors_rz::la_dlarzb" name="la_lapack_orthogonal_factors_rz::la_dlarzb">
+<area shape="rect" id="Node000001" title="DLARZB: applies a real block reflector H or its transpose H**T to a real distributed M&#45;by&#45;N C from th..." alt="" coords="5,120,167,160"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__level1.html#aae8bb4d5e6d345d21c204686597a16c7" title="DCOPY: copies a vector, x, to a vector, y. uses unrolled loops for increments equal to 1." alt="" coords="221,5,355,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="119,118,213,62,235,50,238,54,216,66,121,122"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__level3__gen.html#a5709dfcfa0ca3c6a3635c30a7029e225" title="DGEMM: performs one of the matrix&#45;matrix operations C := alpha*op( A )*op( B ) + beta*C,..." alt="" coords="215,184,361,224"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="151,158,212,177,210,182,149,163"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="409,127,576,153"/>
+<area shape="poly" id="edge9_Node000001_Node000004" title=" " alt="" coords="154,117,214,105,288,99,362,105,438,121,437,126,361,111,288,105,215,111,155,123"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="409,191,576,217"/>
+<area shape="poly" id="edge10_Node000001_Node000005" title=" " alt="" coords="107,158,154,199,183,219,216,233,245,241,276,245,338,243,396,232,445,219,446,224,397,237,339,248,276,250,244,246,214,239,181,223,150,203,104,162"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__level3__tri.html#a710d6b899efadca7fff77218f39cf845" title="DTRMM: performs one of the matrix&#45;matrix operations B := alpha*op( A )*B, or B := alpha*B*op( A ),..." alt="" coords="220,120,356,160"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="167,137,206,137,206,143,167,143"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="352,181,438,154,439,159,353,186"/>
+<area shape="poly" id="edge5_Node000003_Node000005" title=" " alt="" coords="362,201,396,201,396,207,362,207"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="459,129,452,119,456,109,470,103,493,101,521,104,532,114,529,118,519,109,493,106,471,108,460,113,457,118,464,126"/>
+<area shape="poly" id="edge7_Node000006_Node000004" title=" " alt="" coords="356,137,396,137,396,143,356,143"/>
+<area shape="poly" id="edge8_Node000006_Node000005" title=" " alt="" coords="353,158,439,185,438,190,352,163"/>
+</map>

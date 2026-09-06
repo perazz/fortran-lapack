@@ -1,0 +1,27 @@
+<map id="la_lapack_orthogonal_factors_qr::la_cungr2" name="la_lapack_orthogonal_factors_qr::la_cungr2">
+<area shape="rect" id="Node000001" title="CUNGR2: generates an m by n complex matrix Q with orthonormal rows, which is defined as the last m ro..." alt="" coords="5,260,171,300"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__blas__like__l1.html#a65e16ab6e529b6346d3ce052868e5744" title="CLACGV: conjugates a complex vector of length N." alt="" coords="230,133,378,173"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="111,258,159,221,217,183,230,176,233,181,220,188,162,225,114,262"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__householder__reflectors.html#a17fa4453bfe36f615b4787e6f44878d6" title="CLARF: applies a complex elementary reflector H to a complex M&#45;by&#45;N matrix C, from either the left or..." alt="" coords="219,197,389,237"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="157,257,221,239,222,244,158,262"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="661,123,828,149"/>
+<area shape="poly" id="edge15_Node000001_Node000006" title=" " alt="" coords="141,297,234,326,292,339,355,348,421,353,487,349,551,337,612,314,635,299,655,282,689,241,714,197,731,160,736,163,719,200,693,244,659,286,638,304,615,318,553,342,487,355,421,358,355,354,291,344,233,331,140,303"/>
+<area shape="rect" id="Node000010" href="$namespacela__blas__level1.html#a9573e8a3d84bf41603295ae8e93d7bb6" title="CSCAL: scales a vector by a constant." alt="" coords="237,379,371,419"/>
+<area shape="poly" id="edge14_Node000001_Node000010" title=" " alt="" coords="121,298,220,358,245,370,243,375,217,362,118,302"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__level2__gen.html#ac20eb127776577a093cdcdfcf3976edf" title="CGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="452,52,599,92"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="370,195,388,183,404,164,411,144,418,123,435,102,442,97,445,101,439,106,423,126,416,145,408,166,391,187,373,199"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="661,31,828,57"/>
+<area shape="poly" id="edge13_Node000003_Node000005" title=" " alt="" coords="373,195,387,183,400,165,406,147,408,109,411,72,419,54,436,38,466,20,500,9,535,4,570,3,638,11,696,25,694,30,638,16,570,8,535,9,501,15,469,25,439,42,424,57,416,73,413,109,412,148,405,168,391,187,376,199"/>
+<area shape="rect" id="Node000007" href="$namespacela__blas__level2__gen.html#a22ec663923c356759875dfacc7d74b4a" title="CGERC: performs the rank 1 operation A := alpha*x*y**H + A, where alpha is a scalar,..." alt="" coords="452,116,599,156"/>
+<area shape="poly" id="edge7_Node000003_Node000007" title=" " alt="" coords="358,195,457,158,458,163,360,200"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__aux.html#ab49220412a0c71ba72f6a064547c57b9" title="ILACLC: scans A for its last non&#45;zero column." alt="" coords="437,205,613,230"/>
+<area shape="poly" id="edge9_Node000003_Node000008" title=" " alt="" coords="390,215,424,215,424,220,390,220"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__aux.html#ab070383b8f791c7b77f51acc5928d45d" title="ILACLR: scans A for its last non&#45;zero row." alt="" coords="438,278,613,303"/>
+<area shape="poly" id="edge11_Node000003_Node000009" title=" " alt="" coords="366,235,474,271,472,276,364,240"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="598,60,647,54,648,59,599,65"/>
+<area shape="poly" id="edge6_Node000004_Node000006" title=" " alt="" coords="595,89,688,117,686,122,594,95"/>
+<area shape="poly" id="edge5_Node000005_Node000005" title=" " alt="" coords="709,33,701,23,705,13,720,7,745,5,775,8,787,17,784,22,773,13,745,10,721,12,709,17,706,22,713,29"/>
+<area shape="poly" id="edge8_Node000007_Node000006" title=" " alt="" coords="599,133,647,133,647,139,599,139"/>
+<area shape="poly" id="edge10_Node000008_Node000008" title=" " alt="" coords="490,206,482,196,486,186,501,180,525,178,556,182,568,191,565,195,554,187,525,183,502,185,490,190,487,195,494,203"/>
+<area shape="poly" id="edge12_Node000009_Node000009" title=" " alt="" coords="490,280,482,270,486,260,501,253,525,251,556,255,568,264,565,268,554,260,525,257,502,259,490,263,487,269,494,276"/>
+</map>

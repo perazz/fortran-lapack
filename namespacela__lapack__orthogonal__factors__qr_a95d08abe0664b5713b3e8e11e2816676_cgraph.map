@@ -1,0 +1,25 @@
+<map id="la_lapack_orthogonal_factors_qr::la_dorgr2" name="la_lapack_orthogonal_factors_qr::la_dorgr2">
+<area shape="rect" id="Node000001" title="DORGR2: generates an m by n real matrix Q with orthonormal rows, which is defined as the last m rows ..." alt="" coords="5,319,168,359"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__householder__reflectors.html#aa59fe80fa85cb1f51fb74ae2a659bf95" title="DLARF: applies a real elementary reflector H to a real m by n matrix C, from either the left or the r..." alt="" coords="216,155,387,195"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="112,317,261,202,265,206,116,321"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="660,121,827,147"/>
+<area shape="poly" id="edge14_Node000001_Node000005" title=" " alt="" coords="169,341,281,345,410,343,529,334,576,325,611,312,633,297,653,279,687,238,712,195,730,159,734,161,717,198,691,241,657,283,636,301,613,316,578,330,530,339,410,349,281,350,168,346"/>
+<area shape="rect" id="Node000009" href="$namespacela__blas__level1.html#a74ba718e1843e245ad196e1a72a1f9ab" title="DSCAL: scales a vector by a constant. uses unrolled loops for increment equal to 1." alt="" coords="234,377,369,417"/>
+<area shape="poly" id="edge13_Node000001_Node000009" title=" " alt="" coords="163,357,221,373,220,378,161,362"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__level2__gen.html#a9c2a31bb0d2d592ea44f94e08a22d9bb" title="DGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="450,50,597,90"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="334,153,434,100,449,93,452,98,436,104,337,158"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="660,29,827,55"/>
+<area shape="poly" id="edge12_Node000002_Node000004" title=" " alt="" coords="312,154,332,125,359,92,393,60,434,36,464,25,496,18,562,13,624,16,678,24,678,29,624,21,562,18,497,23,466,30,436,40,397,64,363,95,336,128,317,157"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__level2__gen.html#ab5786638251654dbe30bee93c5ba21a1" title="DGER: performs the rank 1 operation A := alpha*x*y**T + A, where alpha is a scalar,..." alt="" coords="450,114,597,154"/>
+<area shape="poly" id="edge6_Node000002_Node000006" title=" " alt="" coords="386,157,436,148,437,153,387,162"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__aux.html#a845d7f5885e62862eb1bcf34846710e9" title="ILADLC: scans A for its last non&#45;zero column." alt="" coords="435,203,612,228"/>
+<area shape="poly" id="edge8_Node000002_Node000007" title=" " alt="" coords="387,188,439,198,438,203,386,193"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__aux.html#aafd792571e06ccf234fa3b824c1cc524" title="ILADLR: scans A for its last non&#45;zero row." alt="" coords="436,276,611,301"/>
+<area shape="poly" id="edge10_Node000002_Node000008" title=" " alt="" coords="343,193,486,267,484,272,340,198"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="597,58,646,52,646,57,597,63"/>
+<area shape="poly" id="edge5_Node000003_Node000005" title=" " alt="" coords="594,88,686,115,685,120,592,93"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="708,31,700,21,704,11,719,5,743,3,774,6,786,15,783,20,772,11,743,8,720,10,708,15,705,20,712,28"/>
+<area shape="poly" id="edge7_Node000006_Node000005" title=" " alt="" coords="597,131,646,131,646,137,597,137"/>
+<area shape="poly" id="edge9_Node000007_Node000007" title=" " alt="" coords="488,204,480,194,484,184,499,178,523,176,554,180,566,189,563,193,552,185,523,181,500,183,488,188,485,194,492,201"/>
+<area shape="poly" id="edge11_Node000008_Node000008" title=" " alt="" coords="488,278,480,268,484,258,499,252,523,249,554,253,566,262,563,266,552,258,523,255,500,257,488,262,485,267,492,274"/>
+</map>

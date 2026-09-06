@@ -1,9 +1,0 @@
-<map id="la_lapack_q::la_qlarrr" name="la_lapack_q::la_qlarrr">
-<area shape="rect" id="Node000001" title="Perform tests to decide whether the symmetric tridiagonal matrix T warrants expensive computations wh..." alt="" coords="5,37,167,62"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__auxiliary.html#a422783a9c3975903ac0fc1dc06f4ec01" title="QLAMCH: determines quad precision machine parameters." alt="" coords="215,29,363,69"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="167,47,201,47,201,52,167,52"/>
-<area shape="poly" id="edge4_Node000002_Node000002" title=" " alt="" coords="250,30,248,20,254,11,268,5,289,3,312,6,325,13,323,18,311,11,289,8,269,10,258,15,253,21,256,28"/>
-<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="411,37,577,62"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="363,47,397,47,397,52,363,52"/>
-<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="460,38,453,28,457,18,471,12,494,10,523,14,534,23,531,27,520,19,494,15,472,17,461,22,458,28,464,35"/>
-</map>

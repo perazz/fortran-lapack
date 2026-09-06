@@ -1,0 +1,12 @@
+<map id="la_lapack_lsq_aux::la_wlaic1" name="la_lapack_lsq_aux::la_wlaic1">
+<area shape="rect" id="Node000001" title="WLAIC1: applies one step of incremental condition estimation in its simplest version: Let x,..." alt="" coords="5,73,155,113"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__auxiliary.html#a422783a9c3975903ac0fc1dc06f4ec01" title="QLAMCH: determines quad precision machine parameters." alt="" coords="203,29,351,69"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="154,74,189,66,190,71,155,79"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__level1.html#af0c273da266a2d85bdb1bf32bf2d2a47" title="WDOTC: forms the dot product of two complex vectors WDOTC = X^H * Y." alt="" coords="209,117,344,157"/>
+<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="155,107,196,117,195,122,154,113"/>
+<area shape="poly" id="edge4_Node000002_Node000002" title=" " alt="" coords="240,30,238,20,244,11,257,5,277,3,300,6,312,13,309,17,298,11,277,8,258,10,247,15,243,21,245,28"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="399,37,565,62"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="351,47,385,47,385,52,351,52"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="448,38,441,28,445,18,459,12,482,10,511,14,522,23,519,27,508,19,482,15,460,17,449,22,446,28,452,35"/>
+<area shape="poly" id="edge6_Node000004_Node000004" title=" " alt="" coords="240,118,238,108,244,99,257,93,277,91,300,94,312,101,309,105,298,99,277,96,258,98,247,103,243,109,245,116"/>
+</map>

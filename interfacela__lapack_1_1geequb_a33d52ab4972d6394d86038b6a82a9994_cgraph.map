@@ -1,5 +1,0 @@
-<map id="la_lapack::geequb::zgeequb" name="la_lapack::geequb::zgeequb">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,153,45"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__solve__lu__comp.html#ab48f813202dc821f4d45c514e1842039" title="ZGEEQUB: computes row and column scalings intended to equilibrate an M&#45;by&#45;N matrix A and reduce its c..." alt="" coords="201,5,348,45"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="154,23,187,23,187,28,154,28"/>
-</map>

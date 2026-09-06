@@ -1,0 +1,36 @@
+<map id="la_lapack_orthogonal_factors_qr::la_claunhr_col_getrfnp" name="la_lapack_orthogonal_factors_qr::la_claunhr_col_getrfnp">
+<area shape="rect" id="Node000001" title="CLAUNHR_COL_GETRFNP: computes the modified LU factorization without pivoting of a complex general M&#45;b..." alt="" coords="5,265,175,319"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__level3__gen.html#a2b82856af968b830d01f3bb53f089e7b" title="CGEMM: performs one of the matrix&#45;matrix operations C := alpha*op( A )*op( B ) + beta*C,..." alt="" coords="474,272,621,312"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="175,289,460,289,460,295,175,295"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="689,250,856,275"/>
+<area shape="poly" id="edge23_Node000001_Node000004" title=" " alt="" coords="175,308,271,325,388,337,515,338,579,332,641,321,694,303,739,280,741,285,696,308,642,327,580,337,515,343,388,342,271,330,175,314"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__orthogonal__factors__qr.html#a2d8b45541db6ffa92b03c745f99c2c6a" title="CLAUNHR_COL_GETRFNP2: computes the modified LU factorization without pivoting of a complex general M&#45;..." alt="" coords="229,175,399,230"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="159,262,231,233,233,238,161,267"/>
+<area shape="rect" id="Node000007" href="$namespacela__blas__level3__tri.html#a146013b52e9ab1d998f8329b16b02f96" title="CTRSM: solves one of the matrix equations op( A )*X = alpha*B, or X*op( A ) = alpha*B,..." alt="" coords="479,5,615,45"/>
+<area shape="poly" id="edge16_Node000001_Node000007" title=" " alt="" coords="106,263,153,200,185,166,221,136,281,102,345,74,408,54,465,39,466,44,410,59,347,79,283,107,224,141,189,170,157,203,111,266"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__aux.html#aa361c7114aef95e10b685247a1b75114" title="ILAENV: is called from the LAPACK routines to choose problem&#45;dependent parameters for the local envir..." alt="" coords="223,411,405,437"/>
+<area shape="poly" id="edge17_Node000001_Node000009" title=" " alt="" coords="139,317,281,402,278,406,136,322"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="689,101,856,126"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="572,270,743,133,747,137,575,274"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="621,280,675,273,676,278,621,285"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="736,102,728,92,732,82,748,76,773,74,804,78,816,87,813,91,802,83,773,79,749,81,736,86,733,92,740,99"/>
+<area shape="poly" id="edge6_Node000005_Node000002" title=" " alt="" coords="387,228,482,265,480,269,385,233"/>
+<area shape="poly" id="edge15_Node000005_Node000004" title=" " alt="" coords="399,211,676,247,675,253,399,216"/>
+<area shape="poly" id="edge7_Node000005_Node000005" title=" " alt="" coords="270,175,270,165,278,156,293,151,314,149,339,152,354,160,351,164,338,157,314,154,294,156,281,161,275,167,275,175"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__level1.html#a9573e8a3d84bf41603295ae8e93d7bb6" title="CSCAL: scales a vector by a constant." alt="" coords="480,157,615,197"/>
+<area shape="poly" id="edge8_Node000005_Node000006" title=" " alt="" coords="399,191,466,183,467,189,400,196"/>
+<area shape="poly" id="edge9_Node000005_Node000007" title=" " alt="" coords="333,174,383,114,416,83,452,55,465,48,468,52,455,60,419,87,386,118,337,177"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="473,93,621,133"/>
+<area shape="poly" id="edge12_Node000005_Node000008" title=" " alt="" coords="378,173,452,143,472,136,474,141,454,148,380,178"/>
+<area shape="poly" id="edge10_Node000007_Node000003" title=" " alt="" coords="610,43,642,55,732,92,730,97,640,60,608,48"/>
+<area shape="poly" id="edge11_Node000007_Node000004" title=" " alt="" coords="617,40,643,55,661,74,672,93,692,136,757,237,753,240,687,139,667,95,657,77,640,59,614,44"/>
+<area shape="poly" id="edge13_Node000008_Node000003" title=" " alt="" coords="622,111,675,111,675,116,622,116"/>
+<area shape="poly" id="edge14_Node000008_Node000008" title=" " alt="" coords="505,94,503,84,510,74,525,69,547,67,573,70,588,77,585,82,572,75,547,72,526,74,513,79,508,85,511,92"/>
+<area shape="poly" id="edge20_Node000009_Node000009" title=" " alt="" coords="277,413,270,403,274,393,289,387,314,385,346,389,358,398,354,402,344,393,314,390,290,392,277,397,275,402,282,409"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__aux.html#a72541275ada30b0ca556fbc0d3959719" title="IEEECK: is called from the ILAENV to verify that Infinity and possibly NaN arithmetic is safe (i...." alt="" coords="455,411,640,437"/>
+<area shape="poly" id="edge18_Node000009_Node000010" title=" " alt="" coords="406,421,441,421,441,427,406,427"/>
+<area shape="rect" id="Node000011" href="$namespacela__lapack__aux.html#ace38ae70bb7022cae6ecabe992145fda" title="This program sets problem and machine dependent parameters useful for xHSEQR and related subroutines ..." alt="" coords="453,485,641,510"/>
+<area shape="poly" id="edge21_Node000009_Node000011" title=" " alt="" coords="356,434,494,478,492,483,355,439"/>
+<area shape="poly" id="edge19_Node000010_Node000010" title=" " alt="" coords="511,413,503,403,507,393,522,387,547,385,579,389,591,398,588,402,577,393,547,390,523,392,511,397,508,402,515,409"/>
+<area shape="poly" id="edge22_Node000011_Node000011" title=" " alt="" coords="511,486,503,476,507,466,522,460,547,458,579,462,591,471,588,475,577,467,547,463,523,465,511,470,508,476,515,483"/>
+</map>

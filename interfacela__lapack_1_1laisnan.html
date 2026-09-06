@@ -121,41 +121,16 @@ $(function(){initNavTree('interfacela__lapack_1_1laisnan.html',''); initResizabl
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:afe16c4ea40c8727625031081ce695b98" id="r_afe16c4ea40c8727625031081ce695b98"><td class="memItemLeft" align="right" valign="top">pure logical(<a class="el" href="namespacela__constants.html#ab69b1529685742074aaa0fa65f97a084">lk</a>) function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afe16c4ea40c8727625031081ce695b98">dlaisnan</a> (din1, din2)</td></tr>
-<tr class="separator:afe16c4ea40c8727625031081ce695b98"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5a46e3b710b3eb696ef9206b12797ab8" id="r_a5a46e3b710b3eb696ef9206b12797ab8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5a46e3b710b3eb696ef9206b12797ab8">la_dlaisnan</a></td></tr>
 <tr class="separator:a5a46e3b710b3eb696ef9206b12797ab8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae4e0b7b8b56092a07256c59601f8a704" id="r_ae4e0b7b8b56092a07256c59601f8a704"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae4e0b7b8b56092a07256c59601f8a704">la_qlaisnan</a></td></tr>
 <tr class="separator:ae4e0b7b8b56092a07256c59601f8a704"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae99da7750876593399250e96a62cf76e" id="r_ae99da7750876593399250e96a62cf76e"><td class="memItemLeft" align="right" valign="top">pure logical(<a class="el" href="namespacela__constants.html#ab69b1529685742074aaa0fa65f97a084">lk</a>) function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae99da7750876593399250e96a62cf76e">slaisnan</a> (sin1, sin2)</td></tr>
-<tr class="separator:ae99da7750876593399250e96a62cf76e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab1695a7b22275129e953f83563e40fc8" id="r_ab1695a7b22275129e953f83563e40fc8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab1695a7b22275129e953f83563e40fc8">la_slaisnan</a></td></tr>
 <tr class="separator:ab1695a7b22275129e953f83563e40fc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This routine is not for general use. It exists solely to avoid over-optimization in DISNAN. LAISNAN: checks for NaNs by comparing its two arguments for inequality. NaN is the only floating-point value where NaN != NaN returns .TRUE. To check for NaNs, pass the same variable as both arguments. A compiler must assume that the two arguments are not the same variable, and the test will not be optimized away. Interprocedural or whole-program optimization may delete this test. The ISNAN functions will be replaced by the correct Fortran 03 intrinsic once the intrinsic is widely available. </p>
 </div><h2 class="groupheader">Member Function/Subroutine Documentation</h2>
-<a id="afe16c4ea40c8727625031081ce695b98" name="afe16c4ea40c8727625031081ce695b98"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afe16c4ea40c8727625031081ce695b98">&#9670;&#160;</a></span>dlaisnan()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">pure logical(<a class="el" href="namespacela__constants.html#ab69b1529685742074aaa0fa65f97a084">lk</a>) function la_lapack::laisnan::dlaisnan </td>
-          <td>(</td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>din1</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>din2</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="a5a46e3b710b3eb696ef9206b12797ab8" name="a5a46e3b710b3eb696ef9206b12797ab8"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5a46e3b710b3eb696ef9206b12797ab8">&#9670;&#160;</a></span>la_dlaisnan()</h2>
 
@@ -198,29 +173,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ae99da7750876593399250e96a62cf76e" name="ae99da7750876593399250e96a62cf76e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae99da7750876593399250e96a62cf76e">&#9670;&#160;</a></span>slaisnan()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">pure logical(<a class="el" href="namespacela__constants.html#ab69b1529685742074aaa0fa65f97a084">lk</a>) function la_lapack::laisnan::slaisnan </td>
-          <td>(</td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>sin1</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>sin2</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <hr/>The documentation for this interface was generated from the following file:<ul>
-<li><a class="el" href="la__lapack_8f90.html">la_lapack.f90</a></li>
+<li><a class="el" href="la__lapack_8_f90.html">la_lapack.F90</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

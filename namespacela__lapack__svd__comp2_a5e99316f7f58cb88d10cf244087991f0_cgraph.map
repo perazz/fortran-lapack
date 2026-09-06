@@ -1,0 +1,33 @@
+<map id="la_lapack_svd_comp2::la_dlapll" name="la_lapack_svd_comp2::la_dlapll">
+<area shape="rect" id="Node000001" title="Given two column vectors X and Y, let A = ( X Y ). The subroutine first computes the QR factorization..." alt="" coords="5,127,171,167"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__level1.html#ade1fdf3fe5383466db0f45c14f4a2999" title="DAXPY: constant times a vector plus a vector. uses unrolled loops for increments equal to one." alt="" coords="237,16,371,56"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="119,124,217,67,235,59,237,64,220,72,121,129"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__level1.html#abcba997c09f1f982cf017db38022e3c8" title="DDOT: forms the dot product of two vectors. uses unrolled loops for increments equal to one." alt="" coords="219,105,389,130"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="171,133,205,128,206,133,172,138"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__householder__reflectors.html#adc9152fe9ae73eb4b5fc754d1215b0af" title="DLARFG: generates a real elementary reflector H of order n, such that H * ( alpha ) = ( beta ),..." alt="" coords="219,155,389,195"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="172,155,206,159,205,165,171,160"/>
+<area shape="rect" id="Node000012" href="$namespacela__lapack__svd__comp2.html#a1f95979cab52f64500f99bcec8ffb6c5" title="DLAS2: computes the singular values of the 2&#45;by&#45;2 matrix [ F G ] [ 0 H ]. On return,..." alt="" coords="221,219,387,259"/>
+<area shape="poly" id="edge19_Node000001_Node000012" title=" " alt="" coords="132,164,220,204,237,211,235,216,218,209,130,169"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="270,106,263,96,267,86,281,80,304,78,333,82,344,91,341,95,330,87,304,83,282,85,271,90,268,96,274,103"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="633,29,781,69"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="369,152,388,141,402,124,410,106,418,88,436,72,480,53,528,42,575,37,620,37,620,42,576,42,529,47,482,58,439,77,423,92,415,108,407,126,391,145,372,157"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__blas__like__scalar.html#a6392f228090286d0a08702c8ba131de1" title="DLAPY2: returns sqrt(x**2+y**2), taking care not to cause unnecessary overflow and unnecessary underf..." alt="" coords="437,111,585,151"/>
+<area shape="poly" id="edge9_Node000004_Node000007" title=" " alt="" coords="389,154,423,147,424,152,390,159"/>
+<area shape="rect" id="Node000010" href="$namespacela__blas__level1.html#a85be6de988bf594f26206471abfc614b" title="!" alt="" coords="444,199,579,239"/>
+<area shape="poly" id="edge16_Node000004_Node000010" title=" " alt="" coords="390,190,431,199,430,204,389,195"/>
+<area shape="rect" id="Node000011" href="$namespacela__blas__level1.html#a74ba718e1843e245ad196e1a72a1f9ab" title="DSCAL: scales a vector by a constant. uses unrolled loops for increment equal to 1." alt="" coords="444,263,579,303"/>
+<area shape="poly" id="edge18_Node000004_Node000011" title=" " alt="" coords="368,192,391,204,415,226,439,249,448,254,445,258,436,253,412,230,388,209,365,197"/>
+<area shape="poly" id="edge6_Node000005_Node000005" title=" " alt="" coords="671,30,668,20,674,11,687,5,707,3,730,6,743,13,740,17,729,11,707,8,689,10,678,15,674,21,676,28"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="829,37,996,62"/>
+<area shape="poly" id="edge7_Node000005_Node000006" title=" " alt="" coords="782,47,815,47,815,52,782,52"/>
+<area shape="poly" id="edge8_Node000006_Node000006" title=" " alt="" coords="879,38,872,28,875,18,889,12,913,10,941,14,953,23,949,27,939,19,913,15,891,17,879,22,877,28,883,35"/>
+<area shape="poly" id="edge14_Node000007_Node000005" title=" " alt="" coords="559,108,645,72,647,77,561,113"/>
+<area shape="poly" id="edge15_Node000007_Node000007" title=" " alt="" coords="475,111,472,101,478,92,491,86,511,84,534,87,547,94,544,99,533,92,511,89,493,91,482,96,478,102,480,110"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__blas__like__scalar.html#a942dd2e31c0d9058962f8060e510005e" title="DISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="633,117,781,157"/>
+<area shape="poly" id="edge10_Node000007_Node000008" title=" " alt="" coords="586,131,619,132,619,137,586,136"/>
+<area shape="poly" id="edge11_Node000008_Node000008" title=" " alt="" coords="671,118,668,108,674,99,687,93,707,91,730,94,743,101,740,105,729,99,707,96,689,98,678,103,674,109,676,116"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__blas__like__scalar.html#ab7bb61dcad235be9d6066eda62ea3b31" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in DISNAN...." alt="" coords="837,117,988,157"/>
+<area shape="poly" id="edge12_Node000008_Node000009" title=" " alt="" coords="782,135,824,135,824,140,782,140"/>
+<area shape="poly" id="edge13_Node000009_Node000009" title=" " alt="" coords="874,118,872,108,878,99,892,93,913,91,937,94,950,101,947,106,935,99,913,96,893,98,881,103,877,109,879,116"/>
+<area shape="poly" id="edge17_Node000010_Node000010" title=" " alt="" coords="475,199,472,189,478,180,491,174,511,172,534,175,547,182,544,187,533,180,511,177,493,179,482,184,478,190,480,198"/>
+</map>

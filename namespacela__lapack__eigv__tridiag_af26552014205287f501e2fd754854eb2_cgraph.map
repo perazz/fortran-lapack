@@ -1,0 +1,35 @@
+<map id="la_lapack_eigv_tridiag::la_dlaed8" name="la_lapack_eigv_tridiag::la_dlaed8">
+<area shape="rect" id="Node000001" title="DLAED8: merges the two sets of eigenvalues together into a single sorted set. Then it tries to deflat..." alt="" coords="5,259,173,299"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__level1.html#aae8bb4d5e6d345d21c204686597a16c7" title="DCOPY: copies a vector, x, to a vector, y. uses unrolled loops for increments equal to 1." alt="" coords="242,5,377,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="96,257,113,217,140,165,175,111,220,62,236,50,239,54,223,66,179,114,144,168,118,219,101,259"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__blas__like__base.html#a0ceeb0ea602555c3d55fb10fa6c97c24" title="DLACPY: copies all or part of a two&#45;dimensional matrix A to another matrix B." alt="" coords="445,63,593,103"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="100,257,146,193,180,158,220,130,272,107,327,92,381,83,431,79,432,85,382,89,328,97,274,112,223,134,184,162,150,196,104,260"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="445,151,593,191"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="103,257,150,204,183,177,220,156,274,142,329,137,383,140,432,147,431,152,382,145,329,143,274,147,222,161,186,181,154,207,107,260"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__eigv__tridiag2.html#a511a564fd766dd3388e747c11523ee91" title="DLAMRG: will create a permutation list which will merge the elements of A (which is composed of two i..." alt="" coords="221,171,397,211"/>
+<area shape="poly" id="edge8_Node000001_Node000006" title=" " alt="" coords="135,256,220,220,239,213,241,218,222,225,137,261"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__blas__like__scalar.html#a6392f228090286d0a08702c8ba131de1" title="DLAPY2: returns sqrt(x**2+y**2), taking care not to cause unnecessary overflow and unnecessary underf..." alt="" coords="235,259,383,299"/>
+<area shape="poly" id="edge9_Node000001_Node000007" title=" " alt="" coords="173,276,221,276,221,281,173,281"/>
+<area shape="rect" id="Node000010" href="$namespacela__blas__level1.html#a99aa2f933c39f64441cc5e958852aee6" title="DROT: applies a plane rotation." alt="" coords="225,323,393,349"/>
+<area shape="poly" id="edge16_Node000001_Node000010" title=" " alt="" coords="167,296,247,317,246,322,166,301"/>
+<area shape="rect" id="Node000011" href="$namespacela__blas__level1.html#a74ba718e1843e245ad196e1a72a1f9ab" title="DSCAL: scales a vector by a constant. uses unrolled loops for increment equal to 1." alt="" coords="242,373,377,413"/>
+<area shape="poly" id="edge17_Node000001_Node000011" title=" " alt="" coords="120,297,167,328,223,359,237,366,235,371,220,364,164,332,117,301"/>
+<area shape="rect" id="Node000012" href="$namespacela__blas__aux.html#af6800bacfc44f820f5ab674a67a9e93c" title="IDAMAX: finds the index of the first element having maximum absolute value." alt="" coords="222,462,397,487"/>
+<area shape="poly" id="edge18_Node000001_Node000012" title=" " alt="" coords="107,297,156,357,188,392,223,423,270,453,267,458,220,427,184,395,152,361,103,301"/>
+<area shape="rect" id="Node000013" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="226,511,393,537"/>
+<area shape="poly" id="edge20_Node000001_Node000013" title=" " alt="" coords="99,298,115,341,141,395,176,451,198,476,223,498,230,503,227,507,220,502,195,480,172,454,136,397,110,343,94,300"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="641,114,808,139"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="594,96,652,108,651,114,593,101"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="691,116,684,106,687,96,701,90,725,87,753,91,765,100,761,104,751,96,725,93,703,95,691,99,689,105,695,112"/>
+<area shape="poly" id="edge7_Node000005_Node000004" title=" " alt="" coords="593,152,651,140,652,145,594,157"/>
+<area shape="poly" id="edge6_Node000005_Node000005" title=" " alt="" coords="481,151,478,141,485,132,498,126,519,124,543,127,557,134,554,139,542,132,519,129,500,131,488,136,484,142,486,150"/>
+<area shape="poly" id="edge14_Node000007_Node000005" title=" " alt="" coords="348,256,466,195,469,199,350,261"/>
+<area shape="poly" id="edge15_Node000007_Node000007" title=" " alt="" coords="270,259,268,249,274,240,288,234,309,232,334,235,347,242,344,247,332,240,309,237,289,239,277,244,273,250,275,258"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__blas__like__scalar.html#a942dd2e31c0d9058962f8060e510005e" title="DISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="445,259,593,299"/>
+<area shape="poly" id="edge10_Node000007_Node000008" title=" " alt="" coords="384,276,431,276,431,281,384,281"/>
+<area shape="poly" id="edge11_Node000008_Node000008" title=" " alt="" coords="481,259,478,249,485,240,498,234,519,232,543,235,557,242,554,247,542,240,519,237,500,239,488,244,484,250,486,258"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__blas__like__scalar.html#ab7bb61dcad235be9d6066eda62ea3b31" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in DISNAN...." alt="" coords="649,259,800,299"/>
+<area shape="poly" id="edge12_Node000008_Node000009" title=" " alt="" coords="594,276,636,276,636,281,594,281"/>
+<area shape="poly" id="edge13_Node000009_Node000009" title=" " alt="" coords="686,259,684,249,690,240,704,234,725,232,749,235,762,242,759,247,747,240,725,237,705,239,693,244,689,250,691,258"/>
+<area shape="poly" id="edge19_Node000012_Node000012" title=" " alt="" coords="275,464,268,454,272,444,286,438,309,435,338,439,350,448,346,452,336,444,309,441,287,443,275,447,273,453,279,460"/>
+</map>

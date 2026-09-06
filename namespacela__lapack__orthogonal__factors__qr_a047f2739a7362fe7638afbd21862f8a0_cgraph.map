@@ -1,0 +1,41 @@
+<map id="la_lapack_orthogonal_factors_qr::la_sorgtsqr" name="la_lapack_orthogonal_factors_qr::la_sorgtsqr">
+<area shape="rect" id="Node000001" title="SORGTSQR: generates an M&#45;by&#45;N real matrix Q_out with orthonormal columns, which are the first N colum..." alt="" coords="5,171,180,211"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__level1.html#a62fb48eb347a3888135df44b367cf888" title="SCOPY: copies a vector, x, to a vector, y. uses unrolled loops for increments equal to 1." alt="" coords="902,139,1037,179"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="180,185,888,159,888,164,180,190"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__orthogonal__factors__qr.html#ac24c7c9462f78f019237c64fe89dc85b" title="SLAMTSQR: overwrites the general real M&#45;by&#45;N matrix C with SIDE = &#39;L&#39; SIDE = &#39;R&#39; TRANS = &#39;N&#39;: Q * C C..." alt="" coords="228,253,407,293"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="149,208,250,246,248,251,147,213"/>
+<area shape="rect" id="Node000008" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="1091,559,1257,585"/>
+<area shape="poly" id="edge27_Node000001_Node000008" title=" " alt="" coords="103,210,148,326,186,406,235,489,296,568,330,603,366,634,406,659,448,679,493,692,541,696,764,696,844,694,906,686,966,671,1042,644,1096,618,1143,590,1145,594,1099,623,1044,649,968,676,907,692,844,699,764,701,541,701,492,697,446,684,403,664,363,638,326,607,291,571,231,492,181,408,143,328,98,212"/>
+<area shape="rect" id="Node000012" href="$namespacela__lapack__blas__like__base.html#a1820d5cc47f17a2df32a206d9865b05b" title="SLASET: initializes an m&#45;by&#45;n matrix A to BETA on the diagonal and ALPHA on the offdiagonals." alt="" coords="243,31,391,71"/>
+<area shape="poly" id="edge25_Node000001_Node000012" title=" " alt="" coords="115,168,165,129,227,87,251,74,254,79,229,92,168,133,119,173"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="1091,279,1257,305"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="349,251,467,188,549,151,642,119,742,95,793,87,845,84,896,86,947,92,996,105,1044,124,1086,153,1120,192,1146,231,1164,265,1159,268,1142,234,1116,195,1082,157,1041,129,994,110,946,98,896,91,845,90,794,93,743,100,644,124,551,156,469,192,352,256"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__orthogonal__factors__qr.html#ae02554dc661afb2d0991311ec016f85c" title="SGEMQRT: overwrites the general real M&#45;by&#45;N matrix C with SIDE = &#39;L&#39; SIDE = &#39;R&#39; TRANS = &#39;N&#39;: Q C C Q ..." alt="" coords="455,253,629,293"/>
+<area shape="poly" id="edge5_Node000003_Node000005" title=" " alt="" coords="407,271,441,271,441,276,407,276"/>
+<area shape="poly" id="edge24_Node000003_Node000008" title=" " alt="" coords="334,292,381,359,458,451,506,498,559,542,617,581,678,611,731,629,776,639,817,644,857,644,939,632,1042,613,1088,602,1131,587,1132,592,1090,607,1043,619,940,638,857,649,817,649,775,645,729,634,676,616,614,586,556,547,502,502,454,454,377,363,329,295"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__orthogonal__factors__qr.html#a33bdc64456e66073d212e545735bbf7e" title="STPMQRT: applies a real orthogonal matrix Q obtained from a &quot;triangular&#45;pentagonal&quot; real block reflec..." alt="" coords="456,364,628,404"/>
+<area shape="poly" id="edge17_Node000003_Node000010" title=" " alt="" coords="360,291,489,355,487,360,358,296"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="1141,281,1134,271,1137,261,1151,255,1174,253,1202,256,1214,265,1210,270,1200,261,1174,258,1152,260,1141,265,1139,270,1145,278"/>
+<area shape="poly" id="edge6_Node000005_Node000004" title=" " alt="" coords="613,251,677,239,736,234,796,233,915,241,1023,257,1108,274,1107,279,1022,262,915,247,796,239,736,239,678,244,614,256"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__householder__reflectors.html#ab08d2cf0648c74c2193a570168eb70d8" title="SLARFB: applies a real block reflector H or its transpose H**T to a real m by n matrix C,..." alt="" coords="677,253,848,293"/>
+<area shape="poly" id="edge7_Node000005_Node000006" title=" " alt="" coords="629,271,664,271,664,276,629,276"/>
+<area shape="poly" id="edge16_Node000005_Node000008" title=" " alt="" coords="571,291,602,318,631,350,646,376,653,399,662,420,679,441,724,474,773,501,825,522,879,539,985,560,1077,569,1077,574,984,565,878,544,824,527,771,506,721,478,676,445,657,422,648,400,641,378,627,354,598,322,568,295"/>
+<area shape="poly" id="edge9_Node000006_Node000002" title=" " alt="" coords="799,251,919,183,922,188,801,255"/>
+<area shape="poly" id="edge8_Node000006_Node000004" title=" " alt="" coords="848,274,1077,285,1077,290,848,280"/>
+<area shape="rect" id="Node000007" href="$namespacela__blas__level3__gen.html#aa64658f1a260d8d48fc960ed25c24678" title="SGEMM: performs one of the matrix&#45;matrix operations C := alpha*op( A )*op( B ) + beta*C,..." alt="" coords="896,469,1043,509"/>
+<area shape="poly" id="edge10_Node000006_Node000007" title=" " alt="" coords="785,292,941,457,937,461,781,295"/>
+<area shape="rect" id="Node000009" href="$namespacela__blas__level3__tri.html#ad8755549c75331273849e73b47fb4e09" title="STRMM: performs one of the matrix&#45;matrix operations B := alpha*op( A )*B, or B := alpha*B*op( A ),..." alt="" coords="901,355,1037,395"/>
+<area shape="poly" id="edge13_Node000006_Node000009" title=" " alt="" coords="805,291,916,346,914,351,803,296"/>
+<area shape="poly" id="edge11_Node000007_Node000004" title=" " alt="" coords="1013,467,1041,449,1076,416,1108,379,1155,315,1159,318,1112,383,1080,419,1044,453,1016,471"/>
+<area shape="poly" id="edge12_Node000007_Node000008" title=" " alt="" coords="1021,507,1130,551,1128,556,1019,512"/>
+<area shape="poly" id="edge14_Node000009_Node000004" title=" " alt="" coords="1019,352,1128,308,1130,312,1021,357"/>
+<area shape="poly" id="edge15_Node000009_Node000008" title=" " alt="" coords="993,393,1152,548,1148,551,989,397"/>
+<area shape="poly" id="edge18_Node000010_Node000004" title=" " alt="" coords="628,369,1077,303,1078,309,629,374"/>
+<area shape="poly" id="edge23_Node000010_Node000008" title=" " alt="" coords="553,403,570,440,597,485,633,529,655,548,679,563,733,585,791,600,851,607,911,609,1022,601,1111,585,1112,590,1023,606,911,614,851,613,791,605,732,590,676,568,651,552,629,533,593,488,566,442,549,405"/>
+<area shape="rect" id="Node000011" href="$namespacela__lapack__orthogonal__factors__qr.html#a7051b7dcf622eb742c7d815e72748ac1" title="STPRFB: applies a real &quot;triangular&#45;pentagonal&quot; block reflector H or its conjugate transpose H^H to a ..." alt="" coords="682,391,843,431"/>
+<area shape="poly" id="edge19_Node000010_Node000011" title=" " alt="" coords="629,392,668,397,668,402,628,397"/>
+<area shape="poly" id="edge20_Node000011_Node000004" title=" " alt="" coords="844,421,890,424,941,424,992,418,1042,404,1076,386,1107,363,1153,314,1157,317,1110,367,1079,391,1044,409,993,423,941,429,890,430,843,426"/>
+<area shape="poly" id="edge21_Node000011_Node000007" title=" " alt="" coords="817,428,904,462,903,467,815,433"/>
+<area shape="poly" id="edge22_Node000011_Node000009" title=" " alt="" coords="843,394,887,386,888,391,844,399"/>
+<area shape="poly" id="edge26_Node000012_Node000004" title=" " alt="" coords="391,31,522,11,603,5,690,3,781,8,873,23,961,48,1003,66,1044,87,1069,104,1090,126,1126,174,1151,224,1167,265,1162,267,1146,226,1121,177,1086,129,1065,109,1041,92,1001,71,959,53,871,28,781,14,690,8,603,10,522,17,392,37"/>
+</map>

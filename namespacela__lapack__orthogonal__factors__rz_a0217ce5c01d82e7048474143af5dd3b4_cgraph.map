@@ -1,0 +1,22 @@
+<map id="la_lapack_orthogonal_factors_rz::la_dormr3" name="la_lapack_orthogonal_factors_rz::la_dormr3">
+<area shape="rect" id="Node000001" title="DORMR3: overwrites the general real m by n matrix C with Q * C if SIDE = &#39;L&#39; and TRANS = &#39;N&#39;,..." alt="" coords="5,153,172,193"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__orthogonal__factors__rz.html#a7de245c18597827553cf4aa6da38ebee" title="DLARZ: applies a real elementary reflector H to a real M&#45;by&#45;N matrix C, from either the left or the r..." alt="" coords="220,153,381,193"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="172,170,206,170,206,175,172,175"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="624,281,791,307"/>
+<area shape="poly" id="edge11_Node000001_Node000006" title=" " alt="" coords="130,191,261,248,344,277,430,298,470,303,502,303,576,298,610,297,610,302,576,303,502,308,470,309,429,303,343,282,259,253,128,196"/>
+<area shape="rect" id="Node000007" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="624,32,791,57"/>
+<area shape="poly" id="edge12_Node000001_Node000007" title=" " alt="" coords="119,150,175,117,250,77,337,39,429,10,489,3,550,6,606,15,654,26,653,31,605,20,549,11,489,9,430,15,339,44,252,82,177,122,122,155"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__level1.html#ade1fdf3fe5383466db0f45c14f4a2999" title="DAXPY: constant times a vector plus a vector. uses unrolled loops for increments equal to one." alt="" coords="435,89,570,129"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="364,150,425,130,427,136,365,155"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__level1.html#aae8bb4d5e6d345d21c204686597a16c7" title="DCOPY: copies a vector, x, to a vector, y. uses unrolled loops for increments equal to 1." alt="" coords="435,153,570,193"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="381,170,422,170,422,175,381,175"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__level2__gen.html#a9c2a31bb0d2d592ea44f94e08a22d9bb" title="DGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="429,217,576,257"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="365,190,427,210,425,215,364,195"/>
+<area shape="poly" id="edge10_Node000002_Node000006" title=" " alt="" coords="323,191,369,231,399,251,430,266,475,280,521,289,610,295,610,301,520,294,473,285,428,271,396,255,366,235,320,195"/>
+<area shape="rect" id="Node000008" href="$namespacela__blas__level2__gen.html#ab5786638251654dbe30bee93c5ba21a1" title="DGER: performs the rank 1 operation A := alpha*x*y**T + A, where alpha is a scalar,..." alt="" coords="429,25,576,65"/>
+<area shape="poly" id="edge8_Node000002_Node000008" title=" " alt="" coords="324,151,370,113,428,75,439,68,441,73,431,79,374,118,327,155"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="575,254,649,275,647,280,574,259"/>
+<area shape="poly" id="edge7_Node000005_Node000007" title=" " alt="" coords="556,214,574,203,610,170,642,134,689,68,693,71,647,137,614,174,578,207,559,219"/>
+<area shape="poly" id="edge6_Node000006_Node000006" title=" " alt="" coords="674,283,667,273,671,263,684,257,707,255,736,259,747,268,743,272,733,263,707,260,686,262,674,267,672,272,678,280"/>
+<area shape="poly" id="edge9_Node000008_Node000007" title=" " alt="" coords="576,42,610,42,610,47,576,47"/>
+</map>

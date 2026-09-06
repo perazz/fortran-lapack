@@ -1,0 +1,43 @@
+<map id="la_lapack_eigv_svd_bidiag_dc::la_dlasd8" name="la_lapack_eigv_svd_bidiag_dc::la_dlasd8">
+<area shape="rect" id="Node000001" title="DLASD8: finds the square roots of the roots of the secular equation, as defined by the values in DSIG..." alt="" coords="5,261,167,301"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__level1.html#aae8bb4d5e6d345d21c204686597a16c7" title="DCOPY: copies a vector, x, to a vector, y. uses unrolled loops for increments equal to 1." alt="" coords="233,5,367,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="91,260,107,218,132,163,167,106,189,79,213,55,219,50,223,55,216,59,193,83,172,109,137,166,112,220,96,262"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__level1.html#abcba997c09f1f982cf017db38022e3c8" title="DDOT: forms the dot product of two vectors. uses unrolled loops for increments equal to one." alt="" coords="215,94,385,119"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="97,260,142,196,175,160,213,130,227,122,229,127,216,134,179,164,147,199,101,263"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__auxiliary.html#ad8c91d07f3ce487a7a13ce12d1e2326c" title=" " alt="" coords="226,168,374,208"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="126,259,214,218,230,211,232,216,216,222,128,264"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__blas__like__l2.html#ac5191739bc8c0e9fa2df2f8d9527c8d7" title="DLASCL: multiplies the M by N real matrix A by the real scalar CTO/CFROM. This is done without over/u..." alt="" coords="226,232,374,272"/>
+<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="167,268,212,261,213,267,168,273"/>
+<area shape="rect" id="Node000010" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="434,279,601,305"/>
+<area shape="poly" id="edge26_Node000001_Node000010" title=" " alt="" coords="167,281,421,287,420,292,167,286"/>
+<area shape="rect" id="Node000011" href="$namespacela__lapack__eigv__svd__bidiag__dc.html#af3204c7dd3cda4d2b864c4dbdf704abc" title="This subroutine computes the square root of the I&#45;th updated eigenvalue of a positive symmetric rank&#45;..." alt="" coords="219,368,381,408"/>
+<area shape="poly" id="edge17_Node000001_Node000011" title=" " alt="" coords="128,299,248,359,246,364,126,304"/>
+<area shape="rect" id="Node000014" href="$namespacela__lapack__blas__like__base.html#a9d8bc9b29dbe646f52c4b0a259bd4ed8" title="DLASET: initializes an m&#45;by&#45;n matrix A to BETA on the diagonal and ALPHA on the offdiagonals." alt="" coords="651,444,799,484"/>
+<area shape="poly" id="edge22_Node000001_Node000014" title=" " alt="" coords="103,300,149,358,181,390,216,418,272,451,319,470,369,482,434,493,517,502,601,493,646,485,647,490,602,499,517,507,433,499,368,487,317,475,270,456,213,422,177,394,145,362,99,303"/>
+<area shape="rect" id="Node000015" href="$namespacela__blas__level1.html#a85be6de988bf594f26206471abfc614b" title="!" alt="" coords="233,583,367,623"/>
+<area shape="poly" id="edge24_Node000001_Node000015" title=" " alt="" coords="96,301,112,347,138,408,173,475,217,538,255,573,252,577,213,542,169,478,133,410,107,349,91,303"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="265,96,258,86,261,76,276,70,300,67,330,71,341,80,338,84,328,76,300,73,277,75,265,80,263,85,269,92"/>
+<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="260,168,258,158,264,149,278,143,300,141,325,144,339,152,336,156,323,149,300,147,280,149,267,153,263,159,265,167"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__blas__like__scalar.html#a942dd2e31c0d9058962f8060e510005e" title="DISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="443,113,591,153"/>
+<area shape="poly" id="edge7_Node000005_Node000006" title=" " alt="" coords="362,229,384,218,398,206,407,195,417,183,432,170,452,157,455,162,435,174,421,186,412,198,402,210,387,222,365,234"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="651,323,799,363"/>
+<area shape="poly" id="edge11_Node000005_Node000008" title=" " alt="" coords="374,243,483,243,543,250,602,264,650,286,690,312,687,317,647,290,600,269,542,256,483,249,374,248"/>
+<area shape="rect" id="Node000009" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="848,330,1015,355"/>
+<area shape="poly" id="edge15_Node000005_Node000009" title=" " alt="" coords="374,240,433,235,538,231,620,236,701,253,801,284,892,322,890,327,799,289,699,258,619,242,538,236,433,240,374,245"/>
+<area shape="poly" id="edge16_Node000005_Node000010" title=" " alt="" coords="374,263,435,274,434,279,374,268"/>
+<area shape="poly" id="edge8_Node000006_Node000006" title=" " alt="" coords="479,114,476,104,483,95,496,89,517,87,541,90,555,97,552,102,540,95,517,92,498,94,486,99,482,105,484,112"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__blas__like__scalar.html#ab7bb61dcad235be9d6066eda62ea3b31" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in DISNAN...." alt="" coords="649,113,800,153"/>
+<area shape="poly" id="edge9_Node000006_Node000007" title=" " alt="" coords="591,131,636,131,636,136,591,136"/>
+<area shape="poly" id="edge10_Node000007_Node000007" title=" " alt="" coords="686,114,684,104,690,95,704,89,725,87,749,90,762,97,759,102,747,95,725,92,705,94,693,99,689,105,691,112"/>
+<area shape="poly" id="edge12_Node000008_Node000008" title=" " alt="" coords="686,323,684,313,690,304,704,298,725,296,749,299,762,306,759,311,747,304,725,301,705,303,693,308,689,314,691,322"/>
+<area shape="poly" id="edge13_Node000008_Node000009" title=" " alt="" coords="799,340,834,340,834,345,799,345"/>
+<area shape="poly" id="edge14_Node000009_Node000009" title=" " alt="" coords="898,332,890,322,894,312,908,306,931,303,960,307,971,316,968,320,958,312,931,309,909,311,898,315,896,321,902,328"/>
+<area shape="poly" id="edge20_Node000011_Node000008" title=" " alt="" coords="380,372,433,365,637,346,637,351,434,371,381,378"/>
+<area shape="rect" id="Node000012" href="$namespacela__lapack__eigv__tridiag.html#a5dbd4e2b040b1fe0a784db9c50f9b9cd" title="DLAED6: computes the positive or negative root (closest to the origin) of z(1) z(2) z(3) f(x) = rho +..." alt="" coords="433,380,601,420"/>
+<area shape="poly" id="edge18_Node000011_Node000012" title=" " alt="" coords="381,390,420,392,420,397,381,395"/>
+<area shape="rect" id="Node000013" href="$namespacela__lapack__eigv__svd__bidiag__dc.html#a130b31442d493d6381b71cdd30f8e834" title="This subroutine computes the square root of the I&#45;th eigenvalue of a positive symmetric rank&#45;one modi..." alt="" coords="437,444,598,484"/>
+<area shape="poly" id="edge21_Node000011_Node000013" title=" " alt="" coords="359,406,447,437,445,442,357,411"/>
+<area shape="poly" id="edge19_Node000012_Node000008" title=" " alt="" coords="590,377,638,364,639,369,591,383"/>
+<area shape="poly" id="edge23_Node000014_Node000009" title=" " alt="" coords="758,442,895,360,898,365,761,446"/>
+<area shape="poly" id="edge25_Node000015_Node000015" title=" " alt="" coords="260,583,258,573,264,564,278,558,300,556,325,559,339,566,336,571,323,564,300,561,280,563,267,568,263,574,265,582"/>
+</map>

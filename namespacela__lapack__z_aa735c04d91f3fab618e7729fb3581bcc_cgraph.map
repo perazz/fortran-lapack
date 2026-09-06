@@ -1,5 +1,0 @@
-<map id="la_lapack_z::la_zunbdb6" name="la_lapack_z::la_zunbdb6">
-<area shape="rect" id="Node000001" title="ZUNBDB6: orthogonalizes the column vector X = [ X1 ] [ X2 ] with respect to the columns of Q = [ Q1 ]..." alt="" coords="5,13,185,38"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__blas__like__l1.html#a26a895f9f68339f13a5a15193b7ce3ec" title="!" alt="" coords="233,5,381,45"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="185,23,219,23,219,28,185,28"/>
-</map>

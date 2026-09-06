@@ -121,71 +121,16 @@ $(function(){initNavTree('interfacela__lapack_1_1laesy.html',''); initResizable(
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a653b6321a4b8cc994c37a773f4830fc4" id="r_a653b6321a4b8cc994c37a773f4830fc4"><td class="memItemLeft" align="right" valign="top">pure subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a653b6321a4b8cc994c37a773f4830fc4">claesy</a> (a, b, c, rt1, rt2, evscal, cs1, sn1)</td></tr>
-<tr class="separator:a653b6321a4b8cc994c37a773f4830fc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a37f940468bbdd092f24179f301f9f927" id="r_a37f940468bbdd092f24179f301f9f927"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a37f940468bbdd092f24179f301f9f927">la_claesy</a></td></tr>
 <tr class="separator:a37f940468bbdd092f24179f301f9f927"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7ae889612380ae6622b2497b5d6a9743" id="r_a7ae889612380ae6622b2497b5d6a9743"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7ae889612380ae6622b2497b5d6a9743">la_wlaesy</a></td></tr>
 <tr class="separator:a7ae889612380ae6622b2497b5d6a9743"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a054124c72a0ec817945a1ed315520263" id="r_a054124c72a0ec817945a1ed315520263"><td class="memItemLeft" align="right" valign="top">pure subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a054124c72a0ec817945a1ed315520263">zlaesy</a> (a, b, c, rt1, rt2, evscal, cs1, sn1)</td></tr>
-<tr class="separator:a054124c72a0ec817945a1ed315520263"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a50360f99939939388c4468f9a8777b3b" id="r_a50360f99939939388c4468f9a8777b3b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a50360f99939939388c4468f9a8777b3b">la_zlaesy</a></td></tr>
 <tr class="separator:a50360f99939939388c4468f9a8777b3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>LAESY: computes the eigendecomposition of a 2-by-2 symmetric matrix ( ( A, B );( B, C ) ) provided the norm of the matrix of eigenvectors is larger than some threshold value. RT1 is the eigenvalue of larger absolute value, and RT2 of smaller absolute value. If the eigenvectors are computed, then on return ( CS1, SN1 ) is the unit eigenvector for RT1, hence [ CS1 SN1 ] . [ A B ] . [ CS1 -SN1 ] = [ RT1 0 ] [ -SN1 CS1 ] [ B C ] [ SN1 CS1 ] [ 0 RT2 ]. </p>
 </div><h2 class="groupheader">Member Function/Subroutine Documentation</h2>
-<a id="a653b6321a4b8cc994c37a773f4830fc4" name="a653b6321a4b8cc994c37a773f4830fc4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a653b6321a4b8cc994c37a773f4830fc4">&#9670;&#160;</a></span>claesy()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">pure subroutine la_lapack::laesy::claesy </td>
-          <td>(</td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>b</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>c</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>), intent(out)</td>          <td class="paramname"><span class="paramname"><em>rt1</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>), intent(out)</td>          <td class="paramname"><span class="paramname"><em>rt2</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>), intent(out)</td>          <td class="paramname"><span class="paramname"><em>evscal</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>), intent(out)</td>          <td class="paramname"><span class="paramname"><em>cs1</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>), intent(out)</td>          <td class="paramname"><span class="paramname"><em>sn1</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="a37f940468bbdd092f24179f301f9f927" name="a37f940468bbdd092f24179f301f9f927"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a37f940468bbdd092f24179f301f9f927">&#9670;&#160;</a></span>la_claesy()</h2>
 
@@ -228,59 +173,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a054124c72a0ec817945a1ed315520263" name="a054124c72a0ec817945a1ed315520263"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a054124c72a0ec817945a1ed315520263">&#9670;&#160;</a></span>zlaesy()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">pure subroutine la_lapack::laesy::zlaesy </td>
-          <td>(</td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>b</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>c</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>), intent(out)</td>          <td class="paramname"><span class="paramname"><em>rt1</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>), intent(out)</td>          <td class="paramname"><span class="paramname"><em>rt2</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>), intent(out)</td>          <td class="paramname"><span class="paramname"><em>evscal</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>), intent(out)</td>          <td class="paramname"><span class="paramname"><em>cs1</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>), intent(out)</td>          <td class="paramname"><span class="paramname"><em>sn1</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <hr/>The documentation for this interface was generated from the following file:<ul>
-<li><a class="el" href="la__lapack_8f90.html">la_lapack.f90</a></li>
+<li><a class="el" href="la__lapack_8_f90.html">la_lapack.F90</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

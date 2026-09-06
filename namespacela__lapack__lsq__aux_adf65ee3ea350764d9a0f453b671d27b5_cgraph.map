@@ -1,0 +1,12 @@
+<map id="la_lapack_lsq_aux::la_claic1" name="la_lapack_lsq_aux::la_claic1">
+<area shape="rect" id="Node000001" title="CLAIC1: applies one step of incremental condition estimation in its simplest version: Let x,..." alt="" coords="5,73,155,113"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__level1.html#ae5ef74871273629cd7c5e95ec3e7b58c" title="CDOTC: forms the dot product of two complex vectors CDOTC = X^H * Y." alt="" coords="209,29,344,69"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="154,74,195,65,196,70,155,79"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="203,117,351,157"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="155,107,190,115,189,120,154,113"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="240,30,238,20,244,11,257,5,277,3,300,6,312,13,309,17,298,11,277,8,258,10,247,15,243,21,245,28"/>
+<area shape="poly" id="edge6_Node000003_Node000003" title=" " alt="" coords="240,118,238,108,244,99,257,93,277,91,300,94,312,101,309,105,298,99,277,96,258,98,247,103,243,109,245,116"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="399,125,565,150"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="351,135,385,135,385,140,351,140"/>
+<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="448,126,441,116,445,106,459,100,482,98,511,102,522,111,519,115,508,107,482,103,460,105,449,110,446,116,452,123"/>
+</map>

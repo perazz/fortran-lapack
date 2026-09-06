@@ -1,0 +1,17 @@
+<map id="la_lapack_orthogonal_factors_qr::la_slarfb_gett" name="la_lapack_orthogonal_factors_qr::la_slarfb_gett">
+<area shape="rect" id="Node000001" title="SLARFB_GETT: applies a real Householder block reflector H from the left to a real (K+M)&#45;by&#45;N &quot;triangu..." alt="" coords="5,56,196,96"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="439,32,605,57"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="134,54,185,29,243,10,303,3,364,6,420,14,468,25,467,31,419,20,363,11,303,8,245,15,187,34,137,59"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__level1.html#a62fb48eb347a3888135df44b367cf888" title="SCOPY: copies a vector, x, to a vector, y. uses unrolled loops for increments equal to 1." alt="" coords="250,152,385,192"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="148,94,245,138,259,144,257,149,243,143,146,99"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__level3__gen.html#aa64658f1a260d8d48fc960ed25c24678" title="SGEMM: performs one of the matrix&#45;matrix operations C := alpha*op( A )*op( B ) + beta*C,..." alt="" coords="244,24,391,64"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="196,60,230,55,231,60,197,65"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__level3__tri.html#ad8755549c75331273849e73b47fb4e09" title="STRMM: performs one of the matrix&#45;matrix operations B := alpha*op( A )*B, or B := alpha*B*op( A ),..." alt="" coords="249,88,385,128"/>
+<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="197,88,236,94,235,99,196,93"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="489,33,482,23,485,14,499,7,522,5,550,9,562,18,558,22,548,14,522,10,500,12,489,17,487,23,493,30"/>
+<area shape="poly" id="edge5_Node000004_Node000002" title=" " alt="" coords="391,42,425,42,425,47,391,47"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="439,88,605,113"/>
+<area shape="poly" id="edge6_Node000004_Node000005" title=" " alt="" coords="392,62,462,81,461,87,390,67"/>
+<area shape="poly" id="edge8_Node000006_Node000002" title=" " alt="" coords="381,86,467,59,468,64,383,91"/>
+<area shape="poly" id="edge9_Node000006_Node000005" title=" " alt="" coords="385,103,425,102,425,107,385,108"/>
+</map>

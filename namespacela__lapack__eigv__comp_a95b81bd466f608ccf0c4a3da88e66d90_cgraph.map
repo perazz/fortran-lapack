@@ -1,0 +1,35 @@
+<map id="la_lapack_eigv_comp::la_zhgeqz" name="la_lapack_eigv_comp::la_zhgeqz">
+<area shape="rect" id="Node000001" title="ZHGEQZ: computes the eigenvalues of a complex matrix pair (H,T), where H is an upper Hessenberg matri..." alt="" coords="5,252,168,292"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="640,144,788,184"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="101,250,147,200,179,175,215,156,268,140,323,129,379,124,434,123,539,129,627,142,626,147,538,134,434,128,379,129,324,135,269,145,217,161,182,179,151,204,105,253"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="836,70,1003,95"/>
+<area shape="poly" id="edge5_Node000001_Node000003" title=" " alt="" coords="96,250,114,220,141,183,174,148,215,120,264,103,331,91,409,82,495,77,671,74,822,76,822,82,671,79,495,82,410,88,331,96,266,108,217,125,178,152,145,187,119,223,101,253"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="223,259,389,285"/>
+<area shape="poly" id="edge6_Node000001_Node000004" title=" " alt="" coords="168,269,209,269,209,275,168,275"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__blas__like__scalar.html#a20bbc4a670054f40a583778311ff9875" title="ZLADIV = X / Y, where X and Y are complex. The computation of X / Y will not overflow on an intermedi..." alt="" coords="232,195,380,235"/>
+<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="163,249,218,235,219,240,164,255"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__blas__like__mnorm.html#a1770b8adfb167e8f7cbe38a4b0fc0095" title="ZLANHS: returns the value of the one norm, or the Frobenius norm, or the infinity norm,..." alt="" coords="232,333,380,373"/>
+<area shape="poly" id="edge14_Node000001_Node000009" title=" " alt="" coords="142,290,240,326,238,331,141,295"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__givens__jacobi__rot.html#aae614052b091e4931bced2b4638120be" title="!" alt="" coords="216,397,396,437"/>
+<area shape="poly" id="edge16_Node000001_Node000010" title=" " alt="" coords="108,290,155,336,185,361,217,383,229,389,226,394,215,388,182,365,152,340,104,294"/>
+<area shape="rect" id="Node000011" href="$namespacela__lapack__blas__like__base.html#accb4653625f355a5a2a0d2f528f904ec" title="ZLASET: initializes a 2&#45;D array A to BETA on the diagonal and ALPHA on the offdiagonals." alt="" coords="444,5,592,45"/>
+<area shape="poly" id="edge17_Node000001_Node000011" title=" " alt="" coords="91,251,106,210,131,158,167,105,189,81,215,62,266,37,322,22,378,16,430,15,430,20,379,21,323,27,268,42,217,66,193,85,171,108,136,160,111,212,96,253"/>
+<area shape="rect" id="Node000012" href="$namespacela__lapack__auxiliary.html#a75a204a7e87f4ca35a85d3bc72613aee" title="ZROT: applies a plane rotation, where the cos (C) is real and the sin (S) is complex,..." alt="" coords="232,461,380,501"/>
+<area shape="poly" id="edge19_Node000001_Node000012" title=" " alt="" coords="100,291,144,366,178,410,218,447,225,452,222,457,214,451,174,413,139,369,95,293"/>
+<area shape="rect" id="Node000013" href="$namespacela__blas__level1.html#a90995a95970607c78563eb6ad5a006d9" title="ZSCAL: scales a vector by a constant." alt="" coords="239,525,373,565"/>
+<area shape="poly" id="edge20_Node000001_Node000013" title=" " alt="" coords="96,292,110,337,135,396,171,457,193,486,218,511,228,519,225,523,214,515,189,490,166,460,130,398,105,338,91,293"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="677,144,675,134,681,125,694,119,714,117,737,120,749,128,747,132,735,125,714,123,695,125,684,129,680,135,682,143"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="764,141,873,98,875,103,766,146"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="886,72,878,62,882,52,896,46,919,43,948,47,959,56,956,60,946,52,919,49,897,51,886,55,884,61,890,68"/>
+<area shape="poly" id="edge13_Node000005_Node000005" title=" " alt="" coords="266,195,264,185,270,176,285,170,306,168,331,171,344,178,342,183,329,176,306,173,286,175,274,180,269,186,272,194"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__blas__like__scalar.html#a0827b32c3e8f552a5d1e1a0e87739e4c" title="DLADIV: performs complex division in real arithmetic a + i*b p + i*q = &#45;&#45;&#45;&#45;&#45;&#45;— c + i*d The algorithm ..." alt="" coords="444,195,592,235"/>
+<area shape="poly" id="edge8_Node000005_Node000006" title=" " alt="" coords="381,212,430,212,430,217,381,217"/>
+<area shape="poly" id="edge12_Node000006_Node000002" title=" " alt="" coords="592,193,626,184,627,189,593,198"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__auxiliary.html#a1bf9fec8cb3f0a42fd05beb1ffd1b13e" title=" " alt="" coords="640,208,788,248"/>
+<area shape="poly" id="edge9_Node000006_Node000007" title=" " alt="" coords="593,217,626,219,626,225,592,222"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__auxiliary.html#ab34a41a5a2d8aa8270e1b467aae0ae9b" title=" " alt="" coords="845,208,993,248"/>
+<area shape="poly" id="edge10_Node000007_Node000008" title=" " alt="" coords="789,225,832,225,832,231,789,231"/>
+<area shape="poly" id="edge11_Node000008_Node000008" title=" " alt="" coords="881,208,878,198,885,189,898,183,919,181,943,184,957,192,954,196,942,189,919,187,900,189,888,193,884,199,886,207"/>
+<area shape="poly" id="edge15_Node000009_Node000009" title=" " alt="" coords="266,334,264,324,270,314,285,309,306,307,331,310,344,317,342,322,329,315,306,312,286,314,274,319,269,325,272,332"/>
+<area shape="poly" id="edge18_Node000011_Node000003" title=" " alt="" coords="593,33,823,66,822,72,592,38"/>
+</map>

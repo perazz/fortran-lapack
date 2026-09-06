@@ -1,0 +1,16 @@
+<map id="la_lapack_orthogonal_factors_rz::la_slarzt" name="la_lapack_orthogonal_factors_rz::la_slarzt">
+<area shape="rect" id="Node000001" title="SLARZT: forms the triangular factor T of a real block reflector H of order &gt; n, which is defined as a..." alt="" coords="5,57,167,97"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="409,33,576,58"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="116,55,161,30,214,11,274,3,335,6,392,15,440,26,439,32,391,20,335,11,275,9,215,16,163,35,118,60"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__level2__gen.html#aabf3c89a12ae7a8d106099c21fe31389" title="SGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="215,25,361,65"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="166,62,200,57,201,62,167,67"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="409,97,576,122"/>
+<area shape="poly" id="edge9_Node000001_Node000004" title=" " alt="" coords="118,95,163,120,215,139,275,146,335,144,391,135,439,123,440,129,392,140,335,149,274,152,214,144,161,125,116,100"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__level2__tri.html#a2fc318d24946d64d028a065543860cff" title="STRMV: performs one of the matrix&#45;vector operations x := A*x, or x := A**T*x, where x is an n element..." alt="" coords="220,89,356,129"/>
+<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="167,88,207,94,206,99,166,93"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="459,34,452,24,456,15,470,8,493,6,521,10,532,19,529,23,519,15,493,11,471,13,460,18,457,24,464,31"/>
+<area shape="poly" id="edge4_Node000003_Node000002" title=" " alt="" coords="362,43,396,43,396,48,362,48"/>
+<area shape="poly" id="edge5_Node000003_Node000004" title=" " alt="" coords="353,63,439,90,438,95,352,68"/>
+<area shape="poly" id="edge7_Node000005_Node000002" title=" " alt="" coords="352,87,438,60,439,65,353,92"/>
+<area shape="poly" id="edge8_Node000005_Node000004" title=" " alt="" coords="356,107,396,107,396,112,356,112"/>
+</map>

@@ -1,0 +1,44 @@
+<map id="la_lapack_svd_comp::la_cgsvj1" name="la_lapack_svd_comp::la_cgsvj1">
+<area shape="rect" id="Node000001" title="CGSVJ1: is called from CGESVJ as a pre&#45;processor and that is its main purpose. It applies Jacobi rota..." alt="" coords="5,346,163,386"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__level1.html#a4a3595b7258c7afacaed7fd4e193c31d" title="CAXPY: constant times a vector plus a vector." alt="" coords="231,22,365,62"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="86,345,97,292,120,219,136,180,156,141,180,104,209,72,217,65,220,69,213,76,184,108,160,144,141,182,125,221,102,293,91,346"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__level1.html#a46c9d035c419338d1b9614094e1bddda" title="CCOPY: copies a vector x to a vector y." alt="" coords="231,86,365,126"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="89,345,103,302,128,246,163,188,185,160,209,136,217,130,221,134,212,140,189,164,167,191,133,249,108,304,94,347"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__level1.html#ae5ef74871273629cd7c5e95ec3e7b58c" title="CDOTC: forms the dot product of two complex vectors CDOTC = X^H * Y." alt="" coords="231,174,365,214"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="98,344,144,289,175,258,209,230,230,218,232,222,212,235,179,262,148,293,102,347"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__blas__like__l2.html#a7101016a0c0811322de71945d6c767df" title="CLASCL: multiplies the M by N complex matrix A by the real scalar CTO/CFROM. This is done without ove..." alt="" coords="224,289,372,329"/>
+<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="159,343,210,329,212,334,160,349"/>
+<area shape="rect" id="Node000007" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="652,289,819,315"/>
+<area shape="poly" id="edge23_Node000001_Node000007" title=" " alt="" coords="104,344,149,306,178,288,210,274,272,259,337,250,403,248,467,250,584,265,675,283,674,289,583,270,466,256,403,253,338,256,273,264,212,279,181,292,152,310,107,348"/>
+<area shape="rect" id="Node000011" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="435,516,602,541"/>
+<area shape="poly" id="edge26_Node000001_Node000011" title=" " alt="" coords="163,349,216,346,275,349,334,362,361,374,387,389,400,402,408,416,413,445,418,474,424,488,435,501,442,507,439,511,431,505,419,491,412,476,408,446,403,418,396,405,384,393,359,378,332,367,274,354,216,351,163,355"/>
+<area shape="rect" id="Node000012" href="$namespacela__lapack__blas__like__l1.html#aab3fc20c33055691e3a3197f7c84f2d1" title="!" alt="" coords="224,403,372,443"/>
+<area shape="poly" id="edge18_Node000001_Node000012" title=" " alt="" coords="160,383,212,398,210,403,159,389"/>
+<area shape="rect" id="Node000013" href="$namespacela__lapack__auxiliary.html#a277a1d747eac876341fedc2f79826ef5" title="CROT: applies a plane rotation, where the cos (C) is real and the sin (S) is complex,..." alt="" coords="224,467,372,507"/>
+<area shape="poly" id="edge19_Node000001_Node000013" title=" " alt="" coords="111,384,157,418,212,453,225,460,223,464,209,458,154,423,108,388"/>
+<area shape="rect" id="Node000014" href="$namespacela__blas__level1.html#a4fb9af59b508cde93dace0cd181faeeb" title="CSWAP: interchanges two vectors." alt="" coords="231,531,365,571"/>
+<area shape="poly" id="edge20_Node000001_Node000014" title=" " alt="" coords="99,385,144,449,176,486,212,517,221,523,218,527,209,521,172,489,140,453,95,388"/>
+<area shape="rect" id="Node000015" href="$namespacela__blas__aux.html#a843a382709914f66727d3bc6cc2770df" title="ISAMAX: finds the index of the first element having maximum absolute value." alt="" coords="211,620,385,645"/>
+<area shape="poly" id="edge21_Node000001_Node000015" title=" " alt="" coords="95,385,112,425,137,476,171,531,213,581,233,598,255,611,252,616,230,602,209,585,167,534,133,479,107,427,90,387"/>
+<area shape="rect" id="Node000016" href="$namespacela__blas__level1.html#ad249878d9ae53f193c73681de3bd2734" title="!" alt="" coords="231,694,365,734"/>
+<area shape="poly" id="edge24_Node000001_Node000016" title=" " alt="" coords="92,386,106,437,130,508,165,585,187,622,213,656,246,685,242,689,209,660,183,625,160,587,125,510,101,439,87,387"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#a5cdaa4eb6de0902d42a840357101ae38" title="SCABS1: computes |Re(.)| + |Im(.)| of a complex number." alt="" coords="433,29,604,55"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="366,39,419,39,419,45,366,45"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="483,31,476,21,480,11,494,5,519,3,549,6,561,15,557,20,547,11,519,8,496,10,483,15,481,20,487,28"/>
+<area shape="poly" id="edge6_Node000005_Node000005" title=" " alt="" coords="258,174,256,164,262,155,276,149,298,147,323,150,337,158,334,162,321,155,298,153,278,155,265,159,261,165,263,173"/>
+<area shape="poly" id="edge8_Node000006_Node000007" title=" " alt="" coords="372,305,638,301,638,306,372,310"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__blas__like__scalar.html#a4d6735a3a0bfd81ec48d9c107c0d7893" title="SISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="445,451,593,491"/>
+<area shape="poly" id="edge10_Node000006_Node000008" title=" " alt="" coords="357,326,387,345,403,363,412,379,421,396,435,413,471,442,468,446,431,417,416,399,408,382,399,366,384,349,354,331"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="445,363,593,403"/>
+<area shape="poly" id="edge14_Node000006_Node000010" title=" " alt="" coords="359,326,447,356,445,361,357,331"/>
+<area shape="poly" id="edge17_Node000006_Node000011" title=" " alt="" coords="363,327,387,346,401,366,408,387,411,426,413,464,421,483,435,501,441,507,438,511,431,505,416,485,408,466,405,427,403,388,397,369,383,349,360,331"/>
+<area shape="poly" id="edge9_Node000007_Node000007" title=" " alt="" coords="700,291,692,281,696,271,711,265,735,263,765,266,777,275,774,280,763,271,735,268,712,270,700,275,698,280,704,288"/>
+<area shape="poly" id="edge11_Node000008_Node000008" title=" " alt="" coords="478,452,476,442,482,432,497,427,519,425,544,428,558,435,555,440,542,433,519,430,498,432,485,437,481,443,483,450"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__blas__like__scalar.html#af7a547cc3906149e087d6003dc2ab082" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in SISNAN...." alt="" coords="661,451,810,491"/>
+<area shape="poly" id="edge12_Node000008_Node000009" title=" " alt="" coords="593,469,647,469,647,474,593,474"/>
+<area shape="poly" id="edge13_Node000009_Node000009" title=" " alt="" coords="695,452,692,442,699,432,713,427,735,425,761,428,774,435,772,440,759,433,735,430,715,432,702,437,698,443,700,450"/>
+<area shape="poly" id="edge15_Node000010_Node000007" title=" " alt="" coords="572,361,687,317,689,322,574,366"/>
+<area shape="poly" id="edge16_Node000010_Node000010" title=" " alt="" coords="478,364,476,354,482,344,497,339,519,337,544,340,558,347,555,352,542,345,519,342,498,344,485,349,481,355,483,362"/>
+<area shape="poly" id="edge22_Node000015_Node000015" title=" " alt="" coords="263,622,256,612,259,602,274,596,298,593,328,597,339,606,336,610,326,602,298,599,275,601,263,606,261,611,267,618"/>
+<area shape="poly" id="edge25_Node000016_Node000016" title=" " alt="" coords="258,694,256,684,262,675,276,669,298,667,323,670,337,678,334,682,321,675,298,673,278,675,265,679,261,685,263,693"/>
+</map>

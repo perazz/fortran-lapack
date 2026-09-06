@@ -1,0 +1,22 @@
+<map id="la_lapack_svd_bidiag_qr::la_qlasq3" name="la_lapack_svd_bidiag_qr::la_qlasq3">
+<area shape="rect" id="Node000001" title="QLASQ3: checks for deflation, computes a shift (TAU) and calls dqds. In case of failure it changes sh..." alt="" coords="5,144,167,184"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__blas__like__scalar.html#a0cb82d7f3b093ce99b3c7b3412dee71a" title="QISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="221,29,369,69"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="118,142,213,86,238,73,240,78,216,90,121,146"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__auxiliary.html#a422783a9c3975903ac0fc1dc06f4ec01" title="QLAMCH: determines quad precision machine parameters." alt="" coords="425,195,573,235"/>
+<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="145,141,196,129,254,120,316,119,377,129,427,153,468,183,465,187,424,158,375,135,316,124,255,125,197,134,147,146"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__svd__bidiag__qr.html#a5397c431997296733b18df64d150dc5b" title="QLASQ4: computes an approximation TAU to the smallest eigenvalue using values of d from the previous ..." alt="" coords="215,144,376,184"/>
+<area shape="poly" id="edge9_Node000001_Node000006" title=" " alt="" coords="167,161,201,161,201,167,167,167"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__svd__bidiag__qr.html#adcbfa55dbb708cb992865761871d7f04" title="QLASQ5: computes one dqds transform in ping&#45;pong form, one version for IEEE machines another for non ..." alt="" coords="215,208,376,248"/>
+<area shape="poly" id="edge10_Node000001_Node000007" title=" " alt="" coords="153,182,217,201,216,207,151,187"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__svd__bidiag__qr.html#a1d31fcf35dc9f395970327999fcbe082" title="QLASQ6: computes one dqd (shift equal to zero) transform in ping&#45;pong form, with protection against u..." alt="" coords="215,272,376,312"/>
+<area shape="poly" id="edge11_Node000001_Node000008" title=" " alt="" coords="112,182,158,219,216,258,228,264,225,269,213,262,155,224,108,186"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="257,30,255,20,261,11,275,5,295,3,319,6,332,13,329,18,317,11,295,8,276,10,264,15,260,21,262,28"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__blas__like__scalar.html#afb28a91ee1571cb773bdc95c40031177" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in QISNAN...." alt="" coords="424,29,575,69"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="369,47,410,47,410,52,369,52"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="461,30,459,20,465,11,479,5,499,3,523,6,536,13,533,18,521,11,499,8,480,10,468,15,464,21,466,28"/>
+<area shape="poly" id="edge8_Node000004_Node000004" title=" " alt="" coords="461,195,459,185,465,176,479,170,499,168,523,171,536,178,533,183,521,176,499,173,480,175,468,180,464,186,466,194"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="623,202,789,227"/>
+<area shape="poly" id="edge6_Node000004_Node000005" title=" " alt="" coords="574,212,609,212,609,217,574,217"/>
+<area shape="poly" id="edge7_Node000005_Node000005" title=" " alt="" coords="672,204,665,194,669,184,683,178,706,175,735,179,746,188,743,192,732,184,706,181,684,183,673,187,670,193,676,200"/>
+<area shape="poly" id="edge12_Node000008_Node000004" title=" " alt="" coords="348,269,432,237,434,242,350,274"/>
+</map>

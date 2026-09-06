@@ -1,0 +1,18 @@
+<map id="la_lapack_eigv_comp2::la_ztgex2" name="la_lapack_eigv_comp2::la_ztgex2">
+<area shape="rect" id="Node000001" title="ZTGEX2: swaps adjacent diagonal 1 by 1 blocks (A11,B11) and (A22,B22) in an upper triangular matrix p..." alt="" coords="5,157,176,197"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="240,29,388,69"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="114,155,162,117,223,79,236,72,239,77,225,84,165,122,117,159"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__blas__like__base.html#a53b017329bb7498e3f2ded7611b12057" title="ZLACPY: copies all or part of a two&#45;dimensional matrix A to another matrix B." alt="" coords="240,93,388,133"/>
+<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="160,155,230,135,231,140,162,160"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__givens__jacobi__rot.html#aae614052b091e4931bced2b4638120be" title="!" alt="" coords="224,157,404,197"/>
+<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="176,175,210,175,210,180,176,180"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__blas__like__l1.html#a26a895f9f68339f13a5a15193b7ce3ec" title="!" alt="" coords="240,221,388,261"/>
+<area shape="poly" id="edge8_Node000001_Node000006" title=" " alt="" coords="162,195,231,215,230,220,160,200"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__auxiliary.html#a75a204a7e87f4ca35a85d3bc72613aee" title="ZROT: applies a plane rotation, where the cos (C) is real and the sin (S) is complex,..." alt="" coords="240,285,388,325"/>
+<area shape="poly" id="edge9_Node000001_Node000007" title=" " alt="" coords="117,195,165,233,225,271,239,278,236,282,223,276,162,237,114,200"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="273,30,270,20,277,10,292,5,314,3,340,6,354,13,352,18,338,11,314,8,293,10,280,15,275,21,278,28"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="452,69,619,94"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="389,57,439,65,438,70,388,63"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="499,70,491,60,495,50,510,44,535,42,566,46,578,55,575,59,564,51,535,47,512,49,499,54,497,60,503,67"/>
+<area shape="poly" id="edge6_Node000004_Node000003" title=" " alt="" coords="388,100,438,93,439,98,389,105"/>
+</map>

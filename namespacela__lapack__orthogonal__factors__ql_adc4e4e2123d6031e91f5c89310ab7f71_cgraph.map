@@ -1,0 +1,25 @@
+<map id="la_lapack_orthogonal_factors_ql::la_sorgl2" name="la_lapack_orthogonal_factors_ql::la_sorgl2">
+<area shape="rect" id="Node000001" title="SORGL2: generates an m by n real matrix Q with orthonormal rows, which is defined as the first m rows..." alt="" coords="5,325,167,365"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__householder__reflectors.html#a2ee79213a7a583b5aed9d93210a83a30" title="SLARF: applies a real elementary reflector H to a real m by n matrix C, from either the left or the r..." alt="" coords="215,175,385,215"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="114,322,258,221,261,225,117,327"/>
+<area shape="rect" id="Node000007" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="657,275,824,300"/>
+<area shape="poly" id="edge14_Node000001_Node000007" title=" " alt="" coords="167,343,368,338,489,330,609,317,683,301,684,306,610,322,489,336,368,344,167,348"/>
+<area shape="rect" id="Node000009" href="$namespacela__blas__level1.html#ab7e08b64fdc3707adeba9f3c65715ba9" title="SSCAL: scales a vector by a constant. uses unrolled loops for increment equal to 1." alt="" coords="233,382,367,422"/>
+<area shape="poly" id="edge13_Node000001_Node000009" title=" " alt="" coords="162,362,220,378,219,383,161,367"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__aux.html#ab982c17ecc1d9fcfd510bef30fe083be" title="ILASLC: scans A for its last non&#45;zero column." alt="" coords="433,29,609,55"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="314,173,363,119,396,89,432,64,445,57,447,62,435,68,399,93,367,122,318,177"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__aux.html#a1abc101c5f65760eafb8b98e3f41e083" title="ILASLR: scans A for its last non&#45;zero row." alt="" coords="434,103,609,128"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="356,173,472,130,473,135,357,178"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="657,183,824,208"/>
+<area shape="poly" id="edge6_Node000002_Node000005" title=" " alt="" coords="385,190,433,189,609,189,644,189,644,195,609,194,433,194,386,195"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__level2__gen.html#aabf3c89a12ae7a8d106099c21fe31389" title="SGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="448,203,595,243"/>
+<area shape="poly" id="edge8_Node000002_Node000006" title=" " alt="" coords="386,204,435,210,434,215,386,209"/>
+<area shape="rect" id="Node000008" href="$namespacela__blas__level2__gen.html#ae16b7630b03f75d1b6cd6ade153ccec8" title="SGER: performs the rank 1 operation A := alpha*x*y**T + A, where alpha is a scalar,..." alt="" coords="448,267,595,307"/>
+<area shape="poly" id="edge11_Node000002_Node000008" title=" " alt="" coords="345,213,434,253,452,260,450,265,432,258,343,218"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="486,31,478,21,482,11,497,5,521,3,552,6,564,15,561,20,550,11,521,8,498,10,486,15,483,20,490,28"/>
+<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="486,104,478,94,482,84,497,78,521,76,552,80,564,89,561,93,550,85,521,81,498,83,486,88,483,94,490,101"/>
+<area shape="poly" id="edge7_Node000005_Node000005" title=" " alt="" coords="705,184,697,174,701,164,716,158,741,156,771,160,783,169,780,173,769,165,741,161,717,163,705,168,702,174,709,181"/>
+<area shape="poly" id="edge9_Node000006_Node000005" title=" " alt="" coords="594,211,643,205,644,210,595,217"/>
+<area shape="poly" id="edge10_Node000006_Node000007" title=" " alt="" coords="591,241,684,268,682,273,590,246"/>
+<area shape="poly" id="edge12_Node000008_Node000007" title=" " alt="" coords="595,285,643,285,643,290,595,290"/>
+</map>

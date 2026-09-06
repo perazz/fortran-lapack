@@ -1,0 +1,29 @@
+<map id="la_lapack_eigv_comp::la_cggbal" name="la_lapack_eigv_comp::la_cggbal">
+<area shape="rect" id="Node000001" title="CGGBAL: balances a pair of general complex matrices (A,B). This involves, first, permuting A and B by..." alt="" coords="5,259,168,299"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__level1.html#a818df9a899b338869177ee3f7657bece" title="CSSCAL: scales a complex vector by a real constant." alt="" coords="236,5,371,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="92,258,108,216,133,162,169,105,190,79,214,55,223,49,226,53,218,59,194,82,173,108,138,164,113,218,97,259"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__level1.html#a4fb9af59b508cde93dace0cd181faeeb" title="CSWAP: interchanges two vectors." alt="" coords="236,69,371,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="97,257,143,190,176,152,214,119,223,113,226,118,218,123,180,156,147,193,102,260"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#a745c462c73bd13729a6fc690e56ba8f3" title="ICAMAX: finds the index of the first element having maximum |Re(.)| + |Im(.)|." alt="" coords="216,158,391,183"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="117,256,162,228,215,200,250,186,252,191,217,205,165,233,120,261"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="441,330,607,355"/>
+<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="146,256,199,243,261,233,327,232,360,236,392,244,424,259,455,278,503,318,499,322,452,282,422,263,390,249,359,241,327,237,261,238,200,248,147,261"/>
+<area shape="rect" id="Node000007" href="$namespacela__blas__level1.html#ae2b6448401fe13574104d59fe4c0615c" title="SAXPY: constant times a vector plus a vector. uses unrolled loops for increments equal to one." alt="" coords="236,259,371,299"/>
+<area shape="poly" id="edge9_Node000001_Node000007" title=" " alt="" coords="168,276,222,276,222,281,168,281"/>
+<area shape="rect" id="Node000008" href="$namespacela__blas__level1.html#a9e8204d671c92f661cbb8dfbc09407e9" title="SDOT: forms the dot product of two vectors. uses unrolled loops for increments equal to one." alt="" coords="218,347,389,373"/>
+<area shape="poly" id="edge10_Node000001_Node000008" title=" " alt="" coords="142,296,257,340,255,345,140,301"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="229,421,377,461"/>
+<area shape="poly" id="edge12_Node000001_Node000009" title=" " alt="" coords="112,297,218,383,259,412,256,416,214,387,109,301"/>
+<area shape="rect" id="Node000010" href="$namespacela__blas__level1.html#ab7e08b64fdc3707adeba9f3c65715ba9" title="SSCAL: scales a vector by a constant. uses unrolled loops for increment equal to 1." alt="" coords="236,485,371,525"/>
+<area shape="poly" id="edge15_Node000001_Node000010" title=" " alt="" coords="99,298,116,334,142,381,176,429,218,471,225,477,222,481,214,475,172,433,137,384,111,337,94,300"/>
+<area shape="rect" id="Node000011" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="220,550,387,575"/>
+<area shape="poly" id="edge16_Node000001_Node000011" title=" " alt="" coords="95,298,108,347,131,411,168,478,191,509,218,535,226,541,223,546,214,539,187,512,163,481,127,413,103,348,90,300"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="268,160,260,150,264,140,279,134,303,131,333,135,345,144,342,148,331,140,303,137,280,139,268,144,266,149,272,156"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#a5cdaa4eb6de0902d42a840357101ae38" title="SCABS1: computes |Re(.)| + |Im(.)| of a complex number." alt="" coords="439,158,609,183"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="391,168,425,168,425,173,391,173"/>
+<area shape="poly" id="edge6_Node000005_Node000005" title=" " alt="" coords="488,160,481,150,485,140,499,134,524,131,554,135,566,144,563,148,552,140,524,137,501,139,488,144,486,149,492,156"/>
+<area shape="poly" id="edge8_Node000006_Node000006" title=" " alt="" coords="488,332,481,322,485,312,499,306,524,303,554,307,566,316,563,320,552,312,524,309,501,311,488,316,486,321,492,328"/>
+<area shape="poly" id="edge11_Node000008_Node000008" title=" " alt="" coords="268,349,260,339,264,329,279,323,303,321,333,324,345,333,342,338,331,329,303,326,280,328,268,333,266,338,272,346"/>
+<area shape="poly" id="edge13_Node000009_Node000006" title=" " alt="" coords="348,419,481,359,483,363,350,424"/>
+<area shape="poly" id="edge14_Node000009_Node000009" title=" " alt="" coords="263,422,260,412,267,402,281,397,303,395,329,398,342,405,340,410,327,403,303,400,283,402,270,407,266,413,268,420"/>
+</map>

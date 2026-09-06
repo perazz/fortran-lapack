@@ -1,0 +1,25 @@
+<map id="la_lapack_orthogonal_factors_qr::la_qorg2r" name="la_lapack_orthogonal_factors_qr::la_qorg2r">
+<area shape="rect" id="Node000001" title="QORG2R: generates an m by n real matrix Q with orthonormal columns, which is defined as the first n c..." alt="" coords="5,325,168,365"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__householder__reflectors.html#a52a8729fe2f7462f0c5f8088a667c74a" title="QLARF: applies a real elementary reflector H to a real m by n matrix C, from either the left or the r..." alt="" coords="216,175,387,215"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="115,322,259,221,262,225,118,327"/>
+<area shape="rect" id="Node000007" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="660,275,827,300"/>
+<area shape="poly" id="edge14_Node000001_Node000007" title=" " alt="" coords="168,343,370,338,491,330,612,317,686,301,687,306,612,322,492,336,371,344,168,348"/>
+<area shape="rect" id="Node000009" href="$namespacela__blas__level1.html#a1ffcba958a3ab121d878ddb3f71724ab" title="QSCAL: scales a vector by a constant. uses unrolled loops for increment equal to 1." alt="" coords="234,382,369,422"/>
+<area shape="poly" id="edge13_Node000001_Node000009" title=" " alt="" coords="163,362,221,378,220,383,161,367"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__aux.html#a89c999353d6bf1a6ec63f15a8c2e26f9" title="ILAQLC: scans A for its last non&#45;zero column." alt="" coords="435,29,612,55"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="316,173,364,119,397,89,433,64,446,57,449,62,436,68,400,93,368,122,320,177"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__aux.html#a2a0245021a95a162a43b7716204498a0" title="ILAQLR: scans A for its last non&#45;zero row." alt="" coords="436,103,611,128"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="357,173,473,130,475,135,359,178"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="660,183,827,208"/>
+<area shape="poly" id="edge6_Node000002_Node000005" title=" " alt="" coords="387,190,435,189,612,189,646,189,646,195,612,194,435,194,387,195"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__level2__gen.html#aecd73c3541f591fb801540fa6e7e3883" title="QGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="450,203,597,243"/>
+<area shape="poly" id="edge8_Node000002_Node000006" title=" " alt="" coords="387,203,437,210,436,215,387,209"/>
+<area shape="rect" id="Node000008" href="$namespacela__blas__level2__gen.html#a2babbc60e4573bf86995dc3e7360db8b" title="QGER: performs the rank 1 operation A := alpha*x*y**T + A, where alpha is a scalar,..." alt="" coords="450,267,597,307"/>
+<area shape="poly" id="edge11_Node000002_Node000008" title=" " alt="" coords="346,213,436,253,454,260,452,265,434,258,343,218"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="488,31,480,21,484,11,499,5,523,3,554,6,566,15,563,20,552,11,523,8,500,10,488,15,485,20,492,28"/>
+<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="488,104,480,94,484,84,499,78,523,76,554,80,566,89,563,93,552,85,523,81,500,83,488,88,485,94,492,101"/>
+<area shape="poly" id="edge7_Node000005_Node000005" title=" " alt="" coords="708,184,700,174,704,164,719,158,743,156,774,160,786,169,783,173,772,165,743,161,720,163,708,168,705,174,712,181"/>
+<area shape="poly" id="edge9_Node000006_Node000005" title=" " alt="" coords="597,211,646,205,646,210,597,217"/>
+<area shape="poly" id="edge10_Node000006_Node000007" title=" " alt="" coords="594,241,686,268,685,273,592,246"/>
+<area shape="poly" id="edge12_Node000008_Node000007" title=" " alt="" coords="597,285,646,285,646,290,597,290"/>
+</map>

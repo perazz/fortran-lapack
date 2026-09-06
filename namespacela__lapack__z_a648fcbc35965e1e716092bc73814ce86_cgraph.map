@@ -1,7 +1,0 @@
-<map id="la_lapack_z::la_ztrexc" name="la_lapack_z::la_ztrexc">
-<area shape="rect" id="Node000001" title="ZTREXC: reorders the Schur factorization of a complex matrix A = Q*T*Q**H, so that the diagonal eleme..." alt="" coords="5,45,171,70"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__givens__jacobi__rot.html#aae614052b091e4931bced2b4638120be" title="!" alt="" coords="219,5,399,45"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="171,43,205,38,206,43,172,48"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__auxiliary.html#a75a204a7e87f4ca35a85d3bc72613aee" title="ZROT: applies a plane rotation, where the cos (C) is real and the sin (S) is complex,..." alt="" coords="235,69,383,109"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="172,67,221,74,220,79,171,72"/>
-</map>

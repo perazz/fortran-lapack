@@ -1,0 +1,28 @@
+<map id="la_lapack_eigv_comp2::la_dlagv2" name="la_lapack_eigv_comp2::la_dlagv2">
+<area shape="rect" id="Node000001" title="DLAGV2: computes the Generalized Schur factorization of a real 2&#45;by&#45;2 matrix pencil (A,..." alt="" coords="5,152,176,192"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__eigv__sym__comp.html#a4daa683898b1130f1dd7f4a8ca24de8e" title="DLAG2: computes the eigenvalues of a 2 x 2 generalized eigenvalue problem A &#45; w B,..." alt="" coords="237,5,391,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="111,150,160,107,223,62,246,49,249,54,225,66,164,111,115,154"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="452,120,600,160"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="122,150,168,125,223,105,274,96,314,95,404,105,449,114,448,119,404,111,313,100,274,102,225,111,171,130,124,154"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__blas__like__scalar.html#a6392f228090286d0a08702c8ba131de1" title="DLAPY2: returns sqrt(x**2+y**2), taking care not to cause unnecessary overflow and unnecessary underf..." alt="" coords="240,272,388,312"/>
+<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="130,190,265,263,262,268,128,194"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__givens__jacobi__rot.html#a5e19ce2e6daf72f87b31eef6d574e075" title="!" alt="" coords="224,184,404,224"/>
+<area shape="poly" id="edge13_Node000001_Node000008" title=" " alt="" coords="176,182,211,187,210,192,176,187"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__svd__comp2.html#afcadc64cb5124f246d3a4286ddcd5845" title="DLASV2: computes the singular value decomposition of a 2&#45;by&#45;2 triangular matrix [ F G ] [ 0 H ]...." alt="" coords="231,120,397,160"/>
+<area shape="poly" id="edge14_Node000001_Node000009" title=" " alt="" coords="176,157,217,151,218,156,176,162"/>
+<area shape="rect" id="Node000010" href="$namespacela__blas__level1.html#a99aa2f933c39f64441cc5e958852aee6" title="DROT: applies a plane rotation." alt="" coords="230,337,398,362"/>
+<area shape="poly" id="edge16_Node000001_Node000010" title=" " alt="" coords="106,190,153,255,187,291,225,322,239,329,237,334,223,326,183,295,149,259,102,194"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="487,120,485,110,491,101,505,95,526,93,550,96,563,104,561,108,548,101,526,99,506,101,495,105,490,111,492,119"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="648,127,815,153"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="601,137,634,137,634,143,601,143"/>
+<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="698,129,690,119,694,109,708,103,731,101,760,104,771,113,768,118,758,109,731,106,709,108,698,113,696,118,702,126"/>
+<area shape="poly" id="edge11_Node000005_Node000003" title=" " alt="" coords="348,270,402,234,488,167,492,171,406,238,351,274"/>
+<area shape="poly" id="edge12_Node000005_Node000005" title=" " alt="" coords="274,272,272,262,278,253,293,247,314,245,339,248,352,256,350,260,337,253,314,251,294,253,282,257,277,263,280,271"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__blas__like__scalar.html#a942dd2e31c0d9058962f8060e510005e" title="DISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="452,272,600,312"/>
+<area shape="poly" id="edge7_Node000005_Node000006" title=" " alt="" coords="389,289,438,289,438,295,389,295"/>
+<area shape="poly" id="edge8_Node000006_Node000006" title=" " alt="" coords="487,272,485,262,491,253,505,247,526,245,550,248,563,256,561,260,548,253,526,251,506,253,495,257,490,263,492,271"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__blas__like__scalar.html#ab7bb61dcad235be9d6066eda62ea3b31" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in DISNAN...." alt="" coords="656,272,807,312"/>
+<area shape="poly" id="edge9_Node000006_Node000007" title=" " alt="" coords="601,289,642,289,642,295,601,295"/>
+<area shape="poly" id="edge10_Node000007_Node000007" title=" " alt="" coords="693,272,690,262,697,253,710,247,731,245,755,248,769,256,766,260,754,253,731,251,712,253,700,257,696,263,698,271"/>
+<area shape="poly" id="edge15_Node000009_Node000003" title=" " alt="" coords="397,137,438,137,438,143,397,143"/>
+</map>

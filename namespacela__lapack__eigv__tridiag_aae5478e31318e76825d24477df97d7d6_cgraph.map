@@ -1,0 +1,35 @@
+<map id="la_lapack_eigv_tridiag::la_slaed2" name="la_lapack_eigv_tridiag::la_slaed2">
+<area shape="rect" id="Node000001" title="SLAED2: merges the two sets of eigenvalues together into a single sorted set. Then it tries to deflat..." alt="" coords="5,245,173,285"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__aux.html#a843a382709914f66727d3bc6cc2770df" title="ISAMAX: finds the index of the first element having maximum absolute value." alt="" coords="222,29,397,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="96,243,113,205,140,157,175,108,220,65,231,58,234,63,223,69,179,111,144,160,118,208,101,246"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__level1.html#a62fb48eb347a3888135df44b367cf888" title="SCOPY: copies a vector, x, to a vector, y. uses unrolled loops for increments equal to 1." alt="" coords="242,79,377,119"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="106,243,154,191,186,162,220,136,241,123,244,128,223,140,189,166,158,195,109,246"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__blas__like__base.html#a78fc6b1ac043e5e6a0c79c414cc6c71e" title="SLACPY: copies all or part of a two&#45;dimensional matrix A to another matrix B." alt="" coords="445,137,593,177"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="134,242,221,210,330,184,432,166,432,171,331,189,222,215,136,247"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="445,225,593,265"/>
+<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="159,242,221,230,275,226,331,225,432,231,432,237,331,231,276,231,222,235,160,247"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__eigv__tridiag2.html#af4f09a5ea0dcb67ffabf3f8048e42e20" title="SLAMRG: will create a permutation list which will merge the elements of A (which is composed of two i..." alt="" coords="221,245,397,285"/>
+<area shape="poly" id="edge10_Node000001_Node000007" title=" " alt="" coords="173,262,208,262,208,267,173,267"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__blas__like__scalar.html#a3d85f08c38ed8387e3f9b3282b67ee25" title="SLAPY2: returns sqrt(x**2+y**2), taking care not to cause unnecessary overflow and unnecessary underf..." alt="" coords="235,333,383,373"/>
+<area shape="poly" id="edge11_Node000001_Node000008" title=" " alt="" coords="142,282,247,325,245,330,140,287"/>
+<area shape="rect" id="Node000011" href="$namespacela__blas__level1.html#af0c9560d34bb1a5bc4eeb76a61cb3147" title="applies a plane rotation." alt="" coords="226,397,393,423"/>
+<area shape="poly" id="edge18_Node000001_Node000011" title=" " alt="" coords="109,283,157,333,188,359,223,382,239,390,237,395,220,387,185,364,153,337,105,287"/>
+<area shape="rect" id="Node000012" href="$namespacela__blas__level1.html#ab7e08b64fdc3707adeba9f3c65715ba9" title="SSCAL: scales a vector by a constant. uses unrolled loops for increment equal to 1." alt="" coords="242,447,377,487"/>
+<area shape="poly" id="edge19_Node000001_Node000012" title=" " alt="" coords="103,284,149,356,183,397,223,433,231,439,228,443,220,437,179,401,145,359,99,286"/>
+<area shape="rect" id="Node000013" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="226,512,393,537"/>
+<area shape="poly" id="edge20_Node000001_Node000013" title=" " alt="" coords="99,284,114,328,139,386,175,446,197,473,223,497,233,504,230,508,220,501,194,477,171,449,134,388,109,330,94,286"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="275,31,268,21,272,11,286,5,309,3,338,6,350,15,346,20,336,11,309,8,287,10,275,15,273,20,279,28"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="641,188,808,213"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="594,170,652,182,651,188,593,175"/>
+<area shape="poly" id="edge6_Node000005_Node000005" title=" " alt="" coords="691,190,684,180,687,170,701,164,725,161,753,165,765,174,761,178,751,170,725,167,703,169,691,173,689,179,695,186"/>
+<area shape="poly" id="edge8_Node000006_Node000005" title=" " alt="" coords="593,226,651,214,652,219,594,231"/>
+<area shape="poly" id="edge9_Node000006_Node000006" title=" " alt="" coords="481,225,478,215,485,206,498,200,519,198,543,201,557,208,554,213,542,206,519,203,500,205,488,210,484,216,486,224"/>
+<area shape="poly" id="edge16_Node000008_Node000006" title=" " alt="" coords="348,330,466,269,469,273,350,335"/>
+<area shape="poly" id="edge17_Node000008_Node000008" title=" " alt="" coords="270,333,268,323,274,314,288,308,309,306,334,309,347,316,344,321,332,314,309,311,289,313,277,318,273,324,275,332"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__blas__like__scalar.html#a4d6735a3a0bfd81ec48d9c107c0d7893" title="SISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="445,333,593,373"/>
+<area shape="poly" id="edge12_Node000008_Node000009" title=" " alt="" coords="384,350,431,350,431,355,384,355"/>
+<area shape="poly" id="edge13_Node000009_Node000009" title=" " alt="" coords="481,333,478,323,485,314,498,308,519,306,543,309,557,316,554,321,542,314,519,311,500,313,488,318,484,324,486,332"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__blas__like__scalar.html#af7a547cc3906149e087d6003dc2ab082" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in SISNAN...." alt="" coords="650,333,799,373"/>
+<area shape="poly" id="edge14_Node000009_Node000010" title=" " alt="" coords="594,350,636,350,636,355,594,355"/>
+<area shape="poly" id="edge15_Node000010_Node000010" title=" " alt="" coords="686,333,684,323,690,314,704,308,725,306,749,309,762,316,759,321,747,314,725,311,705,313,693,318,689,324,691,332"/>
+</map>
