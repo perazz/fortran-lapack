@@ -59,9 +59,6 @@ jobs:
     name: external LAPACK and BLAS
     runs-on: ubuntu-latest
     timeout-minutes: 60
-    # The external interface stubs have never been compiled against a real
-    # LAPACK; report the outcome without blocking the merge queue.
-    continue-on-error: true
 
     env:
       EXTERNAL_FLAGS: -DLA_EXTERNAL_LAPACK -DLA_EXTERNAL_BLAS

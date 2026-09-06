@@ -16,3 +16,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Removed `la_ilaqiag`, an unreachable misnamed copy of `la_iladiag`.
 - Removed `la_qlag2q` and `la_wlag2w`, unreachable converters between a kind
   and itself.
+- The external BLAS interfaces for `snrm2` and `dnrm2` declared no result
+  type, so any build with `LA_EXTERNAL_BLAS` failed to compile.
