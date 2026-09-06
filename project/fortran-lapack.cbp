@@ -51,29 +51,41 @@
 		<Unit filename="../src/la_blas_aux.f90">
 			<Option weight="1" />
 		</Unit>
-		<Unit filename="../src/la_blas_c.f90">
-			<Option weight="3" />
-		</Unit>
-		<Unit filename="../src/la_blas_d.f90">
-			<Option weight="4" />
-		</Unit>
-		<Unit filename="../src/la_blas_q.f90">
-			<Option weight="6" />
-		</Unit>
-		<Unit filename="../src/la_blas_s.f90">
+		<Unit filename="../src/la_blas_level1.f90">
 			<Option weight="2" />
 		</Unit>
-		<Unit filename="../src/la_blas_w.f90">
-			<Option weight="7" />
+		<Unit filename="../src/la_blas_level2_ban.f90">
+			<Option weight="2" />
 		</Unit>
-		<Unit filename="../src/la_blas_z.f90">
-			<Option weight="5" />
+		<Unit filename="../src/la_blas_level2_gen.f90">
+			<Option weight="2" />
+		</Unit>
+		<Unit filename="../src/la_blas_level2_pac.f90">
+			<Option weight="2" />
+		</Unit>
+		<Unit filename="../src/la_blas_level2_sym.f90">
+			<Option weight="2" />
+		</Unit>
+		<Unit filename="../src/la_blas_level2_tri.f90">
+			<Option weight="2" />
+		</Unit>
+		<Unit filename="../src/la_blas_level3_gen.f90">
+			<Option weight="2" />
+		</Unit>
+		<Unit filename="../src/la_blas_level3_sym.f90">
+			<Option weight="2" />
+		</Unit>
+		<Unit filename="../src/la_blas_level3_tri.f90">
+			<Option weight="2" />
 		</Unit>
 		<Unit filename="../src/la_cholesky.f90">
 			<Option weight="17" />
 		</Unit>
 		<Unit filename="../src/la_constants.f90">
 			<Option weight="0" />
+		</Unit>
+		<Unit filename="../src/la_constants_kinds.f90">
+			<Option weight="1" />
 		</Unit>
 		<Unit filename="../src/la_determinant.f90">
 			<Option weight="17" />

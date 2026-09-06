@@ -510,7 +510,7 @@ def blas_interfaces(args):
     """Build include/la_blas_interfaces.fypp from the committed umbrella."""
     lib = Library(BLAS_SOURCES, args.baseline)
     renames = read_renames(os.path.join(ROOT, "scripts", "la_renames.tsv"))
-    lines = open(os.path.join(ROOT, "src", "la_blas.F90")).read().split("\n")
+    lines = read_source("src/la_blas.F90", args.baseline).split("\n")
     table, i = [], 0
     while i < len(lines):
         m = re.match(r"^          interface (\w+)$", lines[i])

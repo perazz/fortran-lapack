@@ -2,12 +2,15 @@
 module la_blas
      use la_constants
      use la_blas_aux
-     use la_blas_s
-     use la_blas_d
-     use la_blas_q
-     use la_blas_c
-     use la_blas_z
-     use la_blas_w
+     use la_blas_level1
+     use la_blas_level2_ban
+     use la_blas_level2_gen
+     use la_blas_level2_pac
+     use la_blas_level2_sym
+     use la_blas_level2_tri
+     use la_blas_level3_gen
+     use la_blas_level3_sym
+     use la_blas_level3_tri
      implicit none(type,external)
      public
 
@@ -1085,7 +1088,7 @@ module la_blas
 #else
                module procedure la_dsdot
 #endif
-               module procedure la_qsdot
+               module procedure la_qddot
           end interface sdot
 
           !> SPMV:  performs the matrix-vector operation

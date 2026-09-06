@@ -1,0 +1,1631 @@
+#:include "common.fypp"
+!> BLAS level 1: vector operations
+module la_blas_level1
+     use la_constants
+     use la_blas_aux
+     implicit none(type,external)
+     private
+
+     public :: sp,dp,qp,lk,ilp
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     public :: la_${ri}$asum
+     public :: la_${ri}$axpy
+     public :: la_${ri}$copy
+     public :: la_${ri}$dot
+     public :: la_${ri}$nrm2
+     public :: la_${ri}$rot
+     public :: la_${ri}$rotg
+     public :: la_${ri}$rotm
+     public :: la_${ri}$rotmg
+     public :: la_${ri}$scal
+#:if rkl is not None
+     public :: la_${ri}$${ril}$dot
+#:endif
+     public :: la_${ri}$swap
+     public :: la_${ri}$${ci}$asum
+     public :: la_${ri}$${ci}$nrm2
+#:endfor
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+     public :: la_${ri}$axpy
+     public :: la_${ri}$copy
+     public :: la_${ri}$dotc
+     public :: la_${ri}$dotu
+     public :: la_${ri}$${ci}$rot
+     public :: la_${ri}$${ci}$scal
+     public :: la_${ri}$rotg
+     public :: la_${ri}$scal
+     public :: la_${ri}$swap
+#:endfor
+     public :: la_sdsdot
+
+     contains
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     !> ${ri.upper()}$ASUM: takes the sum of the absolute values.
+#:if rk == "sp"
+     !> uses unrolled loops for increment equal to one.
+#:endif
+
+     pure real(${rk}$) function la_${ri}$asum(n,${ri}$x,incx)
+        use la_constants_${rk}$
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           integer(ilp),intent(in) :: incx,n
+           ! Array Arguments
+           real(${rk}$),intent(in) :: ${ri}$x(*)
+        ! =====================================================================
+           ! Local Scalars
+           real(${rk}$) :: ${ri}$temp
+           integer(ilp) :: i,m,mp1,nincx
+           ! Intrinsic Functions
+           intrinsic :: abs,mod
+           la_${ri}$asum = zero
+           ${ri}$temp = zero
+           if (n <= 0 .or. incx <= 0) return
+           if (incx == 1) then
+              ! code for increment equal to 1
+              ! clean-up loop
+              m = mod(n,6)
+              if (m /= 0) then
+                 do i = 1,m
+                    ${ri}$temp = ${ri}$temp + abs(${ri}$x(i))
+                 end do
+                 if (n < 6) then
+                    la_${ri}$asum = ${ri}$temp
+                    return
+                 end if
+              end if
+              mp1 = m + 1
+              do i = mp1,n,6
+                 ${ri}$temp = ${ri}$temp + abs(${ri}$x(i)) + abs(${ri}$x(i + 1)) + abs(${ri}$x(i + 2)) + abs(${ri}$x(i + 3)) + abs(${ri}$x(i + &
+                           4)) + abs(${ri}$x(i + 5))
+              end do
+           else
+              ! code for increment not equal to 1
+              nincx = n*incx
+              do i = 1,nincx,incx
+                 ${ri}$temp = ${ri}$temp + abs(${ri}$x(i))
+              end do
+           end if
+           la_${ri}$asum = ${ri}$temp
+           return
+     end function la_${ri}$asum
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     !> ${ri.upper()}$AXPY: constant times a vector plus a vector.
+     !> uses unrolled loops for increments equal to one.
+
+     pure subroutine la_${ri}$axpy(n,${ri}$a,${ri}$x,incx,${ri}$y,incy)
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           real(${rk}$),intent(in) :: ${ri}$a
+           integer(ilp),intent(in) :: incx,incy,n
+           ! Array Arguments
+           real(${rk}$),intent(in) :: ${ri}$x(*)
+           real(${rk}$),intent(inout) :: ${ri}$y(*)
+        ! =====================================================================
+           ! Local Scalars
+           integer(ilp) :: i,ix,iy,m,mp1
+           ! Intrinsic Functions
+           intrinsic :: mod
+           if (n <= 0) return
+           if (${ri}$a == 0.0_${rk}$) return
+           if (incx == 1 .and. incy == 1) then
+              ! code for both increments equal to 1
+              ! clean-up loop
+              m = mod(n,4)
+              if (m /= 0) then
+                 do i = 1,m
+                    ${ri}$y(i) = ${ri}$y(i) + ${ri}$a*${ri}$x(i)
+                 end do
+              end if
+              if (n < 4) return
+              mp1 = m + 1
+              do i = mp1,n,4
+                 ${ri}$y(i) = ${ri}$y(i) + ${ri}$a*${ri}$x(i)
+                 ${ri}$y(i + 1) = ${ri}$y(i + 1) + ${ri}$a*${ri}$x(i + 1)
+                 ${ri}$y(i + 2) = ${ri}$y(i + 2) + ${ri}$a*${ri}$x(i + 2)
+                 ${ri}$y(i + 3) = ${ri}$y(i + 3) + ${ri}$a*${ri}$x(i + 3)
+              end do
+           else
+              ! code for unequal increments or equal increments
+                ! not equal to 1
+              ix = 1
+              iy = 1
+              if (incx < 0) ix = (-n + 1)*incx + 1
+              if (incy < 0) iy = (-n + 1)*incy + 1
+              do i = 1,n
+               ${ri}$y(iy) = ${ri}$y(iy) + ${ri}$a*${ri}$x(ix)
+               ix = ix + incx
+               iy = iy + incy
+              end do
+           end if
+           return
+     end subroutine la_${ri}$axpy
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     !> ${ri.upper()}$COPY: copies a vector, x, to a vector, y.
+     !> uses unrolled loops for increments equal to 1.
+
+     pure subroutine la_${ri}$copy(n,${ri}$x,incx,${ri}$y,incy)
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           integer(ilp),intent(in) :: incx,incy,n
+           ! Array Arguments
+           real(${rk}$),intent(in) :: ${ri}$x(*)
+           real(${rk}$),intent(out) :: ${ri}$y(*)
+        ! =====================================================================
+           ! Local Scalars
+           integer(ilp) :: i,ix,iy,m,mp1
+           ! Intrinsic Functions
+           intrinsic :: mod
+           if (n <= 0) return
+           if (incx == 1 .and. incy == 1) then
+              ! code for both increments equal to 1
+              ! clean-up loop
+              m = mod(n,7)
+              if (m /= 0) then
+                 do i = 1,m
+                    ${ri}$y(i) = ${ri}$x(i)
+                 end do
+                 if (n < 7) return
+              end if
+              mp1 = m + 1
+              do i = mp1,n,7
+                 ${ri}$y(i) = ${ri}$x(i)
+                 ${ri}$y(i + 1) = ${ri}$x(i + 1)
+                 ${ri}$y(i + 2) = ${ri}$x(i + 2)
+                 ${ri}$y(i + 3) = ${ri}$x(i + 3)
+                 ${ri}$y(i + 4) = ${ri}$x(i + 4)
+                 ${ri}$y(i + 5) = ${ri}$x(i + 5)
+                 ${ri}$y(i + 6) = ${ri}$x(i + 6)
+              end do
+           else
+              ! code for unequal increments or equal increments
+                ! not equal to 1
+              ix = 1
+              iy = 1
+              if (incx < 0) ix = (-n + 1)*incx + 1
+              if (incy < 0) iy = (-n + 1)*incy + 1
+              do i = 1,n
+                 ${ri}$y(iy) = ${ri}$x(ix)
+                 ix = ix + incx
+                 iy = iy + incy
+              end do
+           end if
+           return
+     end subroutine la_${ri}$copy
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     !> ${ri.upper()}$DOT: forms the dot product of two vectors.
+     !> uses unrolled loops for increments equal to one.
+
+     pure real(${rk}$) function la_${ri}$dot(n,${ri}$x,incx,${ri}$y,incy)
+        use la_constants_${rk}$
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           integer(ilp),intent(in) :: incx,incy,n
+           ! Array Arguments
+           real(${rk}$),intent(in) :: ${ri}$x(*),${ri}$y(*)
+        ! =====================================================================
+           ! Local Scalars
+           real(${rk}$) :: ${ri}$temp
+           integer(ilp) :: i,ix,iy,m,mp1
+           ! Intrinsic Functions
+           intrinsic :: mod
+#:if rk != "sp"
+           la_${ri}$dot = zero
+#:endif
+           ${ri}$temp = zero
+#:if rk == "sp"
+           la_${ri}$dot = zero
+#:endif
+           if (n <= 0) return
+           if (incx == 1 .and. incy == 1) then
+              ! code for both increments equal to 1
+              ! clean-up loop
+              m = mod(n,5)
+              if (m /= 0) then
+                 do i = 1,m
+                    ${ri}$temp = ${ri}$temp + ${ri}$x(i)*${ri}$y(i)
+                 end do
+                 if (n < 5) then
+                    la_${ri}$dot = ${ri}$temp
+                 return
+                 end if
+              end if
+              mp1 = m + 1
+              do i = mp1,n,5
+               ${ri}$temp = ${ri}$temp + ${ri}$x(i)*${ri}$y(i) + ${ri}$x(i + 1)*${ri}$y(i + 1) + ${ri}$x(i + 2)*${ri}$y(i + 2) + ${ri}$x(i + 3)*${ri}$y(i + 3) + &
+                         ${ri}$x(i + 4)*${ri}$y(i + 4)
+              end do
+           else
+              ! code for unequal increments or equal increments
+                ! not equal to 1
+              ix = 1
+              iy = 1
+              if (incx < 0) ix = (-n + 1)*incx + 1
+              if (incy < 0) iy = (-n + 1)*incy + 1
+              do i = 1,n
+                 ${ri}$temp = ${ri}$temp + ${ri}$x(ix)*${ri}$y(iy)
+                 ix = ix + incx
+                 iy = iy + incy
+              end do
+           end if
+           la_${ri}$dot = ${ri}$temp
+           return
+     end function la_${ri}$dot
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     !> !
+     !>
+     !> ${ri.upper()}$NRM2: returns the euclidean norm of a vector via the function
+     !> name, so that
+#:if rk == "sp"
+     !> ${ri.upper()}$NRM2 := sqrt( x'*x ).
+#:else
+     !> ${ri.upper()}$NRM2 := sqrt( x'*x )
+#:endif
+
+     pure function la_${ri}$nrm2(n,x,incx)
+        use la_constants_${rk}$
+        real(${rk}$) :: la_${ri}$nrm2
+        ! -- reference blas level1 routine (version 3.9.1_${rk}$) --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! march 2021
+        ! Constants
+        integer,parameter :: wp = kind(1._${rk}$)
+        real(${rk}$),parameter :: maxn = huge(0.0_${rk}$)
+        ! .. blue's scaling constants ..
+        ! Scalar Arguments
+     integer(ilp),intent(in) :: incx,n
+        ! Array Arguments
+        real(${rk}$),intent(in) :: x(*)
+        ! Local Scalars
+     integer(ilp) :: i,ix
+     logical(lk) :: notbig
+        real(${rk}$) :: abig,amed,asml,ax,scl,sumsq,ymax,ymin
+        ! quick return if possible
+        la_${ri}$nrm2 = zero
+        if (n <= 0) return
+        scl = one
+        sumsq = zero
+        ! compute the sum of squares in 3 accumulators:
+           ! abig -- sums of squares scaled down to avoid overflow
+           ! asml -- sums of squares scaled up to avoid underflow
+           ! amed -- sums of squares that do not require scaling
+        ! the thresholds and multipliers are
+           ! tbig -- values bigger than this are scaled down by sbig
+           ! tsml -- values smaller than this are scaled up by ssml
+        notbig = .true.
+        asml = zero
+        amed = zero
+        abig = zero
+        ix = 1
+        if (incx < 0) ix = 1 - (n - 1)*incx
+        do i = 1,n
+           ax = abs(x(ix))
+           if (ax > tbig) then
+              abig = abig + (ax*sbig)**2
+              notbig = .false.
+           else if (ax < tsml) then
+              if (notbig) asml = asml + (ax*ssml)**2
+           else
+              amed = amed + ax**2
+           end if
+           ix = ix + incx
+        end do
+        ! combine abig and amed or amed and asml if more than one
+        ! accumulator was used.
+        if (abig > zero) then
+           ! combine abig and amed if abig > 0.
+           if ((amed > zero) .or. (amed > maxn) .or. (amed /= amed)) then
+              abig = abig + (amed*sbig)*sbig
+           end if
+           scl = one/sbig
+           sumsq = abig
+        else if (asml > zero) then
+           ! combine amed and asml if asml > 0.
+           if ((amed > zero) .or. (amed > maxn) .or. (amed /= amed)) then
+              amed = sqrt(amed)
+              asml = sqrt(asml)/ssml
+              if (asml > amed) then
+                 ymin = amed
+                 ymax = asml
+              else
+                 ymin = asml
+                 ymax = amed
+              end if
+              scl = one
+              sumsq = ymax**2*(one + (ymin/ymax)**2)
+           else
+              scl = one/ssml
+              sumsq = asml
+           end if
+        else
+           ! otherwise all values are mid-range
+           scl = one
+           sumsq = amed
+        end if
+        la_${ri}$nrm2 = scl*sqrt(sumsq)
+        return
+     end function la_${ri}$nrm2
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if rk == "sp"
+     !> applies a plane rotation.
+#:else
+     !> ${ri.upper()}$ROT: applies a plane rotation.
+#:endif
+
+     pure subroutine la_${ri}$rot(n,${ri}$x,incx,${ri}$y,incy,c,s)
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           real(${rk}$),intent(in) :: c,s
+           integer(ilp),intent(in) :: incx,incy,n
+           ! Array Arguments
+           real(${rk}$),intent(inout) :: ${ri}$x(*),${ri}$y(*)
+        ! =====================================================================
+           ! Local Scalars
+           real(${rk}$) :: ${ri}$temp
+           integer(ilp) :: i,ix,iy
+           if (n <= 0) return
+           if (incx == 1 .and. incy == 1) then
+             ! code for both increments equal to 1
+              do i = 1,n
+                 ${ri}$temp = c*${ri}$x(i) + s*${ri}$y(i)
+                 ${ri}$y(i) = c*${ri}$y(i) - s*${ri}$x(i)
+                 ${ri}$x(i) = ${ri}$temp
+              end do
+           else
+             ! code for unequal increments or equal increments not equal
+               ! to 1
+              ix = 1
+              iy = 1
+              if (incx < 0) ix = (-n + 1)*incx + 1
+              if (incy < 0) iy = (-n + 1)*incy + 1
+              do i = 1,n
+                 ${ri}$temp = c*${ri}$x(ix) + s*${ri}$y(iy)
+                 ${ri}$y(iy) = c*${ri}$y(iy) - s*${ri}$x(ix)
+                 ${ri}$x(ix) = ${ri}$temp
+                 ix = ix + incx
+                 iy = iy + incy
+              end do
+           end if
+           return
+     end subroutine la_${ri}$rot
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     !> !
+     !>
+     !> The computation uses the formulas
+     !> sigma = sgn(a)    if |a| >  |b|
+     !> = sgn(b)    if |b| >= |a|
+     !> r = sigma*sqrt( a**2 + b**2 )
+     !> c = 1; s = 0      if r = 0
+     !> c = a/r; s = b/r  if r != 0
+     !> The subroutine also computes
+     !> z = s    if |a| > |b|,
+     !> = 1/c  if |b| >= |a| and c != 0
+     !> = 1    if c = 0
+     !> This allows c and s to be reconstructed from z as follows:
+     !> If z = 1, set c = 0, s = 1.
+     !> If |z| < 1, set c = sqrt(1 - z**2) and s = z.
+     !> If |z| > 1, set c = 1/z and s = sqrt( 1 - c**2).
+
+     pure subroutine la_${ri}$rotg(a,b,c,s)
+        use la_constants_${rk}$
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+        ! Constants
+        integer,parameter :: wp = kind(1._${rk}$)
+        ! Scaling Constants
+        ! Scalar Arguments
+        real(${rk}$),intent(inout) :: a,b
+        real(${rk}$),intent(out) :: c,s
+        ! Local Scalars
+        real(${rk}$) :: anorm,bnorm,scl,sigma,r,z
+        anorm = abs(a)
+        bnorm = abs(b)
+        if (bnorm == zero) then
+           c = one
+           s = zero
+           b = zero
+        else if (anorm == zero) then
+           c = zero
+           s = one
+           a = b
+           b = one
+        else
+           scl = min(safmax,max(safmin,anorm,bnorm))
+           if (anorm > bnorm) then
+              sigma = sign(one,a)
+           else
+              sigma = sign(one,b)
+           end if
+           r = sigma*(scl*sqrt((a/scl)**2 + (b/scl)**2))
+           c = a/r
+           s = b/r
+           if (anorm > bnorm) then
+              z = s
+           else if (c /= zero) then
+              z = one/c
+           else
+              z = one
+           end if
+           a = r
+           b = z
+        end if
+        return
+     end subroutine la_${ri}$rotg
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     !> APPLY THE MODIFIED GIVENS TRANSFORMATION, H, TO THE 2 BY N MATRIX
+#:if rk == "sp"
+     !> (SX**T) , WHERE **T INDICATES TRANSPOSE. THE ELEMENTS OF SX ARE IN
+     !> (SX**T)
+     !> SX(LX+I*INCX), I = 0 TO N-1, WHERE LX = 1 IF INCX >= 0, ELSE
+     !> LX = (-INCX)*N, AND SIMILARLY FOR SY USING USING LY AND INCY.
+     !> WITH SPARAM(1)=SFLAG, H HAS ONE OF THE FOLLOWING FORMS..
+     !> SFLAG=-1._${rk}$     SFLAG=0._${rk}$        SFLAG=1._${rk}$     SFLAG=-2.E0
+     !> (SH11  SH12)    (1._${rk}$  SH12)    (SH11  1._${rk}$)    (1._${rk}$  0._${rk}$)
+#:else
+     !> (DX**T) , WHERE **T INDICATES TRANSPOSE. THE ELEMENTS OF DX ARE IN
+     !> (DY**T)
+     !> DX(LX+I*INCX), I = 0 TO N-1, WHERE LX = 1 IF INCX >= 0, ELSE
+     !> LX = (-INCX)*N, AND SIMILARLY FOR SY USING LY AND INCY.
+     !> WITH DPARAM(1)=DFLAG, H HAS ONE OF THE FOLLOWING FORMS..
+     !> DFLAG=-1._${rk}$     DFLAG=0._${rk}$        DFLAG=1._${rk}$     DFLAG=-2.D0
+     !> (DH11  DH12)    (1._${rk}$  DH12)    (DH11  1._${rk}$)    (1._${rk}$  0._${rk}$)
+#:endif
+     !> H=(          )    (          )    (          )    (          )
+#:if rk == "sp"
+     !> (SH21  SH22),   (SH21  1._${rk}$),   (-1._${rk}$ SH22),   (0._${rk}$  1._${rk}$).
+     !> SEE  ${ri.upper()}$ROTMG FOR A DESCRIPTION OF DATA STORAGE IN SPARAM.
+#:else
+     !> (DH21  DH22),   (DH21  1._${rk}$),   (-1._${rk}$ DH22),   (0._${rk}$  1._${rk}$).
+     !> SEE ${ri.upper()}$ROTMG FOR A DESCRIPTION OF DATA STORAGE IN DPARAM.
+#:endif
+
+     pure subroutine la_${ri}$rotm(n,${ri}$x,incx,${ri}$y,incy,${ri}$param)
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           integer(ilp),intent(in) :: incx,incy,n
+           ! Array Arguments
+           real(${rk}$),intent(in) :: ${ri}$param(5)
+           real(${rk}$),intent(inout) :: ${ri}$x(*),${ri}$y(*)
+        ! =====================================================================
+           ! Local Scalars
+           real(${rk}$) :: ${ri}$flag,${ri}$h11,${ri}$h12,${ri}$h21,${ri}$h22,two,w,z,zero
+           integer(ilp) :: i,kx,ky,nsteps
+           ! Data Statements
+           zero = 0.0_${rk}$
+           two = 2.0_${rk}$
+           ${ri}$flag = ${ri}$param(1)
+           if (n <= 0 .or. (${ri}$flag + two == zero)) return
+           if (incx == incy .and. incx > 0) then
+              nsteps = n*incx
+              if (${ri}$flag < zero) then
+                 ${ri}$h11 = ${ri}$param(2)
+                 ${ri}$h12 = ${ri}$param(4)
+                 ${ri}$h21 = ${ri}$param(3)
+                 ${ri}$h22 = ${ri}$param(5)
+                 do i = 1,nsteps,incx
+                    w = ${ri}$x(i)
+                    z = ${ri}$y(i)
+                    ${ri}$x(i) = w*${ri}$h11 + z*${ri}$h12
+                    ${ri}$y(i) = w*${ri}$h21 + z*${ri}$h22
+                 end do
+              else if (${ri}$flag == zero) then
+                 ${ri}$h12 = ${ri}$param(4)
+                 ${ri}$h21 = ${ri}$param(3)
+                 do i = 1,nsteps,incx
+                    w = ${ri}$x(i)
+                    z = ${ri}$y(i)
+                    ${ri}$x(i) = w + z*${ri}$h12
+                    ${ri}$y(i) = w*${ri}$h21 + z
+                 end do
+              else
+                 ${ri}$h11 = ${ri}$param(2)
+                 ${ri}$h22 = ${ri}$param(5)
+                 do i = 1,nsteps,incx
+                    w = ${ri}$x(i)
+                    z = ${ri}$y(i)
+                    ${ri}$x(i) = w*${ri}$h11 + z
+                    ${ri}$y(i) = -w + ${ri}$h22*z
+                 end do
+              end if
+           else
+              kx = 1
+              ky = 1
+              if (incx < 0) kx = 1 + (1 - n)*incx
+              if (incy < 0) ky = 1 + (1 - n)*incy
+              if (${ri}$flag < zero) then
+                 ${ri}$h11 = ${ri}$param(2)
+                 ${ri}$h12 = ${ri}$param(4)
+                 ${ri}$h21 = ${ri}$param(3)
+                 ${ri}$h22 = ${ri}$param(5)
+                 do i = 1,n
+                    w = ${ri}$x(kx)
+                    z = ${ri}$y(ky)
+                    ${ri}$x(kx) = w*${ri}$h11 + z*${ri}$h12
+                    ${ri}$y(ky) = w*${ri}$h21 + z*${ri}$h22
+                    kx = kx + incx
+                    ky = ky + incy
+                 end do
+              else if (${ri}$flag == zero) then
+                 ${ri}$h12 = ${ri}$param(4)
+                 ${ri}$h21 = ${ri}$param(3)
+                 do i = 1,n
+                    w = ${ri}$x(kx)
+                    z = ${ri}$y(ky)
+                    ${ri}$x(kx) = w + z*${ri}$h12
+                    ${ri}$y(ky) = w*${ri}$h21 + z
+                    kx = kx + incx
+                    ky = ky + incy
+                 end do
+              else
+                  ${ri}$h11 = ${ri}$param(2)
+                  ${ri}$h22 = ${ri}$param(5)
+                  do i = 1,n
+                     w = ${ri}$x(kx)
+                     z = ${ri}$y(ky)
+                     ${ri}$x(kx) = w*${ri}$h11 + z
+                     ${ri}$y(ky) = -w + ${ri}$h22*z
+                     kx = kx + incx
+                     ky = ky + incy
+                 end do
+              end if
+           end if
+           return
+     end subroutine la_${ri}$rotm
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     !> CONSTRUCT THE MODIFIED GIVENS TRANSFORMATION MATRIX H WHICH ZEROS
+#:if rk == "sp"
+     !> THE SECOND COMPONENT OF THE 2-VECTOR  (SQRT(SD1)*SX1,SQRT(SD2)    SY2)**T.
+     !> WITH SPARAM(1)=SFLAG, H HAS ONE OF THE FOLLOWING FORMS..
+     !> SFLAG=-1._${rk}$     SFLAG=0._${rk}$        SFLAG=1._${rk}$     SFLAG=-2.E0
+     !> (SH11  SH12)    (1._${rk}$  SH12)    (SH11  1._${rk}$)    (1._${rk}$  0._${rk}$)
+#:else
+     !> THE SECOND COMPONENT OF THE 2-VECTOR  (SQRT(DD1)*DX1,SQRT(DD2)    DY2)**T.
+     !> WITH DPARAM(1)=DFLAG, H HAS ONE OF THE FOLLOWING FORMS..
+     !> DFLAG=-1._${rk}$     DFLAG=0._${rk}$        DFLAG=1._${rk}$     DFLAG=-2.D0
+     !> (DH11  DH12)    (1._${rk}$  DH12)    (DH11  1._${rk}$)    (1._${rk}$  0._${rk}$)
+#:endif
+     !> H=(          )    (          )    (          )    (          )
+#:if rk == "sp"
+     !> (SH21  SH22),   (SH21  1._${rk}$),   (-1._${rk}$ SH22),   (0._${rk}$  1._${rk}$).
+     !> LOCATIONS 2-4 OF SPARAM CONTAIN SH11,SH21,SH12, AND SH22
+#:else
+     !> (DH21  DH22),   (DH21  1._${rk}$),   (-1._${rk}$ DH22),   (0._${rk}$  1._${rk}$).
+     !> LOCATIONS 2-4 OF DPARAM CONTAIN DH11, DH21, DH12, AND DH22
+#:endif
+     !> RESPECTIVELY. (VALUES OF 1._${rk}$, -1._${rk}$, OR 0._${rk}$ IMPLIED BY THE
+#:if rk == "sp"
+     !> VALUE OF SPARAM(1) ARE NOT STORED IN SPARAM.)
+#:else
+     !> VALUE OF DPARAM(1) ARE NOT STORED IN DPARAM.)
+#:endif
+     !> THE VALUES OF GAMSQ AND RGAMSQ SET IN THE DATA STATEMENT MAY BE
+     !> INEXACT.  THIS IS OK AS THEY ARE ONLY USED FOR TESTING THE SIZE
+#:if rk == "sp"
+     !> OF SD1 AND SD2.  ALL ACTUAL SCALING OF DATA IS DONE USING GAM.
+#:else
+     !> OF DD1 AND DD2.  ALL ACTUAL SCALING OF DATA IS DONE USING GAM.
+#:endif
+
+     pure subroutine la_${ri}$rotmg(${ri}$d1,${ri}$d2,${ri}$x1,${ri}$y1,${ri}$param)
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           real(${rk}$),intent(inout) :: ${ri}$d1,${ri}$d2,${ri}$x1
+           real(${rk}$),intent(in) :: ${ri}$y1
+           ! Array Arguments
+           real(${rk}$),intent(out) :: ${ri}$param(5)
+        ! =====================================================================
+           ! Local Scalars
+#:if rk == "sp"
+           real(${rk}$) :: gam,gamsq,one,rgamsq,${ri}$flag,${ri}$h11,${ri}$h12,${ri}$h21,${ri}$h22,${ri}$p1,${ri}$p2,${ri}$q1,${ri}$q2, &
+                      ${ri}$temp,${ri}$u,two,zero
+#:else
+           real(${rk}$) :: ${ri}$flag,${ri}$h11,${ri}$h12,${ri}$h21,${ri}$h22,${ri}$p1,${ri}$p2,${ri}$q1,${ri}$q2,${ri}$temp,${ri}$u,gam,gamsq, &
+                     one,rgamsq,two,zero
+#:endif
+           ! Intrinsic Functions
+           intrinsic :: abs
+           ! Data Statements
+           zero = 0.0_${rk}$
+           one = 1.0_${rk}$
+           two = 2.0_${rk}$
+           gam = 4096.0_${rk}$
+#:if rk == "sp"
+           gamsq = 1.67772e7_${rk}$
+           rgamsq = 5.96046e-8_${rk}$
+#:else
+           gamsq = 16777216.0_${rk}$
+           rgamsq = 5.9604645e-8_${rk}$
+#:endif
+           if (${ri}$d1 < zero) then
+              ! go zero-h-d-and-${ri}$x1..
+              ${ri}$flag = -one
+              ${ri}$h11 = zero
+              ${ri}$h12 = zero
+              ${ri}$h21 = zero
+              ${ri}$h22 = zero
+              ${ri}$d1 = zero
+              ${ri}$d2 = zero
+              ${ri}$x1 = zero
+           else
+              ! case-${ri}$d1-nonnegative
+              ${ri}$p2 = ${ri}$d2*${ri}$y1
+              if (${ri}$p2 == zero) then
+                 ${ri}$flag = -two
+                 ${ri}$param(1) = ${ri}$flag
+                 return
+              end if
+              ! regular-case..
+              ${ri}$p1 = ${ri}$d1*${ri}$x1
+              ${ri}$q2 = ${ri}$p2*${ri}$y1
+              ${ri}$q1 = ${ri}$p1*${ri}$x1
+              if (abs(${ri}$q1) > abs(${ri}$q2)) then
+                 ${ri}$h21 = -${ri}$y1/${ri}$x1
+                 ${ri}$h12 = ${ri}$p2/${ri}$p1
+                 ${ri}$u = one - ${ri}$h12*${ri}$h21
+                if (${ri}$u > zero) then
+                  ${ri}$flag = zero
+                  ${ri}$d1 = ${ri}$d1/${ri}$u
+                  ${ri}$d2 = ${ri}$d2/${ri}$u
+                  ${ri}$x1 = ${ri}$x1*${ri}$u
+                else
+                  ! this code path if here for safety. we do not expect this
+                  ! condition to ever hold except in edge cases with rounding
+                  ! errors. see doi: 10.1145/355841.355847
+                  ${ri}$flag = -one
+                  ${ri}$h11 = zero
+                  ${ri}$h12 = zero
+                  ${ri}$h21 = zero
+                  ${ri}$h22 = zero
+                  ${ri}$d1 = zero
+                  ${ri}$d2 = zero
+                  ${ri}$x1 = zero
+                end if
+              else
+                 if (${ri}$q2 < zero) then
+                    ! go zero-h-d-and-${ri}$x1..
+                    ${ri}$flag = -one
+                    ${ri}$h11 = zero
+                    ${ri}$h12 = zero
+                    ${ri}$h21 = zero
+                    ${ri}$h22 = zero
+                    ${ri}$d1 = zero
+                    ${ri}$d2 = zero
+                    ${ri}$x1 = zero
+                 else
+                    ${ri}$flag = one
+                    ${ri}$h11 = ${ri}$p1/${ri}$p2
+                    ${ri}$h22 = ${ri}$x1/${ri}$y1
+                    ${ri}$u = one + ${ri}$h11*${ri}$h22
+                    ${ri}$temp = ${ri}$d2/${ri}$u
+                    ${ri}$d2 = ${ri}$d1/${ri}$u
+                    ${ri}$d1 = ${ri}$temp
+                    ${ri}$x1 = ${ri}$y1*${ri}$u
+                 end if
+              end if
+           ! procedure..scale-check
+              if (${ri}$d1 /= zero) then
+                 do while ((${ri}$d1 <= rgamsq) .or. (${ri}$d1 >= gamsq))
+                    if (${ri}$flag == zero) then
+                       ${ri}$h11 = one
+                       ${ri}$h22 = one
+                       ${ri}$flag = -one
+                    else
+                       ${ri}$h21 = -one
+                       ${ri}$h12 = one
+                       ${ri}$flag = -one
+                    end if
+                    if (${ri}$d1 <= rgamsq) then
+                       ${ri}$d1 = ${ri}$d1*gam**2
+                       ${ri}$x1 = ${ri}$x1/gam
+                       ${ri}$h11 = ${ri}$h11/gam
+                       ${ri}$h12 = ${ri}$h12/gam
+                    else
+                       ${ri}$d1 = ${ri}$d1/gam**2
+                       ${ri}$x1 = ${ri}$x1*gam
+                       ${ri}$h11 = ${ri}$h11*gam
+                       ${ri}$h12 = ${ri}$h12*gam
+                    end if
+                 end do
+              end if
+              if (${ri}$d2 /= zero) then
+                 do while ((abs(${ri}$d2) <= rgamsq) .or. (abs(${ri}$d2) >= gamsq))
+                    if (${ri}$flag == zero) then
+                       ${ri}$h11 = one
+                       ${ri}$h22 = one
+                       ${ri}$flag = -one
+                    else
+                       ${ri}$h21 = -one
+                       ${ri}$h12 = one
+                       ${ri}$flag = -one
+                    end if
+                    if (abs(${ri}$d2) <= rgamsq) then
+                       ${ri}$d2 = ${ri}$d2*gam**2
+                       ${ri}$h21 = ${ri}$h21/gam
+                       ${ri}$h22 = ${ri}$h22/gam
+                    else
+                       ${ri}$d2 = ${ri}$d2/gam**2
+                       ${ri}$h21 = ${ri}$h21*gam
+                       ${ri}$h22 = ${ri}$h22*gam
+                    end if
+                 end do
+              end if
+           end if
+           if (${ri}$flag < zero) then
+              ${ri}$param(2) = ${ri}$h11
+              ${ri}$param(3) = ${ri}$h21
+              ${ri}$param(4) = ${ri}$h12
+              ${ri}$param(5) = ${ri}$h22
+           else if (${ri}$flag == zero) then
+              ${ri}$param(3) = ${ri}$h21
+              ${ri}$param(4) = ${ri}$h12
+           else
+              ${ri}$param(2) = ${ri}$h11
+              ${ri}$param(5) = ${ri}$h22
+           end if
+           ${ri}$param(1) = ${ri}$flag
+           return
+     end subroutine la_${ri}$rotmg
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     !> ${ri.upper()}$SCAL: scales a vector by a constant.
+     !> uses unrolled loops for increment equal to 1.
+
+     pure subroutine la_${ri}$scal(n,${ri}$a,${ri}$x,incx)
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           real(${rk}$),intent(in) :: ${ri}$a
+           integer(ilp),intent(in) :: incx,n
+           ! Array Arguments
+           real(${rk}$),intent(inout) :: ${ri}$x(*)
+        ! =====================================================================
+           ! Local Scalars
+           integer(ilp) :: i,m,mp1,nincx
+           ! Intrinsic Functions
+           intrinsic :: mod
+           if (n <= 0 .or. incx <= 0) return
+           if (incx == 1) then
+              ! code for increment equal to 1
+              ! clean-up loop
+              m = mod(n,5)
+              if (m /= 0) then
+                 do i = 1,m
+                    ${ri}$x(i) = ${ri}$a*${ri}$x(i)
+                 end do
+                 if (n < 5) return
+              end if
+              mp1 = m + 1
+              do i = mp1,n,5
+                 ${ri}$x(i) = ${ri}$a*${ri}$x(i)
+                 ${ri}$x(i + 1) = ${ri}$a*${ri}$x(i + 1)
+                 ${ri}$x(i + 2) = ${ri}$a*${ri}$x(i + 2)
+                 ${ri}$x(i + 3) = ${ri}$a*${ri}$x(i + 3)
+                 ${ri}$x(i + 4) = ${ri}$a*${ri}$x(i + 4)
+              end do
+           else
+              ! code for increment not equal to 1
+              nincx = n*incx
+              do i = 1,nincx,incx
+                 ${ri}$x(i) = ${ri}$a*${ri}$x(i)
+              end do
+           end if
+           return
+     end subroutine la_${ri}$scal
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if rkl is not None
+     !> Compute the inner product of two vectors with extended
+     !> precision accumulation and result.
+     !> Returns D.P. dot product accumulated in D.P., for S.P. SX and SY
+     !> ${ri.upper()}$${ril.upper()}$DOT: = sum for I = 0 to N-1 of  SX(LX+I*INCX) * SY(LY+I*INCY),
+     !> where LX = 1 if INCX >= 0, else LX = 1+(1-N)*INCX, and LY is
+     !> defined in a similar way using INCY.
+
+     pure real(${rk}$) function la_${ri}$${ril}$dot(n,sx,incx,sy,incy)
+        use la_constants_${rk}$
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           integer(ilp),intent(in) :: incx,incy,n
+           ! Array Arguments
+           real(${rkl}$),intent(in) :: sx(*),sy(*)
+        ! authors:
+        ! ========
+        ! lawson, c. l., (jpl), hanson, r. j., (snla),
+        ! kincaid, d. r., (u. of texas), krogh, f. t., (jpl)
+        ! =====================================================================
+           ! Local Scalars
+           integer(ilp) :: i,kx,ky,ns
+           ! Intrinsic Functions
+           intrinsic :: real
+           la_${ri}$${ril}$dot = zero
+           if (n <= 0) return
+           if (incx == incy .and. incx > 0) then
+           ! code for equal, positive, non-unit increments.
+              ns = n*incx
+              do i = 1,ns,incx
+                 la_${ri}$${ril}$dot = la_${ri}$${ril}$dot + real(sx(i),KIND=${rk}$)*real(sy(i),KIND=${rk}$)
+              end do
+           else
+           ! code for unequal or nonpositive increments.
+              kx = 1
+              ky = 1
+              if (incx < 0) kx = 1 + (1 - n)*incx
+              if (incy < 0) ky = 1 + (1 - n)*incy
+              do i = 1,n
+                 la_${ri}$${ril}$dot = la_${ri}$${ril}$dot + real(sx(kx),KIND=${rk}$)*real(sy(ky),KIND=${rk}$)
+                 kx = kx + incx
+                 ky = ky + incy
+              end do
+           end if
+           return
+     end function la_${ri}$${ril}$dot
+#:endif
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     !> ${ri.upper()}$SWAP: interchanges two vectors.
+     !> uses unrolled loops for increments equal to 1.
+
+     pure subroutine la_${ri}$swap(n,${ri}$x,incx,${ri}$y,incy)
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           integer(ilp),intent(in) :: incx,incy,n
+           ! Array Arguments
+           real(${rk}$),intent(inout) :: ${ri}$x(*),${ri}$y(*)
+        ! =====================================================================
+           ! Local Scalars
+           real(${rk}$) :: ${ri}$temp
+           integer(ilp) :: i,ix,iy,m,mp1
+           ! Intrinsic Functions
+           intrinsic :: mod
+           if (n <= 0) return
+           if (incx == 1 .and. incy == 1) then
+             ! code for both increments equal to 1
+             ! clean-up loop
+              m = mod(n,3)
+              if (m /= 0) then
+                 do i = 1,m
+                    ${ri}$temp = ${ri}$x(i)
+                    ${ri}$x(i) = ${ri}$y(i)
+                    ${ri}$y(i) = ${ri}$temp
+                 end do
+                 if (n < 3) return
+              end if
+              mp1 = m + 1
+              do i = mp1,n,3
+                 ${ri}$temp = ${ri}$x(i)
+                 ${ri}$x(i) = ${ri}$y(i)
+                 ${ri}$y(i) = ${ri}$temp
+                 ${ri}$temp = ${ri}$x(i + 1)
+                 ${ri}$x(i + 1) = ${ri}$y(i + 1)
+                 ${ri}$y(i + 1) = ${ri}$temp
+                 ${ri}$temp = ${ri}$x(i + 2)
+                 ${ri}$x(i + 2) = ${ri}$y(i + 2)
+                 ${ri}$y(i + 2) = ${ri}$temp
+              end do
+           else
+             ! code for unequal increments or equal increments not equal
+               ! to 1
+              ix = 1
+              iy = 1
+              if (incx < 0) ix = (-n + 1)*incx + 1
+              if (incy < 0) iy = (-n + 1)*incy + 1
+              do i = 1,n
+                 ${ri}$temp = ${ri}$x(ix)
+                 ${ri}$x(ix) = ${ri}$y(iy)
+                 ${ri}$y(iy) = ${ri}$temp
+                 ix = ix + incx
+                 iy = iy + incy
+              end do
+           end if
+           return
+     end subroutine la_${ri}$swap
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     !> ${ri.upper()}$${ci.upper()}$ASUM: takes the sum of the (|Re(.)| + |Im(.)|)'s of a complex vector and
+     !> returns a ${LA_PRECISION[rk]}$ precision result.
+
+     pure real(${rk}$) function la_${ri}$${ci}$asum(n,${ci}$x,incx)
+        use la_constants_${rk}$
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           integer(ilp),intent(in) :: incx,n
+           ! Array Arguments
+           complex(${rk}$),intent(in) :: ${ci}$x(*)
+        ! =====================================================================
+           ! Local Scalars
+           real(${rk}$) :: stemp
+           integer(ilp) :: i,nincx
+#:if rk == "sp"
+           ! Intrinsic Functions
+           intrinsic :: abs,aimag,real
+#:endif
+           la_${ri}$${ci}$asum = zero
+           stemp = zero
+           if (n <= 0 .or. incx <= 0) return
+           if (incx == 1) then
+              ! code for increment equal to 1
+              do i = 1,n
+#:if rk == "sp"
+                 stemp = stemp + abs(real(${ci}$x(i),KIND=${rk}$)) + abs(aimag(${ci}$x(i)))
+#:else
+                 stemp = stemp + la_${ri}$cabs1(${ci}$x(i))
+#:endif
+              end do
+           else
+              ! code for increment not equal to 1
+              nincx = n*incx
+              do i = 1,nincx,incx
+#:if rk == "sp"
+                 stemp = stemp + abs(real(${ci}$x(i),KIND=${rk}$)) + abs(aimag(${ci}$x(i)))
+#:else
+                 stemp = stemp + la_${ri}$cabs1(${ci}$x(i))
+#:endif
+              end do
+           end if
+           la_${ri}$${ci}$asum = stemp
+           return
+     end function la_${ri}$${ci}$asum
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     !> !
+     !>
+     !> ${ri.upper()}$${ci.upper()}$NRM2: returns the euclidean norm of a vector via the function
+     !> name, so that
+     !> ${ri.upper()}$${ci.upper()}$NRM2 := sqrt( x**H*x )
+
+     pure function la_${ri}$${ci}$nrm2(n,x,incx)
+        use la_constants_${rk}$
+        real(${rk}$) :: la_${ri}$${ci}$nrm2
+        ! -- reference blas level1 routine (version 3.9.1_${rk}$) --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! march 2021
+        ! Constants
+        integer,parameter :: wp = kind(1._${rk}$)
+        real(${rk}$),parameter :: maxn = huge(0.0_${rk}$)
+        ! .. blue's scaling constants ..
+        ! Scalar Arguments
+     integer(ilp),intent(in) :: incx,n
+        ! Array Arguments
+        complex(${rk}$),intent(in) :: x(*)
+        ! Local Scalars
+     integer(ilp) :: i,ix
+     logical(lk) :: notbig
+        real(${rk}$) :: abig,amed,asml,ax,scl,sumsq,ymax,ymin
+        ! quick return if possible
+        la_${ri}$${ci}$nrm2 = zero
+        if (n <= 0) return
+        scl = one
+        sumsq = zero
+        ! compute the sum of squares in 3 accumulators:
+           ! abig -- sums of squares scaled down to avoid overflow
+           ! asml -- sums of squares scaled up to avoid underflow
+           ! amed -- sums of squares that do not require scaling
+        ! the thresholds and multipliers are
+           ! tbig -- values bigger than this are scaled down by sbig
+           ! tsml -- values smaller than this are scaled up by ssml
+        notbig = .true.
+        asml = zero
+        amed = zero
+        abig = zero
+        ix = 1
+        if (incx < 0) ix = 1 - (n - 1)*incx
+        do i = 1,n
+           ax = abs(real(x(ix),KIND=${rk}$))
+           if (ax > tbig) then
+              abig = abig + (ax*sbig)**2
+              notbig = .false.
+           else if (ax < tsml) then
+              if (notbig) asml = asml + (ax*ssml)**2
+           else
+              amed = amed + ax**2
+           end if
+           ax = abs(aimag(x(ix)))
+           if (ax > tbig) then
+              abig = abig + (ax*sbig)**2
+              notbig = .false.
+           else if (ax < tsml) then
+              if (notbig) asml = asml + (ax*ssml)**2
+           else
+              amed = amed + ax**2
+           end if
+           ix = ix + incx
+        end do
+        ! combine abig and amed or amed and asml if more than one
+        ! accumulator was used.
+        if (abig > zero) then
+           ! combine abig and amed if abig > 0.
+           if ((amed > zero) .or. (amed > maxn) .or. (amed /= amed)) then
+              abig = abig + (amed*sbig)*sbig
+           end if
+           scl = one/sbig
+           sumsq = abig
+        else if (asml > zero) then
+           ! combine amed and asml if asml > 0.
+           if ((amed > zero) .or. (amed > maxn) .or. (amed /= amed)) then
+              amed = sqrt(amed)
+              asml = sqrt(asml)/ssml
+              if (asml > amed) then
+                 ymin = amed
+                 ymax = asml
+              else
+                 ymin = asml
+                 ymax = amed
+              end if
+              scl = one
+              sumsq = ymax**2*(one + (ymin/ymax)**2)
+           else
+              scl = one/ssml
+              sumsq = asml
+           end if
+        else
+           ! otherwise all values are mid-range
+           scl = one
+           sumsq = amed
+        end if
+        la_${ri}$${ci}$nrm2 = scl*sqrt(sumsq)
+        return
+     end function la_${ri}$${ci}$nrm2
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+     !> ${ri.upper()}$AXPY: constant times a vector plus a vector.
+
+     pure subroutine la_${ri}$axpy(n,${ri}$a,${ri}$x,incx,${ri}$y,incy)
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           complex(${rk}$),intent(in) :: ${ri}$a
+           integer(ilp),intent(in) :: incx,incy,n
+           ! Array Arguments
+           complex(${rk}$),intent(in) :: ${ri}$x(*)
+           complex(${rk}$),intent(inout) :: ${ri}$y(*)
+        ! =====================================================================
+           ! Local Scalars
+           integer(ilp) :: i,ix,iy
+           if (n <= 0) return
+#:if rk == "sp"
+           if (la_${ci}$cabs1(${ri}$a) == 0.0e+0_${rk}$) return
+#:else
+           if (la_${ci}$cabs1(${ri}$a) == 0.0_${rk}$) return
+#:endif
+           if (incx == 1 .and. incy == 1) then
+              ! code for both increments equal to 1
+              do i = 1,n
+                 ${ri}$y(i) = ${ri}$y(i) + ${ri}$a*${ri}$x(i)
+              end do
+           else
+              ! code for unequal increments or equal increments
+                ! not equal to 1
+              ix = 1
+              iy = 1
+              if (incx < 0) ix = (-n + 1)*incx + 1
+              if (incy < 0) iy = (-n + 1)*incy + 1
+              do i = 1,n
+                 ${ri}$y(iy) = ${ri}$y(iy) + ${ri}$a*${ri}$x(ix)
+                 ix = ix + incx
+                 iy = iy + incy
+              end do
+           end if
+           return
+     end subroutine la_${ri}$axpy
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if rk == "sp"
+     !> ${ri.upper()}$COPY: copies a vector x to a vector y.
+#:else
+     !> ${ri.upper()}$COPY: copies a vector, x, to a vector, y.
+
+#:endif
+     pure subroutine la_${ri}$copy(n,${ri}$x,incx,${ri}$y,incy)
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           integer(ilp),intent(in) :: incx,incy,n
+           ! Array Arguments
+           complex(${rk}$),intent(in) :: ${ri}$x(*)
+           complex(${rk}$),intent(out) :: ${ri}$y(*)
+        ! =====================================================================
+           ! Local Scalars
+           integer(ilp) :: i,ix,iy
+           if (n <= 0) return
+           if (incx == 1 .and. incy == 1) then
+              ! code for both increments equal to 1
+              do i = 1,n
+               ${ri}$y(i) = ${ri}$x(i)
+              end do
+           else
+              ! code for unequal increments or equal increments
+                ! not equal to 1
+              ix = 1
+              iy = 1
+              if (incx < 0) ix = (-n + 1)*incx + 1
+              if (incy < 0) iy = (-n + 1)*incy + 1
+              do i = 1,n
+                 ${ri}$y(iy) = ${ri}$x(ix)
+                 ix = ix + incx
+                 iy = iy + incy
+              end do
+           end if
+           return
+     end subroutine la_${ri}$copy
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+     !> ${ri.upper()}$DOTC: forms the dot product of two complex vectors
+     !> ${ri.upper()}$DOTC = X^H * Y
+
+     pure complex(${rk}$) function la_${ri}$dotc(n,${ri}$x,incx,${ri}$y,incy)
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           integer(ilp),intent(in) :: incx,incy,n
+           ! Array Arguments
+           complex(${rk}$),intent(in) :: ${ri}$x(*),${ri}$y(*)
+        ! =====================================================================
+           ! Local Scalars
+           complex(${rk}$) :: ${ri}$temp
+           integer(ilp) :: i,ix,iy
+           ! Intrinsic Functions
+           intrinsic :: conjg
+           ${ri}$temp = (0.0_${rk}$,0.0_${rk}$)
+           la_${ri}$dotc = (0.0_${rk}$,0.0_${rk}$)
+           if (n <= 0) return
+           if (incx == 1 .and. incy == 1) then
+              ! code for both increments equal to 1
+              do i = 1,n
+                 ${ri}$temp = ${ri}$temp + conjg(${ri}$x(i))*${ri}$y(i)
+              end do
+           else
+              ! code for unequal increments or equal increments
+                ! not equal to 1
+              ix = 1
+              iy = 1
+              if (incx < 0) ix = (-n + 1)*incx + 1
+              if (incy < 0) iy = (-n + 1)*incy + 1
+              do i = 1,n
+                 ${ri}$temp = ${ri}$temp + conjg(${ri}$x(ix))*${ri}$y(iy)
+                 ix = ix + incx
+                 iy = iy + incy
+              end do
+           end if
+           la_${ri}$dotc = ${ri}$temp
+           return
+     end function la_${ri}$dotc
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+     !> ${ri.upper()}$DOTU: forms the dot product of two complex vectors
+     !> ${ri.upper()}$DOTU = X^T * Y
+
+     pure complex(${rk}$) function la_${ri}$dotu(n,${ri}$x,incx,${ri}$y,incy)
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           integer(ilp),intent(in) :: incx,incy,n
+           ! Array Arguments
+           complex(${rk}$),intent(in) :: ${ri}$x(*),${ri}$y(*)
+        ! =====================================================================
+           ! Local Scalars
+           complex(${rk}$) :: ${ri}$temp
+           integer(ilp) :: i,ix,iy
+           ${ri}$temp = (0.0_${rk}$,0.0_${rk}$)
+           la_${ri}$dotu = (0.0_${rk}$,0.0_${rk}$)
+           if (n <= 0) return
+           if (incx == 1 .and. incy == 1) then
+              ! code for both increments equal to 1
+              do i = 1,n
+                 ${ri}$temp = ${ri}$temp + ${ri}$x(i)*${ri}$y(i)
+              end do
+           else
+              ! code for unequal increments or equal increments
+                ! not equal to 1
+              ix = 1
+              iy = 1
+              if (incx < 0) ix = (-n + 1)*incx + 1
+              if (incy < 0) iy = (-n + 1)*incy + 1
+              do i = 1,n
+                 ${ri}$temp = ${ri}$temp + ${ri}$x(ix)*${ri}$y(iy)
+                 ix = ix + incx
+                 iy = iy + incy
+              end do
+           end if
+           la_${ri}$dotu = ${ri}$temp
+           return
+     end function la_${ri}$dotu
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if rk == "sp"
+     !> ${ri.upper()}$${ci.upper()}$ROT: applies a plane rotation, where the cos and sin (c and s) are real
+     !> and the vectors ${ri}$x and ${ri}$y are complex.
+#:else
+     !> Applies a plane rotation, where the cos and sin (c and s) are real
+     !> and the vectors cx and cy are complex.
+#:endif
+     !> jack dongarra, linpack, 3/11/78.
+
+     pure subroutine la_${ri}$${ci}$rot(n,${ri}$x,incx,${ri}$y,incy,c,s)
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           integer(ilp),intent(in) :: incx,incy,n
+           real(${rk}$),intent(in) :: c,s
+           ! Array Arguments
+           complex(${rk}$),intent(inout) :: ${ri}$x(*),${ri}$y(*)
+       ! =====================================================================
+           ! Local Scalars
+           integer(ilp) :: i,ix,iy
+           complex(${rk}$) :: ctemp
+           ! Executable Statements
+           if (n <= 0) return
+           if (incx == 1 .and. incy == 1) then
+              ! code for both increments equal to 1
+              do i = 1,n
+                 ctemp = c*${ri}$x(i) + s*${ri}$y(i)
+                 ${ri}$y(i) = c*${ri}$y(i) - s*${ri}$x(i)
+                 ${ri}$x(i) = ctemp
+              end do
+           else
+              ! code for unequal increments or equal increments not equal
+                ! to 1
+              ix = 1
+              iy = 1
+              if (incx < 0) ix = (-n + 1)*incx + 1
+              if (incy < 0) iy = (-n + 1)*incy + 1
+              do i = 1,n
+                 ctemp = c*${ri}$x(ix) + s*${ri}$y(iy)
+                 ${ri}$y(iy) = c*${ri}$y(iy) - s*${ri}$x(ix)
+                 ${ri}$x(ix) = ctemp
+                 ix = ix + incx
+                 iy = iy + incy
+              end do
+           end if
+           return
+     end subroutine la_${ri}$${ci}$rot
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if rk == "sp"
+     !> ${ri.upper()}$${ci.upper()}$SCAL: scales a complex vector by a real constant.
+#:else
+     !> ${ri.upper()}$${ci.upper()}$SCAL: scales a vector by a constant.
+#:endif
+
+     pure subroutine la_${ri}$${ci}$scal(n,${ci}$a,${ri}$x,incx)
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           real(${rk}$),intent(in) :: ${ci}$a
+           integer(ilp),intent(in) :: incx,n
+           ! Array Arguments
+           complex(${rk}$),intent(inout) :: ${ri}$x(*)
+        ! =====================================================================
+           ! Local Scalars
+           integer(ilp) :: i,nincx
+           ! Intrinsic Functions
+#:if rk == "sp"
+           intrinsic :: aimag,cmplx,real
+#:else
+           intrinsic :: cmplx
+#:endif
+           if (n <= 0 .or. incx <= 0) return
+           if (incx == 1) then
+              ! code for increment equal to 1
+              do i = 1,n
+#:if rk == "sp"
+                 ${ri}$x(i) = cmplx(${ci}$a*real(${ri}$x(i),KIND=${rk}$),${ci}$a*aimag(${ri}$x(i)),KIND=${rk}$)
+#:else
+                 ${ri}$x(i) = cmplx(${ci}$a,0.0_${rk}$,KIND=${rk}$)*${ri}$x(i)
+#:endif
+              end do
+           else
+              ! code for increment not equal to 1
+              nincx = n*incx
+              do i = 1,nincx,incx
+#:if rk == "sp"
+                 ${ri}$x(i) = cmplx(${ci}$a*real(${ri}$x(i),KIND=${rk}$),${ci}$a*aimag(${ri}$x(i)),KIND=${rk}$)
+#:else
+                 ${ri}$x(i) = cmplx(${ci}$a,0.0_${rk}$,KIND=${rk}$)*${ri}$x(i)
+#:endif
+              end do
+           end if
+           return
+     end subroutine la_${ri}$${ci}$scal
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+     !> !
+     !>
+     !> The computation uses the formulas
+     !> |x| = sqrt( Re(x)**2 + Im(x)**2 )
+     !> sgn(x) = x / |x|  if x /= 0
+     !> = 1        if x  = 0
+     !> c = |a| / sqrt(|a|**2 + |b|**2)
+     !> s = sgn(a) * conjg(b) / sqrt(|a|**2 + |b|**2)
+     !> When a and b are real and r /= 0, the formulas simplify to
+     !> r = sgn(a)*sqrt(|a|**2 + |b|**2)
+     !> c = a / r
+     !> s = b / r
+     !> the same as in ${ci.upper()}$ROTG when |a| > |b|.  When |b| >= |a|, the
+     !> sign of c and s will be different from those computed by ${ci.upper()}$ROTG
+     !> if the signs of a and b are not the same.
+
+     pure subroutine la_${ri}$rotg(a,b,c,s)
+        use la_constants_${rk}$
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+        ! Constants
+        integer,parameter :: wp = kind(1._${rk}$)
+        ! Scaling Constants
+        ! Scalar Arguments
+        real(${rk}$),intent(out) :: c
+        complex(${rk}$),intent(inout) :: a
+        complex(${rk}$),intent(in) :: b
+        complex(${rk}$),intent(out) :: s
+        ! Local Scalars
+        real(${rk}$) :: d,f1,f2,g1,g2,h2,p,u,uu,v,vv,w
+        complex(${rk}$) :: f,fs,g,gs,r,t
+        ! Intrinsic Functions
+        intrinsic :: abs,aimag,conjg,max,min,real,sqrt
+        ! Statement Functions
+        real(${rk}$) :: abssq
+        ! Statement Function Definitions
+        abssq(t) = real(t,KIND=${rk}$)**2 + aimag(t)**2
+        ! Executable Statements
+        f = a
+        g = b
+        if (g == czero) then
+           c = one
+           s = czero
+           r = f
+        else if (f == czero) then
+           c = zero
+           g1 = max(abs(real(g,KIND=${rk}$)),abs(aimag(g)))
+           if (g1 > rtmin .and. g1 < rtmax) then
+              ! use unscaled algorithm
+              g2 = abssq(g)
+              d = sqrt(g2)
+              s = conjg(g)/d
+              r = d
+           else
+              ! use scaled algorithm
+              u = min(safmax,max(safmin,g1))
+              uu = one/u
+              gs = g*uu
+              g2 = abssq(gs)
+              d = sqrt(g2)
+              s = conjg(gs)/d
+              r = d*u
+           end if
+        else
+           f1 = max(abs(real(f,KIND=${rk}$)),abs(aimag(f)))
+           g1 = max(abs(real(g,KIND=${rk}$)),abs(aimag(g)))
+     if (f1 > rtmin .and. f1 < rtmax .and. g1 > rtmin .and. g1 < rtmax) then
+              ! use unscaled algorithm
+              f2 = abssq(f)
+              g2 = abssq(g)
+              h2 = f2 + g2
+              if (f2 > rtmin .and. h2 < rtmax) then
+                 d = sqrt(f2*h2)
+              else
+                 d = sqrt(f2)*sqrt(h2)
+              end if
+              p = 1/d
+              c = f2*p
+              s = conjg(g)*(f*p)
+              r = f*(h2*p)
+           else
+              ! use scaled algorithm
+              u = min(safmax,max(safmin,f1,g1))
+              uu = one/u
+              gs = g*uu
+              g2 = abssq(gs)
+              if (f1*uu < rtmin) then
+                 ! f is not well-scaled when scaled by g1.
+                 ! use a different scaling for f.
+                 v = min(safmax,max(safmin,f1))
+                 vv = one/v
+                 w = v*uu
+                 fs = f*vv
+                 f2 = abssq(fs)
+                 h2 = f2*w**2 + g2
+              else
+                 ! otherwise use the same scaling for f and g.
+                 w = one
+                 fs = f*uu
+                 f2 = abssq(fs)
+                 h2 = f2 + g2
+              end if
+              if (f2 > rtmin .and. h2 < rtmax) then
+                 d = sqrt(f2*h2)
+              else
+                 d = sqrt(f2)*sqrt(h2)
+              end if
+              p = 1/d
+              c = (f2*p)*w
+              s = conjg(gs)*(fs*p)
+              r = (fs*(h2*p))*u
+           end if
+        end if
+        a = r
+        return
+     end subroutine la_${ri}$rotg
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+     !> ${ri.upper()}$SCAL: scales a vector by a constant.
+
+     pure subroutine la_${ri}$scal(n,${ri}$a,${ri}$x,incx)
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           complex(${rk}$),intent(in) :: ${ri}$a
+           integer(ilp),intent(in) :: incx,n
+           ! Array Arguments
+           complex(${rk}$),intent(inout) :: ${ri}$x(*)
+        ! =====================================================================
+           ! Local Scalars
+           integer(ilp) :: i,nincx
+           if (n <= 0 .or. incx <= 0) return
+           if (incx == 1) then
+              ! code for increment equal to 1
+              do i = 1,n
+                 ${ri}$x(i) = ${ri}$a*${ri}$x(i)
+              end do
+           else
+              ! code for increment not equal to 1
+              nincx = n*incx
+              do i = 1,nincx,incx
+                 ${ri}$x(i) = ${ri}$a*${ri}$x(i)
+              end do
+           end if
+           return
+     end subroutine la_${ri}$scal
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+     !> ${ri.upper()}$SWAP: interchanges two vectors.
+
+     pure subroutine la_${ri}$swap(n,${ri}$x,incx,${ri}$y,incy)
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           integer(ilp),intent(in) :: incx,incy,n
+           ! Array Arguments
+           complex(${rk}$),intent(inout) :: ${ri}$x(*),${ri}$y(*)
+        ! =====================================================================
+           ! Local Scalars
+           complex(${rk}$) :: ${ri}$temp
+           integer(ilp) :: i,ix,iy
+           if (n <= 0) return
+           if (incx == 1 .and. incy == 1) then
+             ! code for both increments equal to 1
+              do i = 1,n
+                 ${ri}$temp = ${ri}$x(i)
+                 ${ri}$x(i) = ${ri}$y(i)
+                 ${ri}$y(i) = ${ri}$temp
+              end do
+           else
+             ! code for unequal increments or equal increments not equal
+               ! to 1
+              ix = 1
+              iy = 1
+              if (incx < 0) ix = (-n + 1)*incx + 1
+              if (incy < 0) iy = (-n + 1)*incy + 1
+              do i = 1,n
+                 ${ri}$temp = ${ri}$x(ix)
+                 ${ri}$x(ix) = ${ri}$y(iy)
+                 ${ri}$y(iy) = ${ri}$temp
+                 ix = ix + incx
+                 iy = iy + incy
+              end do
+           end if
+           return
+     end subroutine la_${ri}$swap
+#:endfor
+
+     !> Compute the inner product of two vectors with extended
+     !> precision accumulation.
+     !> Returns S.P. result with dot product accumulated in D.P.
+     !> SDSDOT: = SB + sum for I = 0 to N-1 of SX(LX+I*INCX)*SY(LY+I*INCY),
+     !> where LX = 1 if INCX >= 0, else LX = 1+(1-N)*INCX, and LY is
+     !> defined in a similar way using INCY.
+
+     pure real(sp) function la_sdsdot(n,sb,sx,incx,sy,incy)
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           real(sp),intent(in) :: sb
+           integer(ilp),intent(in) :: incx,incy,n
+           ! Array Arguments
+           real(sp),intent(in) :: sx(*),sy(*)
+           ! Local Scalars
+           real(dp) :: dsdot
+           integer(ilp) :: i,kx,ky,ns
+           ! Intrinsic Functions
+           intrinsic :: real
+           dsdot = sb
+           if (n <= 0) then
+              la_sdsdot = dsdot
+              return
+           end if
+           if (incx == incy .and. incx > 0) then
+           ! code for equal and positive increments.
+              ns = n*incx
+              do i = 1,ns,incx
+                 dsdot = dsdot + real(sx(i),KIND=sp)*real(sy(i),KIND=sp)
+              end do
+           else
+           ! code for unequal or nonpositive increments.
+              kx = 1
+              ky = 1
+              if (incx < 0) kx = 1 + (1 - n)*incx
+              if (incy < 0) ky = 1 + (1 - n)*incy
+              do i = 1,n
+                 dsdot = dsdot + real(sx(kx),KIND=sp)*real(sy(ky),KIND=sp)
+                 kx = kx + incx
+                 ky = ky + incy
+              end do
+           end if
+           la_sdsdot = dsdot
+           return
+     end function la_sdsdot
+
+end module la_blas_level1
