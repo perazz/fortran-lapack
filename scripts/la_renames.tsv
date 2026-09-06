@@ -28,3 +28,5 @@ la_wla_gercond_c	DOCTEXT	the w copy's doc kept the donor's upper-case DOUBLE PRE
 la_wla_hercond_c	DOCTEXT	the w copy's doc kept the donor's upper-case DOUBLE PRECISION; code identical
 la_wla_porcond_c	DOCTEXT	the w copy's doc kept the donor's upper-case DOUBLE PRECISION; code identical
 la_wla_syrcond_c	DOCTEXT	the w copy's doc kept the donor's upper-case DOUBLE PRECISION; code identical
+la_wgesvj	DOCTEXT	the w copy names a routine that does not exist (la_dcnrm2) in a comment where the z donor names la_dznrm2; code identical
+la_wlaed8	DOCTEXT	the w copy dropped the colon the z donor puts after the routine name in its first doc line; code identical

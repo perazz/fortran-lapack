@@ -10,9 +10,10 @@
     python3 scripts/templatize.py --library lapack --uses                # imports left behind
     python3 scripts/templatize.py --rename                               # renamed call sites
     python3 scripts/templatize.py --blas-interfaces                      # umbrella data table
+    python3 scripts/templatize.py --lapack-interfaces                    # the same, for LAPACK
 
 --library selects the per-kind sources: src/la_blas_{s,d,q,c,z,w}.f90 plus src/la_blas_aux.f90,
-or the same six names for LAPACK plus src/la_lapack_aux.f90.  The routine-to-module assignment
+or the same six names for LAPACK plus src/la_lapack_aux.F90.  The routine-to-module assignment
 comes from scripts/la_modules.tsv.  Bodies are taken from the donor kinds (d for real routines,
 z for complex ones) and rewritten into placeholder form by scripts/la_kindmap.py; the s and c
 bodies of the same routine decide whether one template can serve every precision or whether the
@@ -99,7 +100,7 @@ LIBRARIES = {
         "sources": _sources("la_lapack"),
         "donor": {"real": ("d", "src/la_lapack_d.f90"), "complex": ("z", "src/la_lapack_z.f90")},
         "probe": {"real": ("s", "src/la_lapack_s.f90"), "complex": ("c", "src/la_lapack_c.f90")},
-        "umbrella": "src/la_lapack.f90",
+        "umbrella": "src/la_lapack.F90",
         "aux_module": "la_lapack_aux",
         "aux_donor": {("ilalc", "real"): "iladlc", ("ilalc", "complex"): "ilazlc",
                       ("ilalr", "real"): "iladlr", ("ilalr", "complex"): "ilazlr",
@@ -132,13 +133,42 @@ MODULE_DOC = {
                                   " tests",
     "la_lapack_cosine_sine": "Cosine-sine decomposition: bidiagonal block form, simultaneous"
                              " bidiagonalization, row and column permutations",
+    "la_lapack_eigv_comp": "Generalized nonsymmetric eigenproblem components: balancing,"
+                           " Hessenberg-triangular reduction, QZ iteration",
+    "la_lapack_eigv_comp2": "Generalized nonsymmetric eigenproblem components: eigenvectors, block"
+                            " swaps, deflating subspaces, Sylvester solves",
+    "la_lapack_eigv_gen": "Nonsymmetric eigenvalue, Schur and generalized Schur drivers",
+    "la_lapack_eigv_gen2": "Nonsymmetric eigenproblem components: Schur factorization,"
+                           " eigenvectors, reordering and condition numbers",
+    "la_lapack_eigv_gen3": "Nonsymmetric eigenproblem kernels: multishift QR and QZ sweeps with"
+                           " aggressive early deflation",
     "la_lapack_eigv_gen_aux": "Nonsymmetric eigenproblem helpers: 2-by-2 standardization,"
                               " Sylvester solves, diagonal block swaps",
     "la_lapack_eigv_gen_hess": "Hessenberg reduction: balancing, back-transformation, orthogonal"
                                " factor generation",
+    "la_lapack_eigv_svd_bidiag_dc": "Bidiagonal singular values by divide and conquer, with its"
+                                    " secular-equation and merge kernels",
+    "la_lapack_eigv_svd_drivers": "SVD drivers: QR iteration and the rank-revealing preconditioned"
+                                  " variant",
+    "la_lapack_eigv_svd_drivers2": "SVD drivers: divide and conquer, Jacobi and preconditioned"
+                                   " Jacobi",
+    "la_lapack_eigv_sym": "Symmetric and Hermitian eigenvalue drivers: dense, packed, banded and"
+                          " generalized problems",
+    "la_lapack_eigv_sym_comp": "Symmetric eigenproblem components: tridiagonal and band"
+                               " reductions, generalized to standard form",
+    "la_lapack_eigv_tridiag": "Symmetric tridiagonal eigenvalues: divide and conquer, rank-one"
+                              " updates, implicit QL and QR",
+    "la_lapack_eigv_tridiag2": "Symmetric tridiagonal eigenvalues: MRRR representation tree,"
+                               " bisection, eigenvector generation",
+    "la_lapack_eigv_tridiag3": "Symmetric tridiagonal eigenvalue drivers: divide and conquer,"
+                               " MRRR, bisection and inverse iteration",
     "la_lapack_givens_jacobi_rot": "Givens and Jacobi plane rotations",
     "la_lapack_householder_reflectors": "Householder reflectors: generation, blocking,"
                                         " application",
+    "la_lapack_lsq": "Least-squares drivers: QR, complete orthogonal, SVD and divide-and-conquer"
+                     " solutions",
+    "la_lapack_lsq_aux": "Least-squares helpers: incremental condition estimation and"
+                         " divide-and-conquer back-substitution",
     "la_lapack_lsq_constrained": "Constrained least squares: equality constraints and the"
                                  " general Gauss-Markov model",
     "la_lapack_orthogonal_factors_ql": "LQ and QL factorizations: blocked, short-wide and"
@@ -169,6 +199,8 @@ MODULE_DOC = {
                                 " refinement",
     "la_lapack_svd_bidiag_qr": "Bidiagonal singular values: implicit QR sweep and the dqds"
                                " algorithm",
+    "la_lapack_svd_comp": "SVD components: bidiagonal reduction and its orthogonal factors, Jacobi"
+                          " sweeps, generalized SVD",
     "la_lapack_svd_comp2": "SVD components: bidiagonal reduction, 2-by-2 singular values, Jacobi"
                            " generators",
     "la_lapack_others_sm": "Extra-precise refinement helpers: condition numbers and pivot growth",
@@ -247,18 +279,20 @@ def needs_constants(record):
     A LAPACK body routinely declares a local `safmin` or `eps` while reading `one` and `czero`
     from the module-level block, and a local declaration of a use-associated name is an error, so
     the import has to name what it brings in whenever the body shadows any of the constants.
+
+    The two precisions of a divergent routine may read different constants, so each gets the list
+    it really reads: naming a constant the body never uses is an unused-parameter warning, and
+    the hunk minimizer guards the two import lines exactly as it guards any other difference.
     """
     wanted, shadowed = constants_used(record["text"])
-    if record.get("sp_text"):
-        other_wanted, other_shadowed = constants_used(record["sp_text"])
-        wanted |= other_wanted
-        shadowed |= other_shadowed
-    clash = wanted & shadowed
+    sp_wanted, sp_shadowed = ((wanted, shadowed) if not record.get("sp_text")
+                              else constants_used(record["sp_text"]))
+    clash = (wanted | sp_wanted) & (shadowed | sp_shadowed)
     if clash:
         raise SystemExit("templatize: %s declares %s in one precision and reads it from "
                          "la_constants in the other" % (record["donor"], sorted(clash)))
-    names = [c for c in CONSTANTS if c in wanted]
-    return names, bool(shadowed)
+    order = lambda names: [c for c in CONSTANTS if c in names]
+    return order(wanted), order(sp_wanted), bool(shadowed or sp_shadowed)
 
 
 def insert_use(text, kind, names):
@@ -307,12 +341,13 @@ def _need(row, mark):
     return value
 
 
-def read_source(rel, ref):
+def read_source(rel, ref, missing_ok=False):
     """A donor source as `ref` holds it, or from the working tree when the ref does not have it.
 
     The ref comes first so that a second run reads the same donors as the first: --extract takes
     the converted routines out of the per-kind sources in the tree, and a template must not be
-    rebuilt from what is left behind.
+    rebuilt from what is left behind.  `missing_ok` returns None for a per-kind source the
+    campaign has already retired, which neither the ref nor the tree holds any more.
     """
     run = subprocess.run(["git", "-C", ROOT, "show", "%s:%s" % (ref, rel)],
                          capture_output=True, text=True)
@@ -322,6 +357,8 @@ def read_source(rel, ref):
     if os.path.exists(path):
         with open(path, errors="replace") as fid:
             return fid.read()
+    if missing_ok:
+        return None
     raise SystemExit("templatize: %s is neither in %s nor in the tree" % (rel, ref))
 
 
@@ -357,7 +394,9 @@ class Library:
         self.chunks, self.order, self.origin = {}, {}, {}
         self.interfaces, self.iface_order, self.preamble = {}, {}, {}
         self.foreign_uses = []
-        texts = {rel: read_source(rel, ref) for rel in cfg["sources"]}
+        texts = {rel: text for rel, text in
+                 ((rel, read_source(rel, ref, missing_ok=True)) for rel in cfg["sources"])
+                 if text is not None}
         for rel, text in sorted(texts.items()):
             for name, (chunk, order) in K.split_routines(text).items():
                 self.chunks[name] = chunk
@@ -479,13 +518,13 @@ def _with_guard(record):
         record["guard"] = "rku is not None"
     if record["guard"] == "rkl is not None":
         record["text"] = K.lower_precision_word(record["text"], _own_letter(record["donor"]))
-    names, shadowed = needs_constants(record)
+    names, sp_names, shadowed = needs_constants(record)
+    kind = "${rk}$" if record["class"] != "kindfree" else KIND_OF[_own_letter(record["donor"])]
+    only = lambda wanted: ",only:" + ",".join(wanted) if shadowed else ""
     if names:
-        kind = "${rk}$" if record["class"] != "kindfree" else KIND_OF[_own_letter(record["donor"])]
-        only = ",only:" + ",".join(names) if shadowed else ""
-        record["text"] = insert_use(record["text"], kind, only)
-        if record.get("sp_text"):
-            record["sp_text"] = insert_use(record["sp_text"], kind, only)
+        record["text"] = insert_use(record["text"], kind, only(names))
+    if sp_names and record.get("sp_text"):
+        record["sp_text"] = insert_use(record["sp_text"], kind, only(sp_names))
     return record
 
 
@@ -855,11 +894,15 @@ def read_renames(path):
     return out
 
 
-def blas_interfaces(args):
-    """Build include/la_blas_interfaces.fypp from the committed umbrella."""
-    lib = Library(LIBRARIES["blas"], args.baseline)
+def interfaces(args):
+    """Build include/<prefix>_interfaces.fypp from the committed umbrella of one library."""
+    cfg = LIBRARIES[args.library]
+    macro = "#ifdef LA_EXTERNAL_" + args.library.upper()
+    upper_bases = set()
+    for text in ref_sources(args.baseline).values():
+        upper_bases.update(END_ROUTINE.findall(text))
     renames = read_renames(os.path.join(ROOT, "scripts", "la_renames.tsv"))
-    lines = read_source("src/la_blas.F90", args.baseline).split("\n")
+    lines = read_source(cfg["umbrella"], args.baseline).split("\n")
     table, i = [], 0
     while i < len(lines):
         m = re.match(r"^          interface (\w+)$", lines[i])
@@ -871,69 +914,92 @@ def blas_interfaces(args):
         while j >= 0 and lines[j].startswith("          !>"):
             doc.insert(0, lines[j][len("          !> "):] if lines[j] != "          !>" else "")
             j -= 1
-        k, entries, stubs = i + 1, [], {}
+        k, entries = i + 1, []
         while lines[k] != "          end interface " + generic:
-            if lines[k] == "#ifdef LA_EXTERNAL_BLAS":
-                j2, stub = k + 1, []
+            if lines[k] == macro:
+                j2 = k + 1
                 while lines[j2] != "#else":
-                    stub.append(lines[j2])
                     j2 += 1
                 specific = re.match(r"\s*module procedure la_(\w+)$", lines[j2 + 1]).group(1)
-                entries.append((specific, renames.get("la_" + specific, "la_" + specific)[3:],
-                                True))
-                cls = "real" if specific[0] in "sdq" else "complex"
-                stubs.setdefault(cls, (specific, "\n".join(stub)))
+                entries.append([specific, renames.get("la_" + specific, "la_" + specific)[3:],
+                                _class_of(specific)])
                 k = j2 + 3
             else:
                 specific = re.match(r"\s*module procedure la_(\w+)$", lines[k]).group(1)
-                entries.append((specific, renames.get("la_" + specific, "la_" + specific)[3:],
-                                False))
+                entries.append([specific, renames.get("la_" + specific, "la_" + specific)[3:],
+                                None])
                 k += 1
-        table.append((generic, doc, entries, stubs, lib))
+        table.append((generic, doc, entries, stub_templates(lines, generic, entries, macro,
+                                                            upper_bases)))
         i = k + 1
 
+    name = "LA_%s_INTERFACES" % args.library.upper()
     out = ["#:mute", "",
-           "#! Generic BLAS interfaces of module la_blas, one entry per generic: name, the lines",
+           "#! Generic %s interfaces of module %s, one entry per generic: name, the lines"
+           % (args.library.upper(), cfg["prefix"]),
            "#! of its doc comment, (external specific name, module procedure, external stub) in",
            "#! file order, and one external-stub template per type class, with {ri}/{ci}/{rt}/{rk}",
            "#! and the neighbour fields of LA_BY_INITIAL as substitution fields.  Regenerate with",
-           "#! `python3 scripts/templatize.py --blas-interfaces`.", "",
-           "#:set LA_BLAS_INTERFACES = [ &"]
-    for generic, doc, entries, stubs, _ in table:
-        templates = {}
-        for cls, (specific, text) in stubs.items():
-            letter = specific[0]
-            norm = K.normalize(text.replace(IMPORT_LINE, IMPORT_MASK), letter, lib.upper_bases)
-            probe_letter = "s" if cls == "real" else "c"
-            other = [(s, e) for s, _i, e in _same_class(entries, cls) if s[0] != letter]
+           "#! `python3 scripts/templatize.py --%s-interfaces`." % args.library, "",
+           "#:set %s = [ &" % name]
+    for generic, doc, entries, stubs in table:
+        out.append("    & (%r, %r, &" % (generic, doc))
+        out.append("    &  %r, &" % ([tuple(e) for e in entries],))
+        out.append("    &  {%s}), &"
+                   % ", ".join("%r: %r" % (c, x) for c, x in sorted(stubs.items())))
+    out += ["    & ]", "", "#:endmute", ""]
+    path = os.path.join(ROOT, "include", cfg["prefix"] + "_interfaces.fypp")
+    with open(path, "w") as fid:
+        fid.write("\n".join(out))
+    print("wrote %s (%d generics, %d external stubs)"
+          % (os.path.relpath(path, ROOT), len(table),
+             sum(1 for _g, _d, e, _s in table for x in e if x[2])))
+
+
+def _class_of(specific):
+    return "real" if specific[0] in "sdq" else "complex"
+
+
+def stub_templates(lines, generic, entries, macro, upper_bases):
+    """The external stubs of one generic, in placeholder form, keyed as the entries name them.
+
+    One template usually serves a whole type class, so the class name is the key.  Where the
+    upstream stubs of a class disagree over more than the kind letter - a declaration list in a
+    different order, an argument spelled from another precision - the odd one keeps its own
+    template under its initial, and its entry points there.
+    """
+    stubs = {}
+    for cls in ("real", "complex"):
+        mine = [e for e in entries if e[2] and _class_of(e[0]) == cls]
+        if not mine:
+            continue
+        made = {}
+        for entry in mine:
+            letter = entry[0][0]
+            norm = K.normalize(_stub_of(lines, generic, entry[0], macro).replace(
+                IMPORT_LINE, IMPORT_MASK), letter, upper_bases)
+            other = [e for e in mine if e[0][0] != letter]
             if other:
                 pletter = other[0][0][0]
-                pnorm = K.normalize(_stub_of(lines, generic, other[0][0]).replace(
-                    IMPORT_LINE, IMPORT_MASK), pletter, lib.upper_bases)
+                pnorm = K.normalize(_stub_of(lines, generic, other[0][0], macro).replace(
+                    IMPORT_LINE, IMPORT_MASK), pletter, upper_bases)
                 norm = K.apply_renames(norm, K.letter_renames(
                     norm, pnorm, {(letter, pletter): "@RI@",
                                   (COMPANION[letter], COMPANION[pletter]): "@CI@"}))
-            templates[cls] = _to_format(norm.replace(IMPORT_MASK, IMPORT_LINE), cls)
-        out.append("    & (%r, %r, &" % (generic, doc))
-        out.append("    &  %r, &" % ([(s, i, bool(e)) for s, i, e in entries],))
-        out.append("    &  {%s}), &"
-                   % ", ".join("%r: %r" % (c, x) for c, x in sorted(templates.items())))
-    out += ["    & ]", "", "#:endmute", ""]
-    path = os.path.join(ROOT, "include", "la_blas_interfaces.fypp")
-    with open(path, "w") as fid:
-        fid.write("\n".join(out))
-    print("wrote %s (%d generics)" % (os.path.relpath(path, ROOT), len(table)))
+            made[entry[0]] = _to_format(norm.replace(IMPORT_MASK, IMPORT_LINE), cls)
+        shared = collections.Counter(made.values()).most_common(1)[0][0]
+        stubs[cls] = shared
+        for entry in mine:
+            if made[entry[0]] != shared:
+                stubs[entry[0][0]] = made[entry[0]]
+                entry[2] = entry[0][0]
+    return stubs
 
 
-def _same_class(entries, cls):
-    return [(s, i, e) for s, i, e in entries
-            if e and (("real" if s[0] in "sdq" else "complex") == cls)]
-
-
-def _stub_of(lines, generic, specific):
+def _stub_of(lines, generic, specific, macro):
     i = lines.index("          interface " + generic)
     while lines[i] != "          end interface " + generic:
-        if lines[i] == "#ifdef LA_EXTERNAL_BLAS":
+        if lines[i] == macro:
             j, stub = i + 1, []
             while lines[j] != "#else":
                 stub.append(lines[j])
@@ -975,13 +1041,16 @@ def main():
     parser.add_argument("--tree", default=ROOT, help="tree --extract edits (a copy, for testing)")
     parser.add_argument("--blas-interfaces", action="store_true",
                         help="regenerate include/la_blas_interfaces.fypp")
+    parser.add_argument("--lapack-interfaces", action="store_true",
+                        help="regenerate include/la_lapack_interfaces.fypp")
     parser.add_argument("--rename", action="store_true",
                         help="apply scripts/la_renames.tsv to the call sites left behind")
     parser.add_argument("--uses", action="store_true",
                         help="add the topic-module imports the per-kind sources now need")
     args = parser.parse_args()
-    if args.blas_interfaces:
-        return blas_interfaces(args)
+    if args.blas_interfaces or args.lapack_interfaces:
+        args.library = "blas" if args.blas_interfaces else "lapack"
+        return interfaces(args)
     if args.apply:
         if not args.module:
             raise SystemExit("--apply needs at least one --module")

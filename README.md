@@ -908,14 +908,13 @@ The following refactorings are applied:
 - all `pure` procedures where possible
 - `intent` added to all procedure arguments
 - Removed `DO 10 .... 10 CONTINUE`, replaced with `do..end do` loops or labelled `loop_10: do ... cycle loop_10 ... end do loop_10` in case control statements are present
-- BLAS modularized into a single-file module
-- LAPACK modularized into a single-file module
+- BLAS split into ten kind-templated topic modules, LAPACK into 47, each holding every precision of the routines of one topic
 - All procedures prefixed (with `stdlib_`, currently).
 - F77-style `parameter`s removed, and numeric constants moved to the top of each module.
 - Ambiguity in single vs. double precision constants (`0.0`, `0.d0`, `(1.0,0.0)`) removed
 - preprocessor-based OpenMP directives retained.
 
-The single-source module structure hopefully allows for cross-procedural inlining which is otherwise impossible without link-time optimization.
+Grouping every precision of a topic in one module hopefully allows for cross-procedural inlining which is otherwise impossible without link-time optimization.
 
 # Building
 An automated build is currently available via the [Fortran Package Manager](https://fpm.fortran-lang.org).
@@ -980,7 +979,10 @@ python3 scripts/fypp_deploy.py --check   # verify the committed tree matches the
 ```
 
 `--check` is what continuous integration runs; it prints the templates it does not own yet and the reason for each.
-Two further scripts support the ongoing move of the BLAS and LAPACK sources into kind-templated topic modules:
+`la_blas` and `la_lapack` are umbrella modules that re-export 57 topic modules, ten for BLAS and 47 for LAPACK; the
+generic interfaces they publish are data tables under `include/`, regenerated with `python3 scripts/templatize.py
+--blas-interfaces` and `python3 scripts/templatize.py --lapack-interfaces`.
+Two further scripts support that layout:
 `scripts/templatize.py` converts per-kind Fortran into one template per topic, driven by `scripts/la_modules.tsv`,
 and `scripts/check_generated.py` compares the regenerated tree against a git reference routine by routine.
 

@@ -200,7 +200,7 @@ module la_blas_aux
            ! Intrinsic Functions
            intrinsic :: len_trim
            ! Executable Statements
-9999 format(' ** ON ENTRY TO ',a,' PARAMETER NUMBER ',i2,' HAD ','AN ILLEGAL VALUE')
+9999  format(' ** ON ENTRY TO ',a,' PARAMETER NUMBER ',i2,' HAD ','AN ILLEGAL VALUE')
                 
      end subroutine la_xerbla
 

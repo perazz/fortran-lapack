@@ -1,0 +1,23274 @@
+!> Symmetric and Hermitian eigenvalue drivers: dense, packed, banded and generalized problems
+module la_lapack_eigv_sym
+     use la_constants
+     use la_blas_aux
+     use la_blas_level1
+     use la_blas_level2_gen
+     use la_blas_level2_sym
+     use la_blas_level2_tri
+     use la_blas_level3_gen
+     use la_blas_level3_sym
+     use la_blas_level3_tri
+     use la_lapack_aux
+     use la_lapack_auxiliary
+     use la_lapack_blas_like_base
+     use la_lapack_blas_like_l2
+     use la_lapack_blas_like_mnorm
+     use la_lapack_eigv_sym_comp
+     use la_lapack_eigv_tridiag
+     use la_lapack_eigv_tridiag3
+     use la_lapack_householder_reflectors
+     use la_lapack_orthogonal_factors_ql
+     use la_lapack_orthogonal_factors_qr
+     use la_lapack_solve_chol_comp
+     implicit none(type,external)
+     private
+
+     public :: sp,dp,qp,lk,ilp
+     public :: la_ssb2st_kernels
+     public :: la_ssytd2
+     public :: la_ssytrd
+     public :: la_ssytrd_sb2st
+     public :: la_sorgtr
+     public :: la_sormtr
+     public :: la_ssbev
+     public :: la_ssbevx
+     public :: la_ssbgv
+     public :: la_ssbgvx
+     public :: la_sspev
+     public :: la_sspevx
+     public :: la_sspgv
+     public :: la_sspgvx
+     public :: la_ssyev
+     public :: la_ssyevx
+     public :: la_ssygv
+     public :: la_ssygvx
+     public :: la_ssytrd_sy2sb
+     public :: la_ssyevd
+     public :: la_ssygvd
+     public :: la_ssbevd
+     public :: la_ssbgvd
+     public :: la_sspevd
+     public :: la_sspgvd
+     public :: la_ssyevr
+     public :: la_dsb2st_kernels
+     public :: la_dsytd2
+     public :: la_dsytrd
+     public :: la_dsytrd_sb2st
+     public :: la_dorgtr
+     public :: la_dormtr
+     public :: la_dsbev
+     public :: la_dsbevx
+     public :: la_dsbgv
+     public :: la_dsbgvx
+     public :: la_dspev
+     public :: la_dspevx
+     public :: la_dspgv
+     public :: la_dspgvx
+     public :: la_dsyev
+     public :: la_dsyevx
+     public :: la_dsygv
+     public :: la_dsygvx
+     public :: la_dsytrd_sy2sb
+     public :: la_dsyevd
+     public :: la_dsygvd
+     public :: la_dsbevd
+     public :: la_dsbgvd
+     public :: la_dspevd
+     public :: la_dspgvd
+     public :: la_dsyevr
+     public :: la_qsb2st_kernels
+     public :: la_qsytd2
+     public :: la_qsytrd
+     public :: la_qsytrd_sb2st
+     public :: la_qorgtr
+     public :: la_qormtr
+     public :: la_qsbev
+     public :: la_qsbevx
+     public :: la_qsbgv
+     public :: la_qsbgvx
+     public :: la_qspev
+     public :: la_qspevx
+     public :: la_qspgv
+     public :: la_qspgvx
+     public :: la_qsyev
+     public :: la_qsyevx
+     public :: la_qsygv
+     public :: la_qsygvx
+     public :: la_qsytrd_sy2sb
+     public :: la_qsyevd
+     public :: la_qsygvd
+     public :: la_qsbevd
+     public :: la_qsbgvd
+     public :: la_qspevd
+     public :: la_qspgvd
+     public :: la_qsyevr
+     public :: la_chb2st_kernels
+     public :: la_chetd2
+     public :: la_chetrd
+     public :: la_chetrd_hb2st
+     public :: la_chetrd_he2hb
+     public :: la_cungtr
+     public :: la_cunmtr
+     public :: la_cheev
+     public :: la_cheevr
+     public :: la_cheevx
+     public :: la_chegv
+     public :: la_chegvx
+     public :: la_chpev
+     public :: la_chpevx
+     public :: la_chpgv
+     public :: la_chpgvx
+     public :: la_chbev
+     public :: la_chbevd
+     public :: la_chbevx
+     public :: la_chbgv
+     public :: la_chbgvd
+     public :: la_chbgvx
+     public :: la_cheevd
+     public :: la_chegvd
+     public :: la_chpevd
+     public :: la_chpgvd
+     public :: la_zhb2st_kernels
+     public :: la_zhetd2
+     public :: la_zhetrd
+     public :: la_zhetrd_hb2st
+     public :: la_zhetrd_he2hb
+     public :: la_zungtr
+     public :: la_zunmtr
+     public :: la_zheev
+     public :: la_zheevr
+     public :: la_zheevx
+     public :: la_zhegv
+     public :: la_zhegvx
+     public :: la_zhpev
+     public :: la_zhpevx
+     public :: la_zhpgv
+     public :: la_zhpgvx
+     public :: la_zhbev
+     public :: la_zhbevd
+     public :: la_zhbevx
+     public :: la_zhbgv
+     public :: la_zhbgvd
+     public :: la_zhbgvx
+     public :: la_zheevd
+     public :: la_zhegvd
+     public :: la_zhpevd
+     public :: la_zhpgvd
+     public :: la_whb2st_kernels
+     public :: la_whetd2
+     public :: la_whetrd
+     public :: la_whetrd_hb2st
+     public :: la_whetrd_he2hb
+     public :: la_wungtr
+     public :: la_wunmtr
+     public :: la_wheev
+     public :: la_wheevr
+     public :: la_wheevx
+     public :: la_whegv
+     public :: la_whegvx
+     public :: la_whpev
+     public :: la_whpevx
+     public :: la_whpgv
+     public :: la_whpgvx
+     public :: la_whbev
+     public :: la_whbevd
+     public :: la_whbevx
+     public :: la_whbgv
+     public :: la_whbgvd
+     public :: la_whbgvx
+     public :: la_wheevd
+     public :: la_whegvd
+     public :: la_whpevd
+     public :: la_whpgvd
+
+     contains
+
+     !> SSB2ST_KERNELS: is an internal routine used by the SSYTRD_SB2ST
+     !> subroutine.
+
+     pure subroutine la_ssb2st_kernels(uplo,wantz,ttype,st,ed,sweep,n,nb,ib,a,lda, &
+               v,tau,ldvt,work)
+        use la_constants_sp
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           logical(lk),intent(in) :: wantz
+           integer(ilp),intent(in) :: ttype,st,ed,sweep,n,nb,ib,lda,ldvt
+           ! Array Arguments
+           real(sp),intent(inout) :: a(lda,*)
+           real(sp),intent(out) :: v(*),tau(*),work(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: upper
+           integer(ilp) :: i,j1,j2,lm,ln,vpos,taupos,dpos,ofdpos,ajeter
+           real(sp) :: ctmp
+           ! Intrinsic Functions
+           intrinsic :: mod
+           ! Executable Statements
+           ajeter = ib + ldvt
+           upper = la_lsame(uplo,'U')
+           if (upper) then
+               dpos = 2*nb + 1
+               ofdpos = 2*nb
+           else
+               dpos = 1
+               ofdpos = 2
+           end if
+           ! upper case
+           if (upper) then
+               if (wantz) then
+                   vpos = mod(sweep - 1,2)*n + st
+                   taupos = mod(sweep - 1,2)*n + st
+               else
+                   vpos = mod(sweep - 1,2)*n + st
+                   taupos = mod(sweep - 1,2)*n + st
+               end if
+               if (ttype == 1) then
+                   lm = ed - st + 1
+                   v(vpos) = one
+                   do i = 1,lm - 1
+                       v(vpos + i) = (a(ofdpos - i,st + i))
+                       a(ofdpos - i,st + i) = zero
+                   end do
+                   ctmp = (a(ofdpos,st))
+                   call la_slarfg(lm,ctmp,v(vpos + 1),1,tau(taupos))
+                   a(ofdpos,st) = ctmp
+                   lm = ed - st + 1
+                   call la_slarfy(uplo,lm,v(vpos),1, (tau(taupos)),a(dpos,st), &
+                             lda - 1,work)
+               end if
+               if (ttype == 3) then
+                   lm = ed - st + 1
+                   call la_slarfy(uplo,lm,v(vpos),1, (tau(taupos)),a(dpos,st), &
+                             lda - 1,work)
+               end if
+               if (ttype == 2) then
+                   j1 = ed + 1
+                   j2 = min(ed + nb,n)
+                   ln = ed - st + 1
+                   lm = j2 - j1 + 1
+                   if (lm > 0) then
+                       call la_slarfx('LEFT',ln,lm,v(vpos), (tau(taupos)),a(dpos - nb, &
+                                  j1),lda - 1,work)
+                       if (wantz) then
+                           vpos = mod(sweep - 1,2)*n + j1
+                           taupos = mod(sweep - 1,2)*n + j1
+                       else
+                           vpos = mod(sweep - 1,2)*n + j1
+                           taupos = mod(sweep - 1,2)*n + j1
+                       end if
+                       v(vpos) = one
+                       do i = 1,lm - 1
+                           v(vpos + i) = (a(dpos - nb - i,j1 + i))
+                           a(dpos - nb - i,j1 + i) = zero
+                       end do
+                       ctmp = (a(dpos - nb,j1))
+                       call la_slarfg(lm,ctmp,v(vpos + 1),1,tau(taupos))
+                       a(dpos - nb,j1) = ctmp
+                       call la_slarfx('RIGHT',ln - 1,lm,v(vpos),tau(taupos),a(dpos - nb + &
+                                 1,j1),lda - 1,work)
+                   end if
+               end if
+           ! lower case
+           else
+               if (wantz) then
+                   vpos = mod(sweep - 1,2)*n + st
+                   taupos = mod(sweep - 1,2)*n + st
+               else
+                   vpos = mod(sweep - 1,2)*n + st
+                   taupos = mod(sweep - 1,2)*n + st
+               end if
+               if (ttype == 1) then
+                   lm = ed - st + 1
+                   v(vpos) = one
+                   do i = 1,lm - 1
+                       v(vpos + i) = a(ofdpos + i,st - 1)
+                       a(ofdpos + i,st - 1) = zero
+                   end do
+                   call la_slarfg(lm,a(ofdpos,st - 1),v(vpos + 1),1,tau(taupos))
+
+                   lm = ed - st + 1
+                   call la_slarfy(uplo,lm,v(vpos),1, (tau(taupos)),a(dpos,st), &
+                             lda - 1,work)
+               end if
+               if (ttype == 3) then
+                   lm = ed - st + 1
+                   call la_slarfy(uplo,lm,v(vpos),1, (tau(taupos)),a(dpos,st), &
+                             lda - 1,work)
+               end if
+               if (ttype == 2) then
+                   j1 = ed + 1
+                   j2 = min(ed + nb,n)
+                   ln = ed - st + 1
+                   lm = j2 - j1 + 1
+                   if (lm > 0) then
+                       call la_slarfx('RIGHT',lm,ln,v(vpos),tau(taupos),a(dpos + nb, &
+                                 st),lda - 1,work)
+                       if (wantz) then
+                           vpos = mod(sweep - 1,2)*n + j1
+                           taupos = mod(sweep - 1,2)*n + j1
+                       else
+                           vpos = mod(sweep - 1,2)*n + j1
+                           taupos = mod(sweep - 1,2)*n + j1
+                       end if
+                       v(vpos) = one
+                       do i = 1,lm - 1
+                           v(vpos + i) = a(dpos + nb + i,st)
+                           a(dpos + nb + i,st) = zero
+                       end do
+                       call la_slarfg(lm,a(dpos + nb,st),v(vpos + 1),1,tau(taupos))
+
+                       call la_slarfx('LEFT',lm,ln - 1,v(vpos), (tau(taupos)),a(dpos + &
+                                 nb - 1,st + 1),lda - 1,work)
+                   end if
+               end if
+           end if
+           return
+     end subroutine la_ssb2st_kernels
+     !> DSB2ST_KERNELS: is an internal routine used by the DSYTRD_SB2ST
+     !> subroutine.
+
+     pure subroutine la_dsb2st_kernels(uplo,wantz,ttype,st,ed,sweep,n,nb,ib,a,lda, &
+               v,tau,ldvt,work)
+        use la_constants_dp
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           logical(lk),intent(in) :: wantz
+           integer(ilp),intent(in) :: ttype,st,ed,sweep,n,nb,ib,lda,ldvt
+           ! Array Arguments
+           real(dp),intent(inout) :: a(lda,*)
+           real(dp),intent(out) :: v(*),tau(*),work(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: upper
+           integer(ilp) :: i,j1,j2,lm,ln,vpos,taupos,dpos,ofdpos,ajeter
+           real(dp) :: ctmp
+           ! Intrinsic Functions
+           intrinsic :: mod
+           ! Executable Statements
+           ajeter = ib + ldvt
+           upper = la_lsame(uplo,'U')
+           if (upper) then
+               dpos = 2*nb + 1
+               ofdpos = 2*nb
+           else
+               dpos = 1
+               ofdpos = 2
+           end if
+           ! upper case
+           if (upper) then
+               if (wantz) then
+                   vpos = mod(sweep - 1,2)*n + st
+                   taupos = mod(sweep - 1,2)*n + st
+               else
+                   vpos = mod(sweep - 1,2)*n + st
+                   taupos = mod(sweep - 1,2)*n + st
+               end if
+               if (ttype == 1) then
+                   lm = ed - st + 1
+                   v(vpos) = one
+                   do i = 1,lm - 1
+                       v(vpos + i) = (a(ofdpos - i,st + i))
+                       a(ofdpos - i,st + i) = zero
+                   end do
+                   ctmp = (a(ofdpos,st))
+                   call la_dlarfg(lm,ctmp,v(vpos + 1),1,tau(taupos))
+                   a(ofdpos,st) = ctmp
+                   lm = ed - st + 1
+                   call la_dlarfy(uplo,lm,v(vpos),1, (tau(taupos)),a(dpos,st), &
+                             lda - 1,work)
+               end if
+               if (ttype == 3) then
+                   lm = ed - st + 1
+                   call la_dlarfy(uplo,lm,v(vpos),1, (tau(taupos)),a(dpos,st), &
+                             lda - 1,work)
+               end if
+               if (ttype == 2) then
+                   j1 = ed + 1
+                   j2 = min(ed + nb,n)
+                   ln = ed - st + 1
+                   lm = j2 - j1 + 1
+                   if (lm > 0) then
+                       call la_dlarfx('LEFT',ln,lm,v(vpos), (tau(taupos)),a(dpos - nb, &
+                                  j1),lda - 1,work)
+                       if (wantz) then
+                           vpos = mod(sweep - 1,2)*n + j1
+                           taupos = mod(sweep - 1,2)*n + j1
+                       else
+                           vpos = mod(sweep - 1,2)*n + j1
+                           taupos = mod(sweep - 1,2)*n + j1
+                       end if
+                       v(vpos) = one
+                       do i = 1,lm - 1
+                           v(vpos + i) = (a(dpos - nb - i,j1 + i))
+                           a(dpos - nb - i,j1 + i) = zero
+                       end do
+                       ctmp = (a(dpos - nb,j1))
+                       call la_dlarfg(lm,ctmp,v(vpos + 1),1,tau(taupos))
+                       a(dpos - nb,j1) = ctmp
+                       call la_dlarfx('RIGHT',ln - 1,lm,v(vpos),tau(taupos),a(dpos - nb + &
+                                 1,j1),lda - 1,work)
+                   end if
+               end if
+           ! lower case
+           else
+               if (wantz) then
+                   vpos = mod(sweep - 1,2)*n + st
+                   taupos = mod(sweep - 1,2)*n + st
+               else
+                   vpos = mod(sweep - 1,2)*n + st
+                   taupos = mod(sweep - 1,2)*n + st
+               end if
+               if (ttype == 1) then
+                   lm = ed - st + 1
+                   v(vpos) = one
+                   do i = 1,lm - 1
+                       v(vpos + i) = a(ofdpos + i,st - 1)
+                       a(ofdpos + i,st - 1) = zero
+                   end do
+                   call la_dlarfg(lm,a(ofdpos,st - 1),v(vpos + 1),1,tau(taupos))
+
+                   lm = ed - st + 1
+                   call la_dlarfy(uplo,lm,v(vpos),1, (tau(taupos)),a(dpos,st), &
+                             lda - 1,work)
+               end if
+               if (ttype == 3) then
+                   lm = ed - st + 1
+                   call la_dlarfy(uplo,lm,v(vpos),1, (tau(taupos)),a(dpos,st), &
+                             lda - 1,work)
+               end if
+               if (ttype == 2) then
+                   j1 = ed + 1
+                   j2 = min(ed + nb,n)
+                   ln = ed - st + 1
+                   lm = j2 - j1 + 1
+                   if (lm > 0) then
+                       call la_dlarfx('RIGHT',lm,ln,v(vpos),tau(taupos),a(dpos + nb, &
+                                 st),lda - 1,work)
+                       if (wantz) then
+                           vpos = mod(sweep - 1,2)*n + j1
+                           taupos = mod(sweep - 1,2)*n + j1
+                       else
+                           vpos = mod(sweep - 1,2)*n + j1
+                           taupos = mod(sweep - 1,2)*n + j1
+                       end if
+                       v(vpos) = one
+                       do i = 1,lm - 1
+                           v(vpos + i) = a(dpos + nb + i,st)
+                           a(dpos + nb + i,st) = zero
+                       end do
+                       call la_dlarfg(lm,a(dpos + nb,st),v(vpos + 1),1,tau(taupos))
+
+                       call la_dlarfx('LEFT',lm,ln - 1,v(vpos), (tau(taupos)),a(dpos + &
+                                 nb - 1,st + 1),lda - 1,work)
+                   end if
+               end if
+           end if
+           return
+     end subroutine la_dsb2st_kernels
+     !> QSB2ST_KERNELS: is an internal routine used by the QSYTRD_SB2ST
+     !> subroutine.
+
+     pure subroutine la_qsb2st_kernels(uplo,wantz,ttype,st,ed,sweep,n,nb,ib,a,lda, &
+               v,tau,ldvt,work)
+        use la_constants_qp
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           logical(lk),intent(in) :: wantz
+           integer(ilp),intent(in) :: ttype,st,ed,sweep,n,nb,ib,lda,ldvt
+           ! Array Arguments
+           real(qp),intent(inout) :: a(lda,*)
+           real(qp),intent(out) :: v(*),tau(*),work(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: upper
+           integer(ilp) :: i,j1,j2,lm,ln,vpos,taupos,dpos,ofdpos,ajeter
+           real(qp) :: ctmp
+           ! Intrinsic Functions
+           intrinsic :: mod
+           ! Executable Statements
+           ajeter = ib + ldvt
+           upper = la_lsame(uplo,'U')
+           if (upper) then
+               dpos = 2*nb + 1
+               ofdpos = 2*nb
+           else
+               dpos = 1
+               ofdpos = 2
+           end if
+           ! upper case
+           if (upper) then
+               if (wantz) then
+                   vpos = mod(sweep - 1,2)*n + st
+                   taupos = mod(sweep - 1,2)*n + st
+               else
+                   vpos = mod(sweep - 1,2)*n + st
+                   taupos = mod(sweep - 1,2)*n + st
+               end if
+               if (ttype == 1) then
+                   lm = ed - st + 1
+                   v(vpos) = one
+                   do i = 1,lm - 1
+                       v(vpos + i) = (a(ofdpos - i,st + i))
+                       a(ofdpos - i,st + i) = zero
+                   end do
+                   ctmp = (a(ofdpos,st))
+                   call la_qlarfg(lm,ctmp,v(vpos + 1),1,tau(taupos))
+                   a(ofdpos,st) = ctmp
+                   lm = ed - st + 1
+                   call la_qlarfy(uplo,lm,v(vpos),1, (tau(taupos)),a(dpos,st), &
+                             lda - 1,work)
+               end if
+               if (ttype == 3) then
+                   lm = ed - st + 1
+                   call la_qlarfy(uplo,lm,v(vpos),1, (tau(taupos)),a(dpos,st), &
+                             lda - 1,work)
+               end if
+               if (ttype == 2) then
+                   j1 = ed + 1
+                   j2 = min(ed + nb,n)
+                   ln = ed - st + 1
+                   lm = j2 - j1 + 1
+                   if (lm > 0) then
+                       call la_qlarfx('LEFT',ln,lm,v(vpos), (tau(taupos)),a(dpos - nb, &
+                                  j1),lda - 1,work)
+                       if (wantz) then
+                           vpos = mod(sweep - 1,2)*n + j1
+                           taupos = mod(sweep - 1,2)*n + j1
+                       else
+                           vpos = mod(sweep - 1,2)*n + j1
+                           taupos = mod(sweep - 1,2)*n + j1
+                       end if
+                       v(vpos) = one
+                       do i = 1,lm - 1
+                           v(vpos + i) = (a(dpos - nb - i,j1 + i))
+                           a(dpos - nb - i,j1 + i) = zero
+                       end do
+                       ctmp = (a(dpos - nb,j1))
+                       call la_qlarfg(lm,ctmp,v(vpos + 1),1,tau(taupos))
+                       a(dpos - nb,j1) = ctmp
+                       call la_qlarfx('RIGHT',ln - 1,lm,v(vpos),tau(taupos),a(dpos - nb + &
+                                 1,j1),lda - 1,work)
+                   end if
+               end if
+           ! lower case
+           else
+               if (wantz) then
+                   vpos = mod(sweep - 1,2)*n + st
+                   taupos = mod(sweep - 1,2)*n + st
+               else
+                   vpos = mod(sweep - 1,2)*n + st
+                   taupos = mod(sweep - 1,2)*n + st
+               end if
+               if (ttype == 1) then
+                   lm = ed - st + 1
+                   v(vpos) = one
+                   do i = 1,lm - 1
+                       v(vpos + i) = a(ofdpos + i,st - 1)
+                       a(ofdpos + i,st - 1) = zero
+                   end do
+                   call la_qlarfg(lm,a(ofdpos,st - 1),v(vpos + 1),1,tau(taupos))
+
+                   lm = ed - st + 1
+                   call la_qlarfy(uplo,lm,v(vpos),1, (tau(taupos)),a(dpos,st), &
+                             lda - 1,work)
+               end if
+               if (ttype == 3) then
+                   lm = ed - st + 1
+                   call la_qlarfy(uplo,lm,v(vpos),1, (tau(taupos)),a(dpos,st), &
+                             lda - 1,work)
+               end if
+               if (ttype == 2) then
+                   j1 = ed + 1
+                   j2 = min(ed + nb,n)
+                   ln = ed - st + 1
+                   lm = j2 - j1 + 1
+                   if (lm > 0) then
+                       call la_qlarfx('RIGHT',lm,ln,v(vpos),tau(taupos),a(dpos + nb, &
+                                 st),lda - 1,work)
+                       if (wantz) then
+                           vpos = mod(sweep - 1,2)*n + j1
+                           taupos = mod(sweep - 1,2)*n + j1
+                       else
+                           vpos = mod(sweep - 1,2)*n + j1
+                           taupos = mod(sweep - 1,2)*n + j1
+                       end if
+                       v(vpos) = one
+                       do i = 1,lm - 1
+                           v(vpos + i) = a(dpos + nb + i,st)
+                           a(dpos + nb + i,st) = zero
+                       end do
+                       call la_qlarfg(lm,a(dpos + nb,st),v(vpos + 1),1,tau(taupos))
+
+                       call la_qlarfx('LEFT',lm,ln - 1,v(vpos), (tau(taupos)),a(dpos + &
+                                 nb - 1,st + 1),lda - 1,work)
+                   end if
+               end if
+           end if
+           return
+     end subroutine la_qsb2st_kernels
+
+     !> SSYTD2: reduces a real symmetric matrix A to symmetric tridiagonal
+     !> form T by an orthogonal similarity transformation: Q**T * A * Q = T.
+
+     pure subroutine la_ssytd2(uplo,n,a,lda,d,e,tau,info)
+        use la_constants_sp
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
+           ! Array Arguments
+           real(sp),intent(inout) :: a(lda,*)
+           real(sp),intent(out) :: d(*),e(*),tau(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: upper
+           integer(ilp) :: i
+           real(sp) :: alpha,taui
+           ! Intrinsic Functions
+           intrinsic :: max,min
+           ! Executable Statements
+           ! test the input parameters
+           info = 0
+           upper = la_lsame(uplo,'U')
+           if (.not. upper .and. .not. la_lsame(uplo,'L')) then
+              info = -1
+           else if (n < 0) then
+              info = -2
+           else if (lda < max(1,n)) then
+              info = -4
+           end if
+           if (info /= 0) then
+              call la_xerbla('SSYTD2',-info)
+              return
+           end if
+           ! quick return if possible
+           if (n <= 0) return
+           if (upper) then
+              ! reduce the upper triangle of a
+              do i = n - 1,1,-1
+                 ! generate elementary reflector h(i) = i - tau * v * v**t
+                 ! to annihilate a(1:i-1,i+1)
+                 call la_slarfg(i,a(i,i + 1),a(1,i + 1),1,taui)
+                 e(i) = a(i,i + 1)
+                 if (taui /= zero) then
+                    ! apply h(i) from both sides to a(1:i,1:i)
+                    a(i,i + 1) = one
+                    ! compute  x := tau * a * v  storing x in tau(1:i)
+                    call la_ssymv(uplo,i,taui,a,lda,a(1,i + 1),1,zero,tau,1)
+
+                    ! compute  w := x - 1/2 * tau * (x**t * v) * v
+                    alpha = -half*taui*la_sdot(i,tau,1,a(1,i + 1),1)
+                    call la_saxpy(i,alpha,a(1,i + 1),1,tau,1)
+                    ! apply the transformation as a rank-2 update:
+                       ! a := a - v * w**t - w * v**t
+                    call la_ssyr2(uplo,i,-one,a(1,i + 1),1,tau,1,a,lda)
+                    a(i,i + 1) = e(i)
+                 end if
+                 d(i + 1) = a(i + 1,i + 1)
+                 tau(i) = taui
+              end do
+              d(1) = a(1,1)
+           else
+              ! reduce the lower triangle of a
+              do i = 1,n - 1
+                 ! generate elementary reflector h(i) = i - tau * v * v**t
+                 ! to annihilate a(i+2:n,i)
+                 call la_slarfg(n - i,a(i + 1,i),a(min(i + 2,n),i),1,taui)
+                 e(i) = a(i + 1,i)
+                 if (taui /= zero) then
+                    ! apply h(i) from both sides to a(i+1:n,i+1:n)
+                    a(i + 1,i) = one
+                    ! compute  x := tau * a * v  storing y in tau(i:n-1)
+                    call la_ssymv(uplo,n - i,taui,a(i + 1,i + 1),lda,a(i + 1,i),1,zero, &
+                              tau(i),1)
+                    ! compute  w := x - 1/2 * tau * (x**t * v) * v
+                    alpha = -half*taui*la_sdot(n - i,tau(i),1,a(i + 1,i),1)
+                    call la_saxpy(n - i,alpha,a(i + 1,i),1,tau(i),1)
+                    ! apply the transformation as a rank-2 update:
+                       ! a := a - v * w**t - w * v**t
+                    call la_ssyr2(uplo,n - i,-one,a(i + 1,i),1,tau(i),1,a(i + 1,i + 1), &
+                               lda)
+                    a(i + 1,i) = e(i)
+                 end if
+                 d(i) = a(i,i)
+                 tau(i) = taui
+              end do
+              d(n) = a(n,n)
+           end if
+           return
+     end subroutine la_ssytd2
+     !> DSYTD2: reduces a real symmetric matrix A to symmetric tridiagonal
+     !> form T by an orthogonal similarity transformation: Q**T * A * Q = T.
+
+     pure subroutine la_dsytd2(uplo,n,a,lda,d,e,tau,info)
+        use la_constants_dp
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
+           ! Array Arguments
+           real(dp),intent(inout) :: a(lda,*)
+           real(dp),intent(out) :: d(*),e(*),tau(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: upper
+           integer(ilp) :: i
+           real(dp) :: alpha,taui
+           ! Intrinsic Functions
+           intrinsic :: max,min
+           ! Executable Statements
+           ! test the input parameters
+           info = 0
+           upper = la_lsame(uplo,'U')
+           if (.not. upper .and. .not. la_lsame(uplo,'L')) then
+              info = -1
+           else if (n < 0) then
+              info = -2
+           else if (lda < max(1,n)) then
+              info = -4
+           end if
+           if (info /= 0) then
+              call la_xerbla('DSYTD2',-info)
+              return
+           end if
+           ! quick return if possible
+           if (n <= 0) return
+           if (upper) then
+              ! reduce the upper triangle of a
+              do i = n - 1,1,-1
+                 ! generate elementary reflector h(i) = i - tau * v * v**t
+                 ! to annihilate a(1:i-1,i+1)
+                 call la_dlarfg(i,a(i,i + 1),a(1,i + 1),1,taui)
+                 e(i) = a(i,i + 1)
+                 if (taui /= zero) then
+                    ! apply h(i) from both sides to a(1:i,1:i)
+                    a(i,i + 1) = one
+                    ! compute  x := tau * a * v  storing x in tau(1:i)
+                    call la_dsymv(uplo,i,taui,a,lda,a(1,i + 1),1,zero,tau,1)
+
+                    ! compute  w := x - 1/2 * tau * (x**t * v) * v
+                    alpha = -half*taui*la_ddot(i,tau,1,a(1,i + 1),1)
+                    call la_daxpy(i,alpha,a(1,i + 1),1,tau,1)
+                    ! apply the transformation as a rank-2 update:
+                       ! a := a - v * w**t - w * v**t
+                    call la_dsyr2(uplo,i,-one,a(1,i + 1),1,tau,1,a,lda)
+                    a(i,i + 1) = e(i)
+                 end if
+                 d(i + 1) = a(i + 1,i + 1)
+                 tau(i) = taui
+              end do
+              d(1) = a(1,1)
+           else
+              ! reduce the lower triangle of a
+              do i = 1,n - 1
+                 ! generate elementary reflector h(i) = i - tau * v * v**t
+                 ! to annihilate a(i+2:n,i)
+                 call la_dlarfg(n - i,a(i + 1,i),a(min(i + 2,n),i),1,taui)
+                 e(i) = a(i + 1,i)
+                 if (taui /= zero) then
+                    ! apply h(i) from both sides to a(i+1:n,i+1:n)
+                    a(i + 1,i) = one
+                    ! compute  x := tau * a * v  storing y in tau(i:n-1)
+                    call la_dsymv(uplo,n - i,taui,a(i + 1,i + 1),lda,a(i + 1,i),1,zero, &
+                              tau(i),1)
+                    ! compute  w := x - 1/2 * tau * (x**t * v) * v
+                    alpha = -half*taui*la_ddot(n - i,tau(i),1,a(i + 1,i),1)
+                    call la_daxpy(n - i,alpha,a(i + 1,i),1,tau(i),1)
+                    ! apply the transformation as a rank-2 update:
+                       ! a := a - v * w**t - w * v**t
+                    call la_dsyr2(uplo,n - i,-one,a(i + 1,i),1,tau(i),1,a(i + 1,i + 1), &
+                               lda)
+                    a(i + 1,i) = e(i)
+                 end if
+                 d(i) = a(i,i)
+                 tau(i) = taui
+              end do
+              d(n) = a(n,n)
+           end if
+           return
+     end subroutine la_dsytd2
+     !> QSYTD2: reduces a real symmetric matrix A to symmetric tridiagonal
+     !> form T by an orthogonal similarity transformation: Q**T * A * Q = T.
+
+     pure subroutine la_qsytd2(uplo,n,a,lda,d,e,tau,info)
+        use la_constants_qp
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
+           ! Array Arguments
+           real(qp),intent(inout) :: a(lda,*)
+           real(qp),intent(out) :: d(*),e(*),tau(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: upper
+           integer(ilp) :: i
+           real(qp) :: alpha,taui
+           ! Intrinsic Functions
+           intrinsic :: max,min
+           ! Executable Statements
+           ! test the input parameters
+           info = 0
+           upper = la_lsame(uplo,'U')
+           if (.not. upper .and. .not. la_lsame(uplo,'L')) then
+              info = -1
+           else if (n < 0) then
+              info = -2
+           else if (lda < max(1,n)) then
+              info = -4
+           end if
+           if (info /= 0) then
+              call la_xerbla('QSYTD2',-info)
+              return
+           end if
+           ! quick return if possible
+           if (n <= 0) return
+           if (upper) then
+              ! reduce the upper triangle of a
+              do i = n - 1,1,-1
+                 ! generate elementary reflector h(i) = i - tau * v * v**t
+                 ! to annihilate a(1:i-1,i+1)
+                 call la_qlarfg(i,a(i,i + 1),a(1,i + 1),1,taui)
+                 e(i) = a(i,i + 1)
+                 if (taui /= zero) then
+                    ! apply h(i) from both sides to a(1:i,1:i)
+                    a(i,i + 1) = one
+                    ! compute  x := tau * a * v  storing x in tau(1:i)
+                    call la_qsymv(uplo,i,taui,a,lda,a(1,i + 1),1,zero,tau,1)
+
+                    ! compute  w := x - 1/2 * tau * (x**t * v) * v
+                    alpha = -half*taui*la_qdot(i,tau,1,a(1,i + 1),1)
+                    call la_qaxpy(i,alpha,a(1,i + 1),1,tau,1)
+                    ! apply the transformation as a rank-2 update:
+                       ! a := a - v * w**t - w * v**t
+                    call la_qsyr2(uplo,i,-one,a(1,i + 1),1,tau,1,a,lda)
+                    a(i,i + 1) = e(i)
+                 end if
+                 d(i + 1) = a(i + 1,i + 1)
+                 tau(i) = taui
+              end do
+              d(1) = a(1,1)
+           else
+              ! reduce the lower triangle of a
+              do i = 1,n - 1
+                 ! generate elementary reflector h(i) = i - tau * v * v**t
+                 ! to annihilate a(i+2:n,i)
+                 call la_qlarfg(n - i,a(i + 1,i),a(min(i + 2,n),i),1,taui)
+                 e(i) = a(i + 1,i)
+                 if (taui /= zero) then
+                    ! apply h(i) from both sides to a(i+1:n,i+1:n)
+                    a(i + 1,i) = one
+                    ! compute  x := tau * a * v  storing y in tau(i:n-1)
+                    call la_qsymv(uplo,n - i,taui,a(i + 1,i + 1),lda,a(i + 1,i),1,zero, &
+                              tau(i),1)
+                    ! compute  w := x - 1/2 * tau * (x**t * v) * v
+                    alpha = -half*taui*la_qdot(n - i,tau(i),1,a(i + 1,i),1)
+                    call la_qaxpy(n - i,alpha,a(i + 1,i),1,tau(i),1)
+                    ! apply the transformation as a rank-2 update:
+                       ! a := a - v * w**t - w * v**t
+                    call la_qsyr2(uplo,n - i,-one,a(i + 1,i),1,tau(i),1,a(i + 1,i + 1), &
+                               lda)
+                    a(i + 1,i) = e(i)
+                 end if
+                 d(i) = a(i,i)
+                 tau(i) = taui
+              end do
+              d(n) = a(n,n)
+           end if
+           return
+     end subroutine la_qsytd2
+
+     !> SSYTRD: reduces a real symmetric matrix A to real symmetric
+     !> tridiagonal form T by an orthogonal similarity transformation:
+     !> Q**T * A * Q = T.
+
+     pure subroutine la_ssytrd(uplo,n,a,lda,d,e,tau,work,lwork,info)
+        use la_constants_sp
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,lwork,n
+           ! Array Arguments
+           real(sp),intent(inout) :: a(lda,*)
+           real(sp),intent(out) :: d(*),e(*),tau(*),work(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lquery,upper
+           integer(ilp) :: i,iinfo,iws,j,kk,ldwork,lwkopt,nb,nbmin,nx
+           ! Intrinsic Functions
+           intrinsic :: max
+           ! Executable Statements
+           ! test the input parameters
+           info = 0
+           upper = la_lsame(uplo,'U')
+           lquery = (lwork == -1)
+           if (.not. upper .and. .not. la_lsame(uplo,'L')) then
+              info = -1
+           else if (n < 0) then
+              info = -2
+           else if (lda < max(1,n)) then
+              info = -4
+           else if (lwork < 1 .and. .not. lquery) then
+              info = -9
+           end if
+           if (info == 0) then
+              ! determine the block size.
+              nb = la_ilaenv(1,'SSYTRD',uplo,n,-1,-1,-1)
+              lwkopt = n*nb
+              work(1) = lwkopt
+           end if
+           if (info /= 0) then
+              call la_xerbla('SSYTRD',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) then
+              work(1) = 1
+              return
+           end if
+           nx = n
+           iws = 1
+           if (nb > 1 .and. nb < n) then
+              ! determine when to cross over from blocked to unblocked code
+              ! (last block is always handled by unblocked code).
+              nx = max(nb,la_ilaenv(3,'SSYTRD',uplo,n,-1,-1,-1))
+              if (nx < n) then
+                 ! determine if workspace is large enough for blocked code.
+                 ldwork = n
+                 iws = ldwork*nb
+                 if (lwork < iws) then
+                    ! not enough workspace to use optimal nb:  determine the
+                    ! minimum value of nb, and reduce nb or force use of
+                    ! unblocked code by setting nx = n.
+                    nb = max(lwork/ldwork,1)
+                    nbmin = la_ilaenv(2,'SSYTRD',uplo,n,-1,-1,-1)
+                    if (nb < nbmin) nx = n
+                 end if
+              else
+                 nx = n
+              end if
+           else
+              nb = 1
+           end if
+           if (upper) then
+              ! reduce the upper triangle of a.
+              ! columns 1:kk are handled by the unblocked method.
+              kk = n - ((n - nx + nb - 1)/nb)*nb
+              do i = n - nb + 1,kk + 1,-nb
+                 ! reduce columns i:i+nb-1 to tridiagonal form and form the
+                 ! matrix w which is needed to update the unreduced part of
+                 ! the matrix
+                 call la_slatrd(uplo,i + nb - 1,nb,a,lda,e,tau,work,ldwork)
+                 ! update the unreduced submatrix a(1:i-1,1:i-1), using an
+                 ! update of the form:  a := a - v*w**t - w*v**t
+                 call la_ssyr2k(uplo,'NO TRANSPOSE',i - 1,nb,-one,a(1,i),lda,work, &
+                           ldwork,one,a,lda)
+                 ! copy superdiagonal elements back into a, and diagonal
+                 ! elements into d
+                 do j = i,i + nb - 1
+                    a(j - 1,j) = e(j - 1)
+                    d(j) = a(j,j)
+                 end do
+              end do
+              ! use unblocked code to reduce the last or only block
+              call la_ssytd2(uplo,kk,a,lda,d,e,tau,iinfo)
+           else
+              ! reduce the lower triangle of a
+              do i = 1,n - nx,nb
+                 ! reduce columns i:i+nb-1 to tridiagonal form and form the
+                 ! matrix w which is needed to update the unreduced part of
+                 ! the matrix
+                 call la_slatrd(uplo,n - i + 1,nb,a(i,i),lda,e(i),tau(i),work, &
+                           ldwork)
+                 ! update the unreduced submatrix a(i+ib:n,i+ib:n), using
+                 ! an update of the form:  a := a - v*w**t - w*v**t
+                 call la_ssyr2k(uplo,'NO TRANSPOSE',n - i - nb + 1,nb,-one,a(i + nb,i),lda, &
+                           work(nb + 1),ldwork,one,a(i + nb,i + nb),lda)
+                 ! copy subdiagonal elements back into a, and diagonal
+                 ! elements into d
+                 do j = i,i + nb - 1
+                    a(j + 1,j) = e(j)
+                    d(j) = a(j,j)
+                 end do
+              end do
+              ! use unblocked code to reduce the last or only block
+              call la_ssytd2(uplo,n - i + 1,a(i,i),lda,d(i),e(i),tau(i),iinfo)
+
+           end if
+           work(1) = lwkopt
+           return
+     end subroutine la_ssytrd
+     !> DSYTRD: reduces a real symmetric matrix A to real symmetric
+     !> tridiagonal form T by an orthogonal similarity transformation:
+     !> Q**T * A * Q = T.
+
+     pure subroutine la_dsytrd(uplo,n,a,lda,d,e,tau,work,lwork,info)
+        use la_constants_dp
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,lwork,n
+           ! Array Arguments
+           real(dp),intent(inout) :: a(lda,*)
+           real(dp),intent(out) :: d(*),e(*),tau(*),work(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lquery,upper
+           integer(ilp) :: i,iinfo,iws,j,kk,ldwork,lwkopt,nb,nbmin,nx
+           ! Intrinsic Functions
+           intrinsic :: max
+           ! Executable Statements
+           ! test the input parameters
+           info = 0
+           upper = la_lsame(uplo,'U')
+           lquery = (lwork == -1)
+           if (.not. upper .and. .not. la_lsame(uplo,'L')) then
+              info = -1
+           else if (n < 0) then
+              info = -2
+           else if (lda < max(1,n)) then
+              info = -4
+           else if (lwork < 1 .and. .not. lquery) then
+              info = -9
+           end if
+           if (info == 0) then
+              ! determine the block size.
+              nb = la_ilaenv(1,'DSYTRD',uplo,n,-1,-1,-1)
+              lwkopt = n*nb
+              work(1) = lwkopt
+           end if
+           if (info /= 0) then
+              call la_xerbla('DSYTRD',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) then
+              work(1) = 1
+              return
+           end if
+           nx = n
+           iws = 1
+           if (nb > 1 .and. nb < n) then
+              ! determine when to cross over from blocked to unblocked code
+              ! (last block is always handled by unblocked code).
+              nx = max(nb,la_ilaenv(3,'DSYTRD',uplo,n,-1,-1,-1))
+              if (nx < n) then
+                 ! determine if workspace is large enough for blocked code.
+                 ldwork = n
+                 iws = ldwork*nb
+                 if (lwork < iws) then
+                    ! not enough workspace to use optimal nb:  determine the
+                    ! minimum value of nb, and reduce nb or force use of
+                    ! unblocked code by setting nx = n.
+                    nb = max(lwork/ldwork,1)
+                    nbmin = la_ilaenv(2,'DSYTRD',uplo,n,-1,-1,-1)
+                    if (nb < nbmin) nx = n
+                 end if
+              else
+                 nx = n
+              end if
+           else
+              nb = 1
+           end if
+           if (upper) then
+              ! reduce the upper triangle of a.
+              ! columns 1:kk are handled by the unblocked method.
+              kk = n - ((n - nx + nb - 1)/nb)*nb
+              do i = n - nb + 1,kk + 1,-nb
+                 ! reduce columns i:i+nb-1 to tridiagonal form and form the
+                 ! matrix w which is needed to update the unreduced part of
+                 ! the matrix
+                 call la_dlatrd(uplo,i + nb - 1,nb,a,lda,e,tau,work,ldwork)
+                 ! update the unreduced submatrix a(1:i-1,1:i-1), using an
+                 ! update of the form:  a := a - v*w**t - w*v**t
+                 call la_dsyr2k(uplo,'NO TRANSPOSE',i - 1,nb,-one,a(1,i),lda,work, &
+                           ldwork,one,a,lda)
+                 ! copy superdiagonal elements back into a, and diagonal
+                 ! elements into d
+                 do j = i,i + nb - 1
+                    a(j - 1,j) = e(j - 1)
+                    d(j) = a(j,j)
+                 end do
+              end do
+              ! use unblocked code to reduce the last or only block
+              call la_dsytd2(uplo,kk,a,lda,d,e,tau,iinfo)
+           else
+              ! reduce the lower triangle of a
+              do i = 1,n - nx,nb
+                 ! reduce columns i:i+nb-1 to tridiagonal form and form the
+                 ! matrix w which is needed to update the unreduced part of
+                 ! the matrix
+                 call la_dlatrd(uplo,n - i + 1,nb,a(i,i),lda,e(i),tau(i),work, &
+                           ldwork)
+                 ! update the unreduced submatrix a(i+ib:n,i+ib:n), using
+                 ! an update of the form:  a := a - v*w**t - w*v**t
+                 call la_dsyr2k(uplo,'NO TRANSPOSE',n - i - nb + 1,nb,-one,a(i + nb,i),lda, &
+                           work(nb + 1),ldwork,one,a(i + nb,i + nb),lda)
+                 ! copy subdiagonal elements back into a, and diagonal
+                 ! elements into d
+                 do j = i,i + nb - 1
+                    a(j + 1,j) = e(j)
+                    d(j) = a(j,j)
+                 end do
+              end do
+              ! use unblocked code to reduce the last or only block
+              call la_dsytd2(uplo,n - i + 1,a(i,i),lda,d(i),e(i),tau(i),iinfo)
+
+           end if
+           work(1) = lwkopt
+           return
+     end subroutine la_dsytrd
+     !> QSYTRD: reduces a real symmetric matrix A to real symmetric
+     !> tridiagonal form T by an orthogonal similarity transformation:
+     !> Q**T * A * Q = T.
+
+     pure subroutine la_qsytrd(uplo,n,a,lda,d,e,tau,work,lwork,info)
+        use la_constants_qp
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,lwork,n
+           ! Array Arguments
+           real(qp),intent(inout) :: a(lda,*)
+           real(qp),intent(out) :: d(*),e(*),tau(*),work(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lquery,upper
+           integer(ilp) :: i,iinfo,iws,j,kk,ldwork,lwkopt,nb,nbmin,nx
+           ! Intrinsic Functions
+           intrinsic :: max
+           ! Executable Statements
+           ! test the input parameters
+           info = 0
+           upper = la_lsame(uplo,'U')
+           lquery = (lwork == -1)
+           if (.not. upper .and. .not. la_lsame(uplo,'L')) then
+              info = -1
+           else if (n < 0) then
+              info = -2
+           else if (lda < max(1,n)) then
+              info = -4
+           else if (lwork < 1 .and. .not. lquery) then
+              info = -9
+           end if
+           if (info == 0) then
+              ! determine the block size.
+              nb = la_ilaenv(1,'QSYTRD',uplo,n,-1,-1,-1)
+              lwkopt = n*nb
+              work(1) = lwkopt
+           end if
+           if (info /= 0) then
+              call la_xerbla('QSYTRD',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) then
+              work(1) = 1
+              return
+           end if
+           nx = n
+           iws = 1
+           if (nb > 1 .and. nb < n) then
+              ! determine when to cross over from blocked to unblocked code
+              ! (last block is always handled by unblocked code).
+              nx = max(nb,la_ilaenv(3,'QSYTRD',uplo,n,-1,-1,-1))
+              if (nx < n) then
+                 ! determine if workspace is large enough for blocked code.
+                 ldwork = n
+                 iws = ldwork*nb
+                 if (lwork < iws) then
+                    ! not enough workspace to use optimal nb:  determine the
+                    ! minimum value of nb, and reduce nb or force use of
+                    ! unblocked code by setting nx = n.
+                    nb = max(lwork/ldwork,1)
+                    nbmin = la_ilaenv(2,'QSYTRD',uplo,n,-1,-1,-1)
+                    if (nb < nbmin) nx = n
+                 end if
+              else
+                 nx = n
+              end if
+           else
+              nb = 1
+           end if
+           if (upper) then
+              ! reduce the upper triangle of a.
+              ! columns 1:kk are handled by the unblocked method.
+              kk = n - ((n - nx + nb - 1)/nb)*nb
+              do i = n - nb + 1,kk + 1,-nb
+                 ! reduce columns i:i+nb-1 to tridiagonal form and form the
+                 ! matrix w which is needed to update the unreduced part of
+                 ! the matrix
+                 call la_qlatrd(uplo,i + nb - 1,nb,a,lda,e,tau,work,ldwork)
+                 ! update the unreduced submatrix a(1:i-1,1:i-1), using an
+                 ! update of the form:  a := a - v*w**t - w*v**t
+                 call la_qsyr2k(uplo,'NO TRANSPOSE',i - 1,nb,-one,a(1,i),lda,work, &
+                           ldwork,one,a,lda)
+                 ! copy superdiagonal elements back into a, and diagonal
+                 ! elements into d
+                 do j = i,i + nb - 1
+                    a(j - 1,j) = e(j - 1)
+                    d(j) = a(j,j)
+                 end do
+              end do
+              ! use unblocked code to reduce the last or only block
+              call la_qsytd2(uplo,kk,a,lda,d,e,tau,iinfo)
+           else
+              ! reduce the lower triangle of a
+              do i = 1,n - nx,nb
+                 ! reduce columns i:i+nb-1 to tridiagonal form and form the
+                 ! matrix w which is needed to update the unreduced part of
+                 ! the matrix
+                 call la_qlatrd(uplo,n - i + 1,nb,a(i,i),lda,e(i),tau(i),work, &
+                           ldwork)
+                 ! update the unreduced submatrix a(i+ib:n,i+ib:n), using
+                 ! an update of the form:  a := a - v*w**t - w*v**t
+                 call la_qsyr2k(uplo,'NO TRANSPOSE',n - i - nb + 1,nb,-one,a(i + nb,i),lda, &
+                           work(nb + 1),ldwork,one,a(i + nb,i + nb),lda)
+                 ! copy subdiagonal elements back into a, and diagonal
+                 ! elements into d
+                 do j = i,i + nb - 1
+                    a(j + 1,j) = e(j)
+                    d(j) = a(j,j)
+                 end do
+              end do
+              ! use unblocked code to reduce the last or only block
+              call la_qsytd2(uplo,n - i + 1,a(i,i),lda,d(i),e(i),tau(i),iinfo)
+
+           end if
+           work(1) = lwkopt
+           return
+     end subroutine la_qsytrd
+
+     !> SSYTRD_SB2ST: reduces a real symmetric band matrix A to real symmetric
+     !> tridiagonal form T by a orthogonal similarity transformation:
+     !> Q**T * A * Q = T.
+
+     pure subroutine la_ssytrd_sb2st(stage1,vect,uplo,n,kd,ab,ldab,d,e,hous,lhous, &
+               work,lwork,info)
+        use la_constants_sp
+#if defined(_OPENMP)
+#endif
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: stage1,uplo,vect
+           integer(ilp),intent(in) :: n,kd,ldab,lhous,lwork
+           integer(ilp),intent(out) :: info
+           ! Array Arguments
+           real(sp),intent(out) :: d(*),e(*)
+           real(sp),intent(inout) :: ab(ldab,*)
+           real(sp),intent(out) :: hous(*),work(*)
+        ! =====================================================================
+           ! Parameters
+           real(sp),parameter :: rzero = 0.0e+0_sp
+
+           ! Local Scalars
+           logical(lk) :: lquery,wantq,upper,afters1
+           integer(ilp) :: i,m,k,ib,sweepid,myid,shift,stt,st,ed,stind,edind, &
+           blklastind,colpt,thed,stepercol,grsiz,thgrsiz,thgrnb,thgrid,nbtiles,ttype, &
+           tid,nthreads,debug,abdpos,abofdpos,dpos,ofdpos,awpos,inda,indw,apos,sizea, &
+                     lda,indv,indtau,sisev,sizetau,ldv,lhmin,lwmin
+           ! Intrinsic Functions
+           intrinsic :: min,max,ceiling,real
+           ! Executable Statements
+           ! determine the minimal workspace size required.
+           ! test the input parameters
+           debug = 0
+           info = 0
+           afters1 = la_lsame(stage1,'Y')
+           wantq = la_lsame(vect,'V')
+           upper = la_lsame(uplo,'U')
+           lquery = (lwork == -1) .or. (lhous == -1)
+           ! determine the block size, the workspace size and the hous size.
+           ib = la_ilaenv2stage(2,'SSYTRD_SB2ST',vect,n,kd,-1,-1)
+           lhmin = la_ilaenv2stage(3,'SSYTRD_SB2ST',vect,n,kd,ib,-1)
+           lwmin = la_ilaenv2stage(4,'SSYTRD_SB2ST',vect,n,kd,ib,-1)
+           if (.not. afters1 .and. .not. la_lsame(stage1,'N')) then
+              info = -1
+           else if (.not. la_lsame(vect,'N')) then
+              info = -2
+           else if (.not. upper .and. .not. la_lsame(uplo,'L')) then
+              info = -3
+           else if (n < 0) then
+              info = -4
+           else if (kd < 0) then
+              info = -5
+           else if (ldab < (kd + 1)) then
+              info = -7
+           else if (lhous < lhmin .and. .not. lquery) then
+              info = -11
+           else if (lwork < lwmin .and. .not. lquery) then
+              info = -13
+           end if
+           if (info == 0) then
+              hous(1) = lhmin
+              work(1) = lwmin
+           end if
+           if (info /= 0) then
+              call la_xerbla('SSYTRD_SB2ST',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) then
+               hous(1) = 1
+               work(1) = 1
+               return
+           end if
+           ! determine pointer position
+           ldv = kd + ib
+           sizetau = 2*n
+           sisev = 2*n
+           indtau = 1
+           indv = indtau + sizetau
+           lda = 2*kd + 1
+           sizea = lda*n
+           inda = 1
+           indw = inda + sizea
+           nthreads = 1
+           tid = 0
+           if (upper) then
+               apos = inda + kd
+               awpos = inda
+               dpos = apos + kd
+               ofdpos = dpos - 1
+               abdpos = kd + 1
+               abofdpos = kd
+           else
+               apos = inda
+               awpos = inda + kd + 1
+               dpos = apos
+               ofdpos = dpos + 1
+               abdpos = 1
+               abofdpos = 2
+           end if
+           ! case kd=0:
+           ! the matrix is diagonal. we just copy it (convert to "real" for
+           ! real because d is double and the imaginary part should be 0)
+           ! and store it in d. a sequential code here is better or
+           ! in a parallel environment it might need two cores for d and e
+           if (kd == 0) then
+               do i = 1,n
+                   d(i) = (ab(abdpos,i))
+               end do
+               do i = 1,n - 1
+                   e(i) = rzero
+               end do
+               hous(1) = 1
+               work(1) = 1
+               return
+           end if
+           ! case kd=1:
+           ! the matrix is already tridiagonal. we have to make diagonal
+           ! and offdiagonal elements real, and store them in d and e.
+           ! for that, for real precision just copy the diag and offdiag
+           ! to d and e while for the complex case the bulge chasing is
+           ! performed to convert the hermetian tridiagonal to symmetric
+           ! tridiagonal. a simpler conversion formula might be used, but then
+           ! updating the q matrix will be required and based if q is generated
+           ! or not this might complicate the story.
+           if (kd == 1) then
+               do i = 1,n
+                   d(i) = (ab(abdpos,i))
+               end do
+               if (upper) then
+                   do i = 1,n - 1
+                      e(i) = (ab(abofdpos,i + 1))
+                   end do
+               else
+                   do i = 1,n - 1
+                      e(i) = (ab(abofdpos,i))
+                   end do
+               end if
+               hous(1) = 1
+               work(1) = 1
+               return
+           end if
+           ! main code start here.
+           ! reduce the symmetric band of a to a tridiagonal matrix.
+           thgrsiz = n
+           grsiz = 1
+           shift = 3
+           nbtiles = ceiling(real(n,KIND=sp)/real(kd,KIND=sp))
+           stepercol = ceiling(real(shift,KIND=sp)/real(grsiz,KIND=sp))
+           thgrnb = ceiling(real(n - 1,KIND=sp)/real(thgrsiz,KIND=sp))
+           call la_slacpy("A",kd + 1,n,ab,ldab,work(apos),lda)
+           call la_slaset("A",kd,n,zero,zero,work(awpos),lda)
+           ! openmp parallelisation start here
+#if defined(_OPENMP)
+!$OMP PARALLEL PRIVATE( TID, THGRID, BLKLASTIND )
+!$OMP$         PRIVATE( THED, I, M, K, ST, ED, STT, SWEEPID )
+!$OMP$         PRIVATE( MYID, TTYPE, COLPT, STIND, EDIND )
+!$OMP$         SHARED ( UPLO, WANTQ, INDV, INDTAU, HOUS, WORK)
+!$OMP$         SHARED ( N, KD, IB, NBTILES, LDA, LDV, INDA )
+!$OMP$         SHARED ( STEPERCOL, THGRNB, THGRSIZ, GRSIZ, SHIFT )
+!$OMP MASTER
+#endif
+           ! main bulge chasing loop
+           loop_100: do thgrid = 1,thgrnb
+               stt = (thgrid - 1)*thgrsiz + 1
+               thed = min((stt + thgrsiz - 1), (n - 1))
+               loop_110: do i = stt,n - 1
+                   ed = min(i,thed)
+                   if (stt > ed) exit
+                   loop_120: do m = 1,stepercol
+                       st = stt
+                       loop_130: do sweepid = st,ed
+                           loop_140: do k = 1,grsiz
+                               myid = (i - sweepid)*(stepercol*grsiz) + (m - 1)*grsiz + k
+                               if (myid == 1) then
+                                   ttype = 1
+                               else
+                                   ttype = mod(myid,2) + 2
+                               end if
+                               if (ttype == 2) then
+                                   colpt = (myid/2)*kd + sweepid
+                                   stind = colpt - kd + 1
+                                   edind = min(colpt,n)
+                                   blklastind = colpt
+                               else
+                                   colpt = ((myid + 1)/2)*kd + sweepid
+                                   stind = colpt - kd + 1
+                                   edind = min(colpt,n)
+                                   if ((stind >= edind - 1) .and. (edind == n)) then
+                                       blklastind = n
+                                   else
+                                       blklastind = 0
+                                   end if
+                               end if
+                               ! call the kernel
+#if defined(_OPENMP) &&  _OPENMP >= 201307
+                               if (ttype /= 1) then
+!$OMP TASK DEPEND(in:WORK(MYID+SHIFT-1))
+!$OMP$     DEPEND(in:WORK(MYID-1))
+!$OMP$     DEPEND(out:WORK(MYID))
+                                   tid = omp_get_thread_num()
+                                   call la_ssb2st_kernels(uplo,wantq,ttype,stind,edind, &
+                                   sweepid,n,kd,ib,work(inda),lda,hous(indv),hous( &
+                                             indtau),ldv,work(indw + tid*kd))
+!$OMP END TASK
+                               else
+!$OMP TASK DEPEND(in:WORK(MYID+SHIFT-1))
+!$OMP$     DEPEND(out:WORK(MYID))
+                                   tid = omp_get_thread_num()
+                                   call la_ssb2st_kernels(uplo,wantq,ttype,stind,edind, &
+                                   sweepid,n,kd,ib,work(inda),lda,hous(indv),hous( &
+                                             indtau),ldv,work(indw + tid*kd))
+!$OMP END TASK
+                               end if
+#else
+                               call la_ssb2st_kernels(uplo,wantq,ttype,stind,edind, &
+                               sweepid,n,kd,ib,work(inda),lda,hous(indv),hous(indtau), &
+                                          ldv,work(indw + tid*kd))
+#endif
+                               if (blklastind >= (n - 1)) then
+                                   stt = stt + 1
+                                   exit
+                               end if
+                           end do loop_140
+                       end do loop_130
+                   end do loop_120
+               end do loop_110
+           end do loop_100
+#if defined(_OPENMP)
+!$OMP END MASTER
+!$OMP END PARALLEL
+#endif
+           ! copy the diagonal from a to d. note that d is real thus only
+           ! the real part is needed, the imaginary part should be zero.
+           do i = 1,n
+               d(i) = (work(dpos + (i - 1)*lda))
+           end do
+           ! copy the off diagonal from a to e. note that e is real thus only
+           ! the real part is needed, the imaginary part should be zero.
+           if (upper) then
+               do i = 1,n - 1
+                  e(i) = (work(ofdpos + i*lda))
+               end do
+           else
+               do i = 1,n - 1
+                  e(i) = (work(ofdpos + (i - 1)*lda))
+               end do
+           end if
+           hous(1) = lhmin
+           work(1) = lwmin
+           return
+     end subroutine la_ssytrd_sb2st
+     !> DSYTRD_SB2ST: reduces a real symmetric band matrix A to real symmetric
+     !> tridiagonal form T by a orthogonal similarity transformation:
+     !> Q**T * A * Q = T.
+
+     pure subroutine la_dsytrd_sb2st(stage1,vect,uplo,n,kd,ab,ldab,d,e,hous,lhous, &
+               work,lwork,info)
+        use la_constants_dp
+#if defined(_OPENMP)
+#endif
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: stage1,uplo,vect
+           integer(ilp),intent(in) :: n,kd,ldab,lhous,lwork
+           integer(ilp),intent(out) :: info
+           ! Array Arguments
+           real(dp),intent(out) :: d(*),e(*)
+           real(dp),intent(inout) :: ab(ldab,*)
+           real(dp),intent(out) :: hous(*),work(*)
+        ! =====================================================================
+           ! Parameters
+           real(dp),parameter :: rzero = 0.0e+0_dp
+
+           ! Local Scalars
+           logical(lk) :: lquery,wantq,upper,afters1
+           integer(ilp) :: i,m,k,ib,sweepid,myid,shift,stt,st,ed,stind,edind, &
+           blklastind,colpt,thed,stepercol,grsiz,thgrsiz,thgrnb,thgrid,nbtiles,ttype, &
+           tid,nthreads,debug,abdpos,abofdpos,dpos,ofdpos,awpos,inda,indw,apos,sizea, &
+                     lda,indv,indtau,sidev,sizetau,ldv,lhmin,lwmin
+           ! Intrinsic Functions
+           intrinsic :: min,max,ceiling,real
+           ! Executable Statements
+           ! determine the minimal workspace size required.
+           ! test the input parameters
+           debug = 0
+           info = 0
+           afters1 = la_lsame(stage1,'Y')
+           wantq = la_lsame(vect,'V')
+           upper = la_lsame(uplo,'U')
+           lquery = (lwork == -1) .or. (lhous == -1)
+           ! determine the block size, the workspace size and the hous size.
+           ib = la_ilaenv2stage(2,'DSYTRD_SB2ST',vect,n,kd,-1,-1)
+           lhmin = la_ilaenv2stage(3,'DSYTRD_SB2ST',vect,n,kd,ib,-1)
+           lwmin = la_ilaenv2stage(4,'DSYTRD_SB2ST',vect,n,kd,ib,-1)
+           if (.not. afters1 .and. .not. la_lsame(stage1,'N')) then
+              info = -1
+           else if (.not. la_lsame(vect,'N')) then
+              info = -2
+           else if (.not. upper .and. .not. la_lsame(uplo,'L')) then
+              info = -3
+           else if (n < 0) then
+              info = -4
+           else if (kd < 0) then
+              info = -5
+           else if (ldab < (kd + 1)) then
+              info = -7
+           else if (lhous < lhmin .and. .not. lquery) then
+              info = -11
+           else if (lwork < lwmin .and. .not. lquery) then
+              info = -13
+           end if
+           if (info == 0) then
+              hous(1) = lhmin
+              work(1) = lwmin
+           end if
+           if (info /= 0) then
+              call la_xerbla('DSYTRD_SB2ST',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) then
+               hous(1) = 1
+               work(1) = 1
+               return
+           end if
+           ! determine pointer position
+           ldv = kd + ib
+           sizetau = 2*n
+           sidev = 2*n
+           indtau = 1
+           indv = indtau + sizetau
+           lda = 2*kd + 1
+           sizea = lda*n
+           inda = 1
+           indw = inda + sizea
+           nthreads = 1
+           tid = 0
+           if (upper) then
+               apos = inda + kd
+               awpos = inda
+               dpos = apos + kd
+               ofdpos = dpos - 1
+               abdpos = kd + 1
+               abofdpos = kd
+           else
+               apos = inda
+               awpos = inda + kd + 1
+               dpos = apos
+               ofdpos = dpos + 1
+               abdpos = 1
+               abofdpos = 2
+           end if
+           ! case kd=0:
+           ! the matrix is diagonal. we just copy it (convert to "real" for
+           ! real because d is double and the imaginary part should be 0)
+           ! and store it in d. a sequential code here is better or
+           ! in a parallel environment it might need two cores for d and e
+           if (kd == 0) then
+               do i = 1,n
+                   d(i) = (ab(abdpos,i))
+               end do
+               do i = 1,n - 1
+                   e(i) = rzero
+               end do
+               hous(1) = 1
+               work(1) = 1
+               return
+           end if
+           ! case kd=1:
+           ! the matrix is already tridiagonal. we have to make diagonal
+           ! and offdiagonal elements real, and store them in d and e.
+           ! for that, for real precision just copy the diag and offdiag
+           ! to d and e while for the complex case the bulge chasing is
+           ! performed to convert the hermetian tridiagonal to symmetric
+           ! tridiagonal. a simpler conversion formula might be used, but then
+           ! updating the q matrix will be required and based if q is generated
+           ! or not this might complicate the story.
+           if (kd == 1) then
+               do i = 1,n
+                   d(i) = (ab(abdpos,i))
+               end do
+               if (upper) then
+                   do i = 1,n - 1
+                      e(i) = (ab(abofdpos,i + 1))
+                   end do
+               else
+                   do i = 1,n - 1
+                      e(i) = (ab(abofdpos,i))
+                   end do
+               end if
+               hous(1) = 1
+               work(1) = 1
+               return
+           end if
+           ! main code start here.
+           ! reduce the symmetric band of a to a tridiagonal matrix.
+           thgrsiz = n
+           grsiz = 1
+           shift = 3
+           nbtiles = ceiling(real(n,KIND=dp)/real(kd,KIND=dp))
+           stepercol = ceiling(real(shift,KIND=dp)/real(grsiz,KIND=dp))
+           thgrnb = ceiling(real(n - 1,KIND=dp)/real(thgrsiz,KIND=dp))
+           call la_dlacpy("A",kd + 1,n,ab,ldab,work(apos),lda)
+           call la_dlaset("A",kd,n,zero,zero,work(awpos),lda)
+           ! openmp parallelisation start here
+#if defined(_OPENMP)
+!$OMP PARALLEL PRIVATE( TID, THGRID, BLKLASTIND )
+!$OMP$         PRIVATE( THED, I, M, K, ST, ED, STT, SWEEPID )
+!$OMP$         PRIVATE( MYID, TTYPE, COLPT, STIND, EDIND )
+!$OMP$         SHARED ( UPLO, WANTQ, INDV, INDTAU, HOUS, WORK)
+!$OMP$         SHARED ( N, KD, IB, NBTILES, LDA, LDV, INDA )
+!$OMP$         SHARED ( STEPERCOL, THGRNB, THGRSIZ, GRSIZ, SHIFT )
+!$OMP MASTER
+#endif
+           ! main bulge chasing loop
+           loop_100: do thgrid = 1,thgrnb
+               stt = (thgrid - 1)*thgrsiz + 1
+               thed = min((stt + thgrsiz - 1), (n - 1))
+               loop_110: do i = stt,n - 1
+                   ed = min(i,thed)
+                   if (stt > ed) exit
+                   loop_120: do m = 1,stepercol
+                       st = stt
+                       loop_130: do sweepid = st,ed
+                           loop_140: do k = 1,grsiz
+                               myid = (i - sweepid)*(stepercol*grsiz) + (m - 1)*grsiz + k
+                               if (myid == 1) then
+                                   ttype = 1
+                               else
+                                   ttype = mod(myid,2) + 2
+                               end if
+                               if (ttype == 2) then
+                                   colpt = (myid/2)*kd + sweepid
+                                   stind = colpt - kd + 1
+                                   edind = min(colpt,n)
+                                   blklastind = colpt
+                               else
+                                   colpt = ((myid + 1)/2)*kd + sweepid
+                                   stind = colpt - kd + 1
+                                   edind = min(colpt,n)
+                                   if ((stind >= edind - 1) .and. (edind == n)) then
+                                       blklastind = n
+                                   else
+                                       blklastind = 0
+                                   end if
+                               end if
+                               ! call the kernel
+#if defined(_OPENMP) &&  _OPENMP >= 201307
+                               if (ttype /= 1) then
+!$OMP TASK DEPEND(in:WORK(MYID+SHIFT-1))
+!$OMP$     DEPEND(in:WORK(MYID-1))
+!$OMP$     DEPEND(out:WORK(MYID))
+                                   tid = omp_get_thread_num()
+                                   call la_dsb2st_kernels(uplo,wantq,ttype,stind,edind, &
+                                   sweepid,n,kd,ib,work(inda),lda,hous(indv),hous( &
+                                             indtau),ldv,work(indw + tid*kd))
+!$OMP END TASK
+                               else
+!$OMP TASK DEPEND(in:WORK(MYID+SHIFT-1))
+!$OMP$     DEPEND(out:WORK(MYID))
+                                   tid = omp_get_thread_num()
+                                   call la_dsb2st_kernels(uplo,wantq,ttype,stind,edind, &
+                                   sweepid,n,kd,ib,work(inda),lda,hous(indv),hous( &
+                                             indtau),ldv,work(indw + tid*kd))
+!$OMP END TASK
+                               end if
+#else
+                               call la_dsb2st_kernels(uplo,wantq,ttype,stind,edind, &
+                               sweepid,n,kd,ib,work(inda),lda,hous(indv),hous(indtau), &
+                                          ldv,work(indw + tid*kd))
+#endif
+                               if (blklastind >= (n - 1)) then
+                                   stt = stt + 1
+                                   exit
+                               end if
+                           end do loop_140
+                       end do loop_130
+                   end do loop_120
+               end do loop_110
+           end do loop_100
+#if defined(_OPENMP)
+!$OMP END MASTER
+!$OMP END PARALLEL
+#endif
+           ! copy the diagonal from a to d. note that d is real thus only
+           ! the real part is needed, the imaginary part should be zero.
+           do i = 1,n
+               d(i) = (work(dpos + (i - 1)*lda))
+           end do
+           ! copy the off diagonal from a to e. note that e is real thus only
+           ! the real part is needed, the imaginary part should be zero.
+           if (upper) then
+               do i = 1,n - 1
+                  e(i) = (work(ofdpos + i*lda))
+               end do
+           else
+               do i = 1,n - 1
+                  e(i) = (work(ofdpos + (i - 1)*lda))
+               end do
+           end if
+           hous(1) = lhmin
+           work(1) = lwmin
+           return
+     end subroutine la_dsytrd_sb2st
+     !> QSYTRD_SB2ST: reduces a real symmetric band matrix A to real symmetric
+     !> tridiagonal form T by a orthogonal similarity transformation:
+     !> Q**T * A * Q = T.
+
+     pure subroutine la_qsytrd_sb2st(stage1,vect,uplo,n,kd,ab,ldab,d,e,hous,lhous, &
+               work,lwork,info)
+        use la_constants_qp
+#if defined(_OPENMP)
+#endif
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: stage1,uplo,vect
+           integer(ilp),intent(in) :: n,kd,ldab,lhous,lwork
+           integer(ilp),intent(out) :: info
+           ! Array Arguments
+           real(qp),intent(out) :: d(*),e(*)
+           real(qp),intent(inout) :: ab(ldab,*)
+           real(qp),intent(out) :: hous(*),work(*)
+        ! =====================================================================
+           ! Parameters
+           real(qp),parameter :: rzero = 0.0e+0_qp
+
+           ! Local Scalars
+           logical(lk) :: lquery,wantq,upper,afters1
+           integer(ilp) :: i,m,k,ib,sweepid,myid,shift,stt,st,ed,stind,edind, &
+           blklastind,colpt,thed,stepercol,grsiz,thgrsiz,thgrnb,thgrid,nbtiles,ttype, &
+           tid,nthreads,debug,abdpos,abofdpos,dpos,ofdpos,awpos,inda,indw,apos,sizea, &
+                     lda,indv,indtau,siqev,sizetau,ldv,lhmin,lwmin
+           ! Intrinsic Functions
+           intrinsic :: min,max,ceiling,real
+           ! Executable Statements
+           ! determine the minimal workspace size required.
+           ! test the input parameters
+           debug = 0
+           info = 0
+           afters1 = la_lsame(stage1,'Y')
+           wantq = la_lsame(vect,'V')
+           upper = la_lsame(uplo,'U')
+           lquery = (lwork == -1) .or. (lhous == -1)
+           ! determine the block size, the workspace size and the hous size.
+           ib = la_ilaenv2stage(2,'QSYTRD_SB2ST',vect,n,kd,-1,-1)
+           lhmin = la_ilaenv2stage(3,'QSYTRD_SB2ST',vect,n,kd,ib,-1)
+           lwmin = la_ilaenv2stage(4,'QSYTRD_SB2ST',vect,n,kd,ib,-1)
+           if (.not. afters1 .and. .not. la_lsame(stage1,'N')) then
+              info = -1
+           else if (.not. la_lsame(vect,'N')) then
+              info = -2
+           else if (.not. upper .and. .not. la_lsame(uplo,'L')) then
+              info = -3
+           else if (n < 0) then
+              info = -4
+           else if (kd < 0) then
+              info = -5
+           else if (ldab < (kd + 1)) then
+              info = -7
+           else if (lhous < lhmin .and. .not. lquery) then
+              info = -11
+           else if (lwork < lwmin .and. .not. lquery) then
+              info = -13
+           end if
+           if (info == 0) then
+              hous(1) = lhmin
+              work(1) = lwmin
+           end if
+           if (info /= 0) then
+              call la_xerbla('QSYTRD_SB2ST',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) then
+               hous(1) = 1
+               work(1) = 1
+               return
+           end if
+           ! determine pointer position
+           ldv = kd + ib
+           sizetau = 2*n
+           siqev = 2*n
+           indtau = 1
+           indv = indtau + sizetau
+           lda = 2*kd + 1
+           sizea = lda*n
+           inda = 1
+           indw = inda + sizea
+           nthreads = 1
+           tid = 0
+           if (upper) then
+               apos = inda + kd
+               awpos = inda
+               dpos = apos + kd
+               ofdpos = dpos - 1
+               abdpos = kd + 1
+               abofdpos = kd
+           else
+               apos = inda
+               awpos = inda + kd + 1
+               dpos = apos
+               ofdpos = dpos + 1
+               abdpos = 1
+               abofdpos = 2
+           end if
+           ! case kd=0:
+           ! the matrix is diagonal. we just copy it (convert to "real" for
+           ! real because d is double and the imaginary part should be 0)
+           ! and store it in d. a sequential code here is better or
+           ! in a parallel environment it might need two cores for d and e
+           if (kd == 0) then
+               do i = 1,n
+                   d(i) = (ab(abdpos,i))
+               end do
+               do i = 1,n - 1
+                   e(i) = rzero
+               end do
+               hous(1) = 1
+               work(1) = 1
+               return
+           end if
+           ! case kd=1:
+           ! the matrix is already tridiagonal. we have to make diagonal
+           ! and offdiagonal elements real, and store them in d and e.
+           ! for that, for real precision just copy the diag and offdiag
+           ! to d and e while for the complex case the bulge chasing is
+           ! performed to convert the hermetian tridiagonal to symmetric
+           ! tridiagonal. a simpler conversion formula might be used, but then
+           ! updating the q matrix will be required and based if q is generated
+           ! or not this might complicate the story.
+           if (kd == 1) then
+               do i = 1,n
+                   d(i) = (ab(abdpos,i))
+               end do
+               if (upper) then
+                   do i = 1,n - 1
+                      e(i) = (ab(abofdpos,i + 1))
+                   end do
+               else
+                   do i = 1,n - 1
+                      e(i) = (ab(abofdpos,i))
+                   end do
+               end if
+               hous(1) = 1
+               work(1) = 1
+               return
+           end if
+           ! main code start here.
+           ! reduce the symmetric band of a to a tridiagonal matrix.
+           thgrsiz = n
+           grsiz = 1
+           shift = 3
+           nbtiles = ceiling(real(n,KIND=qp)/real(kd,KIND=qp))
+           stepercol = ceiling(real(shift,KIND=qp)/real(grsiz,KIND=qp))
+           thgrnb = ceiling(real(n - 1,KIND=qp)/real(thgrsiz,KIND=qp))
+           call la_qlacpy("A",kd + 1,n,ab,ldab,work(apos),lda)
+           call la_qlaset("A",kd,n,zero,zero,work(awpos),lda)
+           ! openmp parallelisation start here
+#if defined(_OPENMP)
+!$OMP PARALLEL PRIVATE( TID, THGRID, BLKLASTIND )
+!$OMP$         PRIVATE( THED, I, M, K, ST, ED, STT, SWEEPID )
+!$OMP$         PRIVATE( MYID, TTYPE, COLPT, STIND, EDIND )
+!$OMP$         SHARED ( UPLO, WANTQ, INDV, INDTAU, HOUS, WORK)
+!$OMP$         SHARED ( N, KD, IB, NBTILES, LDA, LDV, INDA )
+!$OMP$         SHARED ( STEPERCOL, THGRNB, THGRSIZ, GRSIZ, SHIFT )
+!$OMP MASTER
+#endif
+           ! main bulge chasing loop
+           loop_100: do thgrid = 1,thgrnb
+               stt = (thgrid - 1)*thgrsiz + 1
+               thed = min((stt + thgrsiz - 1), (n - 1))
+               loop_110: do i = stt,n - 1
+                   ed = min(i,thed)
+                   if (stt > ed) exit
+                   loop_120: do m = 1,stepercol
+                       st = stt
+                       loop_130: do sweepid = st,ed
+                           loop_140: do k = 1,grsiz
+                               myid = (i - sweepid)*(stepercol*grsiz) + (m - 1)*grsiz + k
+                               if (myid == 1) then
+                                   ttype = 1
+                               else
+                                   ttype = mod(myid,2) + 2
+                               end if
+                               if (ttype == 2) then
+                                   colpt = (myid/2)*kd + sweepid
+                                   stind = colpt - kd + 1
+                                   edind = min(colpt,n)
+                                   blklastind = colpt
+                               else
+                                   colpt = ((myid + 1)/2)*kd + sweepid
+                                   stind = colpt - kd + 1
+                                   edind = min(colpt,n)
+                                   if ((stind >= edind - 1) .and. (edind == n)) then
+                                       blklastind = n
+                                   else
+                                       blklastind = 0
+                                   end if
+                               end if
+                               ! call the kernel
+#if defined(_OPENMP) &&  _OPENMP >= 201307
+                               if (ttype /= 1) then
+!$OMP TASK DEPEND(in:WORK(MYID+SHIFT-1))
+!$OMP$     DEPEND(in:WORK(MYID-1))
+!$OMP$     DEPEND(out:WORK(MYID))
+                                   tid = omp_get_thread_num()
+                                   call la_qsb2st_kernels(uplo,wantq,ttype,stind,edind, &
+                                   sweepid,n,kd,ib,work(inda),lda,hous(indv),hous( &
+                                             indtau),ldv,work(indw + tid*kd))
+!$OMP END TASK
+                               else
+!$OMP TASK DEPEND(in:WORK(MYID+SHIFT-1))
+!$OMP$     DEPEND(out:WORK(MYID))
+                                   tid = omp_get_thread_num()
+                                   call la_qsb2st_kernels(uplo,wantq,ttype,stind,edind, &
+                                   sweepid,n,kd,ib,work(inda),lda,hous(indv),hous( &
+                                             indtau),ldv,work(indw + tid*kd))
+!$OMP END TASK
+                               end if
+#else
+                               call la_qsb2st_kernels(uplo,wantq,ttype,stind,edind, &
+                               sweepid,n,kd,ib,work(inda),lda,hous(indv),hous(indtau), &
+                                          ldv,work(indw + tid*kd))
+#endif
+                               if (blklastind >= (n - 1)) then
+                                   stt = stt + 1
+                                   exit
+                               end if
+                           end do loop_140
+                       end do loop_130
+                   end do loop_120
+               end do loop_110
+           end do loop_100
+#if defined(_OPENMP)
+!$OMP END MASTER
+!$OMP END PARALLEL
+#endif
+           ! copy the diagonal from a to d. note that d is real thus only
+           ! the real part is needed, the imaginary part should be zero.
+           do i = 1,n
+               d(i) = (work(dpos + (i - 1)*lda))
+           end do
+           ! copy the off diagonal from a to e. note that e is real thus only
+           ! the real part is needed, the imaginary part should be zero.
+           if (upper) then
+               do i = 1,n - 1
+                  e(i) = (work(ofdpos + i*lda))
+               end do
+           else
+               do i = 1,n - 1
+                  e(i) = (work(ofdpos + (i - 1)*lda))
+               end do
+           end if
+           hous(1) = lhmin
+           work(1) = lwmin
+           return
+     end subroutine la_qsytrd_sb2st
+
+     !> SORGTR: generates a real orthogonal matrix Q which is defined as the
+     !> product of n-1 elementary reflectors of order N, as returned by
+     !> SSYTRD:
+     !> if UPLO = 'U', Q = H(n-1) . . . H(2) H(1),
+     !> if UPLO = 'L', Q = H(1) H(2) . . . H(n-1).
+
+     pure subroutine la_sorgtr(uplo,n,a,lda,tau,work,lwork,info)
+        use la_constants_sp
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,lwork,n
+           ! Array Arguments
+           real(sp),intent(inout) :: a(lda,*)
+           real(sp),intent(in) :: tau(*)
+           real(sp),intent(out) :: work(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lquery,upper
+           integer(ilp) :: i,iinfo,j,lwkopt,nb
+           ! Intrinsic Functions
+           intrinsic :: max
+           ! Executable Statements
+           ! test the input arguments
+           info = 0
+           lquery = (lwork == -1)
+           upper = la_lsame(uplo,'U')
+           if (.not. upper .and. .not. la_lsame(uplo,'L')) then
+              info = -1
+           else if (n < 0) then
+              info = -2
+           else if (lda < max(1,n)) then
+              info = -4
+           else if (lwork < max(1,n - 1) .and. .not. lquery) then
+              info = -7
+           end if
+           if (info == 0) then
+              if (upper) then
+                 nb = la_ilaenv(1,'SORGQL',' ',n - 1,n - 1,n - 1,-1)
+              else
+                 nb = la_ilaenv(1,'SORGQR',' ',n - 1,n - 1,n - 1,-1)
+              end if
+              lwkopt = max(1,n - 1)*nb
+              work(1) = lwkopt
+           end if
+           if (info /= 0) then
+              call la_xerbla('SORGTR',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) then
+              work(1) = 1
+              return
+           end if
+           if (upper) then
+              ! q was determined by a call to la_ssytrd with uplo = 'u'
+              ! shift the vectors which define the elementary reflectors one
+              ! column to the left, and set the last row and column of q to
+              ! those of the unit matrix
+              do j = 1,n - 1
+                 do i = 1,j - 1
+                    a(i,j) = a(i,j + 1)
+                 end do
+                 a(n,j) = zero
+              end do
+              do i = 1,n - 1
+                 a(i,n) = zero
+              end do
+              a(n,n) = one
+              ! generate q(1:n-1,1:n-1)
+              call la_sorgql(n - 1,n - 1,n - 1,a,lda,tau,work,lwork,iinfo)
+           else
+              ! q was determined by a call to la_ssytrd with uplo = 'l'.
+              ! shift the vectors which define the elementary reflectors one
+              ! column to the right, and set the first row and column of q to
+              ! those of the unit matrix
+              do j = n,2,-1
+                 a(1,j) = zero
+                 do i = j + 1,n
+                    a(i,j) = a(i,j - 1)
+                 end do
+              end do
+              a(1,1) = one
+              do i = 2,n
+                 a(i,1) = zero
+              end do
+              if (n > 1) then
+                 ! generate q(2:n,2:n)
+                 call la_sorgqr(n - 1,n - 1,n - 1,a(2,2),lda,tau,work,lwork,iinfo)
+
+              end if
+           end if
+           work(1) = lwkopt
+           return
+     end subroutine la_sorgtr
+     !> DORGTR: generates a real orthogonal matrix Q which is defined as the
+     !> product of n-1 elementary reflectors of order N, as returned by
+     !> DSYTRD:
+     !> if UPLO = 'U', Q = H(n-1) . . . H(2) H(1),
+     !> if UPLO = 'L', Q = H(1) H(2) . . . H(n-1).
+
+     pure subroutine la_dorgtr(uplo,n,a,lda,tau,work,lwork,info)
+        use la_constants_dp
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,lwork,n
+           ! Array Arguments
+           real(dp),intent(inout) :: a(lda,*)
+           real(dp),intent(in) :: tau(*)
+           real(dp),intent(out) :: work(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lquery,upper
+           integer(ilp) :: i,iinfo,j,lwkopt,nb
+           ! Intrinsic Functions
+           intrinsic :: max
+           ! Executable Statements
+           ! test the input arguments
+           info = 0
+           lquery = (lwork == -1)
+           upper = la_lsame(uplo,'U')
+           if (.not. upper .and. .not. la_lsame(uplo,'L')) then
+              info = -1
+           else if (n < 0) then
+              info = -2
+           else if (lda < max(1,n)) then
+              info = -4
+           else if (lwork < max(1,n - 1) .and. .not. lquery) then
+              info = -7
+           end if
+           if (info == 0) then
+              if (upper) then
+                 nb = la_ilaenv(1,'DORGQL',' ',n - 1,n - 1,n - 1,-1)
+              else
+                 nb = la_ilaenv(1,'DORGQR',' ',n - 1,n - 1,n - 1,-1)
+              end if
+              lwkopt = max(1,n - 1)*nb
+              work(1) = lwkopt
+           end if
+           if (info /= 0) then
+              call la_xerbla('DORGTR',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) then
+              work(1) = 1
+              return
+           end if
+           if (upper) then
+              ! q was determined by a call to la_dsytrd with uplo = 'u'
+              ! shift the vectors which define the elementary reflectors one
+              ! column to the left, and set the last row and column of q to
+              ! those of the unit matrix
+              do j = 1,n - 1
+                 do i = 1,j - 1
+                    a(i,j) = a(i,j + 1)
+                 end do
+                 a(n,j) = zero
+              end do
+              do i = 1,n - 1
+                 a(i,n) = zero
+              end do
+              a(n,n) = one
+              ! generate q(1:n-1,1:n-1)
+              call la_dorgql(n - 1,n - 1,n - 1,a,lda,tau,work,lwork,iinfo)
+           else
+              ! q was determined by a call to la_dsytrd with uplo = 'l'.
+              ! shift the vectors which define the elementary reflectors one
+              ! column to the right, and set the first row and column of q to
+              ! those of the unit matrix
+              do j = n,2,-1
+                 a(1,j) = zero
+                 do i = j + 1,n
+                    a(i,j) = a(i,j - 1)
+                 end do
+              end do
+              a(1,1) = one
+              do i = 2,n
+                 a(i,1) = zero
+              end do
+              if (n > 1) then
+                 ! generate q(2:n,2:n)
+                 call la_dorgqr(n - 1,n - 1,n - 1,a(2,2),lda,tau,work,lwork,iinfo)
+
+              end if
+           end if
+           work(1) = lwkopt
+           return
+     end subroutine la_dorgtr
+     !> QORGTR: generates a real orthogonal matrix Q which is defined as the
+     !> product of n-1 elementary reflectors of order N, as returned by
+     !> QSYTRD:
+     !> if UPLO = 'U', Q = H(n-1) . . . H(2) H(1),
+     !> if UPLO = 'L', Q = H(1) H(2) . . . H(n-1).
+
+     pure subroutine la_qorgtr(uplo,n,a,lda,tau,work,lwork,info)
+        use la_constants_qp
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,lwork,n
+           ! Array Arguments
+           real(qp),intent(inout) :: a(lda,*)
+           real(qp),intent(in) :: tau(*)
+           real(qp),intent(out) :: work(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lquery,upper
+           integer(ilp) :: i,iinfo,j,lwkopt,nb
+           ! Intrinsic Functions
+           intrinsic :: max
+           ! Executable Statements
+           ! test the input arguments
+           info = 0
+           lquery = (lwork == -1)
+           upper = la_lsame(uplo,'U')
+           if (.not. upper .and. .not. la_lsame(uplo,'L')) then
+              info = -1
+           else if (n < 0) then
+              info = -2
+           else if (lda < max(1,n)) then
+              info = -4
+           else if (lwork < max(1,n - 1) .and. .not. lquery) then
+              info = -7
+           end if
+           if (info == 0) then
+              if (upper) then
+                 nb = la_ilaenv(1,'QORGQL',' ',n - 1,n - 1,n - 1,-1)
+              else
+                 nb = la_ilaenv(1,'QORGQR',' ',n - 1,n - 1,n - 1,-1)
+              end if
+              lwkopt = max(1,n - 1)*nb
+              work(1) = lwkopt
+           end if
+           if (info /= 0) then
+              call la_xerbla('QORGTR',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) then
+              work(1) = 1
+              return
+           end if
+           if (upper) then
+              ! q was determined by a call to la_qsytrd with uplo = 'u'
+              ! shift the vectors which define the elementary reflectors one
+              ! column to the left, and set the last row and column of q to
+              ! those of the unit matrix
+              do j = 1,n - 1
+                 do i = 1,j - 1
+                    a(i,j) = a(i,j + 1)
+                 end do
+                 a(n,j) = zero
+              end do
+              do i = 1,n - 1
+                 a(i,n) = zero
+              end do
+              a(n,n) = one
+              ! generate q(1:n-1,1:n-1)
+              call la_qorgql(n - 1,n - 1,n - 1,a,lda,tau,work,lwork,iinfo)
+           else
+              ! q was determined by a call to la_qsytrd with uplo = 'l'.
+              ! shift the vectors which define the elementary reflectors one
+              ! column to the right, and set the first row and column of q to
+              ! those of the unit matrix
+              do j = n,2,-1
+                 a(1,j) = zero
+                 do i = j + 1,n
+                    a(i,j) = a(i,j - 1)
+                 end do
+              end do
+              a(1,1) = one
+              do i = 2,n
+                 a(i,1) = zero
+              end do
+              if (n > 1) then
+                 ! generate q(2:n,2:n)
+                 call la_qorgqr(n - 1,n - 1,n - 1,a(2,2),lda,tau,work,lwork,iinfo)
+
+              end if
+           end if
+           work(1) = lwkopt
+           return
+     end subroutine la_qorgtr
+
+     !> SORMTR: overwrites the general real M-by-N matrix C with
+     !> SIDE = 'L'     SIDE = 'R'
+     !> TRANS = 'N':      Q * C          C * Q
+     !> TRANS = 'T':      Q**T * C       C * Q**T
+     !> where Q is a real orthogonal matrix of order nq, with nq = m if
+     !> SIDE = 'L' and nq = n if SIDE = 'R'. Q is defined as the product of
+     !> nq-1 elementary reflectors, as returned by SSYTRD:
+     !> if UPLO = 'U', Q = H(nq-1) . . . H(2) H(1);
+     !> if UPLO = 'L', Q = H(1) H(2) . . . H(nq-1).
+
+     pure subroutine la_sormtr(side,uplo,trans,m,n,a,lda,tau,c,ldc,work,lwork, &
+               info)
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: side,trans,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldc,lwork,m,n
+           ! Array Arguments
+           real(sp),intent(inout) :: a(lda,*),c(ldc,*)
+           real(sp),intent(in) :: tau(*)
+           real(sp),intent(out) :: work(*)
+        ! =====================================================================
+           ! Local Scalars
+           logical(lk) :: left,lquery,upper
+           integer(ilp) :: i1,i2,iinfo,lwkopt,mi,ni,nb,nq,nw
+           ! Intrinsic Functions
+           intrinsic :: max
+           ! Executable Statements
+           ! test the input arguments
+           info = 0
+           left = la_lsame(side,'L')
+           upper = la_lsame(uplo,'U')
+           lquery = (lwork == -1)
+           ! nq is the order of q and nw is the minimum dimension of work
+           if (left) then
+              nq = m
+              nw = max(1,n)
+           else
+              nq = n
+              nw = max(1,m)
+           end if
+           if (.not. left .and. .not. la_lsame(side,'R')) then
+              info = -1
+           else if (.not. upper .and. .not. la_lsame(uplo,'L')) then
+              info = -2
+           else if (.not. la_lsame(trans,'N') .and. .not. la_lsame(trans,'T')) &
+                     then
+              info = -3
+           else if (m < 0) then
+              info = -4
+           else if (n < 0) then
+              info = -5
+           else if (lda < max(1,nq)) then
+              info = -7
+           else if (ldc < max(1,m)) then
+              info = -10
+           else if (lwork < nw .and. .not. lquery) then
+              info = -12
+           end if
+           if (info == 0) then
+              if (upper) then
+                 if (left) then
+                    nb = la_ilaenv(1,'SORMQL',side//trans,m - 1,n,m - 1,-1)
+                 else
+                    nb = la_ilaenv(1,'SORMQL',side//trans,m,n - 1,n - 1,-1)
+                 end if
+              else
+                 if (left) then
+                    nb = la_ilaenv(1,'SORMQR',side//trans,m - 1,n,m - 1,-1)
+                 else
+                    nb = la_ilaenv(1,'SORMQR',side//trans,m,n - 1,n - 1,-1)
+                 end if
+              end if
+              lwkopt = nw*nb
+              work(1) = lwkopt
+           end if
+           if (info /= 0) then
+              call la_xerbla('SORMTR',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (m == 0 .or. n == 0 .or. nq == 1) then
+              work(1) = 1
+              return
+           end if
+           if (left) then
+              mi = m - 1
+              ni = n
+           else
+              mi = m
+              ni = n - 1
+           end if
+           if (upper) then
+              ! q was determined by a call to la_ssytrd with uplo = 'u'
+              call la_sormql(side,trans,mi,ni,nq - 1,a(1,2),lda,tau,c,ldc,work, &
+                        lwork,iinfo)
+           else
+              ! q was determined by a call to la_ssytrd with uplo = 'l'
+              if (left) then
+                 i1 = 2
+                 i2 = 1
+              else
+                 i1 = 1
+                 i2 = 2
+              end if
+              call la_sormqr(side,trans,mi,ni,nq - 1,a(2,1),lda,tau,c(i1,i2),ldc, &
+                         work,lwork,iinfo)
+           end if
+           work(1) = lwkopt
+           return
+     end subroutine la_sormtr
+     !> DORMTR: overwrites the general real M-by-N matrix C with
+     !> SIDE = 'L'     SIDE = 'R'
+     !> TRANS = 'N':      Q * C          C * Q
+     !> TRANS = 'T':      Q**T * C       C * Q**T
+     !> where Q is a real orthogonal matrix of order nq, with nq = m if
+     !> SIDE = 'L' and nq = n if SIDE = 'R'. Q is defined as the product of
+     !> nq-1 elementary reflectors, as returned by DSYTRD:
+     !> if UPLO = 'U', Q = H(nq-1) . . . H(2) H(1);
+     !> if UPLO = 'L', Q = H(1) H(2) . . . H(nq-1).
+
+     pure subroutine la_dormtr(side,uplo,trans,m,n,a,lda,tau,c,ldc,work,lwork, &
+               info)
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: side,trans,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldc,lwork,m,n
+           ! Array Arguments
+           real(dp),intent(inout) :: a(lda,*),c(ldc,*)
+           real(dp),intent(in) :: tau(*)
+           real(dp),intent(out) :: work(*)
+        ! =====================================================================
+           ! Local Scalars
+           logical(lk) :: left,lquery,upper
+           integer(ilp) :: i1,i2,iinfo,lwkopt,mi,nb,ni,nq,nw
+           ! Intrinsic Functions
+           intrinsic :: max
+           ! Executable Statements
+           ! test the input arguments
+           info = 0
+           left = la_lsame(side,'L')
+           upper = la_lsame(uplo,'U')
+           lquery = (lwork == -1)
+           ! nq is the order of q and nw is the minimum dimension of work
+           if (left) then
+              nq = m
+              nw = max(1,n)
+           else
+              nq = n
+              nw = max(1,m)
+           end if
+           if (.not. left .and. .not. la_lsame(side,'R')) then
+              info = -1
+           else if (.not. upper .and. .not. la_lsame(uplo,'L')) then
+              info = -2
+           else if (.not. la_lsame(trans,'N') .and. .not. la_lsame(trans,'T')) &
+                     then
+              info = -3
+           else if (m < 0) then
+              info = -4
+           else if (n < 0) then
+              info = -5
+           else if (lda < max(1,nq)) then
+              info = -7
+           else if (ldc < max(1,m)) then
+              info = -10
+           else if (lwork < nw .and. .not. lquery) then
+              info = -12
+           end if
+           if (info == 0) then
+              if (upper) then
+                 if (left) then
+                    nb = la_ilaenv(1,'DORMQL',side//trans,m - 1,n,m - 1,-1)
+                 else
+                    nb = la_ilaenv(1,'DORMQL',side//trans,m,n - 1,n - 1,-1)
+                 end if
+              else
+                 if (left) then
+                    nb = la_ilaenv(1,'DORMQR',side//trans,m - 1,n,m - 1,-1)
+                 else
+                    nb = la_ilaenv(1,'DORMQR',side//trans,m,n - 1,n - 1,-1)
+                 end if
+              end if
+              lwkopt = nw*nb
+              work(1) = lwkopt
+           end if
+           if (info /= 0) then
+              call la_xerbla('DORMTR',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (m == 0 .or. n == 0 .or. nq == 1) then
+              work(1) = 1
+              return
+           end if
+           if (left) then
+              mi = m - 1
+              ni = n
+           else
+              mi = m
+              ni = n - 1
+           end if
+           if (upper) then
+              ! q was determined by a call to la_dsytrd with uplo = 'u'
+              call la_dormql(side,trans,mi,ni,nq - 1,a(1,2),lda,tau,c,ldc,work, &
+                        lwork,iinfo)
+           else
+              ! q was determined by a call to la_dsytrd with uplo = 'l'
+              if (left) then
+                 i1 = 2
+                 i2 = 1
+              else
+                 i1 = 1
+                 i2 = 2
+              end if
+              call la_dormqr(side,trans,mi,ni,nq - 1,a(2,1),lda,tau,c(i1,i2),ldc, &
+                         work,lwork,iinfo)
+           end if
+           work(1) = lwkopt
+           return
+     end subroutine la_dormtr
+     !> QORMTR: overwrites the general real M-by-N matrix C with
+     !> SIDE = 'L'     SIDE = 'R'
+     !> TRANS = 'N':      Q * C          C * Q
+     !> TRANS = 'T':      Q**T * C       C * Q**T
+     !> where Q is a real orthogonal matrix of order nq, with nq = m if
+     !> SIDE = 'L' and nq = n if SIDE = 'R'. Q is defined as the product of
+     !> nq-1 elementary reflectors, as returned by QSYTRD:
+     !> if UPLO = 'U', Q = H(nq-1) . . . H(2) H(1);
+     !> if UPLO = 'L', Q = H(1) H(2) . . . H(nq-1).
+
+     pure subroutine la_qormtr(side,uplo,trans,m,n,a,lda,tau,c,ldc,work,lwork, &
+               info)
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: side,trans,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldc,lwork,m,n
+           ! Array Arguments
+           real(qp),intent(inout) :: a(lda,*),c(ldc,*)
+           real(qp),intent(in) :: tau(*)
+           real(qp),intent(out) :: work(*)
+        ! =====================================================================
+           ! Local Scalars
+           logical(lk) :: left,lquery,upper
+           integer(ilp) :: i1,i2,iinfo,lwkopt,mi,nb,ni,nq,nw
+           ! Intrinsic Functions
+           intrinsic :: max
+           ! Executable Statements
+           ! test the input arguments
+           info = 0
+           left = la_lsame(side,'L')
+           upper = la_lsame(uplo,'U')
+           lquery = (lwork == -1)
+           ! nq is the order of q and nw is the minimum dimension of work
+           if (left) then
+              nq = m
+              nw = max(1,n)
+           else
+              nq = n
+              nw = max(1,m)
+           end if
+           if (.not. left .and. .not. la_lsame(side,'R')) then
+              info = -1
+           else if (.not. upper .and. .not. la_lsame(uplo,'L')) then
+              info = -2
+           else if (.not. la_lsame(trans,'N') .and. .not. la_lsame(trans,'T')) &
+                     then
+              info = -3
+           else if (m < 0) then
+              info = -4
+           else if (n < 0) then
+              info = -5
+           else if (lda < max(1,nq)) then
+              info = -7
+           else if (ldc < max(1,m)) then
+              info = -10
+           else if (lwork < nw .and. .not. lquery) then
+              info = -12
+           end if
+           if (info == 0) then
+              if (upper) then
+                 if (left) then
+                    nb = la_ilaenv(1,'QORMQL',side//trans,m - 1,n,m - 1,-1)
+                 else
+                    nb = la_ilaenv(1,'QORMQL',side//trans,m,n - 1,n - 1,-1)
+                 end if
+              else
+                 if (left) then
+                    nb = la_ilaenv(1,'QORMQR',side//trans,m - 1,n,m - 1,-1)
+                 else
+                    nb = la_ilaenv(1,'QORMQR',side//trans,m,n - 1,n - 1,-1)
+                 end if
+              end if
+              lwkopt = nw*nb
+              work(1) = lwkopt
+           end if
+           if (info /= 0) then
+              call la_xerbla('QORMTR',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (m == 0 .or. n == 0 .or. nq == 1) then
+              work(1) = 1
+              return
+           end if
+           if (left) then
+              mi = m - 1
+              ni = n
+           else
+              mi = m
+              ni = n - 1
+           end if
+           if (upper) then
+              ! q was determined by a call to la_qsytrd with uplo = 'u'
+              call la_qormql(side,trans,mi,ni,nq - 1,a(1,2),lda,tau,c,ldc,work, &
+                        lwork,iinfo)
+           else
+              ! q was determined by a call to la_qsytrd with uplo = 'l'
+              if (left) then
+                 i1 = 2
+                 i2 = 1
+              else
+                 i1 = 1
+                 i2 = 2
+              end if
+              call la_qormqr(side,trans,mi,ni,nq - 1,a(2,1),lda,tau,c(i1,i2),ldc, &
+                         work,lwork,iinfo)
+           end if
+           work(1) = lwkopt
+           return
+     end subroutine la_qormtr
+
+     !> SSBEV: computes all the eigenvalues and, optionally, eigenvectors of
+     !> a real symmetric band matrix A.
+
+     subroutine la_ssbev(jobz,uplo,n,kd,ab,ldab,w,z,ldz,work,info)
+        use la_constants_sp,only:zero,one
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kd,ldab,ldz,n
+           ! Array Arguments
+           real(sp),intent(inout) :: ab(ldab,*)
+           real(sp),intent(out) :: w(*),work(*),z(ldz,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lower,wantz
+           integer(ilp) :: iinfo,imax,inde,indwrk,iscale
+           real(sp) :: anrm,bignum,eps,rmax,rmin,safmin,sigma,smlnum
+           ! Intrinsic Functions
+           intrinsic :: sqrt
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           lower = la_lsame(uplo,'L')
+           info = 0
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (lower .or. la_lsame(uplo,'U'))) then
+              info = -2
+           else if (n < 0) then
+              info = -3
+           else if (kd < 0) then
+              info = -4
+           else if (ldab < kd + 1) then
+              info = -6
+           else if (ldz < 1 .or. (wantz .and. ldz < n)) then
+              info = -9
+           end if
+           if (info /= 0) then
+              call la_xerbla('SSBEV ',-info)
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           if (n == 1) then
+              if (lower) then
+                 w(1) = ab(1,1)
+              else
+                 w(1) = ab(kd + 1,1)
+              end if
+              if (wantz) z(1,1) = one
+              return
+           end if
+           ! get machine constants.
+           safmin = la_slamch('SAFE MINIMUM')
+           eps = la_slamch('PRECISION')
+           smlnum = safmin/eps
+           bignum = one/smlnum
+           rmin = sqrt(smlnum)
+           rmax = sqrt(bignum)
+           ! scale matrix to allowable range, if necessary.
+           anrm = la_slansb('M',uplo,n,kd,ab,ldab,work)
+           iscale = 0
+           if (anrm > zero .and. anrm < rmin) then
+              iscale = 1
+              sigma = rmin/anrm
+           else if (anrm > rmax) then
+              iscale = 1
+              sigma = rmax/anrm
+           end if
+           if (iscale == 1) then
+              if (lower) then
+                 call la_slascl('B',kd,kd,one,sigma,n,n,ab,ldab,info)
+              else
+                 call la_slascl('Q',kd,kd,one,sigma,n,n,ab,ldab,info)
+              end if
+           end if
+           ! call la_ssbtrd to reduce symmetric band matrix to tridiagonal form.
+           inde = 1
+           indwrk = inde + n
+           call la_ssbtrd(jobz,uplo,n,kd,ab,ldab,w,work(inde),z,ldz,work(indwrk) &
+                     ,iinfo)
+           ! for eigenvalues only, call la_ssterf.  for eigenvectors, call la_ssteqr.
+           if (.not. wantz) then
+              call la_ssterf(n,w,work(inde),info)
+           else
+              call la_ssteqr(jobz,n,w,work(inde),z,ldz,work(indwrk),info)
+           end if
+           ! if matrix was scaled, then rescale eigenvalues appropriately.
+           if (iscale == 1) then
+              if (info == 0) then
+                 imax = n
+              else
+                 imax = info - 1
+              end if
+              call la_sscal(imax,one/sigma,w,1)
+           end if
+           return
+     end subroutine la_ssbev
+     !> DSBEV: computes all the eigenvalues and, optionally, eigenvectors of
+     !> a real symmetric band matrix A.
+
+     subroutine la_dsbev(jobz,uplo,n,kd,ab,ldab,w,z,ldz,work,info)
+        use la_constants_dp,only:zero,one
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kd,ldab,ldz,n
+           ! Array Arguments
+           real(dp),intent(inout) :: ab(ldab,*)
+           real(dp),intent(out) :: w(*),work(*),z(ldz,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lower,wantz
+           integer(ilp) :: iinfo,imax,inde,indwrk,iscale
+           real(dp) :: anrm,bignum,eps,rmax,rmin,safmin,sigma,smlnum
+           ! Intrinsic Functions
+           intrinsic :: sqrt
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           lower = la_lsame(uplo,'L')
+           info = 0
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (lower .or. la_lsame(uplo,'U'))) then
+              info = -2
+           else if (n < 0) then
+              info = -3
+           else if (kd < 0) then
+              info = -4
+           else if (ldab < kd + 1) then
+              info = -6
+           else if (ldz < 1 .or. (wantz .and. ldz < n)) then
+              info = -9
+           end if
+           if (info /= 0) then
+              call la_xerbla('DSBEV ',-info)
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           if (n == 1) then
+              if (lower) then
+                 w(1) = ab(1,1)
+              else
+                 w(1) = ab(kd + 1,1)
+              end if
+              if (wantz) z(1,1) = one
+              return
+           end if
+           ! get machine constants.
+           safmin = la_dlamch('SAFE MINIMUM')
+           eps = la_dlamch('PRECISION')
+           smlnum = safmin/eps
+           bignum = one/smlnum
+           rmin = sqrt(smlnum)
+           rmax = sqrt(bignum)
+           ! scale matrix to allowable range, if necessary.
+           anrm = la_dlansb('M',uplo,n,kd,ab,ldab,work)
+           iscale = 0
+           if (anrm > zero .and. anrm < rmin) then
+              iscale = 1
+              sigma = rmin/anrm
+           else if (anrm > rmax) then
+              iscale = 1
+              sigma = rmax/anrm
+           end if
+           if (iscale == 1) then
+              if (lower) then
+                 call la_dlascl('B',kd,kd,one,sigma,n,n,ab,ldab,info)
+              else
+                 call la_dlascl('Q',kd,kd,one,sigma,n,n,ab,ldab,info)
+              end if
+           end if
+           ! call la_dsbtrd to reduce symmetric band matrix to tridiagonal form.
+           inde = 1
+           indwrk = inde + n
+           call la_dsbtrd(jobz,uplo,n,kd,ab,ldab,w,work(inde),z,ldz,work(indwrk) &
+                     ,iinfo)
+           ! for eigenvalues only, call la_dsterf.  for eigenvectors, call la_ssteqr.
+           if (.not. wantz) then
+              call la_dsterf(n,w,work(inde),info)
+           else
+              call la_dsteqr(jobz,n,w,work(inde),z,ldz,work(indwrk),info)
+           end if
+           ! if matrix was scaled, then rescale eigenvalues appropriately.
+           if (iscale == 1) then
+              if (info == 0) then
+                 imax = n
+              else
+                 imax = info - 1
+              end if
+              call la_dscal(imax,one/sigma,w,1)
+           end if
+           return
+     end subroutine la_dsbev
+     !> QSBEV: computes all the eigenvalues and, optionally, eigenvectors of
+     !> a real symmetric band matrix A.
+
+     subroutine la_qsbev(jobz,uplo,n,kd,ab,ldab,w,z,ldz,work,info)
+        use la_constants_qp,only:zero,one
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kd,ldab,ldz,n
+           ! Array Arguments
+           real(qp),intent(inout) :: ab(ldab,*)
+           real(qp),intent(out) :: w(*),work(*),z(ldz,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lower,wantz
+           integer(ilp) :: iinfo,imax,inde,indwrk,iscale
+           real(qp) :: anrm,bignum,eps,rmax,rmin,safmin,sigma,smlnum
+           ! Intrinsic Functions
+           intrinsic :: sqrt
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           lower = la_lsame(uplo,'L')
+           info = 0
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (lower .or. la_lsame(uplo,'U'))) then
+              info = -2
+           else if (n < 0) then
+              info = -3
+           else if (kd < 0) then
+              info = -4
+           else if (ldab < kd + 1) then
+              info = -6
+           else if (ldz < 1 .or. (wantz .and. ldz < n)) then
+              info = -9
+           end if
+           if (info /= 0) then
+              call la_xerbla('QSBEV ',-info)
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           if (n == 1) then
+              if (lower) then
+                 w(1) = ab(1,1)
+              else
+                 w(1) = ab(kd + 1,1)
+              end if
+              if (wantz) z(1,1) = one
+              return
+           end if
+           ! get machine constants.
+           safmin = la_qlamch('SAFE MINIMUM')
+           eps = la_qlamch('PRECISION')
+           smlnum = safmin/eps
+           bignum = one/smlnum
+           rmin = sqrt(smlnum)
+           rmax = sqrt(bignum)
+           ! scale matrix to allowable range, if necessary.
+           anrm = la_qlansb('M',uplo,n,kd,ab,ldab,work)
+           iscale = 0
+           if (anrm > zero .and. anrm < rmin) then
+              iscale = 1
+              sigma = rmin/anrm
+           else if (anrm > rmax) then
+              iscale = 1
+              sigma = rmax/anrm
+           end if
+           if (iscale == 1) then
+              if (lower) then
+                 call la_qlascl('B',kd,kd,one,sigma,n,n,ab,ldab,info)
+              else
+                 call la_qlascl('Q',kd,kd,one,sigma,n,n,ab,ldab,info)
+              end if
+           end if
+           ! call la_qsbtrd to reduce symmetric band matrix to tridiagonal form.
+           inde = 1
+           indwrk = inde + n
+           call la_qsbtrd(jobz,uplo,n,kd,ab,ldab,w,work(inde),z,ldz,work(indwrk) &
+                     ,iinfo)
+           ! for eigenvalues only, call la_qsterf.  for eigenvectors, call la_dsteqr.
+           if (.not. wantz) then
+              call la_qsterf(n,w,work(inde),info)
+           else
+              call la_qsteqr(jobz,n,w,work(inde),z,ldz,work(indwrk),info)
+           end if
+           ! if matrix was scaled, then rescale eigenvalues appropriately.
+           if (iscale == 1) then
+              if (info == 0) then
+                 imax = n
+              else
+                 imax = info - 1
+              end if
+              call la_qscal(imax,one/sigma,w,1)
+           end if
+           return
+     end subroutine la_qsbev
+
+     !> SSBEVX: computes selected eigenvalues and, optionally, eigenvectors
+     !> of a real symmetric band matrix A.  Eigenvalues and eigenvectors can
+     !> be selected by specifying either a range of values or a range of
+     !> indices for the desired eigenvalues.
+
+     subroutine la_ssbevx(jobz,range,uplo,n,kd,ab,ldab,q,ldq,vl,vu,il,iu,abstol, &
+               m,w,z,ldz,work,iwork,ifail,info)
+        use la_constants_sp,only:zero,one
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,range,uplo
+           integer(ilp),intent(in) :: il,iu,kd,ldab,ldq,ldz,n
+           integer(ilp),intent(out) :: info,m
+           real(sp),intent(in) :: abstol,vl,vu
+           ! Array Arguments
+           integer(ilp),intent(out) :: ifail(*),iwork(*)
+           real(sp),intent(inout) :: ab(ldab,*)
+           real(sp),intent(out) :: q(ldq,*),w(*),work(*),z(ldz,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: alleig,indeig,lower,test,valeig,wantz
+           character :: order
+           integer(ilp) :: i,iinfo,imax,indd,inde,indee,indibl,indisp,indiwo,indwrk, &
+                     iscale,itmp1,j,jj,nsplit
+           real(sp) :: abstll,anrm,bignum,eps,rmax,rmin,safmin,sigma,smlnum,tmp1,vll, &
+                     vuu
+           ! Intrinsic Functions
+           intrinsic :: max,min,sqrt
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           alleig = la_lsame(range,'A')
+           valeig = la_lsame(range,'V')
+           indeig = la_lsame(range,'I')
+           lower = la_lsame(uplo,'L')
+           info = 0
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (alleig .or. valeig .or. indeig)) then
+              info = -2
+           else if (.not. (lower .or. la_lsame(uplo,'U'))) then
+              info = -3
+           else if (n < 0) then
+              info = -4
+           else if (kd < 0) then
+              info = -5
+           else if (ldab < kd + 1) then
+              info = -7
+           else if (wantz .and. ldq < max(1,n)) then
+              info = -9
+           else
+              if (valeig) then
+                 if (n > 0 .and. vu <= vl) info = -11
+              else if (indeig) then
+                 if (il < 1 .or. il > max(1,n)) then
+                    info = -12
+                 else if (iu < min(n,il) .or. iu > n) then
+                    info = -13
+                 end if
+              end if
+           end if
+           if (info == 0) then
+              if (ldz < 1 .or. (wantz .and. ldz < n)) info = -18
+           end if
+           if (info /= 0) then
+              call la_xerbla('SSBEVX',-info)
+              return
+           end if
+           ! quick return if possible
+           m = 0
+           if (n == 0) return
+           if (n == 1) then
+              m = 1
+              if (lower) then
+                 tmp1 = ab(1,1)
+              else
+                 tmp1 = ab(kd + 1,1)
+              end if
+              if (valeig) then
+                 if (.not. (vl < tmp1 .and. vu >= tmp1)) m = 0
+              end if
+              if (m == 1) then
+                 w(1) = tmp1
+                 if (wantz) z(1,1) = one
+              end if
+              return
+           end if
+           ! get machine constants.
+           safmin = la_slamch('SAFE MINIMUM')
+           eps = la_slamch('PRECISION')
+           smlnum = safmin/eps
+           bignum = one/smlnum
+           rmin = sqrt(smlnum)
+           rmax = min(sqrt(bignum),one/sqrt(sqrt(safmin)))
+           ! scale matrix to allowable range, if necessary.
+           iscale = 0
+           abstll = abstol
+           if (valeig) then
+              vll = vl
+              vuu = vu
+           else
+              vll = zero
+              vuu = zero
+           end if
+           anrm = la_slansb('M',uplo,n,kd,ab,ldab,work)
+           if (anrm > zero .and. anrm < rmin) then
+              iscale = 1
+              sigma = rmin/anrm
+           else if (anrm > rmax) then
+              iscale = 1
+              sigma = rmax/anrm
+           end if
+           if (iscale == 1) then
+              if (lower) then
+                 call la_slascl('B',kd,kd,one,sigma,n,n,ab,ldab,info)
+              else
+                 call la_slascl('Q',kd,kd,one,sigma,n,n,ab,ldab,info)
+              end if
+              if (abstol > 0) abstll = abstol*sigma
+              if (valeig) then
+                 vll = vl*sigma
+                 vuu = vu*sigma
+              end if
+           end if
+           ! call la_ssbtrd to reduce symmetric band matrix to tridiagonal form.
+           indd = 1
+           inde = indd + n
+           indwrk = inde + n
+           call la_ssbtrd(jobz,uplo,n,kd,ab,ldab,work(indd),work(inde),q,ldq, &
+                     work(indwrk),iinfo)
+           ! if all eigenvalues are desired and abstol is less than or equal
+           ! to zero, then call la_ssterf or la_ssteqr.  if this fails for some
+           ! eigenvalue, then try la_sstebz.
+           test = .false.
+           if (indeig) then
+              if (il == 1 .and. iu == n) then
+                 test = .true.
+              end if
+           end if
+           if ((alleig .or. test) .and. (abstol <= zero)) then
+              call la_scopy(n,work(indd),1,w,1)
+              indee = indwrk + 2*n
+              if (.not. wantz) then
+                 call la_scopy(n - 1,work(inde),1,work(indee),1)
+                 call la_ssterf(n,w,work(indee),info)
+              else
+                 call la_slacpy('A',n,n,q,ldq,z,ldz)
+                 call la_scopy(n - 1,work(inde),1,work(indee),1)
+                 call la_ssteqr(jobz,n,w,work(indee),z,ldz,work(indwrk),info)
+
+                 if (info == 0) then
+                    do i = 1,n
+                       ifail(i) = 0
+                    end do
+                 end if
+              end if
+              if (info == 0) then
+                 m = n
+                 go to 30
+              end if
+              info = 0
+           end if
+           ! otherwise, call la_sstebz and, if eigenvectors are desired, la_sstein.
+           if (wantz) then
+              order = 'B'
+           else
+              order = 'E'
+           end if
+           indibl = 1
+           indisp = indibl + n
+           indiwo = indisp + n
+           call la_sstebz(range,order,n,vll,vuu,il,iu,abstll,work(indd),work(inde &
+           ),m,nsplit,w,iwork(indibl),iwork(indisp),work(indwrk),iwork(indiwo),info &
+                     )
+           if (wantz) then
+              call la_sstein(n,work(indd),work(inde),m,w,iwork(indibl),iwork( &
+                        indisp),z,ldz,work(indwrk),iwork(indiwo),ifail,info)
+              ! apply orthogonal matrix used in reduction to tridiagonal
+              ! form to eigenvectors returned by la_sstein.
+              do j = 1,m
+                 call la_scopy(n,z(1,j),1,work(1),1)
+                 call la_sgemv('N',n,n,one,q,ldq,work,1,zero,z(1,j),1)
+              end do
+           end if
+           ! if matrix was scaled, then rescale eigenvalues appropriately.
+           30 continue
+           if (iscale == 1) then
+              if (info == 0) then
+                 imax = m
+              else
+                 imax = info - 1
+              end if
+              call la_sscal(imax,one/sigma,w,1)
+           end if
+           ! if eigenvalues are not in order, then sort them, along with
+           ! eigenvectors.
+           if (wantz) then
+              do j = 1,m - 1
+                 i = 0
+                 tmp1 = w(j)
+                 do jj = j + 1,m
+                    if (w(jj) < tmp1) then
+                       i = jj
+                       tmp1 = w(jj)
+                    end if
+                 end do
+                 if (i /= 0) then
+                    itmp1 = iwork(indibl + i - 1)
+                    w(i) = w(j)
+                    iwork(indibl + i - 1) = iwork(indibl + j - 1)
+                    w(j) = tmp1
+                    iwork(indibl + j - 1) = itmp1
+                    call la_sswap(n,z(1,i),1,z(1,j),1)
+                    if (info /= 0) then
+                       itmp1 = ifail(i)
+                       ifail(i) = ifail(j)
+                       ifail(j) = itmp1
+                    end if
+                 end if
+              end do
+           end if
+           return
+     end subroutine la_ssbevx
+     !> DSBEVX: computes selected eigenvalues and, optionally, eigenvectors
+     !> of a real symmetric band matrix A.  Eigenvalues and eigenvectors can
+     !> be selected by specifying either a range of values or a range of
+     !> indices for the desired eigenvalues.
+
+     subroutine la_dsbevx(jobz,range,uplo,n,kd,ab,ldab,q,ldq,vl,vu,il,iu,abstol, &
+               m,w,z,ldz,work,iwork,ifail,info)
+        use la_constants_dp,only:zero,one
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,range,uplo
+           integer(ilp),intent(in) :: il,iu,kd,ldab,ldq,ldz,n
+           integer(ilp),intent(out) :: info,m
+           real(dp),intent(in) :: abstol,vl,vu
+           ! Array Arguments
+           integer(ilp),intent(out) :: ifail(*),iwork(*)
+           real(dp),intent(inout) :: ab(ldab,*)
+           real(dp),intent(out) :: q(ldq,*),w(*),work(*),z(ldz,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: alleig,indeig,lower,test,valeig,wantz
+           character :: order
+           integer(ilp) :: i,iinfo,imax,indd,inde,indee,indibl,indisp,indiwo,indwrk, &
+                     iscale,itmp1,j,jj,nsplit
+           real(dp) :: abstll,anrm,bignum,eps,rmax,rmin,safmin,sigma,smlnum,tmp1,vll, &
+                     vuu
+           ! Intrinsic Functions
+           intrinsic :: max,min,sqrt
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           alleig = la_lsame(range,'A')
+           valeig = la_lsame(range,'V')
+           indeig = la_lsame(range,'I')
+           lower = la_lsame(uplo,'L')
+           info = 0
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (alleig .or. valeig .or. indeig)) then
+              info = -2
+           else if (.not. (lower .or. la_lsame(uplo,'U'))) then
+              info = -3
+           else if (n < 0) then
+              info = -4
+           else if (kd < 0) then
+              info = -5
+           else if (ldab < kd + 1) then
+              info = -7
+           else if (wantz .and. ldq < max(1,n)) then
+              info = -9
+           else
+              if (valeig) then
+                 if (n > 0 .and. vu <= vl) info = -11
+              else if (indeig) then
+                 if (il < 1 .or. il > max(1,n)) then
+                    info = -12
+                 else if (iu < min(n,il) .or. iu > n) then
+                    info = -13
+                 end if
+              end if
+           end if
+           if (info == 0) then
+              if (ldz < 1 .or. (wantz .and. ldz < n)) info = -18
+           end if
+           if (info /= 0) then
+              call la_xerbla('DSBEVX',-info)
+              return
+           end if
+           ! quick return if possible
+           m = 0
+           if (n == 0) return
+           if (n == 1) then
+              m = 1
+              if (lower) then
+                 tmp1 = ab(1,1)
+              else
+                 tmp1 = ab(kd + 1,1)
+              end if
+              if (valeig) then
+                 if (.not. (vl < tmp1 .and. vu >= tmp1)) m = 0
+              end if
+              if (m == 1) then
+                 w(1) = tmp1
+                 if (wantz) z(1,1) = one
+              end if
+              return
+           end if
+           ! get machine constants.
+           safmin = la_dlamch('SAFE MINIMUM')
+           eps = la_dlamch('PRECISION')
+           smlnum = safmin/eps
+           bignum = one/smlnum
+           rmin = sqrt(smlnum)
+           rmax = min(sqrt(bignum),one/sqrt(sqrt(safmin)))
+           ! scale matrix to allowable range, if necessary.
+           iscale = 0
+           abstll = abstol
+           if (valeig) then
+              vll = vl
+              vuu = vu
+           else
+              vll = zero
+              vuu = zero
+           end if
+           anrm = la_dlansb('M',uplo,n,kd,ab,ldab,work)
+           if (anrm > zero .and. anrm < rmin) then
+              iscale = 1
+              sigma = rmin/anrm
+           else if (anrm > rmax) then
+              iscale = 1
+              sigma = rmax/anrm
+           end if
+           if (iscale == 1) then
+              if (lower) then
+                 call la_dlascl('B',kd,kd,one,sigma,n,n,ab,ldab,info)
+              else
+                 call la_dlascl('Q',kd,kd,one,sigma,n,n,ab,ldab,info)
+              end if
+              if (abstol > 0) abstll = abstol*sigma
+              if (valeig) then
+                 vll = vl*sigma
+                 vuu = vu*sigma
+              end if
+           end if
+           ! call la_dsbtrd to reduce symmetric band matrix to tridiagonal form.
+           indd = 1
+           inde = indd + n
+           indwrk = inde + n
+           call la_dsbtrd(jobz,uplo,n,kd,ab,ldab,work(indd),work(inde),q,ldq, &
+                     work(indwrk),iinfo)
+           ! if all eigenvalues are desired and abstol is less than or equal
+           ! to zero, then call la_dsterf or la_ssteqr.  if this fails for some
+           ! eigenvalue, then try la_dstebz.
+           test = .false.
+           if (indeig) then
+              if (il == 1 .and. iu == n) then
+                 test = .true.
+              end if
+           end if
+           if ((alleig .or. test) .and. (abstol <= zero)) then
+              call la_dcopy(n,work(indd),1,w,1)
+              indee = indwrk + 2*n
+              if (.not. wantz) then
+                 call la_dcopy(n - 1,work(inde),1,work(indee),1)
+                 call la_dsterf(n,w,work(indee),info)
+              else
+                 call la_dlacpy('A',n,n,q,ldq,z,ldz)
+                 call la_dcopy(n - 1,work(inde),1,work(indee),1)
+                 call la_dsteqr(jobz,n,w,work(indee),z,ldz,work(indwrk),info)
+
+                 if (info == 0) then
+                    do i = 1,n
+                       ifail(i) = 0
+                    end do
+                 end if
+              end if
+              if (info == 0) then
+                 m = n
+                 go to 30
+              end if
+              info = 0
+           end if
+           ! otherwise, call la_dstebz and, if eigenvectors are desired, la_sstein.
+           if (wantz) then
+              order = 'B'
+           else
+              order = 'E'
+           end if
+           indibl = 1
+           indisp = indibl + n
+           indiwo = indisp + n
+           call la_dstebz(range,order,n,vll,vuu,il,iu,abstll,work(indd),work(inde &
+           ),m,nsplit,w,iwork(indibl),iwork(indisp),work(indwrk),iwork(indiwo),info &
+                     )
+           if (wantz) then
+              call la_dstein(n,work(indd),work(inde),m,w,iwork(indibl),iwork( &
+                        indisp),z,ldz,work(indwrk),iwork(indiwo),ifail,info)
+              ! apply orthogonal matrix used in reduction to tridiagonal
+              ! form to eigenvectors returned by la_dstein.
+              do j = 1,m
+                 call la_dcopy(n,z(1,j),1,work(1),1)
+                 call la_dgemv('N',n,n,one,q,ldq,work,1,zero,z(1,j),1)
+              end do
+           end if
+           ! if matrix was scaled, then rescale eigenvalues appropriately.
+           30 continue
+           if (iscale == 1) then
+              if (info == 0) then
+                 imax = m
+              else
+                 imax = info - 1
+              end if
+              call la_dscal(imax,one/sigma,w,1)
+           end if
+           ! if eigenvalues are not in order, then sort them, along with
+           ! eigenvectors.
+           if (wantz) then
+              do j = 1,m - 1
+                 i = 0
+                 tmp1 = w(j)
+                 do jj = j + 1,m
+                    if (w(jj) < tmp1) then
+                       i = jj
+                       tmp1 = w(jj)
+                    end if
+                 end do
+                 if (i /= 0) then
+                    itmp1 = iwork(indibl + i - 1)
+                    w(i) = w(j)
+                    iwork(indibl + i - 1) = iwork(indibl + j - 1)
+                    w(j) = tmp1
+                    iwork(indibl + j - 1) = itmp1
+                    call la_dswap(n,z(1,i),1,z(1,j),1)
+                    if (info /= 0) then
+                       itmp1 = ifail(i)
+                       ifail(i) = ifail(j)
+                       ifail(j) = itmp1
+                    end if
+                 end if
+              end do
+           end if
+           return
+     end subroutine la_dsbevx
+     !> QSBEVX: computes selected eigenvalues and, optionally, eigenvectors
+     !> of a real symmetric band matrix A.  Eigenvalues and eigenvectors can
+     !> be selected by specifying either a range of values or a range of
+     !> indices for the desired eigenvalues.
+
+     subroutine la_qsbevx(jobz,range,uplo,n,kd,ab,ldab,q,ldq,vl,vu,il,iu,abstol, &
+               m,w,z,ldz,work,iwork,ifail,info)
+        use la_constants_qp,only:zero,one
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,range,uplo
+           integer(ilp),intent(in) :: il,iu,kd,ldab,ldq,ldz,n
+           integer(ilp),intent(out) :: info,m
+           real(qp),intent(in) :: abstol,vl,vu
+           ! Array Arguments
+           integer(ilp),intent(out) :: ifail(*),iwork(*)
+           real(qp),intent(inout) :: ab(ldab,*)
+           real(qp),intent(out) :: q(ldq,*),w(*),work(*),z(ldz,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: alleig,indeig,lower,test,valeig,wantz
+           character :: order
+           integer(ilp) :: i,iinfo,imax,indd,inde,indee,indibl,indisp,indiwo,indwrk, &
+                     iscale,itmp1,j,jj,nsplit
+           real(qp) :: abstll,anrm,bignum,eps,rmax,rmin,safmin,sigma,smlnum,tmp1,vll, &
+                     vuu
+           ! Intrinsic Functions
+           intrinsic :: max,min,sqrt
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           alleig = la_lsame(range,'A')
+           valeig = la_lsame(range,'V')
+           indeig = la_lsame(range,'I')
+           lower = la_lsame(uplo,'L')
+           info = 0
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (alleig .or. valeig .or. indeig)) then
+              info = -2
+           else if (.not. (lower .or. la_lsame(uplo,'U'))) then
+              info = -3
+           else if (n < 0) then
+              info = -4
+           else if (kd < 0) then
+              info = -5
+           else if (ldab < kd + 1) then
+              info = -7
+           else if (wantz .and. ldq < max(1,n)) then
+              info = -9
+           else
+              if (valeig) then
+                 if (n > 0 .and. vu <= vl) info = -11
+              else if (indeig) then
+                 if (il < 1 .or. il > max(1,n)) then
+                    info = -12
+                 else if (iu < min(n,il) .or. iu > n) then
+                    info = -13
+                 end if
+              end if
+           end if
+           if (info == 0) then
+              if (ldz < 1 .or. (wantz .and. ldz < n)) info = -18
+           end if
+           if (info /= 0) then
+              call la_xerbla('QSBEVX',-info)
+              return
+           end if
+           ! quick return if possible
+           m = 0
+           if (n == 0) return
+           if (n == 1) then
+              m = 1
+              if (lower) then
+                 tmp1 = ab(1,1)
+              else
+                 tmp1 = ab(kd + 1,1)
+              end if
+              if (valeig) then
+                 if (.not. (vl < tmp1 .and. vu >= tmp1)) m = 0
+              end if
+              if (m == 1) then
+                 w(1) = tmp1
+                 if (wantz) z(1,1) = one
+              end if
+              return
+           end if
+           ! get machine constants.
+           safmin = la_qlamch('SAFE MINIMUM')
+           eps = la_qlamch('PRECISION')
+           smlnum = safmin/eps
+           bignum = one/smlnum
+           rmin = sqrt(smlnum)
+           rmax = min(sqrt(bignum),one/sqrt(sqrt(safmin)))
+           ! scale matrix to allowable range, if necessary.
+           iscale = 0
+           abstll = abstol
+           if (valeig) then
+              vll = vl
+              vuu = vu
+           else
+              vll = zero
+              vuu = zero
+           end if
+           anrm = la_qlansb('M',uplo,n,kd,ab,ldab,work)
+           if (anrm > zero .and. anrm < rmin) then
+              iscale = 1
+              sigma = rmin/anrm
+           else if (anrm > rmax) then
+              iscale = 1
+              sigma = rmax/anrm
+           end if
+           if (iscale == 1) then
+              if (lower) then
+                 call la_qlascl('B',kd,kd,one,sigma,n,n,ab,ldab,info)
+              else
+                 call la_qlascl('Q',kd,kd,one,sigma,n,n,ab,ldab,info)
+              end if
+              if (abstol > 0) abstll = abstol*sigma
+              if (valeig) then
+                 vll = vl*sigma
+                 vuu = vu*sigma
+              end if
+           end if
+           ! call la_qsbtrd to reduce symmetric band matrix to tridiagonal form.
+           indd = 1
+           inde = indd + n
+           indwrk = inde + n
+           call la_qsbtrd(jobz,uplo,n,kd,ab,ldab,work(indd),work(inde),q,ldq, &
+                     work(indwrk),iinfo)
+           ! if all eigenvalues are desired and abstol is less than or equal
+           ! to zero, then call la_qsterf or la_dsteqr.  if this fails for some
+           ! eigenvalue, then try la_qstebz.
+           test = .false.
+           if (indeig) then
+              if (il == 1 .and. iu == n) then
+                 test = .true.
+              end if
+           end if
+           if ((alleig .or. test) .and. (abstol <= zero)) then
+              call la_qcopy(n,work(indd),1,w,1)
+              indee = indwrk + 2*n
+              if (.not. wantz) then
+                 call la_qcopy(n - 1,work(inde),1,work(indee),1)
+                 call la_qsterf(n,w,work(indee),info)
+              else
+                 call la_qlacpy('A',n,n,q,ldq,z,ldz)
+                 call la_qcopy(n - 1,work(inde),1,work(indee),1)
+                 call la_qsteqr(jobz,n,w,work(indee),z,ldz,work(indwrk),info)
+
+                 if (info == 0) then
+                    do i = 1,n
+                       ifail(i) = 0
+                    end do
+                 end if
+              end if
+              if (info == 0) then
+                 m = n
+                 go to 30
+              end if
+              info = 0
+           end if
+           ! otherwise, call la_qstebz and, if eigenvectors are desired, la_dstein.
+           if (wantz) then
+              order = 'B'
+           else
+              order = 'E'
+           end if
+           indibl = 1
+           indisp = indibl + n
+           indiwo = indisp + n
+           call la_qstebz(range,order,n,vll,vuu,il,iu,abstll,work(indd),work(inde &
+           ),m,nsplit,w,iwork(indibl),iwork(indisp),work(indwrk),iwork(indiwo),info &
+                     )
+           if (wantz) then
+              call la_qstein(n,work(indd),work(inde),m,w,iwork(indibl),iwork( &
+                        indisp),z,ldz,work(indwrk),iwork(indiwo),ifail,info)
+              ! apply orthogonal matrix used in reduction to tridiagonal
+              ! form to eigenvectors returned by la_qstein.
+              do j = 1,m
+                 call la_qcopy(n,z(1,j),1,work(1),1)
+                 call la_qgemv('N',n,n,one,q,ldq,work,1,zero,z(1,j),1)
+              end do
+           end if
+           ! if matrix was scaled, then rescale eigenvalues appropriately.
+           30 continue
+           if (iscale == 1) then
+              if (info == 0) then
+                 imax = m
+              else
+                 imax = info - 1
+              end if
+              call la_qscal(imax,one/sigma,w,1)
+           end if
+           ! if eigenvalues are not in order, then sort them, along with
+           ! eigenvectors.
+           if (wantz) then
+              do j = 1,m - 1
+                 i = 0
+                 tmp1 = w(j)
+                 do jj = j + 1,m
+                    if (w(jj) < tmp1) then
+                       i = jj
+                       tmp1 = w(jj)
+                    end if
+                 end do
+                 if (i /= 0) then
+                    itmp1 = iwork(indibl + i - 1)
+                    w(i) = w(j)
+                    iwork(indibl + i - 1) = iwork(indibl + j - 1)
+                    w(j) = tmp1
+                    iwork(indibl + j - 1) = itmp1
+                    call la_qswap(n,z(1,i),1,z(1,j),1)
+                    if (info /= 0) then
+                       itmp1 = ifail(i)
+                       ifail(i) = ifail(j)
+                       ifail(j) = itmp1
+                    end if
+                 end if
+              end do
+           end if
+           return
+     end subroutine la_qsbevx
+
+     !> SSBGV: computes all the eigenvalues, and optionally, the eigenvectors
+     !> of a real generalized symmetric-definite banded eigenproblem, of
+     !> the form A*x=(lambda)*B*x. Here A and B are assumed to be symmetric
+     !> and banded, and B is also positive definite.
+
+     pure subroutine la_ssbgv(jobz,uplo,n,ka,kb,ab,ldab,bb,ldbb,w,z,ldz,work, &
+               info)
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ka,kb,ldab,ldbb,ldz,n
+           ! Array Arguments
+           real(sp),intent(inout) :: ab(ldab,*),bb(ldbb,*)
+           real(sp),intent(out) :: w(*),work(*),z(ldz,*)
+        ! =====================================================================
+           ! Local Scalars
+           logical(lk) :: upper,wantz
+           character :: vect
+           integer(ilp) :: iinfo,inde,indwrk
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           upper = la_lsame(uplo,'U')
+           info = 0
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (upper .or. la_lsame(uplo,'L'))) then
+              info = -2
+           else if (n < 0) then
+              info = -3
+           else if (ka < 0) then
+              info = -4
+           else if (kb < 0 .or. kb > ka) then
+              info = -5
+           else if (ldab < ka + 1) then
+              info = -7
+           else if (ldbb < kb + 1) then
+              info = -9
+           else if (ldz < 1 .or. (wantz .and. ldz < n)) then
+              info = -12
+           end if
+           if (info /= 0) then
+              call la_xerbla('SSBGV ',-info)
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           ! form a split cholesky factorization of b.
+           call la_spbstf(uplo,n,kb,bb,ldbb,info)
+           if (info /= 0) then
+              info = n + info
+              return
+           end if
+           ! transform problem to standard eigenvalue problem.
+           inde = 1
+           indwrk = inde + n
+           call la_ssbgst(jobz,uplo,n,ka,kb,ab,ldab,bb,ldbb,z,ldz,work(indwrk), &
+                     iinfo)
+           ! reduce to tridiagonal form.
+           if (wantz) then
+              vect = 'U'
+           else
+              vect = 'N'
+           end if
+           call la_ssbtrd(vect,uplo,n,ka,ab,ldab,w,work(inde),z,ldz,work(indwrk) &
+                     ,iinfo)
+           ! for eigenvalues only, call la_ssterf.  for eigenvectors, call la_ssteqr.
+           if (.not. wantz) then
+              call la_ssterf(n,w,work(inde),info)
+           else
+              call la_ssteqr(jobz,n,w,work(inde),z,ldz,work(indwrk),info)
+           end if
+           return
+     end subroutine la_ssbgv
+     !> DSBGV: computes all the eigenvalues, and optionally, the eigenvectors
+     !> of a real generalized symmetric-definite banded eigenproblem, of
+     !> the form A*x=(lambda)*B*x. Here A and B are assumed to be symmetric
+     !> and banded, and B is also positive definite.
+
+     pure subroutine la_dsbgv(jobz,uplo,n,ka,kb,ab,ldab,bb,ldbb,w,z,ldz,work, &
+               info)
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ka,kb,ldab,ldbb,ldz,n
+           ! Array Arguments
+           real(dp),intent(inout) :: ab(ldab,*),bb(ldbb,*)
+           real(dp),intent(out) :: w(*),work(*),z(ldz,*)
+        ! =====================================================================
+           ! Local Scalars
+           logical(lk) :: upper,wantz
+           character :: vect
+           integer(ilp) :: iinfo,inde,indwrk
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           upper = la_lsame(uplo,'U')
+           info = 0
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (upper .or. la_lsame(uplo,'L'))) then
+              info = -2
+           else if (n < 0) then
+              info = -3
+           else if (ka < 0) then
+              info = -4
+           else if (kb < 0 .or. kb > ka) then
+              info = -5
+           else if (ldab < ka + 1) then
+              info = -7
+           else if (ldbb < kb + 1) then
+              info = -9
+           else if (ldz < 1 .or. (wantz .and. ldz < n)) then
+              info = -12
+           end if
+           if (info /= 0) then
+              call la_xerbla('DSBGV ',-info)
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           ! form a split cholesky factorization of b.
+           call la_dpbstf(uplo,n,kb,bb,ldbb,info)
+           if (info /= 0) then
+              info = n + info
+              return
+           end if
+           ! transform problem to standard eigenvalue problem.
+           inde = 1
+           indwrk = inde + n
+           call la_dsbgst(jobz,uplo,n,ka,kb,ab,ldab,bb,ldbb,z,ldz,work(indwrk), &
+                     iinfo)
+           ! reduce to tridiagonal form.
+           if (wantz) then
+              vect = 'U'
+           else
+              vect = 'N'
+           end if
+           call la_dsbtrd(vect,uplo,n,ka,ab,ldab,w,work(inde),z,ldz,work(indwrk) &
+                     ,iinfo)
+           ! for eigenvalues only, call la_dsterf.  for eigenvectors, call la_ssteqr.
+           if (.not. wantz) then
+              call la_dsterf(n,w,work(inde),info)
+           else
+              call la_dsteqr(jobz,n,w,work(inde),z,ldz,work(indwrk),info)
+           end if
+           return
+     end subroutine la_dsbgv
+     !> QSBGV: computes all the eigenvalues, and optionally, the eigenvectors
+     !> of a real generalized symmetric-definite banded eigenproblem, of
+     !> the form A*x=(lambda)*B*x. Here A and B are assumed to be symmetric
+     !> and banded, and B is also positive definite.
+
+     pure subroutine la_qsbgv(jobz,uplo,n,ka,kb,ab,ldab,bb,ldbb,w,z,ldz,work, &
+               info)
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ka,kb,ldab,ldbb,ldz,n
+           ! Array Arguments
+           real(qp),intent(inout) :: ab(ldab,*),bb(ldbb,*)
+           real(qp),intent(out) :: w(*),work(*),z(ldz,*)
+        ! =====================================================================
+           ! Local Scalars
+           logical(lk) :: upper,wantz
+           character :: vect
+           integer(ilp) :: iinfo,inde,indwrk
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           upper = la_lsame(uplo,'U')
+           info = 0
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (upper .or. la_lsame(uplo,'L'))) then
+              info = -2
+           else if (n < 0) then
+              info = -3
+           else if (ka < 0) then
+              info = -4
+           else if (kb < 0 .or. kb > ka) then
+              info = -5
+           else if (ldab < ka + 1) then
+              info = -7
+           else if (ldbb < kb + 1) then
+              info = -9
+           else if (ldz < 1 .or. (wantz .and. ldz < n)) then
+              info = -12
+           end if
+           if (info /= 0) then
+              call la_xerbla('QSBGV ',-info)
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           ! form a split cholesky factorization of b.
+           call la_qpbstf(uplo,n,kb,bb,ldbb,info)
+           if (info /= 0) then
+              info = n + info
+              return
+           end if
+           ! transform problem to standard eigenvalue problem.
+           inde = 1
+           indwrk = inde + n
+           call la_qsbgst(jobz,uplo,n,ka,kb,ab,ldab,bb,ldbb,z,ldz,work(indwrk), &
+                     iinfo)
+           ! reduce to tridiagonal form.
+           if (wantz) then
+              vect = 'U'
+           else
+              vect = 'N'
+           end if
+           call la_qsbtrd(vect,uplo,n,ka,ab,ldab,w,work(inde),z,ldz,work(indwrk) &
+                     ,iinfo)
+           ! for eigenvalues only, call la_qsterf.  for eigenvectors, call la_dsteqr.
+           if (.not. wantz) then
+              call la_qsterf(n,w,work(inde),info)
+           else
+              call la_qsteqr(jobz,n,w,work(inde),z,ldz,work(indwrk),info)
+           end if
+           return
+     end subroutine la_qsbgv
+
+     !> SSBGVX: computes selected eigenvalues, and optionally, eigenvectors
+     !> of a real generalized symmetric-definite banded eigenproblem, of
+     !> the form A*x=(lambda)*B*x.  Here A and B are assumed to be symmetric
+     !> and banded, and B is also positive definite.  Eigenvalues and
+     !> eigenvectors can be selected by specifying either all eigenvalues,
+     !> a range of values or a range of indices for the desired eigenvalues.
+
+     pure subroutine la_ssbgvx(jobz,range,uplo,n,ka,kb,ab,ldab,bb,ldbb,q,ldq,vl, &
+               vu,il,iu,abstol,m,w,z,ldz,work,iwork,ifail,info)
+        use la_constants_sp
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,range,uplo
+           integer(ilp),intent(in) :: il,iu,ka,kb,ldab,ldbb,ldq,ldz,n
+           integer(ilp),intent(out) :: info,m
+           real(sp),intent(in) :: abstol,vl,vu
+           ! Array Arguments
+           integer(ilp),intent(out) :: ifail(*),iwork(*)
+           real(sp),intent(inout) :: ab(ldab,*),bb(ldbb,*)
+           real(sp),intent(out) :: q(ldq,*),w(*),work(*),z(ldz,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: alleig,indeig,test,upper,valeig,wantz
+           character :: order,vect
+           integer(ilp) :: i,iinfo,indd,inde,indee,indibl,indisp,indiwo,indwrk,itmp1,j, &
+                     jj,nsplit
+           real(sp) :: tmp1
+           ! Intrinsic Functions
+           intrinsic :: min
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           upper = la_lsame(uplo,'U')
+           alleig = la_lsame(range,'A')
+           valeig = la_lsame(range,'V')
+           indeig = la_lsame(range,'I')
+           info = 0
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (alleig .or. valeig .or. indeig)) then
+              info = -2
+           else if (.not. (upper .or. la_lsame(uplo,'L'))) then
+              info = -3
+           else if (n < 0) then
+              info = -4
+           else if (ka < 0) then
+              info = -5
+           else if (kb < 0 .or. kb > ka) then
+              info = -6
+           else if (ldab < ka + 1) then
+              info = -8
+           else if (ldbb < kb + 1) then
+              info = -10
+           else if (ldq < 1 .or. (wantz .and. ldq < n)) then
+              info = -12
+           else
+              if (valeig) then
+                 if (n > 0 .and. vu <= vl) info = -14
+              else if (indeig) then
+                 if (il < 1 .or. il > max(1,n)) then
+                    info = -15
+                 else if (iu < min(n,il) .or. iu > n) then
+                    info = -16
+                 end if
+              end if
+           end if
+           if (info == 0) then
+              if (ldz < 1 .or. (wantz .and. ldz < n)) then
+                 info = -21
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('SSBGVX',-info)
+              return
+           end if
+           ! quick return if possible
+           m = 0
+           if (n == 0) return
+           ! form a split cholesky factorization of b.
+           call la_spbstf(uplo,n,kb,bb,ldbb,info)
+           if (info /= 0) then
+              info = n + info
+              return
+           end if
+           ! transform problem to standard eigenvalue problem.
+           call la_ssbgst(jobz,uplo,n,ka,kb,ab,ldab,bb,ldbb,q,ldq,work,iinfo)
+
+           ! reduce symmetric band matrix to tridiagonal form.
+           indd = 1
+           inde = indd + n
+           indwrk = inde + n
+           if (wantz) then
+              vect = 'U'
+           else
+              vect = 'N'
+           end if
+           call la_ssbtrd(vect,uplo,n,ka,ab,ldab,work(indd),work(inde),q,ldq, &
+                     work(indwrk),iinfo)
+           ! if all eigenvalues are desired and abstol is less than or equal
+           ! to zero, then call la_ssterf or la_ssteqr.  if this fails for some
+           ! eigenvalue, then try la_sstebz.
+           test = .false.
+           if (indeig) then
+              if (il == 1 .and. iu == n) then
+                 test = .true.
+              end if
+           end if
+           if ((alleig .or. test) .and. (abstol <= zero)) then
+              call la_scopy(n,work(indd),1,w,1)
+              indee = indwrk + 2*n
+              call la_scopy(n - 1,work(inde),1,work(indee),1)
+              if (.not. wantz) then
+                 call la_ssterf(n,w,work(indee),info)
+              else
+                 call la_slacpy('A',n,n,q,ldq,z,ldz)
+                 call la_ssteqr(jobz,n,w,work(indee),z,ldz,work(indwrk),info)
+
+                 if (info == 0) then
+                    do i = 1,n
+                       ifail(i) = 0
+                    end do
+                 end if
+              end if
+              if (info == 0) then
+                 m = n
+                 go to 30
+              end if
+              info = 0
+           end if
+           ! otherwise, call la_sstebz and, if eigenvectors are desired,
+           ! call la_sstein.
+           if (wantz) then
+              order = 'B'
+           else
+              order = 'E'
+           end if
+           indibl = 1
+           indisp = indibl + n
+           indiwo = indisp + n
+           call la_sstebz(range,order,n,vl,vu,il,iu,abstol,work(indd),work(inde), &
+            m,nsplit,w,iwork(indibl),iwork(indisp),work(indwrk),iwork(indiwo),info)
+
+           if (wantz) then
+              call la_sstein(n,work(indd),work(inde),m,w,iwork(indibl),iwork( &
+                        indisp),z,ldz,work(indwrk),iwork(indiwo),ifail,info)
+              ! apply transformation matrix used in reduction to tridiagonal
+              ! form to eigenvectors returned by la_sstein.
+              do j = 1,m
+                 call la_scopy(n,z(1,j),1,work(1),1)
+                 call la_sgemv('N',n,n,one,q,ldq,work,1,zero,z(1,j),1)
+              end do
+           end if
+           30 continue
+           ! if eigenvalues are not in order, then sort them, along with
+           ! eigenvectors.
+           if (wantz) then
+              do j = 1,m - 1
+                 i = 0
+                 tmp1 = w(j)
+                 do jj = j + 1,m
+                    if (w(jj) < tmp1) then
+                       i = jj
+                       tmp1 = w(jj)
+                    end if
+                 end do
+                 if (i /= 0) then
+                    itmp1 = iwork(indibl + i - 1)
+                    w(i) = w(j)
+                    iwork(indibl + i - 1) = iwork(indibl + j - 1)
+                    w(j) = tmp1
+                    iwork(indibl + j - 1) = itmp1
+                    call la_sswap(n,z(1,i),1,z(1,j),1)
+                    if (info /= 0) then
+                       itmp1 = ifail(i)
+                       ifail(i) = ifail(j)
+                       ifail(j) = itmp1
+                    end if
+                 end if
+              end do
+           end if
+           return
+     end subroutine la_ssbgvx
+     !> DSBGVX: computes selected eigenvalues, and optionally, eigenvectors
+     !> of a real generalized symmetric-definite banded eigenproblem, of
+     !> the form A*x=(lambda)*B*x.  Here A and B are assumed to be symmetric
+     !> and banded, and B is also positive definite.  Eigenvalues and
+     !> eigenvectors can be selected by specifying either all eigenvalues,
+     !> a range of values or a range of indices for the desired eigenvalues.
+
+     pure subroutine la_dsbgvx(jobz,range,uplo,n,ka,kb,ab,ldab,bb,ldbb,q,ldq,vl, &
+               vu,il,iu,abstol,m,w,z,ldz,work,iwork,ifail,info)
+        use la_constants_dp
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,range,uplo
+           integer(ilp),intent(in) :: il,iu,ka,kb,ldab,ldbb,ldq,ldz,n
+           integer(ilp),intent(out) :: info,m
+           real(dp),intent(in) :: abstol,vl,vu
+           ! Array Arguments
+           integer(ilp),intent(out) :: ifail(*),iwork(*)
+           real(dp),intent(inout) :: ab(ldab,*),bb(ldbb,*)
+           real(dp),intent(out) :: q(ldq,*),w(*),work(*),z(ldz,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: alleig,indeig,test,upper,valeig,wantz
+           character :: order,vect
+           integer(ilp) :: i,iinfo,indd,inde,indee,indibl,indisp,indiwo,indwrk,itmp1,j, &
+                     jj,nsplit
+           real(dp) :: tmp1
+           ! Intrinsic Functions
+           intrinsic :: min
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           upper = la_lsame(uplo,'U')
+           alleig = la_lsame(range,'A')
+           valeig = la_lsame(range,'V')
+           indeig = la_lsame(range,'I')
+           info = 0
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (alleig .or. valeig .or. indeig)) then
+              info = -2
+           else if (.not. (upper .or. la_lsame(uplo,'L'))) then
+              info = -3
+           else if (n < 0) then
+              info = -4
+           else if (ka < 0) then
+              info = -5
+           else if (kb < 0 .or. kb > ka) then
+              info = -6
+           else if (ldab < ka + 1) then
+              info = -8
+           else if (ldbb < kb + 1) then
+              info = -10
+           else if (ldq < 1 .or. (wantz .and. ldq < n)) then
+              info = -12
+           else
+              if (valeig) then
+                 if (n > 0 .and. vu <= vl) info = -14
+              else if (indeig) then
+                 if (il < 1 .or. il > max(1,n)) then
+                    info = -15
+                 else if (iu < min(n,il) .or. iu > n) then
+                    info = -16
+                 end if
+              end if
+           end if
+           if (info == 0) then
+              if (ldz < 1 .or. (wantz .and. ldz < n)) then
+                 info = -21
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('DSBGVX',-info)
+              return
+           end if
+           ! quick return if possible
+           m = 0
+           if (n == 0) return
+           ! form a split cholesky factorization of b.
+           call la_dpbstf(uplo,n,kb,bb,ldbb,info)
+           if (info /= 0) then
+              info = n + info
+              return
+           end if
+           ! transform problem to standard eigenvalue problem.
+           call la_dsbgst(jobz,uplo,n,ka,kb,ab,ldab,bb,ldbb,q,ldq,work,iinfo)
+
+           ! reduce symmetric band matrix to tridiagonal form.
+           indd = 1
+           inde = indd + n
+           indwrk = inde + n
+           if (wantz) then
+              vect = 'U'
+           else
+              vect = 'N'
+           end if
+           call la_dsbtrd(vect,uplo,n,ka,ab,ldab,work(indd),work(inde),q,ldq, &
+                     work(indwrk),iinfo)
+           ! if all eigenvalues are desired and abstol is less than or equal
+           ! to zero, then call la_dsterf or la_ssteqr.  if this fails for some
+           ! eigenvalue, then try la_dstebz.
+           test = .false.
+           if (indeig) then
+              if (il == 1 .and. iu == n) then
+                 test = .true.
+              end if
+           end if
+           if ((alleig .or. test) .and. (abstol <= zero)) then
+              call la_dcopy(n,work(indd),1,w,1)
+              indee = indwrk + 2*n
+              call la_dcopy(n - 1,work(inde),1,work(indee),1)
+              if (.not. wantz) then
+                 call la_dsterf(n,w,work(indee),info)
+              else
+                 call la_dlacpy('A',n,n,q,ldq,z,ldz)
+                 call la_dsteqr(jobz,n,w,work(indee),z,ldz,work(indwrk),info)
+
+                 if (info == 0) then
+                    do i = 1,n
+                       ifail(i) = 0
+                    end do
+                 end if
+              end if
+              if (info == 0) then
+                 m = n
+                 go to 30
+              end if
+              info = 0
+           end if
+           ! otherwise, call la_dstebz and, if eigenvectors are desired,
+           ! call la_dstein.
+           if (wantz) then
+              order = 'B'
+           else
+              order = 'E'
+           end if
+           indibl = 1
+           indisp = indibl + n
+           indiwo = indisp + n
+           call la_dstebz(range,order,n,vl,vu,il,iu,abstol,work(indd),work(inde), &
+            m,nsplit,w,iwork(indibl),iwork(indisp),work(indwrk),iwork(indiwo),info)
+
+           if (wantz) then
+              call la_dstein(n,work(indd),work(inde),m,w,iwork(indibl),iwork( &
+                        indisp),z,ldz,work(indwrk),iwork(indiwo),ifail,info)
+              ! apply transformation matrix used in reduction to tridiagonal
+              ! form to eigenvectors returned by la_dstein.
+              do j = 1,m
+                 call la_dcopy(n,z(1,j),1,work(1),1)
+                 call la_dgemv('N',n,n,one,q,ldq,work,1,zero,z(1,j),1)
+              end do
+           end if
+           30 continue
+           ! if eigenvalues are not in order, then sort them, along with
+           ! eigenvectors.
+           if (wantz) then
+              do j = 1,m - 1
+                 i = 0
+                 tmp1 = w(j)
+                 do jj = j + 1,m
+                    if (w(jj) < tmp1) then
+                       i = jj
+                       tmp1 = w(jj)
+                    end if
+                 end do
+                 if (i /= 0) then
+                    itmp1 = iwork(indibl + i - 1)
+                    w(i) = w(j)
+                    iwork(indibl + i - 1) = iwork(indibl + j - 1)
+                    w(j) = tmp1
+                    iwork(indibl + j - 1) = itmp1
+                    call la_dswap(n,z(1,i),1,z(1,j),1)
+                    if (info /= 0) then
+                       itmp1 = ifail(i)
+                       ifail(i) = ifail(j)
+                       ifail(j) = itmp1
+                    end if
+                 end if
+              end do
+           end if
+           return
+     end subroutine la_dsbgvx
+     !> QSBGVX: computes selected eigenvalues, and optionally, eigenvectors
+     !> of a real generalized symmetric-definite banded eigenproblem, of
+     !> the form A*x=(lambda)*B*x.  Here A and B are assumed to be symmetric
+     !> and banded, and B is also positive definite.  Eigenvalues and
+     !> eigenvectors can be selected by specifying either all eigenvalues,
+     !> a range of values or a range of indices for the desired eigenvalues.
+
+     pure subroutine la_qsbgvx(jobz,range,uplo,n,ka,kb,ab,ldab,bb,ldbb,q,ldq,vl, &
+               vu,il,iu,abstol,m,w,z,ldz,work,iwork,ifail,info)
+        use la_constants_qp
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,range,uplo
+           integer(ilp),intent(in) :: il,iu,ka,kb,ldab,ldbb,ldq,ldz,n
+           integer(ilp),intent(out) :: info,m
+           real(qp),intent(in) :: abstol,vl,vu
+           ! Array Arguments
+           integer(ilp),intent(out) :: ifail(*),iwork(*)
+           real(qp),intent(inout) :: ab(ldab,*),bb(ldbb,*)
+           real(qp),intent(out) :: q(ldq,*),w(*),work(*),z(ldz,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: alleig,indeig,test,upper,valeig,wantz
+           character :: order,vect
+           integer(ilp) :: i,iinfo,indd,inde,indee,indibl,indisp,indiwo,indwrk,itmp1,j, &
+                     jj,nsplit
+           real(qp) :: tmp1
+           ! Intrinsic Functions
+           intrinsic :: min
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           upper = la_lsame(uplo,'U')
+           alleig = la_lsame(range,'A')
+           valeig = la_lsame(range,'V')
+           indeig = la_lsame(range,'I')
+           info = 0
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (alleig .or. valeig .or. indeig)) then
+              info = -2
+           else if (.not. (upper .or. la_lsame(uplo,'L'))) then
+              info = -3
+           else if (n < 0) then
+              info = -4
+           else if (ka < 0) then
+              info = -5
+           else if (kb < 0 .or. kb > ka) then
+              info = -6
+           else if (ldab < ka + 1) then
+              info = -8
+           else if (ldbb < kb + 1) then
+              info = -10
+           else if (ldq < 1 .or. (wantz .and. ldq < n)) then
+              info = -12
+           else
+              if (valeig) then
+                 if (n > 0 .and. vu <= vl) info = -14
+              else if (indeig) then
+                 if (il < 1 .or. il > max(1,n)) then
+                    info = -15
+                 else if (iu < min(n,il) .or. iu > n) then
+                    info = -16
+                 end if
+              end if
+           end if
+           if (info == 0) then
+              if (ldz < 1 .or. (wantz .and. ldz < n)) then
+                 info = -21
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('QSBGVX',-info)
+              return
+           end if
+           ! quick return if possible
+           m = 0
+           if (n == 0) return
+           ! form a split cholesky factorization of b.
+           call la_qpbstf(uplo,n,kb,bb,ldbb,info)
+           if (info /= 0) then
+              info = n + info
+              return
+           end if
+           ! transform problem to standard eigenvalue problem.
+           call la_qsbgst(jobz,uplo,n,ka,kb,ab,ldab,bb,ldbb,q,ldq,work,iinfo)
+
+           ! reduce symmetric band matrix to tridiagonal form.
+           indd = 1
+           inde = indd + n
+           indwrk = inde + n
+           if (wantz) then
+              vect = 'U'
+           else
+              vect = 'N'
+           end if
+           call la_qsbtrd(vect,uplo,n,ka,ab,ldab,work(indd),work(inde),q,ldq, &
+                     work(indwrk),iinfo)
+           ! if all eigenvalues are desired and abstol is less than or equal
+           ! to zero, then call la_qsterf or la_dsteqr.  if this fails for some
+           ! eigenvalue, then try la_qstebz.
+           test = .false.
+           if (indeig) then
+              if (il == 1 .and. iu == n) then
+                 test = .true.
+              end if
+           end if
+           if ((alleig .or. test) .and. (abstol <= zero)) then
+              call la_qcopy(n,work(indd),1,w,1)
+              indee = indwrk + 2*n
+              call la_qcopy(n - 1,work(inde),1,work(indee),1)
+              if (.not. wantz) then
+                 call la_qsterf(n,w,work(indee),info)
+              else
+                 call la_qlacpy('A',n,n,q,ldq,z,ldz)
+                 call la_qsteqr(jobz,n,w,work(indee),z,ldz,work(indwrk),info)
+
+                 if (info == 0) then
+                    do i = 1,n
+                       ifail(i) = 0
+                    end do
+                 end if
+              end if
+              if (info == 0) then
+                 m = n
+                 go to 30
+              end if
+              info = 0
+           end if
+           ! otherwise, call la_qstebz and, if eigenvectors are desired,
+           ! call la_qstein.
+           if (wantz) then
+              order = 'B'
+           else
+              order = 'E'
+           end if
+           indibl = 1
+           indisp = indibl + n
+           indiwo = indisp + n
+           call la_qstebz(range,order,n,vl,vu,il,iu,abstol,work(indd),work(inde), &
+            m,nsplit,w,iwork(indibl),iwork(indisp),work(indwrk),iwork(indiwo),info)
+
+           if (wantz) then
+              call la_qstein(n,work(indd),work(inde),m,w,iwork(indibl),iwork( &
+                        indisp),z,ldz,work(indwrk),iwork(indiwo),ifail,info)
+              ! apply transformation matrix used in reduction to tridiagonal
+              ! form to eigenvectors returned by la_qstein.
+              do j = 1,m
+                 call la_qcopy(n,z(1,j),1,work(1),1)
+                 call la_qgemv('N',n,n,one,q,ldq,work,1,zero,z(1,j),1)
+              end do
+           end if
+           30 continue
+           ! if eigenvalues are not in order, then sort them, along with
+           ! eigenvectors.
+           if (wantz) then
+              do j = 1,m - 1
+                 i = 0
+                 tmp1 = w(j)
+                 do jj = j + 1,m
+                    if (w(jj) < tmp1) then
+                       i = jj
+                       tmp1 = w(jj)
+                    end if
+                 end do
+                 if (i /= 0) then
+                    itmp1 = iwork(indibl + i - 1)
+                    w(i) = w(j)
+                    iwork(indibl + i - 1) = iwork(indibl + j - 1)
+                    w(j) = tmp1
+                    iwork(indibl + j - 1) = itmp1
+                    call la_qswap(n,z(1,i),1,z(1,j),1)
+                    if (info /= 0) then
+                       itmp1 = ifail(i)
+                       ifail(i) = ifail(j)
+                       ifail(j) = itmp1
+                    end if
+                 end if
+              end do
+           end if
+           return
+     end subroutine la_qsbgvx
+
+     !> SSPEV: computes all the eigenvalues and, optionally, eigenvectors of a
+     !> real symmetric matrix A in packed storage.
+
+     subroutine la_sspev(jobz,uplo,n,ap,w,z,ldz,work,info)
+        use la_constants_sp,only:zero,one
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldz,n
+           ! Array Arguments
+           real(sp),intent(inout) :: ap(*)
+           real(sp),intent(out) :: w(*),work(*),z(ldz,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: wantz
+           integer(ilp) :: iinfo,imax,inde,indtau,indwrk,iscale
+           real(sp) :: anrm,bignum,eps,rmax,rmin,safmin,sigma,smlnum
+           ! Intrinsic Functions
+           intrinsic :: sqrt
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           info = 0
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (la_lsame(uplo,'U') .or. la_lsame(uplo,'L'))) &
+                     then
+              info = -2
+           else if (n < 0) then
+              info = -3
+           else if (ldz < 1 .or. (wantz .and. ldz < n)) then
+              info = -7
+           end if
+           if (info /= 0) then
+              call la_xerbla('SSPEV ',-info)
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           if (n == 1) then
+              w(1) = ap(1)
+              if (wantz) z(1,1) = one
+              return
+           end if
+           ! get machine constants.
+           safmin = la_slamch('SAFE MINIMUM')
+           eps = la_slamch('PRECISION')
+           smlnum = safmin/eps
+           bignum = one/smlnum
+           rmin = sqrt(smlnum)
+           rmax = sqrt(bignum)
+           ! scale matrix to allowable range, if necessary.
+           anrm = la_slansp('M',uplo,n,ap,work)
+           iscale = 0
+           if (anrm > zero .and. anrm < rmin) then
+              iscale = 1
+              sigma = rmin/anrm
+           else if (anrm > rmax) then
+              iscale = 1
+              sigma = rmax/anrm
+           end if
+           if (iscale == 1) then
+              call la_sscal((n*(n + 1))/2,sigma,ap,1)
+           end if
+           ! call la_ssptrd to reduce symmetric packed matrix to tridiagonal form.
+           inde = 1
+           indtau = inde + n
+           call la_ssptrd(uplo,n,ap,w,work(inde),work(indtau),iinfo)
+           ! for eigenvalues only, call la_ssterf.  for eigenvectors, first call
+           ! la_sopgtr to generate the orthogonal matrix, then call la_ssteqr.
+           if (.not. wantz) then
+              call la_ssterf(n,w,work(inde),info)
+           else
+              indwrk = indtau + n
+              call la_sopgtr(uplo,n,ap,work(indtau),z,ldz,work(indwrk),iinfo)
+
+              call la_ssteqr(jobz,n,w,work(inde),z,ldz,work(indtau),info)
+           end if
+           ! if matrix was scaled, then rescale eigenvalues appropriately.
+           if (iscale == 1) then
+              if (info == 0) then
+                 imax = n
+              else
+                 imax = info - 1
+              end if
+              call la_sscal(imax,one/sigma,w,1)
+           end if
+           return
+     end subroutine la_sspev
+     !> DSPEV: computes all the eigenvalues and, optionally, eigenvectors of a
+     !> real symmetric matrix A in packed storage.
+
+     subroutine la_dspev(jobz,uplo,n,ap,w,z,ldz,work,info)
+        use la_constants_dp,only:zero,one
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldz,n
+           ! Array Arguments
+           real(dp),intent(inout) :: ap(*)
+           real(dp),intent(out) :: w(*),work(*),z(ldz,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: wantz
+           integer(ilp) :: iinfo,imax,inde,indtau,indwrk,iscale
+           real(dp) :: anrm,bignum,eps,rmax,rmin,safmin,sigma,smlnum
+           ! Intrinsic Functions
+           intrinsic :: sqrt
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           info = 0
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (la_lsame(uplo,'U') .or. la_lsame(uplo,'L'))) &
+                     then
+              info = -2
+           else if (n < 0) then
+              info = -3
+           else if (ldz < 1 .or. (wantz .and. ldz < n)) then
+              info = -7
+           end if
+           if (info /= 0) then
+              call la_xerbla('DSPEV ',-info)
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           if (n == 1) then
+              w(1) = ap(1)
+              if (wantz) z(1,1) = one
+              return
+           end if
+           ! get machine constants.
+           safmin = la_dlamch('SAFE MINIMUM')
+           eps = la_dlamch('PRECISION')
+           smlnum = safmin/eps
+           bignum = one/smlnum
+           rmin = sqrt(smlnum)
+           rmax = sqrt(bignum)
+           ! scale matrix to allowable range, if necessary.
+           anrm = la_dlansp('M',uplo,n,ap,work)
+           iscale = 0
+           if (anrm > zero .and. anrm < rmin) then
+              iscale = 1
+              sigma = rmin/anrm
+           else if (anrm > rmax) then
+              iscale = 1
+              sigma = rmax/anrm
+           end if
+           if (iscale == 1) then
+              call la_dscal((n*(n + 1))/2,sigma,ap,1)
+           end if
+           ! call la_dsptrd to reduce symmetric packed matrix to tridiagonal form.
+           inde = 1
+           indtau = inde + n
+           call la_dsptrd(uplo,n,ap,w,work(inde),work(indtau),iinfo)
+           ! for eigenvalues only, call la_dsterf.  for eigenvectors, first call
+           ! la_dopgtr to generate the orthogonal matrix, then call la_dsteqr.
+           if (.not. wantz) then
+              call la_dsterf(n,w,work(inde),info)
+           else
+              indwrk = indtau + n
+              call la_dopgtr(uplo,n,ap,work(indtau),z,ldz,work(indwrk),iinfo)
+
+              call la_dsteqr(jobz,n,w,work(inde),z,ldz,work(indtau),info)
+           end if
+           ! if matrix was scaled, then rescale eigenvalues appropriately.
+           if (iscale == 1) then
+              if (info == 0) then
+                 imax = n
+              else
+                 imax = info - 1
+              end if
+              call la_dscal(imax,one/sigma,w,1)
+           end if
+           return
+     end subroutine la_dspev
+     !> QSPEV: computes all the eigenvalues and, optionally, eigenvectors of a
+     !> real symmetric matrix A in packed storage.
+
+     subroutine la_qspev(jobz,uplo,n,ap,w,z,ldz,work,info)
+        use la_constants_qp,only:zero,one
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldz,n
+           ! Array Arguments
+           real(qp),intent(inout) :: ap(*)
+           real(qp),intent(out) :: w(*),work(*),z(ldz,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: wantz
+           integer(ilp) :: iinfo,imax,inde,indtau,indwrk,iscale
+           real(qp) :: anrm,bignum,eps,rmax,rmin,safmin,sigma,smlnum
+           ! Intrinsic Functions
+           intrinsic :: sqrt
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           info = 0
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (la_lsame(uplo,'U') .or. la_lsame(uplo,'L'))) &
+                     then
+              info = -2
+           else if (n < 0) then
+              info = -3
+           else if (ldz < 1 .or. (wantz .and. ldz < n)) then
+              info = -7
+           end if
+           if (info /= 0) then
+              call la_xerbla('QSPEV ',-info)
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           if (n == 1) then
+              w(1) = ap(1)
+              if (wantz) z(1,1) = one
+              return
+           end if
+           ! get machine constants.
+           safmin = la_qlamch('SAFE MINIMUM')
+           eps = la_qlamch('PRECISION')
+           smlnum = safmin/eps
+           bignum = one/smlnum
+           rmin = sqrt(smlnum)
+           rmax = sqrt(bignum)
+           ! scale matrix to allowable range, if necessary.
+           anrm = la_qlansp('M',uplo,n,ap,work)
+           iscale = 0
+           if (anrm > zero .and. anrm < rmin) then
+              iscale = 1
+              sigma = rmin/anrm
+           else if (anrm > rmax) then
+              iscale = 1
+              sigma = rmax/anrm
+           end if
+           if (iscale == 1) then
+              call la_qscal((n*(n + 1))/2,sigma,ap,1)
+           end if
+           ! call la_qsptrd to reduce symmetric packed matrix to tridiagonal form.
+           inde = 1
+           indtau = inde + n
+           call la_qsptrd(uplo,n,ap,w,work(inde),work(indtau),iinfo)
+           ! for eigenvalues only, call la_qsterf.  for eigenvectors, first call
+           ! la_qopgtr to generate the orthogonal matrix, then call la_qsteqr.
+           if (.not. wantz) then
+              call la_qsterf(n,w,work(inde),info)
+           else
+              indwrk = indtau + n
+              call la_qopgtr(uplo,n,ap,work(indtau),z,ldz,work(indwrk),iinfo)
+
+              call la_qsteqr(jobz,n,w,work(inde),z,ldz,work(indtau),info)
+           end if
+           ! if matrix was scaled, then rescale eigenvalues appropriately.
+           if (iscale == 1) then
+              if (info == 0) then
+                 imax = n
+              else
+                 imax = info - 1
+              end if
+              call la_qscal(imax,one/sigma,w,1)
+           end if
+           return
+     end subroutine la_qspev
+
+     !> SSPEVX: computes selected eigenvalues and, optionally, eigenvectors
+     !> of a real symmetric matrix A in packed storage.  Eigenvalues/vectors
+     !> can be selected by specifying either a range of values or a range of
+     !> indices for the desired eigenvalues.
+
+     subroutine la_sspevx(jobz,range,uplo,n,ap,vl,vu,il,iu,abstol,m,w,z,ldz, &
+               work,iwork,ifail,info)
+        use la_constants_sp,only:zero,one
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,range,uplo
+           integer(ilp),intent(in) :: il,iu,ldz,n
+           integer(ilp),intent(out) :: info,m
+           real(sp),intent(in) :: abstol,vl,vu
+           ! Array Arguments
+           integer(ilp),intent(out) :: ifail(*),iwork(*)
+           real(sp),intent(inout) :: ap(*)
+           real(sp),intent(out) :: w(*),work(*),z(ldz,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: alleig,indeig,test,valeig,wantz
+           character :: order
+           integer(ilp) :: i,iinfo,imax,indd,inde,indee,indibl,indisp,indiwo,indtau, &
+                     indwrk,iscale,itmp1,j,jj,nsplit
+           real(sp) :: abstll,anrm,bignum,eps,rmax,rmin,safmin,sigma,smlnum,tmp1,vll, &
+                     vuu
+           ! Intrinsic Functions
+           intrinsic :: max,min,sqrt
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           alleig = la_lsame(range,'A')
+           valeig = la_lsame(range,'V')
+           indeig = la_lsame(range,'I')
+           info = 0
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (alleig .or. valeig .or. indeig)) then
+              info = -2
+           else if (.not. (la_lsame(uplo,'L') .or. la_lsame(uplo,'U'))) &
+                     then
+              info = -3
+           else if (n < 0) then
+              info = -4
+           else
+              if (valeig) then
+                 if (n > 0 .and. vu <= vl) info = -7
+              else if (indeig) then
+                 if (il < 1 .or. il > max(1,n)) then
+                    info = -8
+                 else if (iu < min(n,il) .or. iu > n) then
+                    info = -9
+                 end if
+              end if
+           end if
+           if (info == 0) then
+              if (ldz < 1 .or. (wantz .and. ldz < n)) info = -14
+           end if
+           if (info /= 0) then
+              call la_xerbla('SSPEVX',-info)
+              return
+           end if
+           ! quick return if possible
+           m = 0
+           if (n == 0) return
+           if (n == 1) then
+              if (alleig .or. indeig) then
+                 m = 1
+                 w(1) = ap(1)
+              else
+                 if (vl < ap(1) .and. vu >= ap(1)) then
+                    m = 1
+                    w(1) = ap(1)
+                 end if
+              end if
+              if (wantz) z(1,1) = one
+              return
+           end if
+           ! get machine constants.
+           safmin = la_slamch('SAFE MINIMUM')
+           eps = la_slamch('PRECISION')
+           smlnum = safmin/eps
+           bignum = one/smlnum
+           rmin = sqrt(smlnum)
+           rmax = min(sqrt(bignum),one/sqrt(sqrt(safmin)))
+           ! scale matrix to allowable range, if necessary.
+           iscale = 0
+           abstll = abstol
+           if (valeig) then
+              vll = vl
+              vuu = vu
+           else
+              vll = zero
+              vuu = zero
+           end if
+           anrm = la_slansp('M',uplo,n,ap,work)
+           if (anrm > zero .and. anrm < rmin) then
+              iscale = 1
+              sigma = rmin/anrm
+           else if (anrm > rmax) then
+              iscale = 1
+              sigma = rmax/anrm
+           end if
+           if (iscale == 1) then
+              call la_sscal((n*(n + 1))/2,sigma,ap,1)
+              if (abstol > 0) abstll = abstol*sigma
+              if (valeig) then
+                 vll = vl*sigma
+                 vuu = vu*sigma
+              end if
+           end if
+           ! call la_ssptrd to reduce symmetric packed matrix to tridiagonal form.
+           indtau = 1
+           inde = indtau + n
+           indd = inde + n
+           indwrk = indd + n
+           call la_ssptrd(uplo,n,ap,work(indd),work(inde),work(indtau),iinfo)
+
+           ! if all eigenvalues are desired and abstol is less than or equal
+           ! to zero, then call la_ssterf or la_sopgtr and la_ssteqr.  if this fails
+           ! for some eigenvalue, then try la_sstebz.
+           test = .false.
+           if (indeig) then
+              if (il == 1 .and. iu == n) then
+                 test = .true.
+              end if
+           end if
+           if ((alleig .or. test) .and. (abstol <= zero)) then
+              call la_scopy(n,work(indd),1,w,1)
+              indee = indwrk + 2*n
+              if (.not. wantz) then
+                 call la_scopy(n - 1,work(inde),1,work(indee),1)
+                 call la_ssterf(n,w,work(indee),info)
+              else
+                 call la_sopgtr(uplo,n,ap,work(indtau),z,ldz,work(indwrk),iinfo)
+
+                 call la_scopy(n - 1,work(inde),1,work(indee),1)
+                 call la_ssteqr(jobz,n,w,work(indee),z,ldz,work(indwrk),info)
+
+                 if (info == 0) then
+                    do i = 1,n
+                       ifail(i) = 0
+                    end do
+                 end if
+              end if
+              if (info == 0) then
+                 m = n
+                 go to 20
+              end if
+              info = 0
+           end if
+           ! otherwise, call la_sstebz and, if eigenvectors are desired, la_sstein.
+           if (wantz) then
+              order = 'B'
+           else
+              order = 'E'
+           end if
+           indibl = 1
+           indisp = indibl + n
+           indiwo = indisp + n
+           call la_sstebz(range,order,n,vll,vuu,il,iu,abstll,work(indd),work(inde &
+           ),m,nsplit,w,iwork(indibl),iwork(indisp),work(indwrk),iwork(indiwo),info &
+                     )
+           if (wantz) then
+              call la_sstein(n,work(indd),work(inde),m,w,iwork(indibl),iwork( &
+                        indisp),z,ldz,work(indwrk),iwork(indiwo),ifail,info)
+              ! apply orthogonal matrix used in reduction to tridiagonal
+              ! form to eigenvectors returned by la_sstein.
+              call la_sopmtr('L',uplo,'N',n,m,ap,work(indtau),z,ldz,work(indwrk), &
+                         iinfo)
+           end if
+           ! if matrix was scaled, then rescale eigenvalues appropriately.
+           20 continue
+           if (iscale == 1) then
+              if (info == 0) then
+                 imax = m
+              else
+                 imax = info - 1
+              end if
+              call la_sscal(imax,one/sigma,w,1)
+           end if
+           ! if eigenvalues are not in order, then sort them, along with
+           ! eigenvectors.
+           if (wantz) then
+              do j = 1,m - 1
+                 i = 0
+                 tmp1 = w(j)
+                 do jj = j + 1,m
+                    if (w(jj) < tmp1) then
+                       i = jj
+                       tmp1 = w(jj)
+                    end if
+                 end do
+                 if (i /= 0) then
+                    itmp1 = iwork(indibl + i - 1)
+                    w(i) = w(j)
+                    iwork(indibl + i - 1) = iwork(indibl + j - 1)
+                    w(j) = tmp1
+                    iwork(indibl + j - 1) = itmp1
+                    call la_sswap(n,z(1,i),1,z(1,j),1)
+                    if (info /= 0) then
+                       itmp1 = ifail(i)
+                       ifail(i) = ifail(j)
+                       ifail(j) = itmp1
+                    end if
+                 end if
+              end do
+           end if
+           return
+     end subroutine la_sspevx
+     !> DSPEVX: computes selected eigenvalues and, optionally, eigenvectors
+     !> of a real symmetric matrix A in packed storage.  Eigenvalues/vectors
+     !> can be selected by specifying either a range of values or a range of
+     !> indices for the desired eigenvalues.
+
+     subroutine la_dspevx(jobz,range,uplo,n,ap,vl,vu,il,iu,abstol,m,w,z,ldz, &
+               work,iwork,ifail,info)
+        use la_constants_dp,only:zero,one
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,range,uplo
+           integer(ilp),intent(in) :: il,iu,ldz,n
+           integer(ilp),intent(out) :: info,m
+           real(dp),intent(in) :: abstol,vl,vu
+           ! Array Arguments
+           integer(ilp),intent(out) :: ifail(*),iwork(*)
+           real(dp),intent(inout) :: ap(*)
+           real(dp),intent(out) :: w(*),work(*),z(ldz,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: alleig,indeig,test,valeig,wantz
+           character :: order
+           integer(ilp) :: i,iinfo,imax,indd,inde,indee,indibl,indisp,indiwo,indtau, &
+                     indwrk,iscale,itmp1,j,jj,nsplit
+           real(dp) :: abstll,anrm,bignum,eps,rmax,rmin,safmin,sigma,smlnum,tmp1,vll, &
+                     vuu
+           ! Intrinsic Functions
+           intrinsic :: max,min,sqrt
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           alleig = la_lsame(range,'A')
+           valeig = la_lsame(range,'V')
+           indeig = la_lsame(range,'I')
+           info = 0
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (alleig .or. valeig .or. indeig)) then
+              info = -2
+           else if (.not. (la_lsame(uplo,'L') .or. la_lsame(uplo,'U'))) &
+                     then
+              info = -3
+           else if (n < 0) then
+              info = -4
+           else
+              if (valeig) then
+                 if (n > 0 .and. vu <= vl) info = -7
+              else if (indeig) then
+                 if (il < 1 .or. il > max(1,n)) then
+                    info = -8
+                 else if (iu < min(n,il) .or. iu > n) then
+                    info = -9
+                 end if
+              end if
+           end if
+           if (info == 0) then
+              if (ldz < 1 .or. (wantz .and. ldz < n)) info = -14
+           end if
+           if (info /= 0) then
+              call la_xerbla('DSPEVX',-info)
+              return
+           end if
+           ! quick return if possible
+           m = 0
+           if (n == 0) return
+           if (n == 1) then
+              if (alleig .or. indeig) then
+                 m = 1
+                 w(1) = ap(1)
+              else
+                 if (vl < ap(1) .and. vu >= ap(1)) then
+                    m = 1
+                    w(1) = ap(1)
+                 end if
+              end if
+              if (wantz) z(1,1) = one
+              return
+           end if
+           ! get machine constants.
+           safmin = la_dlamch('SAFE MINIMUM')
+           eps = la_dlamch('PRECISION')
+           smlnum = safmin/eps
+           bignum = one/smlnum
+           rmin = sqrt(smlnum)
+           rmax = min(sqrt(bignum),one/sqrt(sqrt(safmin)))
+           ! scale matrix to allowable range, if necessary.
+           iscale = 0
+           abstll = abstol
+           if (valeig) then
+              vll = vl
+              vuu = vu
+           else
+              vll = zero
+              vuu = zero
+           end if
+           anrm = la_dlansp('M',uplo,n,ap,work)
+           if (anrm > zero .and. anrm < rmin) then
+              iscale = 1
+              sigma = rmin/anrm
+           else if (anrm > rmax) then
+              iscale = 1
+              sigma = rmax/anrm
+           end if
+           if (iscale == 1) then
+              call la_dscal((n*(n + 1))/2,sigma,ap,1)
+              if (abstol > 0) abstll = abstol*sigma
+              if (valeig) then
+                 vll = vl*sigma
+                 vuu = vu*sigma
+              end if
+           end if
+           ! call la_dsptrd to reduce symmetric packed matrix to tridiagonal form.
+           indtau = 1
+           inde = indtau + n
+           indd = inde + n
+           indwrk = indd + n
+           call la_dsptrd(uplo,n,ap,work(indd),work(inde),work(indtau),iinfo)
+
+           ! if all eigenvalues are desired and abstol is less than or equal
+           ! to zero, then call la_dsterf or la_dopgtr and la_ssteqr.  if this fails
+           ! for some eigenvalue, then try la_dstebz.
+           test = .false.
+           if (indeig) then
+              if (il == 1 .and. iu == n) then
+                 test = .true.
+              end if
+           end if
+           if ((alleig .or. test) .and. (abstol <= zero)) then
+              call la_dcopy(n,work(indd),1,w,1)
+              indee = indwrk + 2*n
+              if (.not. wantz) then
+                 call la_dcopy(n - 1,work(inde),1,work(indee),1)
+                 call la_dsterf(n,w,work(indee),info)
+              else
+                 call la_dopgtr(uplo,n,ap,work(indtau),z,ldz,work(indwrk),iinfo)
+
+                 call la_dcopy(n - 1,work(inde),1,work(indee),1)
+                 call la_dsteqr(jobz,n,w,work(indee),z,ldz,work(indwrk),info)
+
+                 if (info == 0) then
+                    do i = 1,n
+                       ifail(i) = 0
+                    end do
+                 end if
+              end if
+              if (info == 0) then
+                 m = n
+                 go to 20
+              end if
+              info = 0
+           end if
+           ! otherwise, call la_dstebz and, if eigenvectors are desired, la_sstein.
+           if (wantz) then
+              order = 'B'
+           else
+              order = 'E'
+           end if
+           indibl = 1
+           indisp = indibl + n
+           indiwo = indisp + n
+           call la_dstebz(range,order,n,vll,vuu,il,iu,abstll,work(indd),work(inde &
+           ),m,nsplit,w,iwork(indibl),iwork(indisp),work(indwrk),iwork(indiwo),info &
+                     )
+           if (wantz) then
+              call la_dstein(n,work(indd),work(inde),m,w,iwork(indibl),iwork( &
+                        indisp),z,ldz,work(indwrk),iwork(indiwo),ifail,info)
+              ! apply orthogonal matrix used in reduction to tridiagonal
+              ! form to eigenvectors returned by la_dstein.
+              call la_dopmtr('L',uplo,'N',n,m,ap,work(indtau),z,ldz,work(indwrk), &
+                         iinfo)
+           end if
+           ! if matrix was scaled, then rescale eigenvalues appropriately.
+           20 continue
+           if (iscale == 1) then
+              if (info == 0) then
+                 imax = m
+              else
+                 imax = info - 1
+              end if
+              call la_dscal(imax,one/sigma,w,1)
+           end if
+           ! if eigenvalues are not in order, then sort them, along with
+           ! eigenvectors.
+           if (wantz) then
+              do j = 1,m - 1
+                 i = 0
+                 tmp1 = w(j)
+                 do jj = j + 1,m
+                    if (w(jj) < tmp1) then
+                       i = jj
+                       tmp1 = w(jj)
+                    end if
+                 end do
+                 if (i /= 0) then
+                    itmp1 = iwork(indibl + i - 1)
+                    w(i) = w(j)
+                    iwork(indibl + i - 1) = iwork(indibl + j - 1)
+                    w(j) = tmp1
+                    iwork(indibl + j - 1) = itmp1
+                    call la_dswap(n,z(1,i),1,z(1,j),1)
+                    if (info /= 0) then
+                       itmp1 = ifail(i)
+                       ifail(i) = ifail(j)
+                       ifail(j) = itmp1
+                    end if
+                 end if
+              end do
+           end if
+           return
+     end subroutine la_dspevx
+     !> QSPEVX: computes selected eigenvalues and, optionally, eigenvectors
+     !> of a real symmetric matrix A in packed storage.  Eigenvalues/vectors
+     !> can be selected by specifying either a range of values or a range of
+     !> indices for the desired eigenvalues.
+
+     subroutine la_qspevx(jobz,range,uplo,n,ap,vl,vu,il,iu,abstol,m,w,z,ldz, &
+               work,iwork,ifail,info)
+        use la_constants_qp,only:zero,one
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,range,uplo
+           integer(ilp),intent(in) :: il,iu,ldz,n
+           integer(ilp),intent(out) :: info,m
+           real(qp),intent(in) :: abstol,vl,vu
+           ! Array Arguments
+           integer(ilp),intent(out) :: ifail(*),iwork(*)
+           real(qp),intent(inout) :: ap(*)
+           real(qp),intent(out) :: w(*),work(*),z(ldz,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: alleig,indeig,test,valeig,wantz
+           character :: order
+           integer(ilp) :: i,iinfo,imax,indd,inde,indee,indibl,indisp,indiwo,indtau, &
+                     indwrk,iscale,itmp1,j,jj,nsplit
+           real(qp) :: abstll,anrm,bignum,eps,rmax,rmin,safmin,sigma,smlnum,tmp1,vll, &
+                     vuu
+           ! Intrinsic Functions
+           intrinsic :: max,min,sqrt
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           alleig = la_lsame(range,'A')
+           valeig = la_lsame(range,'V')
+           indeig = la_lsame(range,'I')
+           info = 0
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (alleig .or. valeig .or. indeig)) then
+              info = -2
+           else if (.not. (la_lsame(uplo,'L') .or. la_lsame(uplo,'U'))) &
+                     then
+              info = -3
+           else if (n < 0) then
+              info = -4
+           else
+              if (valeig) then
+                 if (n > 0 .and. vu <= vl) info = -7
+              else if (indeig) then
+                 if (il < 1 .or. il > max(1,n)) then
+                    info = -8
+                 else if (iu < min(n,il) .or. iu > n) then
+                    info = -9
+                 end if
+              end if
+           end if
+           if (info == 0) then
+              if (ldz < 1 .or. (wantz .and. ldz < n)) info = -14
+           end if
+           if (info /= 0) then
+              call la_xerbla('QSPEVX',-info)
+              return
+           end if
+           ! quick return if possible
+           m = 0
+           if (n == 0) return
+           if (n == 1) then
+              if (alleig .or. indeig) then
+                 m = 1
+                 w(1) = ap(1)
+              else
+                 if (vl < ap(1) .and. vu >= ap(1)) then
+                    m = 1
+                    w(1) = ap(1)
+                 end if
+              end if
+              if (wantz) z(1,1) = one
+              return
+           end if
+           ! get machine constants.
+           safmin = la_qlamch('SAFE MINIMUM')
+           eps = la_qlamch('PRECISION')
+           smlnum = safmin/eps
+           bignum = one/smlnum
+           rmin = sqrt(smlnum)
+           rmax = min(sqrt(bignum),one/sqrt(sqrt(safmin)))
+           ! scale matrix to allowable range, if necessary.
+           iscale = 0
+           abstll = abstol
+           if (valeig) then
+              vll = vl
+              vuu = vu
+           else
+              vll = zero
+              vuu = zero
+           end if
+           anrm = la_qlansp('M',uplo,n,ap,work)
+           if (anrm > zero .and. anrm < rmin) then
+              iscale = 1
+              sigma = rmin/anrm
+           else if (anrm > rmax) then
+              iscale = 1
+              sigma = rmax/anrm
+           end if
+           if (iscale == 1) then
+              call la_qscal((n*(n + 1))/2,sigma,ap,1)
+              if (abstol > 0) abstll = abstol*sigma
+              if (valeig) then
+                 vll = vl*sigma
+                 vuu = vu*sigma
+              end if
+           end if
+           ! call la_qsptrd to reduce symmetric packed matrix to tridiagonal form.
+           indtau = 1
+           inde = indtau + n
+           indd = inde + n
+           indwrk = indd + n
+           call la_qsptrd(uplo,n,ap,work(indd),work(inde),work(indtau),iinfo)
+
+           ! if all eigenvalues are desired and abstol is less than or equal
+           ! to zero, then call la_qsterf or la_qopgtr and la_dsteqr.  if this fails
+           ! for some eigenvalue, then try la_qstebz.
+           test = .false.
+           if (indeig) then
+              if (il == 1 .and. iu == n) then
+                 test = .true.
+              end if
+           end if
+           if ((alleig .or. test) .and. (abstol <= zero)) then
+              call la_qcopy(n,work(indd),1,w,1)
+              indee = indwrk + 2*n
+              if (.not. wantz) then
+                 call la_qcopy(n - 1,work(inde),1,work(indee),1)
+                 call la_qsterf(n,w,work(indee),info)
+              else
+                 call la_qopgtr(uplo,n,ap,work(indtau),z,ldz,work(indwrk),iinfo)
+
+                 call la_qcopy(n - 1,work(inde),1,work(indee),1)
+                 call la_qsteqr(jobz,n,w,work(indee),z,ldz,work(indwrk),info)
+
+                 if (info == 0) then
+                    do i = 1,n
+                       ifail(i) = 0
+                    end do
+                 end if
+              end if
+              if (info == 0) then
+                 m = n
+                 go to 20
+              end if
+              info = 0
+           end if
+           ! otherwise, call la_qstebz and, if eigenvectors are desired, la_dstein.
+           if (wantz) then
+              order = 'B'
+           else
+              order = 'E'
+           end if
+           indibl = 1
+           indisp = indibl + n
+           indiwo = indisp + n
+           call la_qstebz(range,order,n,vll,vuu,il,iu,abstll,work(indd),work(inde &
+           ),m,nsplit,w,iwork(indibl),iwork(indisp),work(indwrk),iwork(indiwo),info &
+                     )
+           if (wantz) then
+              call la_qstein(n,work(indd),work(inde),m,w,iwork(indibl),iwork( &
+                        indisp),z,ldz,work(indwrk),iwork(indiwo),ifail,info)
+              ! apply orthogonal matrix used in reduction to tridiagonal
+              ! form to eigenvectors returned by la_qstein.
+              call la_qopmtr('L',uplo,'N',n,m,ap,work(indtau),z,ldz,work(indwrk), &
+                         iinfo)
+           end if
+           ! if matrix was scaled, then rescale eigenvalues appropriately.
+           20 continue
+           if (iscale == 1) then
+              if (info == 0) then
+                 imax = m
+              else
+                 imax = info - 1
+              end if
+              call la_qscal(imax,one/sigma,w,1)
+           end if
+           ! if eigenvalues are not in order, then sort them, along with
+           ! eigenvectors.
+           if (wantz) then
+              do j = 1,m - 1
+                 i = 0
+                 tmp1 = w(j)
+                 do jj = j + 1,m
+                    if (w(jj) < tmp1) then
+                       i = jj
+                       tmp1 = w(jj)
+                    end if
+                 end do
+                 if (i /= 0) then
+                    itmp1 = iwork(indibl + i - 1)
+                    w(i) = w(j)
+                    iwork(indibl + i - 1) = iwork(indibl + j - 1)
+                    w(j) = tmp1
+                    iwork(indibl + j - 1) = itmp1
+                    call la_qswap(n,z(1,i),1,z(1,j),1)
+                    if (info /= 0) then
+                       itmp1 = ifail(i)
+                       ifail(i) = ifail(j)
+                       ifail(j) = itmp1
+                    end if
+                 end if
+              end do
+           end if
+           return
+     end subroutine la_qspevx
+
+     !> SSPGV: computes all the eigenvalues and, optionally, the eigenvectors
+     !> of a real generalized symmetric-definite eigenproblem, of the form
+     !> A*x=(lambda)*B*x,  A*Bx=(lambda)*x,  or B*A*x=(lambda)*x.
+     !> Here A and B are assumed to be symmetric, stored in packed format,
+     !> and B is also positive definite.
+
+     subroutine la_sspgv(itype,jobz,uplo,n,ap,bp,w,z,ldz,work,info)
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: itype,ldz,n
+           ! Array Arguments
+           real(sp),intent(inout) :: ap(*),bp(*)
+           real(sp),intent(out) :: w(*),work(*),z(ldz,*)
+        ! =====================================================================
+           ! Local Scalars
+           logical(lk) :: upper,wantz
+           character :: trans
+           integer(ilp) :: j,neig
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           upper = la_lsame(uplo,'U')
+           info = 0
+           if (itype < 1 .or. itype > 3) then
+              info = -1
+           else if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -2
+           else if (.not. (upper .or. la_lsame(uplo,'L'))) then
+              info = -3
+           else if (n < 0) then
+              info = -4
+           else if (ldz < 1 .or. (wantz .and. ldz < n)) then
+              info = -9
+           end if
+           if (info /= 0) then
+              call la_xerbla('SSPGV ',-info)
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           ! form a cholesky factorization of b.
+           call la_spptrf(uplo,n,bp,info)
+           if (info /= 0) then
+              info = n + info
+              return
+           end if
+           ! transform problem to standard eigenvalue problem and solve.
+           call la_sspgst(itype,uplo,n,ap,bp,info)
+           call la_sspev(jobz,uplo,n,ap,w,z,ldz,work,info)
+           if (wantz) then
+              ! backtransform eigenvectors to the original problem.
+              neig = n
+              if (info > 0) neig = info - 1
+              if (itype == 1 .or. itype == 2) then
+                 ! for a*x=(lambda)*b*x and a*b*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = inv(l)**t*y or inv(u)*y
+                 if (upper) then
+                    trans = 'N'
+                 else
+                    trans = 'T'
+                 end if
+                 do j = 1,neig
+                    call la_stpsv(uplo,trans,'NON-UNIT',n,bp,z(1,j),1)
+                 end do
+              else if (itype == 3) then
+                 ! for b*a*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = l*y or u**t*y
+                 if (upper) then
+                    trans = 'T'
+                 else
+                    trans = 'N'
+                 end if
+                 do j = 1,neig
+                    call la_stpmv(uplo,trans,'NON-UNIT',n,bp,z(1,j),1)
+                 end do
+              end if
+           end if
+           return
+     end subroutine la_sspgv
+     !> DSPGV: computes all the eigenvalues and, optionally, the eigenvectors
+     !> of a real generalized symmetric-definite eigenproblem, of the form
+     !> A*x=(lambda)*B*x,  A*Bx=(lambda)*x,  or B*A*x=(lambda)*x.
+     !> Here A and B are assumed to be symmetric, stored in packed format,
+     !> and B is also positive definite.
+
+     subroutine la_dspgv(itype,jobz,uplo,n,ap,bp,w,z,ldz,work,info)
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: itype,ldz,n
+           ! Array Arguments
+           real(dp),intent(inout) :: ap(*),bp(*)
+           real(dp),intent(out) :: w(*),work(*),z(ldz,*)
+        ! =====================================================================
+           ! Local Scalars
+           logical(lk) :: upper,wantz
+           character :: trans
+           integer(ilp) :: j,neig
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           upper = la_lsame(uplo,'U')
+           info = 0
+           if (itype < 1 .or. itype > 3) then
+              info = -1
+           else if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -2
+           else if (.not. (upper .or. la_lsame(uplo,'L'))) then
+              info = -3
+           else if (n < 0) then
+              info = -4
+           else if (ldz < 1 .or. (wantz .and. ldz < n)) then
+              info = -9
+           end if
+           if (info /= 0) then
+              call la_xerbla('DSPGV ',-info)
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           ! form a cholesky factorization of b.
+           call la_dpptrf(uplo,n,bp,info)
+           if (info /= 0) then
+              info = n + info
+              return
+           end if
+           ! transform problem to standard eigenvalue problem and solve.
+           call la_dspgst(itype,uplo,n,ap,bp,info)
+           call la_dspev(jobz,uplo,n,ap,w,z,ldz,work,info)
+           if (wantz) then
+              ! backtransform eigenvectors to the original problem.
+              neig = n
+              if (info > 0) neig = info - 1
+              if (itype == 1 .or. itype == 2) then
+                 ! for a*x=(lambda)*b*x and a*b*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = inv(l)**t*y or inv(u)*y
+                 if (upper) then
+                    trans = 'N'
+                 else
+                    trans = 'T'
+                 end if
+                 do j = 1,neig
+                    call la_dtpsv(uplo,trans,'NON-UNIT',n,bp,z(1,j),1)
+                 end do
+              else if (itype == 3) then
+                 ! for b*a*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = l*y or u**t*y
+                 if (upper) then
+                    trans = 'T'
+                 else
+                    trans = 'N'
+                 end if
+                 do j = 1,neig
+                    call la_dtpmv(uplo,trans,'NON-UNIT',n,bp,z(1,j),1)
+                 end do
+              end if
+           end if
+           return
+     end subroutine la_dspgv
+     !> QSPGV: computes all the eigenvalues and, optionally, the eigenvectors
+     !> of a real generalized symmetric-definite eigenproblem, of the form
+     !> A*x=(lambda)*B*x,  A*Bx=(lambda)*x,  or B*A*x=(lambda)*x.
+     !> Here A and B are assumed to be symmetric, stored in packed format,
+     !> and B is also positive definite.
+
+     subroutine la_qspgv(itype,jobz,uplo,n,ap,bp,w,z,ldz,work,info)
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: itype,ldz,n
+           ! Array Arguments
+           real(qp),intent(inout) :: ap(*),bp(*)
+           real(qp),intent(out) :: w(*),work(*),z(ldz,*)
+        ! =====================================================================
+           ! Local Scalars
+           logical(lk) :: upper,wantz
+           character :: trans
+           integer(ilp) :: j,neig
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           upper = la_lsame(uplo,'U')
+           info = 0
+           if (itype < 1 .or. itype > 3) then
+              info = -1
+           else if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -2
+           else if (.not. (upper .or. la_lsame(uplo,'L'))) then
+              info = -3
+           else if (n < 0) then
+              info = -4
+           else if (ldz < 1 .or. (wantz .and. ldz < n)) then
+              info = -9
+           end if
+           if (info /= 0) then
+              call la_xerbla('QSPGV ',-info)
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           ! form a cholesky factorization of b.
+           call la_qpptrf(uplo,n,bp,info)
+           if (info /= 0) then
+              info = n + info
+              return
+           end if
+           ! transform problem to standard eigenvalue problem and solve.
+           call la_qspgst(itype,uplo,n,ap,bp,info)
+           call la_qspev(jobz,uplo,n,ap,w,z,ldz,work,info)
+           if (wantz) then
+              ! backtransform eigenvectors to the original problem.
+              neig = n
+              if (info > 0) neig = info - 1
+              if (itype == 1 .or. itype == 2) then
+                 ! for a*x=(lambda)*b*x and a*b*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = inv(l)**t*y or inv(u)*y
+                 if (upper) then
+                    trans = 'N'
+                 else
+                    trans = 'T'
+                 end if
+                 do j = 1,neig
+                    call la_qtpsv(uplo,trans,'NON-UNIT',n,bp,z(1,j),1)
+                 end do
+              else if (itype == 3) then
+                 ! for b*a*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = l*y or u**t*y
+                 if (upper) then
+                    trans = 'T'
+                 else
+                    trans = 'N'
+                 end if
+                 do j = 1,neig
+                    call la_qtpmv(uplo,trans,'NON-UNIT',n,bp,z(1,j),1)
+                 end do
+              end if
+           end if
+           return
+     end subroutine la_qspgv
+
+     !> SSPGVX: computes selected eigenvalues, and optionally, eigenvectors
+     !> of a real generalized symmetric-definite eigenproblem, of the form
+     !> A*x=(lambda)*B*x,  A*Bx=(lambda)*x,  or B*A*x=(lambda)*x.  Here A
+     !> and B are assumed to be symmetric, stored in packed storage, and B
+     !> is also positive definite.  Eigenvalues and eigenvectors can be
+     !> selected by specifying either a range of values or a range of indices
+     !> for the desired eigenvalues.
+
+     subroutine la_sspgvx(itype,jobz,range,uplo,n,ap,bp,vl,vu,il,iu,abstol,m,w, &
+               z,ldz,work,iwork,ifail,info)
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,range,uplo
+           integer(ilp),intent(in) :: il,itype,iu,ldz,n
+           integer(ilp),intent(out) :: info,m
+           real(sp),intent(in) :: abstol,vl,vu
+           ! Array Arguments
+           integer(ilp),intent(out) :: ifail(*),iwork(*)
+           real(sp),intent(inout) :: ap(*),bp(*)
+           real(sp),intent(out) :: w(*),work(*),z(ldz,*)
+       ! =====================================================================
+           ! Local Scalars
+           logical(lk) :: alleig,indeig,upper,valeig,wantz
+           character :: trans
+           integer(ilp) :: j
+           ! Intrinsic Functions
+           intrinsic :: min
+           ! Executable Statements
+           ! test the input parameters.
+           upper = la_lsame(uplo,'U')
+           wantz = la_lsame(jobz,'V')
+           alleig = la_lsame(range,'A')
+           valeig = la_lsame(range,'V')
+           indeig = la_lsame(range,'I')
+           info = 0
+           if (itype < 1 .or. itype > 3) then
+              info = -1
+           else if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -2
+           else if (.not. (alleig .or. valeig .or. indeig)) then
+              info = -3
+           else if (.not. (upper .or. la_lsame(uplo,'L'))) then
+              info = -4
+           else if (n < 0) then
+              info = -5
+           else
+              if (valeig) then
+                 if (n > 0 .and. vu <= vl) then
+                    info = -9
+                 end if
+              else if (indeig) then
+                 if (il < 1) then
+                    info = -10
+                 else if (iu < min(n,il) .or. iu > n) then
+                    info = -11
+                 end if
+              end if
+           end if
+           if (info == 0) then
+              if (ldz < 1 .or. (wantz .and. ldz < n)) then
+                 info = -16
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('SSPGVX',-info)
+              return
+           end if
+           ! quick return if possible
+           m = 0
+           if (n == 0) return
+           ! form a cholesky factorization of b.
+           call la_spptrf(uplo,n,bp,info)
+           if (info /= 0) then
+              info = n + info
+              return
+           end if
+           ! transform problem to standard eigenvalue problem and solve.
+           call la_sspgst(itype,uplo,n,ap,bp,info)
+           call la_sspevx(jobz,range,uplo,n,ap,vl,vu,il,iu,abstol,m,w,z,ldz, &
+                     work,iwork,ifail,info)
+           if (wantz) then
+              ! backtransform eigenvectors to the original problem.
+              if (info > 0) m = info - 1
+              if (itype == 1 .or. itype == 2) then
+                 ! for a*x=(lambda)*b*x and a*b*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = inv(l)**t*y or inv(u)*y
+                 if (upper) then
+                    trans = 'N'
+                 else
+                    trans = 'T'
+                 end if
+                 do j = 1,m
+                    call la_stpsv(uplo,trans,'NON-UNIT',n,bp,z(1,j),1)
+                 end do
+              else if (itype == 3) then
+                 ! for b*a*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = l*y or u**t*y
+                 if (upper) then
+                    trans = 'T'
+                 else
+                    trans = 'N'
+                 end if
+                 do j = 1,m
+                    call la_stpmv(uplo,trans,'NON-UNIT',n,bp,z(1,j),1)
+                 end do
+              end if
+           end if
+           return
+     end subroutine la_sspgvx
+     !> DSPGVX: computes selected eigenvalues, and optionally, eigenvectors
+     !> of a real generalized symmetric-definite eigenproblem, of the form
+     !> A*x=(lambda)*B*x,  A*Bx=(lambda)*x,  or B*A*x=(lambda)*x.  Here A
+     !> and B are assumed to be symmetric, stored in packed storage, and B
+     !> is also positive definite.  Eigenvalues and eigenvectors can be
+     !> selected by specifying either a range of values or a range of indices
+     !> for the desired eigenvalues.
+
+     subroutine la_dspgvx(itype,jobz,range,uplo,n,ap,bp,vl,vu,il,iu,abstol,m,w, &
+               z,ldz,work,iwork,ifail,info)
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,range,uplo
+           integer(ilp),intent(in) :: il,itype,iu,ldz,n
+           integer(ilp),intent(out) :: info,m
+           real(dp),intent(in) :: abstol,vl,vu
+           ! Array Arguments
+           integer(ilp),intent(out) :: ifail(*),iwork(*)
+           real(dp),intent(inout) :: ap(*),bp(*)
+           real(dp),intent(out) :: w(*),work(*),z(ldz,*)
+       ! =====================================================================
+           ! Local Scalars
+           logical(lk) :: alleig,indeig,upper,valeig,wantz
+           character :: trans
+           integer(ilp) :: j
+           ! Intrinsic Functions
+           intrinsic :: min
+           ! Executable Statements
+           ! test the input parameters.
+           upper = la_lsame(uplo,'U')
+           wantz = la_lsame(jobz,'V')
+           alleig = la_lsame(range,'A')
+           valeig = la_lsame(range,'V')
+           indeig = la_lsame(range,'I')
+           info = 0
+           if (itype < 1 .or. itype > 3) then
+              info = -1
+           else if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -2
+           else if (.not. (alleig .or. valeig .or. indeig)) then
+              info = -3
+           else if (.not. (upper .or. la_lsame(uplo,'L'))) then
+              info = -4
+           else if (n < 0) then
+              info = -5
+           else
+              if (valeig) then
+                 if (n > 0 .and. vu <= vl) then
+                    info = -9
+                 end if
+              else if (indeig) then
+                 if (il < 1) then
+                    info = -10
+                 else if (iu < min(n,il) .or. iu > n) then
+                    info = -11
+                 end if
+              end if
+           end if
+           if (info == 0) then
+              if (ldz < 1 .or. (wantz .and. ldz < n)) then
+                 info = -16
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('DSPGVX',-info)
+              return
+           end if
+           ! quick return if possible
+           m = 0
+           if (n == 0) return
+           ! form a cholesky factorization of b.
+           call la_dpptrf(uplo,n,bp,info)
+           if (info /= 0) then
+              info = n + info
+              return
+           end if
+           ! transform problem to standard eigenvalue problem and solve.
+           call la_dspgst(itype,uplo,n,ap,bp,info)
+           call la_dspevx(jobz,range,uplo,n,ap,vl,vu,il,iu,abstol,m,w,z,ldz, &
+                     work,iwork,ifail,info)
+           if (wantz) then
+              ! backtransform eigenvectors to the original problem.
+              if (info > 0) m = info - 1
+              if (itype == 1 .or. itype == 2) then
+                 ! for a*x=(lambda)*b*x and a*b*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = inv(l)**t*y or inv(u)*y
+                 if (upper) then
+                    trans = 'N'
+                 else
+                    trans = 'T'
+                 end if
+                 do j = 1,m
+                    call la_dtpsv(uplo,trans,'NON-UNIT',n,bp,z(1,j),1)
+                 end do
+              else if (itype == 3) then
+                 ! for b*a*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = l*y or u**t*y
+                 if (upper) then
+                    trans = 'T'
+                 else
+                    trans = 'N'
+                 end if
+                 do j = 1,m
+                    call la_dtpmv(uplo,trans,'NON-UNIT',n,bp,z(1,j),1)
+                 end do
+              end if
+           end if
+           return
+     end subroutine la_dspgvx
+     !> QSPGVX: computes selected eigenvalues, and optionally, eigenvectors
+     !> of a real generalized symmetric-definite eigenproblem, of the form
+     !> A*x=(lambda)*B*x,  A*Bx=(lambda)*x,  or B*A*x=(lambda)*x.  Here A
+     !> and B are assumed to be symmetric, stored in packed storage, and B
+     !> is also positive definite.  Eigenvalues and eigenvectors can be
+     !> selected by specifying either a range of values or a range of indices
+     !> for the desired eigenvalues.
+
+     subroutine la_qspgvx(itype,jobz,range,uplo,n,ap,bp,vl,vu,il,iu,abstol,m,w, &
+               z,ldz,work,iwork,ifail,info)
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,range,uplo
+           integer(ilp),intent(in) :: il,itype,iu,ldz,n
+           integer(ilp),intent(out) :: info,m
+           real(qp),intent(in) :: abstol,vl,vu
+           ! Array Arguments
+           integer(ilp),intent(out) :: ifail(*),iwork(*)
+           real(qp),intent(inout) :: ap(*),bp(*)
+           real(qp),intent(out) :: w(*),work(*),z(ldz,*)
+       ! =====================================================================
+           ! Local Scalars
+           logical(lk) :: alleig,indeig,upper,valeig,wantz
+           character :: trans
+           integer(ilp) :: j
+           ! Intrinsic Functions
+           intrinsic :: min
+           ! Executable Statements
+           ! test the input parameters.
+           upper = la_lsame(uplo,'U')
+           wantz = la_lsame(jobz,'V')
+           alleig = la_lsame(range,'A')
+           valeig = la_lsame(range,'V')
+           indeig = la_lsame(range,'I')
+           info = 0
+           if (itype < 1 .or. itype > 3) then
+              info = -1
+           else if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -2
+           else if (.not. (alleig .or. valeig .or. indeig)) then
+              info = -3
+           else if (.not. (upper .or. la_lsame(uplo,'L'))) then
+              info = -4
+           else if (n < 0) then
+              info = -5
+           else
+              if (valeig) then
+                 if (n > 0 .and. vu <= vl) then
+                    info = -9
+                 end if
+              else if (indeig) then
+                 if (il < 1) then
+                    info = -10
+                 else if (iu < min(n,il) .or. iu > n) then
+                    info = -11
+                 end if
+              end if
+           end if
+           if (info == 0) then
+              if (ldz < 1 .or. (wantz .and. ldz < n)) then
+                 info = -16
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('QSPGVX',-info)
+              return
+           end if
+           ! quick return if possible
+           m = 0
+           if (n == 0) return
+           ! form a cholesky factorization of b.
+           call la_qpptrf(uplo,n,bp,info)
+           if (info /= 0) then
+              info = n + info
+              return
+           end if
+           ! transform problem to standard eigenvalue problem and solve.
+           call la_qspgst(itype,uplo,n,ap,bp,info)
+           call la_qspevx(jobz,range,uplo,n,ap,vl,vu,il,iu,abstol,m,w,z,ldz, &
+                     work,iwork,ifail,info)
+           if (wantz) then
+              ! backtransform eigenvectors to the original problem.
+              if (info > 0) m = info - 1
+              if (itype == 1 .or. itype == 2) then
+                 ! for a*x=(lambda)*b*x and a*b*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = inv(l)**t*y or inv(u)*y
+                 if (upper) then
+                    trans = 'N'
+                 else
+                    trans = 'T'
+                 end if
+                 do j = 1,m
+                    call la_qtpsv(uplo,trans,'NON-UNIT',n,bp,z(1,j),1)
+                 end do
+              else if (itype == 3) then
+                 ! for b*a*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = l*y or u**t*y
+                 if (upper) then
+                    trans = 'T'
+                 else
+                    trans = 'N'
+                 end if
+                 do j = 1,m
+                    call la_qtpmv(uplo,trans,'NON-UNIT',n,bp,z(1,j),1)
+                 end do
+              end if
+           end if
+           return
+     end subroutine la_qspgvx
+
+     !> SSYEV: computes all eigenvalues and, optionally, eigenvectors of a
+     !> real symmetric matrix A.
+
+     subroutine la_ssyev(jobz,uplo,n,a,lda,w,work,lwork,info)
+        use la_constants_sp,only:zero,one
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,lwork,n
+           ! Array Arguments
+           real(sp),intent(inout) :: a(lda,*)
+           real(sp),intent(out) :: w(*),work(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lower,lquery,wantz
+           integer(ilp) :: iinfo,imax,inde,indtau,indwrk,iscale,llwork,lwkopt,nb
+           real(sp) :: anrm,bignum,eps,rmax,rmin,safmin,sigma,smlnum
+           ! Intrinsic Functions
+           intrinsic :: max,sqrt
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           lower = la_lsame(uplo,'L')
+           lquery = (lwork == -1)
+           info = 0
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (lower .or. la_lsame(uplo,'U'))) then
+              info = -2
+           else if (n < 0) then
+              info = -3
+           else if (lda < max(1,n)) then
+              info = -5
+           end if
+           if (info == 0) then
+              nb = la_ilaenv(1,'SSYTRD',uplo,n,-1,-1,-1)
+              lwkopt = max(1, (nb + 2)*n)
+              work(1) = lwkopt
+              if (lwork < max(1,3*n - 1) .and. .not. lquery) info = -8
+           end if
+           if (info /= 0) then
+              call la_xerbla('SSYEV ',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) then
+              return
+           end if
+           if (n == 1) then
+              w(1) = a(1,1)
+              work(1) = 2
+              if (wantz) a(1,1) = one
+              return
+           end if
+           ! get machine constants.
+           safmin = la_slamch('SAFE MINIMUM')
+           eps = la_slamch('PRECISION')
+           smlnum = safmin/eps
+           bignum = one/smlnum
+           rmin = sqrt(smlnum)
+           rmax = sqrt(bignum)
+           ! scale matrix to allowable range, if necessary.
+           anrm = la_slansy('M',uplo,n,a,lda,work)
+           iscale = 0
+           if (anrm > zero .and. anrm < rmin) then
+              iscale = 1
+              sigma = rmin/anrm
+           else if (anrm > rmax) then
+              iscale = 1
+              sigma = rmax/anrm
+           end if
+           if (iscale == 1) call la_slascl(uplo,0,0,one,sigma,n,n,a,lda,info)
+           ! call la_ssytrd to reduce symmetric matrix to tridiagonal form.
+           inde = 1
+           indtau = inde + n
+           indwrk = indtau + n
+           llwork = lwork - indwrk + 1
+           call la_ssytrd(uplo,n,a,lda,w,work(inde),work(indtau),work(indwrk), &
+                     llwork,iinfo)
+           ! for eigenvalues only, call la_ssterf.  for eigenvectors, first call
+           ! la_sorgtr to generate the orthogonal matrix, then call la_ssteqr.
+           if (.not. wantz) then
+              call la_ssterf(n,w,work(inde),info)
+           else
+              call la_sorgtr(uplo,n,a,lda,work(indtau),work(indwrk),llwork,iinfo)
+
+              call la_ssteqr(jobz,n,w,work(inde),a,lda,work(indtau),info)
+           end if
+           ! if matrix was scaled, then rescale eigenvalues appropriately.
+           if (iscale == 1) then
+              if (info == 0) then
+                 imax = n
+              else
+                 imax = info - 1
+              end if
+              call la_sscal(imax,one/sigma,w,1)
+           end if
+           ! set work(1) to optimal workspace size.
+           work(1) = lwkopt
+           return
+     end subroutine la_ssyev
+     !> DSYEV: computes all eigenvalues and, optionally, eigenvectors of a
+     !> real symmetric matrix A.
+
+     subroutine la_dsyev(jobz,uplo,n,a,lda,w,work,lwork,info)
+        use la_constants_dp,only:zero,one
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,lwork,n
+           ! Array Arguments
+           real(dp),intent(inout) :: a(lda,*)
+           real(dp),intent(out) :: w(*),work(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lower,lquery,wantz
+           integer(ilp) :: iinfo,imax,inde,indtau,indwrk,iscale,llwork,lwkopt,nb
+           real(dp) :: anrm,bignum,eps,rmax,rmin,safmin,sigma,smlnum
+           ! Intrinsic Functions
+           intrinsic :: max,sqrt
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           lower = la_lsame(uplo,'L')
+           lquery = (lwork == -1)
+           info = 0
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (lower .or. la_lsame(uplo,'U'))) then
+              info = -2
+           else if (n < 0) then
+              info = -3
+           else if (lda < max(1,n)) then
+              info = -5
+           end if
+           if (info == 0) then
+              nb = la_ilaenv(1,'DSYTRD',uplo,n,-1,-1,-1)
+              lwkopt = max(1, (nb + 2)*n)
+              work(1) = lwkopt
+              if (lwork < max(1,3*n - 1) .and. .not. lquery) info = -8
+           end if
+           if (info /= 0) then
+              call la_xerbla('DSYEV ',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) then
+              return
+           end if
+           if (n == 1) then
+              w(1) = a(1,1)
+              work(1) = 2
+              if (wantz) a(1,1) = one
+              return
+           end if
+           ! get machine constants.
+           safmin = la_dlamch('SAFE MINIMUM')
+           eps = la_dlamch('PRECISION')
+           smlnum = safmin/eps
+           bignum = one/smlnum
+           rmin = sqrt(smlnum)
+           rmax = sqrt(bignum)
+           ! scale matrix to allowable range, if necessary.
+           anrm = la_dlansy('M',uplo,n,a,lda,work)
+           iscale = 0
+           if (anrm > zero .and. anrm < rmin) then
+              iscale = 1
+              sigma = rmin/anrm
+           else if (anrm > rmax) then
+              iscale = 1
+              sigma = rmax/anrm
+           end if
+           if (iscale == 1) call la_dlascl(uplo,0,0,one,sigma,n,n,a,lda,info)
+           ! call la_dsytrd to reduce symmetric matrix to tridiagonal form.
+           inde = 1
+           indtau = inde + n
+           indwrk = indtau + n
+           llwork = lwork - indwrk + 1
+           call la_dsytrd(uplo,n,a,lda,w,work(inde),work(indtau),work(indwrk), &
+                     llwork,iinfo)
+           ! for eigenvalues only, call la_dsterf.  for eigenvectors, first call
+           ! la_dorgtr to generate the orthogonal matrix, then call la_dsteqr.
+           if (.not. wantz) then
+              call la_dsterf(n,w,work(inde),info)
+           else
+              call la_dorgtr(uplo,n,a,lda,work(indtau),work(indwrk),llwork,iinfo)
+
+              call la_dsteqr(jobz,n,w,work(inde),a,lda,work(indtau),info)
+           end if
+           ! if matrix was scaled, then rescale eigenvalues appropriately.
+           if (iscale == 1) then
+              if (info == 0) then
+                 imax = n
+              else
+                 imax = info - 1
+              end if
+              call la_dscal(imax,one/sigma,w,1)
+           end if
+           ! set work(1) to optimal workspace size.
+           work(1) = lwkopt
+           return
+     end subroutine la_dsyev
+     !> QSYEV: computes all eigenvalues and, optionally, eigenvectors of a
+     !> real symmetric matrix A.
+
+     subroutine la_qsyev(jobz,uplo,n,a,lda,w,work,lwork,info)
+        use la_constants_qp,only:zero,one
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,lwork,n
+           ! Array Arguments
+           real(qp),intent(inout) :: a(lda,*)
+           real(qp),intent(out) :: w(*),work(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lower,lquery,wantz
+           integer(ilp) :: iinfo,imax,inde,indtau,indwrk,iscale,llwork,lwkopt,nb
+           real(qp) :: anrm,bignum,eps,rmax,rmin,safmin,sigma,smlnum
+           ! Intrinsic Functions
+           intrinsic :: max,sqrt
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           lower = la_lsame(uplo,'L')
+           lquery = (lwork == -1)
+           info = 0
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (lower .or. la_lsame(uplo,'U'))) then
+              info = -2
+           else if (n < 0) then
+              info = -3
+           else if (lda < max(1,n)) then
+              info = -5
+           end if
+           if (info == 0) then
+              nb = la_ilaenv(1,'QSYTRD',uplo,n,-1,-1,-1)
+              lwkopt = max(1, (nb + 2)*n)
+              work(1) = lwkopt
+              if (lwork < max(1,3*n - 1) .and. .not. lquery) info = -8
+           end if
+           if (info /= 0) then
+              call la_xerbla('QSYEV ',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) then
+              return
+           end if
+           if (n == 1) then
+              w(1) = a(1,1)
+              work(1) = 2
+              if (wantz) a(1,1) = one
+              return
+           end if
+           ! get machine constants.
+           safmin = la_qlamch('SAFE MINIMUM')
+           eps = la_qlamch('PRECISION')
+           smlnum = safmin/eps
+           bignum = one/smlnum
+           rmin = sqrt(smlnum)
+           rmax = sqrt(bignum)
+           ! scale matrix to allowable range, if necessary.
+           anrm = la_qlansy('M',uplo,n,a,lda,work)
+           iscale = 0
+           if (anrm > zero .and. anrm < rmin) then
+              iscale = 1
+              sigma = rmin/anrm
+           else if (anrm > rmax) then
+              iscale = 1
+              sigma = rmax/anrm
+           end if
+           if (iscale == 1) call la_qlascl(uplo,0,0,one,sigma,n,n,a,lda,info)
+           ! call la_qsytrd to reduce symmetric matrix to tridiagonal form.
+           inde = 1
+           indtau = inde + n
+           indwrk = indtau + n
+           llwork = lwork - indwrk + 1
+           call la_qsytrd(uplo,n,a,lda,w,work(inde),work(indtau),work(indwrk), &
+                     llwork,iinfo)
+           ! for eigenvalues only, call la_qsterf.  for eigenvectors, first call
+           ! la_qorgtr to generate the orthogonal matrix, then call la_qsteqr.
+           if (.not. wantz) then
+              call la_qsterf(n,w,work(inde),info)
+           else
+              call la_qorgtr(uplo,n,a,lda,work(indtau),work(indwrk),llwork,iinfo)
+
+              call la_qsteqr(jobz,n,w,work(inde),a,lda,work(indtau),info)
+           end if
+           ! if matrix was scaled, then rescale eigenvalues appropriately.
+           if (iscale == 1) then
+              if (info == 0) then
+                 imax = n
+              else
+                 imax = info - 1
+              end if
+              call la_qscal(imax,one/sigma,w,1)
+           end if
+           ! set work(1) to optimal workspace size.
+           work(1) = lwkopt
+           return
+     end subroutine la_qsyev
+
+     !> SSYEVX: computes selected eigenvalues and, optionally, eigenvectors
+     !> of a real symmetric matrix A.  Eigenvalues and eigenvectors can be
+     !> selected by specifying either a range of values or a range of indices
+     !> for the desired eigenvalues.
+
+     subroutine la_ssyevx(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz, &
+               work,lwork,iwork,ifail,info)
+        use la_constants_sp,only:zero,one
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,range,uplo
+           integer(ilp),intent(in) :: il,iu,lda,ldz,lwork,n
+           integer(ilp),intent(out) :: info,m
+           real(sp),intent(in) :: abstol,vl,vu
+           ! Array Arguments
+           integer(ilp),intent(out) :: ifail(*),iwork(*)
+           real(sp),intent(inout) :: a(lda,*)
+           real(sp),intent(out) :: w(*),work(*),z(ldz,*)
+       ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: alleig,indeig,lower,lquery,test,valeig,wantz
+           character :: order
+           integer(ilp) :: i,iinfo,imax,indd,inde,indee,indibl,indisp,indiwo,indtau, &
+           indwkn,indwrk,iscale,itmp1,j,jj,llwork,llwrkn,lwkmin,lwkopt,nb, &
+                     nsplit
+           real(sp) :: abstll,anrm,bignum,eps,rmax,rmin,safmin,sigma,smlnum,tmp1,vll, &
+                     vuu
+           ! Intrinsic Functions
+           intrinsic :: max,min,sqrt
+           ! Executable Statements
+           ! test the input parameters.
+           lower = la_lsame(uplo,'L')
+           wantz = la_lsame(jobz,'V')
+           alleig = la_lsame(range,'A')
+           valeig = la_lsame(range,'V')
+           indeig = la_lsame(range,'I')
+           lquery = (lwork == -1)
+           info = 0
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (alleig .or. valeig .or. indeig)) then
+              info = -2
+           else if (.not. (lower .or. la_lsame(uplo,'U'))) then
+              info = -3
+           else if (n < 0) then
+              info = -4
+           else if (lda < max(1,n)) then
+              info = -6
+           else
+              if (valeig) then
+                 if (n > 0 .and. vu <= vl) info = -8
+              else if (indeig) then
+                 if (il < 1 .or. il > max(1,n)) then
+                    info = -9
+                 else if (iu < min(n,il) .or. iu > n) then
+                    info = -10
+                 end if
+              end if
+           end if
+           if (info == 0) then
+              if (ldz < 1 .or. (wantz .and. ldz < n)) then
+                 info = -15
+              end if
+           end if
+           if (info == 0) then
+              if (n <= 1) then
+                 lwkmin = 1
+                 work(1) = lwkmin
+              else
+                 lwkmin = 8*n
+                 nb = la_ilaenv(1,'SSYTRD',uplo,n,-1,-1,-1)
+                 nb = max(nb,la_ilaenv(1,'SORMTR',uplo,n,-1,-1,-1))
+                 lwkopt = max(lwkmin, (nb + 3)*n)
+                 work(1) = lwkopt
+              end if
+              if (lwork < lwkmin .and. .not. lquery) info = -17
+           end if
+           if (info /= 0) then
+              call la_xerbla('SSYEVX',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           m = 0
+           if (n == 0) then
+              return
+           end if
+           if (n == 1) then
+              if (alleig .or. indeig) then
+                 m = 1
+                 w(1) = a(1,1)
+              else
+                 if (vl < a(1,1) .and. vu >= a(1,1)) then
+                    m = 1
+                    w(1) = a(1,1)
+                 end if
+              end if
+              if (wantz) z(1,1) = one
+              return
+           end if
+           ! get machine constants.
+           safmin = la_slamch('SAFE MINIMUM')
+           eps = la_slamch('PRECISION')
+           smlnum = safmin/eps
+           bignum = one/smlnum
+           rmin = sqrt(smlnum)
+           rmax = min(sqrt(bignum),one/sqrt(sqrt(safmin)))
+           ! scale matrix to allowable range, if necessary.
+           iscale = 0
+           abstll = abstol
+           if (valeig) then
+              vll = vl
+              vuu = vu
+           end if
+           anrm = la_slansy('M',uplo,n,a,lda,work)
+           if (anrm > zero .and. anrm < rmin) then
+              iscale = 1
+              sigma = rmin/anrm
+           else if (anrm > rmax) then
+              iscale = 1
+              sigma = rmax/anrm
+           end if
+           if (iscale == 1) then
+              if (lower) then
+                 do j = 1,n
+                    call la_sscal(n - j + 1,sigma,a(j,j),1)
+                 end do
+              else
+                 do j = 1,n
+                    call la_sscal(j,sigma,a(1,j),1)
+                 end do
+              end if
+              if (abstol > 0) abstll = abstol*sigma
+              if (valeig) then
+                 vll = vl*sigma
+                 vuu = vu*sigma
+              end if
+           end if
+           ! call la_ssytrd to reduce symmetric matrix to tridiagonal form.
+           indtau = 1
+           inde = indtau + n
+           indd = inde + n
+           indwrk = indd + n
+           llwork = lwork - indwrk + 1
+           call la_ssytrd(uplo,n,a,lda,work(indd),work(inde),work(indtau),work( &
+                     indwrk),llwork,iinfo)
+           ! if all eigenvalues are desired and abstol is less than or equal to
+           ! zero, then call la_ssterf or la_sorgtr and la_ssteqr.  if this fails for
+           ! some eigenvalue, then try la_sstebz.
+           test = .false.
+           if (indeig) then
+              if (il == 1 .and. iu == n) then
+                 test = .true.
+              end if
+           end if
+           if ((alleig .or. test) .and. (abstol <= zero)) then
+              call la_scopy(n,work(indd),1,w,1)
+              indee = indwrk + 2*n
+              if (.not. wantz) then
+                 call la_scopy(n - 1,work(inde),1,work(indee),1)
+                 call la_ssterf(n,w,work(indee),info)
+              else
+                 call la_slacpy('A',n,n,a,lda,z,ldz)
+                 call la_sorgtr(uplo,n,z,ldz,work(indtau),work(indwrk),llwork, &
+                           iinfo)
+                 call la_scopy(n - 1,work(inde),1,work(indee),1)
+                 call la_ssteqr(jobz,n,w,work(indee),z,ldz,work(indwrk),info)
+
+                 if (info == 0) then
+                    do i = 1,n
+                       ifail(i) = 0
+                    end do
+                 end if
+              end if
+              if (info == 0) then
+                 m = n
+                 go to 40
+              end if
+              info = 0
+           end if
+           ! otherwise, call la_sstebz and, if eigenvectors are desired, la_sstein.
+           if (wantz) then
+              order = 'B'
+           else
+              order = 'E'
+           end if
+           indibl = 1
+           indisp = indibl + n
+           indiwo = indisp + n
+           call la_sstebz(range,order,n,vll,vuu,il,iu,abstll,work(indd),work(inde &
+           ),m,nsplit,w,iwork(indibl),iwork(indisp),work(indwrk),iwork(indiwo),info &
+                     )
+           if (wantz) then
+              call la_sstein(n,work(indd),work(inde),m,w,iwork(indibl),iwork( &
+                        indisp),z,ldz,work(indwrk),iwork(indiwo),ifail,info)
+              ! apply orthogonal matrix used in reduction to tridiagonal
+              ! form to eigenvectors returned by la_sstein.
+              indwkn = inde
+              llwrkn = lwork - indwkn + 1
+              call la_sormtr('L',uplo,'N',n,m,a,lda,work(indtau),z,ldz,work( &
+                        indwkn),llwrkn,iinfo)
+           end if
+           ! if matrix was scaled, then rescale eigenvalues appropriately.
+           40 continue
+           if (iscale == 1) then
+              if (info == 0) then
+                 imax = m
+              else
+                 imax = info - 1
+              end if
+              call la_sscal(imax,one/sigma,w,1)
+           end if
+           ! if eigenvalues are not in order, then sort them, along with
+           ! eigenvectors.
+           if (wantz) then
+              do j = 1,m - 1
+                 i = 0
+                 tmp1 = w(j)
+                 do jj = j + 1,m
+                    if (w(jj) < tmp1) then
+                       i = jj
+                       tmp1 = w(jj)
+                    end if
+                 end do
+                 if (i /= 0) then
+                    itmp1 = iwork(indibl + i - 1)
+                    w(i) = w(j)
+                    iwork(indibl + i - 1) = iwork(indibl + j - 1)
+                    w(j) = tmp1
+                    iwork(indibl + j - 1) = itmp1
+                    call la_sswap(n,z(1,i),1,z(1,j),1)
+                    if (info /= 0) then
+                       itmp1 = ifail(i)
+                       ifail(i) = ifail(j)
+                       ifail(j) = itmp1
+                    end if
+                 end if
+              end do
+           end if
+           ! set work(1) to optimal workspace size.
+           work(1) = lwkopt
+           return
+     end subroutine la_ssyevx
+     !> DSYEVX: computes selected eigenvalues and, optionally, eigenvectors
+     !> of a real symmetric matrix A.  Eigenvalues and eigenvectors can be
+     !> selected by specifying either a range of values or a range of indices
+     !> for the desired eigenvalues.
+
+     subroutine la_dsyevx(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz, &
+               work,lwork,iwork,ifail,info)
+        use la_constants_dp,only:zero,one
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,range,uplo
+           integer(ilp),intent(in) :: il,iu,lda,ldz,lwork,n
+           integer(ilp),intent(out) :: info,m
+           real(dp),intent(in) :: abstol,vl,vu
+           ! Array Arguments
+           integer(ilp),intent(out) :: ifail(*),iwork(*)
+           real(dp),intent(inout) :: a(lda,*)
+           real(dp),intent(out) :: w(*),work(*),z(ldz,*)
+       ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: alleig,indeig,lower,lquery,test,valeig,wantz
+           character :: order
+           integer(ilp) :: i,iinfo,imax,indd,inde,indee,indibl,indisp,indiwo,indtau, &
+           indwkn,indwrk,iscale,itmp1,j,jj,llwork,llwrkn,lwkmin,lwkopt,nb, &
+                     nsplit
+           real(dp) :: abstll,anrm,bignum,eps,rmax,rmin,safmin,sigma,smlnum,tmp1,vll, &
+                     vuu
+           ! Intrinsic Functions
+           intrinsic :: max,min,sqrt
+           ! Executable Statements
+           ! test the input parameters.
+           lower = la_lsame(uplo,'L')
+           wantz = la_lsame(jobz,'V')
+           alleig = la_lsame(range,'A')
+           valeig = la_lsame(range,'V')
+           indeig = la_lsame(range,'I')
+           lquery = (lwork == -1)
+           info = 0
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (alleig .or. valeig .or. indeig)) then
+              info = -2
+           else if (.not. (lower .or. la_lsame(uplo,'U'))) then
+              info = -3
+           else if (n < 0) then
+              info = -4
+           else if (lda < max(1,n)) then
+              info = -6
+           else
+              if (valeig) then
+                 if (n > 0 .and. vu <= vl) info = -8
+              else if (indeig) then
+                 if (il < 1 .or. il > max(1,n)) then
+                    info = -9
+                 else if (iu < min(n,il) .or. iu > n) then
+                    info = -10
+                 end if
+              end if
+           end if
+           if (info == 0) then
+              if (ldz < 1 .or. (wantz .and. ldz < n)) then
+                 info = -15
+              end if
+           end if
+           if (info == 0) then
+              if (n <= 1) then
+                 lwkmin = 1
+                 work(1) = lwkmin
+              else
+                 lwkmin = 8*n
+                 nb = la_ilaenv(1,'DSYTRD',uplo,n,-1,-1,-1)
+                 nb = max(nb,la_ilaenv(1,'DORMTR',uplo,n,-1,-1,-1))
+                 lwkopt = max(lwkmin, (nb + 3)*n)
+                 work(1) = lwkopt
+              end if
+              if (lwork < lwkmin .and. .not. lquery) info = -17
+           end if
+           if (info /= 0) then
+              call la_xerbla('DSYEVX',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           m = 0
+           if (n == 0) then
+              return
+           end if
+           if (n == 1) then
+              if (alleig .or. indeig) then
+                 m = 1
+                 w(1) = a(1,1)
+              else
+                 if (vl < a(1,1) .and. vu >= a(1,1)) then
+                    m = 1
+                    w(1) = a(1,1)
+                 end if
+              end if
+              if (wantz) z(1,1) = one
+              return
+           end if
+           ! get machine constants.
+           safmin = la_dlamch('SAFE MINIMUM')
+           eps = la_dlamch('PRECISION')
+           smlnum = safmin/eps
+           bignum = one/smlnum
+           rmin = sqrt(smlnum)
+           rmax = min(sqrt(bignum),one/sqrt(sqrt(safmin)))
+           ! scale matrix to allowable range, if necessary.
+           iscale = 0
+           abstll = abstol
+           if (valeig) then
+              vll = vl
+              vuu = vu
+           end if
+           anrm = la_dlansy('M',uplo,n,a,lda,work)
+           if (anrm > zero .and. anrm < rmin) then
+              iscale = 1
+              sigma = rmin/anrm
+           else if (anrm > rmax) then
+              iscale = 1
+              sigma = rmax/anrm
+           end if
+           if (iscale == 1) then
+              if (lower) then
+                 do j = 1,n
+                    call la_dscal(n - j + 1,sigma,a(j,j),1)
+                 end do
+              else
+                 do j = 1,n
+                    call la_dscal(j,sigma,a(1,j),1)
+                 end do
+              end if
+              if (abstol > 0) abstll = abstol*sigma
+              if (valeig) then
+                 vll = vl*sigma
+                 vuu = vu*sigma
+              end if
+           end if
+           ! call la_dsytrd to reduce symmetric matrix to tridiagonal form.
+           indtau = 1
+           inde = indtau + n
+           indd = inde + n
+           indwrk = indd + n
+           llwork = lwork - indwrk + 1
+           call la_dsytrd(uplo,n,a,lda,work(indd),work(inde),work(indtau),work( &
+                     indwrk),llwork,iinfo)
+           ! if all eigenvalues are desired and abstol is less than or equal to
+           ! zero, then call la_dsterf or la_dorgtr and la_ssteqr.  if this fails for
+           ! some eigenvalue, then try la_dstebz.
+           test = .false.
+           if (indeig) then
+              if (il == 1 .and. iu == n) then
+                 test = .true.
+              end if
+           end if
+           if ((alleig .or. test) .and. (abstol <= zero)) then
+              call la_dcopy(n,work(indd),1,w,1)
+              indee = indwrk + 2*n
+              if (.not. wantz) then
+                 call la_dcopy(n - 1,work(inde),1,work(indee),1)
+                 call la_dsterf(n,w,work(indee),info)
+              else
+                 call la_dlacpy('A',n,n,a,lda,z,ldz)
+                 call la_dorgtr(uplo,n,z,ldz,work(indtau),work(indwrk),llwork, &
+                           iinfo)
+                 call la_dcopy(n - 1,work(inde),1,work(indee),1)
+                 call la_dsteqr(jobz,n,w,work(indee),z,ldz,work(indwrk),info)
+
+                 if (info == 0) then
+                    do i = 1,n
+                       ifail(i) = 0
+                    end do
+                 end if
+              end if
+              if (info == 0) then
+                 m = n
+                 go to 40
+              end if
+              info = 0
+           end if
+           ! otherwise, call la_dstebz and, if eigenvectors are desired, la_sstein.
+           if (wantz) then
+              order = 'B'
+           else
+              order = 'E'
+           end if
+           indibl = 1
+           indisp = indibl + n
+           indiwo = indisp + n
+           call la_dstebz(range,order,n,vll,vuu,il,iu,abstll,work(indd),work(inde &
+           ),m,nsplit,w,iwork(indibl),iwork(indisp),work(indwrk),iwork(indiwo),info &
+                     )
+           if (wantz) then
+              call la_dstein(n,work(indd),work(inde),m,w,iwork(indibl),iwork( &
+                        indisp),z,ldz,work(indwrk),iwork(indiwo),ifail,info)
+              ! apply orthogonal matrix used in reduction to tridiagonal
+              ! form to eigenvectors returned by la_dstein.
+              indwkn = inde
+              llwrkn = lwork - indwkn + 1
+              call la_dormtr('L',uplo,'N',n,m,a,lda,work(indtau),z,ldz,work( &
+                        indwkn),llwrkn,iinfo)
+           end if
+           ! if matrix was scaled, then rescale eigenvalues appropriately.
+           40 continue
+           if (iscale == 1) then
+              if (info == 0) then
+                 imax = m
+              else
+                 imax = info - 1
+              end if
+              call la_dscal(imax,one/sigma,w,1)
+           end if
+           ! if eigenvalues are not in order, then sort them, along with
+           ! eigenvectors.
+           if (wantz) then
+              do j = 1,m - 1
+                 i = 0
+                 tmp1 = w(j)
+                 do jj = j + 1,m
+                    if (w(jj) < tmp1) then
+                       i = jj
+                       tmp1 = w(jj)
+                    end if
+                 end do
+                 if (i /= 0) then
+                    itmp1 = iwork(indibl + i - 1)
+                    w(i) = w(j)
+                    iwork(indibl + i - 1) = iwork(indibl + j - 1)
+                    w(j) = tmp1
+                    iwork(indibl + j - 1) = itmp1
+                    call la_dswap(n,z(1,i),1,z(1,j),1)
+                    if (info /= 0) then
+                       itmp1 = ifail(i)
+                       ifail(i) = ifail(j)
+                       ifail(j) = itmp1
+                    end if
+                 end if
+              end do
+           end if
+           ! set work(1) to optimal workspace size.
+           work(1) = lwkopt
+           return
+     end subroutine la_dsyevx
+     !> QSYEVX: computes selected eigenvalues and, optionally, eigenvectors
+     !> of a real symmetric matrix A.  Eigenvalues and eigenvectors can be
+     !> selected by specifying either a range of values or a range of indices
+     !> for the desired eigenvalues.
+
+     subroutine la_qsyevx(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz, &
+               work,lwork,iwork,ifail,info)
+        use la_constants_qp,only:zero,one
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,range,uplo
+           integer(ilp),intent(in) :: il,iu,lda,ldz,lwork,n
+           integer(ilp),intent(out) :: info,m
+           real(qp),intent(in) :: abstol,vl,vu
+           ! Array Arguments
+           integer(ilp),intent(out) :: ifail(*),iwork(*)
+           real(qp),intent(inout) :: a(lda,*)
+           real(qp),intent(out) :: w(*),work(*),z(ldz,*)
+       ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: alleig,indeig,lower,lquery,test,valeig,wantz
+           character :: order
+           integer(ilp) :: i,iinfo,imax,indd,inde,indee,indibl,indisp,indiwo,indtau, &
+           indwkn,indwrk,iscale,itmp1,j,jj,llwork,llwrkn,lwkmin,lwkopt,nb, &
+                     nsplit
+           real(qp) :: abstll,anrm,bignum,eps,rmax,rmin,safmin,sigma,smlnum,tmp1,vll, &
+                     vuu
+           ! Intrinsic Functions
+           intrinsic :: max,min,sqrt
+           ! Executable Statements
+           ! test the input parameters.
+           lower = la_lsame(uplo,'L')
+           wantz = la_lsame(jobz,'V')
+           alleig = la_lsame(range,'A')
+           valeig = la_lsame(range,'V')
+           indeig = la_lsame(range,'I')
+           lquery = (lwork == -1)
+           info = 0
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (alleig .or. valeig .or. indeig)) then
+              info = -2
+           else if (.not. (lower .or. la_lsame(uplo,'U'))) then
+              info = -3
+           else if (n < 0) then
+              info = -4
+           else if (lda < max(1,n)) then
+              info = -6
+           else
+              if (valeig) then
+                 if (n > 0 .and. vu <= vl) info = -8
+              else if (indeig) then
+                 if (il < 1 .or. il > max(1,n)) then
+                    info = -9
+                 else if (iu < min(n,il) .or. iu > n) then
+                    info = -10
+                 end if
+              end if
+           end if
+           if (info == 0) then
+              if (ldz < 1 .or. (wantz .and. ldz < n)) then
+                 info = -15
+              end if
+           end if
+           if (info == 0) then
+              if (n <= 1) then
+                 lwkmin = 1
+                 work(1) = lwkmin
+              else
+                 lwkmin = 8*n
+                 nb = la_ilaenv(1,'QSYTRD',uplo,n,-1,-1,-1)
+                 nb = max(nb,la_ilaenv(1,'QORMTR',uplo,n,-1,-1,-1))
+                 lwkopt = max(lwkmin, (nb + 3)*n)
+                 work(1) = lwkopt
+              end if
+              if (lwork < lwkmin .and. .not. lquery) info = -17
+           end if
+           if (info /= 0) then
+              call la_xerbla('QSYEVX',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           m = 0
+           if (n == 0) then
+              return
+           end if
+           if (n == 1) then
+              if (alleig .or. indeig) then
+                 m = 1
+                 w(1) = a(1,1)
+              else
+                 if (vl < a(1,1) .and. vu >= a(1,1)) then
+                    m = 1
+                    w(1) = a(1,1)
+                 end if
+              end if
+              if (wantz) z(1,1) = one
+              return
+           end if
+           ! get machine constants.
+           safmin = la_qlamch('SAFE MINIMUM')
+           eps = la_qlamch('PRECISION')
+           smlnum = safmin/eps
+           bignum = one/smlnum
+           rmin = sqrt(smlnum)
+           rmax = min(sqrt(bignum),one/sqrt(sqrt(safmin)))
+           ! scale matrix to allowable range, if necessary.
+           iscale = 0
+           abstll = abstol
+           if (valeig) then
+              vll = vl
+              vuu = vu
+           end if
+           anrm = la_qlansy('M',uplo,n,a,lda,work)
+           if (anrm > zero .and. anrm < rmin) then
+              iscale = 1
+              sigma = rmin/anrm
+           else if (anrm > rmax) then
+              iscale = 1
+              sigma = rmax/anrm
+           end if
+           if (iscale == 1) then
+              if (lower) then
+                 do j = 1,n
+                    call la_qscal(n - j + 1,sigma,a(j,j),1)
+                 end do
+              else
+                 do j = 1,n
+                    call la_qscal(j,sigma,a(1,j),1)
+                 end do
+              end if
+              if (abstol > 0) abstll = abstol*sigma
+              if (valeig) then
+                 vll = vl*sigma
+                 vuu = vu*sigma
+              end if
+           end if
+           ! call la_qsytrd to reduce symmetric matrix to tridiagonal form.
+           indtau = 1
+           inde = indtau + n
+           indd = inde + n
+           indwrk = indd + n
+           llwork = lwork - indwrk + 1
+           call la_qsytrd(uplo,n,a,lda,work(indd),work(inde),work(indtau),work( &
+                     indwrk),llwork,iinfo)
+           ! if all eigenvalues are desired and abstol is less than or equal to
+           ! zero, then call la_qsterf or la_qorgtr and la_dsteqr.  if this fails for
+           ! some eigenvalue, then try la_qstebz.
+           test = .false.
+           if (indeig) then
+              if (il == 1 .and. iu == n) then
+                 test = .true.
+              end if
+           end if
+           if ((alleig .or. test) .and. (abstol <= zero)) then
+              call la_qcopy(n,work(indd),1,w,1)
+              indee = indwrk + 2*n
+              if (.not. wantz) then
+                 call la_qcopy(n - 1,work(inde),1,work(indee),1)
+                 call la_qsterf(n,w,work(indee),info)
+              else
+                 call la_qlacpy('A',n,n,a,lda,z,ldz)
+                 call la_qorgtr(uplo,n,z,ldz,work(indtau),work(indwrk),llwork, &
+                           iinfo)
+                 call la_qcopy(n - 1,work(inde),1,work(indee),1)
+                 call la_qsteqr(jobz,n,w,work(indee),z,ldz,work(indwrk),info)
+
+                 if (info == 0) then
+                    do i = 1,n
+                       ifail(i) = 0
+                    end do
+                 end if
+              end if
+              if (info == 0) then
+                 m = n
+                 go to 40
+              end if
+              info = 0
+           end if
+           ! otherwise, call la_qstebz and, if eigenvectors are desired, la_dstein.
+           if (wantz) then
+              order = 'B'
+           else
+              order = 'E'
+           end if
+           indibl = 1
+           indisp = indibl + n
+           indiwo = indisp + n
+           call la_qstebz(range,order,n,vll,vuu,il,iu,abstll,work(indd),work(inde &
+           ),m,nsplit,w,iwork(indibl),iwork(indisp),work(indwrk),iwork(indiwo),info &
+                     )
+           if (wantz) then
+              call la_qstein(n,work(indd),work(inde),m,w,iwork(indibl),iwork( &
+                        indisp),z,ldz,work(indwrk),iwork(indiwo),ifail,info)
+              ! apply orthogonal matrix used in reduction to tridiagonal
+              ! form to eigenvectors returned by la_qstein.
+              indwkn = inde
+              llwrkn = lwork - indwkn + 1
+              call la_qormtr('L',uplo,'N',n,m,a,lda,work(indtau),z,ldz,work( &
+                        indwkn),llwrkn,iinfo)
+           end if
+           ! if matrix was scaled, then rescale eigenvalues appropriately.
+           40 continue
+           if (iscale == 1) then
+              if (info == 0) then
+                 imax = m
+              else
+                 imax = info - 1
+              end if
+              call la_qscal(imax,one/sigma,w,1)
+           end if
+           ! if eigenvalues are not in order, then sort them, along with
+           ! eigenvectors.
+           if (wantz) then
+              do j = 1,m - 1
+                 i = 0
+                 tmp1 = w(j)
+                 do jj = j + 1,m
+                    if (w(jj) < tmp1) then
+                       i = jj
+                       tmp1 = w(jj)
+                    end if
+                 end do
+                 if (i /= 0) then
+                    itmp1 = iwork(indibl + i - 1)
+                    w(i) = w(j)
+                    iwork(indibl + i - 1) = iwork(indibl + j - 1)
+                    w(j) = tmp1
+                    iwork(indibl + j - 1) = itmp1
+                    call la_qswap(n,z(1,i),1,z(1,j),1)
+                    if (info /= 0) then
+                       itmp1 = ifail(i)
+                       ifail(i) = ifail(j)
+                       ifail(j) = itmp1
+                    end if
+                 end if
+              end do
+           end if
+           ! set work(1) to optimal workspace size.
+           work(1) = lwkopt
+           return
+     end subroutine la_qsyevx
+
+     !> SSYGV: computes all the eigenvalues, and optionally, the eigenvectors
+     !> of a real generalized symmetric-definite eigenproblem, of the form
+     !> A*x=(lambda)*B*x,  A*Bx=(lambda)*x,  or B*A*x=(lambda)*x.
+     !> Here A and B are assumed to be symmetric and B is also
+     !> positive definite.
+
+     subroutine la_ssygv(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,info)
+        use la_constants_sp
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: itype,lda,ldb,lwork,n
+           ! Array Arguments
+           real(sp),intent(inout) :: a(lda,*),b(ldb,*)
+           real(sp),intent(out) :: w(*),work(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lquery,upper,wantz
+           character :: trans
+           integer(ilp) :: lwkmin,lwkopt,nb,neig
+           ! Intrinsic Functions
+           intrinsic :: max
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           upper = la_lsame(uplo,'U')
+           lquery = (lwork == -1)
+           info = 0
+           if (itype < 1 .or. itype > 3) then
+              info = -1
+           else if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -2
+           else if (.not. (upper .or. la_lsame(uplo,'L'))) then
+              info = -3
+           else if (n < 0) then
+              info = -4
+           else if (lda < max(1,n)) then
+              info = -6
+           else if (ldb < max(1,n)) then
+              info = -8
+           end if
+           if (info == 0) then
+              lwkmin = max(1,3*n - 1)
+              nb = la_ilaenv(1,'SSYTRD',uplo,n,-1,-1,-1)
+              lwkopt = max(lwkmin, (nb + 2)*n)
+              work(1) = lwkopt
+              if (lwork < lwkmin .and. .not. lquery) then
+                 info = -11
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('SSYGV ',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           ! form a cholesky factorization of b.
+           call la_spotrf(uplo,n,b,ldb,info)
+           if (info /= 0) then
+              info = n + info
+              return
+           end if
+           ! transform problem to standard eigenvalue problem and solve.
+           call la_ssygst(itype,uplo,n,a,lda,b,ldb,info)
+           call la_ssyev(jobz,uplo,n,a,lda,w,work,lwork,info)
+           if (wantz) then
+              ! backtransform eigenvectors to the original problem.
+              neig = n
+              if (info > 0) neig = info - 1
+              if (itype == 1 .or. itype == 2) then
+                 ! for a*x=(lambda)*b*x and a*b*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = inv(l)**t*y or inv(u)*y
+                 if (upper) then
+                    trans = 'N'
+                 else
+                    trans = 'T'
+                 end if
+                 call la_strsm('LEFT',uplo,trans,'NON-UNIT',n,neig,one,b,ldb,a,lda)
+
+              else if (itype == 3) then
+                 ! for b*a*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = l*y or u**t*y
+                 if (upper) then
+                    trans = 'T'
+                 else
+                    trans = 'N'
+                 end if
+                 call la_strmm('LEFT',uplo,trans,'NON-UNIT',n,neig,one,b,ldb,a,lda)
+
+              end if
+           end if
+           work(1) = lwkopt
+           return
+     end subroutine la_ssygv
+     !> DSYGV: computes all the eigenvalues, and optionally, the eigenvectors
+     !> of a real generalized symmetric-definite eigenproblem, of the form
+     !> A*x=(lambda)*B*x,  A*Bx=(lambda)*x,  or B*A*x=(lambda)*x.
+     !> Here A and B are assumed to be symmetric and B is also
+     !> positive definite.
+
+     subroutine la_dsygv(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,info)
+        use la_constants_dp
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: itype,lda,ldb,lwork,n
+           ! Array Arguments
+           real(dp),intent(inout) :: a(lda,*),b(ldb,*)
+           real(dp),intent(out) :: w(*),work(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lquery,upper,wantz
+           character :: trans
+           integer(ilp) :: lwkmin,lwkopt,nb,neig
+           ! Intrinsic Functions
+           intrinsic :: max
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           upper = la_lsame(uplo,'U')
+           lquery = (lwork == -1)
+           info = 0
+           if (itype < 1 .or. itype > 3) then
+              info = -1
+           else if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -2
+           else if (.not. (upper .or. la_lsame(uplo,'L'))) then
+              info = -3
+           else if (n < 0) then
+              info = -4
+           else if (lda < max(1,n)) then
+              info = -6
+           else if (ldb < max(1,n)) then
+              info = -8
+           end if
+           if (info == 0) then
+              lwkmin = max(1,3*n - 1)
+              nb = la_ilaenv(1,'DSYTRD',uplo,n,-1,-1,-1)
+              lwkopt = max(lwkmin, (nb + 2)*n)
+              work(1) = lwkopt
+              if (lwork < lwkmin .and. .not. lquery) then
+                 info = -11
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('DSYGV ',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           ! form a cholesky factorization of b.
+           call la_dpotrf(uplo,n,b,ldb,info)
+           if (info /= 0) then
+              info = n + info
+              return
+           end if
+           ! transform problem to standard eigenvalue problem and solve.
+           call la_dsygst(itype,uplo,n,a,lda,b,ldb,info)
+           call la_dsyev(jobz,uplo,n,a,lda,w,work,lwork,info)
+           if (wantz) then
+              ! backtransform eigenvectors to the original problem.
+              neig = n
+              if (info > 0) neig = info - 1
+              if (itype == 1 .or. itype == 2) then
+                 ! for a*x=(lambda)*b*x and a*b*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = inv(l)**t*y or inv(u)*y
+                 if (upper) then
+                    trans = 'N'
+                 else
+                    trans = 'T'
+                 end if
+                 call la_dtrsm('LEFT',uplo,trans,'NON-UNIT',n,neig,one,b,ldb,a,lda)
+
+              else if (itype == 3) then
+                 ! for b*a*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = l*y or u**t*y
+                 if (upper) then
+                    trans = 'T'
+                 else
+                    trans = 'N'
+                 end if
+                 call la_dtrmm('LEFT',uplo,trans,'NON-UNIT',n,neig,one,b,ldb,a,lda)
+
+              end if
+           end if
+           work(1) = lwkopt
+           return
+     end subroutine la_dsygv
+     !> QSYGV: computes all the eigenvalues, and optionally, the eigenvectors
+     !> of a real generalized symmetric-definite eigenproblem, of the form
+     !> A*x=(lambda)*B*x,  A*Bx=(lambda)*x,  or B*A*x=(lambda)*x.
+     !> Here A and B are assumed to be symmetric and B is also
+     !> positive definite.
+
+     subroutine la_qsygv(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,info)
+        use la_constants_qp
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: itype,lda,ldb,lwork,n
+           ! Array Arguments
+           real(qp),intent(inout) :: a(lda,*),b(ldb,*)
+           real(qp),intent(out) :: w(*),work(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lquery,upper,wantz
+           character :: trans
+           integer(ilp) :: lwkmin,lwkopt,nb,neig
+           ! Intrinsic Functions
+           intrinsic :: max
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           upper = la_lsame(uplo,'U')
+           lquery = (lwork == -1)
+           info = 0
+           if (itype < 1 .or. itype > 3) then
+              info = -1
+           else if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -2
+           else if (.not. (upper .or. la_lsame(uplo,'L'))) then
+              info = -3
+           else if (n < 0) then
+              info = -4
+           else if (lda < max(1,n)) then
+              info = -6
+           else if (ldb < max(1,n)) then
+              info = -8
+           end if
+           if (info == 0) then
+              lwkmin = max(1,3*n - 1)
+              nb = la_ilaenv(1,'QSYTRD',uplo,n,-1,-1,-1)
+              lwkopt = max(lwkmin, (nb + 2)*n)
+              work(1) = lwkopt
+              if (lwork < lwkmin .and. .not. lquery) then
+                 info = -11
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('QSYGV ',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           ! form a cholesky factorization of b.
+           call la_qpotrf(uplo,n,b,ldb,info)
+           if (info /= 0) then
+              info = n + info
+              return
+           end if
+           ! transform problem to standard eigenvalue problem and solve.
+           call la_qsygst(itype,uplo,n,a,lda,b,ldb,info)
+           call la_qsyev(jobz,uplo,n,a,lda,w,work,lwork,info)
+           if (wantz) then
+              ! backtransform eigenvectors to the original problem.
+              neig = n
+              if (info > 0) neig = info - 1
+              if (itype == 1 .or. itype == 2) then
+                 ! for a*x=(lambda)*b*x and a*b*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = inv(l)**t*y or inv(u)*y
+                 if (upper) then
+                    trans = 'N'
+                 else
+                    trans = 'T'
+                 end if
+                 call la_qtrsm('LEFT',uplo,trans,'NON-UNIT',n,neig,one,b,ldb,a,lda)
+
+              else if (itype == 3) then
+                 ! for b*a*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = l*y or u**t*y
+                 if (upper) then
+                    trans = 'T'
+                 else
+                    trans = 'N'
+                 end if
+                 call la_qtrmm('LEFT',uplo,trans,'NON-UNIT',n,neig,one,b,ldb,a,lda)
+
+              end if
+           end if
+           work(1) = lwkopt
+           return
+     end subroutine la_qsygv
+
+     !> SSYGVX: computes selected eigenvalues, and optionally, eigenvectors
+     !> of a real generalized symmetric-definite eigenproblem, of the form
+     !> A*x=(lambda)*B*x,  A*Bx=(lambda)*x,  or B*A*x=(lambda)*x.  Here A
+     !> and B are assumed to be symmetric and B is also positive definite.
+     !> Eigenvalues and eigenvectors can be selected by specifying either a
+     !> range of values or a range of indices for the desired eigenvalues.
+
+     subroutine la_ssygvx(itype,jobz,range,uplo,n,a,lda,b,ldb,vl,vu,il,iu,abstol, &
+                m,w,z,ldz,work,lwork,iwork,ifail,info)
+        use la_constants_sp
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,range,uplo
+           integer(ilp),intent(in) :: il,itype,iu,lda,ldb,ldz,lwork,n
+           integer(ilp),intent(out) :: info,m
+           real(sp),intent(in) :: abstol,vl,vu
+           ! Array Arguments
+           integer(ilp),intent(out) :: ifail(*),iwork(*)
+           real(sp),intent(inout) :: a(lda,*),b(ldb,*)
+           real(sp),intent(out) :: w(*),work(*),z(ldz,*)
+       ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: alleig,indeig,lquery,upper,valeig,wantz
+           character :: trans
+           integer(ilp) :: lwkmin,lwkopt,nb
+           ! Intrinsic Functions
+           intrinsic :: max,min
+           ! Executable Statements
+           ! test the input parameters.
+           upper = la_lsame(uplo,'U')
+           wantz = la_lsame(jobz,'V')
+           alleig = la_lsame(range,'A')
+           valeig = la_lsame(range,'V')
+           indeig = la_lsame(range,'I')
+           lquery = (lwork == -1)
+           info = 0
+           if (itype < 1 .or. itype > 3) then
+              info = -1
+           else if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -2
+           else if (.not. (alleig .or. valeig .or. indeig)) then
+              info = -3
+           else if (.not. (upper .or. la_lsame(uplo,'L'))) then
+              info = -4
+           else if (n < 0) then
+              info = -5
+           else if (lda < max(1,n)) then
+              info = -7
+           else if (ldb < max(1,n)) then
+              info = -9
+           else
+              if (valeig) then
+                 if (n > 0 .and. vu <= vl) info = -11
+              else if (indeig) then
+                 if (il < 1 .or. il > max(1,n)) then
+                    info = -12
+                 else if (iu < min(n,il) .or. iu > n) then
+                    info = -13
+                 end if
+              end if
+           end if
+           if (info == 0) then
+              if (ldz < 1 .or. (wantz .and. ldz < n)) then
+                 info = -18
+              end if
+           end if
+           if (info == 0) then
+              lwkmin = max(1,8*n)
+              nb = la_ilaenv(1,'SSYTRD',uplo,n,-1,-1,-1)
+              lwkopt = max(lwkmin, (nb + 3)*n)
+              work(1) = lwkopt
+              if (lwork < lwkmin .and. .not. lquery) then
+                 info = -20
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('SSYGVX',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           m = 0
+           if (n == 0) then
+              return
+           end if
+           ! form a cholesky factorization of b.
+           call la_spotrf(uplo,n,b,ldb,info)
+           if (info /= 0) then
+              info = n + info
+              return
+           end if
+           ! transform problem to standard eigenvalue problem and solve.
+           call la_ssygst(itype,uplo,n,a,lda,b,ldb,info)
+           call la_ssyevx(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz, &
+                     work,lwork,iwork,ifail,info)
+           if (wantz) then
+              ! backtransform eigenvectors to the original problem.
+              if (info > 0) m = info - 1
+              if (itype == 1 .or. itype == 2) then
+                 ! for a*x=(lambda)*b*x and a*b*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = inv(l)**t*y or inv(u)*y
+                 if (upper) then
+                    trans = 'N'
+                 else
+                    trans = 'T'
+                 end if
+                 call la_strsm('LEFT',uplo,trans,'NON-UNIT',n,m,one,b,ldb,z,ldz)
+
+              else if (itype == 3) then
+                 ! for b*a*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = l*y or u**t*y
+                 if (upper) then
+                    trans = 'T'
+                 else
+                    trans = 'N'
+                 end if
+                 call la_strmm('LEFT',uplo,trans,'NON-UNIT',n,m,one,b,ldb,z,ldz)
+
+              end if
+           end if
+           ! set work(1) to optimal workspace size.
+           work(1) = lwkopt
+           return
+     end subroutine la_ssygvx
+     !> DSYGVX: computes selected eigenvalues, and optionally, eigenvectors
+     !> of a real generalized symmetric-definite eigenproblem, of the form
+     !> A*x=(lambda)*B*x,  A*Bx=(lambda)*x,  or B*A*x=(lambda)*x.  Here A
+     !> and B are assumed to be symmetric and B is also positive definite.
+     !> Eigenvalues and eigenvectors can be selected by specifying either a
+     !> range of values or a range of indices for the desired eigenvalues.
+
+     subroutine la_dsygvx(itype,jobz,range,uplo,n,a,lda,b,ldb,vl,vu,il,iu,abstol, &
+                m,w,z,ldz,work,lwork,iwork,ifail,info)
+        use la_constants_dp
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,range,uplo
+           integer(ilp),intent(in) :: il,itype,iu,lda,ldb,ldz,lwork,n
+           integer(ilp),intent(out) :: info,m
+           real(dp),intent(in) :: abstol,vl,vu
+           ! Array Arguments
+           integer(ilp),intent(out) :: ifail(*),iwork(*)
+           real(dp),intent(inout) :: a(lda,*),b(ldb,*)
+           real(dp),intent(out) :: w(*),work(*),z(ldz,*)
+       ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: alleig,indeig,lquery,upper,valeig,wantz
+           character :: trans
+           integer(ilp) :: lwkmin,lwkopt,nb
+           ! Intrinsic Functions
+           intrinsic :: max,min
+           ! Executable Statements
+           ! test the input parameters.
+           upper = la_lsame(uplo,'U')
+           wantz = la_lsame(jobz,'V')
+           alleig = la_lsame(range,'A')
+           valeig = la_lsame(range,'V')
+           indeig = la_lsame(range,'I')
+           lquery = (lwork == -1)
+           info = 0
+           if (itype < 1 .or. itype > 3) then
+              info = -1
+           else if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -2
+           else if (.not. (alleig .or. valeig .or. indeig)) then
+              info = -3
+           else if (.not. (upper .or. la_lsame(uplo,'L'))) then
+              info = -4
+           else if (n < 0) then
+              info = -5
+           else if (lda < max(1,n)) then
+              info = -7
+           else if (ldb < max(1,n)) then
+              info = -9
+           else
+              if (valeig) then
+                 if (n > 0 .and. vu <= vl) info = -11
+              else if (indeig) then
+                 if (il < 1 .or. il > max(1,n)) then
+                    info = -12
+                 else if (iu < min(n,il) .or. iu > n) then
+                    info = -13
+                 end if
+              end if
+           end if
+           if (info == 0) then
+              if (ldz < 1 .or. (wantz .and. ldz < n)) then
+                 info = -18
+              end if
+           end if
+           if (info == 0) then
+              lwkmin = max(1,8*n)
+              nb = la_ilaenv(1,'DSYTRD',uplo,n,-1,-1,-1)
+              lwkopt = max(lwkmin, (nb + 3)*n)
+              work(1) = lwkopt
+              if (lwork < lwkmin .and. .not. lquery) then
+                 info = -20
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('DSYGVX',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           m = 0
+           if (n == 0) then
+              return
+           end if
+           ! form a cholesky factorization of b.
+           call la_dpotrf(uplo,n,b,ldb,info)
+           if (info /= 0) then
+              info = n + info
+              return
+           end if
+           ! transform problem to standard eigenvalue problem and solve.
+           call la_dsygst(itype,uplo,n,a,lda,b,ldb,info)
+           call la_dsyevx(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz, &
+                     work,lwork,iwork,ifail,info)
+           if (wantz) then
+              ! backtransform eigenvectors to the original problem.
+              if (info > 0) m = info - 1
+              if (itype == 1 .or. itype == 2) then
+                 ! for a*x=(lambda)*b*x and a*b*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = inv(l)**t*y or inv(u)*y
+                 if (upper) then
+                    trans = 'N'
+                 else
+                    trans = 'T'
+                 end if
+                 call la_dtrsm('LEFT',uplo,trans,'NON-UNIT',n,m,one,b,ldb,z,ldz)
+
+              else if (itype == 3) then
+                 ! for b*a*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = l*y or u**t*y
+                 if (upper) then
+                    trans = 'T'
+                 else
+                    trans = 'N'
+                 end if
+                 call la_dtrmm('LEFT',uplo,trans,'NON-UNIT',n,m,one,b,ldb,z,ldz)
+
+              end if
+           end if
+           ! set work(1) to optimal workspace size.
+           work(1) = lwkopt
+           return
+     end subroutine la_dsygvx
+     !> QSYGVX: computes selected eigenvalues, and optionally, eigenvectors
+     !> of a real generalized symmetric-definite eigenproblem, of the form
+     !> A*x=(lambda)*B*x,  A*Bx=(lambda)*x,  or B*A*x=(lambda)*x.  Here A
+     !> and B are assumed to be symmetric and B is also positive definite.
+     !> Eigenvalues and eigenvectors can be selected by specifying either a
+     !> range of values or a range of indices for the desired eigenvalues.
+
+     subroutine la_qsygvx(itype,jobz,range,uplo,n,a,lda,b,ldb,vl,vu,il,iu,abstol, &
+                m,w,z,ldz,work,lwork,iwork,ifail,info)
+        use la_constants_qp
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,range,uplo
+           integer(ilp),intent(in) :: il,itype,iu,lda,ldb,ldz,lwork,n
+           integer(ilp),intent(out) :: info,m
+           real(qp),intent(in) :: abstol,vl,vu
+           ! Array Arguments
+           integer(ilp),intent(out) :: ifail(*),iwork(*)
+           real(qp),intent(inout) :: a(lda,*),b(ldb,*)
+           real(qp),intent(out) :: w(*),work(*),z(ldz,*)
+       ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: alleig,indeig,lquery,upper,valeig,wantz
+           character :: trans
+           integer(ilp) :: lwkmin,lwkopt,nb
+           ! Intrinsic Functions
+           intrinsic :: max,min
+           ! Executable Statements
+           ! test the input parameters.
+           upper = la_lsame(uplo,'U')
+           wantz = la_lsame(jobz,'V')
+           alleig = la_lsame(range,'A')
+           valeig = la_lsame(range,'V')
+           indeig = la_lsame(range,'I')
+           lquery = (lwork == -1)
+           info = 0
+           if (itype < 1 .or. itype > 3) then
+              info = -1
+           else if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -2
+           else if (.not. (alleig .or. valeig .or. indeig)) then
+              info = -3
+           else if (.not. (upper .or. la_lsame(uplo,'L'))) then
+              info = -4
+           else if (n < 0) then
+              info = -5
+           else if (lda < max(1,n)) then
+              info = -7
+           else if (ldb < max(1,n)) then
+              info = -9
+           else
+              if (valeig) then
+                 if (n > 0 .and. vu <= vl) info = -11
+              else if (indeig) then
+                 if (il < 1 .or. il > max(1,n)) then
+                    info = -12
+                 else if (iu < min(n,il) .or. iu > n) then
+                    info = -13
+                 end if
+              end if
+           end if
+           if (info == 0) then
+              if (ldz < 1 .or. (wantz .and. ldz < n)) then
+                 info = -18
+              end if
+           end if
+           if (info == 0) then
+              lwkmin = max(1,8*n)
+              nb = la_ilaenv(1,'QSYTRD',uplo,n,-1,-1,-1)
+              lwkopt = max(lwkmin, (nb + 3)*n)
+              work(1) = lwkopt
+              if (lwork < lwkmin .and. .not. lquery) then
+                 info = -20
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('QSYGVX',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           m = 0
+           if (n == 0) then
+              return
+           end if
+           ! form a cholesky factorization of b.
+           call la_qpotrf(uplo,n,b,ldb,info)
+           if (info /= 0) then
+              info = n + info
+              return
+           end if
+           ! transform problem to standard eigenvalue problem and solve.
+           call la_qsygst(itype,uplo,n,a,lda,b,ldb,info)
+           call la_qsyevx(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz, &
+                     work,lwork,iwork,ifail,info)
+           if (wantz) then
+              ! backtransform eigenvectors to the original problem.
+              if (info > 0) m = info - 1
+              if (itype == 1 .or. itype == 2) then
+                 ! for a*x=(lambda)*b*x and a*b*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = inv(l)**t*y or inv(u)*y
+                 if (upper) then
+                    trans = 'N'
+                 else
+                    trans = 'T'
+                 end if
+                 call la_qtrsm('LEFT',uplo,trans,'NON-UNIT',n,m,one,b,ldb,z,ldz)
+
+              else if (itype == 3) then
+                 ! for b*a*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = l*y or u**t*y
+                 if (upper) then
+                    trans = 'T'
+                 else
+                    trans = 'N'
+                 end if
+                 call la_qtrmm('LEFT',uplo,trans,'NON-UNIT',n,m,one,b,ldb,z,ldz)
+
+              end if
+           end if
+           ! set work(1) to optimal workspace size.
+           work(1) = lwkopt
+           return
+     end subroutine la_qsygvx
+
+     !> SSYTRD_SY2SB: reduces a real symmetric matrix A to real symmetric
+     !> band-diagonal form AB by a orthogonal similarity transformation:
+     !> Q**T * A * Q = AB.
+
+     pure subroutine la_ssytrd_sy2sb(uplo,n,kd,a,lda,ab,ldab,tau,work,lwork,info)
+        use la_constants_sp
+
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldab,lwork,n,kd
+           ! Array Arguments
+           real(sp),intent(inout) :: a(lda,*)
+           real(sp),intent(out) :: ab(ldab,*),tau(*),work(*)
+        ! =====================================================================
+           ! Parameters
+           real(sp),parameter :: rone = 1.0e+0_sp
+
+           ! Local Scalars
+           logical(lk) :: lquery,upper
+           integer(ilp) :: i,j,iinfo,lwmin,pn,pk,lk,ldt,ldw,lds2,lds1,ls2,ls1,lw,lt, &
+                      tpos,wpos,s2pos,s1pos
+           ! Intrinsic Functions
+           intrinsic :: min,max
+           ! Executable Statements
+           ! determine the minimal workspace size required
+           ! and test the input parameters
+           info = 0
+           upper = la_lsame(uplo,'U')
+           lquery = (lwork == -1)
+           lwmin = la_ilaenv2stage(4,'SSYTRD_SY2SB','',n,kd,-1,-1)
+           if (.not. upper .and. .not. la_lsame(uplo,'L')) then
+              info = -1
+           else if (n < 0) then
+              info = -2
+           else if (kd < 0) then
+              info = -3
+           else if (lda < max(1,n)) then
+              info = -5
+           else if (ldab < max(1,kd + 1)) then
+              info = -7
+           else if (lwork < lwmin .and. .not. lquery) then
+              info = -10
+           end if
+           if (info /= 0) then
+              call la_xerbla('SSYTRD_SY2SB',-info)
+              return
+           else if (lquery) then
+              work(1) = lwmin
+              return
+           end if
+           ! quick return if possible
+           ! copy the upper/lower portion of a into ab
+           if (n <= kd + 1) then
+               if (upper) then
+                   do i = 1,n
+                       lk = min(kd + 1,i)
+                       call la_scopy(lk,a(i - lk + 1,i),1,ab(kd + 1 - lk + 1,i),1)
+                   end do
+               else
+                   do i = 1,n
+                       lk = min(kd + 1,n - i + 1)
+                       call la_scopy(lk,a(i,i),1,ab(1,i),1)
+                   end do
+               end if
+               work(1) = 1
+               return
+           end if
+           ! determine the pointer position for the workspace
+           ldt = kd
+           lds1 = kd
+           lt = ldt*kd
+           lw = n*kd
+           ls1 = lds1*kd
+           ls2 = lwmin - lt - lw - ls1
+            ! ls2 = n*max(kd,factoptnb)
+           tpos = 1
+           wpos = tpos + lt
+           s1pos = wpos + lw
+           s2pos = s1pos + ls1
+           if (upper) then
+               ldw = kd
+               lds2 = kd
+           else
+               ldw = n
+               lds2 = n
+           end if
+           ! set the workspace of the triangular matrix t to zero once such a
+           ! way every time t is generated the upper/lower portion will be always zero
+           call la_slaset("A",ldt,kd,zero,zero,work(tpos),ldt)
+           if (upper) then
+               do i = 1,n - kd,kd
+                  pn = n - i - kd + 1
+                  pk = min(n - i - kd + 1,kd)
+                  ! compute the lq factorization of the current block
+                  call la_sgelqf(kd,pn,a(i,i + kd),lda,tau(i),work(s2pos),ls2, &
+                            iinfo)
+                  ! copy the upper portion of a into ab
+                  do j = i,i + pk - 1
+                     lk = min(kd,n - j) + 1
+                     call la_scopy(lk,a(j,j),lda,ab(kd + 1,j),ldab - 1)
+                  end do
+                  call la_slaset('LOWER',pk,pk,zero,one,a(i,i + kd),lda)
+                  ! form the matrix t
+                  call la_slarft('FORWARD','ROWWISE',pn,pk,a(i,i + kd),lda,tau(i), &
+                            work(tpos),ldt)
+                  ! compute w:
+                  call la_sgemm('CONJUGATE','NO TRANSPOSE',pk,pn,pk,one,work(tpos), &
+                            ldt,a(i,i + kd),lda,zero,work(s2pos),lds2)
+                  call la_ssymm('RIGHT',uplo,pk,pn,one,a(i + kd,i + kd),lda,work(s2pos &
+                            ),lds2,zero,work(wpos),ldw)
+                  call la_sgemm('NO TRANSPOSE','CONJUGATE',pk,pk,pn,one,work(wpos), &
+                            ldw,work(s2pos),lds2,zero,work(s1pos),lds1)
+                  call la_sgemm('NO TRANSPOSE','NO TRANSPOSE',pk,pn,pk,-half,work( &
+                            s1pos),lds1,a(i,i + kd),lda,one,work(wpos),ldw)
+                  ! update the unreduced submatrix a(i+kd:n,i+kd:n), using
+                  ! an update of the form:  a := a - v'*w - w'*v
+                  call la_ssyr2k(uplo,'CONJUGATE',pn,pk,-one,a(i,i + kd),lda,work( &
+                            wpos),ldw,rone,a(i + kd,i + kd),lda)
+               end do
+              ! copy the upper band to ab which is the band storage matrix
+              do j = n - kd + 1,n
+                 lk = min(kd,n - j) + 1
+                 call la_scopy(lk,a(j,j),lda,ab(kd + 1,j),ldab - 1)
+              end do
+           else
+               ! reduce the lower triangle of a to lower band matrix
+               loop_40: do i = 1,n - kd,kd
+                  pn = n - i - kd + 1
+                  pk = min(n - i - kd + 1,kd)
+                  ! compute the qr factorization of the current block
+                  call la_sgeqrf(pn,kd,a(i + kd,i),lda,tau(i),work(s2pos),ls2, &
+                            iinfo)
+                  ! copy the upper portion of a into ab
+                  do j = i,i + pk - 1
+                     lk = min(kd,n - j) + 1
+                     call la_scopy(lk,a(j,j),1,ab(1,j),1)
+                  end do
+                  call la_slaset('UPPER',pk,pk,zero,one,a(i + kd,i),lda)
+                  ! form the matrix t
+                  call la_slarft('FORWARD','COLUMNWISE',pn,pk,a(i + kd,i),lda,tau(i), &
+                            work(tpos),ldt)
+                  ! compute w:
+                  call la_sgemm('NO TRANSPOSE','NO TRANSPOSE',pn,pk,pk,one,a(i + kd,i), &
+                             lda,work(tpos),ldt,zero,work(s2pos),lds2)
+                  call la_ssymm('LEFT',uplo,pn,pk,one,a(i + kd,i + kd),lda,work(s2pos), &
+                             lds2,zero,work(wpos),ldw)
+                  call la_sgemm('CONJUGATE','NO TRANSPOSE',pk,pk,pn,one,work(s2pos), &
+                            lds2,work(wpos),ldw,zero,work(s1pos),lds1)
+                  call la_sgemm('NO TRANSPOSE','NO TRANSPOSE',pn,pk,pk,-half,a(i + kd,i &
+                            ),lda,work(s1pos),lds1,one,work(wpos),ldw)
+                  ! update the unreduced submatrix a(i+kd:n,i+kd:n), using
+                  ! an update of the form:  a := a - v*w' - w*v'
+                  call la_ssyr2k(uplo,'NO TRANSPOSE',pn,pk,-one,a(i + kd,i),lda,work( &
+                            wpos),ldw,rone,a(i + kd,i + kd),lda)
+                  ! ==================================================================
+                  ! restore a for comparison and checking to be removed
+                   ! do 45 j = i, i+pk-1
+                      ! lk = min( kd, n-j ) + 1
+                      ! call la_scopy( lk, ab( 1, j ), 1, a( j, j ), 1 )
+                      45 continue
+                  ! ==================================================================
+               end do loop_40
+              ! copy the lower band to ab which is the band storage matrix
+              do j = n - kd + 1,n
+                 lk = min(kd,n - j) + 1
+                 call la_scopy(lk,a(j,j),1,ab(1,j),1)
+              end do
+           end if
+           work(1) = lwmin
+           return
+     end subroutine la_ssytrd_sy2sb
+     !> DSYTRD_SY2SB: reduces a real symmetric matrix A to real symmetric
+     !> band-diagonal form AB by a orthogonal similarity transformation:
+     !> Q**T * A * Q = AB.
+
+     pure subroutine la_dsytrd_sy2sb(uplo,n,kd,a,lda,ab,ldab,tau,work,lwork,info)
+        use la_constants_dp
+
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldab,lwork,n,kd
+           ! Array Arguments
+           real(dp),intent(inout) :: a(lda,*)
+           real(dp),intent(out) :: ab(ldab,*),tau(*),work(*)
+        ! =====================================================================
+           ! Parameters
+           real(dp),parameter :: rone = 1.0e+0_dp
+
+           ! Local Scalars
+           logical(lk) :: lquery,upper
+           integer(ilp) :: i,j,iinfo,lwmin,pn,pk,lk,ldt,ldw,lds2,lds1,ls2,ls1,lw,lt, &
+                      tpos,wpos,s2pos,s1pos
+           ! Intrinsic Functions
+           intrinsic :: min,max
+           ! Executable Statements
+           ! determine the minimal workspace size required
+           ! and test the input parameters
+           info = 0
+           upper = la_lsame(uplo,'U')
+           lquery = (lwork == -1)
+           lwmin = la_ilaenv2stage(4,'DSYTRD_SY2SB','',n,kd,-1,-1)
+           if (.not. upper .and. .not. la_lsame(uplo,'L')) then
+              info = -1
+           else if (n < 0) then
+              info = -2
+           else if (kd < 0) then
+              info = -3
+           else if (lda < max(1,n)) then
+              info = -5
+           else if (ldab < max(1,kd + 1)) then
+              info = -7
+           else if (lwork < lwmin .and. .not. lquery) then
+              info = -10
+           end if
+           if (info /= 0) then
+              call la_xerbla('DSYTRD_SY2SB',-info)
+              return
+           else if (lquery) then
+              work(1) = lwmin
+              return
+           end if
+           ! quick return if possible
+           ! copy the upper/lower portion of a into ab
+           if (n <= kd + 1) then
+               if (upper) then
+                   do i = 1,n
+                       lk = min(kd + 1,i)
+                       call la_dcopy(lk,a(i - lk + 1,i),1,ab(kd + 1 - lk + 1,i),1)
+                   end do
+               else
+                   do i = 1,n
+                       lk = min(kd + 1,n - i + 1)
+                       call la_dcopy(lk,a(i,i),1,ab(1,i),1)
+                   end do
+               end if
+               work(1) = 1
+               return
+           end if
+           ! determine the pointer position for the workspace
+           ldt = kd
+           lds1 = kd
+           lt = ldt*kd
+           lw = n*kd
+           ls1 = lds1*kd
+           ls2 = lwmin - lt - lw - ls1
+            ! ls2 = n*max(kd,factoptnb)
+           tpos = 1
+           wpos = tpos + lt
+           s1pos = wpos + lw
+           s2pos = s1pos + ls1
+           if (upper) then
+               ldw = kd
+               lds2 = kd
+           else
+               ldw = n
+               lds2 = n
+           end if
+           ! set the workspace of the triangular matrix t to zero once such a
+           ! way every time t is generated the upper/lower portion will be always zero
+           call la_dlaset("A",ldt,kd,zero,zero,work(tpos),ldt)
+           if (upper) then
+               do i = 1,n - kd,kd
+                  pn = n - i - kd + 1
+                  pk = min(n - i - kd + 1,kd)
+                  ! compute the lq factorization of the current block
+                  call la_dgelqf(kd,pn,a(i,i + kd),lda,tau(i),work(s2pos),ls2, &
+                            iinfo)
+                  ! copy the upper portion of a into ab
+                  do j = i,i + pk - 1
+                     lk = min(kd,n - j) + 1
+                     call la_dcopy(lk,a(j,j),lda,ab(kd + 1,j),ldab - 1)
+                  end do
+                  call la_dlaset('LOWER',pk,pk,zero,one,a(i,i + kd),lda)
+                  ! form the matrix t
+                  call la_dlarft('FORWARD','ROWWISE',pn,pk,a(i,i + kd),lda,tau(i), &
+                            work(tpos),ldt)
+                  ! compute w:
+                  call la_dgemm('CONJUGATE','NO TRANSPOSE',pk,pn,pk,one,work(tpos), &
+                            ldt,a(i,i + kd),lda,zero,work(s2pos),lds2)
+                  call la_dsymm('RIGHT',uplo,pk,pn,one,a(i + kd,i + kd),lda,work(s2pos &
+                            ),lds2,zero,work(wpos),ldw)
+                  call la_dgemm('NO TRANSPOSE','CONJUGATE',pk,pk,pn,one,work(wpos), &
+                            ldw,work(s2pos),lds2,zero,work(s1pos),lds1)
+                  call la_dgemm('NO TRANSPOSE','NO TRANSPOSE',pk,pn,pk,-half,work( &
+                            s1pos),lds1,a(i,i + kd),lda,one,work(wpos),ldw)
+                  ! update the unreduced submatrix a(i+kd:n,i+kd:n), using
+                  ! an update of the form:  a := a - v'*w - w'*v
+                  call la_dsyr2k(uplo,'CONJUGATE',pn,pk,-one,a(i,i + kd),lda,work( &
+                            wpos),ldw,rone,a(i + kd,i + kd),lda)
+               end do
+              ! copy the upper band to ab which is the band storage matrix
+              do j = n - kd + 1,n
+                 lk = min(kd,n - j) + 1
+                 call la_dcopy(lk,a(j,j),lda,ab(kd + 1,j),ldab - 1)
+              end do
+           else
+               ! reduce the lower triangle of a to lower band matrix
+               loop_40: do i = 1,n - kd,kd
+                  pn = n - i - kd + 1
+                  pk = min(n - i - kd + 1,kd)
+                  ! compute the qr factorization of the current block
+                  call la_dgeqrf(pn,kd,a(i + kd,i),lda,tau(i),work(s2pos),ls2, &
+                            iinfo)
+                  ! copy the upper portion of a into ab
+                  do j = i,i + pk - 1
+                     lk = min(kd,n - j) + 1
+                     call la_dcopy(lk,a(j,j),1,ab(1,j),1)
+                  end do
+                  call la_dlaset('UPPER',pk,pk,zero,one,a(i + kd,i),lda)
+                  ! form the matrix t
+                  call la_dlarft('FORWARD','COLUMNWISE',pn,pk,a(i + kd,i),lda,tau(i), &
+                            work(tpos),ldt)
+                  ! compute w:
+                  call la_dgemm('NO TRANSPOSE','NO TRANSPOSE',pn,pk,pk,one,a(i + kd,i), &
+                             lda,work(tpos),ldt,zero,work(s2pos),lds2)
+                  call la_dsymm('LEFT',uplo,pn,pk,one,a(i + kd,i + kd),lda,work(s2pos), &
+                             lds2,zero,work(wpos),ldw)
+                  call la_dgemm('CONJUGATE','NO TRANSPOSE',pk,pk,pn,one,work(s2pos), &
+                            lds2,work(wpos),ldw,zero,work(s1pos),lds1)
+                  call la_dgemm('NO TRANSPOSE','NO TRANSPOSE',pn,pk,pk,-half,a(i + kd,i &
+                            ),lda,work(s1pos),lds1,one,work(wpos),ldw)
+                  ! update the unreduced submatrix a(i+kd:n,i+kd:n), using
+                  ! an update of the form:  a := a - v*w' - w*v'
+                  call la_dsyr2k(uplo,'NO TRANSPOSE',pn,pk,-one,a(i + kd,i),lda,work( &
+                            wpos),ldw,rone,a(i + kd,i + kd),lda)
+                  ! ==================================================================
+                  ! restore a for comparison and checking to be removed
+                   ! do 45 j = i, i+pk-1
+                      ! lk = min( kd, n-j ) + 1
+                      ! call la_dcopy( lk, ab( 1, j ), 1, a( j, j ), 1 )
+                      45 continue
+                  ! ==================================================================
+               end do loop_40
+              ! copy the lower band to ab which is the band storage matrix
+              do j = n - kd + 1,n
+                 lk = min(kd,n - j) + 1
+                 call la_dcopy(lk,a(j,j),1,ab(1,j),1)
+              end do
+           end if
+           work(1) = lwmin
+           return
+     end subroutine la_dsytrd_sy2sb
+     !> QSYTRD_SY2SB: reduces a real symmetric matrix A to real symmetric
+     !> band-diagonal form AB by a orthogonal similarity transformation:
+     !> Q**T * A * Q = AB.
+
+     pure subroutine la_qsytrd_sy2sb(uplo,n,kd,a,lda,ab,ldab,tau,work,lwork,info)
+        use la_constants_qp
+
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldab,lwork,n,kd
+           ! Array Arguments
+           real(qp),intent(inout) :: a(lda,*)
+           real(qp),intent(out) :: ab(ldab,*),tau(*),work(*)
+        ! =====================================================================
+           ! Parameters
+           real(qp),parameter :: rone = 1.0e+0_qp
+
+           ! Local Scalars
+           logical(lk) :: lquery,upper
+           integer(ilp) :: i,j,iinfo,lwmin,pn,pk,lk,ldt,ldw,lds2,lds1,ls2,ls1,lw,lt, &
+                      tpos,wpos,s2pos,s1pos
+           ! Intrinsic Functions
+           intrinsic :: min,max
+           ! Executable Statements
+           ! determine the minimal workspace size required
+           ! and test the input parameters
+           info = 0
+           upper = la_lsame(uplo,'U')
+           lquery = (lwork == -1)
+           lwmin = la_ilaenv2stage(4,'QSYTRD_SY2SB','',n,kd,-1,-1)
+           if (.not. upper .and. .not. la_lsame(uplo,'L')) then
+              info = -1
+           else if (n < 0) then
+              info = -2
+           else if (kd < 0) then
+              info = -3
+           else if (lda < max(1,n)) then
+              info = -5
+           else if (ldab < max(1,kd + 1)) then
+              info = -7
+           else if (lwork < lwmin .and. .not. lquery) then
+              info = -10
+           end if
+           if (info /= 0) then
+              call la_xerbla('QSYTRD_SY2SB',-info)
+              return
+           else if (lquery) then
+              work(1) = lwmin
+              return
+           end if
+           ! quick return if possible
+           ! copy the upper/lower portion of a into ab
+           if (n <= kd + 1) then
+               if (upper) then
+                   do i = 1,n
+                       lk = min(kd + 1,i)
+                       call la_qcopy(lk,a(i - lk + 1,i),1,ab(kd + 1 - lk + 1,i),1)
+                   end do
+               else
+                   do i = 1,n
+                       lk = min(kd + 1,n - i + 1)
+                       call la_qcopy(lk,a(i,i),1,ab(1,i),1)
+                   end do
+               end if
+               work(1) = 1
+               return
+           end if
+           ! determine the pointer position for the workspace
+           ldt = kd
+           lds1 = kd
+           lt = ldt*kd
+           lw = n*kd
+           ls1 = lds1*kd
+           ls2 = lwmin - lt - lw - ls1
+            ! ls2 = n*max(kd,factoptnb)
+           tpos = 1
+           wpos = tpos + lt
+           s1pos = wpos + lw
+           s2pos = s1pos + ls1
+           if (upper) then
+               ldw = kd
+               lds2 = kd
+           else
+               ldw = n
+               lds2 = n
+           end if
+           ! set the workspace of the triangular matrix t to zero once such a
+           ! way every time t is generated the upper/lower portion will be always zero
+           call la_qlaset("A",ldt,kd,zero,zero,work(tpos),ldt)
+           if (upper) then
+               do i = 1,n - kd,kd
+                  pn = n - i - kd + 1
+                  pk = min(n - i - kd + 1,kd)
+                  ! compute the lq factorization of the current block
+                  call la_qgelqf(kd,pn,a(i,i + kd),lda,tau(i),work(s2pos),ls2, &
+                            iinfo)
+                  ! copy the upper portion of a into ab
+                  do j = i,i + pk - 1
+                     lk = min(kd,n - j) + 1
+                     call la_qcopy(lk,a(j,j),lda,ab(kd + 1,j),ldab - 1)
+                  end do
+                  call la_qlaset('LOWER',pk,pk,zero,one,a(i,i + kd),lda)
+                  ! form the matrix t
+                  call la_qlarft('FORWARD','ROWWISE',pn,pk,a(i,i + kd),lda,tau(i), &
+                            work(tpos),ldt)
+                  ! compute w:
+                  call la_qgemm('CONJUGATE','NO TRANSPOSE',pk,pn,pk,one,work(tpos), &
+                            ldt,a(i,i + kd),lda,zero,work(s2pos),lds2)
+                  call la_qsymm('RIGHT',uplo,pk,pn,one,a(i + kd,i + kd),lda,work(s2pos &
+                            ),lds2,zero,work(wpos),ldw)
+                  call la_qgemm('NO TRANSPOSE','CONJUGATE',pk,pk,pn,one,work(wpos), &
+                            ldw,work(s2pos),lds2,zero,work(s1pos),lds1)
+                  call la_qgemm('NO TRANSPOSE','NO TRANSPOSE',pk,pn,pk,-half,work( &
+                            s1pos),lds1,a(i,i + kd),lda,one,work(wpos),ldw)
+                  ! update the unreduced submatrix a(i+kd:n,i+kd:n), using
+                  ! an update of the form:  a := a - v'*w - w'*v
+                  call la_qsyr2k(uplo,'CONJUGATE',pn,pk,-one,a(i,i + kd),lda,work( &
+                            wpos),ldw,rone,a(i + kd,i + kd),lda)
+               end do
+              ! copy the upper band to ab which is the band storage matrix
+              do j = n - kd + 1,n
+                 lk = min(kd,n - j) + 1
+                 call la_qcopy(lk,a(j,j),lda,ab(kd + 1,j),ldab - 1)
+              end do
+           else
+               ! reduce the lower triangle of a to lower band matrix
+               loop_40: do i = 1,n - kd,kd
+                  pn = n - i - kd + 1
+                  pk = min(n - i - kd + 1,kd)
+                  ! compute the qr factorization of the current block
+                  call la_qgeqrf(pn,kd,a(i + kd,i),lda,tau(i),work(s2pos),ls2, &
+                            iinfo)
+                  ! copy the upper portion of a into ab
+                  do j = i,i + pk - 1
+                     lk = min(kd,n - j) + 1
+                     call la_qcopy(lk,a(j,j),1,ab(1,j),1)
+                  end do
+                  call la_qlaset('UPPER',pk,pk,zero,one,a(i + kd,i),lda)
+                  ! form the matrix t
+                  call la_qlarft('FORWARD','COLUMNWISE',pn,pk,a(i + kd,i),lda,tau(i), &
+                            work(tpos),ldt)
+                  ! compute w:
+                  call la_qgemm('NO TRANSPOSE','NO TRANSPOSE',pn,pk,pk,one,a(i + kd,i), &
+                             lda,work(tpos),ldt,zero,work(s2pos),lds2)
+                  call la_qsymm('LEFT',uplo,pn,pk,one,a(i + kd,i + kd),lda,work(s2pos), &
+                             lds2,zero,work(wpos),ldw)
+                  call la_qgemm('CONJUGATE','NO TRANSPOSE',pk,pk,pn,one,work(s2pos), &
+                            lds2,work(wpos),ldw,zero,work(s1pos),lds1)
+                  call la_qgemm('NO TRANSPOSE','NO TRANSPOSE',pn,pk,pk,-half,a(i + kd,i &
+                            ),lda,work(s1pos),lds1,one,work(wpos),ldw)
+                  ! update the unreduced submatrix a(i+kd:n,i+kd:n), using
+                  ! an update of the form:  a := a - v*w' - w*v'
+                  call la_qsyr2k(uplo,'NO TRANSPOSE',pn,pk,-one,a(i + kd,i),lda,work( &
+                            wpos),ldw,rone,a(i + kd,i + kd),lda)
+                  ! ==================================================================
+                  ! restore a for comparison and checking to be removed
+                   ! do 45 j = i, i+pk-1
+                      ! lk = min( kd, n-j ) + 1
+                      ! call la_qcopy( lk, ab( 1, j ), 1, a( j, j ), 1 )
+                      45 continue
+                  ! ==================================================================
+               end do loop_40
+              ! copy the lower band to ab which is the band storage matrix
+              do j = n - kd + 1,n
+                 lk = min(kd,n - j) + 1
+                 call la_qcopy(lk,a(j,j),1,ab(1,j),1)
+              end do
+           end if
+           work(1) = lwmin
+           return
+     end subroutine la_qsytrd_sy2sb
+
+     !> SSYEVD: computes all eigenvalues and, optionally, eigenvectors of a
+     !> real symmetric matrix A. If eigenvectors are desired, it uses a
+     !> divide and conquer algorithm.
+     !> The divide and conquer algorithm makes very mild assumptions about
+     !> floating point arithmetic. It will work on machines with a guard
+     !> digit in add/subtract, or on those binary machines without guard
+     !> digits which subtract like the Cray X-MP, Cray Y-MP, Cray C-90, or
+     !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
+     !> without guard digits, but we know of none.
+     !> Because of large use of BLAS of level 3, SSYEVD needs N**2 more
+     !> workspace than SSYEVX.
+
+     subroutine la_ssyevd(jobz,uplo,n,a,lda,w,work,lwork,iwork,liwork,info)
+        use la_constants_sp,only:zero,one
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,liwork,lwork,n
+           ! Array Arguments
+           integer(ilp),intent(out) :: iwork(*)
+           real(sp),intent(inout) :: a(lda,*)
+           real(sp),intent(out) :: w(*),work(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lower,lquery,wantz
+           integer(ilp) :: iinfo,inde,indtau,indwk2,indwrk,iscale,liopt,liwmin,llwork, &
+                     llwrk2,lopt,lwmin
+           real(sp) :: anrm,bignum,eps,rmax,rmin,safmin,sigma,smlnum
+           ! Intrinsic Functions
+           intrinsic :: max,sqrt
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           lower = la_lsame(uplo,'L')
+           lquery = (lwork == -1 .or. liwork == -1)
+           info = 0
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (lower .or. la_lsame(uplo,'U'))) then
+              info = -2
+           else if (n < 0) then
+              info = -3
+           else if (lda < max(1,n)) then
+              info = -5
+           end if
+           if (info == 0) then
+              if (n <= 1) then
+                 liwmin = 1
+                 lwmin = 1
+                 lopt = lwmin
+                 liopt = liwmin
+              else
+                 if (wantz) then
+                    liwmin = 3 + 5*n
+                    lwmin = 1 + 6*n + 2*n**2
+                 else
+                    liwmin = 1
+                    lwmin = 2*n + 1
+                 end if
+                 lopt = max(lwmin,2*n + la_ilaenv(1,'SSYTRD',uplo,n,-1,-1,-1))
+
+                 liopt = liwmin
+              end if
+              work(1) = lopt
+              iwork(1) = liopt
+              if (lwork < lwmin .and. .not. lquery) then
+                 info = -8
+              else if (liwork < liwmin .and. .not. lquery) then
+                 info = -10
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('SSYEVD',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           if (n == 1) then
+              w(1) = a(1,1)
+              if (wantz) a(1,1) = one
+              return
+           end if
+           ! get machine constants.
+           safmin = la_slamch('SAFE MINIMUM')
+           eps = la_slamch('PRECISION')
+           smlnum = safmin/eps
+           bignum = one/smlnum
+           rmin = sqrt(smlnum)
+           rmax = sqrt(bignum)
+           ! scale matrix to allowable range, if necessary.
+           anrm = la_slansy('M',uplo,n,a,lda,work)
+           iscale = 0
+           if (anrm > zero .and. anrm < rmin) then
+              iscale = 1
+              sigma = rmin/anrm
+           else if (anrm > rmax) then
+              iscale = 1
+              sigma = rmax/anrm
+           end if
+           if (iscale == 1) call la_slascl(uplo,0,0,one,sigma,n,n,a,lda,info)
+           ! call la_ssytrd to reduce symmetric matrix to tridiagonal form.
+           inde = 1
+           indtau = inde + n
+           indwrk = indtau + n
+           llwork = lwork - indwrk + 1
+           indwk2 = indwrk + n*n
+           llwrk2 = lwork - indwk2 + 1
+           call la_ssytrd(uplo,n,a,lda,w,work(inde),work(indtau),work(indwrk), &
+                     llwork,iinfo)
+           ! for eigenvalues only, call la_ssterf.  for eigenvectors, first call
+           ! la_sstedc to generate the eigenvector matrix, work(indwrk), of the
+           ! tridiagonal matrix, then call la_sormtr to multiply it by the
+           ! householder transformations stored in a.
+           if (.not. wantz) then
+              call la_ssterf(n,w,work(inde),info)
+           else
+              call la_sstedc('I',n,w,work(inde),work(indwrk),n,work(indwk2), &
+                        llwrk2,iwork,liwork,info)
+              call la_sormtr('L',uplo,'N',n,n,a,lda,work(indtau),work(indwrk),n, &
+                        work(indwk2),llwrk2,iinfo)
+              call la_slacpy('A',n,n,work(indwrk),n,a,lda)
+           end if
+           ! if matrix was scaled, then rescale eigenvalues appropriately.
+           if (iscale == 1) call la_sscal(n,one/sigma,w,1)
+           work(1) = lopt
+           iwork(1) = liopt
+           return
+     end subroutine la_ssyevd
+     !> DSYEVD: computes all eigenvalues and, optionally, eigenvectors of a
+     !> real symmetric matrix A. If eigenvectors are desired, it uses a
+     !> divide and conquer algorithm.
+     !> The divide and conquer algorithm makes very mild assumptions about
+     !> floating point arithmetic. It will work on machines with a guard
+     !> digit in add/subtract, or on those binary machines without guard
+     !> digits which subtract like the Cray X-MP, Cray Y-MP, Cray C-90, or
+     !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
+     !> without guard digits, but we know of none.
+     !> Because of large use of BLAS of level 3, DSYEVD needs N**2 more
+     !> workspace than DSYEVX.
+
+     subroutine la_dsyevd(jobz,uplo,n,a,lda,w,work,lwork,iwork,liwork,info)
+        use la_constants_dp,only:zero,one
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,liwork,lwork,n
+           ! Array Arguments
+           integer(ilp),intent(out) :: iwork(*)
+           real(dp),intent(inout) :: a(lda,*)
+           real(dp),intent(out) :: w(*),work(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lower,lquery,wantz
+           integer(ilp) :: iinfo,inde,indtau,indwk2,indwrk,iscale,liopt,liwmin,llwork, &
+                     llwrk2,lopt,lwmin
+           real(dp) :: anrm,bignum,eps,rmax,rmin,safmin,sigma,smlnum
+           ! Intrinsic Functions
+           intrinsic :: max,sqrt
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           lower = la_lsame(uplo,'L')
+           lquery = (lwork == -1 .or. liwork == -1)
+           info = 0
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (lower .or. la_lsame(uplo,'U'))) then
+              info = -2
+           else if (n < 0) then
+              info = -3
+           else if (lda < max(1,n)) then
+              info = -5
+           end if
+           if (info == 0) then
+              if (n <= 1) then
+                 liwmin = 1
+                 lwmin = 1
+                 lopt = lwmin
+                 liopt = liwmin
+              else
+                 if (wantz) then
+                    liwmin = 3 + 5*n
+                    lwmin = 1 + 6*n + 2*n**2
+                 else
+                    liwmin = 1
+                    lwmin = 2*n + 1
+                 end if
+                 lopt = max(lwmin,2*n + la_ilaenv(1,'DSYTRD',uplo,n,-1,-1,-1))
+
+                 liopt = liwmin
+              end if
+              work(1) = lopt
+              iwork(1) = liopt
+              if (lwork < lwmin .and. .not. lquery) then
+                 info = -8
+              else if (liwork < liwmin .and. .not. lquery) then
+                 info = -10
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('DSYEVD',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           if (n == 1) then
+              w(1) = a(1,1)
+              if (wantz) a(1,1) = one
+              return
+           end if
+           ! get machine constants.
+           safmin = la_dlamch('SAFE MINIMUM')
+           eps = la_dlamch('PRECISION')
+           smlnum = safmin/eps
+           bignum = one/smlnum
+           rmin = sqrt(smlnum)
+           rmax = sqrt(bignum)
+           ! scale matrix to allowable range, if necessary.
+           anrm = la_dlansy('M',uplo,n,a,lda,work)
+           iscale = 0
+           if (anrm > zero .and. anrm < rmin) then
+              iscale = 1
+              sigma = rmin/anrm
+           else if (anrm > rmax) then
+              iscale = 1
+              sigma = rmax/anrm
+           end if
+           if (iscale == 1) call la_dlascl(uplo,0,0,one,sigma,n,n,a,lda,info)
+           ! call la_dsytrd to reduce symmetric matrix to tridiagonal form.
+           inde = 1
+           indtau = inde + n
+           indwrk = indtau + n
+           llwork = lwork - indwrk + 1
+           indwk2 = indwrk + n*n
+           llwrk2 = lwork - indwk2 + 1
+           call la_dsytrd(uplo,n,a,lda,w,work(inde),work(indtau),work(indwrk), &
+                     llwork,iinfo)
+           ! for eigenvalues only, call la_dsterf.  for eigenvectors, first call
+           ! la_dstedc to generate the eigenvector matrix, work(indwrk), of the
+           ! tridiagonal matrix, then call la_dormtr to multiply it by the
+           ! householder transformations stored in a.
+           if (.not. wantz) then
+              call la_dsterf(n,w,work(inde),info)
+           else
+              call la_dstedc('I',n,w,work(inde),work(indwrk),n,work(indwk2), &
+                        llwrk2,iwork,liwork,info)
+              call la_dormtr('L',uplo,'N',n,n,a,lda,work(indtau),work(indwrk),n, &
+                        work(indwk2),llwrk2,iinfo)
+              call la_dlacpy('A',n,n,work(indwrk),n,a,lda)
+           end if
+           ! if matrix was scaled, then rescale eigenvalues appropriately.
+           if (iscale == 1) call la_dscal(n,one/sigma,w,1)
+           work(1) = lopt
+           iwork(1) = liopt
+           return
+     end subroutine la_dsyevd
+     !> QSYEVD: computes all eigenvalues and, optionally, eigenvectors of a
+     !> real symmetric matrix A. If eigenvectors are desired, it uses a
+     !> divide and conquer algorithm.
+     !> The divide and conquer algorithm makes very mild assumptions about
+     !> floating point arithmetic. It will work on machines with a guard
+     !> digit in add/subtract, or on those binary machines without guard
+     !> digits which subtract like the Cray X-MP, Cray Y-MP, Cray C-90, or
+     !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
+     !> without guard digits, but we know of none.
+     !> Because of large use of BLAS of level 3, QSYEVD needs N**2 more
+     !> workspace than QSYEVX.
+
+     subroutine la_qsyevd(jobz,uplo,n,a,lda,w,work,lwork,iwork,liwork,info)
+        use la_constants_qp,only:zero,one
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,liwork,lwork,n
+           ! Array Arguments
+           integer(ilp),intent(out) :: iwork(*)
+           real(qp),intent(inout) :: a(lda,*)
+           real(qp),intent(out) :: w(*),work(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lower,lquery,wantz
+           integer(ilp) :: iinfo,inde,indtau,indwk2,indwrk,iscale,liopt,liwmin,llwork, &
+                     llwrk2,lopt,lwmin
+           real(qp) :: anrm,bignum,eps,rmax,rmin,safmin,sigma,smlnum
+           ! Intrinsic Functions
+           intrinsic :: max,sqrt
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           lower = la_lsame(uplo,'L')
+           lquery = (lwork == -1 .or. liwork == -1)
+           info = 0
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (lower .or. la_lsame(uplo,'U'))) then
+              info = -2
+           else if (n < 0) then
+              info = -3
+           else if (lda < max(1,n)) then
+              info = -5
+           end if
+           if (info == 0) then
+              if (n <= 1) then
+                 liwmin = 1
+                 lwmin = 1
+                 lopt = lwmin
+                 liopt = liwmin
+              else
+                 if (wantz) then
+                    liwmin = 3 + 5*n
+                    lwmin = 1 + 6*n + 2*n**2
+                 else
+                    liwmin = 1
+                    lwmin = 2*n + 1
+                 end if
+                 lopt = max(lwmin,2*n + la_ilaenv(1,'QSYTRD',uplo,n,-1,-1,-1))
+
+                 liopt = liwmin
+              end if
+              work(1) = lopt
+              iwork(1) = liopt
+              if (lwork < lwmin .and. .not. lquery) then
+                 info = -8
+              else if (liwork < liwmin .and. .not. lquery) then
+                 info = -10
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('QSYEVD',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           if (n == 1) then
+              w(1) = a(1,1)
+              if (wantz) a(1,1) = one
+              return
+           end if
+           ! get machine constants.
+           safmin = la_qlamch('SAFE MINIMUM')
+           eps = la_qlamch('PRECISION')
+           smlnum = safmin/eps
+           bignum = one/smlnum
+           rmin = sqrt(smlnum)
+           rmax = sqrt(bignum)
+           ! scale matrix to allowable range, if necessary.
+           anrm = la_qlansy('M',uplo,n,a,lda,work)
+           iscale = 0
+           if (anrm > zero .and. anrm < rmin) then
+              iscale = 1
+              sigma = rmin/anrm
+           else if (anrm > rmax) then
+              iscale = 1
+              sigma = rmax/anrm
+           end if
+           if (iscale == 1) call la_qlascl(uplo,0,0,one,sigma,n,n,a,lda,info)
+           ! call la_qsytrd to reduce symmetric matrix to tridiagonal form.
+           inde = 1
+           indtau = inde + n
+           indwrk = indtau + n
+           llwork = lwork - indwrk + 1
+           indwk2 = indwrk + n*n
+           llwrk2 = lwork - indwk2 + 1
+           call la_qsytrd(uplo,n,a,lda,w,work(inde),work(indtau),work(indwrk), &
+                     llwork,iinfo)
+           ! for eigenvalues only, call la_qsterf.  for eigenvectors, first call
+           ! la_qstedc to generate the eigenvector matrix, work(indwrk), of the
+           ! tridiagonal matrix, then call la_qormtr to multiply it by the
+           ! householder transformations stored in a.
+           if (.not. wantz) then
+              call la_qsterf(n,w,work(inde),info)
+           else
+              call la_qstedc('I',n,w,work(inde),work(indwrk),n,work(indwk2), &
+                        llwrk2,iwork,liwork,info)
+              call la_qormtr('L',uplo,'N',n,n,a,lda,work(indtau),work(indwrk),n, &
+                        work(indwk2),llwrk2,iinfo)
+              call la_qlacpy('A',n,n,work(indwrk),n,a,lda)
+           end if
+           ! if matrix was scaled, then rescale eigenvalues appropriately.
+           if (iscale == 1) call la_qscal(n,one/sigma,w,1)
+           work(1) = lopt
+           iwork(1) = liopt
+           return
+     end subroutine la_qsyevd
+
+     !> SSYGVD: computes all the eigenvalues, and optionally, the eigenvectors
+     !> of a real generalized symmetric-definite eigenproblem, of the form
+     !> A*x=(lambda)*B*x,  A*Bx=(lambda)*x,  or B*A*x=(lambda)*x.  Here A and
+     !> B are assumed to be symmetric and B is also positive definite.
+     !> If eigenvectors are desired, it uses a divide and conquer algorithm.
+     !> The divide and conquer algorithm makes very mild assumptions about
+     !> floating point arithmetic. It will work on machines with a guard
+     !> digit in add/subtract, or on those binary machines without guard
+     !> digits which subtract like the Cray X-MP, Cray Y-MP, Cray C-90, or
+     !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
+     !> without guard digits, but we know of none.
+
+     subroutine la_ssygvd(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,iwork,liwork, &
+                info)
+        use la_constants_sp
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: itype,lda,ldb,liwork,lwork,n
+           ! Array Arguments
+           integer(ilp),intent(out) :: iwork(*)
+           real(sp),intent(inout) :: a(lda,*),b(ldb,*)
+           real(sp),intent(out) :: w(*),work(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lquery,upper,wantz
+           character :: trans
+           integer(ilp) :: liopt,liwmin,lopt,lwmin
+           ! Intrinsic Functions
+           intrinsic :: max,real
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           upper = la_lsame(uplo,'U')
+           lquery = (lwork == -1 .or. liwork == -1)
+           info = 0
+           if (n <= 1) then
+              liwmin = 1
+              lwmin = 1
+           else if (wantz) then
+              liwmin = 3 + 5*n
+              lwmin = 1 + 6*n + 2*n**2
+           else
+              liwmin = 1
+              lwmin = 2*n + 1
+           end if
+           lopt = lwmin
+           liopt = liwmin
+           if (itype < 1 .or. itype > 3) then
+              info = -1
+           else if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -2
+           else if (.not. (upper .or. la_lsame(uplo,'L'))) then
+              info = -3
+           else if (n < 0) then
+              info = -4
+           else if (lda < max(1,n)) then
+              info = -6
+           else if (ldb < max(1,n)) then
+              info = -8
+           end if
+           if (info == 0) then
+              work(1) = lopt
+              iwork(1) = liopt
+              if (lwork < lwmin .and. .not. lquery) then
+                 info = -11
+              else if (liwork < liwmin .and. .not. lquery) then
+                 info = -13
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('SSYGVD',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           ! form a cholesky factorization of b.
+           call la_spotrf(uplo,n,b,ldb,info)
+           if (info /= 0) then
+              info = n + info
+              return
+           end if
+           ! transform problem to standard eigenvalue problem and solve.
+           call la_ssygst(itype,uplo,n,a,lda,b,ldb,info)
+           call la_ssyevd(jobz,uplo,n,a,lda,w,work,lwork,iwork,liwork,info)
+           lopt = max(real(lopt,KIND=sp),real(work(1),KIND=sp))
+           liopt = max(real(liopt,KIND=sp),real(iwork(1),KIND=sp))
+           if (wantz .and. info == 0) then
+              ! backtransform eigenvectors to the original problem.
+              if (itype == 1 .or. itype == 2) then
+                 ! for a*x=(lambda)*b*x and a*b*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = inv(l)**t*y or inv(u)*y
+                 if (upper) then
+                    trans = 'N'
+                 else
+                    trans = 'T'
+                 end if
+                 call la_strsm('LEFT',uplo,trans,'NON-UNIT',n,n,one,b,ldb,a,lda)
+
+              else if (itype == 3) then
+                 ! for b*a*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = l*y or u**t*y
+                 if (upper) then
+                    trans = 'T'
+                 else
+                    trans = 'N'
+                 end if
+                 call la_strmm('LEFT',uplo,trans,'NON-UNIT',n,n,one,b,ldb,a,lda)
+
+              end if
+           end if
+           work(1) = lopt
+           iwork(1) = liopt
+           return
+     end subroutine la_ssygvd
+     !> DSYGVD: computes all the eigenvalues, and optionally, the eigenvectors
+     !> of a real generalized symmetric-definite eigenproblem, of the form
+     !> A*x=(lambda)*B*x,  A*Bx=(lambda)*x,  or B*A*x=(lambda)*x.  Here A and
+     !> B are assumed to be symmetric and B is also positive definite.
+     !> If eigenvectors are desired, it uses a divide and conquer algorithm.
+     !> The divide and conquer algorithm makes very mild assumptions about
+     !> floating point arithmetic. It will work on machines with a guard
+     !> digit in add/subtract, or on those binary machines without guard
+     !> digits which subtract like the Cray X-MP, Cray Y-MP, Cray C-90, or
+     !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
+     !> without guard digits, but we know of none.
+
+     subroutine la_dsygvd(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,iwork,liwork, &
+                info)
+        use la_constants_dp
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: itype,lda,ldb,liwork,lwork,n
+           ! Array Arguments
+           integer(ilp),intent(out) :: iwork(*)
+           real(dp),intent(inout) :: a(lda,*),b(ldb,*)
+           real(dp),intent(out) :: w(*),work(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lquery,upper,wantz
+           character :: trans
+           integer(ilp) :: liopt,liwmin,lopt,lwmin
+           ! Intrinsic Functions
+           intrinsic :: real,max
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           upper = la_lsame(uplo,'U')
+           lquery = (lwork == -1 .or. liwork == -1)
+           info = 0
+           if (n <= 1) then
+              liwmin = 1
+              lwmin = 1
+           else if (wantz) then
+              liwmin = 3 + 5*n
+              lwmin = 1 + 6*n + 2*n**2
+           else
+              liwmin = 1
+              lwmin = 2*n + 1
+           end if
+           lopt = lwmin
+           liopt = liwmin
+           if (itype < 1 .or. itype > 3) then
+              info = -1
+           else if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -2
+           else if (.not. (upper .or. la_lsame(uplo,'L'))) then
+              info = -3
+           else if (n < 0) then
+              info = -4
+           else if (lda < max(1,n)) then
+              info = -6
+           else if (ldb < max(1,n)) then
+              info = -8
+           end if
+           if (info == 0) then
+              work(1) = lopt
+              iwork(1) = liopt
+              if (lwork < lwmin .and. .not. lquery) then
+                 info = -11
+              else if (liwork < liwmin .and. .not. lquery) then
+                 info = -13
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('DSYGVD',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           ! form a cholesky factorization of b.
+           call la_dpotrf(uplo,n,b,ldb,info)
+           if (info /= 0) then
+              info = n + info
+              return
+           end if
+           ! transform problem to standard eigenvalue problem and solve.
+           call la_dsygst(itype,uplo,n,a,lda,b,ldb,info)
+           call la_dsyevd(jobz,uplo,n,a,lda,w,work,lwork,iwork,liwork,info)
+           lopt = max(real(lopt,KIND=dp),real(work(1),KIND=dp))
+           liopt = max(real(liopt,KIND=dp),real(iwork(1),KIND=dp))
+           if (wantz .and. info == 0) then
+              ! backtransform eigenvectors to the original problem.
+              if (itype == 1 .or. itype == 2) then
+                 ! for a*x=(lambda)*b*x and a*b*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = inv(l)**t*y or inv(u)*y
+                 if (upper) then
+                    trans = 'N'
+                 else
+                    trans = 'T'
+                 end if
+                 call la_dtrsm('LEFT',uplo,trans,'NON-UNIT',n,n,one,b,ldb,a,lda)
+
+              else if (itype == 3) then
+                 ! for b*a*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = l*y or u**t*y
+                 if (upper) then
+                    trans = 'T'
+                 else
+                    trans = 'N'
+                 end if
+                 call la_dtrmm('LEFT',uplo,trans,'NON-UNIT',n,n,one,b,ldb,a,lda)
+
+              end if
+           end if
+           work(1) = lopt
+           iwork(1) = liopt
+           return
+     end subroutine la_dsygvd
+     !> QSYGVD: computes all the eigenvalues, and optionally, the eigenvectors
+     !> of a real generalized symmetric-definite eigenproblem, of the form
+     !> A*x=(lambda)*B*x,  A*Bx=(lambda)*x,  or B*A*x=(lambda)*x.  Here A and
+     !> B are assumed to be symmetric and B is also positive definite.
+     !> If eigenvectors are desired, it uses a divide and conquer algorithm.
+     !> The divide and conquer algorithm makes very mild assumptions about
+     !> floating point arithmetic. It will work on machines with a guard
+     !> digit in add/subtract, or on those binary machines without guard
+     !> digits which subtract like the Cray X-MP, Cray Y-MP, Cray C-90, or
+     !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
+     !> without guard digits, but we know of none.
+
+     subroutine la_qsygvd(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,iwork,liwork, &
+                info)
+        use la_constants_qp
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: itype,lda,ldb,liwork,lwork,n
+           ! Array Arguments
+           integer(ilp),intent(out) :: iwork(*)
+           real(qp),intent(inout) :: a(lda,*),b(ldb,*)
+           real(qp),intent(out) :: w(*),work(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lquery,upper,wantz
+           character :: trans
+           integer(ilp) :: liopt,liwmin,lopt,lwmin
+           ! Intrinsic Functions
+           intrinsic :: real,max
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           upper = la_lsame(uplo,'U')
+           lquery = (lwork == -1 .or. liwork == -1)
+           info = 0
+           if (n <= 1) then
+              liwmin = 1
+              lwmin = 1
+           else if (wantz) then
+              liwmin = 3 + 5*n
+              lwmin = 1 + 6*n + 2*n**2
+           else
+              liwmin = 1
+              lwmin = 2*n + 1
+           end if
+           lopt = lwmin
+           liopt = liwmin
+           if (itype < 1 .or. itype > 3) then
+              info = -1
+           else if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -2
+           else if (.not. (upper .or. la_lsame(uplo,'L'))) then
+              info = -3
+           else if (n < 0) then
+              info = -4
+           else if (lda < max(1,n)) then
+              info = -6
+           else if (ldb < max(1,n)) then
+              info = -8
+           end if
+           if (info == 0) then
+              work(1) = lopt
+              iwork(1) = liopt
+              if (lwork < lwmin .and. .not. lquery) then
+                 info = -11
+              else if (liwork < liwmin .and. .not. lquery) then
+                 info = -13
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('QSYGVD',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           ! form a cholesky factorization of b.
+           call la_qpotrf(uplo,n,b,ldb,info)
+           if (info /= 0) then
+              info = n + info
+              return
+           end if
+           ! transform problem to standard eigenvalue problem and solve.
+           call la_qsygst(itype,uplo,n,a,lda,b,ldb,info)
+           call la_qsyevd(jobz,uplo,n,a,lda,w,work,lwork,iwork,liwork,info)
+           lopt = max(real(lopt,KIND=qp),real(work(1),KIND=qp))
+           liopt = max(real(liopt,KIND=qp),real(iwork(1),KIND=qp))
+           if (wantz .and. info == 0) then
+              ! backtransform eigenvectors to the original problem.
+              if (itype == 1 .or. itype == 2) then
+                 ! for a*x=(lambda)*b*x and a*b*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = inv(l)**t*y or inv(u)*y
+                 if (upper) then
+                    trans = 'N'
+                 else
+                    trans = 'T'
+                 end if
+                 call la_qtrsm('LEFT',uplo,trans,'NON-UNIT',n,n,one,b,ldb,a,lda)
+
+              else if (itype == 3) then
+                 ! for b*a*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = l*y or u**t*y
+                 if (upper) then
+                    trans = 'T'
+                 else
+                    trans = 'N'
+                 end if
+                 call la_qtrmm('LEFT',uplo,trans,'NON-UNIT',n,n,one,b,ldb,a,lda)
+
+              end if
+           end if
+           work(1) = lopt
+           iwork(1) = liopt
+           return
+     end subroutine la_qsygvd
+
+     !> SSBEVD: computes all the eigenvalues and, optionally, eigenvectors of
+     !> a real symmetric band matrix A. If eigenvectors are desired, it uses
+     !> a divide and conquer algorithm.
+     !> The divide and conquer algorithm makes very mild assumptions about
+     !> floating point arithmetic. It will work on machines with a guard
+     !> digit in add/subtract, or on those binary machines without guard
+     !> digits which subtract like the Cray X-MP, Cray Y-MP, Cray C-90, or
+     !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
+     !> without guard digits, but we know of none.
+
+     subroutine la_ssbevd(jobz,uplo,n,kd,ab,ldab,w,z,ldz,work,lwork,iwork,liwork, &
+               info)
+        use la_constants_sp,only:zero,one
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kd,ldab,ldz,liwork,lwork,n
+           ! Array Arguments
+           integer(ilp),intent(out) :: iwork(*)
+           real(sp),intent(inout) :: ab(ldab,*)
+           real(sp),intent(out) :: w(*),work(*),z(ldz,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lower,lquery,wantz
+           integer(ilp) :: iinfo,inde,indwk2,indwrk,iscale,liwmin,llwrk2,lwmin
+           real(sp) :: anrm,bignum,eps,rmax,rmin,safmin,sigma,smlnum
+           ! Intrinsic Functions
+           intrinsic :: sqrt
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           lower = la_lsame(uplo,'L')
+           lquery = (lwork == -1 .or. liwork == -1)
+           info = 0
+           if (n <= 1) then
+              liwmin = 1
+              lwmin = 1
+           else
+              if (wantz) then
+                 liwmin = 3 + 5*n
+                 lwmin = 1 + 5*n + 2*n**2
+              else
+                 liwmin = 1
+                 lwmin = 2*n
+              end if
+           end if
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (lower .or. la_lsame(uplo,'U'))) then
+              info = -2
+           else if (n < 0) then
+              info = -3
+           else if (kd < 0) then
+              info = -4
+           else if (ldab < kd + 1) then
+              info = -6
+           else if (ldz < 1 .or. (wantz .and. ldz < n)) then
+              info = -9
+           end if
+           if (info == 0) then
+              work(1) = lwmin
+              iwork(1) = liwmin
+              if (lwork < lwmin .and. .not. lquery) then
+                 info = -11
+              else if (liwork < liwmin .and. .not. lquery) then
+                 info = -13
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('SSBEVD',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           if (n == 1) then
+              w(1) = ab(1,1)
+              if (wantz) z(1,1) = one
+              return
+           end if
+           ! get machine constants.
+           safmin = la_slamch('SAFE MINIMUM')
+           eps = la_slamch('PRECISION')
+           smlnum = safmin/eps
+           bignum = one/smlnum
+           rmin = sqrt(smlnum)
+           rmax = sqrt(bignum)
+           ! scale matrix to allowable range, if necessary.
+           anrm = la_slansb('M',uplo,n,kd,ab,ldab,work)
+           iscale = 0
+           if (anrm > zero .and. anrm < rmin) then
+              iscale = 1
+              sigma = rmin/anrm
+           else if (anrm > rmax) then
+              iscale = 1
+              sigma = rmax/anrm
+           end if
+           if (iscale == 1) then
+              if (lower) then
+                 call la_slascl('B',kd,kd,one,sigma,n,n,ab,ldab,info)
+              else
+                 call la_slascl('Q',kd,kd,one,sigma,n,n,ab,ldab,info)
+              end if
+           end if
+           ! call la_ssbtrd to reduce symmetric band matrix to tridiagonal form.
+           inde = 1
+           indwrk = inde + n
+           indwk2 = indwrk + n*n
+           llwrk2 = lwork - indwk2 + 1
+           call la_ssbtrd(jobz,uplo,n,kd,ab,ldab,w,work(inde),z,ldz,work(indwrk) &
+                     ,iinfo)
+           ! for eigenvalues only, call la_ssterf.  for eigenvectors, call la_sstedc.
+           if (.not. wantz) then
+              call la_ssterf(n,w,work(inde),info)
+           else
+              call la_sstedc('I',n,w,work(inde),work(indwrk),n,work(indwk2), &
+                        llwrk2,iwork,liwork,info)
+              call la_sgemm('N','N',n,n,n,one,z,ldz,work(indwrk),n,zero,work( &
+                        indwk2),n)
+              call la_slacpy('A',n,n,work(indwk2),n,z,ldz)
+           end if
+           ! if matrix was scaled, then rescale eigenvalues appropriately.
+           if (iscale == 1) call la_sscal(n,one/sigma,w,1)
+           work(1) = lwmin
+           iwork(1) = liwmin
+           return
+     end subroutine la_ssbevd
+     !> DSBEVD: computes all the eigenvalues and, optionally, eigenvectors of
+     !> a real symmetric band matrix A. If eigenvectors are desired, it uses
+     !> a divide and conquer algorithm.
+     !> The divide and conquer algorithm makes very mild assumptions about
+     !> floating point arithmetic. It will work on machines with a guard
+     !> digit in add/subtract, or on those binary machines without guard
+     !> digits which subtract like the Cray X-MP, Cray Y-MP, Cray C-90, or
+     !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
+     !> without guard digits, but we know of none.
+
+     subroutine la_dsbevd(jobz,uplo,n,kd,ab,ldab,w,z,ldz,work,lwork,iwork,liwork, &
+               info)
+        use la_constants_dp,only:zero,one
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kd,ldab,ldz,liwork,lwork,n
+           ! Array Arguments
+           integer(ilp),intent(out) :: iwork(*)
+           real(dp),intent(inout) :: ab(ldab,*)
+           real(dp),intent(out) :: w(*),work(*),z(ldz,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lower,lquery,wantz
+           integer(ilp) :: iinfo,inde,indwk2,indwrk,iscale,liwmin,llwrk2,lwmin
+           real(dp) :: anrm,bignum,eps,rmax,rmin,safmin,sigma,smlnum
+           ! Intrinsic Functions
+           intrinsic :: sqrt
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           lower = la_lsame(uplo,'L')
+           lquery = (lwork == -1 .or. liwork == -1)
+           info = 0
+           if (n <= 1) then
+              liwmin = 1
+              lwmin = 1
+           else
+              if (wantz) then
+                 liwmin = 3 + 5*n
+                 lwmin = 1 + 5*n + 2*n**2
+              else
+                 liwmin = 1
+                 lwmin = 2*n
+              end if
+           end if
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (lower .or. la_lsame(uplo,'U'))) then
+              info = -2
+           else if (n < 0) then
+              info = -3
+           else if (kd < 0) then
+              info = -4
+           else if (ldab < kd + 1) then
+              info = -6
+           else if (ldz < 1 .or. (wantz .and. ldz < n)) then
+              info = -9
+           end if
+           if (info == 0) then
+              work(1) = lwmin
+              iwork(1) = liwmin
+              if (lwork < lwmin .and. .not. lquery) then
+                 info = -11
+              else if (liwork < liwmin .and. .not. lquery) then
+                 info = -13
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('DSBEVD',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           if (n == 1) then
+              w(1) = ab(1,1)
+              if (wantz) z(1,1) = one
+              return
+           end if
+           ! get machine constants.
+           safmin = la_dlamch('SAFE MINIMUM')
+           eps = la_dlamch('PRECISION')
+           smlnum = safmin/eps
+           bignum = one/smlnum
+           rmin = sqrt(smlnum)
+           rmax = sqrt(bignum)
+           ! scale matrix to allowable range, if necessary.
+           anrm = la_dlansb('M',uplo,n,kd,ab,ldab,work)
+           iscale = 0
+           if (anrm > zero .and. anrm < rmin) then
+              iscale = 1
+              sigma = rmin/anrm
+           else if (anrm > rmax) then
+              iscale = 1
+              sigma = rmax/anrm
+           end if
+           if (iscale == 1) then
+              if (lower) then
+                 call la_dlascl('B',kd,kd,one,sigma,n,n,ab,ldab,info)
+              else
+                 call la_dlascl('Q',kd,kd,one,sigma,n,n,ab,ldab,info)
+              end if
+           end if
+           ! call la_dsbtrd to reduce symmetric band matrix to tridiagonal form.
+           inde = 1
+           indwrk = inde + n
+           indwk2 = indwrk + n*n
+           llwrk2 = lwork - indwk2 + 1
+           call la_dsbtrd(jobz,uplo,n,kd,ab,ldab,w,work(inde),z,ldz,work(indwrk) &
+                     ,iinfo)
+           ! for eigenvalues only, call la_dsterf.  for eigenvectors, call la_sstedc.
+           if (.not. wantz) then
+              call la_dsterf(n,w,work(inde),info)
+           else
+              call la_dstedc('I',n,w,work(inde),work(indwrk),n,work(indwk2), &
+                        llwrk2,iwork,liwork,info)
+              call la_dgemm('N','N',n,n,n,one,z,ldz,work(indwrk),n,zero,work( &
+                        indwk2),n)
+              call la_dlacpy('A',n,n,work(indwk2),n,z,ldz)
+           end if
+           ! if matrix was scaled, then rescale eigenvalues appropriately.
+           if (iscale == 1) call la_dscal(n,one/sigma,w,1)
+           work(1) = lwmin
+           iwork(1) = liwmin
+           return
+     end subroutine la_dsbevd
+     !> QSBEVD: computes all the eigenvalues and, optionally, eigenvectors of
+     !> a real symmetric band matrix A. If eigenvectors are desired, it uses
+     !> a divide and conquer algorithm.
+     !> The divide and conquer algorithm makes very mild assumptions about
+     !> floating point arithmetic. It will work on machines with a guard
+     !> digit in add/subtract, or on those binary machines without guard
+     !> digits which subtract like the Cray X-MP, Cray Y-MP, Cray C-90, or
+     !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
+     !> without guard digits, but we know of none.
+
+     subroutine la_qsbevd(jobz,uplo,n,kd,ab,ldab,w,z,ldz,work,lwork,iwork,liwork, &
+               info)
+        use la_constants_qp,only:zero,one
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kd,ldab,ldz,liwork,lwork,n
+           ! Array Arguments
+           integer(ilp),intent(out) :: iwork(*)
+           real(qp),intent(inout) :: ab(ldab,*)
+           real(qp),intent(out) :: w(*),work(*),z(ldz,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lower,lquery,wantz
+           integer(ilp) :: iinfo,inde,indwk2,indwrk,iscale,liwmin,llwrk2,lwmin
+           real(qp) :: anrm,bignum,eps,rmax,rmin,safmin,sigma,smlnum
+           ! Intrinsic Functions
+           intrinsic :: sqrt
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           lower = la_lsame(uplo,'L')
+           lquery = (lwork == -1 .or. liwork == -1)
+           info = 0
+           if (n <= 1) then
+              liwmin = 1
+              lwmin = 1
+           else
+              if (wantz) then
+                 liwmin = 3 + 5*n
+                 lwmin = 1 + 5*n + 2*n**2
+              else
+                 liwmin = 1
+                 lwmin = 2*n
+              end if
+           end if
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (lower .or. la_lsame(uplo,'U'))) then
+              info = -2
+           else if (n < 0) then
+              info = -3
+           else if (kd < 0) then
+              info = -4
+           else if (ldab < kd + 1) then
+              info = -6
+           else if (ldz < 1 .or. (wantz .and. ldz < n)) then
+              info = -9
+           end if
+           if (info == 0) then
+              work(1) = lwmin
+              iwork(1) = liwmin
+              if (lwork < lwmin .and. .not. lquery) then
+                 info = -11
+              else if (liwork < liwmin .and. .not. lquery) then
+                 info = -13
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('QSBEVD',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           if (n == 1) then
+              w(1) = ab(1,1)
+              if (wantz) z(1,1) = one
+              return
+           end if
+           ! get machine constants.
+           safmin = la_qlamch('SAFE MINIMUM')
+           eps = la_qlamch('PRECISION')
+           smlnum = safmin/eps
+           bignum = one/smlnum
+           rmin = sqrt(smlnum)
+           rmax = sqrt(bignum)
+           ! scale matrix to allowable range, if necessary.
+           anrm = la_qlansb('M',uplo,n,kd,ab,ldab,work)
+           iscale = 0
+           if (anrm > zero .and. anrm < rmin) then
+              iscale = 1
+              sigma = rmin/anrm
+           else if (anrm > rmax) then
+              iscale = 1
+              sigma = rmax/anrm
+           end if
+           if (iscale == 1) then
+              if (lower) then
+                 call la_qlascl('B',kd,kd,one,sigma,n,n,ab,ldab,info)
+              else
+                 call la_qlascl('Q',kd,kd,one,sigma,n,n,ab,ldab,info)
+              end if
+           end if
+           ! call la_qsbtrd to reduce symmetric band matrix to tridiagonal form.
+           inde = 1
+           indwrk = inde + n
+           indwk2 = indwrk + n*n
+           llwrk2 = lwork - indwk2 + 1
+           call la_qsbtrd(jobz,uplo,n,kd,ab,ldab,w,work(inde),z,ldz,work(indwrk) &
+                     ,iinfo)
+           ! for eigenvalues only, call la_qsterf.  for eigenvectors, call la_dstedc.
+           if (.not. wantz) then
+              call la_qsterf(n,w,work(inde),info)
+           else
+              call la_qstedc('I',n,w,work(inde),work(indwrk),n,work(indwk2), &
+                        llwrk2,iwork,liwork,info)
+              call la_qgemm('N','N',n,n,n,one,z,ldz,work(indwrk),n,zero,work( &
+                        indwk2),n)
+              call la_qlacpy('A',n,n,work(indwk2),n,z,ldz)
+           end if
+           ! if matrix was scaled, then rescale eigenvalues appropriately.
+           if (iscale == 1) call la_qscal(n,one/sigma,w,1)
+           work(1) = lwmin
+           iwork(1) = liwmin
+           return
+     end subroutine la_qsbevd
+
+     !> SSBGVD: computes all the eigenvalues, and optionally, the eigenvectors
+     !> of a real generalized symmetric-definite banded eigenproblem, of the
+     !> form A*x=(lambda)*B*x.  Here A and B are assumed to be symmetric and
+     !> banded, and B is also positive definite.  If eigenvectors are
+     !> desired, it uses a divide and conquer algorithm.
+     !> The divide and conquer algorithm makes very mild assumptions about
+     !> floating point arithmetic. It will work on machines with a guard
+     !> digit in add/subtract, or on those binary machines without guard
+     !> digits which subtract like the Cray X-MP, Cray Y-MP, Cray C-90, or
+     !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
+     !> without guard digits, but we know of none.
+
+     pure subroutine la_ssbgvd(jobz,uplo,n,ka,kb,ab,ldab,bb,ldbb,w,z,ldz,work, &
+               lwork,iwork,liwork,info)
+        use la_constants_sp
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ka,kb,ldab,ldbb,ldz,liwork,lwork,n
+           ! Array Arguments
+           integer(ilp),intent(out) :: iwork(*)
+           real(sp),intent(inout) :: ab(ldab,*),bb(ldbb,*)
+           real(sp),intent(out) :: w(*),work(*),z(ldz,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lquery,upper,wantz
+           character :: vect
+           integer(ilp) :: iinfo,inde,indwk2,indwrk,liwmin,llwrk2,lwmin
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           upper = la_lsame(uplo,'U')
+           lquery = (lwork == -1 .or. liwork == -1)
+           info = 0
+           if (n <= 1) then
+              liwmin = 1
+              lwmin = 1
+           else if (wantz) then
+              liwmin = 3 + 5*n
+              lwmin = 1 + 5*n + 2*n**2
+           else
+              liwmin = 1
+              lwmin = 2*n
+           end if
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (upper .or. la_lsame(uplo,'L'))) then
+              info = -2
+           else if (n < 0) then
+              info = -3
+           else if (ka < 0) then
+              info = -4
+           else if (kb < 0 .or. kb > ka) then
+              info = -5
+           else if (ldab < ka + 1) then
+              info = -7
+           else if (ldbb < kb + 1) then
+              info = -9
+           else if (ldz < 1 .or. (wantz .and. ldz < n)) then
+              info = -12
+           end if
+           if (info == 0) then
+              work(1) = lwmin
+              iwork(1) = liwmin
+              if (lwork < lwmin .and. .not. lquery) then
+                 info = -14
+              else if (liwork < liwmin .and. .not. lquery) then
+                 info = -16
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('SSBGVD',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           ! form a split cholesky factorization of b.
+           call la_spbstf(uplo,n,kb,bb,ldbb,info)
+           if (info /= 0) then
+              info = n + info
+              return
+           end if
+           ! transform problem to standard eigenvalue problem.
+           inde = 1
+           indwrk = inde + n
+           indwk2 = indwrk + n*n
+           llwrk2 = lwork - indwk2 + 1
+           call la_ssbgst(jobz,uplo,n,ka,kb,ab,ldab,bb,ldbb,z,ldz,work,iinfo)
+
+           ! reduce to tridiagonal form.
+           if (wantz) then
+              vect = 'U'
+           else
+              vect = 'N'
+           end if
+           call la_ssbtrd(vect,uplo,n,ka,ab,ldab,w,work(inde),z,ldz,work(indwrk) &
+                     ,iinfo)
+           ! for eigenvalues only, call la_ssterf. for eigenvectors, call la_sstedc.
+           if (.not. wantz) then
+              call la_ssterf(n,w,work(inde),info)
+           else
+              call la_sstedc('I',n,w,work(inde),work(indwrk),n,work(indwk2), &
+                        llwrk2,iwork,liwork,info)
+              call la_sgemm('N','N',n,n,n,one,z,ldz,work(indwrk),n,zero,work( &
+                        indwk2),n)
+              call la_slacpy('A',n,n,work(indwk2),n,z,ldz)
+           end if
+           work(1) = lwmin
+           iwork(1) = liwmin
+           return
+     end subroutine la_ssbgvd
+     !> DSBGVD: computes all the eigenvalues, and optionally, the eigenvectors
+     !> of a real generalized symmetric-definite banded eigenproblem, of the
+     !> form A*x=(lambda)*B*x.  Here A and B are assumed to be symmetric and
+     !> banded, and B is also positive definite.  If eigenvectors are
+     !> desired, it uses a divide and conquer algorithm.
+     !> The divide and conquer algorithm makes very mild assumptions about
+     !> floating point arithmetic. It will work on machines with a guard
+     !> digit in add/subtract, or on those binary machines without guard
+     !> digits which subtract like the Cray X-MP, Cray Y-MP, Cray C-90, or
+     !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
+     !> without guard digits, but we know of none.
+
+     pure subroutine la_dsbgvd(jobz,uplo,n,ka,kb,ab,ldab,bb,ldbb,w,z,ldz,work, &
+               lwork,iwork,liwork,info)
+        use la_constants_dp
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ka,kb,ldab,ldbb,ldz,liwork,lwork,n
+           ! Array Arguments
+           integer(ilp),intent(out) :: iwork(*)
+           real(dp),intent(inout) :: ab(ldab,*),bb(ldbb,*)
+           real(dp),intent(out) :: w(*),work(*),z(ldz,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lquery,upper,wantz
+           character :: vect
+           integer(ilp) :: iinfo,inde,indwk2,indwrk,liwmin,llwrk2,lwmin
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           upper = la_lsame(uplo,'U')
+           lquery = (lwork == -1 .or. liwork == -1)
+           info = 0
+           if (n <= 1) then
+              liwmin = 1
+              lwmin = 1
+           else if (wantz) then
+              liwmin = 3 + 5*n
+              lwmin = 1 + 5*n + 2*n**2
+           else
+              liwmin = 1
+              lwmin = 2*n
+           end if
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (upper .or. la_lsame(uplo,'L'))) then
+              info = -2
+           else if (n < 0) then
+              info = -3
+           else if (ka < 0) then
+              info = -4
+           else if (kb < 0 .or. kb > ka) then
+              info = -5
+           else if (ldab < ka + 1) then
+              info = -7
+           else if (ldbb < kb + 1) then
+              info = -9
+           else if (ldz < 1 .or. (wantz .and. ldz < n)) then
+              info = -12
+           end if
+           if (info == 0) then
+              work(1) = lwmin
+              iwork(1) = liwmin
+              if (lwork < lwmin .and. .not. lquery) then
+                 info = -14
+              else if (liwork < liwmin .and. .not. lquery) then
+                 info = -16
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('DSBGVD',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           ! form a split cholesky factorization of b.
+           call la_dpbstf(uplo,n,kb,bb,ldbb,info)
+           if (info /= 0) then
+              info = n + info
+              return
+           end if
+           ! transform problem to standard eigenvalue problem.
+           inde = 1
+           indwrk = inde + n
+           indwk2 = indwrk + n*n
+           llwrk2 = lwork - indwk2 + 1
+           call la_dsbgst(jobz,uplo,n,ka,kb,ab,ldab,bb,ldbb,z,ldz,work,iinfo)
+
+           ! reduce to tridiagonal form.
+           if (wantz) then
+              vect = 'U'
+           else
+              vect = 'N'
+           end if
+           call la_dsbtrd(vect,uplo,n,ka,ab,ldab,w,work(inde),z,ldz,work(indwrk) &
+                     ,iinfo)
+           ! for eigenvalues only, call la_dsterf. for eigenvectors, call la_sstedc.
+           if (.not. wantz) then
+              call la_dsterf(n,w,work(inde),info)
+           else
+              call la_dstedc('I',n,w,work(inde),work(indwrk),n,work(indwk2), &
+                        llwrk2,iwork,liwork,info)
+              call la_dgemm('N','N',n,n,n,one,z,ldz,work(indwrk),n,zero,work( &
+                        indwk2),n)
+              call la_dlacpy('A',n,n,work(indwk2),n,z,ldz)
+           end if
+           work(1) = lwmin
+           iwork(1) = liwmin
+           return
+     end subroutine la_dsbgvd
+     !> QSBGVD: computes all the eigenvalues, and optionally, the eigenvectors
+     !> of a real generalized symmetric-definite banded eigenproblem, of the
+     !> form A*x=(lambda)*B*x.  Here A and B are assumed to be symmetric and
+     !> banded, and B is also positive definite.  If eigenvectors are
+     !> desired, it uses a divide and conquer algorithm.
+     !> The divide and conquer algorithm makes very mild assumptions about
+     !> floating point arithmetic. It will work on machines with a guard
+     !> digit in add/subtract, or on those binary machines without guard
+     !> digits which subtract like the Cray X-MP, Cray Y-MP, Cray C-90, or
+     !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
+     !> without guard digits, but we know of none.
+
+     pure subroutine la_qsbgvd(jobz,uplo,n,ka,kb,ab,ldab,bb,ldbb,w,z,ldz,work, &
+               lwork,iwork,liwork,info)
+        use la_constants_qp
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ka,kb,ldab,ldbb,ldz,liwork,lwork,n
+           ! Array Arguments
+           integer(ilp),intent(out) :: iwork(*)
+           real(qp),intent(inout) :: ab(ldab,*),bb(ldbb,*)
+           real(qp),intent(out) :: w(*),work(*),z(ldz,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lquery,upper,wantz
+           character :: vect
+           integer(ilp) :: iinfo,inde,indwk2,indwrk,liwmin,llwrk2,lwmin
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           upper = la_lsame(uplo,'U')
+           lquery = (lwork == -1 .or. liwork == -1)
+           info = 0
+           if (n <= 1) then
+              liwmin = 1
+              lwmin = 1
+           else if (wantz) then
+              liwmin = 3 + 5*n
+              lwmin = 1 + 5*n + 2*n**2
+           else
+              liwmin = 1
+              lwmin = 2*n
+           end if
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (upper .or. la_lsame(uplo,'L'))) then
+              info = -2
+           else if (n < 0) then
+              info = -3
+           else if (ka < 0) then
+              info = -4
+           else if (kb < 0 .or. kb > ka) then
+              info = -5
+           else if (ldab < ka + 1) then
+              info = -7
+           else if (ldbb < kb + 1) then
+              info = -9
+           else if (ldz < 1 .or. (wantz .and. ldz < n)) then
+              info = -12
+           end if
+           if (info == 0) then
+              work(1) = lwmin
+              iwork(1) = liwmin
+              if (lwork < lwmin .and. .not. lquery) then
+                 info = -14
+              else if (liwork < liwmin .and. .not. lquery) then
+                 info = -16
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('QSBGVD',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           ! form a split cholesky factorization of b.
+           call la_qpbstf(uplo,n,kb,bb,ldbb,info)
+           if (info /= 0) then
+              info = n + info
+              return
+           end if
+           ! transform problem to standard eigenvalue problem.
+           inde = 1
+           indwrk = inde + n
+           indwk2 = indwrk + n*n
+           llwrk2 = lwork - indwk2 + 1
+           call la_qsbgst(jobz,uplo,n,ka,kb,ab,ldab,bb,ldbb,z,ldz,work,iinfo)
+
+           ! reduce to tridiagonal form.
+           if (wantz) then
+              vect = 'U'
+           else
+              vect = 'N'
+           end if
+           call la_qsbtrd(vect,uplo,n,ka,ab,ldab,w,work(inde),z,ldz,work(indwrk) &
+                     ,iinfo)
+           ! for eigenvalues only, call la_qsterf. for eigenvectors, call la_dstedc.
+           if (.not. wantz) then
+              call la_qsterf(n,w,work(inde),info)
+           else
+              call la_qstedc('I',n,w,work(inde),work(indwrk),n,work(indwk2), &
+                        llwrk2,iwork,liwork,info)
+              call la_qgemm('N','N',n,n,n,one,z,ldz,work(indwrk),n,zero,work( &
+                        indwk2),n)
+              call la_qlacpy('A',n,n,work(indwk2),n,z,ldz)
+           end if
+           work(1) = lwmin
+           iwork(1) = liwmin
+           return
+     end subroutine la_qsbgvd
+
+     !> SSPEVD: computes all the eigenvalues and, optionally, eigenvectors
+     !> of a real symmetric matrix A in packed storage. If eigenvectors are
+     !> desired, it uses a divide and conquer algorithm.
+     !> The divide and conquer algorithm makes very mild assumptions about
+     !> floating point arithmetic. It will work on machines with a guard
+     !> digit in add/subtract, or on those binary machines without guard
+     !> digits which subtract like the Cray X-MP, Cray Y-MP, Cray C-90, or
+     !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
+     !> without guard digits, but we know of none.
+
+     subroutine la_sspevd(jobz,uplo,n,ap,w,z,ldz,work,lwork,iwork,liwork,info)
+        use la_constants_sp,only:zero,one
+
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldz,liwork,lwork,n
+           ! Array Arguments
+           integer(ilp),intent(out) :: iwork(*)
+           real(sp),intent(inout) :: ap(*)
+           real(sp),intent(out) :: w(*),work(*),z(ldz,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lquery,wantz
+           integer(ilp) :: iinfo,inde,indtau,indwrk,iscale,liwmin,llwork,lwmin
+           real(sp) :: anrm,bignum,eps,rmax,rmin,safmin,sigma,smlnum
+           ! Intrinsic Functions
+           intrinsic :: sqrt
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           lquery = (lwork == -1 .or. liwork == -1)
+           info = 0
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (la_lsame(uplo,'U') .or. la_lsame(uplo,'L'))) &
+                     then
+              info = -2
+           else if (n < 0) then
+              info = -3
+           else if (ldz < 1 .or. (wantz .and. ldz < n)) then
+              info = -7
+           end if
+           if (info == 0) then
+              if (n <= 1) then
+                 liwmin = 1
+                 lwmin = 1
+              else
+                 if (wantz) then
+                    liwmin = 3 + 5*n
+                    lwmin = 1 + 6*n + n**2
+                 else
+                    liwmin = 1
+                    lwmin = 2*n
+                 end if
+              end if
+              iwork(1) = liwmin
+              work(1) = lwmin
+              if (lwork < lwmin .and. .not. lquery) then
+                 info = -9
+              else if (liwork < liwmin .and. .not. lquery) then
+                 info = -11
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('SSPEVD',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           if (n == 1) then
+              w(1) = ap(1)
+              if (wantz) z(1,1) = one
+              return
+           end if
+           ! get machine constants.
+           safmin = la_slamch('SAFE MINIMUM')
+           eps = la_slamch('PRECISION')
+           smlnum = safmin/eps
+           bignum = one/smlnum
+           rmin = sqrt(smlnum)
+           rmax = sqrt(bignum)
+           ! scale matrix to allowable range, if necessary.
+           anrm = la_slansp('M',uplo,n,ap,work)
+           iscale = 0
+           if (anrm > zero .and. anrm < rmin) then
+              iscale = 1
+              sigma = rmin/anrm
+           else if (anrm > rmax) then
+              iscale = 1
+              sigma = rmax/anrm
+           end if
+           if (iscale == 1) then
+              call la_sscal((n*(n + 1))/2,sigma,ap,1)
+           end if
+           ! call la_ssptrd to reduce symmetric packed matrix to tridiagonal form.
+           inde = 1
+           indtau = inde + n
+           call la_ssptrd(uplo,n,ap,w,work(inde),work(indtau),iinfo)
+           ! for eigenvalues only, call la_ssterf.  for eigenvectors, first call
+           ! la_sstedc to generate the eigenvector matrix, work(indwrk), of the
+           ! tridiagonal matrix, then call la_sopmtr to multiply it by the
+           ! householder transformations represented in ap.
+           if (.not. wantz) then
+              call la_ssterf(n,w,work(inde),info)
+           else
+              indwrk = indtau + n
+              llwork = lwork - indwrk + 1
+              call la_sstedc('I',n,w,work(inde),z,ldz,work(indwrk),llwork,iwork, &
+                        liwork,info)
+              call la_sopmtr('L',uplo,'N',n,n,ap,work(indtau),z,ldz,work(indwrk), &
+                         iinfo)
+           end if
+           ! if matrix was scaled, then rescale eigenvalues appropriately.
+           if (iscale == 1) call la_sscal(n,one/sigma,w,1)
+           work(1) = lwmin
+           iwork(1) = liwmin
+           return
+     end subroutine la_sspevd
+     !> DSPEVD: computes all the eigenvalues and, optionally, eigenvectors
+     !> of a real symmetric matrix A in packed storage. If eigenvectors are
+     !> desired, it uses a divide and conquer algorithm.
+     !> The divide and conquer algorithm makes very mild assumptions about
+     !> floating point arithmetic. It will work on machines with a guard
+     !> digit in add/subtract, or on those binary machines without guard
+     !> digits which subtract like the Cray X-MP, Cray Y-MP, Cray C-90, or
+     !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
+     !> without guard digits, but we know of none.
+
+     subroutine la_dspevd(jobz,uplo,n,ap,w,z,ldz,work,lwork,iwork,liwork,info)
+        use la_constants_dp,only:zero,one
+
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldz,liwork,lwork,n
+           ! Array Arguments
+           integer(ilp),intent(out) :: iwork(*)
+           real(dp),intent(inout) :: ap(*)
+           real(dp),intent(out) :: w(*),work(*),z(ldz,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lquery,wantz
+           integer(ilp) :: iinfo,inde,indtau,indwrk,iscale,liwmin,llwork,lwmin
+           real(dp) :: anrm,bignum,eps,rmax,rmin,safmin,sigma,smlnum
+           ! Intrinsic Functions
+           intrinsic :: sqrt
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           lquery = (lwork == -1 .or. liwork == -1)
+           info = 0
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (la_lsame(uplo,'U') .or. la_lsame(uplo,'L'))) &
+                     then
+              info = -2
+           else if (n < 0) then
+              info = -3
+           else if (ldz < 1 .or. (wantz .and. ldz < n)) then
+              info = -7
+           end if
+           if (info == 0) then
+              if (n <= 1) then
+                 liwmin = 1
+                 lwmin = 1
+              else
+                 if (wantz) then
+                    liwmin = 3 + 5*n
+                    lwmin = 1 + 6*n + n**2
+                 else
+                    liwmin = 1
+                    lwmin = 2*n
+                 end if
+              end if
+              iwork(1) = liwmin
+              work(1) = lwmin
+              if (lwork < lwmin .and. .not. lquery) then
+                 info = -9
+              else if (liwork < liwmin .and. .not. lquery) then
+                 info = -11
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('DSPEVD',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           if (n == 1) then
+              w(1) = ap(1)
+              if (wantz) z(1,1) = one
+              return
+           end if
+           ! get machine constants.
+           safmin = la_dlamch('SAFE MINIMUM')
+           eps = la_dlamch('PRECISION')
+           smlnum = safmin/eps
+           bignum = one/smlnum
+           rmin = sqrt(smlnum)
+           rmax = sqrt(bignum)
+           ! scale matrix to allowable range, if necessary.
+           anrm = la_dlansp('M',uplo,n,ap,work)
+           iscale = 0
+           if (anrm > zero .and. anrm < rmin) then
+              iscale = 1
+              sigma = rmin/anrm
+           else if (anrm > rmax) then
+              iscale = 1
+              sigma = rmax/anrm
+           end if
+           if (iscale == 1) then
+              call la_dscal((n*(n + 1))/2,sigma,ap,1)
+           end if
+           ! call la_dsptrd to reduce symmetric packed matrix to tridiagonal form.
+           inde = 1
+           indtau = inde + n
+           call la_dsptrd(uplo,n,ap,w,work(inde),work(indtau),iinfo)
+           ! for eigenvalues only, call la_dsterf.  for eigenvectors, first call
+           ! la_dstedc to generate the eigenvector matrix, work(indwrk), of the
+           ! tridiagonal matrix, then call la_dopmtr to multiply it by the
+           ! householder transformations represented in ap.
+           if (.not. wantz) then
+              call la_dsterf(n,w,work(inde),info)
+           else
+              indwrk = indtau + n
+              llwork = lwork - indwrk + 1
+              call la_dstedc('I',n,w,work(inde),z,ldz,work(indwrk),llwork,iwork, &
+                        liwork,info)
+              call la_dopmtr('L',uplo,'N',n,n,ap,work(indtau),z,ldz,work(indwrk), &
+                         iinfo)
+           end if
+           ! if matrix was scaled, then rescale eigenvalues appropriately.
+           if (iscale == 1) call la_dscal(n,one/sigma,w,1)
+           work(1) = lwmin
+           iwork(1) = liwmin
+           return
+     end subroutine la_dspevd
+     !> QSPEVD: computes all the eigenvalues and, optionally, eigenvectors
+     !> of a real symmetric matrix A in packed storage. If eigenvectors are
+     !> desired, it uses a divide and conquer algorithm.
+     !> The divide and conquer algorithm makes very mild assumptions about
+     !> floating point arithmetic. It will work on machines with a guard
+     !> digit in add/subtract, or on those binary machines without guard
+     !> digits which subtract like the Cray X-MP, Cray Y-MP, Cray C-90, or
+     !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
+     !> without guard digits, but we know of none.
+
+     subroutine la_qspevd(jobz,uplo,n,ap,w,z,ldz,work,lwork,iwork,liwork,info)
+        use la_constants_qp,only:zero,one
+
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldz,liwork,lwork,n
+           ! Array Arguments
+           integer(ilp),intent(out) :: iwork(*)
+           real(qp),intent(inout) :: ap(*)
+           real(qp),intent(out) :: w(*),work(*),z(ldz,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lquery,wantz
+           integer(ilp) :: iinfo,inde,indtau,indwrk,iscale,liwmin,llwork,lwmin
+           real(qp) :: anrm,bignum,eps,rmax,rmin,safmin,sigma,smlnum
+           ! Intrinsic Functions
+           intrinsic :: sqrt
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           lquery = (lwork == -1 .or. liwork == -1)
+           info = 0
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (la_lsame(uplo,'U') .or. la_lsame(uplo,'L'))) &
+                     then
+              info = -2
+           else if (n < 0) then
+              info = -3
+           else if (ldz < 1 .or. (wantz .and. ldz < n)) then
+              info = -7
+           end if
+           if (info == 0) then
+              if (n <= 1) then
+                 liwmin = 1
+                 lwmin = 1
+              else
+                 if (wantz) then
+                    liwmin = 3 + 5*n
+                    lwmin = 1 + 6*n + n**2
+                 else
+                    liwmin = 1
+                    lwmin = 2*n
+                 end if
+              end if
+              iwork(1) = liwmin
+              work(1) = lwmin
+              if (lwork < lwmin .and. .not. lquery) then
+                 info = -9
+              else if (liwork < liwmin .and. .not. lquery) then
+                 info = -11
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('QSPEVD',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           if (n == 1) then
+              w(1) = ap(1)
+              if (wantz) z(1,1) = one
+              return
+           end if
+           ! get machine constants.
+           safmin = la_qlamch('SAFE MINIMUM')
+           eps = la_qlamch('PRECISION')
+           smlnum = safmin/eps
+           bignum = one/smlnum
+           rmin = sqrt(smlnum)
+           rmax = sqrt(bignum)
+           ! scale matrix to allowable range, if necessary.
+           anrm = la_qlansp('M',uplo,n,ap,work)
+           iscale = 0
+           if (anrm > zero .and. anrm < rmin) then
+              iscale = 1
+              sigma = rmin/anrm
+           else if (anrm > rmax) then
+              iscale = 1
+              sigma = rmax/anrm
+           end if
+           if (iscale == 1) then
+              call la_qscal((n*(n + 1))/2,sigma,ap,1)
+           end if
+           ! call la_qsptrd to reduce symmetric packed matrix to tridiagonal form.
+           inde = 1
+           indtau = inde + n
+           call la_qsptrd(uplo,n,ap,w,work(inde),work(indtau),iinfo)
+           ! for eigenvalues only, call la_qsterf.  for eigenvectors, first call
+           ! la_qstedc to generate the eigenvector matrix, work(indwrk), of the
+           ! tridiagonal matrix, then call la_qopmtr to multiply it by the
+           ! householder transformations represented in ap.
+           if (.not. wantz) then
+              call la_qsterf(n,w,work(inde),info)
+           else
+              indwrk = indtau + n
+              llwork = lwork - indwrk + 1
+              call la_qstedc('I',n,w,work(inde),z,ldz,work(indwrk),llwork,iwork, &
+                        liwork,info)
+              call la_qopmtr('L',uplo,'N',n,n,ap,work(indtau),z,ldz,work(indwrk), &
+                         iinfo)
+           end if
+           ! if matrix was scaled, then rescale eigenvalues appropriately.
+           if (iscale == 1) call la_qscal(n,one/sigma,w,1)
+           work(1) = lwmin
+           iwork(1) = liwmin
+           return
+     end subroutine la_qspevd
+
+     !> SSPGVD: computes all the eigenvalues, and optionally, the eigenvectors
+     !> of a real generalized symmetric-definite eigenproblem, of the form
+     !> A*x=(lambda)*B*x,  A*Bx=(lambda)*x,  or B*A*x=(lambda)*x.  Here A and
+     !> B are assumed to be symmetric, stored in packed format, and B is also
+     !> positive definite.
+     !> If eigenvectors are desired, it uses a divide and conquer algorithm.
+     !> The divide and conquer algorithm makes very mild assumptions about
+     !> floating point arithmetic. It will work on machines with a guard
+     !> digit in add/subtract, or on those binary machines without guard
+     !> digits which subtract like the Cray X-MP, Cray Y-MP, Cray C-90, or
+     !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
+     !> without guard digits, but we know of none.
+
+     subroutine la_sspgvd(itype,jobz,uplo,n,ap,bp,w,z,ldz,work,lwork,iwork,liwork, &
+                info)
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: itype,ldz,liwork,lwork,n
+           ! Array Arguments
+           integer(ilp),intent(out) :: iwork(*)
+           real(sp),intent(inout) :: ap(*),bp(*)
+           real(sp),intent(out) :: w(*),work(*),z(ldz,*)
+        ! =====================================================================
+           ! Local Scalars
+           logical(lk) :: lquery,upper,wantz
+           character :: trans
+           integer(ilp) :: j,liwmin,lwmin,neig
+           ! Intrinsic Functions
+           intrinsic :: max,real
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           upper = la_lsame(uplo,'U')
+           lquery = (lwork == -1 .or. liwork == -1)
+           info = 0
+           if (itype < 1 .or. itype > 3) then
+              info = -1
+           else if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -2
+           else if (.not. (upper .or. la_lsame(uplo,'L'))) then
+              info = -3
+           else if (n < 0) then
+              info = -4
+           else if (ldz < 1 .or. (wantz .and. ldz < n)) then
+              info = -9
+           end if
+           if (info == 0) then
+              if (n <= 1) then
+                 liwmin = 1
+                 lwmin = 1
+              else
+                 if (wantz) then
+                    liwmin = 3 + 5*n
+                    lwmin = 1 + 6*n + 2*n**2
+                 else
+                    liwmin = 1
+                    lwmin = 2*n
+                 end if
+              end if
+              work(1) = lwmin
+              iwork(1) = liwmin
+              if (lwork < lwmin .and. .not. lquery) then
+                 info = -11
+              else if (liwork < liwmin .and. .not. lquery) then
+                 info = -13
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('SSPGVD',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           ! form a cholesky factorization of bp.
+           call la_spptrf(uplo,n,bp,info)
+           if (info /= 0) then
+              info = n + info
+              return
+           end if
+           ! transform problem to standard eigenvalue problem and solve.
+           call la_sspgst(itype,uplo,n,ap,bp,info)
+           call la_sspevd(jobz,uplo,n,ap,w,z,ldz,work,lwork,iwork,liwork,info)
+
+           lwmin = max(real(lwmin,KIND=sp),real(work(1),KIND=sp))
+           liwmin = max(real(liwmin,KIND=sp),real(iwork(1),KIND=sp))
+           if (wantz) then
+              ! backtransform eigenvectors to the original problem.
+              neig = n
+              if (info > 0) neig = info - 1
+              if (itype == 1 .or. itype == 2) then
+                 ! for a*x=(lambda)*b*x and a*b*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = inv(l)**t *y or inv(u)*y
+                 if (upper) then
+                    trans = 'N'
+                 else
+                    trans = 'T'
+                 end if
+                 do j = 1,neig
+                    call la_stpsv(uplo,trans,'NON-UNIT',n,bp,z(1,j),1)
+                 end do
+              else if (itype == 3) then
+                 ! for b*a*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = l*y or u**t *y
+                 if (upper) then
+                    trans = 'T'
+                 else
+                    trans = 'N'
+                 end if
+                 do j = 1,neig
+                    call la_stpmv(uplo,trans,'NON-UNIT',n,bp,z(1,j),1)
+                 end do
+              end if
+           end if
+           work(1) = lwmin
+           iwork(1) = liwmin
+           return
+     end subroutine la_sspgvd
+     !> DSPGVD: computes all the eigenvalues, and optionally, the eigenvectors
+     !> of a real generalized symmetric-definite eigenproblem, of the form
+     !> A*x=(lambda)*B*x,  A*Bx=(lambda)*x,  or B*A*x=(lambda)*x.  Here A and
+     !> B are assumed to be symmetric, stored in packed format, and B is also
+     !> positive definite.
+     !> If eigenvectors are desired, it uses a divide and conquer algorithm.
+     !> The divide and conquer algorithm makes very mild assumptions about
+     !> floating point arithmetic. It will work on machines with a guard
+     !> digit in add/subtract, or on those binary machines without guard
+     !> digits which subtract like the Cray X-MP, Cray Y-MP, Cray C-90, or
+     !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
+     !> without guard digits, but we know of none.
+
+     subroutine la_dspgvd(itype,jobz,uplo,n,ap,bp,w,z,ldz,work,lwork,iwork,liwork, &
+                info)
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: itype,ldz,liwork,lwork,n
+           ! Array Arguments
+           integer(ilp),intent(out) :: iwork(*)
+           real(dp),intent(inout) :: ap(*),bp(*)
+           real(dp),intent(out) :: w(*),work(*),z(ldz,*)
+        ! =====================================================================
+           ! Local Scalars
+           logical(lk) :: lquery,upper,wantz
+           character :: trans
+           integer(ilp) :: j,liwmin,lwmin,neig
+           ! Intrinsic Functions
+           intrinsic :: real,max
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           upper = la_lsame(uplo,'U')
+           lquery = (lwork == -1 .or. liwork == -1)
+           info = 0
+           if (itype < 1 .or. itype > 3) then
+              info = -1
+           else if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -2
+           else if (.not. (upper .or. la_lsame(uplo,'L'))) then
+              info = -3
+           else if (n < 0) then
+              info = -4
+           else if (ldz < 1 .or. (wantz .and. ldz < n)) then
+              info = -9
+           end if
+           if (info == 0) then
+              if (n <= 1) then
+                 liwmin = 1
+                 lwmin = 1
+              else
+                 if (wantz) then
+                    liwmin = 3 + 5*n
+                    lwmin = 1 + 6*n + 2*n**2
+                 else
+                    liwmin = 1
+                    lwmin = 2*n
+                 end if
+              end if
+              work(1) = lwmin
+              iwork(1) = liwmin
+              if (lwork < lwmin .and. .not. lquery) then
+                 info = -11
+              else if (liwork < liwmin .and. .not. lquery) then
+                 info = -13
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('DSPGVD',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           ! form a cholesky factorization of bp.
+           call la_dpptrf(uplo,n,bp,info)
+           if (info /= 0) then
+              info = n + info
+              return
+           end if
+           ! transform problem to standard eigenvalue problem and solve.
+           call la_dspgst(itype,uplo,n,ap,bp,info)
+           call la_dspevd(jobz,uplo,n,ap,w,z,ldz,work,lwork,iwork,liwork,info)
+
+           lwmin = max(real(lwmin,KIND=dp),real(work(1),KIND=dp))
+           liwmin = max(real(liwmin,KIND=dp),real(iwork(1),KIND=dp))
+           if (wantz) then
+              ! backtransform eigenvectors to the original problem.
+              neig = n
+              if (info > 0) neig = info - 1
+              if (itype == 1 .or. itype == 2) then
+                 ! for a*x=(lambda)*b*x and a*b*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = inv(l)**t *y or inv(u)*y
+                 if (upper) then
+                    trans = 'N'
+                 else
+                    trans = 'T'
+                 end if
+                 do j = 1,neig
+                    call la_dtpsv(uplo,trans,'NON-UNIT',n,bp,z(1,j),1)
+                 end do
+              else if (itype == 3) then
+                 ! for b*a*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = l*y or u**t *y
+                 if (upper) then
+                    trans = 'T'
+                 else
+                    trans = 'N'
+                 end if
+                 do j = 1,neig
+                    call la_dtpmv(uplo,trans,'NON-UNIT',n,bp,z(1,j),1)
+                 end do
+              end if
+           end if
+           work(1) = lwmin
+           iwork(1) = liwmin
+           return
+     end subroutine la_dspgvd
+     !> QSPGVD: computes all the eigenvalues, and optionally, the eigenvectors
+     !> of a real generalized symmetric-definite eigenproblem, of the form
+     !> A*x=(lambda)*B*x,  A*Bx=(lambda)*x,  or B*A*x=(lambda)*x.  Here A and
+     !> B are assumed to be symmetric, stored in packed format, and B is also
+     !> positive definite.
+     !> If eigenvectors are desired, it uses a divide and conquer algorithm.
+     !> The divide and conquer algorithm makes very mild assumptions about
+     !> floating point arithmetic. It will work on machines with a guard
+     !> digit in add/subtract, or on those binary machines without guard
+     !> digits which subtract like the Cray X-MP, Cray Y-MP, Cray C-90, or
+     !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
+     !> without guard digits, but we know of none.
+
+     subroutine la_qspgvd(itype,jobz,uplo,n,ap,bp,w,z,ldz,work,lwork,iwork,liwork, &
+                info)
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: itype,ldz,liwork,lwork,n
+           ! Array Arguments
+           integer(ilp),intent(out) :: iwork(*)
+           real(qp),intent(inout) :: ap(*),bp(*)
+           real(qp),intent(out) :: w(*),work(*),z(ldz,*)
+        ! =====================================================================
+           ! Local Scalars
+           logical(lk) :: lquery,upper,wantz
+           character :: trans
+           integer(ilp) :: j,liwmin,lwmin,neig
+           ! Intrinsic Functions
+           intrinsic :: real,max
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           upper = la_lsame(uplo,'U')
+           lquery = (lwork == -1 .or. liwork == -1)
+           info = 0
+           if (itype < 1 .or. itype > 3) then
+              info = -1
+           else if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -2
+           else if (.not. (upper .or. la_lsame(uplo,'L'))) then
+              info = -3
+           else if (n < 0) then
+              info = -4
+           else if (ldz < 1 .or. (wantz .and. ldz < n)) then
+              info = -9
+           end if
+           if (info == 0) then
+              if (n <= 1) then
+                 liwmin = 1
+                 lwmin = 1
+              else
+                 if (wantz) then
+                    liwmin = 3 + 5*n
+                    lwmin = 1 + 6*n + 2*n**2
+                 else
+                    liwmin = 1
+                    lwmin = 2*n
+                 end if
+              end if
+              work(1) = lwmin
+              iwork(1) = liwmin
+              if (lwork < lwmin .and. .not. lquery) then
+                 info = -11
+              else if (liwork < liwmin .and. .not. lquery) then
+                 info = -13
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('QSPGVD',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           ! form a cholesky factorization of bp.
+           call la_qpptrf(uplo,n,bp,info)
+           if (info /= 0) then
+              info = n + info
+              return
+           end if
+           ! transform problem to standard eigenvalue problem and solve.
+           call la_qspgst(itype,uplo,n,ap,bp,info)
+           call la_qspevd(jobz,uplo,n,ap,w,z,ldz,work,lwork,iwork,liwork,info)
+
+           lwmin = max(real(lwmin,KIND=qp),real(work(1),KIND=qp))
+           liwmin = max(real(liwmin,KIND=qp),real(iwork(1),KIND=qp))
+           if (wantz) then
+              ! backtransform eigenvectors to the original problem.
+              neig = n
+              if (info > 0) neig = info - 1
+              if (itype == 1 .or. itype == 2) then
+                 ! for a*x=(lambda)*b*x and a*b*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = inv(l)**t *y or inv(u)*y
+                 if (upper) then
+                    trans = 'N'
+                 else
+                    trans = 'T'
+                 end if
+                 do j = 1,neig
+                    call la_qtpsv(uplo,trans,'NON-UNIT',n,bp,z(1,j),1)
+                 end do
+              else if (itype == 3) then
+                 ! for b*a*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = l*y or u**t *y
+                 if (upper) then
+                    trans = 'T'
+                 else
+                    trans = 'N'
+                 end if
+                 do j = 1,neig
+                    call la_qtpmv(uplo,trans,'NON-UNIT',n,bp,z(1,j),1)
+                 end do
+              end if
+           end if
+           work(1) = lwmin
+           iwork(1) = liwmin
+           return
+     end subroutine la_qspgvd
+
+     !> SSYEVR: computes selected eigenvalues and, optionally, eigenvectors
+     !> of a real symmetric matrix A.  Eigenvalues and eigenvectors can be
+     !> selected by specifying either a range of values or a range of
+     !> indices for the desired eigenvalues.
+     !> SSYEVR first reduces the matrix A to tridiagonal form T with a call
+     !> to SSYTRD.  Then, whenever possible, SSYEVR calls SSTEMR to compute
+     !> the eigenspectrum using Relatively Robust Representations.  SSTEMR
+     !> computes eigenvalues by the dqds algorithm, while orthogonal
+     !> eigenvectors are computed from various "good" L D L^T representations
+     !> (also known as Relatively Robust Representations). Gram-Schmidt
+     !> orthogonalization is avoided as far as possible. More specifically,
+     !> the various steps of the algorithm are as follows.
+     !> For each unreduced block (submatrix) of T,
+     !> (a) Compute T - sigma I  = L D L^T, so that L and D
+     !> define all the wanted eigenvalues to high relative accuracy.
+     !> This means that small relative changes in the entries of D and L
+     !> cause only small relative changes in the eigenvalues and
+     !> eigenvectors. The standard (unfactored) representation of the
+     !> tridiagonal matrix T does not have this property in general.
+     !> (b) Compute the eigenvalues to suitable accuracy.
+     !> If the eigenvectors are desired, the algorithm attains full
+     !> accuracy of the computed eigenvalues only right before
+     !> the corresponding vectors have to be computed, see steps c) and d).
+     !> (c) For each cluster of close eigenvalues, select a new
+     !> shift close to the cluster, find a new factorization, and refine
+     !> the shifted eigenvalues to suitable accuracy.
+     !> (d) For each eigenvalue with a large enough relative separation compute
+     !> the corresponding eigenvector by forming a rank revealing twisted
+     !> factorization. Go back to (c) for any clusters that remain.
+     !> The desired accuracy of the output can be specified by the input
+     !> parameter ABSTOL.
+     !> For more details, see SSTEMR's documentation and:
+     !> - Inderjit S. Dhillon and Beresford N. Parlett: "Multiple representations
+     !> to compute orthogonal eigenvectors of symmetric tridiagonal matrices,"
+     !> Linear Algebra and its Applications, 387(1), pp. 1-28, August 2004.
+     !> - Inderjit Dhillon and Beresford Parlett: "Orthogonal Eigenvectors and
+     !> Relative Gaps," SIAM Journal on Matrix Analysis and Applications, Vol. 25,
+     !> 2004.  Also LAPACK Working Note 154.
+     !> - Inderjit Dhillon: "A new O(n^2) algorithm for the symmetric
+     !> tridiagonal eigenvalue/eigenvector problem",
+     !> Computer Science Division Technical Report No. UCB/CSD-97-971,
+     !> UC Berkeley, May 1997.
+     !> Note 1 : SSYEVR calls SSTEMR when the full spectrum is requested
+     !> on machines which conform to the ieee-754 floating point standard.
+     !> SSYEVR calls SSTEBZ and SSTEIN on non-ieee machines and
+     !> when partial spectrum requests are made.
+     !> Normal execution of SSTEMR may create NaNs and infinities and
+     !> hence may abort due to a floating point exception in environments
+     !> which do not handle NaNs and infinities in the ieee standard default
+     !> manner.
+
+     subroutine la_ssyevr(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz, &
+               isuppz,work,lwork,iwork,liwork,info)
+        use la_constants_sp,only:zero,one,two
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,range,uplo
+           integer(ilp),intent(in) :: il,iu,lda,ldz,liwork,lwork,n
+           integer(ilp),intent(out) :: info,m
+           real(sp),intent(in) :: abstol,vl,vu
+           ! Array Arguments
+           integer(ilp),intent(out) :: isuppz(*),iwork(*)
+           real(sp),intent(inout) :: a(lda,*)
+           real(sp),intent(out) :: w(*),work(*),z(ldz,*)
+       ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: alleig,indeig,lower,lquery,test,valeig,wantz,tryrac
+           character :: order
+           integer(ilp) :: i,ieeeok,iinfo,imax,indd,inddd,inde,indee,indibl,indifl, &
+           indisp,indiwo,indtau,indwk,indwkn,iscale,j,jj,liwmin,llwork,llwrkn,lwkopt, &
+                     lwmin,nb,nsplit
+           real(sp) :: abstll,anrm,bignum,eps,rmax,rmin,safmin,sigma,smlnum,tmp1,vll, &
+                     vuu
+           ! Intrinsic Functions
+           intrinsic :: max,min,sqrt
+           ! Executable Statements
+           ! test the input parameters.
+           ieeeok = la_ilaenv(10,'SSYEVR','N',1,2,3,4)
+           lower = la_lsame(uplo,'L')
+           wantz = la_lsame(jobz,'V')
+           alleig = la_lsame(range,'A')
+           valeig = la_lsame(range,'V')
+           indeig = la_lsame(range,'I')
+           lquery = ((lwork == -1) .or. (liwork == -1))
+           lwmin = max(1,26*n)
+           liwmin = max(1,10*n)
+           info = 0
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (alleig .or. valeig .or. indeig)) then
+              info = -2
+           else if (.not. (lower .or. la_lsame(uplo,'U'))) then
+              info = -3
+           else if (n < 0) then
+              info = -4
+           else if (lda < max(1,n)) then
+              info = -6
+           else
+              if (valeig) then
+                 if (n > 0 .and. vu <= vl) info = -8
+              else if (indeig) then
+                 if (il < 1 .or. il > max(1,n)) then
+                    info = -9
+                 else if (iu < min(n,il) .or. iu > n) then
+                    info = -10
+                 end if
+              end if
+           end if
+           if (info == 0) then
+              if (ldz < 1 .or. (wantz .and. ldz < n)) then
+                 info = -15
+              end if
+           end if
+           if (info == 0) then
+              nb = la_ilaenv(1,'SSYTRD',uplo,n,-1,-1,-1)
+              nb = max(nb,la_ilaenv(1,'SORMTR',uplo,n,-1,-1,-1))
+              lwkopt = max((nb + 1)*n,lwmin)
+              work(1) = lwkopt
+              iwork(1) = liwmin
+              if (lwork < lwmin .and. .not. lquery) then
+                 info = -18
+              else if (liwork < liwmin .and. .not. lquery) then
+                 info = -20
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('SSYEVR',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           m = 0
+           if (n == 0) then
+              work(1) = 1
+              return
+           end if
+           if (n == 1) then
+              work(1) = 26
+              if (alleig .or. indeig) then
+                 m = 1
+                 w(1) = a(1,1)
+              else
+                 if (vl < a(1,1) .and. vu >= a(1,1)) then
+                    m = 1
+                    w(1) = a(1,1)
+                 end if
+              end if
+              if (wantz) then
+                 z(1,1) = one
+                 isuppz(1) = 1
+                 isuppz(2) = 1
+              end if
+              return
+           end if
+           ! get machine constants.
+           safmin = la_slamch('SAFE MINIMUM')
+           eps = la_slamch('PRECISION')
+           smlnum = safmin/eps
+           bignum = one/smlnum
+           rmin = sqrt(smlnum)
+           rmax = min(sqrt(bignum),one/sqrt(sqrt(safmin)))
+           ! scale matrix to allowable range, if necessary.
+           iscale = 0
+           abstll = abstol
+           if (valeig) then
+              vll = vl
+              vuu = vu
+           end if
+           anrm = la_slansy('M',uplo,n,a,lda,work)
+           if (anrm > zero .and. anrm < rmin) then
+              iscale = 1
+              sigma = rmin/anrm
+           else if (anrm > rmax) then
+              iscale = 1
+              sigma = rmax/anrm
+           end if
+           if (iscale == 1) then
+              if (lower) then
+                 do j = 1,n
+                    call la_sscal(n - j + 1,sigma,a(j,j),1)
+                 end do
+              else
+                 do j = 1,n
+                    call la_sscal(j,sigma,a(1,j),1)
+                 end do
+              end if
+              if (abstol > 0) abstll = abstol*sigma
+              if (valeig) then
+                 vll = vl*sigma
+                 vuu = vu*sigma
+              end if
+           end if
+           ! initialize indices into workspaces.  note: the iwork indices are
+           ! used only if la_ssterf or la_sstemr fail.
+           ! work(indtau:indtau+n-1) stores the scalar factors of the
+           ! elementary reflectors used in la_ssytrd.
+           indtau = 1
+           ! work(indd:indd+n-1) stores the tridiagonal's diagonal entries.
+           indd = indtau + n
+           ! work(inde:inde+n-1) stores the off-diagonal entries of the
+           ! tridiagonal matrix from la_ssytrd.
+           inde = indd + n
+           ! work(inddd:inddd+n-1) is a copy of the diagonal entries over
+           ! -written by la_sstemr (the la_ssterf path copies the diagonal to w).
+           inddd = inde + n
+           ! work(indee:indee+n-1) is a copy of the off-diagonal entries over
+           ! -written while computing the eigenvalues in la_ssterf and la_sstemr.
+           indee = inddd + n
+           ! indwk is the starting offset of the left-over workspace, and
+           ! llwork is the remaining workspace size.
+           indwk = indee + n
+           llwork = lwork - indwk + 1
+           ! iwork(indibl:indibl+m-1) corresponds to iblock in la_sstebz and
+           ! stores the block indices of each of the m<=n eigenvalues.
+           indibl = 1
+           ! iwork(indisp:indisp+nsplit-1) corresponds to isplit in la_sstebz and
+           ! stores the starting and finishing indices of each block.
+           indisp = indibl + n
+           ! iwork(indifl:indifl+n-1) stores the indices of eigenvectors
+           ! that corresponding to eigenvectors that fail to converge in
+           ! la_sstein.  this information is discarded; if any fail, the driver
+           ! returns info > 0.
+           indifl = indisp + n
+           ! indiwo is the offset of the remaining integer workspace.
+           indiwo = indifl + n
+           ! call la_ssytrd to reduce symmetric matrix to tridiagonal form.
+           call la_ssytrd(uplo,n,a,lda,work(indd),work(inde),work(indtau),work( &
+                     indwk),llwork,iinfo)
+           ! if all eigenvalues are desired
+           ! then call la_ssterf or la_sstemr and la_sormtr.
+           test = .false.
+           if (indeig) then
+              if (il == 1 .and. iu == n) then
+                 test = .true.
+              end if
+           end if
+           if ((alleig .or. test) .and. (ieeeok == 1)) then
+              if (.not. wantz) then
+                 call la_scopy(n,work(indd),1,w,1)
+                 call la_scopy(n - 1,work(inde),1,work(indee),1)
+                 call la_ssterf(n,w,work(indee),info)
+              else
+                 call la_scopy(n - 1,work(inde),1,work(indee),1)
+                 call la_scopy(n,work(indd),1,work(inddd),1)
+                 if (abstol <= two*n*eps) then
+                    tryrac = .true.
+                 else
+                    tryrac = .false.
+                 end if
+                 call la_sstemr(jobz,'A',n,work(inddd),work(indee),vl,vu,il,iu,m, &
+                            w,z,ldz,n,isuppz,tryrac,work(indwk),lwork,iwork,liwork,info)
+              ! apply orthogonal matrix used in reduction to tridiagonal
+              ! form to eigenvectors returned by la_sstemr.
+                 if (wantz .and. info == 0) then
+                    indwkn = inde
+                    llwrkn = lwork - indwkn + 1
+                    call la_sormtr('L',uplo,'N',n,m,a,lda,work(indtau),z,ldz,work( &
+                               indwkn),llwrkn,iinfo)
+                 end if
+              end if
+              if (info == 0) then
+                 ! everything worked.  skip la_sstebz/la_sstein.  iwork(:) are
+                 ! undefined.
+                 m = n
+                 go to 30
+              end if
+              info = 0
+           end if
+           ! otherwise, call la_sstebz and, if eigenvectors are desired, la_sstein.
+           ! also call la_sstebz and la_sstein if la_sstemr fails.
+           if (wantz) then
+              order = 'B'
+           else
+              order = 'E'
+           end if
+           call la_sstebz(range,order,n,vll,vuu,il,iu,abstll,work(indd),work(inde &
+           ),m,nsplit,w,iwork(indibl),iwork(indisp),work(indwk),iwork(indiwo),info)
+
+           if (wantz) then
+              call la_sstein(n,work(indd),work(inde),m,w,iwork(indibl),iwork( &
+                        indisp),z,ldz,work(indwk),iwork(indiwo),iwork(indifl),info)
+              ! apply orthogonal matrix used in reduction to tridiagonal
+              ! form to eigenvectors returned by la_sstein.
+              indwkn = inde
+              llwrkn = lwork - indwkn + 1
+              call la_sormtr('L',uplo,'N',n,m,a,lda,work(indtau),z,ldz,work( &
+                        indwkn),llwrkn,iinfo)
+           end if
+           ! if matrix was scaled, then rescale eigenvalues appropriately.
+        ! jump here if la_sstemr/la_sstein succeeded.
+        30 continue
+           if (iscale == 1) then
+              if (info == 0) then
+                 imax = m
+              else
+                 imax = info - 1
+              end if
+              call la_sscal(imax,one/sigma,w,1)
+           end if
+           ! if eigenvalues are not in order, then sort them, along with
+           ! eigenvectors.  note: we do not sort the ifail portion of iwork.
+           ! it may not be initialized (if la_sstemr/la_sstein succeeded), and we do
+           ! not return this detailed information to the user.
+           if (wantz) then
+              do j = 1,m - 1
+                 i = 0
+                 tmp1 = w(j)
+                 do jj = j + 1,m
+                    if (w(jj) < tmp1) then
+                       i = jj
+                       tmp1 = w(jj)
+                    end if
+                 end do
+                 if (i /= 0) then
+                    w(i) = w(j)
+                    w(j) = tmp1
+                    call la_sswap(n,z(1,i),1,z(1,j),1)
+                 end if
+              end do
+           end if
+           ! set work(1) to optimal workspace size.
+           work(1) = lwkopt
+           iwork(1) = liwmin
+           return
+     end subroutine la_ssyevr
+     !> DSYEVR: computes selected eigenvalues and, optionally, eigenvectors
+     !> of a real symmetric matrix A.  Eigenvalues and eigenvectors can be
+     !> selected by specifying either a range of values or a range of
+     !> indices for the desired eigenvalues.
+     !> DSYEVR first reduces the matrix A to tridiagonal form T with a call
+     !> to DSYTRD.  Then, whenever possible, DSYEVR calls DSTEMR to compute
+     !> the eigenspectrum using Relatively Robust Representations.  DSTEMR
+     !> computes eigenvalues by the dqds algorithm, while orthogonal
+     !> eigenvectors are computed from various "good" L D L^T representations
+     !> (also known as Relatively Robust Representations). Gram-Schmidt
+     !> orthogonalization is avoided as far as possible. More specifically,
+     !> the various steps of the algorithm are as follows.
+     !> For each unreduced block (submatrix) of T,
+     !> (a) Compute T - sigma I  = L D L^T, so that L and D
+     !> define all the wanted eigenvalues to high relative accuracy.
+     !> This means that small relative changes in the entries of D and L
+     !> cause only small relative changes in the eigenvalues and
+     !> eigenvectors. The standard (unfactored) representation of the
+     !> tridiagonal matrix T does not have this property in general.
+     !> (b) Compute the eigenvalues to suitable accuracy.
+     !> If the eigenvectors are desired, the algorithm attains full
+     !> accuracy of the computed eigenvalues only right before
+     !> the corresponding vectors have to be computed, see steps c) and d).
+     !> (c) For each cluster of close eigenvalues, select a new
+     !> shift close to the cluster, find a new factorization, and refine
+     !> the shifted eigenvalues to suitable accuracy.
+     !> (d) For each eigenvalue with a large enough relative separation compute
+     !> the corresponding eigenvector by forming a rank revealing twisted
+     !> factorization. Go back to (c) for any clusters that remain.
+     !> The desired accuracy of the output can be specified by the input
+     !> parameter ABSTOL.
+     !> For more details, see DSTEMR's documentation and:
+     !> - Inderjit S. Dhillon and Beresford N. Parlett: "Multiple representations
+     !> to compute orthogonal eigenvectors of symmetric tridiagonal matrices,"
+     !> Linear Algebra and its Applications, 387(1), pp. 1-28, August 2004.
+     !> - Inderjit Dhillon and Beresford Parlett: "Orthogonal Eigenvectors and
+     !> Relative Gaps," SIAM Journal on Matrix Analysis and Applications, Vol. 25,
+     !> 2004.  Also LAPACK Working Note 154.
+     !> - Inderjit Dhillon: "A new O(n^2) algorithm for the symmetric
+     !> tridiagonal eigenvalue/eigenvector problem",
+     !> Computer Science Division Technical Report No. UCB/CSD-97-971,
+     !> UC Berkeley, May 1997.
+     !> Note 1 : DSYEVR calls DSTEMR when the full spectrum is requested
+     !> on machines which conform to the ieee-754 floating point standard.
+     !> DSYEVR calls DSTEBZ and DSTEIN on non-ieee machines and
+     !> when partial spectrum requests are made.
+     !> Normal execution of DSTEMR may create NaNs and infinities and
+     !> hence may abort due to a floating point exception in environments
+     !> which do not handle NaNs and infinities in the ieee standard default
+     !> manner.
+
+     subroutine la_dsyevr(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz, &
+               isuppz,work,lwork,iwork,liwork,info)
+        use la_constants_dp,only:zero,one,two
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,range,uplo
+           integer(ilp),intent(in) :: il,iu,lda,ldz,liwork,lwork,n
+           integer(ilp),intent(out) :: info,m
+           real(dp),intent(in) :: abstol,vl,vu
+           ! Array Arguments
+           integer(ilp),intent(out) :: isuppz(*),iwork(*)
+           real(dp),intent(inout) :: a(lda,*)
+           real(dp),intent(out) :: w(*),work(*),z(ldz,*)
+       ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: alleig,indeig,lower,lquery,valeig,wantz,tryrac
+           character :: order
+           integer(ilp) :: i,ieeeok,iinfo,imax,indd,inddd,inde,indee,indibl,indifl, &
+           indisp,indiwo,indtau,indwk,indwkn,iscale,j,jj,liwmin,llwork,llwrkn,lwkopt, &
+                     lwmin,nb,nsplit
+           real(dp) :: abstll,anrm,bignum,eps,rmax,rmin,safmin,sigma,smlnum,tmp1,vll, &
+                     vuu
+           ! Intrinsic Functions
+           intrinsic :: max,min,sqrt
+           ! Executable Statements
+           ! test the input parameters.
+           ieeeok = la_ilaenv(10,'DSYEVR','N',1,2,3,4)
+           lower = la_lsame(uplo,'L')
+           wantz = la_lsame(jobz,'V')
+           alleig = la_lsame(range,'A')
+           valeig = la_lsame(range,'V')
+           indeig = la_lsame(range,'I')
+           lquery = ((lwork == -1) .or. (liwork == -1))
+           lwmin = max(1,26*n)
+           liwmin = max(1,10*n)
+           info = 0
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (alleig .or. valeig .or. indeig)) then
+              info = -2
+           else if (.not. (lower .or. la_lsame(uplo,'U'))) then
+              info = -3
+           else if (n < 0) then
+              info = -4
+           else if (lda < max(1,n)) then
+              info = -6
+           else
+              if (valeig) then
+                 if (n > 0 .and. vu <= vl) info = -8
+              else if (indeig) then
+                 if (il < 1 .or. il > max(1,n)) then
+                    info = -9
+                 else if (iu < min(n,il) .or. iu > n) then
+                    info = -10
+                 end if
+              end if
+           end if
+           if (info == 0) then
+              if (ldz < 1 .or. (wantz .and. ldz < n)) then
+                 info = -15
+              else if (lwork < lwmin .and. .not. lquery) then
+                 info = -18
+              else if (liwork < liwmin .and. .not. lquery) then
+                 info = -20
+              end if
+           end if
+           if (info == 0) then
+              nb = la_ilaenv(1,'DSYTRD',uplo,n,-1,-1,-1)
+              nb = max(nb,la_ilaenv(1,'DORMTR',uplo,n,-1,-1,-1))
+              lwkopt = max((nb + 1)*n,lwmin)
+              work(1) = lwkopt
+              iwork(1) = liwmin
+           end if
+           if (info /= 0) then
+              call la_xerbla('DSYEVR',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           m = 0
+           if (n == 0) then
+              work(1) = 1
+              return
+           end if
+           if (n == 1) then
+              work(1) = 7
+              if (alleig .or. indeig) then
+                 m = 1
+                 w(1) = a(1,1)
+              else
+                 if (vl < a(1,1) .and. vu >= a(1,1)) then
+                    m = 1
+                    w(1) = a(1,1)
+                 end if
+              end if
+              if (wantz) then
+                 z(1,1) = one
+                 isuppz(1) = 1
+                 isuppz(2) = 1
+              end if
+              return
+           end if
+           ! get machine constants.
+           safmin = la_dlamch('SAFE MINIMUM')
+           eps = la_dlamch('PRECISION')
+           smlnum = safmin/eps
+           bignum = one/smlnum
+           rmin = sqrt(smlnum)
+           rmax = min(sqrt(bignum),one/sqrt(sqrt(safmin)))
+           ! scale matrix to allowable range, if necessary.
+           iscale = 0
+           abstll = abstol
+           if (valeig) then
+              vll = vl
+              vuu = vu
+           end if
+           anrm = la_dlansy('M',uplo,n,a,lda,work)
+           if (anrm > zero .and. anrm < rmin) then
+              iscale = 1
+              sigma = rmin/anrm
+           else if (anrm > rmax) then
+              iscale = 1
+              sigma = rmax/anrm
+           end if
+           if (iscale == 1) then
+              if (lower) then
+                 do j = 1,n
+                    call la_dscal(n - j + 1,sigma,a(j,j),1)
+                 end do
+              else
+                 do j = 1,n
+                    call la_dscal(j,sigma,a(1,j),1)
+                 end do
+              end if
+              if (abstol > 0) abstll = abstol*sigma
+              if (valeig) then
+                 vll = vl*sigma
+                 vuu = vu*sigma
+              end if
+           end if
+           ! initialize indices into workspaces.  note: the iwork indices are
+           ! used only if la_dsterf or la_dstemr fail.
+           ! work(indtau:indtau+n-1) stores the scalar factors of the
+           ! elementary reflectors used in la_dsytrd.
+           indtau = 1
+           ! work(indd:indd+n-1) stores the tridiagonal's diagonal entries.
+           indd = indtau + n
+           ! work(inde:inde+n-1) stores the off-diagonal entries of the
+           ! tridiagonal matrix from la_dsytrd.
+           inde = indd + n
+           ! work(inddd:inddd+n-1) is a copy of the diagonal entries over
+           ! -written by la_dstemr (the la_dsterf path copies the diagonal to w).
+           inddd = inde + n
+           ! work(indee:indee+n-1) is a copy of the off-diagonal entries over
+           ! -written while computing the eigenvalues in la_dsterf and la_dstemr.
+           indee = inddd + n
+           ! indwk is the starting offset of the left-over workspace, and
+           ! llwork is the remaining workspace size.
+           indwk = indee + n
+           llwork = lwork - indwk + 1
+           ! iwork(indibl:indibl+m-1) corresponds to iblock in la_dstebz and
+           ! stores the block indices of each of the m<=n eigenvalues.
+           indibl = 1
+           ! iwork(indisp:indisp+nsplit-1) corresponds to isplit in la_dstebz and
+           ! stores the starting and finishing indices of each block.
+           indisp = indibl + n
+           ! iwork(indifl:indifl+n-1) stores the indices of eigenvectors
+           ! that corresponding to eigenvectors that fail to converge in
+           ! la_dstein.  this information is discarded; if any fail, the driver
+           ! returns info > 0.
+           indifl = indisp + n
+           ! indiwo is the offset of the remaining integer workspace.
+           indiwo = indifl + n
+           ! call la_dsytrd to reduce symmetric matrix to tridiagonal form.
+           call la_dsytrd(uplo,n,a,lda,work(indd),work(inde),work(indtau),work( &
+                     indwk),llwork,iinfo)
+           ! if all eigenvalues are desired
+           ! then call la_dsterf or la_dstemr and la_dormtr.
+           if ((alleig .or. (indeig .and. il == 1 .and. iu == n)) .and. ieeeok == 1) then
+              if (.not. wantz) then
+                 call la_dcopy(n,work(indd),1,w,1)
+                 call la_dcopy(n - 1,work(inde),1,work(indee),1)
+                 call la_dsterf(n,w,work(indee),info)
+              else
+                 call la_dcopy(n - 1,work(inde),1,work(indee),1)
+                 call la_dcopy(n,work(indd),1,work(inddd),1)
+                 if (abstol <= two*n*eps) then
+                    tryrac = .true.
+                 else
+                    tryrac = .false.
+                 end if
+                 call la_dstemr(jobz,'A',n,work(inddd),work(indee),vl,vu,il,iu,m, &
+                            w,z,ldz,n,isuppz,tryrac,work(indwk),lwork,iwork,liwork,info)
+              ! apply orthogonal matrix used in reduction to tridiagonal
+              ! form to eigenvectors returned by la_dstemr.
+                 if (wantz .and. info == 0) then
+                    indwkn = inde
+                    llwrkn = lwork - indwkn + 1
+                    call la_dormtr('L',uplo,'N',n,m,a,lda,work(indtau),z,ldz,work( &
+                               indwkn),llwrkn,iinfo)
+                 end if
+              end if
+              if (info == 0) then
+                 ! everything worked.  skip la_dstebz/la_dstein.  iwork(:) are
+                 ! undefined.
+                 m = n
+                 go to 30
+              end if
+              info = 0
+           end if
+           ! otherwise, call la_dstebz and, if eigenvectors are desired, la_dstein.
+           ! also call la_dstebz and la_dstein if la_dstemr fails.
+           if (wantz) then
+              order = 'B'
+           else
+              order = 'E'
+           end if
+           call la_dstebz(range,order,n,vll,vuu,il,iu,abstll,work(indd),work(inde &
+           ),m,nsplit,w,iwork(indibl),iwork(indisp),work(indwk),iwork(indiwo),info)
+
+           if (wantz) then
+              call la_dstein(n,work(indd),work(inde),m,w,iwork(indibl),iwork( &
+                        indisp),z,ldz,work(indwk),iwork(indiwo),iwork(indifl),info)
+              ! apply orthogonal matrix used in reduction to tridiagonal
+              ! form to eigenvectors returned by la_dstein.
+              indwkn = inde
+              llwrkn = lwork - indwkn + 1
+              call la_dormtr('L',uplo,'N',n,m,a,lda,work(indtau),z,ldz,work( &
+                        indwkn),llwrkn,iinfo)
+           end if
+           ! if matrix was scaled, then rescale eigenvalues appropriately.
+        ! jump here if la_dstemr/la_dstein succeeded.
+        30 continue
+           if (iscale == 1) then
+              if (info == 0) then
+                 imax = m
+              else
+                 imax = info - 1
+              end if
+              call la_dscal(imax,one/sigma,w,1)
+           end if
+           ! if eigenvalues are not in order, then sort them, along with
+           ! eigenvectors.  note: we do not sort the ifail portion of iwork.
+           ! it may not be initialized (if la_dstemr/la_dstein succeeded), and we do
+           ! not return this detailed information to the user.
+           if (wantz) then
+              do j = 1,m - 1
+                 i = 0
+                 tmp1 = w(j)
+                 do jj = j + 1,m
+                    if (w(jj) < tmp1) then
+                       i = jj
+                       tmp1 = w(jj)
+                    end if
+                 end do
+                 if (i /= 0) then
+                    w(i) = w(j)
+                    w(j) = tmp1
+                    call la_dswap(n,z(1,i),1,z(1,j),1)
+                 end if
+              end do
+           end if
+           ! set work(1) to optimal workspace size.
+           work(1) = lwkopt
+           iwork(1) = liwmin
+           return
+     end subroutine la_dsyevr
+     !> QSYEVR: computes selected eigenvalues and, optionally, eigenvectors
+     !> of a real symmetric matrix A.  Eigenvalues and eigenvectors can be
+     !> selected by specifying either a range of values or a range of
+     !> indices for the desired eigenvalues.
+     !> QSYEVR first reduces the matrix A to tridiagonal form T with a call
+     !> to QSYTRD.  Then, whenever possible, QSYEVR calls QSTEMR to compute
+     !> the eigenspectrum using Relatively Robust Representations.  QSTEMR
+     !> computes eigenvalues by the dqds algorithm, while orthogonal
+     !> eigenvectors are computed from various "good" L D L^T representations
+     !> (also known as Relatively Robust Representations). Gram-Schmidt
+     !> orthogonalization is avoided as far as possible. More specifically,
+     !> the various steps of the algorithm are as follows.
+     !> For each unreduced block (submatrix) of T,
+     !> (a) Compute T - sigma I  = L D L^T, so that L and D
+     !> define all the wanted eigenvalues to high relative accuracy.
+     !> This means that small relative changes in the entries of D and L
+     !> cause only small relative changes in the eigenvalues and
+     !> eigenvectors. The standard (unfactored) representation of the
+     !> tridiagonal matrix T does not have this property in general.
+     !> (b) Compute the eigenvalues to suitable accuracy.
+     !> If the eigenvectors are desired, the algorithm attains full
+     !> accuracy of the computed eigenvalues only right before
+     !> the corresponding vectors have to be computed, see steps c) and d).
+     !> (c) For each cluster of close eigenvalues, select a new
+     !> shift close to the cluster, find a new factorization, and refine
+     !> the shifted eigenvalues to suitable accuracy.
+     !> (d) For each eigenvalue with a large enough relative separation compute
+     !> the corresponding eigenvector by forming a rank revealing twisted
+     !> factorization. Go back to (c) for any clusters that remain.
+     !> The desired accuracy of the output can be specified by the input
+     !> parameter ABSTOL.
+     !> For more details, see QSTEMR's documentation and:
+     !> - Inderjit S. Dhillon and Beresford N. Parlett: "Multiple representations
+     !> to compute orthogonal eigenvectors of symmetric tridiagonal matrices,"
+     !> Linear Algebra and its Applications, 387(1), pp. 1-28, August 2004.
+     !> - Inderjit Dhillon and Beresford Parlett: "Orthogonal Eigenvectors and
+     !> Relative Gaps," SIAM Journal on Matrix Analysis and Applications, Vol. 25,
+     !> 2004.  Also LAPACK Working Note 154.
+     !> - Inderjit Dhillon: "A new O(n^2) algorithm for the symmetric
+     !> tridiagonal eigenvalue/eigenvector problem",
+     !> Computer Science Division Technical Report No. UCB/CSD-97-971,
+     !> UC Berkeley, May 1997.
+     !> Note 1 : QSYEVR calls QSTEMR when the full spectrum is requested
+     !> on machines which conform to the ieee-754 floating point standard.
+     !> QSYEVR calls QSTEBZ and QSTEIN on non-ieee machines and
+     !> when partial spectrum requests are made.
+     !> Normal execution of QSTEMR may create NaNs and infinities and
+     !> hence may abort due to a floating point exception in environments
+     !> which do not handle NaNs and infinities in the ieee standard default
+     !> manner.
+
+     subroutine la_qsyevr(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz, &
+               isuppz,work,lwork,iwork,liwork,info)
+        use la_constants_qp,only:zero,one,two
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,range,uplo
+           integer(ilp),intent(in) :: il,iu,lda,ldz,liwork,lwork,n
+           integer(ilp),intent(out) :: info,m
+           real(qp),intent(in) :: abstol,vl,vu
+           ! Array Arguments
+           integer(ilp),intent(out) :: isuppz(*),iwork(*)
+           real(qp),intent(inout) :: a(lda,*)
+           real(qp),intent(out) :: w(*),work(*),z(ldz,*)
+       ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: alleig,indeig,lower,lquery,valeig,wantz,tryrac
+           character :: order
+           integer(ilp) :: i,ieeeok,iinfo,imax,indd,inddd,inde,indee,indibl,indifl, &
+           indisp,indiwo,indtau,indwk,indwkn,iscale,j,jj,liwmin,llwork,llwrkn,lwkopt, &
+                     lwmin,nb,nsplit
+           real(qp) :: abstll,anrm,bignum,eps,rmax,rmin,safmin,sigma,smlnum,tmp1,vll, &
+                     vuu
+           ! Intrinsic Functions
+           intrinsic :: max,min,sqrt
+           ! Executable Statements
+           ! test the input parameters.
+           ieeeok = la_ilaenv(10,'QSYEVR','N',1,2,3,4)
+           lower = la_lsame(uplo,'L')
+           wantz = la_lsame(jobz,'V')
+           alleig = la_lsame(range,'A')
+           valeig = la_lsame(range,'V')
+           indeig = la_lsame(range,'I')
+           lquery = ((lwork == -1) .or. (liwork == -1))
+           lwmin = max(1,26*n)
+           liwmin = max(1,10*n)
+           info = 0
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (alleig .or. valeig .or. indeig)) then
+              info = -2
+           else if (.not. (lower .or. la_lsame(uplo,'U'))) then
+              info = -3
+           else if (n < 0) then
+              info = -4
+           else if (lda < max(1,n)) then
+              info = -6
+           else
+              if (valeig) then
+                 if (n > 0 .and. vu <= vl) info = -8
+              else if (indeig) then
+                 if (il < 1 .or. il > max(1,n)) then
+                    info = -9
+                 else if (iu < min(n,il) .or. iu > n) then
+                    info = -10
+                 end if
+              end if
+           end if
+           if (info == 0) then
+              if (ldz < 1 .or. (wantz .and. ldz < n)) then
+                 info = -15
+              else if (lwork < lwmin .and. .not. lquery) then
+                 info = -18
+              else if (liwork < liwmin .and. .not. lquery) then
+                 info = -20
+              end if
+           end if
+           if (info == 0) then
+              nb = la_ilaenv(1,'QSYTRD',uplo,n,-1,-1,-1)
+              nb = max(nb,la_ilaenv(1,'QORMTR',uplo,n,-1,-1,-1))
+              lwkopt = max((nb + 1)*n,lwmin)
+              work(1) = lwkopt
+              iwork(1) = liwmin
+           end if
+           if (info /= 0) then
+              call la_xerbla('QSYEVR',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           m = 0
+           if (n == 0) then
+              work(1) = 1
+              return
+           end if
+           if (n == 1) then
+              work(1) = 7
+              if (alleig .or. indeig) then
+                 m = 1
+                 w(1) = a(1,1)
+              else
+                 if (vl < a(1,1) .and. vu >= a(1,1)) then
+                    m = 1
+                    w(1) = a(1,1)
+                 end if
+              end if
+              if (wantz) then
+                 z(1,1) = one
+                 isuppz(1) = 1
+                 isuppz(2) = 1
+              end if
+              return
+           end if
+           ! get machine constants.
+           safmin = la_qlamch('SAFE MINIMUM')
+           eps = la_qlamch('PRECISION')
+           smlnum = safmin/eps
+           bignum = one/smlnum
+           rmin = sqrt(smlnum)
+           rmax = min(sqrt(bignum),one/sqrt(sqrt(safmin)))
+           ! scale matrix to allowable range, if necessary.
+           iscale = 0
+           abstll = abstol
+           if (valeig) then
+              vll = vl
+              vuu = vu
+           end if
+           anrm = la_qlansy('M',uplo,n,a,lda,work)
+           if (anrm > zero .and. anrm < rmin) then
+              iscale = 1
+              sigma = rmin/anrm
+           else if (anrm > rmax) then
+              iscale = 1
+              sigma = rmax/anrm
+           end if
+           if (iscale == 1) then
+              if (lower) then
+                 do j = 1,n
+                    call la_qscal(n - j + 1,sigma,a(j,j),1)
+                 end do
+              else
+                 do j = 1,n
+                    call la_qscal(j,sigma,a(1,j),1)
+                 end do
+              end if
+              if (abstol > 0) abstll = abstol*sigma
+              if (valeig) then
+                 vll = vl*sigma
+                 vuu = vu*sigma
+              end if
+           end if
+           ! initialize indices into workspaces.  note: the iwork indices are
+           ! used only if la_qsterf or la_qstemr fail.
+           ! work(indtau:indtau+n-1) stores the scalar factors of the
+           ! elementary reflectors used in la_qsytrd.
+           indtau = 1
+           ! work(indd:indd+n-1) stores the tridiagonal's diagonal entries.
+           indd = indtau + n
+           ! work(inde:inde+n-1) stores the off-diagonal entries of the
+           ! tridiagonal matrix from la_qsytrd.
+           inde = indd + n
+           ! work(inddd:inddd+n-1) is a copy of the diagonal entries over
+           ! -written by la_qstemr (the la_qsterf path copies the diagonal to w).
+           inddd = inde + n
+           ! work(indee:indee+n-1) is a copy of the off-diagonal entries over
+           ! -written while computing the eigenvalues in la_qsterf and la_qstemr.
+           indee = inddd + n
+           ! indwk is the starting offset of the left-over workspace, and
+           ! llwork is the remaining workspace size.
+           indwk = indee + n
+           llwork = lwork - indwk + 1
+           ! iwork(indibl:indibl+m-1) corresponds to iblock in la_qstebz and
+           ! stores the block indices of each of the m<=n eigenvalues.
+           indibl = 1
+           ! iwork(indisp:indisp+nsplit-1) corresponds to isplit in la_qstebz and
+           ! stores the starting and finishing indices of each block.
+           indisp = indibl + n
+           ! iwork(indifl:indifl+n-1) stores the indices of eigenvectors
+           ! that corresponding to eigenvectors that fail to converge in
+           ! la_qstein.  this information is discarded; if any fail, the driver
+           ! returns info > 0.
+           indifl = indisp + n
+           ! indiwo is the offset of the remaining integer workspace.
+           indiwo = indifl + n
+           ! call la_qsytrd to reduce symmetric matrix to tridiagonal form.
+           call la_qsytrd(uplo,n,a,lda,work(indd),work(inde),work(indtau),work( &
+                     indwk),llwork,iinfo)
+           ! if all eigenvalues are desired
+           ! then call la_qsterf or la_qstemr and la_qormtr.
+           if ((alleig .or. (indeig .and. il == 1 .and. iu == n)) .and. ieeeok == 1) then
+              if (.not. wantz) then
+                 call la_qcopy(n,work(indd),1,w,1)
+                 call la_qcopy(n - 1,work(inde),1,work(indee),1)
+                 call la_qsterf(n,w,work(indee),info)
+              else
+                 call la_qcopy(n - 1,work(inde),1,work(indee),1)
+                 call la_qcopy(n,work(indd),1,work(inddd),1)
+                 if (abstol <= two*n*eps) then
+                    tryrac = .true.
+                 else
+                    tryrac = .false.
+                 end if
+                 call la_qstemr(jobz,'A',n,work(inddd),work(indee),vl,vu,il,iu,m, &
+                            w,z,ldz,n,isuppz,tryrac,work(indwk),lwork,iwork,liwork,info)
+              ! apply orthogonal matrix used in reduction to tridiagonal
+              ! form to eigenvectors returned by la_qstemr.
+                 if (wantz .and. info == 0) then
+                    indwkn = inde
+                    llwrkn = lwork - indwkn + 1
+                    call la_qormtr('L',uplo,'N',n,m,a,lda,work(indtau),z,ldz,work( &
+                               indwkn),llwrkn,iinfo)
+                 end if
+              end if
+              if (info == 0) then
+                 ! everything worked.  skip la_qstebz/la_qstein.  iwork(:) are
+                 ! undefined.
+                 m = n
+                 go to 30
+              end if
+              info = 0
+           end if
+           ! otherwise, call la_qstebz and, if eigenvectors are desired, la_qstein.
+           ! also call la_qstebz and la_qstein if la_qstemr fails.
+           if (wantz) then
+              order = 'B'
+           else
+              order = 'E'
+           end if
+           call la_qstebz(range,order,n,vll,vuu,il,iu,abstll,work(indd),work(inde &
+           ),m,nsplit,w,iwork(indibl),iwork(indisp),work(indwk),iwork(indiwo),info)
+
+           if (wantz) then
+              call la_qstein(n,work(indd),work(inde),m,w,iwork(indibl),iwork( &
+                        indisp),z,ldz,work(indwk),iwork(indiwo),iwork(indifl),info)
+              ! apply orthogonal matrix used in reduction to tridiagonal
+              ! form to eigenvectors returned by la_qstein.
+              indwkn = inde
+              llwrkn = lwork - indwkn + 1
+              call la_qormtr('L',uplo,'N',n,m,a,lda,work(indtau),z,ldz,work( &
+                        indwkn),llwrkn,iinfo)
+           end if
+           ! if matrix was scaled, then rescale eigenvalues appropriately.
+        ! jump here if la_qstemr/la_qstein succeeded.
+        30 continue
+           if (iscale == 1) then
+              if (info == 0) then
+                 imax = m
+              else
+                 imax = info - 1
+              end if
+              call la_qscal(imax,one/sigma,w,1)
+           end if
+           ! if eigenvalues are not in order, then sort them, along with
+           ! eigenvectors.  note: we do not sort the ifail portion of iwork.
+           ! it may not be initialized (if la_qstemr/la_qstein succeeded), and we do
+           ! not return this detailed information to the user.
+           if (wantz) then
+              do j = 1,m - 1
+                 i = 0
+                 tmp1 = w(j)
+                 do jj = j + 1,m
+                    if (w(jj) < tmp1) then
+                       i = jj
+                       tmp1 = w(jj)
+                    end if
+                 end do
+                 if (i /= 0) then
+                    w(i) = w(j)
+                    w(j) = tmp1
+                    call la_qswap(n,z(1,i),1,z(1,j),1)
+                 end if
+              end do
+           end if
+           ! set work(1) to optimal workspace size.
+           work(1) = lwkopt
+           iwork(1) = liwmin
+           return
+     end subroutine la_qsyevr
+
+     !> CHB2ST_KERNELS: is an internal routine used by the CHETRD_HB2ST
+     !> subroutine.
+
+     pure subroutine la_chb2st_kernels(uplo,wantz,ttype,st,ed,sweep,n,nb,ib,a,lda, &
+               v,tau,ldvt,work)
+        use la_constants_sp
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           logical(lk),intent(in) :: wantz
+           integer(ilp),intent(in) :: ttype,st,ed,sweep,n,nb,ib,lda,ldvt
+           ! Array Arguments
+           complex(sp),intent(inout) :: a(lda,*)
+           complex(sp),intent(out) :: v(*),tau(*),work(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: upper
+           integer(ilp) :: i,j1,j2,lm,ln,vpos,taupos,dpos,ofdpos,ajeter
+           complex(sp) :: ctmp
+           ! Intrinsic Functions
+           intrinsic :: conjg,mod
+           ! Executable Statements
+           ajeter = ib + ldvt
+           upper = la_lsame(uplo,'U')
+           if (upper) then
+               dpos = 2*nb + 1
+               ofdpos = 2*nb
+           else
+               dpos = 1
+               ofdpos = 2
+           end if
+           ! upper case
+           if (upper) then
+               if (wantz) then
+                   vpos = mod(sweep - 1,2)*n + st
+                   taupos = mod(sweep - 1,2)*n + st
+               else
+                   vpos = mod(sweep - 1,2)*n + st
+                   taupos = mod(sweep - 1,2)*n + st
+               end if
+               if (ttype == 1) then
+                   lm = ed - st + 1
+                   v(vpos) = cone
+                   do i = 1,lm - 1
+                       v(vpos + i) = conjg(a(ofdpos - i,st + i))
+                       a(ofdpos - i,st + i) = czero
+                   end do
+                   ctmp = conjg(a(ofdpos,st))
+                   call la_clarfg(lm,ctmp,v(vpos + 1),1,tau(taupos))
+                   a(ofdpos,st) = ctmp
+                   lm = ed - st + 1
+                   call la_clarfy(uplo,lm,v(vpos),1,conjg(tau(taupos)),a(dpos,st) &
+                             ,lda - 1,work)
+               end if
+               if (ttype == 3) then
+                   lm = ed - st + 1
+                   call la_clarfy(uplo,lm,v(vpos),1,conjg(tau(taupos)),a(dpos,st) &
+                             ,lda - 1,work)
+               end if
+               if (ttype == 2) then
+                   j1 = ed + 1
+                   j2 = min(ed + nb,n)
+                   ln = ed - st + 1
+                   lm = j2 - j1 + 1
+                   if (lm > 0) then
+                       call la_clarfx('LEFT',ln,lm,v(vpos),conjg(tau(taupos)),a( &
+                                 dpos - nb,j1),lda - 1,work)
+                       if (wantz) then
+                           vpos = mod(sweep - 1,2)*n + j1
+                           taupos = mod(sweep - 1,2)*n + j1
+                       else
+                           vpos = mod(sweep - 1,2)*n + j1
+                           taupos = mod(sweep - 1,2)*n + j1
+                       end if
+                       v(vpos) = cone
+                       do i = 1,lm - 1
+                           v(vpos + i) = conjg(a(dpos - nb - i,j1 + i))
+                           a(dpos - nb - i,j1 + i) = czero
+                       end do
+                       ctmp = conjg(a(dpos - nb,j1))
+                       call la_clarfg(lm,ctmp,v(vpos + 1),1,tau(taupos))
+                       a(dpos - nb,j1) = ctmp
+                       call la_clarfx('RIGHT',ln - 1,lm,v(vpos),tau(taupos),a(dpos - nb + &
+                                 1,j1),lda - 1,work)
+                   end if
+               end if
+           ! lower case
+           else
+               if (wantz) then
+                   vpos = mod(sweep - 1,2)*n + st
+                   taupos = mod(sweep - 1,2)*n + st
+               else
+                   vpos = mod(sweep - 1,2)*n + st
+                   taupos = mod(sweep - 1,2)*n + st
+               end if
+               if (ttype == 1) then
+                   lm = ed - st + 1
+                   v(vpos) = cone
+                   do i = 1,lm - 1
+                       v(vpos + i) = a(ofdpos + i,st - 1)
+                       a(ofdpos + i,st - 1) = czero
+                   end do
+                   call la_clarfg(lm,a(ofdpos,st - 1),v(vpos + 1),1,tau(taupos))
+
+                   lm = ed - st + 1
+                   call la_clarfy(uplo,lm,v(vpos),1,conjg(tau(taupos)),a(dpos,st) &
+                             ,lda - 1,work)
+               end if
+               if (ttype == 3) then
+                   lm = ed - st + 1
+                   call la_clarfy(uplo,lm,v(vpos),1,conjg(tau(taupos)),a(dpos,st) &
+                             ,lda - 1,work)
+               end if
+               if (ttype == 2) then
+                   j1 = ed + 1
+                   j2 = min(ed + nb,n)
+                   ln = ed - st + 1
+                   lm = j2 - j1 + 1
+                   if (lm > 0) then
+                       call la_clarfx('RIGHT',lm,ln,v(vpos),tau(taupos),a(dpos + nb, &
+                                 st),lda - 1,work)
+                       if (wantz) then
+                           vpos = mod(sweep - 1,2)*n + j1
+                           taupos = mod(sweep - 1,2)*n + j1
+                       else
+                           vpos = mod(sweep - 1,2)*n + j1
+                           taupos = mod(sweep - 1,2)*n + j1
+                       end if
+                       v(vpos) = cone
+                       do i = 1,lm - 1
+                           v(vpos + i) = a(dpos + nb + i,st)
+                           a(dpos + nb + i,st) = czero
+                       end do
+                       call la_clarfg(lm,a(dpos + nb,st),v(vpos + 1),1,tau(taupos))
+
+                       call la_clarfx('LEFT',lm,ln - 1,v(vpos),conjg(tau(taupos)),a( &
+                                 dpos + nb - 1,st + 1),lda - 1,work)
+                   end if
+               end if
+           end if
+           return
+     end subroutine la_chb2st_kernels
+     !> ZHB2ST_KERNELS: is an internal routine used by the ZHETRD_HB2ST
+     !> subroutine.
+
+     pure subroutine la_zhb2st_kernels(uplo,wantz,ttype,st,ed,sweep,n,nb,ib,a,lda, &
+               v,tau,ldvt,work)
+        use la_constants_dp
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           logical(lk),intent(in) :: wantz
+           integer(ilp),intent(in) :: ttype,st,ed,sweep,n,nb,ib,lda,ldvt
+           ! Array Arguments
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: v(*),tau(*),work(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: upper
+           integer(ilp) :: i,j1,j2,lm,ln,vpos,taupos,dpos,ofdpos,ajeter
+           complex(dp) :: ctmp
+           ! Intrinsic Functions
+           intrinsic :: conjg,mod
+           ! Executable Statements
+           ajeter = ib + ldvt
+           upper = la_lsame(uplo,'U')
+           if (upper) then
+               dpos = 2*nb + 1
+               ofdpos = 2*nb
+           else
+               dpos = 1
+               ofdpos = 2
+           end if
+           ! upper case
+           if (upper) then
+               if (wantz) then
+                   vpos = mod(sweep - 1,2)*n + st
+                   taupos = mod(sweep - 1,2)*n + st
+               else
+                   vpos = mod(sweep - 1,2)*n + st
+                   taupos = mod(sweep - 1,2)*n + st
+               end if
+               if (ttype == 1) then
+                   lm = ed - st + 1
+                   v(vpos) = cone
+                   do i = 1,lm - 1
+                       v(vpos + i) = conjg(a(ofdpos - i,st + i))
+                       a(ofdpos - i,st + i) = czero
+                   end do
+                   ctmp = conjg(a(ofdpos,st))
+                   call la_zlarfg(lm,ctmp,v(vpos + 1),1,tau(taupos))
+                   a(ofdpos,st) = ctmp
+                   lm = ed - st + 1
+                   call la_zlarfy(uplo,lm,v(vpos),1,conjg(tau(taupos)),a(dpos,st) &
+                             ,lda - 1,work)
+               end if
+               if (ttype == 3) then
+                   lm = ed - st + 1
+                   call la_zlarfy(uplo,lm,v(vpos),1,conjg(tau(taupos)),a(dpos,st) &
+                             ,lda - 1,work)
+               end if
+               if (ttype == 2) then
+                   j1 = ed + 1
+                   j2 = min(ed + nb,n)
+                   ln = ed - st + 1
+                   lm = j2 - j1 + 1
+                   if (lm > 0) then
+                       call la_zlarfx('LEFT',ln,lm,v(vpos),conjg(tau(taupos)),a( &
+                                 dpos - nb,j1),lda - 1,work)
+                       if (wantz) then
+                           vpos = mod(sweep - 1,2)*n + j1
+                           taupos = mod(sweep - 1,2)*n + j1
+                       else
+                           vpos = mod(sweep - 1,2)*n + j1
+                           taupos = mod(sweep - 1,2)*n + j1
+                       end if
+                       v(vpos) = cone
+                       do i = 1,lm - 1
+                           v(vpos + i) = conjg(a(dpos - nb - i,j1 + i))
+                           a(dpos - nb - i,j1 + i) = czero
+                       end do
+                       ctmp = conjg(a(dpos - nb,j1))
+                       call la_zlarfg(lm,ctmp,v(vpos + 1),1,tau(taupos))
+                       a(dpos - nb,j1) = ctmp
+                       call la_zlarfx('RIGHT',ln - 1,lm,v(vpos),tau(taupos),a(dpos - nb + &
+                                 1,j1),lda - 1,work)
+                   end if
+               end if
+           ! lower case
+           else
+               if (wantz) then
+                   vpos = mod(sweep - 1,2)*n + st
+                   taupos = mod(sweep - 1,2)*n + st
+               else
+                   vpos = mod(sweep - 1,2)*n + st
+                   taupos = mod(sweep - 1,2)*n + st
+               end if
+               if (ttype == 1) then
+                   lm = ed - st + 1
+                   v(vpos) = cone
+                   do i = 1,lm - 1
+                       v(vpos + i) = a(ofdpos + i,st - 1)
+                       a(ofdpos + i,st - 1) = czero
+                   end do
+                   call la_zlarfg(lm,a(ofdpos,st - 1),v(vpos + 1),1,tau(taupos))
+
+                   lm = ed - st + 1
+                   call la_zlarfy(uplo,lm,v(vpos),1,conjg(tau(taupos)),a(dpos,st) &
+                             ,lda - 1,work)
+               end if
+               if (ttype == 3) then
+                   lm = ed - st + 1
+                   call la_zlarfy(uplo,lm,v(vpos),1,conjg(tau(taupos)),a(dpos,st) &
+                             ,lda - 1,work)
+               end if
+               if (ttype == 2) then
+                   j1 = ed + 1
+                   j2 = min(ed + nb,n)
+                   ln = ed - st + 1
+                   lm = j2 - j1 + 1
+                   if (lm > 0) then
+                       call la_zlarfx('RIGHT',lm,ln,v(vpos),tau(taupos),a(dpos + nb, &
+                                 st),lda - 1,work)
+                       if (wantz) then
+                           vpos = mod(sweep - 1,2)*n + j1
+                           taupos = mod(sweep - 1,2)*n + j1
+                       else
+                           vpos = mod(sweep - 1,2)*n + j1
+                           taupos = mod(sweep - 1,2)*n + j1
+                       end if
+                       v(vpos) = cone
+                       do i = 1,lm - 1
+                           v(vpos + i) = a(dpos + nb + i,st)
+                           a(dpos + nb + i,st) = czero
+                       end do
+                       call la_zlarfg(lm,a(dpos + nb,st),v(vpos + 1),1,tau(taupos))
+
+                       call la_zlarfx('LEFT',lm,ln - 1,v(vpos),conjg(tau(taupos)),a( &
+                                 dpos + nb - 1,st + 1),lda - 1,work)
+                   end if
+               end if
+           end if
+           return
+     end subroutine la_zhb2st_kernels
+     !> WHB2ST_KERNELS: is an internal routine used by the WHETRD_HB2ST
+     !> subroutine.
+
+     pure subroutine la_whb2st_kernels(uplo,wantz,ttype,st,ed,sweep,n,nb,ib,a,lda, &
+               v,tau,ldvt,work)
+        use la_constants_qp
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           logical(lk),intent(in) :: wantz
+           integer(ilp),intent(in) :: ttype,st,ed,sweep,n,nb,ib,lda,ldvt
+           ! Array Arguments
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: v(*),tau(*),work(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: upper
+           integer(ilp) :: i,j1,j2,lm,ln,vpos,taupos,dpos,ofdpos,ajeter
+           complex(qp) :: ctmp
+           ! Intrinsic Functions
+           intrinsic :: conjg,mod
+           ! Executable Statements
+           ajeter = ib + ldvt
+           upper = la_lsame(uplo,'U')
+           if (upper) then
+               dpos = 2*nb + 1
+               ofdpos = 2*nb
+           else
+               dpos = 1
+               ofdpos = 2
+           end if
+           ! upper case
+           if (upper) then
+               if (wantz) then
+                   vpos = mod(sweep - 1,2)*n + st
+                   taupos = mod(sweep - 1,2)*n + st
+               else
+                   vpos = mod(sweep - 1,2)*n + st
+                   taupos = mod(sweep - 1,2)*n + st
+               end if
+               if (ttype == 1) then
+                   lm = ed - st + 1
+                   v(vpos) = cone
+                   do i = 1,lm - 1
+                       v(vpos + i) = conjg(a(ofdpos - i,st + i))
+                       a(ofdpos - i,st + i) = czero
+                   end do
+                   ctmp = conjg(a(ofdpos,st))
+                   call la_wlarfg(lm,ctmp,v(vpos + 1),1,tau(taupos))
+                   a(ofdpos,st) = ctmp
+                   lm = ed - st + 1
+                   call la_wlarfy(uplo,lm,v(vpos),1,conjg(tau(taupos)),a(dpos,st) &
+                             ,lda - 1,work)
+               end if
+               if (ttype == 3) then
+                   lm = ed - st + 1
+                   call la_wlarfy(uplo,lm,v(vpos),1,conjg(tau(taupos)),a(dpos,st) &
+                             ,lda - 1,work)
+               end if
+               if (ttype == 2) then
+                   j1 = ed + 1
+                   j2 = min(ed + nb,n)
+                   ln = ed - st + 1
+                   lm = j2 - j1 + 1
+                   if (lm > 0) then
+                       call la_wlarfx('LEFT',ln,lm,v(vpos),conjg(tau(taupos)),a( &
+                                 dpos - nb,j1),lda - 1,work)
+                       if (wantz) then
+                           vpos = mod(sweep - 1,2)*n + j1
+                           taupos = mod(sweep - 1,2)*n + j1
+                       else
+                           vpos = mod(sweep - 1,2)*n + j1
+                           taupos = mod(sweep - 1,2)*n + j1
+                       end if
+                       v(vpos) = cone
+                       do i = 1,lm - 1
+                           v(vpos + i) = conjg(a(dpos - nb - i,j1 + i))
+                           a(dpos - nb - i,j1 + i) = czero
+                       end do
+                       ctmp = conjg(a(dpos - nb,j1))
+                       call la_wlarfg(lm,ctmp,v(vpos + 1),1,tau(taupos))
+                       a(dpos - nb,j1) = ctmp
+                       call la_wlarfx('RIGHT',ln - 1,lm,v(vpos),tau(taupos),a(dpos - nb + &
+                                 1,j1),lda - 1,work)
+                   end if
+               end if
+           ! lower case
+           else
+               if (wantz) then
+                   vpos = mod(sweep - 1,2)*n + st
+                   taupos = mod(sweep - 1,2)*n + st
+               else
+                   vpos = mod(sweep - 1,2)*n + st
+                   taupos = mod(sweep - 1,2)*n + st
+               end if
+               if (ttype == 1) then
+                   lm = ed - st + 1
+                   v(vpos) = cone
+                   do i = 1,lm - 1
+                       v(vpos + i) = a(ofdpos + i,st - 1)
+                       a(ofdpos + i,st - 1) = czero
+                   end do
+                   call la_wlarfg(lm,a(ofdpos,st - 1),v(vpos + 1),1,tau(taupos))
+
+                   lm = ed - st + 1
+                   call la_wlarfy(uplo,lm,v(vpos),1,conjg(tau(taupos)),a(dpos,st) &
+                             ,lda - 1,work)
+               end if
+               if (ttype == 3) then
+                   lm = ed - st + 1
+                   call la_wlarfy(uplo,lm,v(vpos),1,conjg(tau(taupos)),a(dpos,st) &
+                             ,lda - 1,work)
+               end if
+               if (ttype == 2) then
+                   j1 = ed + 1
+                   j2 = min(ed + nb,n)
+                   ln = ed - st + 1
+                   lm = j2 - j1 + 1
+                   if (lm > 0) then
+                       call la_wlarfx('RIGHT',lm,ln,v(vpos),tau(taupos),a(dpos + nb, &
+                                 st),lda - 1,work)
+                       if (wantz) then
+                           vpos = mod(sweep - 1,2)*n + j1
+                           taupos = mod(sweep - 1,2)*n + j1
+                       else
+                           vpos = mod(sweep - 1,2)*n + j1
+                           taupos = mod(sweep - 1,2)*n + j1
+                       end if
+                       v(vpos) = cone
+                       do i = 1,lm - 1
+                           v(vpos + i) = a(dpos + nb + i,st)
+                           a(dpos + nb + i,st) = czero
+                       end do
+                       call la_wlarfg(lm,a(dpos + nb,st),v(vpos + 1),1,tau(taupos))
+
+                       call la_wlarfx('LEFT',lm,ln - 1,v(vpos),conjg(tau(taupos)),a( &
+                                 dpos + nb - 1,st + 1),lda - 1,work)
+                   end if
+               end if
+           end if
+           return
+     end subroutine la_whb2st_kernels
+
+     !> CHETD2: reduces a complex Hermitian matrix A to real symmetric
+     !> tridiagonal form T by a unitary similarity transformation:
+     !> Q**H * A * Q = T.
+
+     pure subroutine la_chetd2(uplo,n,a,lda,d,e,tau,info)
+        use la_constants_sp
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
+           ! Array Arguments
+           real(sp),intent(out) :: d(*),e(*)
+           complex(sp),intent(inout) :: a(lda,*)
+           complex(sp),intent(out) :: tau(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: upper
+           integer(ilp) :: i
+           complex(sp) :: alpha,taui
+           ! Intrinsic Functions
+           intrinsic :: max,min,real
+           ! Executable Statements
+           ! test the input parameters
+           info = 0
+           upper = la_lsame(uplo,'U')
+           if (.not. upper .and. .not. la_lsame(uplo,'L')) then
+              info = -1
+           else if (n < 0) then
+              info = -2
+           else if (lda < max(1,n)) then
+              info = -4
+           end if
+           if (info /= 0) then
+              call la_xerbla('CHETD2',-info)
+              return
+           end if
+           ! quick return if possible
+           if (n <= 0) return
+           if (upper) then
+              ! reduce the upper triangle of a
+              a(n,n) = real(a(n,n),KIND=sp)
+              do i = n - 1,1,-1
+                 ! generate elementary reflector h(i) = i - tau * v * v**h
+                 ! to annihilate a(1:i-1,i+1)
+                 alpha = a(i,i + 1)
+                 call la_clarfg(i,alpha,a(1,i + 1),1,taui)
+                 e(i) = real(alpha,KIND=sp)
+                 if (taui /= czero) then
+                    ! apply h(i) from both sides to a(1:i,1:i)
+                    a(i,i + 1) = cone
+                    ! compute  x := tau * a * v  storing x in tau(1:i)
+                    call la_chemv(uplo,i,taui,a,lda,a(1,i + 1),1,czero,tau,1)
+
+                    ! compute  w := x - 1/2 * tau * (x**h * v) * v
+                    alpha = -chalf*taui*la_cdotc(i,tau,1,a(1,i + 1),1)
+                    call la_caxpy(i,alpha,a(1,i + 1),1,tau,1)
+                    ! apply the transformation as a rank-2 update:
+                       ! a := a - v * w**h - w * v**h
+                    call la_cher2(uplo,i,-cone,a(1,i + 1),1,tau,1,a,lda)
+                 else
+                    a(i,i) = real(a(i,i),KIND=sp)
+                 end if
+                 a(i,i + 1) = e(i)
+                 d(i + 1) = real(a(i + 1,i + 1),KIND=sp)
+                 tau(i) = taui
+              end do
+              d(1) = real(a(1,1),KIND=sp)
+           else
+              ! reduce the lower triangle of a
+              a(1,1) = real(a(1,1),KIND=sp)
+              do i = 1,n - 1
+                 ! generate elementary reflector h(i) = i - tau * v * v**h
+                 ! to annihilate a(i+2:n,i)
+                 alpha = a(i + 1,i)
+                 call la_clarfg(n - i,alpha,a(min(i + 2,n),i),1,taui)
+                 e(i) = real(alpha,KIND=sp)
+                 if (taui /= czero) then
+                    ! apply h(i) from both sides to a(i+1:n,i+1:n)
+                    a(i + 1,i) = cone
+                    ! compute  x := tau * a * v  storing y in tau(i:n-1)
+                    call la_chemv(uplo,n - i,taui,a(i + 1,i + 1),lda,a(i + 1,i),1,czero, &
+                              tau(i),1)
+                    ! compute  w := x - 1/2 * tau * (x**h * v) * v
+                    alpha = -chalf*taui*la_cdotc(n - i,tau(i),1,a(i + 1,i),1)
+                    call la_caxpy(n - i,alpha,a(i + 1,i),1,tau(i),1)
+                    ! apply the transformation as a rank-2 update:
+                       ! a := a - v * w**h - w * v**h
+                    call la_cher2(uplo,n - i,-cone,a(i + 1,i),1,tau(i),1,a(i + 1,i + 1) &
+                              ,lda)
+                 else
+                    a(i + 1,i + 1) = real(a(i + 1,i + 1),KIND=sp)
+                 end if
+                 a(i + 1,i) = e(i)
+                 d(i) = real(a(i,i),KIND=sp)
+                 tau(i) = taui
+              end do
+              d(n) = real(a(n,n),KIND=sp)
+           end if
+           return
+     end subroutine la_chetd2
+     !> ZHETD2: reduces a complex Hermitian matrix A to real symmetric
+     !> tridiagonal form T by a unitary similarity transformation:
+     !> Q**H * A * Q = T.
+
+     pure subroutine la_zhetd2(uplo,n,a,lda,d,e,tau,info)
+        use la_constants_dp
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
+           ! Array Arguments
+           real(dp),intent(out) :: d(*),e(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: tau(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: upper
+           integer(ilp) :: i
+           complex(dp) :: alpha,taui
+           ! Intrinsic Functions
+           intrinsic :: real,max,min
+           ! Executable Statements
+           ! test the input parameters
+           info = 0
+           upper = la_lsame(uplo,'U')
+           if (.not. upper .and. .not. la_lsame(uplo,'L')) then
+              info = -1
+           else if (n < 0) then
+              info = -2
+           else if (lda < max(1,n)) then
+              info = -4
+           end if
+           if (info /= 0) then
+              call la_xerbla('ZHETD2',-info)
+              return
+           end if
+           ! quick return if possible
+           if (n <= 0) return
+           if (upper) then
+              ! reduce the upper triangle of a
+              a(n,n) = real(a(n,n),KIND=dp)
+              do i = n - 1,1,-1
+                 ! generate elementary reflector h(i) = i - tau * v * v**h
+                 ! to annihilate a(1:i-1,i+1)
+                 alpha = a(i,i + 1)
+                 call la_zlarfg(i,alpha,a(1,i + 1),1,taui)
+                 e(i) = real(alpha,KIND=dp)
+                 if (taui /= czero) then
+                    ! apply h(i) from both sides to a(1:i,1:i)
+                    a(i,i + 1) = cone
+                    ! compute  x := tau * a * v  storing x in tau(1:i)
+                    call la_zhemv(uplo,i,taui,a,lda,a(1,i + 1),1,czero,tau,1)
+
+                    ! compute  w := x - 1/2 * tau * (x**h * v) * v
+                    alpha = -chalf*taui*la_zdotc(i,tau,1,a(1,i + 1),1)
+                    call la_zaxpy(i,alpha,a(1,i + 1),1,tau,1)
+                    ! apply the transformation as a rank-2 update:
+                       ! a := a - v * w**h - w * v**h
+                    call la_zher2(uplo,i,-cone,a(1,i + 1),1,tau,1,a,lda)
+                 else
+                    a(i,i) = real(a(i,i),KIND=dp)
+                 end if
+                 a(i,i + 1) = e(i)
+                 d(i + 1) = real(a(i + 1,i + 1),KIND=dp)
+                 tau(i) = taui
+              end do
+              d(1) = real(a(1,1),KIND=dp)
+           else
+              ! reduce the lower triangle of a
+              a(1,1) = real(a(1,1),KIND=dp)
+              do i = 1,n - 1
+                 ! generate elementary reflector h(i) = i - tau * v * v**h
+                 ! to annihilate a(i+2:n,i)
+                 alpha = a(i + 1,i)
+                 call la_zlarfg(n - i,alpha,a(min(i + 2,n),i),1,taui)
+                 e(i) = real(alpha,KIND=dp)
+                 if (taui /= czero) then
+                    ! apply h(i) from both sides to a(i+1:n,i+1:n)
+                    a(i + 1,i) = cone
+                    ! compute  x := tau * a * v  storing y in tau(i:n-1)
+                    call la_zhemv(uplo,n - i,taui,a(i + 1,i + 1),lda,a(i + 1,i),1,czero, &
+                              tau(i),1)
+                    ! compute  w := x - 1/2 * tau * (x**h * v) * v
+                    alpha = -chalf*taui*la_zdotc(n - i,tau(i),1,a(i + 1,i),1)
+                    call la_zaxpy(n - i,alpha,a(i + 1,i),1,tau(i),1)
+                    ! apply the transformation as a rank-2 update:
+                       ! a := a - v * w**h - w * v**h
+                    call la_zher2(uplo,n - i,-cone,a(i + 1,i),1,tau(i),1,a(i + 1,i + 1) &
+                              ,lda)
+                 else
+                    a(i + 1,i + 1) = real(a(i + 1,i + 1),KIND=dp)
+                 end if
+                 a(i + 1,i) = e(i)
+                 d(i) = real(a(i,i),KIND=dp)
+                 tau(i) = taui
+              end do
+              d(n) = real(a(n,n),KIND=dp)
+           end if
+           return
+     end subroutine la_zhetd2
+     !> WHETD2: reduces a complex Hermitian matrix A to real symmetric
+     !> tridiagonal form T by a unitary similarity transformation:
+     !> Q**H * A * Q = T.
+
+     pure subroutine la_whetd2(uplo,n,a,lda,d,e,tau,info)
+        use la_constants_qp
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
+           ! Array Arguments
+           real(qp),intent(out) :: d(*),e(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: tau(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: upper
+           integer(ilp) :: i
+           complex(qp) :: alpha,taui
+           ! Intrinsic Functions
+           intrinsic :: real,max,min
+           ! Executable Statements
+           ! test the input parameters
+           info = 0
+           upper = la_lsame(uplo,'U')
+           if (.not. upper .and. .not. la_lsame(uplo,'L')) then
+              info = -1
+           else if (n < 0) then
+              info = -2
+           else if (lda < max(1,n)) then
+              info = -4
+           end if
+           if (info /= 0) then
+              call la_xerbla('WHETD2',-info)
+              return
+           end if
+           ! quick return if possible
+           if (n <= 0) return
+           if (upper) then
+              ! reduce the upper triangle of a
+              a(n,n) = real(a(n,n),KIND=qp)
+              do i = n - 1,1,-1
+                 ! generate elementary reflector h(i) = i - tau * v * v**h
+                 ! to annihilate a(1:i-1,i+1)
+                 alpha = a(i,i + 1)
+                 call la_wlarfg(i,alpha,a(1,i + 1),1,taui)
+                 e(i) = real(alpha,KIND=qp)
+                 if (taui /= czero) then
+                    ! apply h(i) from both sides to a(1:i,1:i)
+                    a(i,i + 1) = cone
+                    ! compute  x := tau * a * v  storing x in tau(1:i)
+                    call la_whemv(uplo,i,taui,a,lda,a(1,i + 1),1,czero,tau,1)
+
+                    ! compute  w := x - 1/2 * tau * (x**h * v) * v
+                    alpha = -chalf*taui*la_wdotc(i,tau,1,a(1,i + 1),1)
+                    call la_waxpy(i,alpha,a(1,i + 1),1,tau,1)
+                    ! apply the transformation as a rank-2 update:
+                       ! a := a - v * w**h - w * v**h
+                    call la_wher2(uplo,i,-cone,a(1,i + 1),1,tau,1,a,lda)
+                 else
+                    a(i,i) = real(a(i,i),KIND=qp)
+                 end if
+                 a(i,i + 1) = e(i)
+                 d(i + 1) = real(a(i + 1,i + 1),KIND=qp)
+                 tau(i) = taui
+              end do
+              d(1) = real(a(1,1),KIND=qp)
+           else
+              ! reduce the lower triangle of a
+              a(1,1) = real(a(1,1),KIND=qp)
+              do i = 1,n - 1
+                 ! generate elementary reflector h(i) = i - tau * v * v**h
+                 ! to annihilate a(i+2:n,i)
+                 alpha = a(i + 1,i)
+                 call la_wlarfg(n - i,alpha,a(min(i + 2,n),i),1,taui)
+                 e(i) = real(alpha,KIND=qp)
+                 if (taui /= czero) then
+                    ! apply h(i) from both sides to a(i+1:n,i+1:n)
+                    a(i + 1,i) = cone
+                    ! compute  x := tau * a * v  storing y in tau(i:n-1)
+                    call la_whemv(uplo,n - i,taui,a(i + 1,i + 1),lda,a(i + 1,i),1,czero, &
+                              tau(i),1)
+                    ! compute  w := x - 1/2 * tau * (x**h * v) * v
+                    alpha = -chalf*taui*la_wdotc(n - i,tau(i),1,a(i + 1,i),1)
+                    call la_waxpy(n - i,alpha,a(i + 1,i),1,tau(i),1)
+                    ! apply the transformation as a rank-2 update:
+                       ! a := a - v * w**h - w * v**h
+                    call la_wher2(uplo,n - i,-cone,a(i + 1,i),1,tau(i),1,a(i + 1,i + 1) &
+                              ,lda)
+                 else
+                    a(i + 1,i + 1) = real(a(i + 1,i + 1),KIND=qp)
+                 end if
+                 a(i + 1,i) = e(i)
+                 d(i) = real(a(i,i),KIND=qp)
+                 tau(i) = taui
+              end do
+              d(n) = real(a(n,n),KIND=qp)
+           end if
+           return
+     end subroutine la_whetd2
+
+     !> CHETRD: reduces a complex Hermitian matrix A to real symmetric
+     !> tridiagonal form T by a unitary similarity transformation:
+     !> Q**H * A * Q = T.
+
+     pure subroutine la_chetrd(uplo,n,a,lda,d,e,tau,work,lwork,info)
+        use la_constants_sp
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,lwork,n
+           ! Array Arguments
+           real(sp),intent(out) :: d(*),e(*)
+           complex(sp),intent(inout) :: a(lda,*)
+           complex(sp),intent(out) :: tau(*),work(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lquery,upper
+           integer(ilp) :: i,iinfo,iws,j,kk,ldwork,lwkopt,nb,nbmin,nx
+           ! Intrinsic Functions
+           intrinsic :: max
+           ! Executable Statements
+           ! test the input parameters
+           info = 0
+           upper = la_lsame(uplo,'U')
+           lquery = (lwork == -1)
+           if (.not. upper .and. .not. la_lsame(uplo,'L')) then
+              info = -1
+           else if (n < 0) then
+              info = -2
+           else if (lda < max(1,n)) then
+              info = -4
+           else if (lwork < 1 .and. .not. lquery) then
+              info = -9
+           end if
+           if (info == 0) then
+              ! determine the block size.
+              nb = la_ilaenv(1,'CHETRD',uplo,n,-1,-1,-1)
+              lwkopt = n*nb
+              work(1) = lwkopt
+           end if
+           if (info /= 0) then
+              call la_xerbla('CHETRD',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) then
+              work(1) = 1
+              return
+           end if
+           nx = n
+           iws = 1
+           if (nb > 1 .and. nb < n) then
+              ! determine when to cross over from blocked to unblocked code
+              ! (last block is always handled by unblocked code).
+              nx = max(nb,la_ilaenv(3,'CHETRD',uplo,n,-1,-1,-1))
+              if (nx < n) then
+                 ! determine if workspace is large enough for blocked code.
+                 ldwork = n
+                 iws = ldwork*nb
+                 if (lwork < iws) then
+                    ! not enough workspace to use optimal nb:  determine the
+                    ! minimum value of nb, and reduce nb or force use of
+                    ! unblocked code by setting nx = n.
+                    nb = max(lwork/ldwork,1)
+                    nbmin = la_ilaenv(2,'CHETRD',uplo,n,-1,-1,-1)
+                    if (nb < nbmin) nx = n
+                 end if
+              else
+                 nx = n
+              end if
+           else
+              nb = 1
+           end if
+           if (upper) then
+              ! reduce the upper triangle of a.
+              ! columns 1:kk are handled by the unblocked method.
+              kk = n - ((n - nx + nb - 1)/nb)*nb
+              do i = n - nb + 1,kk + 1,-nb
+                 ! reduce columns i:i+nb-1 to tridiagonal form and form the
+                 ! matrix w which is needed to update the unreduced part of
+                 ! the matrix
+                 call la_clatrd(uplo,i + nb - 1,nb,a,lda,e,tau,work,ldwork)
+                 ! update the unreduced submatrix a(1:i-1,1:i-1), using an
+                 ! update of the form:  a := a - v*w**h - w*v**h
+                 call la_cher2k(uplo,'NO TRANSPOSE',i - 1,nb,-cone,a(1,i),lda,work, &
+                           ldwork,one,a,lda)
+                 ! copy superdiagonal elements back into a, and diagonal
+                 ! elements into d
+                 do j = i,i + nb - 1
+                    a(j - 1,j) = e(j - 1)
+                    d(j) = real(a(j,j),KIND=sp)
+                 end do
+              end do
+              ! use unblocked code to reduce the last or only block
+              call la_chetd2(uplo,kk,a,lda,d,e,tau,iinfo)
+           else
+              ! reduce the lower triangle of a
+              do i = 1,n - nx,nb
+                 ! reduce columns i:i+nb-1 to tridiagonal form and form the
+                 ! matrix w which is needed to update the unreduced part of
+                 ! the matrix
+                 call la_clatrd(uplo,n - i + 1,nb,a(i,i),lda,e(i),tau(i),work, &
+                           ldwork)
+                 ! update the unreduced submatrix a(i+nb:n,i+nb:n), using
+                 ! an update of the form:  a := a - v*w**h - w*v**h
+                 call la_cher2k(uplo,'NO TRANSPOSE',n - i - nb + 1,nb,-cone,a(i + nb,i),lda, &
+                           work(nb + 1),ldwork,one,a(i + nb,i + nb),lda)
+                 ! copy subdiagonal elements back into a, and diagonal
+                 ! elements into d
+                 do j = i,i + nb - 1
+                    a(j + 1,j) = e(j)
+                    d(j) = real(a(j,j),KIND=sp)
+                 end do
+              end do
+              ! use unblocked code to reduce the last or only block
+              call la_chetd2(uplo,n - i + 1,a(i,i),lda,d(i),e(i),tau(i),iinfo)
+
+           end if
+           work(1) = lwkopt
+           return
+     end subroutine la_chetrd
+     !> ZHETRD: reduces a complex Hermitian matrix A to real symmetric
+     !> tridiagonal form T by a unitary similarity transformation:
+     !> Q**H * A * Q = T.
+
+     pure subroutine la_zhetrd(uplo,n,a,lda,d,e,tau,work,lwork,info)
+        use la_constants_dp
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,lwork,n
+           ! Array Arguments
+           real(dp),intent(out) :: d(*),e(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: tau(*),work(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lquery,upper
+           integer(ilp) :: i,iinfo,iws,j,kk,ldwork,lwkopt,nb,nbmin,nx
+           ! Intrinsic Functions
+           intrinsic :: max
+           ! Executable Statements
+           ! test the input parameters
+           info = 0
+           upper = la_lsame(uplo,'U')
+           lquery = (lwork == -1)
+           if (.not. upper .and. .not. la_lsame(uplo,'L')) then
+              info = -1
+           else if (n < 0) then
+              info = -2
+           else if (lda < max(1,n)) then
+              info = -4
+           else if (lwork < 1 .and. .not. lquery) then
+              info = -9
+           end if
+           if (info == 0) then
+              ! determine the block size.
+              nb = la_ilaenv(1,'ZHETRD',uplo,n,-1,-1,-1)
+              lwkopt = n*nb
+              work(1) = lwkopt
+           end if
+           if (info /= 0) then
+              call la_xerbla('ZHETRD',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) then
+              work(1) = 1
+              return
+           end if
+           nx = n
+           iws = 1
+           if (nb > 1 .and. nb < n) then
+              ! determine when to cross over from blocked to unblocked code
+              ! (last block is always handled by unblocked code).
+              nx = max(nb,la_ilaenv(3,'ZHETRD',uplo,n,-1,-1,-1))
+              if (nx < n) then
+                 ! determine if workspace is large enough for blocked code.
+                 ldwork = n
+                 iws = ldwork*nb
+                 if (lwork < iws) then
+                    ! not enough workspace to use optimal nb:  determine the
+                    ! minimum value of nb, and reduce nb or force use of
+                    ! unblocked code by setting nx = n.
+                    nb = max(lwork/ldwork,1)
+                    nbmin = la_ilaenv(2,'ZHETRD',uplo,n,-1,-1,-1)
+                    if (nb < nbmin) nx = n
+                 end if
+              else
+                 nx = n
+              end if
+           else
+              nb = 1
+           end if
+           if (upper) then
+              ! reduce the upper triangle of a.
+              ! columns 1:kk are handled by the unblocked method.
+              kk = n - ((n - nx + nb - 1)/nb)*nb
+              do i = n - nb + 1,kk + 1,-nb
+                 ! reduce columns i:i+nb-1 to tridiagonal form and form the
+                 ! matrix w which is needed to update the unreduced part of
+                 ! the matrix
+                 call la_zlatrd(uplo,i + nb - 1,nb,a,lda,e,tau,work,ldwork)
+                 ! update the unreduced submatrix a(1:i-1,1:i-1), using an
+                 ! update of the form:  a := a - v*w**h - w*v**h
+                 call la_zher2k(uplo,'NO TRANSPOSE',i - 1,nb,-cone,a(1,i),lda,work, &
+                           ldwork,one,a,lda)
+                 ! copy superdiagonal elements back into a, and diagonal
+                 ! elements into d
+                 do j = i,i + nb - 1
+                    a(j - 1,j) = e(j - 1)
+                    d(j) = real(a(j,j),KIND=dp)
+                 end do
+              end do
+              ! use unblocked code to reduce the last or only block
+              call la_zhetd2(uplo,kk,a,lda,d,e,tau,iinfo)
+           else
+              ! reduce the lower triangle of a
+              do i = 1,n - nx,nb
+                 ! reduce columns i:i+nb-1 to tridiagonal form and form the
+                 ! matrix w which is needed to update the unreduced part of
+                 ! the matrix
+                 call la_zlatrd(uplo,n - i + 1,nb,a(i,i),lda,e(i),tau(i),work, &
+                           ldwork)
+                 ! update the unreduced submatrix a(i+nb:n,i+nb:n), using
+                 ! an update of the form:  a := a - v*w**h - w*v**h
+                 call la_zher2k(uplo,'NO TRANSPOSE',n - i - nb + 1,nb,-cone,a(i + nb,i),lda, &
+                           work(nb + 1),ldwork,one,a(i + nb,i + nb),lda)
+                 ! copy subdiagonal elements back into a, and diagonal
+                 ! elements into d
+                 do j = i,i + nb - 1
+                    a(j + 1,j) = e(j)
+                    d(j) = real(a(j,j),KIND=dp)
+                 end do
+              end do
+              ! use unblocked code to reduce the last or only block
+              call la_zhetd2(uplo,n - i + 1,a(i,i),lda,d(i),e(i),tau(i),iinfo)
+
+           end if
+           work(1) = lwkopt
+           return
+     end subroutine la_zhetrd
+     !> WHETRD: reduces a complex Hermitian matrix A to real symmetric
+     !> tridiagonal form T by a unitary similarity transformation:
+     !> Q**H * A * Q = T.
+
+     pure subroutine la_whetrd(uplo,n,a,lda,d,e,tau,work,lwork,info)
+        use la_constants_qp
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,lwork,n
+           ! Array Arguments
+           real(qp),intent(out) :: d(*),e(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: tau(*),work(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lquery,upper
+           integer(ilp) :: i,iinfo,iws,j,kk,ldwork,lwkopt,nb,nbmin,nx
+           ! Intrinsic Functions
+           intrinsic :: max
+           ! Executable Statements
+           ! test the input parameters
+           info = 0
+           upper = la_lsame(uplo,'U')
+           lquery = (lwork == -1)
+           if (.not. upper .and. .not. la_lsame(uplo,'L')) then
+              info = -1
+           else if (n < 0) then
+              info = -2
+           else if (lda < max(1,n)) then
+              info = -4
+           else if (lwork < 1 .and. .not. lquery) then
+              info = -9
+           end if
+           if (info == 0) then
+              ! determine the block size.
+              nb = la_ilaenv(1,'WHETRD',uplo,n,-1,-1,-1)
+              lwkopt = n*nb
+              work(1) = lwkopt
+           end if
+           if (info /= 0) then
+              call la_xerbla('WHETRD',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) then
+              work(1) = 1
+              return
+           end if
+           nx = n
+           iws = 1
+           if (nb > 1 .and. nb < n) then
+              ! determine when to cross over from blocked to unblocked code
+              ! (last block is always handled by unblocked code).
+              nx = max(nb,la_ilaenv(3,'WHETRD',uplo,n,-1,-1,-1))
+              if (nx < n) then
+                 ! determine if workspace is large enough for blocked code.
+                 ldwork = n
+                 iws = ldwork*nb
+                 if (lwork < iws) then
+                    ! not enough workspace to use optimal nb:  determine the
+                    ! minimum value of nb, and reduce nb or force use of
+                    ! unblocked code by setting nx = n.
+                    nb = max(lwork/ldwork,1)
+                    nbmin = la_ilaenv(2,'WHETRD',uplo,n,-1,-1,-1)
+                    if (nb < nbmin) nx = n
+                 end if
+              else
+                 nx = n
+              end if
+           else
+              nb = 1
+           end if
+           if (upper) then
+              ! reduce the upper triangle of a.
+              ! columns 1:kk are handled by the unblocked method.
+              kk = n - ((n - nx + nb - 1)/nb)*nb
+              do i = n - nb + 1,kk + 1,-nb
+                 ! reduce columns i:i+nb-1 to tridiagonal form and form the
+                 ! matrix w which is needed to update the unreduced part of
+                 ! the matrix
+                 call la_wlatrd(uplo,i + nb - 1,nb,a,lda,e,tau,work,ldwork)
+                 ! update the unreduced submatrix a(1:i-1,1:i-1), using an
+                 ! update of the form:  a := a - v*w**h - w*v**h
+                 call la_wher2k(uplo,'NO TRANSPOSE',i - 1,nb,-cone,a(1,i),lda,work, &
+                           ldwork,one,a,lda)
+                 ! copy superdiagonal elements back into a, and diagonal
+                 ! elements into d
+                 do j = i,i + nb - 1
+                    a(j - 1,j) = e(j - 1)
+                    d(j) = real(a(j,j),KIND=qp)
+                 end do
+              end do
+              ! use unblocked code to reduce the last or only block
+              call la_whetd2(uplo,kk,a,lda,d,e,tau,iinfo)
+           else
+              ! reduce the lower triangle of a
+              do i = 1,n - nx,nb
+                 ! reduce columns i:i+nb-1 to tridiagonal form and form the
+                 ! matrix w which is needed to update the unreduced part of
+                 ! the matrix
+                 call la_wlatrd(uplo,n - i + 1,nb,a(i,i),lda,e(i),tau(i),work, &
+                           ldwork)
+                 ! update the unreduced submatrix a(i+nb:n,i+nb:n), using
+                 ! an update of the form:  a := a - v*w**h - w*v**h
+                 call la_wher2k(uplo,'NO TRANSPOSE',n - i - nb + 1,nb,-cone,a(i + nb,i),lda, &
+                           work(nb + 1),ldwork,one,a(i + nb,i + nb),lda)
+                 ! copy subdiagonal elements back into a, and diagonal
+                 ! elements into d
+                 do j = i,i + nb - 1
+                    a(j + 1,j) = e(j)
+                    d(j) = real(a(j,j),KIND=qp)
+                 end do
+              end do
+              ! use unblocked code to reduce the last or only block
+              call la_whetd2(uplo,n - i + 1,a(i,i),lda,d(i),e(i),tau(i),iinfo)
+
+           end if
+           work(1) = lwkopt
+           return
+     end subroutine la_whetrd
+
+     !> CHETRD_HB2ST: reduces a complex Hermitian band matrix A to real symmetric
+     !> tridiagonal form T by a unitary similarity transformation:
+     !> Q**H * A * Q = T.
+
+     pure subroutine la_chetrd_hb2st(stage1,vect,uplo,n,kd,ab,ldab,d,e,hous,lhous, &
+               work,lwork,info)
+        use la_constants_sp
+#if defined(_OPENMP)
+#endif
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: stage1,uplo,vect
+           integer(ilp),intent(in) :: n,kd,ldab,lhous,lwork
+           integer(ilp),intent(out) :: info
+           ! Array Arguments
+           real(sp),intent(out) :: d(*),e(*)
+           complex(sp),intent(inout) :: ab(ldab,*)
+           complex(sp),intent(out) :: hous(*),work(*)
+        ! =====================================================================
+           ! Parameters
+           real(sp),parameter :: rzero = 0.0e+0_sp
+
+           ! Local Scalars
+           logical(lk) :: lquery,wantq,upper,afters1
+           integer(ilp) :: i,m,k,ib,sweepid,myid,shift,stt,st,ed,stind,edind, &
+           blklastind,colpt,thed,stepercol,grsiz,thgrsiz,thgrnb,thgrid,nbtiles,ttype, &
+           tid,nthreads,debug,abdpos,abofdpos,dpos,ofdpos,awpos,inda,indw,apos,sizea, &
+                     lda,indv,indtau,sicev,sizetau,ldv,lhmin,lwmin
+           real(sp) :: abstmp
+           complex(sp) :: tmp
+           ! Intrinsic Functions
+           intrinsic :: min,max,ceiling,real
+           ! Executable Statements
+           ! determine the minimal workspace size required.
+           ! test the input parameters
+           debug = 0
+           info = 0
+           afters1 = la_lsame(stage1,'Y')
+           wantq = la_lsame(vect,'V')
+           upper = la_lsame(uplo,'U')
+           lquery = (lwork == -1) .or. (lhous == -1)
+           ! determine the block size, the workspace size and the hous size.
+           ib = la_ilaenv2stage(2,'CHETRD_HB2ST',vect,n,kd,-1,-1)
+           lhmin = la_ilaenv2stage(3,'CHETRD_HB2ST',vect,n,kd,ib,-1)
+           lwmin = la_ilaenv2stage(4,'CHETRD_HB2ST',vect,n,kd,ib,-1)
+           if (.not. afters1 .and. .not. la_lsame(stage1,'N')) then
+              info = -1
+           else if (.not. la_lsame(vect,'N')) then
+              info = -2
+           else if (.not. upper .and. .not. la_lsame(uplo,'L')) then
+              info = -3
+           else if (n < 0) then
+              info = -4
+           else if (kd < 0) then
+              info = -5
+           else if (ldab < (kd + 1)) then
+              info = -7
+           else if (lhous < lhmin .and. .not. lquery) then
+              info = -11
+           else if (lwork < lwmin .and. .not. lquery) then
+              info = -13
+           end if
+           if (info == 0) then
+              hous(1) = lhmin
+              work(1) = lwmin
+           end if
+           if (info /= 0) then
+              call la_xerbla('CHETRD_HB2ST',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) then
+               hous(1) = 1
+               work(1) = 1
+               return
+           end if
+           ! determine pointer position
+           ldv = kd + ib
+           sizetau = 2*n
+           sicev = 2*n
+           indtau = 1
+           indv = indtau + sizetau
+           lda = 2*kd + 1
+           sizea = lda*n
+           inda = 1
+           indw = inda + sizea
+           nthreads = 1
+           tid = 0
+           if (upper) then
+               apos = inda + kd
+               awpos = inda
+               dpos = apos + kd
+               ofdpos = dpos - 1
+               abdpos = kd + 1
+               abofdpos = kd
+           else
+               apos = inda
+               awpos = inda + kd + 1
+               dpos = apos
+               ofdpos = dpos + 1
+               abdpos = 1
+               abofdpos = 2
+           end if
+           ! case kd=0:
+           ! the matrix is diagonal. we just copy it (convert to "real" for
+           ! complex because d is double and the imaginary part should be 0)
+           ! and store it in d. a sequential code here is better or
+           ! in a parallel environment it might need two cores for d and e
+           if (kd == 0) then
+               do i = 1,n
+                   d(i) = real(ab(abdpos,i),KIND=sp)
+               end do
+               do i = 1,n - 1
+                   e(i) = rzero
+               end do
+               hous(1) = 1
+               work(1) = 1
+               return
+           end if
+           ! case kd=1:
+           ! the matrix is already tridiagonal. we have to make diagonal
+           ! and offdiagonal elements real, and store them in d and e.
+           ! for that, for real precision just copy the diag and offdiag
+           ! to d and e while for the complex case the bulge chasing is
+           ! performed to convert the hermetian tridiagonal to symmetric
+           ! tridiagonal. a simpler conversion formula might be used, but then
+           ! updating the q matrix will be required and based if q is generated
+           ! or not this might complicate the story.
+           if (kd == 1) then
+               do i = 1,n
+                   d(i) = real(ab(abdpos,i),KIND=sp)
+               end do
+               ! make off-diagonal elements real and copy them to e
+               if (upper) then
+                   do i = 1,n - 1
+                       tmp = ab(abofdpos,i + 1)
+                       abstmp = abs(tmp)
+                       ab(abofdpos,i + 1) = abstmp
+                       e(i) = abstmp
+                       if (abstmp /= rzero) then
+                          tmp = tmp/abstmp
+                       else
+                          tmp = cone
+                       end if
+                       if (i < n - 1) ab(abofdpos,i + 2) = ab(abofdpos,i + 2)*tmp
+                        ! if( wantz ) then
+                           ! call la_cscal( n, conjg( tmp ), q( 1, i+1 ), 1 )
+                        ! end if
+                   end do
+               else
+                   do i = 1,n - 1
+                      tmp = ab(abofdpos,i)
+                      abstmp = abs(tmp)
+                      ab(abofdpos,i) = abstmp
+                      e(i) = abstmp
+                      if (abstmp /= rzero) then
+                         tmp = tmp/abstmp
+                      else
+                         tmp = cone
+                      end if
+                      if (i < n - 1) ab(abofdpos,i + 1) = ab(abofdpos,i + 1)*tmp
+                       ! if( wantq ) then
+                          ! call la_cscal( n, tmp, q( 1, i+1 ), 1 )
+                       ! end if
+                   end do
+               end if
+               hous(1) = 1
+               work(1) = 1
+               return
+           end if
+           ! main code start here.
+           ! reduce the hermitian band of a to a tridiagonal matrix.
+           thgrsiz = n
+           grsiz = 1
+           shift = 3
+           nbtiles = ceiling(real(n,KIND=sp)/real(kd,KIND=sp))
+           stepercol = ceiling(real(shift,KIND=sp)/real(grsiz,KIND=sp))
+           thgrnb = ceiling(real(n - 1,KIND=sp)/real(thgrsiz,KIND=sp))
+           call la_clacpy("A",kd + 1,n,ab,ldab,work(apos),lda)
+           call la_claset("A",kd,n,czero,czero,work(awpos),lda)
+           ! openmp parallelisation start here
+#if defined(_OPENMP)
+!$OMP PARALLEL PRIVATE( TID, THGRID, BLKLASTIND )
+!$OMP$         PRIVATE( THED, I, M, K, ST, ED, STT, SWEEPID )
+!$OMP$         PRIVATE( MYID, TTYPE, COLPT, STIND, EDIND )
+!$OMP$         SHARED ( UPLO, WANTQ, INDV, INDTAU, HOUS, WORK)
+!$OMP$         SHARED ( N, KD, IB, NBTILES, LDA, LDV, INDA )
+!$OMP$         SHARED ( STEPERCOL, THGRNB, THGRSIZ, GRSIZ, SHIFT )
+!$OMP MASTER
+#endif
+           ! main bulge chasing loop
+           loop_100: do thgrid = 1,thgrnb
+               stt = (thgrid - 1)*thgrsiz + 1
+               thed = min((stt + thgrsiz - 1), (n - 1))
+               loop_110: do i = stt,n - 1
+                   ed = min(i,thed)
+                   if (stt > ed) exit
+                   loop_120: do m = 1,stepercol
+                       st = stt
+                       loop_130: do sweepid = st,ed
+                           loop_140: do k = 1,grsiz
+                               myid = (i - sweepid)*(stepercol*grsiz) + (m - 1)*grsiz + k
+                               if (myid == 1) then
+                                   ttype = 1
+                               else
+                                   ttype = mod(myid,2) + 2
+                               end if
+                               if (ttype == 2) then
+                                   colpt = (myid/2)*kd + sweepid
+                                   stind = colpt - kd + 1
+                                   edind = min(colpt,n)
+                                   blklastind = colpt
+                               else
+                                   colpt = ((myid + 1)/2)*kd + sweepid
+                                   stind = colpt - kd + 1
+                                   edind = min(colpt,n)
+                                   if ((stind >= edind - 1) .and. (edind == n)) then
+                                       blklastind = n
+                                   else
+                                       blklastind = 0
+                                   end if
+                               end if
+                               ! call the kernel
+#if defined(_OPENMP) &&  _OPENMP >= 201307
+                               if (ttype /= 1) then
+!$OMP TASK DEPEND(in:WORK(MYID+SHIFT-1))
+!$OMP$     DEPEND(in:WORK(MYID-1))
+!$OMP$     DEPEND(out:WORK(MYID))
+                                   tid = omp_get_thread_num()
+                                   call la_chb2st_kernels(uplo,wantq,ttype,stind,edind, &
+                                   sweepid,n,kd,ib,work(inda),lda,hous(indv),hous( &
+                                             indtau),ldv,work(indw + tid*kd))
+!$OMP END TASK
+                               else
+!$OMP TASK DEPEND(in:WORK(MYID+SHIFT-1))
+!$OMP$     DEPEND(out:WORK(MYID))
+                                   tid = omp_get_thread_num()
+                                   call la_chb2st_kernels(uplo,wantq,ttype,stind,edind, &
+                                   sweepid,n,kd,ib,work(inda),lda,hous(indv),hous( &
+                                             indtau),ldv,work(indw + tid*kd))
+!$OMP END TASK
+                               end if
+#else
+                               call la_chb2st_kernels(uplo,wantq,ttype,stind,edind, &
+                               sweepid,n,kd,ib,work(inda),lda,hous(indv),hous(indtau), &
+                                          ldv,work(indw + tid*kd))
+#endif
+                               if (blklastind >= (n - 1)) then
+                                   stt = stt + 1
+                                   exit
+                               end if
+                           end do loop_140
+                       end do loop_130
+                   end do loop_120
+               end do loop_110
+           end do loop_100
+#if defined(_OPENMP)
+!$OMP END MASTER
+!$OMP END PARALLEL
+#endif
+           ! copy the diagonal from a to d. note that d is real thus only
+           ! the real part is needed, the imaginary part should be czero.
+           do i = 1,n
+               d(i) = real(work(dpos + (i - 1)*lda),KIND=sp)
+           end do
+           ! copy the off diagonal from a to e. note that e is real thus only
+           ! the real part is needed, the imaginary part should be czero.
+           if (upper) then
+               do i = 1,n - 1
+                  e(i) = real(work(ofdpos + i*lda),KIND=sp)
+               end do
+           else
+               do i = 1,n - 1
+                  e(i) = real(work(ofdpos + (i - 1)*lda),KIND=sp)
+               end do
+           end if
+           hous(1) = lhmin
+           work(1) = lwmin
+           return
+     end subroutine la_chetrd_hb2st
+     !> ZHETRD_HB2ST: reduces a complex Hermitian band matrix A to real symmetric
+     !> tridiagonal form T by a unitary similarity transformation:
+     !> Q**H * A * Q = T.
+
+     pure subroutine la_zhetrd_hb2st(stage1,vect,uplo,n,kd,ab,ldab,d,e,hous,lhous, &
+               work,lwork,info)
+        use la_constants_dp
+#if defined(_OPENMP)
+#endif
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: stage1,uplo,vect
+           integer(ilp),intent(in) :: n,kd,ldab,lhous,lwork
+           integer(ilp),intent(out) :: info
+           ! Array Arguments
+           real(dp),intent(out) :: d(*),e(*)
+           complex(dp),intent(inout) :: ab(ldab,*)
+           complex(dp),intent(out) :: hous(*),work(*)
+        ! =====================================================================
+           ! Parameters
+           real(dp),parameter :: rzero = 0.0e+0_dp
+
+           ! Local Scalars
+           logical(lk) :: lquery,wantq,upper,afters1
+           integer(ilp) :: i,m,k,ib,sweepid,myid,shift,stt,st,ed,stind,edind, &
+           blklastind,colpt,thed,stepercol,grsiz,thgrsiz,thgrnb,thgrid,nbtiles,ttype, &
+           tid,nthreads,debug,abdpos,abofdpos,dpos,ofdpos,awpos,inda,indw,apos,sizea, &
+                     lda,indv,indtau,sizev,sizetau,ldv,lhmin,lwmin
+           real(dp) :: abstmp
+           complex(dp) :: tmp
+           ! Intrinsic Functions
+           intrinsic :: min,max,ceiling,real
+           ! Executable Statements
+           ! determine the minimal workspace size required.
+           ! test the input parameters
+           debug = 0
+           info = 0
+           afters1 = la_lsame(stage1,'Y')
+           wantq = la_lsame(vect,'V')
+           upper = la_lsame(uplo,'U')
+           lquery = (lwork == -1) .or. (lhous == -1)
+           ! determine the block size, the workspace size and the hous size.
+           ib = la_ilaenv2stage(2,'ZHETRD_HB2ST',vect,n,kd,-1,-1)
+           lhmin = la_ilaenv2stage(3,'ZHETRD_HB2ST',vect,n,kd,ib,-1)
+           lwmin = la_ilaenv2stage(4,'ZHETRD_HB2ST',vect,n,kd,ib,-1)
+           if (.not. afters1 .and. .not. la_lsame(stage1,'N')) then
+              info = -1
+           else if (.not. la_lsame(vect,'N')) then
+              info = -2
+           else if (.not. upper .and. .not. la_lsame(uplo,'L')) then
+              info = -3
+           else if (n < 0) then
+              info = -4
+           else if (kd < 0) then
+              info = -5
+           else if (ldab < (kd + 1)) then
+              info = -7
+           else if (lhous < lhmin .and. .not. lquery) then
+              info = -11
+           else if (lwork < lwmin .and. .not. lquery) then
+              info = -13
+           end if
+           if (info == 0) then
+              hous(1) = lhmin
+              work(1) = lwmin
+           end if
+           if (info /= 0) then
+              call la_xerbla('ZHETRD_HB2ST',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) then
+               hous(1) = 1
+               work(1) = 1
+               return
+           end if
+           ! determine pointer position
+           ldv = kd + ib
+           sizetau = 2*n
+           sizev = 2*n
+           indtau = 1
+           indv = indtau + sizetau
+           lda = 2*kd + 1
+           sizea = lda*n
+           inda = 1
+           indw = inda + sizea
+           nthreads = 1
+           tid = 0
+           if (upper) then
+               apos = inda + kd
+               awpos = inda
+               dpos = apos + kd
+               ofdpos = dpos - 1
+               abdpos = kd + 1
+               abofdpos = kd
+           else
+               apos = inda
+               awpos = inda + kd + 1
+               dpos = apos
+               ofdpos = dpos + 1
+               abdpos = 1
+               abofdpos = 2
+           end if
+           ! case kd=0:
+           ! the matrix is diagonal. we just copy it (convert to "real" for
+           ! complex because d is double and the imaginary part should be 0)
+           ! and store it in d. a sequential code here is better or
+           ! in a parallel environment it might need two cores for d and e
+           if (kd == 0) then
+               do i = 1,n
+                   d(i) = real(ab(abdpos,i),KIND=dp)
+               end do
+               do i = 1,n - 1
+                   e(i) = rzero
+               end do
+               hous(1) = 1
+               work(1) = 1
+               return
+           end if
+           ! case kd=1:
+           ! the matrix is already tridiagonal. we have to make diagonal
+           ! and offdiagonal elements real, and store them in d and e.
+           ! for that, for real precision just copy the diag and offdiag
+           ! to d and e while for the complex case the bulge chasing is
+           ! performed to convert the hermetian tridiagonal to symmetric
+           ! tridiagonal. a simpler conversion formula might be used, but then
+           ! updating the q matrix will be required and based if q is generated
+           ! or not this might complicate the story.
+           if (kd == 1) then
+               do i = 1,n
+                   d(i) = real(ab(abdpos,i),KIND=dp)
+               end do
+               ! make off-diagonal elements real and copy them to e
+               if (upper) then
+                   do i = 1,n - 1
+                       tmp = ab(abofdpos,i + 1)
+                       abstmp = abs(tmp)
+                       ab(abofdpos,i + 1) = abstmp
+                       e(i) = abstmp
+                       if (abstmp /= rzero) then
+                          tmp = tmp/abstmp
+                       else
+                          tmp = cone
+                       end if
+                       if (i < n - 1) ab(abofdpos,i + 2) = ab(abofdpos,i + 2)*tmp
+                        ! if( wantz ) then
+                           ! call la_zscal( n, conjg( tmp ), q( 1, i+1 ), 1 )
+                        ! end if
+                   end do
+               else
+                   do i = 1,n - 1
+                      tmp = ab(abofdpos,i)
+                      abstmp = abs(tmp)
+                      ab(abofdpos,i) = abstmp
+                      e(i) = abstmp
+                      if (abstmp /= rzero) then
+                         tmp = tmp/abstmp
+                      else
+                         tmp = cone
+                      end if
+                      if (i < n - 1) ab(abofdpos,i + 1) = ab(abofdpos,i + 1)*tmp
+                       ! if( wantq ) then
+                          ! call la_zscal( n, tmp, q( 1, i+1 ), 1 )
+                       ! end if
+                   end do
+               end if
+               hous(1) = 1
+               work(1) = 1
+               return
+           end if
+           ! main code start here.
+           ! reduce the hermitian band of a to a tridiagonal matrix.
+           thgrsiz = n
+           grsiz = 1
+           shift = 3
+           nbtiles = ceiling(real(n,KIND=dp)/real(kd,KIND=dp))
+           stepercol = ceiling(real(shift,KIND=dp)/real(grsiz,KIND=dp))
+           thgrnb = ceiling(real(n - 1,KIND=dp)/real(thgrsiz,KIND=dp))
+           call la_zlacpy("A",kd + 1,n,ab,ldab,work(apos),lda)
+           call la_zlaset("A",kd,n,czero,czero,work(awpos),lda)
+           ! openmp parallelisation start here
+#if defined(_OPENMP)
+!$OMP PARALLEL PRIVATE( TID, THGRID, BLKLASTIND )
+!$OMP$         PRIVATE( THED, I, M, K, ST, ED, STT, SWEEPID )
+!$OMP$         PRIVATE( MYID, TTYPE, COLPT, STIND, EDIND )
+!$OMP$         SHARED ( UPLO, WANTQ, INDV, INDTAU, HOUS, WORK)
+!$OMP$         SHARED ( N, KD, IB, NBTILES, LDA, LDV, INDA )
+!$OMP$         SHARED ( STEPERCOL, THGRNB, THGRSIZ, GRSIZ, SHIFT )
+!$OMP MASTER
+#endif
+           ! main bulge chasing loop
+           loop_100: do thgrid = 1,thgrnb
+               stt = (thgrid - 1)*thgrsiz + 1
+               thed = min((stt + thgrsiz - 1), (n - 1))
+               loop_110: do i = stt,n - 1
+                   ed = min(i,thed)
+                   if (stt > ed) exit
+                   loop_120: do m = 1,stepercol
+                       st = stt
+                       loop_130: do sweepid = st,ed
+                           loop_140: do k = 1,grsiz
+                               myid = (i - sweepid)*(stepercol*grsiz) + (m - 1)*grsiz + k
+                               if (myid == 1) then
+                                   ttype = 1
+                               else
+                                   ttype = mod(myid,2) + 2
+                               end if
+                               if (ttype == 2) then
+                                   colpt = (myid/2)*kd + sweepid
+                                   stind = colpt - kd + 1
+                                   edind = min(colpt,n)
+                                   blklastind = colpt
+                               else
+                                   colpt = ((myid + 1)/2)*kd + sweepid
+                                   stind = colpt - kd + 1
+                                   edind = min(colpt,n)
+                                   if ((stind >= edind - 1) .and. (edind == n)) then
+                                       blklastind = n
+                                   else
+                                       blklastind = 0
+                                   end if
+                               end if
+                               ! call the kernel
+#if defined(_OPENMP) &&  _OPENMP >= 201307
+                               if (ttype /= 1) then
+!$OMP TASK DEPEND(in:WORK(MYID+SHIFT-1))
+!$OMP$     DEPEND(in:WORK(MYID-1))
+!$OMP$     DEPEND(out:WORK(MYID))
+                                   tid = omp_get_thread_num()
+                                   call la_zhb2st_kernels(uplo,wantq,ttype,stind,edind, &
+                                   sweepid,n,kd,ib,work(inda),lda,hous(indv),hous( &
+                                             indtau),ldv,work(indw + tid*kd))
+!$OMP END TASK
+                               else
+!$OMP TASK DEPEND(in:WORK(MYID+SHIFT-1))
+!$OMP$     DEPEND(out:WORK(MYID))
+                                   tid = omp_get_thread_num()
+                                   call la_zhb2st_kernels(uplo,wantq,ttype,stind,edind, &
+                                   sweepid,n,kd,ib,work(inda),lda,hous(indv),hous( &
+                                             indtau),ldv,work(indw + tid*kd))
+!$OMP END TASK
+                               end if
+#else
+                               call la_zhb2st_kernels(uplo,wantq,ttype,stind,edind, &
+                               sweepid,n,kd,ib,work(inda),lda,hous(indv),hous(indtau), &
+                                          ldv,work(indw + tid*kd))
+#endif
+                               if (blklastind >= (n - 1)) then
+                                   stt = stt + 1
+                                   exit
+                               end if
+                           end do loop_140
+                       end do loop_130
+                   end do loop_120
+               end do loop_110
+           end do loop_100
+#if defined(_OPENMP)
+!$OMP END MASTER
+!$OMP END PARALLEL
+#endif
+           ! copy the diagonal from a to d. note that d is real thus only
+           ! the real part is needed, the imaginary part should be czero.
+           do i = 1,n
+               d(i) = real(work(dpos + (i - 1)*lda),KIND=dp)
+           end do
+           ! copy the off diagonal from a to e. note that e is real thus only
+           ! the real part is needed, the imaginary part should be czero.
+           if (upper) then
+               do i = 1,n - 1
+                  e(i) = real(work(ofdpos + i*lda),KIND=dp)
+               end do
+           else
+               do i = 1,n - 1
+                  e(i) = real(work(ofdpos + (i - 1)*lda),KIND=dp)
+               end do
+           end if
+           hous(1) = lhmin
+           work(1) = lwmin
+           return
+     end subroutine la_zhetrd_hb2st
+     !> WHETRD_HB2ST: reduces a complex Hermitian band matrix A to real symmetric
+     !> tridiagonal form T by a unitary similarity transformation:
+     !> Q**H * A * Q = T.
+
+     pure subroutine la_whetrd_hb2st(stage1,vect,uplo,n,kd,ab,ldab,d,e,hous,lhous, &
+               work,lwork,info)
+        use la_constants_qp
+#if defined(_OPENMP)
+#endif
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: stage1,uplo,vect
+           integer(ilp),intent(in) :: n,kd,ldab,lhous,lwork
+           integer(ilp),intent(out) :: info
+           ! Array Arguments
+           real(qp),intent(out) :: d(*),e(*)
+           complex(qp),intent(inout) :: ab(ldab,*)
+           complex(qp),intent(out) :: hous(*),work(*)
+        ! =====================================================================
+           ! Parameters
+           real(qp),parameter :: rzero = 0.0e+0_qp
+
+           ! Local Scalars
+           logical(lk) :: lquery,wantq,upper,afters1
+           integer(ilp) :: i,m,k,ib,sweepid,myid,shift,stt,st,ed,stind,edind, &
+           blklastind,colpt,thed,stepercol,grsiz,thgrsiz,thgrnb,thgrid,nbtiles,ttype, &
+           tid,nthreads,debug,abdpos,abofdpos,dpos,ofdpos,awpos,inda,indw,apos,sizea, &
+                     lda,indv,indtau,siwev,sizetau,ldv,lhmin,lwmin
+           real(qp) :: abstmp
+           complex(qp) :: tmp
+           ! Intrinsic Functions
+           intrinsic :: min,max,ceiling,real
+           ! Executable Statements
+           ! determine the minimal workspace size required.
+           ! test the input parameters
+           debug = 0
+           info = 0
+           afters1 = la_lsame(stage1,'Y')
+           wantq = la_lsame(vect,'V')
+           upper = la_lsame(uplo,'U')
+           lquery = (lwork == -1) .or. (lhous == -1)
+           ! determine the block size, the workspace size and the hous size.
+           ib = la_ilaenv2stage(2,'WHETRD_HB2ST',vect,n,kd,-1,-1)
+           lhmin = la_ilaenv2stage(3,'WHETRD_HB2ST',vect,n,kd,ib,-1)
+           lwmin = la_ilaenv2stage(4,'WHETRD_HB2ST',vect,n,kd,ib,-1)
+           if (.not. afters1 .and. .not. la_lsame(stage1,'N')) then
+              info = -1
+           else if (.not. la_lsame(vect,'N')) then
+              info = -2
+           else if (.not. upper .and. .not. la_lsame(uplo,'L')) then
+              info = -3
+           else if (n < 0) then
+              info = -4
+           else if (kd < 0) then
+              info = -5
+           else if (ldab < (kd + 1)) then
+              info = -7
+           else if (lhous < lhmin .and. .not. lquery) then
+              info = -11
+           else if (lwork < lwmin .and. .not. lquery) then
+              info = -13
+           end if
+           if (info == 0) then
+              hous(1) = lhmin
+              work(1) = lwmin
+           end if
+           if (info /= 0) then
+              call la_xerbla('WHETRD_HB2ST',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) then
+               hous(1) = 1
+               work(1) = 1
+               return
+           end if
+           ! determine pointer position
+           ldv = kd + ib
+           sizetau = 2*n
+           siwev = 2*n
+           indtau = 1
+           indv = indtau + sizetau
+           lda = 2*kd + 1
+           sizea = lda*n
+           inda = 1
+           indw = inda + sizea
+           nthreads = 1
+           tid = 0
+           if (upper) then
+               apos = inda + kd
+               awpos = inda
+               dpos = apos + kd
+               ofdpos = dpos - 1
+               abdpos = kd + 1
+               abofdpos = kd
+           else
+               apos = inda
+               awpos = inda + kd + 1
+               dpos = apos
+               ofdpos = dpos + 1
+               abdpos = 1
+               abofdpos = 2
+           end if
+           ! case kd=0:
+           ! the matrix is diagonal. we just copy it (convert to "real" for
+           ! complex because d is double and the imaginary part should be 0)
+           ! and store it in d. a sequential code here is better or
+           ! in a parallel environment it might need two cores for d and e
+           if (kd == 0) then
+               do i = 1,n
+                   d(i) = real(ab(abdpos,i),KIND=qp)
+               end do
+               do i = 1,n - 1
+                   e(i) = rzero
+               end do
+               hous(1) = 1
+               work(1) = 1
+               return
+           end if
+           ! case kd=1:
+           ! the matrix is already tridiagonal. we have to make diagonal
+           ! and offdiagonal elements real, and store them in d and e.
+           ! for that, for real precision just copy the diag and offdiag
+           ! to d and e while for the complex case the bulge chasing is
+           ! performed to convert the hermetian tridiagonal to symmetric
+           ! tridiagonal. a simpler conversion formula might be used, but then
+           ! updating the q matrix will be required and based if q is generated
+           ! or not this might complicate the story.
+           if (kd == 1) then
+               do i = 1,n
+                   d(i) = real(ab(abdpos,i),KIND=qp)
+               end do
+               ! make off-diagonal elements real and copy them to e
+               if (upper) then
+                   do i = 1,n - 1
+                       tmp = ab(abofdpos,i + 1)
+                       abstmp = abs(tmp)
+                       ab(abofdpos,i + 1) = abstmp
+                       e(i) = abstmp
+                       if (abstmp /= rzero) then
+                          tmp = tmp/abstmp
+                       else
+                          tmp = cone
+                       end if
+                       if (i < n - 1) ab(abofdpos,i + 2) = ab(abofdpos,i + 2)*tmp
+                        ! if( wantz ) then
+                           ! call la_wscal( n, conjg( tmp ), q( 1, i+1 ), 1 )
+                        ! end if
+                   end do
+               else
+                   do i = 1,n - 1
+                      tmp = ab(abofdpos,i)
+                      abstmp = abs(tmp)
+                      ab(abofdpos,i) = abstmp
+                      e(i) = abstmp
+                      if (abstmp /= rzero) then
+                         tmp = tmp/abstmp
+                      else
+                         tmp = cone
+                      end if
+                      if (i < n - 1) ab(abofdpos,i + 1) = ab(abofdpos,i + 1)*tmp
+                       ! if( wantq ) then
+                          ! call la_wscal( n, tmp, q( 1, i+1 ), 1 )
+                       ! end if
+                   end do
+               end if
+               hous(1) = 1
+               work(1) = 1
+               return
+           end if
+           ! main code start here.
+           ! reduce the hermitian band of a to a tridiagonal matrix.
+           thgrsiz = n
+           grsiz = 1
+           shift = 3
+           nbtiles = ceiling(real(n,KIND=qp)/real(kd,KIND=qp))
+           stepercol = ceiling(real(shift,KIND=qp)/real(grsiz,KIND=qp))
+           thgrnb = ceiling(real(n - 1,KIND=qp)/real(thgrsiz,KIND=qp))
+           call la_wlacpy("A",kd + 1,n,ab,ldab,work(apos),lda)
+           call la_wlaset("A",kd,n,czero,czero,work(awpos),lda)
+           ! openmp parallelisation start here
+#if defined(_OPENMP)
+!$OMP PARALLEL PRIVATE( TID, THGRID, BLKLASTIND )
+!$OMP$         PRIVATE( THED, I, M, K, ST, ED, STT, SWEEPID )
+!$OMP$         PRIVATE( MYID, TTYPE, COLPT, STIND, EDIND )
+!$OMP$         SHARED ( UPLO, WANTQ, INDV, INDTAU, HOUS, WORK)
+!$OMP$         SHARED ( N, KD, IB, NBTILES, LDA, LDV, INDA )
+!$OMP$         SHARED ( STEPERCOL, THGRNB, THGRSIZ, GRSIZ, SHIFT )
+!$OMP MASTER
+#endif
+           ! main bulge chasing loop
+           loop_100: do thgrid = 1,thgrnb
+               stt = (thgrid - 1)*thgrsiz + 1
+               thed = min((stt + thgrsiz - 1), (n - 1))
+               loop_110: do i = stt,n - 1
+                   ed = min(i,thed)
+                   if (stt > ed) exit
+                   loop_120: do m = 1,stepercol
+                       st = stt
+                       loop_130: do sweepid = st,ed
+                           loop_140: do k = 1,grsiz
+                               myid = (i - sweepid)*(stepercol*grsiz) + (m - 1)*grsiz + k
+                               if (myid == 1) then
+                                   ttype = 1
+                               else
+                                   ttype = mod(myid,2) + 2
+                               end if
+                               if (ttype == 2) then
+                                   colpt = (myid/2)*kd + sweepid
+                                   stind = colpt - kd + 1
+                                   edind = min(colpt,n)
+                                   blklastind = colpt
+                               else
+                                   colpt = ((myid + 1)/2)*kd + sweepid
+                                   stind = colpt - kd + 1
+                                   edind = min(colpt,n)
+                                   if ((stind >= edind - 1) .and. (edind == n)) then
+                                       blklastind = n
+                                   else
+                                       blklastind = 0
+                                   end if
+                               end if
+                               ! call the kernel
+#if defined(_OPENMP) &&  _OPENMP >= 201307
+                               if (ttype /= 1) then
+!$OMP TASK DEPEND(in:WORK(MYID+SHIFT-1))
+!$OMP$     DEPEND(in:WORK(MYID-1))
+!$OMP$     DEPEND(out:WORK(MYID))
+                                   tid = omp_get_thread_num()
+                                   call la_whb2st_kernels(uplo,wantq,ttype,stind,edind, &
+                                   sweepid,n,kd,ib,work(inda),lda,hous(indv),hous( &
+                                             indtau),ldv,work(indw + tid*kd))
+!$OMP END TASK
+                               else
+!$OMP TASK DEPEND(in:WORK(MYID+SHIFT-1))
+!$OMP$     DEPEND(out:WORK(MYID))
+                                   tid = omp_get_thread_num()
+                                   call la_whb2st_kernels(uplo,wantq,ttype,stind,edind, &
+                                   sweepid,n,kd,ib,work(inda),lda,hous(indv),hous( &
+                                             indtau),ldv,work(indw + tid*kd))
+!$OMP END TASK
+                               end if
+#else
+                               call la_whb2st_kernels(uplo,wantq,ttype,stind,edind, &
+                               sweepid,n,kd,ib,work(inda),lda,hous(indv),hous(indtau), &
+                                          ldv,work(indw + tid*kd))
+#endif
+                               if (blklastind >= (n - 1)) then
+                                   stt = stt + 1
+                                   exit
+                               end if
+                           end do loop_140
+                       end do loop_130
+                   end do loop_120
+               end do loop_110
+           end do loop_100
+#if defined(_OPENMP)
+!$OMP END MASTER
+!$OMP END PARALLEL
+#endif
+           ! copy the diagonal from a to d. note that d is real thus only
+           ! the real part is needed, the imaginary part should be czero.
+           do i = 1,n
+               d(i) = real(work(dpos + (i - 1)*lda),KIND=qp)
+           end do
+           ! copy the off diagonal from a to e. note that e is real thus only
+           ! the real part is needed, the imaginary part should be czero.
+           if (upper) then
+               do i = 1,n - 1
+                  e(i) = real(work(ofdpos + i*lda),KIND=qp)
+               end do
+           else
+               do i = 1,n - 1
+                  e(i) = real(work(ofdpos + (i - 1)*lda),KIND=qp)
+               end do
+           end if
+           hous(1) = lhmin
+           work(1) = lwmin
+           return
+     end subroutine la_whetrd_hb2st
+
+     !> CHETRD_HE2HB: reduces a complex Hermitian matrix A to complex Hermitian
+     !> band-diagonal form AB by a unitary similarity transformation:
+     !> Q**H * A * Q = AB.
+
+     pure subroutine la_chetrd_he2hb(uplo,n,kd,a,lda,ab,ldab,tau,work,lwork,info)
+        use la_constants_sp
+
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldab,lwork,n,kd
+           ! Array Arguments
+           complex(sp),intent(inout) :: a(lda,*)
+           complex(sp),intent(out) :: ab(ldab,*),tau(*),work(*)
+        ! =====================================================================
+           ! Parameters
+           real(sp),parameter :: rone = 1.0e+0_sp
+
+           ! Local Scalars
+           logical(lk) :: lquery,upper
+           integer(ilp) :: i,j,iinfo,lwmin,pn,pk,lk,ldt,ldw,lds2,lds1,ls2,ls1,lw,lt, &
+                      tpos,wpos,s2pos,s1pos
+           ! Intrinsic Functions
+           intrinsic :: min,max
+           ! Executable Statements
+           ! determine the minimal workspace size required
+           ! and test the input parameters
+           info = 0
+           upper = la_lsame(uplo,'U')
+           lquery = (lwork == -1)
+           lwmin = la_ilaenv2stage(4,'CHETRD_HE2HB','',n,kd,-1,-1)
+           if (.not. upper .and. .not. la_lsame(uplo,'L')) then
+              info = -1
+           else if (n < 0) then
+              info = -2
+           else if (kd < 0) then
+              info = -3
+           else if (lda < max(1,n)) then
+              info = -5
+           else if (ldab < max(1,kd + 1)) then
+              info = -7
+           else if (lwork < lwmin .and. .not. lquery) then
+              info = -10
+           end if
+           if (info /= 0) then
+              call la_xerbla('CHETRD_HE2HB',-info)
+              return
+           else if (lquery) then
+              work(1) = lwmin
+              return
+           end if
+           ! quick return if possible
+           ! copy the upper/lower portion of a into ab
+           if (n <= kd + 1) then
+               if (upper) then
+                   do i = 1,n
+                       lk = min(kd + 1,i)
+                       call la_ccopy(lk,a(i - lk + 1,i),1,ab(kd + 1 - lk + 1,i),1)
+                   end do
+               else
+                   do i = 1,n
+                       lk = min(kd + 1,n - i + 1)
+                       call la_ccopy(lk,a(i,i),1,ab(1,i),1)
+                   end do
+               end if
+               work(1) = 1
+               return
+           end if
+           ! determine the pointer position for the workspace
+           ldt = kd
+           lds1 = kd
+           lt = ldt*kd
+           lw = n*kd
+           ls1 = lds1*kd
+           ls2 = lwmin - lt - lw - ls1
+            ! ls2 = n*max(kd,factoptnb)
+           tpos = 1
+           wpos = tpos + lt
+           s1pos = wpos + lw
+           s2pos = s1pos + ls1
+           if (upper) then
+               ldw = kd
+               lds2 = kd
+           else
+               ldw = n
+               lds2 = n
+           end if
+           ! set the workspace of the triangular matrix t to czero once such a
+           ! way every time t is generated the upper/lower portion will be always czero
+           call la_claset("A",ldt,kd,czero,czero,work(tpos),ldt)
+           if (upper) then
+               do i = 1,n - kd,kd
+                  pn = n - i - kd + 1
+                  pk = min(n - i - kd + 1,kd)
+                  ! compute the lq factorization of the current block
+                  call la_cgelqf(kd,pn,a(i,i + kd),lda,tau(i),work(s2pos),ls2, &
+                            iinfo)
+                  ! copy the upper portion of a into ab
+                  do j = i,i + pk - 1
+                     lk = min(kd,n - j) + 1
+                     call la_ccopy(lk,a(j,j),lda,ab(kd + 1,j),ldab - 1)
+                  end do
+                  call la_claset('LOWER',pk,pk,czero,cone,a(i,i + kd),lda)
+                  ! form the matrix t
+                  call la_clarft('FORWARD','ROWWISE',pn,pk,a(i,i + kd),lda,tau(i), &
+                            work(tpos),ldt)
+                  ! compute w:
+                  call la_cgemm('CONJUGATE','NO TRANSPOSE',pk,pn,pk,cone,work(tpos), &
+                            ldt,a(i,i + kd),lda,czero,work(s2pos),lds2)
+                  call la_chemm('RIGHT',uplo,pk,pn,cone,a(i + kd,i + kd),lda,work( &
+                            s2pos),lds2,czero,work(wpos),ldw)
+                  call la_cgemm('NO TRANSPOSE','CONJUGATE',pk,pk,pn,cone,work(wpos), &
+                            ldw,work(s2pos),lds2,czero,work(s1pos),lds1)
+                  call la_cgemm('NO TRANSPOSE','NO TRANSPOSE',pk,pn,pk,-chalf,work( &
+                            s1pos),lds1,a(i,i + kd),lda,cone,work(wpos),ldw)
+                  ! update the unreduced submatrix a(i+kd:n,i+kd:n), using
+                  ! an update of the form:  a := a - v'*w - w'*v
+                  call la_cher2k(uplo,'CONJUGATE',pn,pk,-cone,a(i,i + kd),lda,work( &
+                            wpos),ldw,rone,a(i + kd,i + kd),lda)
+               end do
+              ! copy the upper band to ab which is the band storage matrix
+              do j = n - kd + 1,n
+                 lk = min(kd,n - j) + 1
+                 call la_ccopy(lk,a(j,j),lda,ab(kd + 1,j),ldab - 1)
+              end do
+           else
+               ! reduce the lower triangle of a to lower band matrix
+               loop_40: do i = 1,n - kd,kd
+                  pn = n - i - kd + 1
+                  pk = min(n - i - kd + 1,kd)
+                  ! compute the qr factorization of the current block
+                  call la_cgeqrf(pn,kd,a(i + kd,i),lda,tau(i),work(s2pos),ls2, &
+                            iinfo)
+                  ! copy the upper portion of a into ab
+                  do j = i,i + pk - 1
+                     lk = min(kd,n - j) + 1
+                     call la_ccopy(lk,a(j,j),1,ab(1,j),1)
+                  end do
+                  call la_claset('UPPER',pk,pk,czero,cone,a(i + kd,i),lda)
+                  ! form the matrix t
+                  call la_clarft('FORWARD','COLUMNWISE',pn,pk,a(i + kd,i),lda,tau(i), &
+                            work(tpos),ldt)
+                  ! compute w:
+                  call la_cgemm('NO TRANSPOSE','NO TRANSPOSE',pn,pk,pk,cone,a(i + kd,i) &
+                            ,lda,work(tpos),ldt,czero,work(s2pos),lds2)
+                  call la_chemm('LEFT',uplo,pn,pk,cone,a(i + kd,i + kd),lda,work(s2pos) &
+                            ,lds2,czero,work(wpos),ldw)
+                  call la_cgemm('CONJUGATE','NO TRANSPOSE',pk,pk,pn,cone,work(s2pos), &
+                            lds2,work(wpos),ldw,czero,work(s1pos),lds1)
+                  call la_cgemm('NO TRANSPOSE','NO TRANSPOSE',pn,pk,pk,-chalf,a(i + kd, &
+                            i),lda,work(s1pos),lds1,cone,work(wpos),ldw)
+                  ! update the unreduced submatrix a(i+kd:n,i+kd:n), using
+                  ! an update of the form:  a := a - v*w' - w*v'
+                  call la_cher2k(uplo,'NO TRANSPOSE',pn,pk,-cone,a(i + kd,i),lda,work( &
+                            wpos),ldw,rone,a(i + kd,i + kd),lda)
+                  ! ==================================================================
+                  ! restore a for comparison and checking to be removed
+                   ! do 45 j = i, i+pk-1
+                      ! lk = min( kd, n-j ) + 1
+                      ! call la_ccopy( lk, ab( 1, j ), 1, a( j, j ), 1 )
+                      45 continue
+                  ! ==================================================================
+               end do loop_40
+              ! copy the lower band to ab which is the band storage matrix
+              do j = n - kd + 1,n
+                 lk = min(kd,n - j) + 1
+                 call la_ccopy(lk,a(j,j),1,ab(1,j),1)
+              end do
+           end if
+           work(1) = lwmin
+           return
+     end subroutine la_chetrd_he2hb
+     !> ZHETRD_HE2HB: reduces a complex Hermitian matrix A to complex Hermitian
+     !> band-diagonal form AB by a unitary similarity transformation:
+     !> Q**H * A * Q = AB.
+
+     pure subroutine la_zhetrd_he2hb(uplo,n,kd,a,lda,ab,ldab,tau,work,lwork,info)
+        use la_constants_dp
+
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldab,lwork,n,kd
+           ! Array Arguments
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: ab(ldab,*),tau(*),work(*)
+        ! =====================================================================
+           ! Parameters
+           real(dp),parameter :: rone = 1.0e+0_dp
+
+           ! Local Scalars
+           logical(lk) :: lquery,upper
+           integer(ilp) :: i,j,iinfo,lwmin,pn,pk,lk,ldt,ldw,lds2,lds1,ls2,ls1,lw,lt, &
+                      tpos,wpos,s2pos,s1pos
+           ! Intrinsic Functions
+           intrinsic :: min,max
+           ! Executable Statements
+           ! determine the minimal workspace size required
+           ! and test the input parameters
+           info = 0
+           upper = la_lsame(uplo,'U')
+           lquery = (lwork == -1)
+           lwmin = la_ilaenv2stage(4,'ZHETRD_HE2HB','',n,kd,-1,-1)
+           if (.not. upper .and. .not. la_lsame(uplo,'L')) then
+              info = -1
+           else if (n < 0) then
+              info = -2
+           else if (kd < 0) then
+              info = -3
+           else if (lda < max(1,n)) then
+              info = -5
+           else if (ldab < max(1,kd + 1)) then
+              info = -7
+           else if (lwork < lwmin .and. .not. lquery) then
+              info = -10
+           end if
+           if (info /= 0) then
+              call la_xerbla('ZHETRD_HE2HB',-info)
+              return
+           else if (lquery) then
+              work(1) = lwmin
+              return
+           end if
+           ! quick return if possible
+           ! copy the upper/lower portion of a into ab
+           if (n <= kd + 1) then
+               if (upper) then
+                   do i = 1,n
+                       lk = min(kd + 1,i)
+                       call la_zcopy(lk,a(i - lk + 1,i),1,ab(kd + 1 - lk + 1,i),1)
+                   end do
+               else
+                   do i = 1,n
+                       lk = min(kd + 1,n - i + 1)
+                       call la_zcopy(lk,a(i,i),1,ab(1,i),1)
+                   end do
+               end if
+               work(1) = 1
+               return
+           end if
+           ! determine the pointer position for the workspace
+           ldt = kd
+           lds1 = kd
+           lt = ldt*kd
+           lw = n*kd
+           ls1 = lds1*kd
+           ls2 = lwmin - lt - lw - ls1
+            ! ls2 = n*max(kd,factoptnb)
+           tpos = 1
+           wpos = tpos + lt
+           s1pos = wpos + lw
+           s2pos = s1pos + ls1
+           if (upper) then
+               ldw = kd
+               lds2 = kd
+           else
+               ldw = n
+               lds2 = n
+           end if
+           ! set the workspace of the triangular matrix t to czero once such a
+           ! way every time t is generated the upper/lower portion will be always czero
+           call la_zlaset("A",ldt,kd,czero,czero,work(tpos),ldt)
+           if (upper) then
+               do i = 1,n - kd,kd
+                  pn = n - i - kd + 1
+                  pk = min(n - i - kd + 1,kd)
+                  ! compute the lq factorization of the current block
+                  call la_zgelqf(kd,pn,a(i,i + kd),lda,tau(i),work(s2pos),ls2, &
+                            iinfo)
+                  ! copy the upper portion of a into ab
+                  do j = i,i + pk - 1
+                     lk = min(kd,n - j) + 1
+                     call la_zcopy(lk,a(j,j),lda,ab(kd + 1,j),ldab - 1)
+                  end do
+                  call la_zlaset('LOWER',pk,pk,czero,cone,a(i,i + kd),lda)
+                  ! form the matrix t
+                  call la_zlarft('FORWARD','ROWWISE',pn,pk,a(i,i + kd),lda,tau(i), &
+                            work(tpos),ldt)
+                  ! compute w:
+                  call la_zgemm('CONJUGATE','NO TRANSPOSE',pk,pn,pk,cone,work(tpos), &
+                            ldt,a(i,i + kd),lda,czero,work(s2pos),lds2)
+                  call la_zhemm('RIGHT',uplo,pk,pn,cone,a(i + kd,i + kd),lda,work( &
+                            s2pos),lds2,czero,work(wpos),ldw)
+                  call la_zgemm('NO TRANSPOSE','CONJUGATE',pk,pk,pn,cone,work(wpos), &
+                            ldw,work(s2pos),lds2,czero,work(s1pos),lds1)
+                  call la_zgemm('NO TRANSPOSE','NO TRANSPOSE',pk,pn,pk,-chalf,work( &
+                            s1pos),lds1,a(i,i + kd),lda,cone,work(wpos),ldw)
+                  ! update the unreduced submatrix a(i+kd:n,i+kd:n), using
+                  ! an update of the form:  a := a - v'*w - w'*v
+                  call la_zher2k(uplo,'CONJUGATE',pn,pk,-cone,a(i,i + kd),lda,work( &
+                            wpos),ldw,rone,a(i + kd,i + kd),lda)
+               end do
+              ! copy the upper band to ab which is the band storage matrix
+              do j = n - kd + 1,n
+                 lk = min(kd,n - j) + 1
+                 call la_zcopy(lk,a(j,j),lda,ab(kd + 1,j),ldab - 1)
+              end do
+           else
+               ! reduce the lower triangle of a to lower band matrix
+               loop_40: do i = 1,n - kd,kd
+                  pn = n - i - kd + 1
+                  pk = min(n - i - kd + 1,kd)
+                  ! compute the qr factorization of the current block
+                  call la_zgeqrf(pn,kd,a(i + kd,i),lda,tau(i),work(s2pos),ls2, &
+                            iinfo)
+                  ! copy the upper portion of a into ab
+                  do j = i,i + pk - 1
+                     lk = min(kd,n - j) + 1
+                     call la_zcopy(lk,a(j,j),1,ab(1,j),1)
+                  end do
+                  call la_zlaset('UPPER',pk,pk,czero,cone,a(i + kd,i),lda)
+                  ! form the matrix t
+                  call la_zlarft('FORWARD','COLUMNWISE',pn,pk,a(i + kd,i),lda,tau(i), &
+                            work(tpos),ldt)
+                  ! compute w:
+                  call la_zgemm('NO TRANSPOSE','NO TRANSPOSE',pn,pk,pk,cone,a(i + kd,i) &
+                            ,lda,work(tpos),ldt,czero,work(s2pos),lds2)
+                  call la_zhemm('LEFT',uplo,pn,pk,cone,a(i + kd,i + kd),lda,work(s2pos) &
+                            ,lds2,czero,work(wpos),ldw)
+                  call la_zgemm('CONJUGATE','NO TRANSPOSE',pk,pk,pn,cone,work(s2pos), &
+                            lds2,work(wpos),ldw,czero,work(s1pos),lds1)
+                  call la_zgemm('NO TRANSPOSE','NO TRANSPOSE',pn,pk,pk,-chalf,a(i + kd, &
+                            i),lda,work(s1pos),lds1,cone,work(wpos),ldw)
+                  ! update the unreduced submatrix a(i+kd:n,i+kd:n), using
+                  ! an update of the form:  a := a - v*w' - w*v'
+                  call la_zher2k(uplo,'NO TRANSPOSE',pn,pk,-cone,a(i + kd,i),lda,work( &
+                            wpos),ldw,rone,a(i + kd,i + kd),lda)
+                  ! ==================================================================
+                  ! restore a for comparison and checking to be removed
+                   ! do 45 j = i, i+pk-1
+                      ! lk = min( kd, n-j ) + 1
+                      ! call la_zcopy( lk, ab( 1, j ), 1, a( j, j ), 1 )
+                      45 continue
+                  ! ==================================================================
+               end do loop_40
+              ! copy the lower band to ab which is the band storage matrix
+              do j = n - kd + 1,n
+                 lk = min(kd,n - j) + 1
+                 call la_zcopy(lk,a(j,j),1,ab(1,j),1)
+              end do
+           end if
+           work(1) = lwmin
+           return
+     end subroutine la_zhetrd_he2hb
+     !> WHETRD_HE2HB: reduces a complex Hermitian matrix A to complex Hermitian
+     !> band-diagonal form AB by a unitary similarity transformation:
+     !> Q**H * A * Q = AB.
+
+     pure subroutine la_whetrd_he2hb(uplo,n,kd,a,lda,ab,ldab,tau,work,lwork,info)
+        use la_constants_qp
+
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldab,lwork,n,kd
+           ! Array Arguments
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: ab(ldab,*),tau(*),work(*)
+        ! =====================================================================
+           ! Parameters
+           real(qp),parameter :: rone = 1.0e+0_qp
+
+           ! Local Scalars
+           logical(lk) :: lquery,upper
+           integer(ilp) :: i,j,iinfo,lwmin,pn,pk,lk,ldt,ldw,lds2,lds1,ls2,ls1,lw,lt, &
+                      tpos,wpos,s2pos,s1pos
+           ! Intrinsic Functions
+           intrinsic :: min,max
+           ! Executable Statements
+           ! determine the minimal workspace size required
+           ! and test the input parameters
+           info = 0
+           upper = la_lsame(uplo,'U')
+           lquery = (lwork == -1)
+           lwmin = la_ilaenv2stage(4,'WHETRD_HE2HB','',n,kd,-1,-1)
+           if (.not. upper .and. .not. la_lsame(uplo,'L')) then
+              info = -1
+           else if (n < 0) then
+              info = -2
+           else if (kd < 0) then
+              info = -3
+           else if (lda < max(1,n)) then
+              info = -5
+           else if (ldab < max(1,kd + 1)) then
+              info = -7
+           else if (lwork < lwmin .and. .not. lquery) then
+              info = -10
+           end if
+           if (info /= 0) then
+              call la_xerbla('WHETRD_HE2HB',-info)
+              return
+           else if (lquery) then
+              work(1) = lwmin
+              return
+           end if
+           ! quick return if possible
+           ! copy the upper/lower portion of a into ab
+           if (n <= kd + 1) then
+               if (upper) then
+                   do i = 1,n
+                       lk = min(kd + 1,i)
+                       call la_wcopy(lk,a(i - lk + 1,i),1,ab(kd + 1 - lk + 1,i),1)
+                   end do
+               else
+                   do i = 1,n
+                       lk = min(kd + 1,n - i + 1)
+                       call la_wcopy(lk,a(i,i),1,ab(1,i),1)
+                   end do
+               end if
+               work(1) = 1
+               return
+           end if
+           ! determine the pointer position for the workspace
+           ldt = kd
+           lds1 = kd
+           lt = ldt*kd
+           lw = n*kd
+           ls1 = lds1*kd
+           ls2 = lwmin - lt - lw - ls1
+            ! ls2 = n*max(kd,factoptnb)
+           tpos = 1
+           wpos = tpos + lt
+           s1pos = wpos + lw
+           s2pos = s1pos + ls1
+           if (upper) then
+               ldw = kd
+               lds2 = kd
+           else
+               ldw = n
+               lds2 = n
+           end if
+           ! set the workspace of the triangular matrix t to czero once such a
+           ! way every time t is generated the upper/lower portion will be always czero
+           call la_wlaset("A",ldt,kd,czero,czero,work(tpos),ldt)
+           if (upper) then
+               do i = 1,n - kd,kd
+                  pn = n - i - kd + 1
+                  pk = min(n - i - kd + 1,kd)
+                  ! compute the lq factorization of the current block
+                  call la_wgelqf(kd,pn,a(i,i + kd),lda,tau(i),work(s2pos),ls2, &
+                            iinfo)
+                  ! copy the upper portion of a into ab
+                  do j = i,i + pk - 1
+                     lk = min(kd,n - j) + 1
+                     call la_wcopy(lk,a(j,j),lda,ab(kd + 1,j),ldab - 1)
+                  end do
+                  call la_wlaset('LOWER',pk,pk,czero,cone,a(i,i + kd),lda)
+                  ! form the matrix t
+                  call la_wlarft('FORWARD','ROWWISE',pn,pk,a(i,i + kd),lda,tau(i), &
+                            work(tpos),ldt)
+                  ! compute w:
+                  call la_wgemm('CONJUGATE','NO TRANSPOSE',pk,pn,pk,cone,work(tpos), &
+                            ldt,a(i,i + kd),lda,czero,work(s2pos),lds2)
+                  call la_whemm('RIGHT',uplo,pk,pn,cone,a(i + kd,i + kd),lda,work( &
+                            s2pos),lds2,czero,work(wpos),ldw)
+                  call la_wgemm('NO TRANSPOSE','CONJUGATE',pk,pk,pn,cone,work(wpos), &
+                            ldw,work(s2pos),lds2,czero,work(s1pos),lds1)
+                  call la_wgemm('NO TRANSPOSE','NO TRANSPOSE',pk,pn,pk,-chalf,work( &
+                            s1pos),lds1,a(i,i + kd),lda,cone,work(wpos),ldw)
+                  ! update the unreduced submatrix a(i+kd:n,i+kd:n), using
+                  ! an update of the form:  a := a - v'*w - w'*v
+                  call la_wher2k(uplo,'CONJUGATE',pn,pk,-cone,a(i,i + kd),lda,work( &
+                            wpos),ldw,rone,a(i + kd,i + kd),lda)
+               end do
+              ! copy the upper band to ab which is the band storage matrix
+              do j = n - kd + 1,n
+                 lk = min(kd,n - j) + 1
+                 call la_wcopy(lk,a(j,j),lda,ab(kd + 1,j),ldab - 1)
+              end do
+           else
+               ! reduce the lower triangle of a to lower band matrix
+               loop_40: do i = 1,n - kd,kd
+                  pn = n - i - kd + 1
+                  pk = min(n - i - kd + 1,kd)
+                  ! compute the qr factorization of the current block
+                  call la_wgeqrf(pn,kd,a(i + kd,i),lda,tau(i),work(s2pos),ls2, &
+                            iinfo)
+                  ! copy the upper portion of a into ab
+                  do j = i,i + pk - 1
+                     lk = min(kd,n - j) + 1
+                     call la_wcopy(lk,a(j,j),1,ab(1,j),1)
+                  end do
+                  call la_wlaset('UPPER',pk,pk,czero,cone,a(i + kd,i),lda)
+                  ! form the matrix t
+                  call la_wlarft('FORWARD','COLUMNWISE',pn,pk,a(i + kd,i),lda,tau(i), &
+                            work(tpos),ldt)
+                  ! compute w:
+                  call la_wgemm('NO TRANSPOSE','NO TRANSPOSE',pn,pk,pk,cone,a(i + kd,i) &
+                            ,lda,work(tpos),ldt,czero,work(s2pos),lds2)
+                  call la_whemm('LEFT',uplo,pn,pk,cone,a(i + kd,i + kd),lda,work(s2pos) &
+                            ,lds2,czero,work(wpos),ldw)
+                  call la_wgemm('CONJUGATE','NO TRANSPOSE',pk,pk,pn,cone,work(s2pos), &
+                            lds2,work(wpos),ldw,czero,work(s1pos),lds1)
+                  call la_wgemm('NO TRANSPOSE','NO TRANSPOSE',pn,pk,pk,-chalf,a(i + kd, &
+                            i),lda,work(s1pos),lds1,cone,work(wpos),ldw)
+                  ! update the unreduced submatrix a(i+kd:n,i+kd:n), using
+                  ! an update of the form:  a := a - v*w' - w*v'
+                  call la_wher2k(uplo,'NO TRANSPOSE',pn,pk,-cone,a(i + kd,i),lda,work( &
+                            wpos),ldw,rone,a(i + kd,i + kd),lda)
+                  ! ==================================================================
+                  ! restore a for comparison and checking to be removed
+                   ! do 45 j = i, i+pk-1
+                      ! lk = min( kd, n-j ) + 1
+                      ! call la_wcopy( lk, ab( 1, j ), 1, a( j, j ), 1 )
+                      45 continue
+                  ! ==================================================================
+               end do loop_40
+              ! copy the lower band to ab which is the band storage matrix
+              do j = n - kd + 1,n
+                 lk = min(kd,n - j) + 1
+                 call la_wcopy(lk,a(j,j),1,ab(1,j),1)
+              end do
+           end if
+           work(1) = lwmin
+           return
+     end subroutine la_whetrd_he2hb
+
+     !> CUNGTR: generates a complex unitary matrix Q which is defined as the
+     !> product of n-1 elementary reflectors of order N, as returned by
+     !> CHETRD:
+     !> if UPLO = 'U', Q = H(n-1) . . . H(2) H(1),
+     !> if UPLO = 'L', Q = H(1) H(2) . . . H(n-1).
+
+     pure subroutine la_cungtr(uplo,n,a,lda,tau,work,lwork,info)
+        use la_constants_sp
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,lwork,n
+           ! Array Arguments
+           complex(sp),intent(inout) :: a(lda,*)
+           complex(sp),intent(in) :: tau(*)
+           complex(sp),intent(out) :: work(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lquery,upper
+           integer(ilp) :: i,iinfo,j,lwkopt,nb
+           ! Intrinsic Functions
+           intrinsic :: max
+           ! Executable Statements
+           ! test the input arguments
+           info = 0
+           lquery = (lwork == -1)
+           upper = la_lsame(uplo,'U')
+           if (.not. upper .and. .not. la_lsame(uplo,'L')) then
+              info = -1
+           else if (n < 0) then
+              info = -2
+           else if (lda < max(1,n)) then
+              info = -4
+           else if (lwork < max(1,n - 1) .and. .not. lquery) then
+              info = -7
+           end if
+           if (info == 0) then
+              if (upper) then
+                 nb = la_ilaenv(1,'CUNGQL',' ',n - 1,n - 1,n - 1,-1)
+              else
+                 nb = la_ilaenv(1,'CUNGQR',' ',n - 1,n - 1,n - 1,-1)
+              end if
+              lwkopt = max(1,n - 1)*nb
+              work(1) = lwkopt
+           end if
+           if (info /= 0) then
+              call la_xerbla('CUNGTR',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) then
+              work(1) = 1
+              return
+           end if
+           if (upper) then
+              ! q was determined by a call to la_chetrd with uplo = 'u'
+              ! shift the vectors which define the elementary reflectors cone
+              ! column to the left, and set the last row and column of q to
+              ! those of the unit matrix
+              do j = 1,n - 1
+                 do i = 1,j - 1
+                    a(i,j) = a(i,j + 1)
+                 end do
+                 a(n,j) = czero
+              end do
+              do i = 1,n - 1
+                 a(i,n) = czero
+              end do
+              a(n,n) = cone
+              ! generate q(1:n-1,1:n-1)
+              call la_cungql(n - 1,n - 1,n - 1,a,lda,tau,work,lwork,iinfo)
+           else
+              ! q was determined by a call to la_chetrd with uplo = 'l'.
+              ! shift the vectors which define the elementary reflectors cone
+              ! column to the right, and set the first row and column of q to
+              ! those of the unit matrix
+              do j = n,2,-1
+                 a(1,j) = czero
+                 do i = j + 1,n
+                    a(i,j) = a(i,j - 1)
+                 end do
+              end do
+              a(1,1) = cone
+              do i = 2,n
+                 a(i,1) = czero
+              end do
+              if (n > 1) then
+                 ! generate q(2:n,2:n)
+                 call la_cungqr(n - 1,n - 1,n - 1,a(2,2),lda,tau,work,lwork,iinfo)
+
+              end if
+           end if
+           work(1) = lwkopt
+           return
+     end subroutine la_cungtr
+     !> ZUNGTR: generates a complex unitary matrix Q which is defined as the
+     !> product of n-1 elementary reflectors of order N, as returned by
+     !> ZHETRD:
+     !> if UPLO = 'U', Q = H(n-1) . . . H(2) H(1),
+     !> if UPLO = 'L', Q = H(1) H(2) . . . H(n-1).
+
+     pure subroutine la_zungtr(uplo,n,a,lda,tau,work,lwork,info)
+        use la_constants_dp
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,lwork,n
+           ! Array Arguments
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(in) :: tau(*)
+           complex(dp),intent(out) :: work(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lquery,upper
+           integer(ilp) :: i,iinfo,j,lwkopt,nb
+           ! Intrinsic Functions
+           intrinsic :: max
+           ! Executable Statements
+           ! test the input arguments
+           info = 0
+           lquery = (lwork == -1)
+           upper = la_lsame(uplo,'U')
+           if (.not. upper .and. .not. la_lsame(uplo,'L')) then
+              info = -1
+           else if (n < 0) then
+              info = -2
+           else if (lda < max(1,n)) then
+              info = -4
+           else if (lwork < max(1,n - 1) .and. .not. lquery) then
+              info = -7
+           end if
+           if (info == 0) then
+              if (upper) then
+                 nb = la_ilaenv(1,'ZUNGQL',' ',n - 1,n - 1,n - 1,-1)
+              else
+                 nb = la_ilaenv(1,'ZUNGQR',' ',n - 1,n - 1,n - 1,-1)
+              end if
+              lwkopt = max(1,n - 1)*nb
+              work(1) = lwkopt
+           end if
+           if (info /= 0) then
+              call la_xerbla('ZUNGTR',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) then
+              work(1) = 1
+              return
+           end if
+           if (upper) then
+              ! q was determined by a call to la_zhetrd with uplo = 'u'
+              ! shift the vectors which define the elementary reflectors cone
+              ! column to the left, and set the last row and column of q to
+              ! those of the unit matrix
+              do j = 1,n - 1
+                 do i = 1,j - 1
+                    a(i,j) = a(i,j + 1)
+                 end do
+                 a(n,j) = czero
+              end do
+              do i = 1,n - 1
+                 a(i,n) = czero
+              end do
+              a(n,n) = cone
+              ! generate q(1:n-1,1:n-1)
+              call la_zungql(n - 1,n - 1,n - 1,a,lda,tau,work,lwork,iinfo)
+           else
+              ! q was determined by a call to la_zhetrd with uplo = 'l'.
+              ! shift the vectors which define the elementary reflectors cone
+              ! column to the right, and set the first row and column of q to
+              ! those of the unit matrix
+              do j = n,2,-1
+                 a(1,j) = czero
+                 do i = j + 1,n
+                    a(i,j) = a(i,j - 1)
+                 end do
+              end do
+              a(1,1) = cone
+              do i = 2,n
+                 a(i,1) = czero
+              end do
+              if (n > 1) then
+                 ! generate q(2:n,2:n)
+                 call la_zungqr(n - 1,n - 1,n - 1,a(2,2),lda,tau,work,lwork,iinfo)
+
+              end if
+           end if
+           work(1) = lwkopt
+           return
+     end subroutine la_zungtr
+     !> WUNGTR: generates a complex unitary matrix Q which is defined as the
+     !> product of n-1 elementary reflectors of order N, as returned by
+     !> WHETRD:
+     !> if UPLO = 'U', Q = H(n-1) . . . H(2) H(1),
+     !> if UPLO = 'L', Q = H(1) H(2) . . . H(n-1).
+
+     pure subroutine la_wungtr(uplo,n,a,lda,tau,work,lwork,info)
+        use la_constants_qp
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,lwork,n
+           ! Array Arguments
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(in) :: tau(*)
+           complex(qp),intent(out) :: work(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lquery,upper
+           integer(ilp) :: i,iinfo,j,lwkopt,nb
+           ! Intrinsic Functions
+           intrinsic :: max
+           ! Executable Statements
+           ! test the input arguments
+           info = 0
+           lquery = (lwork == -1)
+           upper = la_lsame(uplo,'U')
+           if (.not. upper .and. .not. la_lsame(uplo,'L')) then
+              info = -1
+           else if (n < 0) then
+              info = -2
+           else if (lda < max(1,n)) then
+              info = -4
+           else if (lwork < max(1,n - 1) .and. .not. lquery) then
+              info = -7
+           end if
+           if (info == 0) then
+              if (upper) then
+                 nb = la_ilaenv(1,'WUNGQL',' ',n - 1,n - 1,n - 1,-1)
+              else
+                 nb = la_ilaenv(1,'WUNGQR',' ',n - 1,n - 1,n - 1,-1)
+              end if
+              lwkopt = max(1,n - 1)*nb
+              work(1) = lwkopt
+           end if
+           if (info /= 0) then
+              call la_xerbla('WUNGTR',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) then
+              work(1) = 1
+              return
+           end if
+           if (upper) then
+              ! q was determined by a call to la_whetrd with uplo = 'u'
+              ! shift the vectors which define the elementary reflectors cone
+              ! column to the left, and set the last row and column of q to
+              ! those of the unit matrix
+              do j = 1,n - 1
+                 do i = 1,j - 1
+                    a(i,j) = a(i,j + 1)
+                 end do
+                 a(n,j) = czero
+              end do
+              do i = 1,n - 1
+                 a(i,n) = czero
+              end do
+              a(n,n) = cone
+              ! generate q(1:n-1,1:n-1)
+              call la_wungql(n - 1,n - 1,n - 1,a,lda,tau,work,lwork,iinfo)
+           else
+              ! q was determined by a call to la_whetrd with uplo = 'l'.
+              ! shift the vectors which define the elementary reflectors cone
+              ! column to the right, and set the first row and column of q to
+              ! those of the unit matrix
+              do j = n,2,-1
+                 a(1,j) = czero
+                 do i = j + 1,n
+                    a(i,j) = a(i,j - 1)
+                 end do
+              end do
+              a(1,1) = cone
+              do i = 2,n
+                 a(i,1) = czero
+              end do
+              if (n > 1) then
+                 ! generate q(2:n,2:n)
+                 call la_wungqr(n - 1,n - 1,n - 1,a(2,2),lda,tau,work,lwork,iinfo)
+
+              end if
+           end if
+           work(1) = lwkopt
+           return
+     end subroutine la_wungtr
+
+     !> CUNMTR: overwrites the general complex M-by-N matrix C with
+     !> SIDE = 'L'     SIDE = 'R'
+     !> TRANS = 'N':      Q * C          C * Q
+     !> TRANS = 'C':      Q**H * C       C * Q**H
+     !> where Q is a complex unitary matrix of order nq, with nq = m if
+     !> SIDE = 'L' and nq = n if SIDE = 'R'. Q is defined as the product of
+     !> nq-1 elementary reflectors, as returned by CHETRD:
+     !> if UPLO = 'U', Q = H(nq-1) . . . H(2) H(1);
+     !> if UPLO = 'L', Q = H(1) H(2) . . . H(nq-1).
+
+     pure subroutine la_cunmtr(side,uplo,trans,m,n,a,lda,tau,c,ldc,work,lwork, &
+               info)
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: side,trans,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldc,lwork,m,n
+           ! Array Arguments
+           complex(sp),intent(inout) :: a(lda,*),c(ldc,*)
+           complex(sp),intent(in) :: tau(*)
+           complex(sp),intent(out) :: work(*)
+        ! =====================================================================
+           ! Local Scalars
+           logical(lk) :: left,lquery,upper
+           integer(ilp) :: i1,i2,iinfo,lwkopt,mi,nb,ni,nq,nw
+           ! Intrinsic Functions
+           intrinsic :: max
+           ! Executable Statements
+           ! test the input arguments
+           info = 0
+           left = la_lsame(side,'L')
+           upper = la_lsame(uplo,'U')
+           lquery = (lwork == -1)
+           ! nq is the order of q and nw is the minimum dimension of work
+           if (left) then
+              nq = m
+              nw = max(1,n)
+           else
+              nq = n
+              nw = max(1,m)
+           end if
+           if (.not. left .and. .not. la_lsame(side,'R')) then
+              info = -1
+           else if (.not. upper .and. .not. la_lsame(uplo,'L')) then
+              info = -2
+           else if (.not. la_lsame(trans,'N') .and. .not. la_lsame(trans,'C')) &
+                     then
+              info = -3
+           else if (m < 0) then
+              info = -4
+           else if (n < 0) then
+              info = -5
+           else if (lda < max(1,nq)) then
+              info = -7
+           else if (ldc < max(1,m)) then
+              info = -10
+           else if (lwork < nw .and. .not. lquery) then
+              info = -12
+           end if
+           if (info == 0) then
+              if (upper) then
+                 if (left) then
+                    nb = la_ilaenv(1,'CUNMQL',side//trans,m - 1,n,m - 1,-1)
+                 else
+                    nb = la_ilaenv(1,'CUNMQL',side//trans,m,n - 1,n - 1,-1)
+                 end if
+              else
+                 if (left) then
+                    nb = la_ilaenv(1,'CUNMQR',side//trans,m - 1,n,m - 1,-1)
+                 else
+                    nb = la_ilaenv(1,'CUNMQR',side//trans,m,n - 1,n - 1,-1)
+                 end if
+              end if
+              lwkopt = nw*nb
+              work(1) = lwkopt
+           end if
+           if (info /= 0) then
+              call la_xerbla('CUNMTR',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (m == 0 .or. n == 0 .or. nq == 1) then
+              work(1) = 1
+              return
+           end if
+           if (left) then
+              mi = m - 1
+              ni = n
+           else
+              mi = m
+              ni = n - 1
+           end if
+           if (upper) then
+              ! q was determined by a call to la_chetrd with uplo = 'u'
+              call la_cunmql(side,trans,mi,ni,nq - 1,a(1,2),lda,tau,c,ldc,work, &
+                        lwork,iinfo)
+           else
+              ! q was determined by a call to la_chetrd with uplo = 'l'
+              if (left) then
+                 i1 = 2
+                 i2 = 1
+              else
+                 i1 = 1
+                 i2 = 2
+              end if
+              call la_cunmqr(side,trans,mi,ni,nq - 1,a(2,1),lda,tau,c(i1,i2),ldc, &
+                         work,lwork,iinfo)
+           end if
+           work(1) = lwkopt
+           return
+     end subroutine la_cunmtr
+     !> ZUNMTR: overwrites the general complex M-by-N matrix C with
+     !> SIDE = 'L'     SIDE = 'R'
+     !> TRANS = 'N':      Q * C          C * Q
+     !> TRANS = 'C':      Q**H * C       C * Q**H
+     !> where Q is a complex unitary matrix of order nq, with nq = m if
+     !> SIDE = 'L' and nq = n if SIDE = 'R'. Q is defined as the product of
+     !> nq-1 elementary reflectors, as returned by ZHETRD:
+     !> if UPLO = 'U', Q = H(nq-1) . . . H(2) H(1);
+     !> if UPLO = 'L', Q = H(1) H(2) . . . H(nq-1).
+
+     pure subroutine la_zunmtr(side,uplo,trans,m,n,a,lda,tau,c,ldc,work,lwork, &
+               info)
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: side,trans,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldc,lwork,m,n
+           ! Array Arguments
+           complex(dp),intent(inout) :: a(lda,*),c(ldc,*)
+           complex(dp),intent(in) :: tau(*)
+           complex(dp),intent(out) :: work(*)
+        ! =====================================================================
+           ! Local Scalars
+           logical(lk) :: left,lquery,upper
+           integer(ilp) :: i1,i2,iinfo,lwkopt,mi,nb,ni,nq,nw
+           ! Intrinsic Functions
+           intrinsic :: max
+           ! Executable Statements
+           ! test the input arguments
+           info = 0
+           left = la_lsame(side,'L')
+           upper = la_lsame(uplo,'U')
+           lquery = (lwork == -1)
+           ! nq is the order of q and nw is the minimum dimension of work
+           if (left) then
+              nq = m
+              nw = max(1,n)
+           else
+              nq = n
+              nw = max(1,m)
+           end if
+           if (.not. left .and. .not. la_lsame(side,'R')) then
+              info = -1
+           else if (.not. upper .and. .not. la_lsame(uplo,'L')) then
+              info = -2
+           else if (.not. la_lsame(trans,'N') .and. .not. la_lsame(trans,'C')) &
+                     then
+              info = -3
+           else if (m < 0) then
+              info = -4
+           else if (n < 0) then
+              info = -5
+           else if (lda < max(1,nq)) then
+              info = -7
+           else if (ldc < max(1,m)) then
+              info = -10
+           else if (lwork < nw .and. .not. lquery) then
+              info = -12
+           end if
+           if (info == 0) then
+              if (upper) then
+                 if (left) then
+                    nb = la_ilaenv(1,'ZUNMQL',side//trans,m - 1,n,m - 1,-1)
+                 else
+                    nb = la_ilaenv(1,'ZUNMQL',side//trans,m,n - 1,n - 1,-1)
+                 end if
+              else
+                 if (left) then
+                    nb = la_ilaenv(1,'ZUNMQR',side//trans,m - 1,n,m - 1,-1)
+                 else
+                    nb = la_ilaenv(1,'ZUNMQR',side//trans,m,n - 1,n - 1,-1)
+                 end if
+              end if
+              lwkopt = nw*nb
+              work(1) = lwkopt
+           end if
+           if (info /= 0) then
+              call la_xerbla('ZUNMTR',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (m == 0 .or. n == 0 .or. nq == 1) then
+              work(1) = 1
+              return
+           end if
+           if (left) then
+              mi = m - 1
+              ni = n
+           else
+              mi = m
+              ni = n - 1
+           end if
+           if (upper) then
+              ! q was determined by a call to la_zhetrd with uplo = 'u'
+              call la_zunmql(side,trans,mi,ni,nq - 1,a(1,2),lda,tau,c,ldc,work, &
+                        lwork,iinfo)
+           else
+              ! q was determined by a call to la_zhetrd with uplo = 'l'
+              if (left) then
+                 i1 = 2
+                 i2 = 1
+              else
+                 i1 = 1
+                 i2 = 2
+              end if
+              call la_zunmqr(side,trans,mi,ni,nq - 1,a(2,1),lda,tau,c(i1,i2),ldc, &
+                         work,lwork,iinfo)
+           end if
+           work(1) = lwkopt
+           return
+     end subroutine la_zunmtr
+     !> WUNMTR: overwrites the general complex M-by-N matrix C with
+     !> SIDE = 'L'     SIDE = 'R'
+     !> TRANS = 'N':      Q * C          C * Q
+     !> TRANS = 'C':      Q**H * C       C * Q**H
+     !> where Q is a complex unitary matrix of order nq, with nq = m if
+     !> SIDE = 'L' and nq = n if SIDE = 'R'. Q is defined as the product of
+     !> nq-1 elementary reflectors, as returned by WHETRD:
+     !> if UPLO = 'U', Q = H(nq-1) . . . H(2) H(1);
+     !> if UPLO = 'L', Q = H(1) H(2) . . . H(nq-1).
+
+     pure subroutine la_wunmtr(side,uplo,trans,m,n,a,lda,tau,c,ldc,work,lwork, &
+               info)
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: side,trans,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldc,lwork,m,n
+           ! Array Arguments
+           complex(qp),intent(inout) :: a(lda,*),c(ldc,*)
+           complex(qp),intent(in) :: tau(*)
+           complex(qp),intent(out) :: work(*)
+        ! =====================================================================
+           ! Local Scalars
+           logical(lk) :: left,lquery,upper
+           integer(ilp) :: i1,i2,iinfo,lwkopt,mi,nb,ni,nq,nw
+           ! Intrinsic Functions
+           intrinsic :: max
+           ! Executable Statements
+           ! test the input arguments
+           info = 0
+           left = la_lsame(side,'L')
+           upper = la_lsame(uplo,'U')
+           lquery = (lwork == -1)
+           ! nq is the order of q and nw is the minimum dimension of work
+           if (left) then
+              nq = m
+              nw = max(1,n)
+           else
+              nq = n
+              nw = max(1,m)
+           end if
+           if (.not. left .and. .not. la_lsame(side,'R')) then
+              info = -1
+           else if (.not. upper .and. .not. la_lsame(uplo,'L')) then
+              info = -2
+           else if (.not. la_lsame(trans,'N') .and. .not. la_lsame(trans,'C')) &
+                     then
+              info = -3
+           else if (m < 0) then
+              info = -4
+           else if (n < 0) then
+              info = -5
+           else if (lda < max(1,nq)) then
+              info = -7
+           else if (ldc < max(1,m)) then
+              info = -10
+           else if (lwork < nw .and. .not. lquery) then
+              info = -12
+           end if
+           if (info == 0) then
+              if (upper) then
+                 if (left) then
+                    nb = la_ilaenv(1,'WUNMQL',side//trans,m - 1,n,m - 1,-1)
+                 else
+                    nb = la_ilaenv(1,'WUNMQL',side//trans,m,n - 1,n - 1,-1)
+                 end if
+              else
+                 if (left) then
+                    nb = la_ilaenv(1,'WUNMQR',side//trans,m - 1,n,m - 1,-1)
+                 else
+                    nb = la_ilaenv(1,'WUNMQR',side//trans,m,n - 1,n - 1,-1)
+                 end if
+              end if
+              lwkopt = nw*nb
+              work(1) = lwkopt
+           end if
+           if (info /= 0) then
+              call la_xerbla('WUNMTR',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (m == 0 .or. n == 0 .or. nq == 1) then
+              work(1) = 1
+              return
+           end if
+           if (left) then
+              mi = m - 1
+              ni = n
+           else
+              mi = m
+              ni = n - 1
+           end if
+           if (upper) then
+              ! q was determined by a call to la_whetrd with uplo = 'u'
+              call la_wunmql(side,trans,mi,ni,nq - 1,a(1,2),lda,tau,c,ldc,work, &
+                        lwork,iinfo)
+           else
+              ! q was determined by a call to la_whetrd with uplo = 'l'
+              if (left) then
+                 i1 = 2
+                 i2 = 1
+              else
+                 i1 = 1
+                 i2 = 2
+              end if
+              call la_wunmqr(side,trans,mi,ni,nq - 1,a(2,1),lda,tau,c(i1,i2),ldc, &
+                         work,lwork,iinfo)
+           end if
+           work(1) = lwkopt
+           return
+     end subroutine la_wunmtr
+
+     !> CHEEV: computes all eigenvalues and, optionally, eigenvectors of a
+     !> complex Hermitian matrix A.
+
+     subroutine la_cheev(jobz,uplo,n,a,lda,w,work,lwork,rwork,info)
+        use la_constants_sp,only:zero,one,cone
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,lwork,n
+           ! Array Arguments
+           real(sp),intent(out) :: rwork(*),w(*)
+           complex(sp),intent(inout) :: a(lda,*)
+           complex(sp),intent(out) :: work(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lower,lquery,wantz
+           integer(ilp) :: iinfo,imax,inde,indtau,indwrk,iscale,llwork,lwkopt,nb
+           real(sp) :: anrm,bignum,eps,rmax,rmin,safmin,sigma,smlnum
+           ! Intrinsic Functions
+           intrinsic :: max,sqrt
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           lower = la_lsame(uplo,'L')
+           lquery = (lwork == -1)
+           info = 0
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (lower .or. la_lsame(uplo,'U'))) then
+              info = -2
+           else if (n < 0) then
+              info = -3
+           else if (lda < max(1,n)) then
+              info = -5
+           end if
+           if (info == 0) then
+              nb = la_ilaenv(1,'CHETRD',uplo,n,-1,-1,-1)
+              lwkopt = max(1, (nb + 1)*n)
+              work(1) = lwkopt
+              if (lwork < max(1,2*n - 1) .and. .not. lquery) info = -8
+           end if
+           if (info /= 0) then
+              call la_xerbla('CHEEV ',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) then
+              return
+           end if
+           if (n == 1) then
+              w(1) = real(a(1,1),KIND=sp)
+              work(1) = 1
+              if (wantz) a(1,1) = cone
+              return
+           end if
+           ! get machine constants.
+           safmin = la_slamch('SAFE MINIMUM')
+           eps = la_slamch('PRECISION')
+           smlnum = safmin/eps
+           bignum = one/smlnum
+           rmin = sqrt(smlnum)
+           rmax = sqrt(bignum)
+           ! scale matrix to allowable range, if necessary.
+           anrm = la_clanhe('M',uplo,n,a,lda,rwork)
+           iscale = 0
+           if (anrm > zero .and. anrm < rmin) then
+              iscale = 1
+              sigma = rmin/anrm
+           else if (anrm > rmax) then
+              iscale = 1
+              sigma = rmax/anrm
+           end if
+           if (iscale == 1) call la_clascl(uplo,0,0,one,sigma,n,n,a,lda,info)
+           ! call la_chetrd to reduce hermitian matrix to tridiagonal form.
+           inde = 1
+           indtau = 1
+           indwrk = indtau + n
+           llwork = lwork - indwrk + 1
+           call la_chetrd(uplo,n,a,lda,w,rwork(inde),work(indtau),work(indwrk), &
+                     llwork,iinfo)
+           ! for eigenvalues only, call la_ssterf.  for eigenvectors, first call
+           ! la_cungtr to generate the unitary matrix, then call la_csteqr.
+           if (.not. wantz) then
+              call la_ssterf(n,w,rwork(inde),info)
+           else
+              call la_cungtr(uplo,n,a,lda,work(indtau),work(indwrk),llwork,iinfo)
+
+              indwrk = inde + n
+              call la_csteqr(jobz,n,w,rwork(inde),a,lda,rwork(indwrk),info)
+
+           end if
+           ! if matrix was scaled, then rescale eigenvalues appropriately.
+           if (iscale == 1) then
+              if (info == 0) then
+                 imax = n
+              else
+                 imax = info - 1
+              end if
+              call la_sscal(imax,one/sigma,w,1)
+           end if
+           ! set work(1) to optimal complex workspace size.
+           work(1) = lwkopt
+           return
+     end subroutine la_cheev
+     !> ZHEEV: computes all eigenvalues and, optionally, eigenvectors of a
+     !> complex Hermitian matrix A.
+
+     subroutine la_zheev(jobz,uplo,n,a,lda,w,work,lwork,rwork,info)
+        use la_constants_dp,only:zero,one,cone
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,lwork,n
+           ! Array Arguments
+           real(dp),intent(out) :: rwork(*),w(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: work(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lower,lquery,wantz
+           integer(ilp) :: iinfo,imax,inde,indtau,indwrk,iscale,llwork,lwkopt,nb
+           real(dp) :: anrm,bignum,eps,rmax,rmin,safmin,sigma,smlnum
+           ! Intrinsic Functions
+           intrinsic :: max,sqrt
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           lower = la_lsame(uplo,'L')
+           lquery = (lwork == -1)
+           info = 0
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (lower .or. la_lsame(uplo,'U'))) then
+              info = -2
+           else if (n < 0) then
+              info = -3
+           else if (lda < max(1,n)) then
+              info = -5
+           end if
+           if (info == 0) then
+              nb = la_ilaenv(1,'ZHETRD',uplo,n,-1,-1,-1)
+              lwkopt = max(1, (nb + 1)*n)
+              work(1) = lwkopt
+              if (lwork < max(1,2*n - 1) .and. .not. lquery) info = -8
+           end if
+           if (info /= 0) then
+              call la_xerbla('ZHEEV ',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) then
+              return
+           end if
+           if (n == 1) then
+              w(1) = real(a(1,1),KIND=dp)
+              work(1) = 1
+              if (wantz) a(1,1) = cone
+              return
+           end if
+           ! get machine constants.
+           safmin = la_dlamch('SAFE MINIMUM')
+           eps = la_dlamch('PRECISION')
+           smlnum = safmin/eps
+           bignum = one/smlnum
+           rmin = sqrt(smlnum)
+           rmax = sqrt(bignum)
+           ! scale matrix to allowable range, if necessary.
+           anrm = la_zlanhe('M',uplo,n,a,lda,rwork)
+           iscale = 0
+           if (anrm > zero .and. anrm < rmin) then
+              iscale = 1
+              sigma = rmin/anrm
+           else if (anrm > rmax) then
+              iscale = 1
+              sigma = rmax/anrm
+           end if
+           if (iscale == 1) call la_zlascl(uplo,0,0,one,sigma,n,n,a,lda,info)
+           ! call la_zhetrd to reduce hermitian matrix to tridiagonal form.
+           inde = 1
+           indtau = 1
+           indwrk = indtau + n
+           llwork = lwork - indwrk + 1
+           call la_zhetrd(uplo,n,a,lda,w,rwork(inde),work(indtau),work(indwrk), &
+                     llwork,iinfo)
+           ! for eigenvalues only, call la_dsterf.  for eigenvectors, first call
+           ! la_zungtr to generate the unitary matrix, then call la_zsteqr.
+           if (.not. wantz) then
+              call la_dsterf(n,w,rwork(inde),info)
+           else
+              call la_zungtr(uplo,n,a,lda,work(indtau),work(indwrk),llwork,iinfo)
+
+              indwrk = inde + n
+              call la_zsteqr(jobz,n,w,rwork(inde),a,lda,rwork(indwrk),info)
+
+           end if
+           ! if matrix was scaled, then rescale eigenvalues appropriately.
+           if (iscale == 1) then
+              if (info == 0) then
+                 imax = n
+              else
+                 imax = info - 1
+              end if
+              call la_dscal(imax,one/sigma,w,1)
+           end if
+           ! set work(1) to optimal complex workspace size.
+           work(1) = lwkopt
+           return
+     end subroutine la_zheev
+     !> WHEEV: computes all eigenvalues and, optionally, eigenvectors of a
+     !> complex Hermitian matrix A.
+
+     subroutine la_wheev(jobz,uplo,n,a,lda,w,work,lwork,rwork,info)
+        use la_constants_qp,only:zero,one,cone
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,lwork,n
+           ! Array Arguments
+           real(qp),intent(out) :: rwork(*),w(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: work(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lower,lquery,wantz
+           integer(ilp) :: iinfo,imax,inde,indtau,indwrk,iscale,llwork,lwkopt,nb
+           real(qp) :: anrm,bignum,eps,rmax,rmin,safmin,sigma,smlnum
+           ! Intrinsic Functions
+           intrinsic :: max,sqrt
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           lower = la_lsame(uplo,'L')
+           lquery = (lwork == -1)
+           info = 0
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (lower .or. la_lsame(uplo,'U'))) then
+              info = -2
+           else if (n < 0) then
+              info = -3
+           else if (lda < max(1,n)) then
+              info = -5
+           end if
+           if (info == 0) then
+              nb = la_ilaenv(1,'WHETRD',uplo,n,-1,-1,-1)
+              lwkopt = max(1, (nb + 1)*n)
+              work(1) = lwkopt
+              if (lwork < max(1,2*n - 1) .and. .not. lquery) info = -8
+           end if
+           if (info /= 0) then
+              call la_xerbla('WHEEV ',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) then
+              return
+           end if
+           if (n == 1) then
+              w(1) = real(a(1,1),KIND=qp)
+              work(1) = 1
+              if (wantz) a(1,1) = cone
+              return
+           end if
+           ! get machine constants.
+           safmin = la_qlamch('SAFE MINIMUM')
+           eps = la_qlamch('PRECISION')
+           smlnum = safmin/eps
+           bignum = one/smlnum
+           rmin = sqrt(smlnum)
+           rmax = sqrt(bignum)
+           ! scale matrix to allowable range, if necessary.
+           anrm = la_wlanhe('M',uplo,n,a,lda,rwork)
+           iscale = 0
+           if (anrm > zero .and. anrm < rmin) then
+              iscale = 1
+              sigma = rmin/anrm
+           else if (anrm > rmax) then
+              iscale = 1
+              sigma = rmax/anrm
+           end if
+           if (iscale == 1) call la_wlascl(uplo,0,0,one,sigma,n,n,a,lda,info)
+           ! call la_whetrd to reduce hermitian matrix to tridiagonal form.
+           inde = 1
+           indtau = 1
+           indwrk = indtau + n
+           llwork = lwork - indwrk + 1
+           call la_whetrd(uplo,n,a,lda,w,rwork(inde),work(indtau),work(indwrk), &
+                     llwork,iinfo)
+           ! for eigenvalues only, call la_qsterf.  for eigenvectors, first call
+           ! la_wungtr to generate the unitary matrix, then call la_wsteqr.
+           if (.not. wantz) then
+              call la_qsterf(n,w,rwork(inde),info)
+           else
+              call la_wungtr(uplo,n,a,lda,work(indtau),work(indwrk),llwork,iinfo)
+
+              indwrk = inde + n
+              call la_wsteqr(jobz,n,w,rwork(inde),a,lda,rwork(indwrk),info)
+
+           end if
+           ! if matrix was scaled, then rescale eigenvalues appropriately.
+           if (iscale == 1) then
+              if (info == 0) then
+                 imax = n
+              else
+                 imax = info - 1
+              end if
+              call la_qscal(imax,one/sigma,w,1)
+           end if
+           ! set work(1) to optimal complex workspace size.
+           work(1) = lwkopt
+           return
+     end subroutine la_wheev
+
+     !> CHEEVR: computes selected eigenvalues and, optionally, eigenvectors
+     !> of a complex Hermitian matrix A.  Eigenvalues and eigenvectors can
+     !> be selected by specifying either a range of values or a range of
+     !> indices for the desired eigenvalues.
+     !> CHEEVR first reduces the matrix A to tridiagonal form T with a call
+     !> to CHETRD.  Then, whenever possible, CHEEVR calls CSTEMR to compute
+     !> the eigenspectrum using Relatively Robust Representations.  CSTEMR
+     !> computes eigenvalues by the dqds algorithm, while orthogonal
+     !> eigenvectors are computed from various "good" L D L^T representations
+     !> (also known as Relatively Robust Representations). Gram-Schmidt
+     !> orthogonalization is avoided as far as possible. More specifically,
+     !> the various steps of the algorithm are as follows.
+     !> For each unreduced block (submatrix) of T,
+     !> (a) Compute T - sigma I  = L D L^T, so that L and D
+     !> define all the wanted eigenvalues to high relative accuracy.
+     !> This means that small relative changes in the entries of D and L
+     !> cause only small relative changes in the eigenvalues and
+     !> eigenvectors. The standard (unfactored) representation of the
+     !> tridiagonal matrix T does not have this property in general.
+     !> (b) Compute the eigenvalues to suitable accuracy.
+     !> If the eigenvectors are desired, the algorithm attains full
+     !> accuracy of the computed eigenvalues only right before
+     !> the corresponding vectors have to be computed, see steps c) and d).
+     !> (c) For each cluster of close eigenvalues, select a new
+     !> shift close to the cluster, find a new factorization, and refine
+     !> the shifted eigenvalues to suitable accuracy.
+     !> (d) For each eigenvalue with a large enough relative separation compute
+     !> the corresponding eigenvector by forming a rank revealing twisted
+     !> factorization. Go back to (c) for any clusters that remain.
+     !> The desired accuracy of the output can be specified by the input
+     !> parameter ABSTOL.
+     !> For more details, see CSTEMR's documentation and:
+     !> - Inderjit S. Dhillon and Beresford N. Parlett: "Multiple representations
+     !> to compute orthogonal eigenvectors of symmetric tridiagonal matrices,"
+     !> Linear Algebra and its Applications, 387(1), pp. 1-28, August 2004.
+     !> - Inderjit Dhillon and Beresford Parlett: "Orthogonal Eigenvectors and
+     !> Relative Gaps," SIAM Journal on Matrix Analysis and Applications, Vol. 25,
+     !> 2004.  Also LAPACK Working Note 154.
+     !> - Inderjit Dhillon: "A new O(n^2) algorithm for the symmetric
+     !> tridiagonal eigenvalue/eigenvector problem",
+     !> Computer Science Division Technical Report No. UCB/CSD-97-971,
+     !> UC Berkeley, May 1997.
+     !> Note 1 : CHEEVR calls CSTEMR when the full spectrum is requested
+     !> on machines which conform to the ieee-754 floating point standard.
+     !> CHEEVR calls SSTEBZ and CSTEIN on non-ieee machines and
+     !> when partial spectrum requests are made.
+     !> Normal execution of CSTEMR may create NaNs and infinities and
+     !> hence may abort due to a floating point exception in environments
+     !> which do not handle NaNs and infinities in the ieee standard default
+     !> manner.
+
+     subroutine la_cheevr(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz, &
+               isuppz,work,lwork,rwork,lrwork,iwork,liwork,info)
+        use la_constants_sp,only:zero,one,two
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,range,uplo
+           integer(ilp),intent(in) :: il,iu,lda,ldz,liwork,lrwork,lwork,n
+           integer(ilp),intent(out) :: info,m
+           real(sp),intent(in) :: abstol,vl,vu
+           ! Array Arguments
+           integer(ilp),intent(out) :: isuppz(*),iwork(*)
+           real(sp),intent(out) :: rwork(*),w(*)
+           complex(sp),intent(inout) :: a(lda,*)
+           complex(sp),intent(out) :: work(*),z(ldz,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: alleig,indeig,lower,lquery,test,valeig,wantz,tryrac
+           character :: order
+           integer(ilp) :: i,ieeeok,iinfo,imax,indibl,indifl,indisp,indiwo,indrd,indrdd, &
+           indre,indree,indrwk,indtau,indwk,indwkn,iscale,itmp1,j,jj,liwmin,llwork, &
+                     llrwork,llwrkn,lrwmin,lwkopt,lwmin,nb,nsplit
+           real(sp) :: abstll,anrm,bignum,eps,rmax,rmin,safmin,sigma,smlnum,tmp1,vll, &
+                     vuu
+           ! Intrinsic Functions
+           intrinsic :: max,min,real,sqrt
+           ! Executable Statements
+           ! test the input parameters.
+           ieeeok = la_ilaenv(10,'CHEEVR','N',1,2,3,4)
+           lower = la_lsame(uplo,'L')
+           wantz = la_lsame(jobz,'V')
+           alleig = la_lsame(range,'A')
+           valeig = la_lsame(range,'V')
+           indeig = la_lsame(range,'I')
+           lquery = ((lwork == -1) .or. (lrwork == -1) .or. (liwork == -1))
+           lrwmin = max(1,24*n)
+           liwmin = max(1,10*n)
+           lwmin = max(1,2*n)
+           info = 0
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (alleig .or. valeig .or. indeig)) then
+              info = -2
+           else if (.not. (lower .or. la_lsame(uplo,'U'))) then
+              info = -3
+           else if (n < 0) then
+              info = -4
+           else if (lda < max(1,n)) then
+              info = -6
+           else
+              if (valeig) then
+                 if (n > 0 .and. vu <= vl) info = -8
+              else if (indeig) then
+                 if (il < 1 .or. il > max(1,n)) then
+                    info = -9
+                 else if (iu < min(n,il) .or. iu > n) then
+                    info = -10
+                 end if
+              end if
+           end if
+           if (info == 0) then
+              if (ldz < 1 .or. (wantz .and. ldz < n)) then
+                 info = -15
+              end if
+           end if
+           if (info == 0) then
+              nb = la_ilaenv(1,'CHETRD',uplo,n,-1,-1,-1)
+              nb = max(nb,la_ilaenv(1,'CUNMTR',uplo,n,-1,-1,-1))
+              lwkopt = max((nb + 1)*n,lwmin)
+              work(1) = lwkopt
+              rwork(1) = lrwmin
+              iwork(1) = liwmin
+              if (lwork < lwmin .and. .not. lquery) then
+                 info = -18
+              else if (lrwork < lrwmin .and. .not. lquery) then
+                 info = -20
+              else if (liwork < liwmin .and. .not. lquery) then
+                 info = -22
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('CHEEVR',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           m = 0
+           if (n == 0) then
+              work(1) = 1
+              return
+           end if
+           if (n == 1) then
+              work(1) = 2
+              if (alleig .or. indeig) then
+                 m = 1
+                 w(1) = real(a(1,1),KIND=sp)
+              else
+                 if (vl < real(a(1,1),KIND=sp) .and. vu >= real(a(1,1),KIND=sp)) then
+                    m = 1
+                    w(1) = real(a(1,1),KIND=sp)
+                 end if
+              end if
+              if (wantz) then
+                 z(1,1) = one
+                 isuppz(1) = 1
+                 isuppz(2) = 1
+              end if
+              return
+           end if
+           ! get machine constants.
+           safmin = la_slamch('SAFE MINIMUM')
+           eps = la_slamch('PRECISION')
+           smlnum = safmin/eps
+           bignum = one/smlnum
+           rmin = sqrt(smlnum)
+           rmax = min(sqrt(bignum),one/sqrt(sqrt(safmin)))
+           ! scale matrix to allowable range, if necessary.
+           iscale = 0
+           abstll = abstol
+           if (valeig) then
+              vll = vl
+              vuu = vu
+           end if
+           anrm = la_clansy('M',uplo,n,a,lda,rwork)
+           if (anrm > zero .and. anrm < rmin) then
+              iscale = 1
+              sigma = rmin/anrm
+           else if (anrm > rmax) then
+              iscale = 1
+              sigma = rmax/anrm
+           end if
+           if (iscale == 1) then
+              if (lower) then
+                 do j = 1,n
+                    call la_csscal(n - j + 1,sigma,a(j,j),1)
+                 end do
+              else
+                 do j = 1,n
+                    call la_csscal(j,sigma,a(1,j),1)
+                 end do
+              end if
+              if (abstol > 0) abstll = abstol*sigma
+              if (valeig) then
+                 vll = vl*sigma
+                 vuu = vu*sigma
+              end if
+           end if
+           ! initialize indices into workspaces.  note: the iwork indices are
+           ! used only if la_ssterf or la_cstemr fail.
+           ! work(indtau:indtau+n-1) stores the complex scalar factors of the
+           ! elementary reflectors used in la_chetrd.
+           indtau = 1
+           ! indwk is the starting offset of the remaining complex workspace,
+           ! and llwork is the remaining complex workspace size.
+           indwk = indtau + n
+           llwork = lwork - indwk + 1
+           ! rwork(indrd:indrd+n-1) stores the real tridiagonal's diagonal
+           ! entries.
+           indrd = 1
+           ! rwork(indre:indre+n-1) stores the off-diagonal entries of the
+           ! tridiagonal matrix from la_chetrd.
+           indre = indrd + n
+           ! rwork(indrdd:indrdd+n-1) is a copy of the diagonal entries over
+           ! -written by la_cstemr (the la_ssterf path copies the diagonal to w).
+           indrdd = indre + n
+           ! rwork(indree:indree+n-1) is a copy of the off-diagonal entries over
+           ! -written while computing the eigenvalues in la_ssterf and la_cstemr.
+           indree = indrdd + n
+           ! indrwk is the starting offset of the left-over real workspace, and
+           ! llrwork is the remaining workspace size.
+           indrwk = indree + n
+           llrwork = lrwork - indrwk + 1
+           ! iwork(indibl:indibl+m-1) corresponds to iblock in la_sstebz and
+           ! stores the block indices of each of the m<=n eigenvalues.
+           indibl = 1
+           ! iwork(indisp:indisp+nsplit-1) corresponds to isplit in la_sstebz and
+           ! stores the starting and finishing indices of each block.
+           indisp = indibl + n
+           ! iwork(indifl:indifl+n-1) stores the indices of eigenvectors
+           ! that corresponding to eigenvectors that fail to converge in
+           ! la_sstein.  this information is discarded; if any fail, the driver
+           ! returns info > 0.
+           indifl = indisp + n
+           ! indiwo is the offset of the remaining integer workspace.
+           indiwo = indifl + n
+           ! call la_chetrd to reduce hermitian matrix to tridiagonal form.
+           call la_chetrd(uplo,n,a,lda,rwork(indrd),rwork(indre),work(indtau), &
+                     work(indwk),llwork,iinfo)
+           ! if all eigenvalues are desired
+           ! then call la_ssterf or la_cstemr and la_cunmtr.
+           test = .false.
+           if (indeig) then
+              if (il == 1 .and. iu == n) then
+                 test = .true.
+              end if
+           end if
+           if ((alleig .or. test) .and. (ieeeok == 1)) then
+              if (.not. wantz) then
+                 call la_scopy(n,rwork(indrd),1,w,1)
+                 call la_scopy(n - 1,rwork(indre),1,rwork(indree),1)
+                 call la_ssterf(n,w,rwork(indree),info)
+              else
+                 call la_scopy(n - 1,rwork(indre),1,rwork(indree),1)
+                 call la_scopy(n,rwork(indrd),1,rwork(indrdd),1)
+                 if (abstol <= two*n*eps) then
+                    tryrac = .true.
+                 else
+                    tryrac = .false.
+                 end if
+                 call la_cstemr(jobz,'A',n,rwork(indrdd),rwork(indree),vl,vu,il, &
+                 iu,m,w,z,ldz,n,isuppz,tryrac,rwork(indrwk),llrwork,iwork,liwork,info)
+
+                 ! apply unitary matrix used in reduction to tridiagonal
+                 ! form to eigenvectors returned by la_cstemr.
+                 if (wantz .and. info == 0) then
+                    indwkn = indwk
+                    llwrkn = lwork - indwkn + 1
+                    call la_cunmtr('L',uplo,'N',n,m,a,lda,work(indtau),z,ldz,work( &
+                               indwkn),llwrkn,iinfo)
+                 end if
+              end if
+              if (info == 0) then
+                 m = n
+                 go to 30
+              end if
+              info = 0
+           end if
+           ! otherwise, call la_sstebz and, if eigenvectors are desired, la_cstein.
+           ! also call la_sstebz and la_cstein if la_cstemr fails.
+           if (wantz) then
+              order = 'B'
+           else
+              order = 'E'
+           end if
+           call la_sstebz(range,order,n,vll,vuu,il,iu,abstll,rwork(indrd),rwork( &
+           indre),m,nsplit,w,iwork(indibl),iwork(indisp),rwork(indrwk),iwork(indiwo) &
+                     ,info)
+           if (wantz) then
+              call la_cstein(n,rwork(indrd),rwork(indre),m,w,iwork(indibl),iwork( &
+                        indisp),z,ldz,rwork(indrwk),iwork(indiwo),iwork(indifl),info)
+              ! apply unitary matrix used in reduction to tridiagonal
+              ! form to eigenvectors returned by la_cstein.
+              indwkn = indwk
+              llwrkn = lwork - indwkn + 1
+              call la_cunmtr('L',uplo,'N',n,m,a,lda,work(indtau),z,ldz,work( &
+                        indwkn),llwrkn,iinfo)
+           end if
+           ! if matrix was scaled, then rescale eigenvalues appropriately.
+           30 continue
+           if (iscale == 1) then
+              if (info == 0) then
+                 imax = m
+              else
+                 imax = info - 1
+              end if
+              call la_sscal(imax,one/sigma,w,1)
+           end if
+           ! if eigenvalues are not in order, then sort them, along with
+           ! eigenvectors.
+           if (wantz) then
+              do j = 1,m - 1
+                 i = 0
+                 tmp1 = w(j)
+                 do jj = j + 1,m
+                    if (w(jj) < tmp1) then
+                       i = jj
+                       tmp1 = w(jj)
+                    end if
+                 end do
+                 if (i /= 0) then
+                    itmp1 = iwork(indibl + i - 1)
+                    w(i) = w(j)
+                    iwork(indibl + i - 1) = iwork(indibl + j - 1)
+                    w(j) = tmp1
+                    iwork(indibl + j - 1) = itmp1
+                    call la_cswap(n,z(1,i),1,z(1,j),1)
+                 end if
+              end do
+           end if
+           ! set work(1) to optimal workspace size.
+           work(1) = lwkopt
+           rwork(1) = lrwmin
+           iwork(1) = liwmin
+           return
+     end subroutine la_cheevr
+     !> ZHEEVR: computes selected eigenvalues and, optionally, eigenvectors
+     !> of a complex Hermitian matrix A.  Eigenvalues and eigenvectors can
+     !> be selected by specifying either a range of values or a range of
+     !> indices for the desired eigenvalues.
+     !> ZHEEVR first reduces the matrix A to tridiagonal form T with a call
+     !> to ZHETRD.  Then, whenever possible, ZHEEVR calls ZSTEMR to compute
+     !> eigenspectrum using Relatively Robust Representations.  ZSTEMR
+     !> computes eigenvalues by the dqds algorithm, while orthogonal
+     !> eigenvectors are computed from various "good" L D L^T representations
+     !> (also known as Relatively Robust Representations). Gram-Schmidt
+     !> orthogonalization is avoided as far as possible. More specifically,
+     !> the various steps of the algorithm are as follows.
+     !> For each unreduced block (submatrix) of T,
+     !> (a) Compute T - sigma I  = L D L^T, so that L and D
+     !> define all the wanted eigenvalues to high relative accuracy.
+     !> This means that small relative changes in the entries of D and L
+     !> cause only small relative changes in the eigenvalues and
+     !> eigenvectors. The standard (unfactored) representation of the
+     !> tridiagonal matrix T does not have this property in general.
+     !> (b) Compute the eigenvalues to suitable accuracy.
+     !> If the eigenvectors are desired, the algorithm attains full
+     !> accuracy of the computed eigenvalues only right before
+     !> the corresponding vectors have to be computed, see steps c) and d).
+     !> (c) For each cluster of close eigenvalues, select a new
+     !> shift close to the cluster, find a new factorization, and refine
+     !> the shifted eigenvalues to suitable accuracy.
+     !> (d) For each eigenvalue with a large enough relative separation compute
+     !> the corresponding eigenvector by forming a rank revealing twisted
+     !> factorization. Go back to (c) for any clusters that remain.
+     !> The desired accuracy of the output can be specified by the input
+     !> parameter ABSTOL.
+     !> For more details, see ZSTEMR's documentation and:
+     !> - Inderjit S. Dhillon and Beresford N. Parlett: "Multiple representations
+     !> to compute orthogonal eigenvectors of symmetric tridiagonal matrices,"
+     !> Linear Algebra and its Applications, 387(1), pp. 1-28, August 2004.
+     !> - Inderjit Dhillon and Beresford Parlett: "Orthogonal Eigenvectors and
+     !> Relative Gaps," SIAM Journal on Matrix Analysis and Applications, Vol. 25,
+     !> 2004.  Also LAPACK Working Note 154.
+     !> - Inderjit Dhillon: "A new O(n^2) algorithm for the symmetric
+     !> tridiagonal eigenvalue/eigenvector problem",
+     !> Computer Science Division Technical Report No. UCB/CSD-97-971,
+     !> UC Berkeley, May 1997.
+     !> Note 1 : ZHEEVR calls ZSTEMR when the full spectrum is requested
+     !> on machines which conform to the ieee-754 floating point standard.
+     !> ZHEEVR calls DSTEBZ and ZSTEIN on non-ieee machines and
+     !> when partial spectrum requests are made.
+     !> Normal execution of ZSTEMR may create NaNs and infinities and
+     !> hence may abort due to a floating point exception in environments
+     !> which do not handle NaNs and infinities in the ieee standard default
+     !> manner.
+
+     subroutine la_zheevr(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz, &
+               isuppz,work,lwork,rwork,lrwork,iwork,liwork,info)
+        use la_constants_dp,only:zero,one,two
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,range,uplo
+           integer(ilp),intent(in) :: il,iu,lda,ldz,liwork,lrwork,lwork,n
+           integer(ilp),intent(out) :: info,m
+           real(dp),intent(in) :: abstol,vl,vu
+           ! Array Arguments
+           integer(ilp),intent(out) :: isuppz(*),iwork(*)
+           real(dp),intent(out) :: rwork(*),w(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: work(*),z(ldz,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: alleig,indeig,lower,lquery,test,valeig,wantz,tryrac
+           character :: order
+           integer(ilp) :: i,ieeeok,iinfo,imax,indibl,indifl,indisp,indiwo,indrd,indrdd, &
+           indre,indree,indrwk,indtau,indwk,indwkn,iscale,itmp1,j,jj,liwmin,llwork, &
+                     llrwork,llwrkn,lrwmin,lwkopt,lwmin,nb,nsplit
+           real(dp) :: abstll,anrm,bignum,eps,rmax,rmin,safmin,sigma,smlnum,tmp1,vll, &
+                     vuu
+           ! Intrinsic Functions
+           intrinsic :: real,max,min,sqrt
+           ! Executable Statements
+           ! test the input parameters.
+           ieeeok = la_ilaenv(10,'ZHEEVR','N',1,2,3,4)
+           lower = la_lsame(uplo,'L')
+           wantz = la_lsame(jobz,'V')
+           alleig = la_lsame(range,'A')
+           valeig = la_lsame(range,'V')
+           indeig = la_lsame(range,'I')
+           lquery = ((lwork == -1) .or. (lrwork == -1) .or. (liwork == -1))
+           lrwmin = max(1,24*n)
+           liwmin = max(1,10*n)
+           lwmin = max(1,2*n)
+           info = 0
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (alleig .or. valeig .or. indeig)) then
+              info = -2
+           else if (.not. (lower .or. la_lsame(uplo,'U'))) then
+              info = -3
+           else if (n < 0) then
+              info = -4
+           else if (lda < max(1,n)) then
+              info = -6
+           else
+              if (valeig) then
+                 if (n > 0 .and. vu <= vl) info = -8
+              else if (indeig) then
+                 if (il < 1 .or. il > max(1,n)) then
+                    info = -9
+                 else if (iu < min(n,il) .or. iu > n) then
+                    info = -10
+                 end if
+              end if
+           end if
+           if (info == 0) then
+              if (ldz < 1 .or. (wantz .and. ldz < n)) then
+                 info = -15
+              end if
+           end if
+           if (info == 0) then
+              nb = la_ilaenv(1,'ZHETRD',uplo,n,-1,-1,-1)
+              nb = max(nb,la_ilaenv(1,'ZUNMTR',uplo,n,-1,-1,-1))
+              lwkopt = max((nb + 1)*n,lwmin)
+              work(1) = lwkopt
+              rwork(1) = lrwmin
+              iwork(1) = liwmin
+              if (lwork < lwmin .and. .not. lquery) then
+                 info = -18
+              else if (lrwork < lrwmin .and. .not. lquery) then
+                 info = -20
+              else if (liwork < liwmin .and. .not. lquery) then
+                 info = -22
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('ZHEEVR',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           m = 0
+           if (n == 0) then
+              work(1) = 1
+              return
+           end if
+           if (n == 1) then
+              work(1) = 2
+              if (alleig .or. indeig) then
+                 m = 1
+                 w(1) = real(a(1,1),KIND=dp)
+              else
+                 if (vl < real(a(1,1),KIND=dp) .and. vu >= real(a(1,1),KIND=dp)) then
+                    m = 1
+                    w(1) = real(a(1,1),KIND=dp)
+                 end if
+              end if
+              if (wantz) then
+                 z(1,1) = one
+                 isuppz(1) = 1
+                 isuppz(2) = 1
+              end if
+              return
+           end if
+           ! get machine constants.
+           safmin = la_dlamch('SAFE MINIMUM')
+           eps = la_dlamch('PRECISION')
+           smlnum = safmin/eps
+           bignum = one/smlnum
+           rmin = sqrt(smlnum)
+           rmax = min(sqrt(bignum),one/sqrt(sqrt(safmin)))
+           ! scale matrix to allowable range, if necessary.
+           iscale = 0
+           abstll = abstol
+           if (valeig) then
+              vll = vl
+              vuu = vu
+           end if
+           anrm = la_zlansy('M',uplo,n,a,lda,rwork)
+           if (anrm > zero .and. anrm < rmin) then
+              iscale = 1
+              sigma = rmin/anrm
+           else if (anrm > rmax) then
+              iscale = 1
+              sigma = rmax/anrm
+           end if
+           if (iscale == 1) then
+              if (lower) then
+                 do j = 1,n
+                    call la_zdscal(n - j + 1,sigma,a(j,j),1)
+                 end do
+              else
+                 do j = 1,n
+                    call la_zdscal(j,sigma,a(1,j),1)
+                 end do
+              end if
+              if (abstol > 0) abstll = abstol*sigma
+              if (valeig) then
+                 vll = vl*sigma
+                 vuu = vu*sigma
+              end if
+           end if
+           ! initialize indices into workspaces.  note: the iwork indices are
+           ! used only if la_dsterf or la_zstemr fail.
+           ! work(indtau:indtau+n-1) stores the complex scalar factors of the
+           ! elementary reflectors used in la_zhetrd.
+           indtau = 1
+           ! indwk is the starting offset of the remaining complex workspace,
+           ! and llwork is the remaining complex workspace size.
+           indwk = indtau + n
+           llwork = lwork - indwk + 1
+           ! rwork(indrd:indrd+n-1) stores the real tridiagonal's diagonal
+           ! entries.
+           indrd = 1
+           ! rwork(indre:indre+n-1) stores the off-diagonal entries of the
+           ! tridiagonal matrix from la_zhetrd.
+           indre = indrd + n
+           ! rwork(indrdd:indrdd+n-1) is a copy of the diagonal entries over
+           ! -written by la_zstemr (the la_dsterf path copies the diagonal to w).
+           indrdd = indre + n
+           ! rwork(indree:indree+n-1) is a copy of the off-diagonal entries over
+           ! -written while computing the eigenvalues in la_dsterf and la_zstemr.
+           indree = indrdd + n
+           ! indrwk is the starting offset of the left-over real workspace, and
+           ! llrwork is the remaining workspace size.
+           indrwk = indree + n
+           llrwork = lrwork - indrwk + 1
+           ! iwork(indibl:indibl+m-1) corresponds to iblock in la_dstebz and
+           ! stores the block indices of each of the m<=n eigenvalues.
+           indibl = 1
+           ! iwork(indisp:indisp+nsplit-1) corresponds to isplit in la_dstebz and
+           ! stores the starting and finishing indices of each block.
+           indisp = indibl + n
+           ! iwork(indifl:indifl+n-1) stores the indices of eigenvectors
+           ! that corresponding to eigenvectors that fail to converge in
+           ! la_dstein.  this information is discarded; if any fail, the driver
+           ! returns info > 0.
+           indifl = indisp + n
+           ! indiwo is the offset of the remaining integer workspace.
+           indiwo = indifl + n
+           ! call la_zhetrd to reduce hermitian matrix to tridiagonal form.
+           call la_zhetrd(uplo,n,a,lda,rwork(indrd),rwork(indre),work(indtau), &
+                     work(indwk),llwork,iinfo)
+           ! if all eigenvalues are desired
+           ! then call la_dsterf or la_zstemr and la_zunmtr.
+           test = .false.
+           if (indeig) then
+              if (il == 1 .and. iu == n) then
+                 test = .true.
+              end if
+           end if
+           if ((alleig .or. test) .and. (ieeeok == 1)) then
+              if (.not. wantz) then
+                 call la_dcopy(n,rwork(indrd),1,w,1)
+                 call la_dcopy(n - 1,rwork(indre),1,rwork(indree),1)
+                 call la_dsterf(n,w,rwork(indree),info)
+              else
+                 call la_dcopy(n - 1,rwork(indre),1,rwork(indree),1)
+                 call la_dcopy(n,rwork(indrd),1,rwork(indrdd),1)
+                 if (abstol <= two*n*eps) then
+                    tryrac = .true.
+                 else
+                    tryrac = .false.
+                 end if
+                 call la_zstemr(jobz,'A',n,rwork(indrdd),rwork(indree),vl,vu,il, &
+                 iu,m,w,z,ldz,n,isuppz,tryrac,rwork(indrwk),llrwork,iwork,liwork,info)
+
+                 ! apply unitary matrix used in reduction to tridiagonal
+                 ! form to eigenvectors returned by la_zstemr.
+                 if (wantz .and. info == 0) then
+                    indwkn = indwk
+                    llwrkn = lwork - indwkn + 1
+                    call la_zunmtr('L',uplo,'N',n,m,a,lda,work(indtau),z,ldz,work( &
+                               indwkn),llwrkn,iinfo)
+                 end if
+              end if
+              if (info == 0) then
+                 m = n
+                 go to 30
+              end if
+              info = 0
+           end if
+           ! otherwise, call la_dstebz and, if eigenvectors are desired, la_zstein.
+           ! also call la_dstebz and la_zstein if la_zstemr fails.
+           if (wantz) then
+              order = 'B'
+           else
+              order = 'E'
+           end if
+           call la_dstebz(range,order,n,vll,vuu,il,iu,abstll,rwork(indrd),rwork( &
+           indre),m,nsplit,w,iwork(indibl),iwork(indisp),rwork(indrwk),iwork(indiwo) &
+                     ,info)
+           if (wantz) then
+              call la_zstein(n,rwork(indrd),rwork(indre),m,w,iwork(indibl),iwork( &
+                        indisp),z,ldz,rwork(indrwk),iwork(indiwo),iwork(indifl),info)
+              ! apply unitary matrix used in reduction to tridiagonal
+              ! form to eigenvectors returned by la_zstein.
+              indwkn = indwk
+              llwrkn = lwork - indwkn + 1
+              call la_zunmtr('L',uplo,'N',n,m,a,lda,work(indtau),z,ldz,work( &
+                        indwkn),llwrkn,iinfo)
+           end if
+           ! if matrix was scaled, then rescale eigenvalues appropriately.
+           30 continue
+           if (iscale == 1) then
+              if (info == 0) then
+                 imax = m
+              else
+                 imax = info - 1
+              end if
+              call la_dscal(imax,one/sigma,w,1)
+           end if
+           ! if eigenvalues are not in order, then sort them, along with
+           ! eigenvectors.
+           if (wantz) then
+              do j = 1,m - 1
+                 i = 0
+                 tmp1 = w(j)
+                 do jj = j + 1,m
+                    if (w(jj) < tmp1) then
+                       i = jj
+                       tmp1 = w(jj)
+                    end if
+                 end do
+                 if (i /= 0) then
+                    itmp1 = iwork(indibl + i - 1)
+                    w(i) = w(j)
+                    iwork(indibl + i - 1) = iwork(indibl + j - 1)
+                    w(j) = tmp1
+                    iwork(indibl + j - 1) = itmp1
+                    call la_zswap(n,z(1,i),1,z(1,j),1)
+                 end if
+              end do
+           end if
+           ! set work(1) to optimal workspace size.
+           work(1) = lwkopt
+           rwork(1) = lrwmin
+           iwork(1) = liwmin
+           return
+     end subroutine la_zheevr
+     !> WHEEVR: computes selected eigenvalues and, optionally, eigenvectors
+     !> of a complex Hermitian matrix A.  Eigenvalues and eigenvectors can
+     !> be selected by specifying either a range of values or a range of
+     !> indices for the desired eigenvalues.
+     !> WHEEVR first reduces the matrix A to tridiagonal form T with a call
+     !> to WHETRD.  Then, whenever possible, WHEEVR calls WSTEMR to compute
+     !> eigenspectrum using Relatively Robust Representations.  WSTEMR
+     !> computes eigenvalues by the dqds algorithm, while orthogonal
+     !> eigenvectors are computed from various "good" L D L^T representations
+     !> (also known as Relatively Robust Representations). Gram-Schmidt
+     !> orthogonalization is avoided as far as possible. More specifically,
+     !> the various steps of the algorithm are as follows.
+     !> For each unreduced block (submatrix) of T,
+     !> (a) Compute T - sigma I  = L D L^T, so that L and D
+     !> define all the wanted eigenvalues to high relative accuracy.
+     !> This means that small relative changes in the entries of D and L
+     !> cause only small relative changes in the eigenvalues and
+     !> eigenvectors. The standard (unfactored) representation of the
+     !> tridiagonal matrix T does not have this property in general.
+     !> (b) Compute the eigenvalues to suitable accuracy.
+     !> If the eigenvectors are desired, the algorithm attains full
+     !> accuracy of the computed eigenvalues only right before
+     !> the corresponding vectors have to be computed, see steps c) and d).
+     !> (c) For each cluster of close eigenvalues, select a new
+     !> shift close to the cluster, find a new factorization, and refine
+     !> the shifted eigenvalues to suitable accuracy.
+     !> (d) For each eigenvalue with a large enough relative separation compute
+     !> the corresponding eigenvector by forming a rank revealing twisted
+     !> factorization. Go back to (c) for any clusters that remain.
+     !> The desired accuracy of the output can be specified by the input
+     !> parameter ABSTOL.
+     !> For more details, see WSTEMR's documentation and:
+     !> - Inderjit S. Dhillon and Beresford N. Parlett: "Multiple representations
+     !> to compute orthogonal eigenvectors of symmetric tridiagonal matrices,"
+     !> Linear Algebra and its Applications, 387(1), pp. 1-28, August 2004.
+     !> - Inderjit Dhillon and Beresford Parlett: "Orthogonal Eigenvectors and
+     !> Relative Gaps," SIAM Journal on Matrix Analysis and Applications, Vol. 25,
+     !> 2004.  Also LAPACK Working Note 154.
+     !> - Inderjit Dhillon: "A new O(n^2) algorithm for the symmetric
+     !> tridiagonal eigenvalue/eigenvector problem",
+     !> Computer Science Division Technical Report No. UCB/CSD-97-971,
+     !> UC Berkeley, May 1997.
+     !> Note 1 : WHEEVR calls WSTEMR when the full spectrum is requested
+     !> on machines which conform to the ieee-754 floating point standard.
+     !> WHEEVR calls QSTEBZ and WSTEIN on non-ieee machines and
+     !> when partial spectrum requests are made.
+     !> Normal execution of WSTEMR may create NaNs and infinities and
+     !> hence may abort due to a floating point exception in environments
+     !> which do not handle NaNs and infinities in the ieee standard default
+     !> manner.
+
+     subroutine la_wheevr(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz, &
+               isuppz,work,lwork,rwork,lrwork,iwork,liwork,info)
+        use la_constants_qp,only:zero,one,two
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,range,uplo
+           integer(ilp),intent(in) :: il,iu,lda,ldz,liwork,lrwork,lwork,n
+           integer(ilp),intent(out) :: info,m
+           real(qp),intent(in) :: abstol,vl,vu
+           ! Array Arguments
+           integer(ilp),intent(out) :: isuppz(*),iwork(*)
+           real(qp),intent(out) :: rwork(*),w(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: work(*),z(ldz,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: alleig,indeig,lower,lquery,test,valeig,wantz,tryrac
+           character :: order
+           integer(ilp) :: i,ieeeok,iinfo,imax,indibl,indifl,indisp,indiwo,indrd,indrdd, &
+           indre,indree,indrwk,indtau,indwk,indwkn,iscale,itmp1,j,jj,liwmin,llwork, &
+                     llrwork,llwrkn,lrwmin,lwkopt,lwmin,nb,nsplit
+           real(qp) :: abstll,anrm,bignum,eps,rmax,rmin,safmin,sigma,smlnum,tmp1,vll, &
+                     vuu
+           ! Intrinsic Functions
+           intrinsic :: real,max,min,sqrt
+           ! Executable Statements
+           ! test the input parameters.
+           ieeeok = la_ilaenv(10,'WHEEVR','N',1,2,3,4)
+           lower = la_lsame(uplo,'L')
+           wantz = la_lsame(jobz,'V')
+           alleig = la_lsame(range,'A')
+           valeig = la_lsame(range,'V')
+           indeig = la_lsame(range,'I')
+           lquery = ((lwork == -1) .or. (lrwork == -1) .or. (liwork == -1))
+           lrwmin = max(1,24*n)
+           liwmin = max(1,10*n)
+           lwmin = max(1,2*n)
+           info = 0
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (alleig .or. valeig .or. indeig)) then
+              info = -2
+           else if (.not. (lower .or. la_lsame(uplo,'U'))) then
+              info = -3
+           else if (n < 0) then
+              info = -4
+           else if (lda < max(1,n)) then
+              info = -6
+           else
+              if (valeig) then
+                 if (n > 0 .and. vu <= vl) info = -8
+              else if (indeig) then
+                 if (il < 1 .or. il > max(1,n)) then
+                    info = -9
+                 else if (iu < min(n,il) .or. iu > n) then
+                    info = -10
+                 end if
+              end if
+           end if
+           if (info == 0) then
+              if (ldz < 1 .or. (wantz .and. ldz < n)) then
+                 info = -15
+              end if
+           end if
+           if (info == 0) then
+              nb = la_ilaenv(1,'WHETRD',uplo,n,-1,-1,-1)
+              nb = max(nb,la_ilaenv(1,'WUNMTR',uplo,n,-1,-1,-1))
+              lwkopt = max((nb + 1)*n,lwmin)
+              work(1) = lwkopt
+              rwork(1) = lrwmin
+              iwork(1) = liwmin
+              if (lwork < lwmin .and. .not. lquery) then
+                 info = -18
+              else if (lrwork < lrwmin .and. .not. lquery) then
+                 info = -20
+              else if (liwork < liwmin .and. .not. lquery) then
+                 info = -22
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('WHEEVR',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           m = 0
+           if (n == 0) then
+              work(1) = 1
+              return
+           end if
+           if (n == 1) then
+              work(1) = 2
+              if (alleig .or. indeig) then
+                 m = 1
+                 w(1) = real(a(1,1),KIND=qp)
+              else
+                 if (vl < real(a(1,1),KIND=qp) .and. vu >= real(a(1,1),KIND=qp)) then
+                    m = 1
+                    w(1) = real(a(1,1),KIND=qp)
+                 end if
+              end if
+              if (wantz) then
+                 z(1,1) = one
+                 isuppz(1) = 1
+                 isuppz(2) = 1
+              end if
+              return
+           end if
+           ! get machine constants.
+           safmin = la_qlamch('SAFE MINIMUM')
+           eps = la_qlamch('PRECISION')
+           smlnum = safmin/eps
+           bignum = one/smlnum
+           rmin = sqrt(smlnum)
+           rmax = min(sqrt(bignum),one/sqrt(sqrt(safmin)))
+           ! scale matrix to allowable range, if necessary.
+           iscale = 0
+           abstll = abstol
+           if (valeig) then
+              vll = vl
+              vuu = vu
+           end if
+           anrm = la_wlansy('M',uplo,n,a,lda,rwork)
+           if (anrm > zero .and. anrm < rmin) then
+              iscale = 1
+              sigma = rmin/anrm
+           else if (anrm > rmax) then
+              iscale = 1
+              sigma = rmax/anrm
+           end if
+           if (iscale == 1) then
+              if (lower) then
+                 do j = 1,n
+                    call la_wqscal(n - j + 1,sigma,a(j,j),1)
+                 end do
+              else
+                 do j = 1,n
+                    call la_wqscal(j,sigma,a(1,j),1)
+                 end do
+              end if
+              if (abstol > 0) abstll = abstol*sigma
+              if (valeig) then
+                 vll = vl*sigma
+                 vuu = vu*sigma
+              end if
+           end if
+           ! initialize indices into workspaces.  note: the iwork indices are
+           ! used only if la_qsterf or la_wstemr fail.
+           ! work(indtau:indtau+n-1) stores the complex scalar factors of the
+           ! elementary reflectors used in la_whetrd.
+           indtau = 1
+           ! indwk is the starting offset of the remaining complex workspace,
+           ! and llwork is the remaining complex workspace size.
+           indwk = indtau + n
+           llwork = lwork - indwk + 1
+           ! rwork(indrd:indrd+n-1) stores the real tridiagonal's diagonal
+           ! entries.
+           indrd = 1
+           ! rwork(indre:indre+n-1) stores the off-diagonal entries of the
+           ! tridiagonal matrix from la_whetrd.
+           indre = indrd + n
+           ! rwork(indrdd:indrdd+n-1) is a copy of the diagonal entries over
+           ! -written by la_wstemr (the la_qsterf path copies the diagonal to w).
+           indrdd = indre + n
+           ! rwork(indree:indree+n-1) is a copy of the off-diagonal entries over
+           ! -written while computing the eigenvalues in la_qsterf and la_wstemr.
+           indree = indrdd + n
+           ! indrwk is the starting offset of the left-over real workspace, and
+           ! llrwork is the remaining workspace size.
+           indrwk = indree + n
+           llrwork = lrwork - indrwk + 1
+           ! iwork(indibl:indibl+m-1) corresponds to iblock in la_qstebz and
+           ! stores the block indices of each of the m<=n eigenvalues.
+           indibl = 1
+           ! iwork(indisp:indisp+nsplit-1) corresponds to isplit in la_qstebz and
+           ! stores the starting and finishing indices of each block.
+           indisp = indibl + n
+           ! iwork(indifl:indifl+n-1) stores the indices of eigenvectors
+           ! that corresponding to eigenvectors that fail to converge in
+           ! la_qstein.  this information is discarded; if any fail, the driver
+           ! returns info > 0.
+           indifl = indisp + n
+           ! indiwo is the offset of the remaining integer workspace.
+           indiwo = indifl + n
+           ! call la_whetrd to reduce hermitian matrix to tridiagonal form.
+           call la_whetrd(uplo,n,a,lda,rwork(indrd),rwork(indre),work(indtau), &
+                     work(indwk),llwork,iinfo)
+           ! if all eigenvalues are desired
+           ! then call la_qsterf or la_wstemr and la_wunmtr.
+           test = .false.
+           if (indeig) then
+              if (il == 1 .and. iu == n) then
+                 test = .true.
+              end if
+           end if
+           if ((alleig .or. test) .and. (ieeeok == 1)) then
+              if (.not. wantz) then
+                 call la_qcopy(n,rwork(indrd),1,w,1)
+                 call la_qcopy(n - 1,rwork(indre),1,rwork(indree),1)
+                 call la_qsterf(n,w,rwork(indree),info)
+              else
+                 call la_qcopy(n - 1,rwork(indre),1,rwork(indree),1)
+                 call la_qcopy(n,rwork(indrd),1,rwork(indrdd),1)
+                 if (abstol <= two*n*eps) then
+                    tryrac = .true.
+                 else
+                    tryrac = .false.
+                 end if
+                 call la_wstemr(jobz,'A',n,rwork(indrdd),rwork(indree),vl,vu,il, &
+                 iu,m,w,z,ldz,n,isuppz,tryrac,rwork(indrwk),llrwork,iwork,liwork,info)
+
+                 ! apply unitary matrix used in reduction to tridiagonal
+                 ! form to eigenvectors returned by la_wstemr.
+                 if (wantz .and. info == 0) then
+                    indwkn = indwk
+                    llwrkn = lwork - indwkn + 1
+                    call la_wunmtr('L',uplo,'N',n,m,a,lda,work(indtau),z,ldz,work( &
+                               indwkn),llwrkn,iinfo)
+                 end if
+              end if
+              if (info == 0) then
+                 m = n
+                 go to 30
+              end if
+              info = 0
+           end if
+           ! otherwise, call la_qstebz and, if eigenvectors are desired, la_wstein.
+           ! also call la_qstebz and la_wstein if la_wstemr fails.
+           if (wantz) then
+              order = 'B'
+           else
+              order = 'E'
+           end if
+           call la_qstebz(range,order,n,vll,vuu,il,iu,abstll,rwork(indrd),rwork( &
+           indre),m,nsplit,w,iwork(indibl),iwork(indisp),rwork(indrwk),iwork(indiwo) &
+                     ,info)
+           if (wantz) then
+              call la_wstein(n,rwork(indrd),rwork(indre),m,w,iwork(indibl),iwork( &
+                        indisp),z,ldz,rwork(indrwk),iwork(indiwo),iwork(indifl),info)
+              ! apply unitary matrix used in reduction to tridiagonal
+              ! form to eigenvectors returned by la_wstein.
+              indwkn = indwk
+              llwrkn = lwork - indwkn + 1
+              call la_wunmtr('L',uplo,'N',n,m,a,lda,work(indtau),z,ldz,work( &
+                        indwkn),llwrkn,iinfo)
+           end if
+           ! if matrix was scaled, then rescale eigenvalues appropriately.
+           30 continue
+           if (iscale == 1) then
+              if (info == 0) then
+                 imax = m
+              else
+                 imax = info - 1
+              end if
+              call la_qscal(imax,one/sigma,w,1)
+           end if
+           ! if eigenvalues are not in order, then sort them, along with
+           ! eigenvectors.
+           if (wantz) then
+              do j = 1,m - 1
+                 i = 0
+                 tmp1 = w(j)
+                 do jj = j + 1,m
+                    if (w(jj) < tmp1) then
+                       i = jj
+                       tmp1 = w(jj)
+                    end if
+                 end do
+                 if (i /= 0) then
+                    itmp1 = iwork(indibl + i - 1)
+                    w(i) = w(j)
+                    iwork(indibl + i - 1) = iwork(indibl + j - 1)
+                    w(j) = tmp1
+                    iwork(indibl + j - 1) = itmp1
+                    call la_wswap(n,z(1,i),1,z(1,j),1)
+                 end if
+              end do
+           end if
+           ! set work(1) to optimal workspace size.
+           work(1) = lwkopt
+           rwork(1) = lrwmin
+           iwork(1) = liwmin
+           return
+     end subroutine la_wheevr
+
+     !> CHEEVX: computes selected eigenvalues and, optionally, eigenvectors
+     !> of a complex Hermitian matrix A.  Eigenvalues and eigenvectors can
+     !> be selected by specifying either a range of values or a range of
+     !> indices for the desired eigenvalues.
+
+     subroutine la_cheevx(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz, &
+               work,lwork,rwork,iwork,ifail,info)
+        use la_constants_sp,only:zero,one,cone
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,range,uplo
+           integer(ilp),intent(in) :: il,iu,lda,ldz,lwork,n
+           integer(ilp),intent(out) :: info,m
+           real(sp),intent(in) :: abstol,vl,vu
+           ! Array Arguments
+           integer(ilp),intent(out) :: ifail(*),iwork(*)
+           real(sp),intent(out) :: rwork(*),w(*)
+           complex(sp),intent(inout) :: a(lda,*)
+           complex(sp),intent(out) :: work(*),z(ldz,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: alleig,indeig,lower,lquery,test,valeig,wantz
+           character :: order
+           integer(ilp) :: i,iinfo,imax,indd,inde,indee,indibl,indisp,indiwk,indrwk, &
+                     indtau,indwrk,iscale,itmp1,j,jj,llwork,lwkmin,lwkopt,nb,nsplit
+           real(sp) :: abstll,anrm,bignum,eps,rmax,rmin,safmin,sigma,smlnum,tmp1,vll, &
+                     vuu
+           ! Intrinsic Functions
+           intrinsic :: real,max,min,sqrt
+           ! Executable Statements
+           ! test the input parameters.
+           lower = la_lsame(uplo,'L')
+           wantz = la_lsame(jobz,'V')
+           alleig = la_lsame(range,'A')
+           valeig = la_lsame(range,'V')
+           indeig = la_lsame(range,'I')
+           lquery = (lwork == -1)
+           info = 0
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (alleig .or. valeig .or. indeig)) then
+              info = -2
+           else if (.not. (lower .or. la_lsame(uplo,'U'))) then
+              info = -3
+           else if (n < 0) then
+              info = -4
+           else if (lda < max(1,n)) then
+              info = -6
+           else
+              if (valeig) then
+                 if (n > 0 .and. vu <= vl) info = -8
+              else if (indeig) then
+                 if (il < 1 .or. il > max(1,n)) then
+                    info = -9
+                 else if (iu < min(n,il) .or. iu > n) then
+                    info = -10
+                 end if
+              end if
+           end if
+           if (info == 0) then
+              if (ldz < 1 .or. (wantz .and. ldz < n)) then
+                 info = -15
+              end if
+           end if
+           if (info == 0) then
+              if (n <= 1) then
+                 lwkmin = 1
+                 work(1) = lwkmin
+              else
+                 lwkmin = 2*n
+                 nb = la_ilaenv(1,'CHETRD',uplo,n,-1,-1,-1)
+                 nb = max(nb,la_ilaenv(1,'CUNMTR',uplo,n,-1,-1,-1))
+                 lwkopt = max(1, (nb + 1)*n)
+                 work(1) = lwkopt
+              end if
+              if (lwork < lwkmin .and. .not. lquery) info = -17
+           end if
+           if (info /= 0) then
+              call la_xerbla('CHEEVX',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           m = 0
+           if (n == 0) then
+              return
+           end if
+           if (n == 1) then
+              if (alleig .or. indeig) then
+                 m = 1
+                 w(1) = real(a(1,1),KIND=sp)
+              else if (valeig) then
+                 if (vl < real(a(1,1),KIND=sp) .and. vu >= real(a(1,1),KIND=sp)) then
+                    m = 1
+                    w(1) = real(a(1,1),KIND=sp)
+                 end if
+              end if
+              if (wantz) z(1,1) = cone
+              return
+           end if
+           ! get machine constants.
+           safmin = la_slamch('SAFE MINIMUM')
+           eps = la_slamch('PRECISION')
+           smlnum = safmin/eps
+           bignum = one/smlnum
+           rmin = sqrt(smlnum)
+           rmax = min(sqrt(bignum),one/sqrt(sqrt(safmin)))
+           ! scale matrix to allowable range, if necessary.
+           iscale = 0
+           abstll = abstol
+           if (valeig) then
+              vll = vl
+              vuu = vu
+           end if
+           anrm = la_clanhe('M',uplo,n,a,lda,rwork)
+           if (anrm > zero .and. anrm < rmin) then
+              iscale = 1
+              sigma = rmin/anrm
+           else if (anrm > rmax) then
+              iscale = 1
+              sigma = rmax/anrm
+           end if
+           if (iscale == 1) then
+              if (lower) then
+                 do j = 1,n
+                    call la_csscal(n - j + 1,sigma,a(j,j),1)
+                 end do
+              else
+                 do j = 1,n
+                    call la_csscal(j,sigma,a(1,j),1)
+                 end do
+              end if
+              if (abstol > 0) abstll = abstol*sigma
+              if (valeig) then
+                 vll = vl*sigma
+                 vuu = vu*sigma
+              end if
+           end if
+           ! call la_chetrd to reduce hermitian matrix to tridiagonal form.
+           indd = 1
+           inde = indd + n
+           indrwk = inde + n
+           indtau = 1
+           indwrk = indtau + n
+           llwork = lwork - indwrk + 1
+           call la_chetrd(uplo,n,a,lda,rwork(indd),rwork(inde),work(indtau),work( &
+                      indwrk),llwork,iinfo)
+           ! if all eigenvalues are desired and abstol is less than or equal to
+           ! zero, then call la_ssterf or la_cungtr and la_csteqr.  if this fails for
+           ! some eigenvalue, then try la_sstebz.
+           test = .false.
+           if (indeig) then
+              if (il == 1 .and. iu == n) then
+                 test = .true.
+              end if
+           end if
+           if ((alleig .or. test) .and. (abstol <= zero)) then
+              call la_scopy(n,rwork(indd),1,w,1)
+              indee = indrwk + 2*n
+              if (.not. wantz) then
+                 call la_scopy(n - 1,rwork(inde),1,rwork(indee),1)
+                 call la_ssterf(n,w,rwork(indee),info)
+              else
+                 call la_clacpy('A',n,n,a,lda,z,ldz)
+                 call la_cungtr(uplo,n,z,ldz,work(indtau),work(indwrk),llwork, &
+                           iinfo)
+                 call la_scopy(n - 1,rwork(inde),1,rwork(indee),1)
+                 call la_csteqr(jobz,n,w,rwork(indee),z,ldz,rwork(indrwk),info)
+
+                 if (info == 0) then
+                    do i = 1,n
+                       ifail(i) = 0
+                    end do
+                 end if
+              end if
+              if (info == 0) then
+                 m = n
+                 go to 40
+              end if
+              info = 0
+           end if
+           ! otherwise, call la_sstebz and, if eigenvectors are desired, la_cstein.
+           if (wantz) then
+              order = 'B'
+           else
+              order = 'E'
+           end if
+           indibl = 1
+           indisp = indibl + n
+           indiwk = indisp + n
+           call la_sstebz(range,order,n,vll,vuu,il,iu,abstll,rwork(indd),rwork( &
+           inde),m,nsplit,w,iwork(indibl),iwork(indisp),rwork(indrwk),iwork(indiwk), &
+                      info)
+           if (wantz) then
+              call la_cstein(n,rwork(indd),rwork(inde),m,w,iwork(indibl),iwork( &
+                        indisp),z,ldz,rwork(indrwk),iwork(indiwk),ifail,info)
+              ! apply unitary matrix used in reduction to tridiagonal
+              ! form to eigenvectors returned by la_cstein.
+              call la_cunmtr('L',uplo,'N',n,m,a,lda,work(indtau),z,ldz,work( &
+                        indwrk),llwork,iinfo)
+           end if
+           ! if matrix was scaled, then rescale eigenvalues appropriately.
+           40 continue
+           if (iscale == 1) then
+              if (info == 0) then
+                 imax = m
+              else
+                 imax = info - 1
+              end if
+              call la_sscal(imax,one/sigma,w,1)
+           end if
+           ! if eigenvalues are not in order, then sort them, along with
+           ! eigenvectors.
+           if (wantz) then
+              do j = 1,m - 1
+                 i = 0
+                 tmp1 = w(j)
+                 do jj = j + 1,m
+                    if (w(jj) < tmp1) then
+                       i = jj
+                       tmp1 = w(jj)
+                    end if
+                 end do
+                 if (i /= 0) then
+                    itmp1 = iwork(indibl + i - 1)
+                    w(i) = w(j)
+                    iwork(indibl + i - 1) = iwork(indibl + j - 1)
+                    w(j) = tmp1
+                    iwork(indibl + j - 1) = itmp1
+                    call la_cswap(n,z(1,i),1,z(1,j),1)
+                    if (info /= 0) then
+                       itmp1 = ifail(i)
+                       ifail(i) = ifail(j)
+                       ifail(j) = itmp1
+                    end if
+                 end if
+              end do
+           end if
+           ! set work(1) to optimal complex workspace size.
+           work(1) = lwkopt
+           return
+     end subroutine la_cheevx
+     !> ZHEEVX: computes selected eigenvalues and, optionally, eigenvectors
+     !> of a complex Hermitian matrix A.  Eigenvalues and eigenvectors can
+     !> be selected by specifying either a range of values or a range of
+     !> indices for the desired eigenvalues.
+
+     subroutine la_zheevx(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz, &
+               work,lwork,rwork,iwork,ifail,info)
+        use la_constants_dp,only:zero,one,cone
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,range,uplo
+           integer(ilp),intent(in) :: il,iu,lda,ldz,lwork,n
+           integer(ilp),intent(out) :: info,m
+           real(dp),intent(in) :: abstol,vl,vu
+           ! Array Arguments
+           integer(ilp),intent(out) :: ifail(*),iwork(*)
+           real(dp),intent(out) :: rwork(*),w(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: work(*),z(ldz,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: alleig,indeig,lower,lquery,test,valeig,wantz
+           character :: order
+           integer(ilp) :: i,iinfo,imax,indd,inde,indee,indibl,indisp,indiwk,indrwk, &
+                     indtau,indwrk,iscale,itmp1,j,jj,llwork,lwkmin,lwkopt,nb,nsplit
+           real(dp) :: abstll,anrm,bignum,eps,rmax,rmin,safmin,sigma,smlnum,tmp1,vll, &
+                     vuu
+           ! Intrinsic Functions
+           intrinsic :: real,max,min,sqrt
+           ! Executable Statements
+           ! test the input parameters.
+           lower = la_lsame(uplo,'L')
+           wantz = la_lsame(jobz,'V')
+           alleig = la_lsame(range,'A')
+           valeig = la_lsame(range,'V')
+           indeig = la_lsame(range,'I')
+           lquery = (lwork == -1)
+           info = 0
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (alleig .or. valeig .or. indeig)) then
+              info = -2
+           else if (.not. (lower .or. la_lsame(uplo,'U'))) then
+              info = -3
+           else if (n < 0) then
+              info = -4
+           else if (lda < max(1,n)) then
+              info = -6
+           else
+              if (valeig) then
+                 if (n > 0 .and. vu <= vl) info = -8
+              else if (indeig) then
+                 if (il < 1 .or. il > max(1,n)) then
+                    info = -9
+                 else if (iu < min(n,il) .or. iu > n) then
+                    info = -10
+                 end if
+              end if
+           end if
+           if (info == 0) then
+              if (ldz < 1 .or. (wantz .and. ldz < n)) then
+                 info = -15
+              end if
+           end if
+           if (info == 0) then
+              if (n <= 1) then
+                 lwkmin = 1
+                 work(1) = lwkmin
+              else
+                 lwkmin = 2*n
+                 nb = la_ilaenv(1,'ZHETRD',uplo,n,-1,-1,-1)
+                 nb = max(nb,la_ilaenv(1,'ZUNMTR',uplo,n,-1,-1,-1))
+                 lwkopt = max(1, (nb + 1)*n)
+                 work(1) = lwkopt
+              end if
+              if (lwork < lwkmin .and. .not. lquery) info = -17
+           end if
+           if (info /= 0) then
+              call la_xerbla('ZHEEVX',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           m = 0
+           if (n == 0) then
+              return
+           end if
+           if (n == 1) then
+              if (alleig .or. indeig) then
+                 m = 1
+                 w(1) = real(a(1,1),KIND=dp)
+              else if (valeig) then
+                 if (vl < real(a(1,1),KIND=dp) .and. vu >= real(a(1,1),KIND=dp)) then
+                    m = 1
+                    w(1) = real(a(1,1),KIND=dp)
+                 end if
+              end if
+              if (wantz) z(1,1) = cone
+              return
+           end if
+           ! get machine constants.
+           safmin = la_dlamch('SAFE MINIMUM')
+           eps = la_dlamch('PRECISION')
+           smlnum = safmin/eps
+           bignum = one/smlnum
+           rmin = sqrt(smlnum)
+           rmax = min(sqrt(bignum),one/sqrt(sqrt(safmin)))
+           ! scale matrix to allowable range, if necessary.
+           iscale = 0
+           abstll = abstol
+           if (valeig) then
+              vll = vl
+              vuu = vu
+           end if
+           anrm = la_zlanhe('M',uplo,n,a,lda,rwork)
+           if (anrm > zero .and. anrm < rmin) then
+              iscale = 1
+              sigma = rmin/anrm
+           else if (anrm > rmax) then
+              iscale = 1
+              sigma = rmax/anrm
+           end if
+           if (iscale == 1) then
+              if (lower) then
+                 do j = 1,n
+                    call la_zdscal(n - j + 1,sigma,a(j,j),1)
+                 end do
+              else
+                 do j = 1,n
+                    call la_zdscal(j,sigma,a(1,j),1)
+                 end do
+              end if
+              if (abstol > 0) abstll = abstol*sigma
+              if (valeig) then
+                 vll = vl*sigma
+                 vuu = vu*sigma
+              end if
+           end if
+           ! call la_zhetrd to reduce hermitian matrix to tridiagonal form.
+           indd = 1
+           inde = indd + n
+           indrwk = inde + n
+           indtau = 1
+           indwrk = indtau + n
+           llwork = lwork - indwrk + 1
+           call la_zhetrd(uplo,n,a,lda,rwork(indd),rwork(inde),work(indtau),work( &
+                      indwrk),llwork,iinfo)
+           ! if all eigenvalues are desired and abstol is less than or equal to
+           ! zero, then call la_dsterf or la_zungtr and la_zsteqr.  if this fails for
+           ! some eigenvalue, then try la_dstebz.
+           test = .false.
+           if (indeig) then
+              if (il == 1 .and. iu == n) then
+                 test = .true.
+              end if
+           end if
+           if ((alleig .or. test) .and. (abstol <= zero)) then
+              call la_dcopy(n,rwork(indd),1,w,1)
+              indee = indrwk + 2*n
+              if (.not. wantz) then
+                 call la_dcopy(n - 1,rwork(inde),1,rwork(indee),1)
+                 call la_dsterf(n,w,rwork(indee),info)
+              else
+                 call la_zlacpy('A',n,n,a,lda,z,ldz)
+                 call la_zungtr(uplo,n,z,ldz,work(indtau),work(indwrk),llwork, &
+                           iinfo)
+                 call la_dcopy(n - 1,rwork(inde),1,rwork(indee),1)
+                 call la_zsteqr(jobz,n,w,rwork(indee),z,ldz,rwork(indrwk),info)
+
+                 if (info == 0) then
+                    do i = 1,n
+                       ifail(i) = 0
+                    end do
+                 end if
+              end if
+              if (info == 0) then
+                 m = n
+                 go to 40
+              end if
+              info = 0
+           end if
+           ! otherwise, call la_dstebz and, if eigenvectors are desired, la_zstein.
+           if (wantz) then
+              order = 'B'
+           else
+              order = 'E'
+           end if
+           indibl = 1
+           indisp = indibl + n
+           indiwk = indisp + n
+           call la_dstebz(range,order,n,vll,vuu,il,iu,abstll,rwork(indd),rwork( &
+           inde),m,nsplit,w,iwork(indibl),iwork(indisp),rwork(indrwk),iwork(indiwk), &
+                      info)
+           if (wantz) then
+              call la_zstein(n,rwork(indd),rwork(inde),m,w,iwork(indibl),iwork( &
+                        indisp),z,ldz,rwork(indrwk),iwork(indiwk),ifail,info)
+              ! apply unitary matrix used in reduction to tridiagonal
+              ! form to eigenvectors returned by la_zstein.
+              call la_zunmtr('L',uplo,'N',n,m,a,lda,work(indtau),z,ldz,work( &
+                        indwrk),llwork,iinfo)
+           end if
+           ! if matrix was scaled, then rescale eigenvalues appropriately.
+           40 continue
+           if (iscale == 1) then
+              if (info == 0) then
+                 imax = m
+              else
+                 imax = info - 1
+              end if
+              call la_dscal(imax,one/sigma,w,1)
+           end if
+           ! if eigenvalues are not in order, then sort them, along with
+           ! eigenvectors.
+           if (wantz) then
+              do j = 1,m - 1
+                 i = 0
+                 tmp1 = w(j)
+                 do jj = j + 1,m
+                    if (w(jj) < tmp1) then
+                       i = jj
+                       tmp1 = w(jj)
+                    end if
+                 end do
+                 if (i /= 0) then
+                    itmp1 = iwork(indibl + i - 1)
+                    w(i) = w(j)
+                    iwork(indibl + i - 1) = iwork(indibl + j - 1)
+                    w(j) = tmp1
+                    iwork(indibl + j - 1) = itmp1
+                    call la_zswap(n,z(1,i),1,z(1,j),1)
+                    if (info /= 0) then
+                       itmp1 = ifail(i)
+                       ifail(i) = ifail(j)
+                       ifail(j) = itmp1
+                    end if
+                 end if
+              end do
+           end if
+           ! set work(1) to optimal complex workspace size.
+           work(1) = lwkopt
+           return
+     end subroutine la_zheevx
+     !> WHEEVX: computes selected eigenvalues and, optionally, eigenvectors
+     !> of a complex Hermitian matrix A.  Eigenvalues and eigenvectors can
+     !> be selected by specifying either a range of values or a range of
+     !> indices for the desired eigenvalues.
+
+     subroutine la_wheevx(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz, &
+               work,lwork,rwork,iwork,ifail,info)
+        use la_constants_qp,only:zero,one,cone
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,range,uplo
+           integer(ilp),intent(in) :: il,iu,lda,ldz,lwork,n
+           integer(ilp),intent(out) :: info,m
+           real(qp),intent(in) :: abstol,vl,vu
+           ! Array Arguments
+           integer(ilp),intent(out) :: ifail(*),iwork(*)
+           real(qp),intent(out) :: rwork(*),w(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: work(*),z(ldz,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: alleig,indeig,lower,lquery,test,valeig,wantz
+           character :: order
+           integer(ilp) :: i,iinfo,imax,indd,inde,indee,indibl,indisp,indiwk,indrwk, &
+                     indtau,indwrk,iscale,itmp1,j,jj,llwork,lwkmin,lwkopt,nb,nsplit
+           real(qp) :: abstll,anrm,bignum,eps,rmax,rmin,safmin,sigma,smlnum,tmp1,vll, &
+                     vuu
+           ! Intrinsic Functions
+           intrinsic :: real,max,min,sqrt
+           ! Executable Statements
+           ! test the input parameters.
+           lower = la_lsame(uplo,'L')
+           wantz = la_lsame(jobz,'V')
+           alleig = la_lsame(range,'A')
+           valeig = la_lsame(range,'V')
+           indeig = la_lsame(range,'I')
+           lquery = (lwork == -1)
+           info = 0
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (alleig .or. valeig .or. indeig)) then
+              info = -2
+           else if (.not. (lower .or. la_lsame(uplo,'U'))) then
+              info = -3
+           else if (n < 0) then
+              info = -4
+           else if (lda < max(1,n)) then
+              info = -6
+           else
+              if (valeig) then
+                 if (n > 0 .and. vu <= vl) info = -8
+              else if (indeig) then
+                 if (il < 1 .or. il > max(1,n)) then
+                    info = -9
+                 else if (iu < min(n,il) .or. iu > n) then
+                    info = -10
+                 end if
+              end if
+           end if
+           if (info == 0) then
+              if (ldz < 1 .or. (wantz .and. ldz < n)) then
+                 info = -15
+              end if
+           end if
+           if (info == 0) then
+              if (n <= 1) then
+                 lwkmin = 1
+                 work(1) = lwkmin
+              else
+                 lwkmin = 2*n
+                 nb = la_ilaenv(1,'WHETRD',uplo,n,-1,-1,-1)
+                 nb = max(nb,la_ilaenv(1,'WUNMTR',uplo,n,-1,-1,-1))
+                 lwkopt = max(1, (nb + 1)*n)
+                 work(1) = lwkopt
+              end if
+              if (lwork < lwkmin .and. .not. lquery) info = -17
+           end if
+           if (info /= 0) then
+              call la_xerbla('WHEEVX',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           m = 0
+           if (n == 0) then
+              return
+           end if
+           if (n == 1) then
+              if (alleig .or. indeig) then
+                 m = 1
+                 w(1) = real(a(1,1),KIND=qp)
+              else if (valeig) then
+                 if (vl < real(a(1,1),KIND=qp) .and. vu >= real(a(1,1),KIND=qp)) then
+                    m = 1
+                    w(1) = real(a(1,1),KIND=qp)
+                 end if
+              end if
+              if (wantz) z(1,1) = cone
+              return
+           end if
+           ! get machine constants.
+           safmin = la_qlamch('SAFE MINIMUM')
+           eps = la_qlamch('PRECISION')
+           smlnum = safmin/eps
+           bignum = one/smlnum
+           rmin = sqrt(smlnum)
+           rmax = min(sqrt(bignum),one/sqrt(sqrt(safmin)))
+           ! scale matrix to allowable range, if necessary.
+           iscale = 0
+           abstll = abstol
+           if (valeig) then
+              vll = vl
+              vuu = vu
+           end if
+           anrm = la_wlanhe('M',uplo,n,a,lda,rwork)
+           if (anrm > zero .and. anrm < rmin) then
+              iscale = 1
+              sigma = rmin/anrm
+           else if (anrm > rmax) then
+              iscale = 1
+              sigma = rmax/anrm
+           end if
+           if (iscale == 1) then
+              if (lower) then
+                 do j = 1,n
+                    call la_wqscal(n - j + 1,sigma,a(j,j),1)
+                 end do
+              else
+                 do j = 1,n
+                    call la_wqscal(j,sigma,a(1,j),1)
+                 end do
+              end if
+              if (abstol > 0) abstll = abstol*sigma
+              if (valeig) then
+                 vll = vl*sigma
+                 vuu = vu*sigma
+              end if
+           end if
+           ! call la_whetrd to reduce hermitian matrix to tridiagonal form.
+           indd = 1
+           inde = indd + n
+           indrwk = inde + n
+           indtau = 1
+           indwrk = indtau + n
+           llwork = lwork - indwrk + 1
+           call la_whetrd(uplo,n,a,lda,rwork(indd),rwork(inde),work(indtau),work( &
+                      indwrk),llwork,iinfo)
+           ! if all eigenvalues are desired and abstol is less than or equal to
+           ! zero, then call la_qsterf or la_wungtr and la_wsteqr.  if this fails for
+           ! some eigenvalue, then try la_qstebz.
+           test = .false.
+           if (indeig) then
+              if (il == 1 .and. iu == n) then
+                 test = .true.
+              end if
+           end if
+           if ((alleig .or. test) .and. (abstol <= zero)) then
+              call la_qcopy(n,rwork(indd),1,w,1)
+              indee = indrwk + 2*n
+              if (.not. wantz) then
+                 call la_qcopy(n - 1,rwork(inde),1,rwork(indee),1)
+                 call la_qsterf(n,w,rwork(indee),info)
+              else
+                 call la_wlacpy('A',n,n,a,lda,z,ldz)
+                 call la_wungtr(uplo,n,z,ldz,work(indtau),work(indwrk),llwork, &
+                           iinfo)
+                 call la_qcopy(n - 1,rwork(inde),1,rwork(indee),1)
+                 call la_wsteqr(jobz,n,w,rwork(indee),z,ldz,rwork(indrwk),info)
+
+                 if (info == 0) then
+                    do i = 1,n
+                       ifail(i) = 0
+                    end do
+                 end if
+              end if
+              if (info == 0) then
+                 m = n
+                 go to 40
+              end if
+              info = 0
+           end if
+           ! otherwise, call la_qstebz and, if eigenvectors are desired, la_wstein.
+           if (wantz) then
+              order = 'B'
+           else
+              order = 'E'
+           end if
+           indibl = 1
+           indisp = indibl + n
+           indiwk = indisp + n
+           call la_qstebz(range,order,n,vll,vuu,il,iu,abstll,rwork(indd),rwork( &
+           inde),m,nsplit,w,iwork(indibl),iwork(indisp),rwork(indrwk),iwork(indiwk), &
+                      info)
+           if (wantz) then
+              call la_wstein(n,rwork(indd),rwork(inde),m,w,iwork(indibl),iwork( &
+                        indisp),z,ldz,rwork(indrwk),iwork(indiwk),ifail,info)
+              ! apply unitary matrix used in reduction to tridiagonal
+              ! form to eigenvectors returned by la_wstein.
+              call la_wunmtr('L',uplo,'N',n,m,a,lda,work(indtau),z,ldz,work( &
+                        indwrk),llwork,iinfo)
+           end if
+           ! if matrix was scaled, then rescale eigenvalues appropriately.
+           40 continue
+           if (iscale == 1) then
+              if (info == 0) then
+                 imax = m
+              else
+                 imax = info - 1
+              end if
+              call la_qscal(imax,one/sigma,w,1)
+           end if
+           ! if eigenvalues are not in order, then sort them, along with
+           ! eigenvectors.
+           if (wantz) then
+              do j = 1,m - 1
+                 i = 0
+                 tmp1 = w(j)
+                 do jj = j + 1,m
+                    if (w(jj) < tmp1) then
+                       i = jj
+                       tmp1 = w(jj)
+                    end if
+                 end do
+                 if (i /= 0) then
+                    itmp1 = iwork(indibl + i - 1)
+                    w(i) = w(j)
+                    iwork(indibl + i - 1) = iwork(indibl + j - 1)
+                    w(j) = tmp1
+                    iwork(indibl + j - 1) = itmp1
+                    call la_wswap(n,z(1,i),1,z(1,j),1)
+                    if (info /= 0) then
+                       itmp1 = ifail(i)
+                       ifail(i) = ifail(j)
+                       ifail(j) = itmp1
+                    end if
+                 end if
+              end do
+           end if
+           ! set work(1) to optimal complex workspace size.
+           work(1) = lwkopt
+           return
+     end subroutine la_wheevx
+
+     !> CHEGV: computes all the eigenvalues, and optionally, the eigenvectors
+     !> of a complex generalized Hermitian-definite eigenproblem, of the form
+     !> A*x=(lambda)*B*x,  A*Bx=(lambda)*x,  or B*A*x=(lambda)*x.
+     !> Here A and B are assumed to be Hermitian and B is also
+     !> positive definite.
+
+     subroutine la_chegv(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,rwork,info)
+        use la_constants_sp
+
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: itype,lda,ldb,lwork,n
+           ! Array Arguments
+           real(sp),intent(out) :: rwork(*),w(*)
+           complex(sp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(sp),intent(out) :: work(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lquery,upper,wantz
+           character :: trans
+           integer(ilp) :: lwkopt,nb,neig
+           ! Intrinsic Functions
+           intrinsic :: max
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           upper = la_lsame(uplo,'U')
+           lquery = (lwork == -1)
+           info = 0
+           if (itype < 1 .or. itype > 3) then
+              info = -1
+           else if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -2
+           else if (.not. (upper .or. la_lsame(uplo,'L'))) then
+              info = -3
+           else if (n < 0) then
+              info = -4
+           else if (lda < max(1,n)) then
+              info = -6
+           else if (ldb < max(1,n)) then
+              info = -8
+           end if
+           if (info == 0) then
+              nb = la_ilaenv(1,'CHETRD',uplo,n,-1,-1,-1)
+              lwkopt = max(1, (nb + 1)*n)
+              work(1) = lwkopt
+              if (lwork < max(1,2*n - 1) .and. .not. lquery) then
+                 info = -11
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('CHEGV ',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           ! form a cholesky factorization of b.
+           call la_cpotrf(uplo,n,b,ldb,info)
+           if (info /= 0) then
+              info = n + info
+              return
+           end if
+           ! transform problem to standard eigenvalue problem and solve.
+           call la_chegst(itype,uplo,n,a,lda,b,ldb,info)
+           call la_cheev(jobz,uplo,n,a,lda,w,work,lwork,rwork,info)
+           if (wantz) then
+              ! backtransform eigenvectors to the original problem.
+              neig = n
+              if (info > 0) neig = info - 1
+              if (itype == 1 .or. itype == 2) then
+                 ! for a*x=(lambda)*b*x and a*b*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = inv(l)**h*y or inv(u)*y
+                 if (upper) then
+                    trans = 'N'
+                 else
+                    trans = 'C'
+                 end if
+                 call la_ctrsm('LEFT',uplo,trans,'NON-UNIT',n,neig,cone,b,ldb,a,lda &
+                           )
+              else if (itype == 3) then
+                 ! for b*a*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = l*y or u**h*y
+                 if (upper) then
+                    trans = 'C'
+                 else
+                    trans = 'N'
+                 end if
+                 call la_ctrmm('LEFT',uplo,trans,'NON-UNIT',n,neig,cone,b,ldb,a,lda &
+                           )
+              end if
+           end if
+           work(1) = lwkopt
+           return
+     end subroutine la_chegv
+     !> ZHEGV: computes all the eigenvalues, and optionally, the eigenvectors
+     !> of a complex generalized Hermitian-definite eigenproblem, of the form
+     !> A*x=(lambda)*B*x,  A*Bx=(lambda)*x,  or B*A*x=(lambda)*x.
+     !> Here A and B are assumed to be Hermitian and B is also
+     !> positive definite.
+
+     subroutine la_zhegv(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,rwork,info)
+        use la_constants_dp
+
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: itype,lda,ldb,lwork,n
+           ! Array Arguments
+           real(dp),intent(out) :: rwork(*),w(*)
+           complex(dp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(dp),intent(out) :: work(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lquery,upper,wantz
+           character :: trans
+           integer(ilp) :: lwkopt,nb,neig
+           ! Intrinsic Functions
+           intrinsic :: max
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           upper = la_lsame(uplo,'U')
+           lquery = (lwork == -1)
+           info = 0
+           if (itype < 1 .or. itype > 3) then
+              info = -1
+           else if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -2
+           else if (.not. (upper .or. la_lsame(uplo,'L'))) then
+              info = -3
+           else if (n < 0) then
+              info = -4
+           else if (lda < max(1,n)) then
+              info = -6
+           else if (ldb < max(1,n)) then
+              info = -8
+           end if
+           if (info == 0) then
+              nb = la_ilaenv(1,'ZHETRD',uplo,n,-1,-1,-1)
+              lwkopt = max(1, (nb + 1)*n)
+              work(1) = lwkopt
+              if (lwork < max(1,2*n - 1) .and. .not. lquery) then
+                 info = -11
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('ZHEGV ',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           ! form a cholesky factorization of b.
+           call la_zpotrf(uplo,n,b,ldb,info)
+           if (info /= 0) then
+              info = n + info
+              return
+           end if
+           ! transform problem to standard eigenvalue problem and solve.
+           call la_zhegst(itype,uplo,n,a,lda,b,ldb,info)
+           call la_zheev(jobz,uplo,n,a,lda,w,work,lwork,rwork,info)
+           if (wantz) then
+              ! backtransform eigenvectors to the original problem.
+              neig = n
+              if (info > 0) neig = info - 1
+              if (itype == 1 .or. itype == 2) then
+                 ! for a*x=(lambda)*b*x and a*b*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = inv(l)**h *y or inv(u)*y
+                 if (upper) then
+                    trans = 'N'
+                 else
+                    trans = 'C'
+                 end if
+                 call la_ztrsm('LEFT',uplo,trans,'NON-UNIT',n,neig,cone,b,ldb,a,lda &
+                           )
+              else if (itype == 3) then
+                 ! for b*a*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = l*y or u**h *y
+                 if (upper) then
+                    trans = 'C'
+                 else
+                    trans = 'N'
+                 end if
+                 call la_ztrmm('LEFT',uplo,trans,'NON-UNIT',n,neig,cone,b,ldb,a,lda &
+                           )
+              end if
+           end if
+           work(1) = lwkopt
+           return
+     end subroutine la_zhegv
+     !> WHEGV: computes all the eigenvalues, and optionally, the eigenvectors
+     !> of a complex generalized Hermitian-definite eigenproblem, of the form
+     !> A*x=(lambda)*B*x,  A*Bx=(lambda)*x,  or B*A*x=(lambda)*x.
+     !> Here A and B are assumed to be Hermitian and B is also
+     !> positive definite.
+
+     subroutine la_whegv(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,rwork,info)
+        use la_constants_qp
+
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: itype,lda,ldb,lwork,n
+           ! Array Arguments
+           real(qp),intent(out) :: rwork(*),w(*)
+           complex(qp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(qp),intent(out) :: work(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lquery,upper,wantz
+           character :: trans
+           integer(ilp) :: lwkopt,nb,neig
+           ! Intrinsic Functions
+           intrinsic :: max
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           upper = la_lsame(uplo,'U')
+           lquery = (lwork == -1)
+           info = 0
+           if (itype < 1 .or. itype > 3) then
+              info = -1
+           else if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -2
+           else if (.not. (upper .or. la_lsame(uplo,'L'))) then
+              info = -3
+           else if (n < 0) then
+              info = -4
+           else if (lda < max(1,n)) then
+              info = -6
+           else if (ldb < max(1,n)) then
+              info = -8
+           end if
+           if (info == 0) then
+              nb = la_ilaenv(1,'WHETRD',uplo,n,-1,-1,-1)
+              lwkopt = max(1, (nb + 1)*n)
+              work(1) = lwkopt
+              if (lwork < max(1,2*n - 1) .and. .not. lquery) then
+                 info = -11
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('WHEGV ',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           ! form a cholesky factorization of b.
+           call la_wpotrf(uplo,n,b,ldb,info)
+           if (info /= 0) then
+              info = n + info
+              return
+           end if
+           ! transform problem to standard eigenvalue problem and solve.
+           call la_whegst(itype,uplo,n,a,lda,b,ldb,info)
+           call la_wheev(jobz,uplo,n,a,lda,w,work,lwork,rwork,info)
+           if (wantz) then
+              ! backtransform eigenvectors to the original problem.
+              neig = n
+              if (info > 0) neig = info - 1
+              if (itype == 1 .or. itype == 2) then
+                 ! for a*x=(lambda)*b*x and a*b*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = inv(l)**h *y or inv(u)*y
+                 if (upper) then
+                    trans = 'N'
+                 else
+                    trans = 'C'
+                 end if
+                 call la_wtrsm('LEFT',uplo,trans,'NON-UNIT',n,neig,cone,b,ldb,a,lda &
+                           )
+              else if (itype == 3) then
+                 ! for b*a*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = l*y or u**h *y
+                 if (upper) then
+                    trans = 'C'
+                 else
+                    trans = 'N'
+                 end if
+                 call la_wtrmm('LEFT',uplo,trans,'NON-UNIT',n,neig,cone,b,ldb,a,lda &
+                           )
+              end if
+           end if
+           work(1) = lwkopt
+           return
+     end subroutine la_whegv
+
+     !> CHEGVX: computes selected eigenvalues, and optionally, eigenvectors
+     !> of a complex generalized Hermitian-definite eigenproblem, of the form
+     !> A*x=(lambda)*B*x,  A*Bx=(lambda)*x,  or B*A*x=(lambda)*x.  Here A and
+     !> B are assumed to be Hermitian and B is also positive definite.
+     !> Eigenvalues and eigenvectors can be selected by specifying either a
+     !> range of values or a range of indices for the desired eigenvalues.
+
+     subroutine la_chegvx(itype,jobz,range,uplo,n,a,lda,b,ldb,vl,vu,il,iu,abstol, &
+                m,w,z,ldz,work,lwork,rwork,iwork,ifail,info)
+        use la_constants_sp
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,range,uplo
+           integer(ilp),intent(in) :: il,itype,iu,lda,ldb,ldz,lwork,n
+           integer(ilp),intent(out) :: info,m
+           real(sp),intent(in) :: abstol,vl,vu
+           ! Array Arguments
+           integer(ilp),intent(out) :: ifail(*),iwork(*)
+           real(sp),intent(out) :: rwork(*),w(*)
+           complex(sp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(sp),intent(out) :: work(*),z(ldz,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: alleig,indeig,lquery,upper,valeig,wantz
+           character :: trans
+           integer(ilp) :: lwkopt,nb
+           ! Intrinsic Functions
+           intrinsic :: max,min
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           upper = la_lsame(uplo,'U')
+           alleig = la_lsame(range,'A')
+           valeig = la_lsame(range,'V')
+           indeig = la_lsame(range,'I')
+           lquery = (lwork == -1)
+           info = 0
+           if (itype < 1 .or. itype > 3) then
+              info = -1
+           else if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -2
+           else if (.not. (alleig .or. valeig .or. indeig)) then
+              info = -3
+           else if (.not. (upper .or. la_lsame(uplo,'L'))) then
+              info = -4
+           else if (n < 0) then
+              info = -5
+           else if (lda < max(1,n)) then
+              info = -7
+           else if (ldb < max(1,n)) then
+              info = -9
+           else
+              if (valeig) then
+                 if (n > 0 .and. vu <= vl) info = -11
+              else if (indeig) then
+                 if (il < 1 .or. il > max(1,n)) then
+                    info = -12
+                 else if (iu < min(n,il) .or. iu > n) then
+                    info = -13
+                 end if
+              end if
+           end if
+           if (info == 0) then
+              if (ldz < 1 .or. (wantz .and. ldz < n)) then
+                 info = -18
+              end if
+           end if
+           if (info == 0) then
+              nb = la_ilaenv(1,'CHETRD',uplo,n,-1,-1,-1)
+              lwkopt = max(1, (nb + 1)*n)
+              work(1) = lwkopt
+              if (lwork < max(1,2*n) .and. .not. lquery) then
+                 info = -20
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('CHEGVX',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           m = 0
+           if (n == 0) then
+              return
+           end if
+           ! form a cholesky factorization of b.
+           call la_cpotrf(uplo,n,b,ldb,info)
+           if (info /= 0) then
+              info = n + info
+              return
+           end if
+           ! transform problem to standard eigenvalue problem and solve.
+           call la_chegst(itype,uplo,n,a,lda,b,ldb,info)
+           call la_cheevx(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz, &
+                     work,lwork,rwork,iwork,ifail,info)
+           if (wantz) then
+              ! backtransform eigenvectors to the original problem.
+              if (info > 0) m = info - 1
+              if (itype == 1 .or. itype == 2) then
+                 ! for a*x=(lambda)*b*x and a*b*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = inv(l)**h*y or inv(u)*y
+                 if (upper) then
+                    trans = 'N'
+                 else
+                    trans = 'C'
+                 end if
+                 call la_ctrsm('LEFT',uplo,trans,'NON-UNIT',n,m,cone,b,ldb,z,ldz)
+
+              else if (itype == 3) then
+                 ! for b*a*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = l*y or u**h*y
+                 if (upper) then
+                    trans = 'C'
+                 else
+                    trans = 'N'
+                 end if
+                 call la_ctrmm('LEFT',uplo,trans,'NON-UNIT',n,m,cone,b,ldb,z,ldz)
+
+              end if
+           end if
+           ! set work(1) to optimal complex workspace size.
+           work(1) = lwkopt
+           return
+     end subroutine la_chegvx
+     !> ZHEGVX: computes selected eigenvalues, and optionally, eigenvectors
+     !> of a complex generalized Hermitian-definite eigenproblem, of the form
+     !> A*x=(lambda)*B*x,  A*Bx=(lambda)*x,  or B*A*x=(lambda)*x.  Here A and
+     !> B are assumed to be Hermitian and B is also positive definite.
+     !> Eigenvalues and eigenvectors can be selected by specifying either a
+     !> range of values or a range of indices for the desired eigenvalues.
+
+     subroutine la_zhegvx(itype,jobz,range,uplo,n,a,lda,b,ldb,vl,vu,il,iu,abstol, &
+                m,w,z,ldz,work,lwork,rwork,iwork,ifail,info)
+        use la_constants_dp
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,range,uplo
+           integer(ilp),intent(in) :: il,itype,iu,lda,ldb,ldz,lwork,n
+           integer(ilp),intent(out) :: info,m
+           real(dp),intent(in) :: abstol,vl,vu
+           ! Array Arguments
+           integer(ilp),intent(out) :: ifail(*),iwork(*)
+           real(dp),intent(out) :: rwork(*),w(*)
+           complex(dp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(dp),intent(out) :: work(*),z(ldz,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: alleig,indeig,lquery,upper,valeig,wantz
+           character :: trans
+           integer(ilp) :: lwkopt,nb
+           ! Intrinsic Functions
+           intrinsic :: max,min
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           upper = la_lsame(uplo,'U')
+           alleig = la_lsame(range,'A')
+           valeig = la_lsame(range,'V')
+           indeig = la_lsame(range,'I')
+           lquery = (lwork == -1)
+           info = 0
+           if (itype < 1 .or. itype > 3) then
+              info = -1
+           else if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -2
+           else if (.not. (alleig .or. valeig .or. indeig)) then
+              info = -3
+           else if (.not. (upper .or. la_lsame(uplo,'L'))) then
+              info = -4
+           else if (n < 0) then
+              info = -5
+           else if (lda < max(1,n)) then
+              info = -7
+           else if (ldb < max(1,n)) then
+              info = -9
+           else
+              if (valeig) then
+                 if (n > 0 .and. vu <= vl) info = -11
+              else if (indeig) then
+                 if (il < 1 .or. il > max(1,n)) then
+                    info = -12
+                 else if (iu < min(n,il) .or. iu > n) then
+                    info = -13
+                 end if
+              end if
+           end if
+           if (info == 0) then
+              if (ldz < 1 .or. (wantz .and. ldz < n)) then
+                 info = -18
+              end if
+           end if
+           if (info == 0) then
+              nb = la_ilaenv(1,'ZHETRD',uplo,n,-1,-1,-1)
+              lwkopt = max(1, (nb + 1)*n)
+              work(1) = lwkopt
+              if (lwork < max(1,2*n) .and. .not. lquery) then
+                 info = -20
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('ZHEGVX',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           m = 0
+           if (n == 0) then
+              return
+           end if
+           ! form a cholesky factorization of b.
+           call la_zpotrf(uplo,n,b,ldb,info)
+           if (info /= 0) then
+              info = n + info
+              return
+           end if
+           ! transform problem to standard eigenvalue problem and solve.
+           call la_zhegst(itype,uplo,n,a,lda,b,ldb,info)
+           call la_zheevx(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz, &
+                     work,lwork,rwork,iwork,ifail,info)
+           if (wantz) then
+              ! backtransform eigenvectors to the original problem.
+              if (info > 0) m = info - 1
+              if (itype == 1 .or. itype == 2) then
+                 ! for a*x=(lambda)*b*x and a*b*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = inv(l)**h *y or inv(u)*y
+                 if (upper) then
+                    trans = 'N'
+                 else
+                    trans = 'C'
+                 end if
+                 call la_ztrsm('LEFT',uplo,trans,'NON-UNIT',n,m,cone,b,ldb,z,ldz)
+
+              else if (itype == 3) then
+                 ! for b*a*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = l*y or u**h *y
+                 if (upper) then
+                    trans = 'C'
+                 else
+                    trans = 'N'
+                 end if
+                 call la_ztrmm('LEFT',uplo,trans,'NON-UNIT',n,m,cone,b,ldb,z,ldz)
+
+              end if
+           end if
+           ! set work(1) to optimal complex workspace size.
+           work(1) = lwkopt
+           return
+     end subroutine la_zhegvx
+     !> WHEGVX: computes selected eigenvalues, and optionally, eigenvectors
+     !> of a complex generalized Hermitian-definite eigenproblem, of the form
+     !> A*x=(lambda)*B*x,  A*Bx=(lambda)*x,  or B*A*x=(lambda)*x.  Here A and
+     !> B are assumed to be Hermitian and B is also positive definite.
+     !> Eigenvalues and eigenvectors can be selected by specifying either a
+     !> range of values or a range of indices for the desired eigenvalues.
+
+     subroutine la_whegvx(itype,jobz,range,uplo,n,a,lda,b,ldb,vl,vu,il,iu,abstol, &
+                m,w,z,ldz,work,lwork,rwork,iwork,ifail,info)
+        use la_constants_qp
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,range,uplo
+           integer(ilp),intent(in) :: il,itype,iu,lda,ldb,ldz,lwork,n
+           integer(ilp),intent(out) :: info,m
+           real(qp),intent(in) :: abstol,vl,vu
+           ! Array Arguments
+           integer(ilp),intent(out) :: ifail(*),iwork(*)
+           real(qp),intent(out) :: rwork(*),w(*)
+           complex(qp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(qp),intent(out) :: work(*),z(ldz,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: alleig,indeig,lquery,upper,valeig,wantz
+           character :: trans
+           integer(ilp) :: lwkopt,nb
+           ! Intrinsic Functions
+           intrinsic :: max,min
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           upper = la_lsame(uplo,'U')
+           alleig = la_lsame(range,'A')
+           valeig = la_lsame(range,'V')
+           indeig = la_lsame(range,'I')
+           lquery = (lwork == -1)
+           info = 0
+           if (itype < 1 .or. itype > 3) then
+              info = -1
+           else if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -2
+           else if (.not. (alleig .or. valeig .or. indeig)) then
+              info = -3
+           else if (.not. (upper .or. la_lsame(uplo,'L'))) then
+              info = -4
+           else if (n < 0) then
+              info = -5
+           else if (lda < max(1,n)) then
+              info = -7
+           else if (ldb < max(1,n)) then
+              info = -9
+           else
+              if (valeig) then
+                 if (n > 0 .and. vu <= vl) info = -11
+              else if (indeig) then
+                 if (il < 1 .or. il > max(1,n)) then
+                    info = -12
+                 else if (iu < min(n,il) .or. iu > n) then
+                    info = -13
+                 end if
+              end if
+           end if
+           if (info == 0) then
+              if (ldz < 1 .or. (wantz .and. ldz < n)) then
+                 info = -18
+              end if
+           end if
+           if (info == 0) then
+              nb = la_ilaenv(1,'WHETRD',uplo,n,-1,-1,-1)
+              lwkopt = max(1, (nb + 1)*n)
+              work(1) = lwkopt
+              if (lwork < max(1,2*n) .and. .not. lquery) then
+                 info = -20
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('WHEGVX',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           m = 0
+           if (n == 0) then
+              return
+           end if
+           ! form a cholesky factorization of b.
+           call la_wpotrf(uplo,n,b,ldb,info)
+           if (info /= 0) then
+              info = n + info
+              return
+           end if
+           ! transform problem to standard eigenvalue problem and solve.
+           call la_whegst(itype,uplo,n,a,lda,b,ldb,info)
+           call la_wheevx(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz, &
+                     work,lwork,rwork,iwork,ifail,info)
+           if (wantz) then
+              ! backtransform eigenvectors to the original problem.
+              if (info > 0) m = info - 1
+              if (itype == 1 .or. itype == 2) then
+                 ! for a*x=(lambda)*b*x and a*b*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = inv(l)**h *y or inv(u)*y
+                 if (upper) then
+                    trans = 'N'
+                 else
+                    trans = 'C'
+                 end if
+                 call la_wtrsm('LEFT',uplo,trans,'NON-UNIT',n,m,cone,b,ldb,z,ldz)
+
+              else if (itype == 3) then
+                 ! for b*a*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = l*y or u**h *y
+                 if (upper) then
+                    trans = 'C'
+                 else
+                    trans = 'N'
+                 end if
+                 call la_wtrmm('LEFT',uplo,trans,'NON-UNIT',n,m,cone,b,ldb,z,ldz)
+
+              end if
+           end if
+           ! set work(1) to optimal complex workspace size.
+           work(1) = lwkopt
+           return
+     end subroutine la_whegvx
+
+     !> CHPEV: computes all the eigenvalues and, optionally, eigenvectors of a
+     !> complex Hermitian matrix in packed storage.
+
+     subroutine la_chpev(jobz,uplo,n,ap,w,z,ldz,work,rwork,info)
+        use la_constants_sp,only:zero,one
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldz,n
+           ! Array Arguments
+           real(sp),intent(out) :: rwork(*),w(*)
+           complex(sp),intent(inout) :: ap(*)
+           complex(sp),intent(out) :: work(*),z(ldz,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: wantz
+           integer(ilp) :: iinfo,imax,inde,indrwk,indtau,indwrk,iscale
+           real(sp) :: anrm,bignum,eps,rmax,rmin,safmin,sigma,smlnum
+           ! Intrinsic Functions
+           intrinsic :: sqrt
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           info = 0
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (la_lsame(uplo,'L') .or. la_lsame(uplo,'U'))) &
+                     then
+              info = -2
+           else if (n < 0) then
+              info = -3
+           else if (ldz < 1 .or. (wantz .and. ldz < n)) then
+              info = -7
+           end if
+           if (info /= 0) then
+              call la_xerbla('CHPEV ',-info)
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           if (n == 1) then
+              w(1) = real(ap(1),KIND=sp)
+              rwork(1) = 1
+              if (wantz) z(1,1) = one
+              return
+           end if
+           ! get machine constants.
+           safmin = la_slamch('SAFE MINIMUM')
+           eps = la_slamch('PRECISION')
+           smlnum = safmin/eps
+           bignum = one/smlnum
+           rmin = sqrt(smlnum)
+           rmax = sqrt(bignum)
+           ! scale matrix to allowable range, if necessary.
+           anrm = la_clanhp('M',uplo,n,ap,rwork)
+           iscale = 0
+           if (anrm > zero .and. anrm < rmin) then
+              iscale = 1
+              sigma = rmin/anrm
+           else if (anrm > rmax) then
+              iscale = 1
+              sigma = rmax/anrm
+           end if
+           if (iscale == 1) then
+              call la_csscal((n*(n + 1))/2,sigma,ap,1)
+           end if
+           ! call la_chptrd to reduce hermitian packed matrix to tridiagonal form.
+           inde = 1
+           indtau = 1
+           call la_chptrd(uplo,n,ap,w,rwork(inde),work(indtau),iinfo)
+           ! for eigenvalues only, call la_ssterf.  for eigenvectors, first call
+           ! la_cupgtr to generate the orthogonal matrix, then call la_csteqr.
+           if (.not. wantz) then
+              call la_ssterf(n,w,rwork(inde),info)
+           else
+              indwrk = indtau + n
+              call la_cupgtr(uplo,n,ap,work(indtau),z,ldz,work(indwrk),iinfo)
+
+              indrwk = inde + n
+              call la_csteqr(jobz,n,w,rwork(inde),z,ldz,rwork(indrwk),info)
+
+           end if
+           ! if matrix was scaled, then rescale eigenvalues appropriately.
+           if (iscale == 1) then
+              if (info == 0) then
+                 imax = n
+              else
+                 imax = info - 1
+              end if
+              call la_sscal(imax,one/sigma,w,1)
+           end if
+           return
+     end subroutine la_chpev
+     !> ZHPEV: computes all the eigenvalues and, optionally, eigenvectors of a
+     !> complex Hermitian matrix in packed storage.
+
+     subroutine la_zhpev(jobz,uplo,n,ap,w,z,ldz,work,rwork,info)
+        use la_constants_dp,only:zero,one
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldz,n
+           ! Array Arguments
+           real(dp),intent(out) :: rwork(*),w(*)
+           complex(dp),intent(inout) :: ap(*)
+           complex(dp),intent(out) :: work(*),z(ldz,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: wantz
+           integer(ilp) :: iinfo,imax,inde,indrwk,indtau,indwrk,iscale
+           real(dp) :: anrm,bignum,eps,rmax,rmin,safmin,sigma,smlnum
+           ! Intrinsic Functions
+           intrinsic :: sqrt
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           info = 0
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (la_lsame(uplo,'L') .or. la_lsame(uplo,'U'))) &
+                     then
+              info = -2
+           else if (n < 0) then
+              info = -3
+           else if (ldz < 1 .or. (wantz .and. ldz < n)) then
+              info = -7
+           end if
+           if (info /= 0) then
+              call la_xerbla('ZHPEV ',-info)
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           if (n == 1) then
+              w(1) = real(ap(1),KIND=dp)
+              rwork(1) = 1
+              if (wantz) z(1,1) = one
+              return
+           end if
+           ! get machine constants.
+           safmin = la_dlamch('SAFE MINIMUM')
+           eps = la_dlamch('PRECISION')
+           smlnum = safmin/eps
+           bignum = one/smlnum
+           rmin = sqrt(smlnum)
+           rmax = sqrt(bignum)
+           ! scale matrix to allowable range, if necessary.
+           anrm = la_zlanhp('M',uplo,n,ap,rwork)
+           iscale = 0
+           if (anrm > zero .and. anrm < rmin) then
+              iscale = 1
+              sigma = rmin/anrm
+           else if (anrm > rmax) then
+              iscale = 1
+              sigma = rmax/anrm
+           end if
+           if (iscale == 1) then
+              call la_zdscal((n*(n + 1))/2,sigma,ap,1)
+           end if
+           ! call la_zhptrd to reduce hermitian packed matrix to tridiagonal form.
+           inde = 1
+           indtau = 1
+           call la_zhptrd(uplo,n,ap,w,rwork(inde),work(indtau),iinfo)
+           ! for eigenvalues only, call la_dsterf.  for eigenvectors, first call
+           ! la_zupgtr to generate the orthogonal matrix, then call la_zsteqr.
+           if (.not. wantz) then
+              call la_dsterf(n,w,rwork(inde),info)
+           else
+              indwrk = indtau + n
+              call la_zupgtr(uplo,n,ap,work(indtau),z,ldz,work(indwrk),iinfo)
+
+              indrwk = inde + n
+              call la_zsteqr(jobz,n,w,rwork(inde),z,ldz,rwork(indrwk),info)
+
+           end if
+           ! if matrix was scaled, then rescale eigenvalues appropriately.
+           if (iscale == 1) then
+              if (info == 0) then
+                 imax = n
+              else
+                 imax = info - 1
+              end if
+              call la_dscal(imax,one/sigma,w,1)
+           end if
+           return
+     end subroutine la_zhpev
+     !> WHPEV: computes all the eigenvalues and, optionally, eigenvectors of a
+     !> complex Hermitian matrix in packed storage.
+
+     subroutine la_whpev(jobz,uplo,n,ap,w,z,ldz,work,rwork,info)
+        use la_constants_qp,only:zero,one
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldz,n
+           ! Array Arguments
+           real(qp),intent(out) :: rwork(*),w(*)
+           complex(qp),intent(inout) :: ap(*)
+           complex(qp),intent(out) :: work(*),z(ldz,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: wantz
+           integer(ilp) :: iinfo,imax,inde,indrwk,indtau,indwrk,iscale
+           real(qp) :: anrm,bignum,eps,rmax,rmin,safmin,sigma,smlnum
+           ! Intrinsic Functions
+           intrinsic :: sqrt
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           info = 0
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (la_lsame(uplo,'L') .or. la_lsame(uplo,'U'))) &
+                     then
+              info = -2
+           else if (n < 0) then
+              info = -3
+           else if (ldz < 1 .or. (wantz .and. ldz < n)) then
+              info = -7
+           end if
+           if (info /= 0) then
+              call la_xerbla('WHPEV ',-info)
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           if (n == 1) then
+              w(1) = real(ap(1),KIND=qp)
+              rwork(1) = 1
+              if (wantz) z(1,1) = one
+              return
+           end if
+           ! get machine constants.
+           safmin = la_qlamch('SAFE MINIMUM')
+           eps = la_qlamch('PRECISION')
+           smlnum = safmin/eps
+           bignum = one/smlnum
+           rmin = sqrt(smlnum)
+           rmax = sqrt(bignum)
+           ! scale matrix to allowable range, if necessary.
+           anrm = la_wlanhp('M',uplo,n,ap,rwork)
+           iscale = 0
+           if (anrm > zero .and. anrm < rmin) then
+              iscale = 1
+              sigma = rmin/anrm
+           else if (anrm > rmax) then
+              iscale = 1
+              sigma = rmax/anrm
+           end if
+           if (iscale == 1) then
+              call la_wqscal((n*(n + 1))/2,sigma,ap,1)
+           end if
+           ! call la_whptrd to reduce hermitian packed matrix to tridiagonal form.
+           inde = 1
+           indtau = 1
+           call la_whptrd(uplo,n,ap,w,rwork(inde),work(indtau),iinfo)
+           ! for eigenvalues only, call la_qsterf.  for eigenvectors, first call
+           ! la_wupgtr to generate the orthogonal matrix, then call la_wsteqr.
+           if (.not. wantz) then
+              call la_qsterf(n,w,rwork(inde),info)
+           else
+              indwrk = indtau + n
+              call la_wupgtr(uplo,n,ap,work(indtau),z,ldz,work(indwrk),iinfo)
+
+              indrwk = inde + n
+              call la_wsteqr(jobz,n,w,rwork(inde),z,ldz,rwork(indrwk),info)
+
+           end if
+           ! if matrix was scaled, then rescale eigenvalues appropriately.
+           if (iscale == 1) then
+              if (info == 0) then
+                 imax = n
+              else
+                 imax = info - 1
+              end if
+              call la_qscal(imax,one/sigma,w,1)
+           end if
+           return
+     end subroutine la_whpev
+
+     !> CHPEVX: computes selected eigenvalues and, optionally, eigenvectors
+     !> of a complex Hermitian matrix A in packed storage.
+     !> Eigenvalues/vectors can be selected by specifying either a range of
+     !> values or a range of indices for the desired eigenvalues.
+
+     subroutine la_chpevx(jobz,range,uplo,n,ap,vl,vu,il,iu,abstol,m,w,z,ldz, &
+               work,rwork,iwork,ifail,info)
+        use la_constants_sp,only:zero,one,cone
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,range,uplo
+           integer(ilp),intent(in) :: il,iu,ldz,n
+           integer(ilp),intent(out) :: info,m
+           real(sp),intent(in) :: abstol,vl,vu
+           ! Array Arguments
+           integer(ilp),intent(out) :: ifail(*),iwork(*)
+           real(sp),intent(out) :: rwork(*),w(*)
+           complex(sp),intent(inout) :: ap(*)
+           complex(sp),intent(out) :: work(*),z(ldz,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: alleig,indeig,test,valeig,wantz
+           character :: order
+           integer(ilp) :: i,iinfo,imax,indd,inde,indee,indibl,indisp,indiwk,indrwk, &
+                     indtau,indwrk,iscale,itmp1,j,jj,nsplit
+           real(sp) :: abstll,anrm,bignum,eps,rmax,rmin,safmin,sigma,smlnum,tmp1,vll, &
+                     vuu
+           ! Intrinsic Functions
+           intrinsic :: max,min,real,sqrt
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           alleig = la_lsame(range,'A')
+           valeig = la_lsame(range,'V')
+           indeig = la_lsame(range,'I')
+           info = 0
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (alleig .or. valeig .or. indeig)) then
+              info = -2
+           else if (.not. (la_lsame(uplo,'L') .or. la_lsame(uplo,'U'))) &
+                     then
+              info = -3
+           else if (n < 0) then
+              info = -4
+           else
+              if (valeig) then
+                 if (n > 0 .and. vu <= vl) info = -7
+              else if (indeig) then
+                 if (il < 1 .or. il > max(1,n)) then
+                    info = -8
+                 else if (iu < min(n,il) .or. iu > n) then
+                    info = -9
+                 end if
+              end if
+           end if
+           if (info == 0) then
+              if (ldz < 1 .or. (wantz .and. ldz < n)) info = -14
+           end if
+           if (info /= 0) then
+              call la_xerbla('CHPEVX',-info)
+              return
+           end if
+           ! quick return if possible
+           m = 0
+           if (n == 0) return
+           if (n == 1) then
+              if (alleig .or. indeig) then
+                 m = 1
+                 w(1) = real(ap(1),KIND=sp)
+              else
+                 if (vl < real(ap(1),KIND=sp) .and. vu >= real(ap(1),KIND=sp)) then
+                    m = 1
+                    w(1) = real(ap(1),KIND=sp)
+                 end if
+              end if
+              if (wantz) z(1,1) = cone
+              return
+           end if
+           ! get machine constants.
+           safmin = la_slamch('SAFE MINIMUM')
+           eps = la_slamch('PRECISION')
+           smlnum = safmin/eps
+           bignum = one/smlnum
+           rmin = sqrt(smlnum)
+           rmax = min(sqrt(bignum),one/sqrt(sqrt(safmin)))
+           ! scale matrix to allowable range, if necessary.
+           iscale = 0
+           abstll = abstol
+           if (valeig) then
+              vll = vl
+              vuu = vu
+           else
+              vll = zero
+              vuu = zero
+           end if
+           anrm = la_clanhp('M',uplo,n,ap,rwork)
+           if (anrm > zero .and. anrm < rmin) then
+              iscale = 1
+              sigma = rmin/anrm
+           else if (anrm > rmax) then
+              iscale = 1
+              sigma = rmax/anrm
+           end if
+           if (iscale == 1) then
+              call la_csscal((n*(n + 1))/2,sigma,ap,1)
+              if (abstol > 0) abstll = abstol*sigma
+              if (valeig) then
+                 vll = vl*sigma
+                 vuu = vu*sigma
+              end if
+           end if
+           ! call la_chptrd to reduce hermitian packed matrix to tridiagonal form.
+           indd = 1
+           inde = indd + n
+           indrwk = inde + n
+           indtau = 1
+           indwrk = indtau + n
+           call la_chptrd(uplo,n,ap,rwork(indd),rwork(inde),work(indtau),iinfo)
+
+           ! if all eigenvalues are desired and abstol is less than or equal
+           ! to zero, then call la_ssterf or la_cupgtr and la_csteqr.  if this fails
+           ! for some eigenvalue, then try la_sstebz.
+           test = .false.
+           if (indeig) then
+              if (il == 1 .and. iu == n) then
+                 test = .true.
+              end if
+           end if
+           if ((alleig .or. test) .and. (abstol <= zero)) then
+              call la_scopy(n,rwork(indd),1,w,1)
+              indee = indrwk + 2*n
+              if (.not. wantz) then
+                 call la_scopy(n - 1,rwork(inde),1,rwork(indee),1)
+                 call la_ssterf(n,w,rwork(indee),info)
+              else
+                 call la_cupgtr(uplo,n,ap,work(indtau),z,ldz,work(indwrk),iinfo)
+
+                 call la_scopy(n - 1,rwork(inde),1,rwork(indee),1)
+                 call la_csteqr(jobz,n,w,rwork(indee),z,ldz,rwork(indrwk),info)
+
+                 if (info == 0) then
+                    do i = 1,n
+                       ifail(i) = 0
+                    end do
+                 end if
+              end if
+              if (info == 0) then
+                 m = n
+                 go to 20
+              end if
+              info = 0
+           end if
+           ! otherwise, call la_sstebz and, if eigenvectors are desired, la_cstein.
+           if (wantz) then
+              order = 'B'
+           else
+              order = 'E'
+           end if
+           indibl = 1
+           indisp = indibl + n
+           indiwk = indisp + n
+           call la_sstebz(range,order,n,vll,vuu,il,iu,abstll,rwork(indd),rwork( &
+           inde),m,nsplit,w,iwork(indibl),iwork(indisp),rwork(indrwk),iwork(indiwk), &
+                      info)
+           if (wantz) then
+              call la_cstein(n,rwork(indd),rwork(inde),m,w,iwork(indibl),iwork( &
+                        indisp),z,ldz,rwork(indrwk),iwork(indiwk),ifail,info)
+              ! apply unitary matrix used in reduction to tridiagonal
+              ! form to eigenvectors returned by la_cstein.
+              indwrk = indtau + n
+              call la_cupmtr('L',uplo,'N',n,m,ap,work(indtau),z,ldz,work(indwrk), &
+                         iinfo)
+           end if
+           ! if matrix was scaled, then rescale eigenvalues appropriately.
+           20 continue
+           if (iscale == 1) then
+              if (info == 0) then
+                 imax = m
+              else
+                 imax = info - 1
+              end if
+              call la_sscal(imax,one/sigma,w,1)
+           end if
+           ! if eigenvalues are not in order, then sort them, along with
+           ! eigenvectors.
+           if (wantz) then
+              do j = 1,m - 1
+                 i = 0
+                 tmp1 = w(j)
+                 do jj = j + 1,m
+                    if (w(jj) < tmp1) then
+                       i = jj
+                       tmp1 = w(jj)
+                    end if
+                 end do
+                 if (i /= 0) then
+                    itmp1 = iwork(indibl + i - 1)
+                    w(i) = w(j)
+                    iwork(indibl + i - 1) = iwork(indibl + j - 1)
+                    w(j) = tmp1
+                    iwork(indibl + j - 1) = itmp1
+                    call la_cswap(n,z(1,i),1,z(1,j),1)
+                    if (info /= 0) then
+                       itmp1 = ifail(i)
+                       ifail(i) = ifail(j)
+                       ifail(j) = itmp1
+                    end if
+                 end if
+              end do
+           end if
+           return
+     end subroutine la_chpevx
+     !> ZHPEVX: computes selected eigenvalues and, optionally, eigenvectors
+     !> of a complex Hermitian matrix A in packed storage.
+     !> Eigenvalues/vectors can be selected by specifying either a range of
+     !> values or a range of indices for the desired eigenvalues.
+
+     subroutine la_zhpevx(jobz,range,uplo,n,ap,vl,vu,il,iu,abstol,m,w,z,ldz, &
+               work,rwork,iwork,ifail,info)
+        use la_constants_dp,only:zero,one,cone
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,range,uplo
+           integer(ilp),intent(in) :: il,iu,ldz,n
+           integer(ilp),intent(out) :: info,m
+           real(dp),intent(in) :: abstol,vl,vu
+           ! Array Arguments
+           integer(ilp),intent(out) :: ifail(*),iwork(*)
+           real(dp),intent(out) :: rwork(*),w(*)
+           complex(dp),intent(inout) :: ap(*)
+           complex(dp),intent(out) :: work(*),z(ldz,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: alleig,indeig,test,valeig,wantz
+           character :: order
+           integer(ilp) :: i,iinfo,imax,indd,inde,indee,indibl,indisp,indiwk,indrwk, &
+                     indtau,indwrk,iscale,itmp1,j,jj,nsplit
+           real(dp) :: abstll,anrm,bignum,eps,rmax,rmin,safmin,sigma,smlnum,tmp1,vll, &
+                     vuu
+           ! Intrinsic Functions
+           intrinsic :: real,max,min,sqrt
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           alleig = la_lsame(range,'A')
+           valeig = la_lsame(range,'V')
+           indeig = la_lsame(range,'I')
+           info = 0
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (alleig .or. valeig .or. indeig)) then
+              info = -2
+           else if (.not. (la_lsame(uplo,'L') .or. la_lsame(uplo,'U'))) &
+                     then
+              info = -3
+           else if (n < 0) then
+              info = -4
+           else
+              if (valeig) then
+                 if (n > 0 .and. vu <= vl) info = -7
+              else if (indeig) then
+                 if (il < 1 .or. il > max(1,n)) then
+                    info = -8
+                 else if (iu < min(n,il) .or. iu > n) then
+                    info = -9
+                 end if
+              end if
+           end if
+           if (info == 0) then
+              if (ldz < 1 .or. (wantz .and. ldz < n)) info = -14
+           end if
+           if (info /= 0) then
+              call la_xerbla('ZHPEVX',-info)
+              return
+           end if
+           ! quick return if possible
+           m = 0
+           if (n == 0) return
+           if (n == 1) then
+              if (alleig .or. indeig) then
+                 m = 1
+                 w(1) = real(ap(1),KIND=dp)
+              else
+                 if (vl < real(ap(1),KIND=dp) .and. vu >= real(ap(1),KIND=dp)) then
+                    m = 1
+                    w(1) = real(ap(1),KIND=dp)
+                 end if
+              end if
+              if (wantz) z(1,1) = cone
+              return
+           end if
+           ! get machine constants.
+           safmin = la_dlamch('SAFE MINIMUM')
+           eps = la_dlamch('PRECISION')
+           smlnum = safmin/eps
+           bignum = one/smlnum
+           rmin = sqrt(smlnum)
+           rmax = min(sqrt(bignum),one/sqrt(sqrt(safmin)))
+           ! scale matrix to allowable range, if necessary.
+           iscale = 0
+           abstll = abstol
+           if (valeig) then
+              vll = vl
+              vuu = vu
+           else
+              vll = zero
+              vuu = zero
+           end if
+           anrm = la_zlanhp('M',uplo,n,ap,rwork)
+           if (anrm > zero .and. anrm < rmin) then
+              iscale = 1
+              sigma = rmin/anrm
+           else if (anrm > rmax) then
+              iscale = 1
+              sigma = rmax/anrm
+           end if
+           if (iscale == 1) then
+              call la_zdscal((n*(n + 1))/2,sigma,ap,1)
+              if (abstol > 0) abstll = abstol*sigma
+              if (valeig) then
+                 vll = vl*sigma
+                 vuu = vu*sigma
+              end if
+           end if
+           ! call la_zhptrd to reduce hermitian packed matrix to tridiagonal form.
+           indd = 1
+           inde = indd + n
+           indrwk = inde + n
+           indtau = 1
+           indwrk = indtau + n
+           call la_zhptrd(uplo,n,ap,rwork(indd),rwork(inde),work(indtau),iinfo)
+
+           ! if all eigenvalues are desired and abstol is less than or equal
+           ! to zero, then call la_dsterf or la_zupgtr and la_zsteqr.  if this fails
+           ! for some eigenvalue, then try la_dstebz.
+           test = .false.
+           if (indeig) then
+              if (il == 1 .and. iu == n) then
+                 test = .true.
+              end if
+           end if
+           if ((alleig .or. test) .and. (abstol <= zero)) then
+              call la_dcopy(n,rwork(indd),1,w,1)
+              indee = indrwk + 2*n
+              if (.not. wantz) then
+                 call la_dcopy(n - 1,rwork(inde),1,rwork(indee),1)
+                 call la_dsterf(n,w,rwork(indee),info)
+              else
+                 call la_zupgtr(uplo,n,ap,work(indtau),z,ldz,work(indwrk),iinfo)
+
+                 call la_dcopy(n - 1,rwork(inde),1,rwork(indee),1)
+                 call la_zsteqr(jobz,n,w,rwork(indee),z,ldz,rwork(indrwk),info)
+
+                 if (info == 0) then
+                    do i = 1,n
+                       ifail(i) = 0
+                    end do
+                 end if
+              end if
+              if (info == 0) then
+                 m = n
+                 go to 20
+              end if
+              info = 0
+           end if
+           ! otherwise, call la_dstebz and, if eigenvectors are desired, la_zstein.
+           if (wantz) then
+              order = 'B'
+           else
+              order = 'E'
+           end if
+           indibl = 1
+           indisp = indibl + n
+           indiwk = indisp + n
+           call la_dstebz(range,order,n,vll,vuu,il,iu,abstll,rwork(indd),rwork( &
+           inde),m,nsplit,w,iwork(indibl),iwork(indisp),rwork(indrwk),iwork(indiwk), &
+                      info)
+           if (wantz) then
+              call la_zstein(n,rwork(indd),rwork(inde),m,w,iwork(indibl),iwork( &
+                        indisp),z,ldz,rwork(indrwk),iwork(indiwk),ifail,info)
+              ! apply unitary matrix used in reduction to tridiagonal
+              ! form to eigenvectors returned by la_zstein.
+              indwrk = indtau + n
+              call la_zupmtr('L',uplo,'N',n,m,ap,work(indtau),z,ldz,work(indwrk), &
+                         iinfo)
+           end if
+           ! if matrix was scaled, then rescale eigenvalues appropriately.
+           20 continue
+           if (iscale == 1) then
+              if (info == 0) then
+                 imax = m
+              else
+                 imax = info - 1
+              end if
+              call la_dscal(imax,one/sigma,w,1)
+           end if
+           ! if eigenvalues are not in order, then sort them, along with
+           ! eigenvectors.
+           if (wantz) then
+              do j = 1,m - 1
+                 i = 0
+                 tmp1 = w(j)
+                 do jj = j + 1,m
+                    if (w(jj) < tmp1) then
+                       i = jj
+                       tmp1 = w(jj)
+                    end if
+                 end do
+                 if (i /= 0) then
+                    itmp1 = iwork(indibl + i - 1)
+                    w(i) = w(j)
+                    iwork(indibl + i - 1) = iwork(indibl + j - 1)
+                    w(j) = tmp1
+                    iwork(indibl + j - 1) = itmp1
+                    call la_zswap(n,z(1,i),1,z(1,j),1)
+                    if (info /= 0) then
+                       itmp1 = ifail(i)
+                       ifail(i) = ifail(j)
+                       ifail(j) = itmp1
+                    end if
+                 end if
+              end do
+           end if
+           return
+     end subroutine la_zhpevx
+     !> WHPEVX: computes selected eigenvalues and, optionally, eigenvectors
+     !> of a complex Hermitian matrix A in packed storage.
+     !> Eigenvalues/vectors can be selected by specifying either a range of
+     !> values or a range of indices for the desired eigenvalues.
+
+     subroutine la_whpevx(jobz,range,uplo,n,ap,vl,vu,il,iu,abstol,m,w,z,ldz, &
+               work,rwork,iwork,ifail,info)
+        use la_constants_qp,only:zero,one,cone
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,range,uplo
+           integer(ilp),intent(in) :: il,iu,ldz,n
+           integer(ilp),intent(out) :: info,m
+           real(qp),intent(in) :: abstol,vl,vu
+           ! Array Arguments
+           integer(ilp),intent(out) :: ifail(*),iwork(*)
+           real(qp),intent(out) :: rwork(*),w(*)
+           complex(qp),intent(inout) :: ap(*)
+           complex(qp),intent(out) :: work(*),z(ldz,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: alleig,indeig,test,valeig,wantz
+           character :: order
+           integer(ilp) :: i,iinfo,imax,indd,inde,indee,indibl,indisp,indiwk,indrwk, &
+                     indtau,indwrk,iscale,itmp1,j,jj,nsplit
+           real(qp) :: abstll,anrm,bignum,eps,rmax,rmin,safmin,sigma,smlnum,tmp1,vll, &
+                     vuu
+           ! Intrinsic Functions
+           intrinsic :: real,max,min,sqrt
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           alleig = la_lsame(range,'A')
+           valeig = la_lsame(range,'V')
+           indeig = la_lsame(range,'I')
+           info = 0
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (alleig .or. valeig .or. indeig)) then
+              info = -2
+           else if (.not. (la_lsame(uplo,'L') .or. la_lsame(uplo,'U'))) &
+                     then
+              info = -3
+           else if (n < 0) then
+              info = -4
+           else
+              if (valeig) then
+                 if (n > 0 .and. vu <= vl) info = -7
+              else if (indeig) then
+                 if (il < 1 .or. il > max(1,n)) then
+                    info = -8
+                 else if (iu < min(n,il) .or. iu > n) then
+                    info = -9
+                 end if
+              end if
+           end if
+           if (info == 0) then
+              if (ldz < 1 .or. (wantz .and. ldz < n)) info = -14
+           end if
+           if (info /= 0) then
+              call la_xerbla('WHPEVX',-info)
+              return
+           end if
+           ! quick return if possible
+           m = 0
+           if (n == 0) return
+           if (n == 1) then
+              if (alleig .or. indeig) then
+                 m = 1
+                 w(1) = real(ap(1),KIND=qp)
+              else
+                 if (vl < real(ap(1),KIND=qp) .and. vu >= real(ap(1),KIND=qp)) then
+                    m = 1
+                    w(1) = real(ap(1),KIND=qp)
+                 end if
+              end if
+              if (wantz) z(1,1) = cone
+              return
+           end if
+           ! get machine constants.
+           safmin = la_qlamch('SAFE MINIMUM')
+           eps = la_qlamch('PRECISION')
+           smlnum = safmin/eps
+           bignum = one/smlnum
+           rmin = sqrt(smlnum)
+           rmax = min(sqrt(bignum),one/sqrt(sqrt(safmin)))
+           ! scale matrix to allowable range, if necessary.
+           iscale = 0
+           abstll = abstol
+           if (valeig) then
+              vll = vl
+              vuu = vu
+           else
+              vll = zero
+              vuu = zero
+           end if
+           anrm = la_wlanhp('M',uplo,n,ap,rwork)
+           if (anrm > zero .and. anrm < rmin) then
+              iscale = 1
+              sigma = rmin/anrm
+           else if (anrm > rmax) then
+              iscale = 1
+              sigma = rmax/anrm
+           end if
+           if (iscale == 1) then
+              call la_wqscal((n*(n + 1))/2,sigma,ap,1)
+              if (abstol > 0) abstll = abstol*sigma
+              if (valeig) then
+                 vll = vl*sigma
+                 vuu = vu*sigma
+              end if
+           end if
+           ! call la_whptrd to reduce hermitian packed matrix to tridiagonal form.
+           indd = 1
+           inde = indd + n
+           indrwk = inde + n
+           indtau = 1
+           indwrk = indtau + n
+           call la_whptrd(uplo,n,ap,rwork(indd),rwork(inde),work(indtau),iinfo)
+
+           ! if all eigenvalues are desired and abstol is less than or equal
+           ! to zero, then call la_qsterf or la_wupgtr and la_wsteqr.  if this fails
+           ! for some eigenvalue, then try la_qstebz.
+           test = .false.
+           if (indeig) then
+              if (il == 1 .and. iu == n) then
+                 test = .true.
+              end if
+           end if
+           if ((alleig .or. test) .and. (abstol <= zero)) then
+              call la_qcopy(n,rwork(indd),1,w,1)
+              indee = indrwk + 2*n
+              if (.not. wantz) then
+                 call la_qcopy(n - 1,rwork(inde),1,rwork(indee),1)
+                 call la_qsterf(n,w,rwork(indee),info)
+              else
+                 call la_wupgtr(uplo,n,ap,work(indtau),z,ldz,work(indwrk),iinfo)
+
+                 call la_qcopy(n - 1,rwork(inde),1,rwork(indee),1)
+                 call la_wsteqr(jobz,n,w,rwork(indee),z,ldz,rwork(indrwk),info)
+
+                 if (info == 0) then
+                    do i = 1,n
+                       ifail(i) = 0
+                    end do
+                 end if
+              end if
+              if (info == 0) then
+                 m = n
+                 go to 20
+              end if
+              info = 0
+           end if
+           ! otherwise, call la_qstebz and, if eigenvectors are desired, la_wstein.
+           if (wantz) then
+              order = 'B'
+           else
+              order = 'E'
+           end if
+           indibl = 1
+           indisp = indibl + n
+           indiwk = indisp + n
+           call la_qstebz(range,order,n,vll,vuu,il,iu,abstll,rwork(indd),rwork( &
+           inde),m,nsplit,w,iwork(indibl),iwork(indisp),rwork(indrwk),iwork(indiwk), &
+                      info)
+           if (wantz) then
+              call la_wstein(n,rwork(indd),rwork(inde),m,w,iwork(indibl),iwork( &
+                        indisp),z,ldz,rwork(indrwk),iwork(indiwk),ifail,info)
+              ! apply unitary matrix used in reduction to tridiagonal
+              ! form to eigenvectors returned by la_wstein.
+              indwrk = indtau + n
+              call la_wupmtr('L',uplo,'N',n,m,ap,work(indtau),z,ldz,work(indwrk), &
+                         iinfo)
+           end if
+           ! if matrix was scaled, then rescale eigenvalues appropriately.
+           20 continue
+           if (iscale == 1) then
+              if (info == 0) then
+                 imax = m
+              else
+                 imax = info - 1
+              end if
+              call la_qscal(imax,one/sigma,w,1)
+           end if
+           ! if eigenvalues are not in order, then sort them, along with
+           ! eigenvectors.
+           if (wantz) then
+              do j = 1,m - 1
+                 i = 0
+                 tmp1 = w(j)
+                 do jj = j + 1,m
+                    if (w(jj) < tmp1) then
+                       i = jj
+                       tmp1 = w(jj)
+                    end if
+                 end do
+                 if (i /= 0) then
+                    itmp1 = iwork(indibl + i - 1)
+                    w(i) = w(j)
+                    iwork(indibl + i - 1) = iwork(indibl + j - 1)
+                    w(j) = tmp1
+                    iwork(indibl + j - 1) = itmp1
+                    call la_wswap(n,z(1,i),1,z(1,j),1)
+                    if (info /= 0) then
+                       itmp1 = ifail(i)
+                       ifail(i) = ifail(j)
+                       ifail(j) = itmp1
+                    end if
+                 end if
+              end do
+           end if
+           return
+     end subroutine la_whpevx
+
+     !> CHPGV: computes all the eigenvalues and, optionally, the eigenvectors
+     !> of a complex generalized Hermitian-definite eigenproblem, of the form
+     !> A*x=(lambda)*B*x,  A*Bx=(lambda)*x,  or B*A*x=(lambda)*x.
+     !> Here A and B are assumed to be Hermitian, stored in packed format,
+     !> and B is also positive definite.
+
+     subroutine la_chpgv(itype,jobz,uplo,n,ap,bp,w,z,ldz,work,rwork,info)
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: itype,ldz,n
+           ! Array Arguments
+           real(sp),intent(out) :: rwork(*),w(*)
+           complex(sp),intent(inout) :: ap(*),bp(*)
+           complex(sp),intent(out) :: work(*),z(ldz,*)
+        ! =====================================================================
+           ! Local Scalars
+           logical(lk) :: upper,wantz
+           character :: trans
+           integer(ilp) :: j,neig
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           upper = la_lsame(uplo,'U')
+           info = 0
+           if (itype < 1 .or. itype > 3) then
+              info = -1
+           else if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -2
+           else if (.not. (upper .or. la_lsame(uplo,'L'))) then
+              info = -3
+           else if (n < 0) then
+              info = -4
+           else if (ldz < 1 .or. (wantz .and. ldz < n)) then
+              info = -9
+           end if
+           if (info /= 0) then
+              call la_xerbla('CHPGV ',-info)
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           ! form a cholesky factorization of b.
+           call la_cpptrf(uplo,n,bp,info)
+           if (info /= 0) then
+              info = n + info
+              return
+           end if
+           ! transform problem to standard eigenvalue problem and solve.
+           call la_chpgst(itype,uplo,n,ap,bp,info)
+           call la_chpev(jobz,uplo,n,ap,w,z,ldz,work,rwork,info)
+           if (wantz) then
+              ! backtransform eigenvectors to the original problem.
+              neig = n
+              if (info > 0) neig = info - 1
+              if (itype == 1 .or. itype == 2) then
+                 ! for a*x=(lambda)*b*x and a*b*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = inv(l)**h*y or inv(u)*y
+                 if (upper) then
+                    trans = 'N'
+                 else
+                    trans = 'C'
+                 end if
+                 do j = 1,neig
+                    call la_ctpsv(uplo,trans,'NON-UNIT',n,bp,z(1,j),1)
+                 end do
+              else if (itype == 3) then
+                 ! for b*a*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = l*y or u**h*y
+                 if (upper) then
+                    trans = 'C'
+                 else
+                    trans = 'N'
+                 end if
+                 do j = 1,neig
+                    call la_ctpmv(uplo,trans,'NON-UNIT',n,bp,z(1,j),1)
+                 end do
+              end if
+           end if
+           return
+     end subroutine la_chpgv
+     !> ZHPGV: computes all the eigenvalues and, optionally, the eigenvectors
+     !> of a complex generalized Hermitian-definite eigenproblem, of the form
+     !> A*x=(lambda)*B*x,  A*Bx=(lambda)*x,  or B*A*x=(lambda)*x.
+     !> Here A and B are assumed to be Hermitian, stored in packed format,
+     !> and B is also positive definite.
+
+     subroutine la_zhpgv(itype,jobz,uplo,n,ap,bp,w,z,ldz,work,rwork,info)
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: itype,ldz,n
+           ! Array Arguments
+           real(dp),intent(out) :: rwork(*),w(*)
+           complex(dp),intent(inout) :: ap(*),bp(*)
+           complex(dp),intent(out) :: work(*),z(ldz,*)
+        ! =====================================================================
+           ! Local Scalars
+           logical(lk) :: upper,wantz
+           character :: trans
+           integer(ilp) :: j,neig
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           upper = la_lsame(uplo,'U')
+           info = 0
+           if (itype < 1 .or. itype > 3) then
+              info = -1
+           else if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -2
+           else if (.not. (upper .or. la_lsame(uplo,'L'))) then
+              info = -3
+           else if (n < 0) then
+              info = -4
+           else if (ldz < 1 .or. (wantz .and. ldz < n)) then
+              info = -9
+           end if
+           if (info /= 0) then
+              call la_xerbla('ZHPGV ',-info)
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           ! form a cholesky factorization of b.
+           call la_zpptrf(uplo,n,bp,info)
+           if (info /= 0) then
+              info = n + info
+              return
+           end if
+           ! transform problem to standard eigenvalue problem and solve.
+           call la_zhpgst(itype,uplo,n,ap,bp,info)
+           call la_zhpev(jobz,uplo,n,ap,w,z,ldz,work,rwork,info)
+           if (wantz) then
+              ! backtransform eigenvectors to the original problem.
+              neig = n
+              if (info > 0) neig = info - 1
+              if (itype == 1 .or. itype == 2) then
+                 ! for a*x=(lambda)*b*x and a*b*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = inv(l)**h *y or inv(u)*y
+                 if (upper) then
+                    trans = 'N'
+                 else
+                    trans = 'C'
+                 end if
+                 do j = 1,neig
+                    call la_ztpsv(uplo,trans,'NON-UNIT',n,bp,z(1,j),1)
+                 end do
+              else if (itype == 3) then
+                 ! for b*a*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = l*y or u**h *y
+                 if (upper) then
+                    trans = 'C'
+                 else
+                    trans = 'N'
+                 end if
+                 do j = 1,neig
+                    call la_ztpmv(uplo,trans,'NON-UNIT',n,bp,z(1,j),1)
+                 end do
+              end if
+           end if
+           return
+     end subroutine la_zhpgv
+     !> WHPGV: computes all the eigenvalues and, optionally, the eigenvectors
+     !> of a complex generalized Hermitian-definite eigenproblem, of the form
+     !> A*x=(lambda)*B*x,  A*Bx=(lambda)*x,  or B*A*x=(lambda)*x.
+     !> Here A and B are assumed to be Hermitian, stored in packed format,
+     !> and B is also positive definite.
+
+     subroutine la_whpgv(itype,jobz,uplo,n,ap,bp,w,z,ldz,work,rwork,info)
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: itype,ldz,n
+           ! Array Arguments
+           real(qp),intent(out) :: rwork(*),w(*)
+           complex(qp),intent(inout) :: ap(*),bp(*)
+           complex(qp),intent(out) :: work(*),z(ldz,*)
+        ! =====================================================================
+           ! Local Scalars
+           logical(lk) :: upper,wantz
+           character :: trans
+           integer(ilp) :: j,neig
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           upper = la_lsame(uplo,'U')
+           info = 0
+           if (itype < 1 .or. itype > 3) then
+              info = -1
+           else if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -2
+           else if (.not. (upper .or. la_lsame(uplo,'L'))) then
+              info = -3
+           else if (n < 0) then
+              info = -4
+           else if (ldz < 1 .or. (wantz .and. ldz < n)) then
+              info = -9
+           end if
+           if (info /= 0) then
+              call la_xerbla('WHPGV ',-info)
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           ! form a cholesky factorization of b.
+           call la_wpptrf(uplo,n,bp,info)
+           if (info /= 0) then
+              info = n + info
+              return
+           end if
+           ! transform problem to standard eigenvalue problem and solve.
+           call la_whpgst(itype,uplo,n,ap,bp,info)
+           call la_whpev(jobz,uplo,n,ap,w,z,ldz,work,rwork,info)
+           if (wantz) then
+              ! backtransform eigenvectors to the original problem.
+              neig = n
+              if (info > 0) neig = info - 1
+              if (itype == 1 .or. itype == 2) then
+                 ! for a*x=(lambda)*b*x and a*b*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = inv(l)**h *y or inv(u)*y
+                 if (upper) then
+                    trans = 'N'
+                 else
+                    trans = 'C'
+                 end if
+                 do j = 1,neig
+                    call la_wtpsv(uplo,trans,'NON-UNIT',n,bp,z(1,j),1)
+                 end do
+              else if (itype == 3) then
+                 ! for b*a*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = l*y or u**h *y
+                 if (upper) then
+                    trans = 'C'
+                 else
+                    trans = 'N'
+                 end if
+                 do j = 1,neig
+                    call la_wtpmv(uplo,trans,'NON-UNIT',n,bp,z(1,j),1)
+                 end do
+              end if
+           end if
+           return
+     end subroutine la_whpgv
+
+     !> CHPGVX: computes selected eigenvalues and, optionally, eigenvectors
+     !> of a complex generalized Hermitian-definite eigenproblem, of the form
+     !> A*x=(lambda)*B*x,  A*Bx=(lambda)*x,  or B*A*x=(lambda)*x.  Here A and
+     !> B are assumed to be Hermitian, stored in packed format, and B is also
+     !> positive definite.  Eigenvalues and eigenvectors can be selected by
+     !> specifying either a range of values or a range of indices for the
+     !> desired eigenvalues.
+
+     subroutine la_chpgvx(itype,jobz,range,uplo,n,ap,bp,vl,vu,il,iu,abstol,m,w, &
+               z,ldz,work,rwork,iwork,ifail,info)
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,range,uplo
+           integer(ilp),intent(in) :: il,itype,iu,ldz,n
+           integer(ilp),intent(out) :: info,m
+           real(sp),intent(in) :: abstol,vl,vu
+           ! Array Arguments
+           integer(ilp),intent(out) :: ifail(*),iwork(*)
+           real(sp),intent(out) :: rwork(*),w(*)
+           complex(sp),intent(inout) :: ap(*),bp(*)
+           complex(sp),intent(out) :: work(*),z(ldz,*)
+        ! =====================================================================
+           ! Local Scalars
+           logical(lk) :: alleig,indeig,upper,valeig,wantz
+           character :: trans
+           integer(ilp) :: j
+           ! Intrinsic Functions
+           intrinsic :: min
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           upper = la_lsame(uplo,'U')
+           alleig = la_lsame(range,'A')
+           valeig = la_lsame(range,'V')
+           indeig = la_lsame(range,'I')
+           info = 0
+           if (itype < 1 .or. itype > 3) then
+              info = -1
+           else if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -2
+           else if (.not. (alleig .or. valeig .or. indeig)) then
+              info = -3
+           else if (.not. (upper .or. la_lsame(uplo,'L'))) then
+              info = -4
+           else if (n < 0) then
+              info = -5
+           else
+              if (valeig) then
+                 if (n > 0 .and. vu <= vl) then
+                    info = -9
+                 end if
+              else if (indeig) then
+                 if (il < 1) then
+                    info = -10
+                 else if (iu < min(n,il) .or. iu > n) then
+                    info = -11
+                 end if
+              end if
+           end if
+           if (info == 0) then
+              if (ldz < 1 .or. (wantz .and. ldz < n)) then
+                 info = -16
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('CHPGVX',-info)
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           ! form a cholesky factorization of b.
+           call la_cpptrf(uplo,n,bp,info)
+           if (info /= 0) then
+              info = n + info
+              return
+           end if
+           ! transform problem to standard eigenvalue problem and solve.
+           call la_chpgst(itype,uplo,n,ap,bp,info)
+           call la_chpevx(jobz,range,uplo,n,ap,vl,vu,il,iu,abstol,m,w,z,ldz, &
+                     work,rwork,iwork,ifail,info)
+           if (wantz) then
+              ! backtransform eigenvectors to the original problem.
+              if (info > 0) m = info - 1
+              if (itype == 1 .or. itype == 2) then
+                 ! for a*x=(lambda)*b*x and a*b*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = inv(l)**h*y or inv(u)*y
+                 if (upper) then
+                    trans = 'N'
+                 else
+                    trans = 'C'
+                 end if
+                 do j = 1,m
+                    call la_ctpsv(uplo,trans,'NON-UNIT',n,bp,z(1,j),1)
+                 end do
+              else if (itype == 3) then
+                 ! for b*a*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = l*y or u**h*y
+                 if (upper) then
+                    trans = 'C'
+                 else
+                    trans = 'N'
+                 end if
+                 do j = 1,m
+                    call la_ctpmv(uplo,trans,'NON-UNIT',n,bp,z(1,j),1)
+                 end do
+              end if
+           end if
+           return
+     end subroutine la_chpgvx
+     !> ZHPGVX: computes selected eigenvalues and, optionally, eigenvectors
+     !> of a complex generalized Hermitian-definite eigenproblem, of the form
+     !> A*x=(lambda)*B*x,  A*Bx=(lambda)*x,  or B*A*x=(lambda)*x.  Here A and
+     !> B are assumed to be Hermitian, stored in packed format, and B is also
+     !> positive definite.  Eigenvalues and eigenvectors can be selected by
+     !> specifying either a range of values or a range of indices for the
+     !> desired eigenvalues.
+
+     subroutine la_zhpgvx(itype,jobz,range,uplo,n,ap,bp,vl,vu,il,iu,abstol,m,w, &
+               z,ldz,work,rwork,iwork,ifail,info)
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,range,uplo
+           integer(ilp),intent(in) :: il,itype,iu,ldz,n
+           integer(ilp),intent(out) :: info,m
+           real(dp),intent(in) :: abstol,vl,vu
+           ! Array Arguments
+           integer(ilp),intent(out) :: ifail(*),iwork(*)
+           real(dp),intent(out) :: rwork(*),w(*)
+           complex(dp),intent(inout) :: ap(*),bp(*)
+           complex(dp),intent(out) :: work(*),z(ldz,*)
+        ! =====================================================================
+           ! Local Scalars
+           logical(lk) :: alleig,indeig,upper,valeig,wantz
+           character :: trans
+           integer(ilp) :: j
+           ! Intrinsic Functions
+           intrinsic :: min
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           upper = la_lsame(uplo,'U')
+           alleig = la_lsame(range,'A')
+           valeig = la_lsame(range,'V')
+           indeig = la_lsame(range,'I')
+           info = 0
+           if (itype < 1 .or. itype > 3) then
+              info = -1
+           else if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -2
+           else if (.not. (alleig .or. valeig .or. indeig)) then
+              info = -3
+           else if (.not. (upper .or. la_lsame(uplo,'L'))) then
+              info = -4
+           else if (n < 0) then
+              info = -5
+           else
+              if (valeig) then
+                 if (n > 0 .and. vu <= vl) then
+                    info = -9
+                 end if
+              else if (indeig) then
+                 if (il < 1) then
+                    info = -10
+                 else if (iu < min(n,il) .or. iu > n) then
+                    info = -11
+                 end if
+              end if
+           end if
+           if (info == 0) then
+              if (ldz < 1 .or. (wantz .and. ldz < n)) then
+                 info = -16
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('ZHPGVX',-info)
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           ! form a cholesky factorization of b.
+           call la_zpptrf(uplo,n,bp,info)
+           if (info /= 0) then
+              info = n + info
+              return
+           end if
+           ! transform problem to standard eigenvalue problem and solve.
+           call la_zhpgst(itype,uplo,n,ap,bp,info)
+           call la_zhpevx(jobz,range,uplo,n,ap,vl,vu,il,iu,abstol,m,w,z,ldz, &
+                     work,rwork,iwork,ifail,info)
+           if (wantz) then
+              ! backtransform eigenvectors to the original problem.
+              if (info > 0) m = info - 1
+              if (itype == 1 .or. itype == 2) then
+                 ! for a*x=(lambda)*b*x and a*b*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = inv(l)**h *y or inv(u)*y
+                 if (upper) then
+                    trans = 'N'
+                 else
+                    trans = 'C'
+                 end if
+                 do j = 1,m
+                    call la_ztpsv(uplo,trans,'NON-UNIT',n,bp,z(1,j),1)
+                 end do
+              else if (itype == 3) then
+                 ! for b*a*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = l*y or u**h *y
+                 if (upper) then
+                    trans = 'C'
+                 else
+                    trans = 'N'
+                 end if
+                 do j = 1,m
+                    call la_ztpmv(uplo,trans,'NON-UNIT',n,bp,z(1,j),1)
+                 end do
+              end if
+           end if
+           return
+     end subroutine la_zhpgvx
+     !> WHPGVX: computes selected eigenvalues and, optionally, eigenvectors
+     !> of a complex generalized Hermitian-definite eigenproblem, of the form
+     !> A*x=(lambda)*B*x,  A*Bx=(lambda)*x,  or B*A*x=(lambda)*x.  Here A and
+     !> B are assumed to be Hermitian, stored in packed format, and B is also
+     !> positive definite.  Eigenvalues and eigenvectors can be selected by
+     !> specifying either a range of values or a range of indices for the
+     !> desired eigenvalues.
+
+     subroutine la_whpgvx(itype,jobz,range,uplo,n,ap,bp,vl,vu,il,iu,abstol,m,w, &
+               z,ldz,work,rwork,iwork,ifail,info)
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,range,uplo
+           integer(ilp),intent(in) :: il,itype,iu,ldz,n
+           integer(ilp),intent(out) :: info,m
+           real(qp),intent(in) :: abstol,vl,vu
+           ! Array Arguments
+           integer(ilp),intent(out) :: ifail(*),iwork(*)
+           real(qp),intent(out) :: rwork(*),w(*)
+           complex(qp),intent(inout) :: ap(*),bp(*)
+           complex(qp),intent(out) :: work(*),z(ldz,*)
+        ! =====================================================================
+           ! Local Scalars
+           logical(lk) :: alleig,indeig,upper,valeig,wantz
+           character :: trans
+           integer(ilp) :: j
+           ! Intrinsic Functions
+           intrinsic :: min
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           upper = la_lsame(uplo,'U')
+           alleig = la_lsame(range,'A')
+           valeig = la_lsame(range,'V')
+           indeig = la_lsame(range,'I')
+           info = 0
+           if (itype < 1 .or. itype > 3) then
+              info = -1
+           else if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -2
+           else if (.not. (alleig .or. valeig .or. indeig)) then
+              info = -3
+           else if (.not. (upper .or. la_lsame(uplo,'L'))) then
+              info = -4
+           else if (n < 0) then
+              info = -5
+           else
+              if (valeig) then
+                 if (n > 0 .and. vu <= vl) then
+                    info = -9
+                 end if
+              else if (indeig) then
+                 if (il < 1) then
+                    info = -10
+                 else if (iu < min(n,il) .or. iu > n) then
+                    info = -11
+                 end if
+              end if
+           end if
+           if (info == 0) then
+              if (ldz < 1 .or. (wantz .and. ldz < n)) then
+                 info = -16
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('WHPGVX',-info)
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           ! form a cholesky factorization of b.
+           call la_wpptrf(uplo,n,bp,info)
+           if (info /= 0) then
+              info = n + info
+              return
+           end if
+           ! transform problem to standard eigenvalue problem and solve.
+           call la_whpgst(itype,uplo,n,ap,bp,info)
+           call la_whpevx(jobz,range,uplo,n,ap,vl,vu,il,iu,abstol,m,w,z,ldz, &
+                     work,rwork,iwork,ifail,info)
+           if (wantz) then
+              ! backtransform eigenvectors to the original problem.
+              if (info > 0) m = info - 1
+              if (itype == 1 .or. itype == 2) then
+                 ! for a*x=(lambda)*b*x and a*b*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = inv(l)**h *y or inv(u)*y
+                 if (upper) then
+                    trans = 'N'
+                 else
+                    trans = 'C'
+                 end if
+                 do j = 1,m
+                    call la_wtpsv(uplo,trans,'NON-UNIT',n,bp,z(1,j),1)
+                 end do
+              else if (itype == 3) then
+                 ! for b*a*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = l*y or u**h *y
+                 if (upper) then
+                    trans = 'C'
+                 else
+                    trans = 'N'
+                 end if
+                 do j = 1,m
+                    call la_wtpmv(uplo,trans,'NON-UNIT',n,bp,z(1,j),1)
+                 end do
+              end if
+           end if
+           return
+     end subroutine la_whpgvx
+
+     !> CHBEV: computes all the eigenvalues and, optionally, eigenvectors of
+     !> a complex Hermitian band matrix A.
+
+     subroutine la_chbev(jobz,uplo,n,kd,ab,ldab,w,z,ldz,work,rwork,info)
+        use la_constants_sp,only:zero,one
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kd,ldab,ldz,n
+           ! Array Arguments
+           real(sp),intent(out) :: rwork(*),w(*)
+           complex(sp),intent(inout) :: ab(ldab,*)
+           complex(sp),intent(out) :: work(*),z(ldz,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lower,wantz
+           integer(ilp) :: iinfo,imax,inde,indrwk,iscale
+           real(sp) :: anrm,bignum,eps,rmax,rmin,safmin,sigma,smlnum
+           ! Intrinsic Functions
+           intrinsic :: sqrt
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           lower = la_lsame(uplo,'L')
+           info = 0
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (lower .or. la_lsame(uplo,'U'))) then
+              info = -2
+           else if (n < 0) then
+              info = -3
+           else if (kd < 0) then
+              info = -4
+           else if (ldab < kd + 1) then
+              info = -6
+           else if (ldz < 1 .or. (wantz .and. ldz < n)) then
+              info = -9
+           end if
+           if (info /= 0) then
+              call la_xerbla('CHBEV ',-info)
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           if (n == 1) then
+              if (lower) then
+                 w(1) = real(ab(1,1),KIND=sp)
+              else
+                 w(1) = real(ab(kd + 1,1),KIND=sp)
+              end if
+              if (wantz) z(1,1) = one
+              return
+           end if
+           ! get machine constants.
+           safmin = la_slamch('SAFE MINIMUM')
+           eps = la_slamch('PRECISION')
+           smlnum = safmin/eps
+           bignum = one/smlnum
+           rmin = sqrt(smlnum)
+           rmax = sqrt(bignum)
+           ! scale matrix to allowable range, if necessary.
+           anrm = la_clanhb('M',uplo,n,kd,ab,ldab,rwork)
+           iscale = 0
+           if (anrm > zero .and. anrm < rmin) then
+              iscale = 1
+              sigma = rmin/anrm
+           else if (anrm > rmax) then
+              iscale = 1
+              sigma = rmax/anrm
+           end if
+           if (iscale == 1) then
+              if (lower) then
+                 call la_clascl('B',kd,kd,one,sigma,n,n,ab,ldab,info)
+              else
+                 call la_clascl('Q',kd,kd,one,sigma,n,n,ab,ldab,info)
+              end if
+           end if
+           ! call la_chbtrd to reduce hermitian band matrix to tridiagonal form.
+           inde = 1
+           call la_chbtrd(jobz,uplo,n,kd,ab,ldab,w,rwork(inde),z,ldz,work,iinfo)
+
+           ! for eigenvalues only, call la_ssterf.  for eigenvectors, call la_csteqr.
+           if (.not. wantz) then
+              call la_ssterf(n,w,rwork(inde),info)
+           else
+              indrwk = inde + n
+              call la_csteqr(jobz,n,w,rwork(inde),z,ldz,rwork(indrwk),info)
+
+           end if
+           ! if matrix was scaled, then rescale eigenvalues appropriately.
+           if (iscale == 1) then
+              if (info == 0) then
+                 imax = n
+              else
+                 imax = info - 1
+              end if
+              call la_sscal(imax,one/sigma,w,1)
+           end if
+           return
+     end subroutine la_chbev
+     !> ZHBEV: computes all the eigenvalues and, optionally, eigenvectors of
+     !> a complex Hermitian band matrix A.
+
+     subroutine la_zhbev(jobz,uplo,n,kd,ab,ldab,w,z,ldz,work,rwork,info)
+        use la_constants_dp,only:zero,one
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kd,ldab,ldz,n
+           ! Array Arguments
+           real(dp),intent(out) :: rwork(*),w(*)
+           complex(dp),intent(inout) :: ab(ldab,*)
+           complex(dp),intent(out) :: work(*),z(ldz,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lower,wantz
+           integer(ilp) :: iinfo,imax,inde,indrwk,iscale
+           real(dp) :: anrm,bignum,eps,rmax,rmin,safmin,sigma,smlnum
+           ! Intrinsic Functions
+           intrinsic :: sqrt
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           lower = la_lsame(uplo,'L')
+           info = 0
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (lower .or. la_lsame(uplo,'U'))) then
+              info = -2
+           else if (n < 0) then
+              info = -3
+           else if (kd < 0) then
+              info = -4
+           else if (ldab < kd + 1) then
+              info = -6
+           else if (ldz < 1 .or. (wantz .and. ldz < n)) then
+              info = -9
+           end if
+           if (info /= 0) then
+              call la_xerbla('ZHBEV ',-info)
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           if (n == 1) then
+              if (lower) then
+                 w(1) = real(ab(1,1),KIND=dp)
+              else
+                 w(1) = real(ab(kd + 1,1),KIND=dp)
+              end if
+              if (wantz) z(1,1) = one
+              return
+           end if
+           ! get machine constants.
+           safmin = la_dlamch('SAFE MINIMUM')
+           eps = la_dlamch('PRECISION')
+           smlnum = safmin/eps
+           bignum = one/smlnum
+           rmin = sqrt(smlnum)
+           rmax = sqrt(bignum)
+           ! scale matrix to allowable range, if necessary.
+           anrm = la_zlanhb('M',uplo,n,kd,ab,ldab,rwork)
+           iscale = 0
+           if (anrm > zero .and. anrm < rmin) then
+              iscale = 1
+              sigma = rmin/anrm
+           else if (anrm > rmax) then
+              iscale = 1
+              sigma = rmax/anrm
+           end if
+           if (iscale == 1) then
+              if (lower) then
+                 call la_zlascl('B',kd,kd,one,sigma,n,n,ab,ldab,info)
+              else
+                 call la_zlascl('Q',kd,kd,one,sigma,n,n,ab,ldab,info)
+              end if
+           end if
+           ! call la_zhbtrd to reduce hermitian band matrix to tridiagonal form.
+           inde = 1
+           call la_zhbtrd(jobz,uplo,n,kd,ab,ldab,w,rwork(inde),z,ldz,work,iinfo)
+
+           ! for eigenvalues only, call la_dsterf.  for eigenvectors, call la_zsteqr.
+           if (.not. wantz) then
+              call la_dsterf(n,w,rwork(inde),info)
+           else
+              indrwk = inde + n
+              call la_zsteqr(jobz,n,w,rwork(inde),z,ldz,rwork(indrwk),info)
+
+           end if
+           ! if matrix was scaled, then rescale eigenvalues appropriately.
+           if (iscale == 1) then
+              if (info == 0) then
+                 imax = n
+              else
+                 imax = info - 1
+              end if
+              call la_dscal(imax,one/sigma,w,1)
+           end if
+           return
+     end subroutine la_zhbev
+     !> WHBEV: computes all the eigenvalues and, optionally, eigenvectors of
+     !> a complex Hermitian band matrix A.
+
+     subroutine la_whbev(jobz,uplo,n,kd,ab,ldab,w,z,ldz,work,rwork,info)
+        use la_constants_qp,only:zero,one
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kd,ldab,ldz,n
+           ! Array Arguments
+           real(qp),intent(out) :: rwork(*),w(*)
+           complex(qp),intent(inout) :: ab(ldab,*)
+           complex(qp),intent(out) :: work(*),z(ldz,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lower,wantz
+           integer(ilp) :: iinfo,imax,inde,indrwk,iscale
+           real(qp) :: anrm,bignum,eps,rmax,rmin,safmin,sigma,smlnum
+           ! Intrinsic Functions
+           intrinsic :: sqrt
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           lower = la_lsame(uplo,'L')
+           info = 0
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (lower .or. la_lsame(uplo,'U'))) then
+              info = -2
+           else if (n < 0) then
+              info = -3
+           else if (kd < 0) then
+              info = -4
+           else if (ldab < kd + 1) then
+              info = -6
+           else if (ldz < 1 .or. (wantz .and. ldz < n)) then
+              info = -9
+           end if
+           if (info /= 0) then
+              call la_xerbla('WHBEV ',-info)
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           if (n == 1) then
+              if (lower) then
+                 w(1) = real(ab(1,1),KIND=qp)
+              else
+                 w(1) = real(ab(kd + 1,1),KIND=qp)
+              end if
+              if (wantz) z(1,1) = one
+              return
+           end if
+           ! get machine constants.
+           safmin = la_qlamch('SAFE MINIMUM')
+           eps = la_qlamch('PRECISION')
+           smlnum = safmin/eps
+           bignum = one/smlnum
+           rmin = sqrt(smlnum)
+           rmax = sqrt(bignum)
+           ! scale matrix to allowable range, if necessary.
+           anrm = la_wlanhb('M',uplo,n,kd,ab,ldab,rwork)
+           iscale = 0
+           if (anrm > zero .and. anrm < rmin) then
+              iscale = 1
+              sigma = rmin/anrm
+           else if (anrm > rmax) then
+              iscale = 1
+              sigma = rmax/anrm
+           end if
+           if (iscale == 1) then
+              if (lower) then
+                 call la_wlascl('B',kd,kd,one,sigma,n,n,ab,ldab,info)
+              else
+                 call la_wlascl('Q',kd,kd,one,sigma,n,n,ab,ldab,info)
+              end if
+           end if
+           ! call la_whbtrd to reduce hermitian band matrix to tridiagonal form.
+           inde = 1
+           call la_whbtrd(jobz,uplo,n,kd,ab,ldab,w,rwork(inde),z,ldz,work,iinfo)
+
+           ! for eigenvalues only, call la_qsterf.  for eigenvectors, call la_wsteqr.
+           if (.not. wantz) then
+              call la_qsterf(n,w,rwork(inde),info)
+           else
+              indrwk = inde + n
+              call la_wsteqr(jobz,n,w,rwork(inde),z,ldz,rwork(indrwk),info)
+
+           end if
+           ! if matrix was scaled, then rescale eigenvalues appropriately.
+           if (iscale == 1) then
+              if (info == 0) then
+                 imax = n
+              else
+                 imax = info - 1
+              end if
+              call la_qscal(imax,one/sigma,w,1)
+           end if
+           return
+     end subroutine la_whbev
+
+     !> CHBEVD: computes all the eigenvalues and, optionally, eigenvectors of
+     !> a complex Hermitian band matrix A.  If eigenvectors are desired, it
+     !> uses a divide and conquer algorithm.
+     !> The divide and conquer algorithm makes very mild assumptions about
+     !> floating point arithmetic. It will work on machines with a guard
+     !> digit in add/subtract, or on those binary machines without guard
+     !> digits which subtract like the Cray X-MP, Cray Y-MP, Cray C-90, or
+     !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
+     !> without guard digits, but we know of none.
+
+     subroutine la_chbevd(jobz,uplo,n,kd,ab,ldab,w,z,ldz,work,lwork,rwork,lrwork, &
+               iwork,liwork,info)
+        use la_constants_sp,only:zero,one,czero,cone
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kd,ldab,ldz,liwork,lrwork,lwork,n
+           ! Array Arguments
+           integer(ilp),intent(out) :: iwork(*)
+           real(sp),intent(out) :: rwork(*),w(*)
+           complex(sp),intent(inout) :: ab(ldab,*)
+           complex(sp),intent(out) :: work(*),z(ldz,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lower,lquery,wantz
+           integer(ilp) :: iinfo,imax,inde,indwk2,indwrk,iscale,liwmin,llrwk,llwk2, &
+                     lrwmin,lwmin
+           real(sp) :: anrm,bignum,eps,rmax,rmin,safmin,sigma,smlnum
+           ! Intrinsic Functions
+           intrinsic :: sqrt
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           lower = la_lsame(uplo,'L')
+           lquery = (lwork == -1 .or. liwork == -1 .or. lrwork == -1)
+           info = 0
+           if (n <= 1) then
+              lwmin = 1
+              lrwmin = 1
+              liwmin = 1
+           else
+              if (wantz) then
+                 lwmin = 2*n**2
+                 lrwmin = 1 + 5*n + 2*n**2
+                 liwmin = 3 + 5*n
+              else
+                 lwmin = n
+                 lrwmin = n
+                 liwmin = 1
+              end if
+           end if
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (lower .or. la_lsame(uplo,'U'))) then
+              info = -2
+           else if (n < 0) then
+              info = -3
+           else if (kd < 0) then
+              info = -4
+           else if (ldab < kd + 1) then
+              info = -6
+           else if (ldz < 1 .or. (wantz .and. ldz < n)) then
+              info = -9
+           end if
+           if (info == 0) then
+              work(1) = lwmin
+              rwork(1) = lrwmin
+              iwork(1) = liwmin
+              if (lwork < lwmin .and. .not. lquery) then
+                 info = -11
+              else if (lrwork < lrwmin .and. .not. lquery) then
+                 info = -13
+              else if (liwork < liwmin .and. .not. lquery) then
+                 info = -15
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('CHBEVD',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           if (n == 1) then
+              w(1) = real(ab(1,1),KIND=sp)
+              if (wantz) z(1,1) = cone
+              return
+           end if
+           ! get machine constants.
+           safmin = la_slamch('SAFE MINIMUM')
+           eps = la_slamch('PRECISION')
+           smlnum = safmin/eps
+           bignum = one/smlnum
+           rmin = sqrt(smlnum)
+           rmax = sqrt(bignum)
+           ! scale matrix to allowable range, if necessary.
+           anrm = la_clanhb('M',uplo,n,kd,ab,ldab,rwork)
+           iscale = 0
+           if (anrm > zero .and. anrm < rmin) then
+              iscale = 1
+              sigma = rmin/anrm
+           else if (anrm > rmax) then
+              iscale = 1
+              sigma = rmax/anrm
+           end if
+           if (iscale == 1) then
+              if (lower) then
+                 call la_clascl('B',kd,kd,one,sigma,n,n,ab,ldab,info)
+              else
+                 call la_clascl('Q',kd,kd,one,sigma,n,n,ab,ldab,info)
+              end if
+           end if
+           ! call la_chbtrd to reduce hermitian band matrix to tridiagonal form.
+           inde = 1
+           indwrk = inde + n
+           indwk2 = 1 + n*n
+           llwk2 = lwork - indwk2 + 1
+           llrwk = lrwork - indwrk + 1
+           call la_chbtrd(jobz,uplo,n,kd,ab,ldab,w,rwork(inde),z,ldz,work,iinfo)
+
+           ! for eigenvalues only, call la_ssterf.  for eigenvectors, call la_cstedc.
+           if (.not. wantz) then
+              call la_ssterf(n,w,rwork(inde),info)
+           else
+              call la_cstedc('I',n,w,rwork(inde),work,n,work(indwk2),llwk2,rwork( &
+                        indwrk),llrwk,iwork,liwork,info)
+              call la_cgemm('N','N',n,n,n,cone,z,ldz,work,n,czero,work(indwk2), &
+                        n)
+              call la_clacpy('A',n,n,work(indwk2),n,z,ldz)
+           end if
+           ! if matrix was scaled, then rescale eigenvalues appropriately.
+           if (iscale == 1) then
+              if (info == 0) then
+                 imax = n
+              else
+                 imax = info - 1
+              end if
+              call la_sscal(imax,one/sigma,w,1)
+           end if
+           work(1) = lwmin
+           rwork(1) = lrwmin
+           iwork(1) = liwmin
+           return
+     end subroutine la_chbevd
+     !> ZHBEVD: computes all the eigenvalues and, optionally, eigenvectors of
+     !> a complex Hermitian band matrix A.  If eigenvectors are desired, it
+     !> uses a divide and conquer algorithm.
+     !> The divide and conquer algorithm makes very mild assumptions about
+     !> floating point arithmetic. It will work on machines with a guard
+     !> digit in add/subtract, or on those binary machines without guard
+     !> digits which subtract like the Cray X-MP, Cray Y-MP, Cray C-90, or
+     !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
+     !> without guard digits, but we know of none.
+
+     subroutine la_zhbevd(jobz,uplo,n,kd,ab,ldab,w,z,ldz,work,lwork,rwork,lrwork, &
+               iwork,liwork,info)
+        use la_constants_dp,only:zero,one,czero,cone
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kd,ldab,ldz,liwork,lrwork,lwork,n
+           ! Array Arguments
+           integer(ilp),intent(out) :: iwork(*)
+           real(dp),intent(out) :: rwork(*),w(*)
+           complex(dp),intent(inout) :: ab(ldab,*)
+           complex(dp),intent(out) :: work(*),z(ldz,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lower,lquery,wantz
+           integer(ilp) :: iinfo,imax,inde,indwk2,indwrk,iscale,liwmin,llrwk,llwk2, &
+                     lrwmin,lwmin
+           real(dp) :: anrm,bignum,eps,rmax,rmin,safmin,sigma,smlnum
+           ! Intrinsic Functions
+           intrinsic :: sqrt
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           lower = la_lsame(uplo,'L')
+           lquery = (lwork == -1 .or. liwork == -1 .or. lrwork == -1)
+           info = 0
+           if (n <= 1) then
+              lwmin = 1
+              lrwmin = 1
+              liwmin = 1
+           else
+              if (wantz) then
+                 lwmin = 2*n**2
+                 lrwmin = 1 + 5*n + 2*n**2
+                 liwmin = 3 + 5*n
+              else
+                 lwmin = n
+                 lrwmin = n
+                 liwmin = 1
+              end if
+           end if
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (lower .or. la_lsame(uplo,'U'))) then
+              info = -2
+           else if (n < 0) then
+              info = -3
+           else if (kd < 0) then
+              info = -4
+           else if (ldab < kd + 1) then
+              info = -6
+           else if (ldz < 1 .or. (wantz .and. ldz < n)) then
+              info = -9
+           end if
+           if (info == 0) then
+              work(1) = lwmin
+              rwork(1) = lrwmin
+              iwork(1) = liwmin
+              if (lwork < lwmin .and. .not. lquery) then
+                 info = -11
+              else if (lrwork < lrwmin .and. .not. lquery) then
+                 info = -13
+              else if (liwork < liwmin .and. .not. lquery) then
+                 info = -15
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('ZHBEVD',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           if (n == 1) then
+              w(1) = real(ab(1,1),KIND=dp)
+              if (wantz) z(1,1) = cone
+              return
+           end if
+           ! get machine constants.
+           safmin = la_dlamch('SAFE MINIMUM')
+           eps = la_dlamch('PRECISION')
+           smlnum = safmin/eps
+           bignum = one/smlnum
+           rmin = sqrt(smlnum)
+           rmax = sqrt(bignum)
+           ! scale matrix to allowable range, if necessary.
+           anrm = la_zlanhb('M',uplo,n,kd,ab,ldab,rwork)
+           iscale = 0
+           if (anrm > zero .and. anrm < rmin) then
+              iscale = 1
+              sigma = rmin/anrm
+           else if (anrm > rmax) then
+              iscale = 1
+              sigma = rmax/anrm
+           end if
+           if (iscale == 1) then
+              if (lower) then
+                 call la_zlascl('B',kd,kd,one,sigma,n,n,ab,ldab,info)
+              else
+                 call la_zlascl('Q',kd,kd,one,sigma,n,n,ab,ldab,info)
+              end if
+           end if
+           ! call la_zhbtrd to reduce hermitian band matrix to tridiagonal form.
+           inde = 1
+           indwrk = inde + n
+           indwk2 = 1 + n*n
+           llwk2 = lwork - indwk2 + 1
+           llrwk = lrwork - indwrk + 1
+           call la_zhbtrd(jobz,uplo,n,kd,ab,ldab,w,rwork(inde),z,ldz,work,iinfo)
+
+           ! for eigenvalues only, call la_dsterf.  for eigenvectors, call la_zstedc.
+           if (.not. wantz) then
+              call la_dsterf(n,w,rwork(inde),info)
+           else
+              call la_zstedc('I',n,w,rwork(inde),work,n,work(indwk2),llwk2,rwork( &
+                        indwrk),llrwk,iwork,liwork,info)
+              call la_zgemm('N','N',n,n,n,cone,z,ldz,work,n,czero,work(indwk2), &
+                        n)
+              call la_zlacpy('A',n,n,work(indwk2),n,z,ldz)
+           end if
+           ! if matrix was scaled, then rescale eigenvalues appropriately.
+           if (iscale == 1) then
+              if (info == 0) then
+                 imax = n
+              else
+                 imax = info - 1
+              end if
+              call la_dscal(imax,one/sigma,w,1)
+           end if
+           work(1) = lwmin
+           rwork(1) = lrwmin
+           iwork(1) = liwmin
+           return
+     end subroutine la_zhbevd
+     !> WHBEVD: computes all the eigenvalues and, optionally, eigenvectors of
+     !> a complex Hermitian band matrix A.  If eigenvectors are desired, it
+     !> uses a divide and conquer algorithm.
+     !> The divide and conquer algorithm makes very mild assumptions about
+     !> floating point arithmetic. It will work on machines with a guard
+     !> digit in add/subtract, or on those binary machines without guard
+     !> digits which subtract like the Cray X-MP, Cray Y-MP, Cray C-90, or
+     !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
+     !> without guard digits, but we know of none.
+
+     subroutine la_whbevd(jobz,uplo,n,kd,ab,ldab,w,z,ldz,work,lwork,rwork,lrwork, &
+               iwork,liwork,info)
+        use la_constants_qp,only:zero,one,czero,cone
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kd,ldab,ldz,liwork,lrwork,lwork,n
+           ! Array Arguments
+           integer(ilp),intent(out) :: iwork(*)
+           real(qp),intent(out) :: rwork(*),w(*)
+           complex(qp),intent(inout) :: ab(ldab,*)
+           complex(qp),intent(out) :: work(*),z(ldz,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lower,lquery,wantz
+           integer(ilp) :: iinfo,imax,inde,indwk2,indwrk,iscale,liwmin,llrwk,llwk2, &
+                     lrwmin,lwmin
+           real(qp) :: anrm,bignum,eps,rmax,rmin,safmin,sigma,smlnum
+           ! Intrinsic Functions
+           intrinsic :: sqrt
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           lower = la_lsame(uplo,'L')
+           lquery = (lwork == -1 .or. liwork == -1 .or. lrwork == -1)
+           info = 0
+           if (n <= 1) then
+              lwmin = 1
+              lrwmin = 1
+              liwmin = 1
+           else
+              if (wantz) then
+                 lwmin = 2*n**2
+                 lrwmin = 1 + 5*n + 2*n**2
+                 liwmin = 3 + 5*n
+              else
+                 lwmin = n
+                 lrwmin = n
+                 liwmin = 1
+              end if
+           end if
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (lower .or. la_lsame(uplo,'U'))) then
+              info = -2
+           else if (n < 0) then
+              info = -3
+           else if (kd < 0) then
+              info = -4
+           else if (ldab < kd + 1) then
+              info = -6
+           else if (ldz < 1 .or. (wantz .and. ldz < n)) then
+              info = -9
+           end if
+           if (info == 0) then
+              work(1) = lwmin
+              rwork(1) = lrwmin
+              iwork(1) = liwmin
+              if (lwork < lwmin .and. .not. lquery) then
+                 info = -11
+              else if (lrwork < lrwmin .and. .not. lquery) then
+                 info = -13
+              else if (liwork < liwmin .and. .not. lquery) then
+                 info = -15
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('WHBEVD',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           if (n == 1) then
+              w(1) = real(ab(1,1),KIND=qp)
+              if (wantz) z(1,1) = cone
+              return
+           end if
+           ! get machine constants.
+           safmin = la_qlamch('SAFE MINIMUM')
+           eps = la_qlamch('PRECISION')
+           smlnum = safmin/eps
+           bignum = one/smlnum
+           rmin = sqrt(smlnum)
+           rmax = sqrt(bignum)
+           ! scale matrix to allowable range, if necessary.
+           anrm = la_wlanhb('M',uplo,n,kd,ab,ldab,rwork)
+           iscale = 0
+           if (anrm > zero .and. anrm < rmin) then
+              iscale = 1
+              sigma = rmin/anrm
+           else if (anrm > rmax) then
+              iscale = 1
+              sigma = rmax/anrm
+           end if
+           if (iscale == 1) then
+              if (lower) then
+                 call la_wlascl('B',kd,kd,one,sigma,n,n,ab,ldab,info)
+              else
+                 call la_wlascl('Q',kd,kd,one,sigma,n,n,ab,ldab,info)
+              end if
+           end if
+           ! call la_whbtrd to reduce hermitian band matrix to tridiagonal form.
+           inde = 1
+           indwrk = inde + n
+           indwk2 = 1 + n*n
+           llwk2 = lwork - indwk2 + 1
+           llrwk = lrwork - indwrk + 1
+           call la_whbtrd(jobz,uplo,n,kd,ab,ldab,w,rwork(inde),z,ldz,work,iinfo)
+
+           ! for eigenvalues only, call la_qsterf.  for eigenvectors, call la_wstedc.
+           if (.not. wantz) then
+              call la_qsterf(n,w,rwork(inde),info)
+           else
+              call la_wstedc('I',n,w,rwork(inde),work,n,work(indwk2),llwk2,rwork( &
+                        indwrk),llrwk,iwork,liwork,info)
+              call la_wgemm('N','N',n,n,n,cone,z,ldz,work,n,czero,work(indwk2), &
+                        n)
+              call la_wlacpy('A',n,n,work(indwk2),n,z,ldz)
+           end if
+           ! if matrix was scaled, then rescale eigenvalues appropriately.
+           if (iscale == 1) then
+              if (info == 0) then
+                 imax = n
+              else
+                 imax = info - 1
+              end if
+              call la_qscal(imax,one/sigma,w,1)
+           end if
+           work(1) = lwmin
+           rwork(1) = lrwmin
+           iwork(1) = liwmin
+           return
+     end subroutine la_whbevd
+
+     !> CHBEVX: computes selected eigenvalues and, optionally, eigenvectors
+     !> of a complex Hermitian band matrix A.  Eigenvalues and eigenvectors
+     !> can be selected by specifying either a range of values or a range of
+     !> indices for the desired eigenvalues.
+
+     subroutine la_chbevx(jobz,range,uplo,n,kd,ab,ldab,q,ldq,vl,vu,il,iu,abstol, &
+               m,w,z,ldz,work,rwork,iwork,ifail,info)
+        use la_constants_sp,only:zero,one,czero,cone
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,range,uplo
+           integer(ilp),intent(in) :: il,iu,kd,ldab,ldq,ldz,n
+           integer(ilp),intent(out) :: info,m
+           real(sp),intent(in) :: abstol,vl,vu
+           ! Array Arguments
+           integer(ilp),intent(out) :: ifail(*),iwork(*)
+           real(sp),intent(out) :: rwork(*),w(*)
+           complex(sp),intent(inout) :: ab(ldab,*)
+           complex(sp),intent(out) :: q(ldq,*),work(*),z(ldz,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: alleig,indeig,lower,test,valeig,wantz
+           character :: order
+           integer(ilp) :: i,iinfo,imax,indd,inde,indee,indibl,indisp,indiwk,indrwk, &
+                     indwrk,iscale,itmp1,j,jj,nsplit
+           real(sp) :: abstll,anrm,bignum,eps,rmax,rmin,safmin,sigma,smlnum,tmp1,vll, &
+                     vuu
+           complex(sp) :: ctmp1
+           ! Intrinsic Functions
+           intrinsic :: max,min,real,sqrt
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           alleig = la_lsame(range,'A')
+           valeig = la_lsame(range,'V')
+           indeig = la_lsame(range,'I')
+           lower = la_lsame(uplo,'L')
+           info = 0
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (alleig .or. valeig .or. indeig)) then
+              info = -2
+           else if (.not. (lower .or. la_lsame(uplo,'U'))) then
+              info = -3
+           else if (n < 0) then
+              info = -4
+           else if (kd < 0) then
+              info = -5
+           else if (ldab < kd + 1) then
+              info = -7
+           else if (wantz .and. ldq < max(1,n)) then
+              info = -9
+           else
+              if (valeig) then
+                 if (n > 0 .and. vu <= vl) info = -11
+              else if (indeig) then
+                 if (il < 1 .or. il > max(1,n)) then
+                    info = -12
+                 else if (iu < min(n,il) .or. iu > n) then
+                    info = -13
+                 end if
+              end if
+           end if
+           if (info == 0) then
+              if (ldz < 1 .or. (wantz .and. ldz < n)) info = -18
+           end if
+           if (info /= 0) then
+              call la_xerbla('CHBEVX',-info)
+              return
+           end if
+           ! quick return if possible
+           m = 0
+           if (n == 0) return
+           if (n == 1) then
+              m = 1
+              if (lower) then
+                 ctmp1 = ab(1,1)
+              else
+                 ctmp1 = ab(kd + 1,1)
+              end if
+              tmp1 = real(ctmp1,KIND=sp)
+              if (valeig) then
+                 if (.not. (vl < tmp1 .and. vu >= tmp1)) m = 0
+              end if
+              if (m == 1) then
+                 w(1) = real(ctmp1,KIND=sp)
+                 if (wantz) z(1,1) = cone
+              end if
+              return
+           end if
+           ! get machine constants.
+           safmin = la_slamch('SAFE MINIMUM')
+           eps = la_slamch('PRECISION')
+           smlnum = safmin/eps
+           bignum = one/smlnum
+           rmin = sqrt(smlnum)
+           rmax = min(sqrt(bignum),one/sqrt(sqrt(safmin)))
+           ! scale matrix to allowable range, if necessary.
+           iscale = 0
+           abstll = abstol
+           if (valeig) then
+              vll = vl
+              vuu = vu
+           else
+              vll = zero
+              vuu = zero
+           end if
+           anrm = la_clanhb('M',uplo,n,kd,ab,ldab,rwork)
+           if (anrm > zero .and. anrm < rmin) then
+              iscale = 1
+              sigma = rmin/anrm
+           else if (anrm > rmax) then
+              iscale = 1
+              sigma = rmax/anrm
+           end if
+           if (iscale == 1) then
+              if (lower) then
+                 call la_clascl('B',kd,kd,one,sigma,n,n,ab,ldab,info)
+              else
+                 call la_clascl('Q',kd,kd,one,sigma,n,n,ab,ldab,info)
+              end if
+              if (abstol > 0) abstll = abstol*sigma
+              if (valeig) then
+                 vll = vl*sigma
+                 vuu = vu*sigma
+              end if
+           end if
+           ! call la_chbtrd to reduce hermitian band matrix to tridiagonal form.
+           indd = 1
+           inde = indd + n
+           indrwk = inde + n
+           indwrk = 1
+           call la_chbtrd(jobz,uplo,n,kd,ab,ldab,rwork(indd),rwork(inde),q,ldq, &
+                     work(indwrk),iinfo)
+           ! if all eigenvalues are desired and abstol is less than or equal
+           ! to zero, then call la_ssterf or la_csteqr.  if this fails for some
+           ! eigenvalue, then try la_sstebz.
+           test = .false.
+           if (indeig) then
+              if (il == 1 .and. iu == n) then
+                 test = .true.
+              end if
+           end if
+           if ((alleig .or. test) .and. (abstol <= zero)) then
+              call la_scopy(n,rwork(indd),1,w,1)
+              indee = indrwk + 2*n
+              if (.not. wantz) then
+                 call la_scopy(n - 1,rwork(inde),1,rwork(indee),1)
+                 call la_ssterf(n,w,rwork(indee),info)
+              else
+                 call la_clacpy('A',n,n,q,ldq,z,ldz)
+                 call la_scopy(n - 1,rwork(inde),1,rwork(indee),1)
+                 call la_csteqr(jobz,n,w,rwork(indee),z,ldz,rwork(indrwk),info)
+
+                 if (info == 0) then
+                    do i = 1,n
+                       ifail(i) = 0
+                    end do
+                 end if
+              end if
+              if (info == 0) then
+                 m = n
+                 go to 30
+              end if
+              info = 0
+           end if
+           ! otherwise, call la_sstebz and, if eigenvectors are desired, la_cstein.
+           if (wantz) then
+              order = 'B'
+           else
+              order = 'E'
+           end if
+           indibl = 1
+           indisp = indibl + n
+           indiwk = indisp + n
+           call la_sstebz(range,order,n,vll,vuu,il,iu,abstll,rwork(indd),rwork( &
+           inde),m,nsplit,w,iwork(indibl),iwork(indisp),rwork(indrwk),iwork(indiwk), &
+                      info)
+           if (wantz) then
+              call la_cstein(n,rwork(indd),rwork(inde),m,w,iwork(indibl),iwork( &
+                        indisp),z,ldz,rwork(indrwk),iwork(indiwk),ifail,info)
+              ! apply unitary matrix used in reduction to tridiagonal
+              ! form to eigenvectors returned by la_cstein.
+              do j = 1,m
+                 call la_ccopy(n,z(1,j),1,work(1),1)
+                 call la_cgemv('N',n,n,cone,q,ldq,work,1,czero,z(1,j),1)
+              end do
+           end if
+           ! if matrix was scaled, then rescale eigenvalues appropriately.
+           30 continue
+           if (iscale == 1) then
+              if (info == 0) then
+                 imax = m
+              else
+                 imax = info - 1
+              end if
+              call la_sscal(imax,one/sigma,w,1)
+           end if
+           ! if eigenvalues are not in order, then sort them, along with
+           ! eigenvectors.
+           if (wantz) then
+              do j = 1,m - 1
+                 i = 0
+                 tmp1 = w(j)
+                 do jj = j + 1,m
+                    if (w(jj) < tmp1) then
+                       i = jj
+                       tmp1 = w(jj)
+                    end if
+                 end do
+                 if (i /= 0) then
+                    itmp1 = iwork(indibl + i - 1)
+                    w(i) = w(j)
+                    iwork(indibl + i - 1) = iwork(indibl + j - 1)
+                    w(j) = tmp1
+                    iwork(indibl + j - 1) = itmp1
+                    call la_cswap(n,z(1,i),1,z(1,j),1)
+                    if (info /= 0) then
+                       itmp1 = ifail(i)
+                       ifail(i) = ifail(j)
+                       ifail(j) = itmp1
+                    end if
+                 end if
+              end do
+           end if
+           return
+     end subroutine la_chbevx
+     !> ZHBEVX: computes selected eigenvalues and, optionally, eigenvectors
+     !> of a complex Hermitian band matrix A.  Eigenvalues and eigenvectors
+     !> can be selected by specifying either a range of values or a range of
+     !> indices for the desired eigenvalues.
+
+     subroutine la_zhbevx(jobz,range,uplo,n,kd,ab,ldab,q,ldq,vl,vu,il,iu,abstol, &
+               m,w,z,ldz,work,rwork,iwork,ifail,info)
+        use la_constants_dp,only:zero,one,czero,cone
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,range,uplo
+           integer(ilp),intent(in) :: il,iu,kd,ldab,ldq,ldz,n
+           integer(ilp),intent(out) :: info,m
+           real(dp),intent(in) :: abstol,vl,vu
+           ! Array Arguments
+           integer(ilp),intent(out) :: ifail(*),iwork(*)
+           real(dp),intent(out) :: rwork(*),w(*)
+           complex(dp),intent(inout) :: ab(ldab,*)
+           complex(dp),intent(out) :: q(ldq,*),work(*),z(ldz,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: alleig,indeig,lower,test,valeig,wantz
+           character :: order
+           integer(ilp) :: i,iinfo,imax,indd,inde,indee,indibl,indisp,indiwk,indrwk, &
+                     indwrk,iscale,itmp1,j,jj,nsplit
+           real(dp) :: abstll,anrm,bignum,eps,rmax,rmin,safmin,sigma,smlnum,tmp1,vll, &
+                     vuu
+           complex(dp) :: ctmp1
+           ! Intrinsic Functions
+           intrinsic :: real,max,min,sqrt
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           alleig = la_lsame(range,'A')
+           valeig = la_lsame(range,'V')
+           indeig = la_lsame(range,'I')
+           lower = la_lsame(uplo,'L')
+           info = 0
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (alleig .or. valeig .or. indeig)) then
+              info = -2
+           else if (.not. (lower .or. la_lsame(uplo,'U'))) then
+              info = -3
+           else if (n < 0) then
+              info = -4
+           else if (kd < 0) then
+              info = -5
+           else if (ldab < kd + 1) then
+              info = -7
+           else if (wantz .and. ldq < max(1,n)) then
+              info = -9
+           else
+              if (valeig) then
+                 if (n > 0 .and. vu <= vl) info = -11
+              else if (indeig) then
+                 if (il < 1 .or. il > max(1,n)) then
+                    info = -12
+                 else if (iu < min(n,il) .or. iu > n) then
+                    info = -13
+                 end if
+              end if
+           end if
+           if (info == 0) then
+              if (ldz < 1 .or. (wantz .and. ldz < n)) info = -18
+           end if
+           if (info /= 0) then
+              call la_xerbla('ZHBEVX',-info)
+              return
+           end if
+           ! quick return if possible
+           m = 0
+           if (n == 0) return
+           if (n == 1) then
+              m = 1
+              if (lower) then
+                 ctmp1 = ab(1,1)
+              else
+                 ctmp1 = ab(kd + 1,1)
+              end if
+              tmp1 = real(ctmp1,KIND=dp)
+              if (valeig) then
+                 if (.not. (vl < tmp1 .and. vu >= tmp1)) m = 0
+              end if
+              if (m == 1) then
+                 w(1) = real(ctmp1,KIND=dp)
+                 if (wantz) z(1,1) = cone
+              end if
+              return
+           end if
+           ! get machine constants.
+           safmin = la_dlamch('SAFE MINIMUM')
+           eps = la_dlamch('PRECISION')
+           smlnum = safmin/eps
+           bignum = one/smlnum
+           rmin = sqrt(smlnum)
+           rmax = min(sqrt(bignum),one/sqrt(sqrt(safmin)))
+           ! scale matrix to allowable range, if necessary.
+           iscale = 0
+           abstll = abstol
+           if (valeig) then
+              vll = vl
+              vuu = vu
+           else
+              vll = zero
+              vuu = zero
+           end if
+           anrm = la_zlanhb('M',uplo,n,kd,ab,ldab,rwork)
+           if (anrm > zero .and. anrm < rmin) then
+              iscale = 1
+              sigma = rmin/anrm
+           else if (anrm > rmax) then
+              iscale = 1
+              sigma = rmax/anrm
+           end if
+           if (iscale == 1) then
+              if (lower) then
+                 call la_zlascl('B',kd,kd,one,sigma,n,n,ab,ldab,info)
+              else
+                 call la_zlascl('Q',kd,kd,one,sigma,n,n,ab,ldab,info)
+              end if
+              if (abstol > 0) abstll = abstol*sigma
+              if (valeig) then
+                 vll = vl*sigma
+                 vuu = vu*sigma
+              end if
+           end if
+           ! call la_zhbtrd to reduce hermitian band matrix to tridiagonal form.
+           indd = 1
+           inde = indd + n
+           indrwk = inde + n
+           indwrk = 1
+           call la_zhbtrd(jobz,uplo,n,kd,ab,ldab,rwork(indd),rwork(inde),q,ldq, &
+                     work(indwrk),iinfo)
+           ! if all eigenvalues are desired and abstol is less than or equal
+           ! to zero, then call la_dsterf or la_zsteqr.  if this fails for some
+           ! eigenvalue, then try la_dstebz.
+           test = .false.
+           if (indeig) then
+              if (il == 1 .and. iu == n) then
+                 test = .true.
+              end if
+           end if
+           if ((alleig .or. test) .and. (abstol <= zero)) then
+              call la_dcopy(n,rwork(indd),1,w,1)
+              indee = indrwk + 2*n
+              if (.not. wantz) then
+                 call la_dcopy(n - 1,rwork(inde),1,rwork(indee),1)
+                 call la_dsterf(n,w,rwork(indee),info)
+              else
+                 call la_zlacpy('A',n,n,q,ldq,z,ldz)
+                 call la_dcopy(n - 1,rwork(inde),1,rwork(indee),1)
+                 call la_zsteqr(jobz,n,w,rwork(indee),z,ldz,rwork(indrwk),info)
+
+                 if (info == 0) then
+                    do i = 1,n
+                       ifail(i) = 0
+                    end do
+                 end if
+              end if
+              if (info == 0) then
+                 m = n
+                 go to 30
+              end if
+              info = 0
+           end if
+           ! otherwise, call la_dstebz and, if eigenvectors are desired, la_zstein.
+           if (wantz) then
+              order = 'B'
+           else
+              order = 'E'
+           end if
+           indibl = 1
+           indisp = indibl + n
+           indiwk = indisp + n
+           call la_dstebz(range,order,n,vll,vuu,il,iu,abstll,rwork(indd),rwork( &
+           inde),m,nsplit,w,iwork(indibl),iwork(indisp),rwork(indrwk),iwork(indiwk), &
+                      info)
+           if (wantz) then
+              call la_zstein(n,rwork(indd),rwork(inde),m,w,iwork(indibl),iwork( &
+                        indisp),z,ldz,rwork(indrwk),iwork(indiwk),ifail,info)
+              ! apply unitary matrix used in reduction to tridiagonal
+              ! form to eigenvectors returned by la_zstein.
+              do j = 1,m
+                 call la_zcopy(n,z(1,j),1,work(1),1)
+                 call la_zgemv('N',n,n,cone,q,ldq,work,1,czero,z(1,j),1)
+              end do
+           end if
+           ! if matrix was scaled, then rescale eigenvalues appropriately.
+           30 continue
+           if (iscale == 1) then
+              if (info == 0) then
+                 imax = m
+              else
+                 imax = info - 1
+              end if
+              call la_dscal(imax,one/sigma,w,1)
+           end if
+           ! if eigenvalues are not in order, then sort them, along with
+           ! eigenvectors.
+           if (wantz) then
+              do j = 1,m - 1
+                 i = 0
+                 tmp1 = w(j)
+                 do jj = j + 1,m
+                    if (w(jj) < tmp1) then
+                       i = jj
+                       tmp1 = w(jj)
+                    end if
+                 end do
+                 if (i /= 0) then
+                    itmp1 = iwork(indibl + i - 1)
+                    w(i) = w(j)
+                    iwork(indibl + i - 1) = iwork(indibl + j - 1)
+                    w(j) = tmp1
+                    iwork(indibl + j - 1) = itmp1
+                    call la_zswap(n,z(1,i),1,z(1,j),1)
+                    if (info /= 0) then
+                       itmp1 = ifail(i)
+                       ifail(i) = ifail(j)
+                       ifail(j) = itmp1
+                    end if
+                 end if
+              end do
+           end if
+           return
+     end subroutine la_zhbevx
+     !> WHBEVX: computes selected eigenvalues and, optionally, eigenvectors
+     !> of a complex Hermitian band matrix A.  Eigenvalues and eigenvectors
+     !> can be selected by specifying either a range of values or a range of
+     !> indices for the desired eigenvalues.
+
+     subroutine la_whbevx(jobz,range,uplo,n,kd,ab,ldab,q,ldq,vl,vu,il,iu,abstol, &
+               m,w,z,ldz,work,rwork,iwork,ifail,info)
+        use la_constants_qp,only:zero,one,czero,cone
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,range,uplo
+           integer(ilp),intent(in) :: il,iu,kd,ldab,ldq,ldz,n
+           integer(ilp),intent(out) :: info,m
+           real(qp),intent(in) :: abstol,vl,vu
+           ! Array Arguments
+           integer(ilp),intent(out) :: ifail(*),iwork(*)
+           real(qp),intent(out) :: rwork(*),w(*)
+           complex(qp),intent(inout) :: ab(ldab,*)
+           complex(qp),intent(out) :: q(ldq,*),work(*),z(ldz,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: alleig,indeig,lower,test,valeig,wantz
+           character :: order
+           integer(ilp) :: i,iinfo,imax,indd,inde,indee,indibl,indisp,indiwk,indrwk, &
+                     indwrk,iscale,itmp1,j,jj,nsplit
+           real(qp) :: abstll,anrm,bignum,eps,rmax,rmin,safmin,sigma,smlnum,tmp1,vll, &
+                     vuu
+           complex(qp) :: ctmp1
+           ! Intrinsic Functions
+           intrinsic :: real,max,min,sqrt
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           alleig = la_lsame(range,'A')
+           valeig = la_lsame(range,'V')
+           indeig = la_lsame(range,'I')
+           lower = la_lsame(uplo,'L')
+           info = 0
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (alleig .or. valeig .or. indeig)) then
+              info = -2
+           else if (.not. (lower .or. la_lsame(uplo,'U'))) then
+              info = -3
+           else if (n < 0) then
+              info = -4
+           else if (kd < 0) then
+              info = -5
+           else if (ldab < kd + 1) then
+              info = -7
+           else if (wantz .and. ldq < max(1,n)) then
+              info = -9
+           else
+              if (valeig) then
+                 if (n > 0 .and. vu <= vl) info = -11
+              else if (indeig) then
+                 if (il < 1 .or. il > max(1,n)) then
+                    info = -12
+                 else if (iu < min(n,il) .or. iu > n) then
+                    info = -13
+                 end if
+              end if
+           end if
+           if (info == 0) then
+              if (ldz < 1 .or. (wantz .and. ldz < n)) info = -18
+           end if
+           if (info /= 0) then
+              call la_xerbla('WHBEVX',-info)
+              return
+           end if
+           ! quick return if possible
+           m = 0
+           if (n == 0) return
+           if (n == 1) then
+              m = 1
+              if (lower) then
+                 ctmp1 = ab(1,1)
+              else
+                 ctmp1 = ab(kd + 1,1)
+              end if
+              tmp1 = real(ctmp1,KIND=qp)
+              if (valeig) then
+                 if (.not. (vl < tmp1 .and. vu >= tmp1)) m = 0
+              end if
+              if (m == 1) then
+                 w(1) = real(ctmp1,KIND=qp)
+                 if (wantz) z(1,1) = cone
+              end if
+              return
+           end if
+           ! get machine constants.
+           safmin = la_qlamch('SAFE MINIMUM')
+           eps = la_qlamch('PRECISION')
+           smlnum = safmin/eps
+           bignum = one/smlnum
+           rmin = sqrt(smlnum)
+           rmax = min(sqrt(bignum),one/sqrt(sqrt(safmin)))
+           ! scale matrix to allowable range, if necessary.
+           iscale = 0
+           abstll = abstol
+           if (valeig) then
+              vll = vl
+              vuu = vu
+           else
+              vll = zero
+              vuu = zero
+           end if
+           anrm = la_wlanhb('M',uplo,n,kd,ab,ldab,rwork)
+           if (anrm > zero .and. anrm < rmin) then
+              iscale = 1
+              sigma = rmin/anrm
+           else if (anrm > rmax) then
+              iscale = 1
+              sigma = rmax/anrm
+           end if
+           if (iscale == 1) then
+              if (lower) then
+                 call la_wlascl('B',kd,kd,one,sigma,n,n,ab,ldab,info)
+              else
+                 call la_wlascl('Q',kd,kd,one,sigma,n,n,ab,ldab,info)
+              end if
+              if (abstol > 0) abstll = abstol*sigma
+              if (valeig) then
+                 vll = vl*sigma
+                 vuu = vu*sigma
+              end if
+           end if
+           ! call la_whbtrd to reduce hermitian band matrix to tridiagonal form.
+           indd = 1
+           inde = indd + n
+           indrwk = inde + n
+           indwrk = 1
+           call la_whbtrd(jobz,uplo,n,kd,ab,ldab,rwork(indd),rwork(inde),q,ldq, &
+                     work(indwrk),iinfo)
+           ! if all eigenvalues are desired and abstol is less than or equal
+           ! to zero, then call la_qsterf or la_wsteqr.  if this fails for some
+           ! eigenvalue, then try la_qstebz.
+           test = .false.
+           if (indeig) then
+              if (il == 1 .and. iu == n) then
+                 test = .true.
+              end if
+           end if
+           if ((alleig .or. test) .and. (abstol <= zero)) then
+              call la_qcopy(n,rwork(indd),1,w,1)
+              indee = indrwk + 2*n
+              if (.not. wantz) then
+                 call la_qcopy(n - 1,rwork(inde),1,rwork(indee),1)
+                 call la_qsterf(n,w,rwork(indee),info)
+              else
+                 call la_wlacpy('A',n,n,q,ldq,z,ldz)
+                 call la_qcopy(n - 1,rwork(inde),1,rwork(indee),1)
+                 call la_wsteqr(jobz,n,w,rwork(indee),z,ldz,rwork(indrwk),info)
+
+                 if (info == 0) then
+                    do i = 1,n
+                       ifail(i) = 0
+                    end do
+                 end if
+              end if
+              if (info == 0) then
+                 m = n
+                 go to 30
+              end if
+              info = 0
+           end if
+           ! otherwise, call la_qstebz and, if eigenvectors are desired, la_wstein.
+           if (wantz) then
+              order = 'B'
+           else
+              order = 'E'
+           end if
+           indibl = 1
+           indisp = indibl + n
+           indiwk = indisp + n
+           call la_qstebz(range,order,n,vll,vuu,il,iu,abstll,rwork(indd),rwork( &
+           inde),m,nsplit,w,iwork(indibl),iwork(indisp),rwork(indrwk),iwork(indiwk), &
+                      info)
+           if (wantz) then
+              call la_wstein(n,rwork(indd),rwork(inde),m,w,iwork(indibl),iwork( &
+                        indisp),z,ldz,rwork(indrwk),iwork(indiwk),ifail,info)
+              ! apply unitary matrix used in reduction to tridiagonal
+              ! form to eigenvectors returned by la_wstein.
+              do j = 1,m
+                 call la_wcopy(n,z(1,j),1,work(1),1)
+                 call la_wgemv('N',n,n,cone,q,ldq,work,1,czero,z(1,j),1)
+              end do
+           end if
+           ! if matrix was scaled, then rescale eigenvalues appropriately.
+           30 continue
+           if (iscale == 1) then
+              if (info == 0) then
+                 imax = m
+              else
+                 imax = info - 1
+              end if
+              call la_qscal(imax,one/sigma,w,1)
+           end if
+           ! if eigenvalues are not in order, then sort them, along with
+           ! eigenvectors.
+           if (wantz) then
+              do j = 1,m - 1
+                 i = 0
+                 tmp1 = w(j)
+                 do jj = j + 1,m
+                    if (w(jj) < tmp1) then
+                       i = jj
+                       tmp1 = w(jj)
+                    end if
+                 end do
+                 if (i /= 0) then
+                    itmp1 = iwork(indibl + i - 1)
+                    w(i) = w(j)
+                    iwork(indibl + i - 1) = iwork(indibl + j - 1)
+                    w(j) = tmp1
+                    iwork(indibl + j - 1) = itmp1
+                    call la_wswap(n,z(1,i),1,z(1,j),1)
+                    if (info /= 0) then
+                       itmp1 = ifail(i)
+                       ifail(i) = ifail(j)
+                       ifail(j) = itmp1
+                    end if
+                 end if
+              end do
+           end if
+           return
+     end subroutine la_whbevx
+
+     !> CHBGV: computes all the eigenvalues, and optionally, the eigenvectors
+     !> of a complex generalized Hermitian-definite banded eigenproblem, of
+     !> the form A*x=(lambda)*B*x. Here A and B are assumed to be Hermitian
+     !> and banded, and B is also positive definite.
+
+     pure subroutine la_chbgv(jobz,uplo,n,ka,kb,ab,ldab,bb,ldbb,w,z,ldz,work, &
+               rwork,info)
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ka,kb,ldab,ldbb,ldz,n
+           ! Array Arguments
+           real(sp),intent(out) :: rwork(*),w(*)
+           complex(sp),intent(inout) :: ab(ldab,*),bb(ldbb,*)
+           complex(sp),intent(out) :: work(*),z(ldz,*)
+        ! =====================================================================
+           ! Local Scalars
+           logical(lk) :: upper,wantz
+           character :: vect
+           integer(ilp) :: iinfo,inde,indwrk
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           upper = la_lsame(uplo,'U')
+           info = 0
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (upper .or. la_lsame(uplo,'L'))) then
+              info = -2
+           else if (n < 0) then
+              info = -3
+           else if (ka < 0) then
+              info = -4
+           else if (kb < 0 .or. kb > ka) then
+              info = -5
+           else if (ldab < ka + 1) then
+              info = -7
+           else if (ldbb < kb + 1) then
+              info = -9
+           else if (ldz < 1 .or. (wantz .and. ldz < n)) then
+              info = -12
+           end if
+           if (info /= 0) then
+              call la_xerbla('CHBGV ',-info)
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           ! form a split cholesky factorization of b.
+           call la_cpbstf(uplo,n,kb,bb,ldbb,info)
+           if (info /= 0) then
+              info = n + info
+              return
+           end if
+           ! transform problem to standard eigenvalue problem.
+           inde = 1
+           indwrk = inde + n
+           call la_chbgst(jobz,uplo,n,ka,kb,ab,ldab,bb,ldbb,z,ldz,work,rwork( &
+                     indwrk),iinfo)
+           ! reduce to tridiagonal form.
+           if (wantz) then
+              vect = 'U'
+           else
+              vect = 'N'
+           end if
+           call la_chbtrd(vect,uplo,n,ka,ab,ldab,w,rwork(inde),z,ldz,work,iinfo)
+
+           ! for eigenvalues only, call la_ssterf.  for eigenvectors, call la_csteqr.
+           if (.not. wantz) then
+              call la_ssterf(n,w,rwork(inde),info)
+           else
+              call la_csteqr(jobz,n,w,rwork(inde),z,ldz,rwork(indwrk),info)
+
+           end if
+           return
+     end subroutine la_chbgv
+     !> ZHBGV: computes all the eigenvalues, and optionally, the eigenvectors
+     !> of a complex generalized Hermitian-definite banded eigenproblem, of
+     !> the form A*x=(lambda)*B*x. Here A and B are assumed to be Hermitian
+     !> and banded, and B is also positive definite.
+
+     pure subroutine la_zhbgv(jobz,uplo,n,ka,kb,ab,ldab,bb,ldbb,w,z,ldz,work, &
+               rwork,info)
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ka,kb,ldab,ldbb,ldz,n
+           ! Array Arguments
+           real(dp),intent(out) :: rwork(*),w(*)
+           complex(dp),intent(inout) :: ab(ldab,*),bb(ldbb,*)
+           complex(dp),intent(out) :: work(*),z(ldz,*)
+        ! =====================================================================
+           ! Local Scalars
+           logical(lk) :: upper,wantz
+           character :: vect
+           integer(ilp) :: iinfo,inde,indwrk
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           upper = la_lsame(uplo,'U')
+           info = 0
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (upper .or. la_lsame(uplo,'L'))) then
+              info = -2
+           else if (n < 0) then
+              info = -3
+           else if (ka < 0) then
+              info = -4
+           else if (kb < 0 .or. kb > ka) then
+              info = -5
+           else if (ldab < ka + 1) then
+              info = -7
+           else if (ldbb < kb + 1) then
+              info = -9
+           else if (ldz < 1 .or. (wantz .and. ldz < n)) then
+              info = -12
+           end if
+           if (info /= 0) then
+              call la_xerbla('ZHBGV ',-info)
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           ! form a split cholesky factorization of b.
+           call la_zpbstf(uplo,n,kb,bb,ldbb,info)
+           if (info /= 0) then
+              info = n + info
+              return
+           end if
+           ! transform problem to standard eigenvalue problem.
+           inde = 1
+           indwrk = inde + n
+           call la_zhbgst(jobz,uplo,n,ka,kb,ab,ldab,bb,ldbb,z,ldz,work,rwork( &
+                     indwrk),iinfo)
+           ! reduce to tridiagonal form.
+           if (wantz) then
+              vect = 'U'
+           else
+              vect = 'N'
+           end if
+           call la_zhbtrd(vect,uplo,n,ka,ab,ldab,w,rwork(inde),z,ldz,work,iinfo)
+
+           ! for eigenvalues only, call la_dsterf.  for eigenvectors, call la_zsteqr.
+           if (.not. wantz) then
+              call la_dsterf(n,w,rwork(inde),info)
+           else
+              call la_zsteqr(jobz,n,w,rwork(inde),z,ldz,rwork(indwrk),info)
+
+           end if
+           return
+     end subroutine la_zhbgv
+     !> WHBGV: computes all the eigenvalues, and optionally, the eigenvectors
+     !> of a complex generalized Hermitian-definite banded eigenproblem, of
+     !> the form A*x=(lambda)*B*x. Here A and B are assumed to be Hermitian
+     !> and banded, and B is also positive definite.
+
+     pure subroutine la_whbgv(jobz,uplo,n,ka,kb,ab,ldab,bb,ldbb,w,z,ldz,work, &
+               rwork,info)
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ka,kb,ldab,ldbb,ldz,n
+           ! Array Arguments
+           real(qp),intent(out) :: rwork(*),w(*)
+           complex(qp),intent(inout) :: ab(ldab,*),bb(ldbb,*)
+           complex(qp),intent(out) :: work(*),z(ldz,*)
+        ! =====================================================================
+           ! Local Scalars
+           logical(lk) :: upper,wantz
+           character :: vect
+           integer(ilp) :: iinfo,inde,indwrk
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           upper = la_lsame(uplo,'U')
+           info = 0
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (upper .or. la_lsame(uplo,'L'))) then
+              info = -2
+           else if (n < 0) then
+              info = -3
+           else if (ka < 0) then
+              info = -4
+           else if (kb < 0 .or. kb > ka) then
+              info = -5
+           else if (ldab < ka + 1) then
+              info = -7
+           else if (ldbb < kb + 1) then
+              info = -9
+           else if (ldz < 1 .or. (wantz .and. ldz < n)) then
+              info = -12
+           end if
+           if (info /= 0) then
+              call la_xerbla('WHBGV ',-info)
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           ! form a split cholesky factorization of b.
+           call la_wpbstf(uplo,n,kb,bb,ldbb,info)
+           if (info /= 0) then
+              info = n + info
+              return
+           end if
+           ! transform problem to standard eigenvalue problem.
+           inde = 1
+           indwrk = inde + n
+           call la_whbgst(jobz,uplo,n,ka,kb,ab,ldab,bb,ldbb,z,ldz,work,rwork( &
+                     indwrk),iinfo)
+           ! reduce to tridiagonal form.
+           if (wantz) then
+              vect = 'U'
+           else
+              vect = 'N'
+           end if
+           call la_whbtrd(vect,uplo,n,ka,ab,ldab,w,rwork(inde),z,ldz,work,iinfo)
+
+           ! for eigenvalues only, call la_qsterf.  for eigenvectors, call la_wsteqr.
+           if (.not. wantz) then
+              call la_qsterf(n,w,rwork(inde),info)
+           else
+              call la_wsteqr(jobz,n,w,rwork(inde),z,ldz,rwork(indwrk),info)
+
+           end if
+           return
+     end subroutine la_whbgv
+
+     !> CHBGVD: computes all the eigenvalues, and optionally, the eigenvectors
+     !> of a complex generalized Hermitian-definite banded eigenproblem, of
+     !> the form A*x=(lambda)*B*x. Here A and B are assumed to be Hermitian
+     !> and banded, and B is also positive definite.  If eigenvectors are
+     !> desired, it uses a divide and conquer algorithm.
+     !> The divide and conquer algorithm makes very mild assumptions about
+     !> floating point arithmetic. It will work on machines with a guard
+     !> digit in add/subtract, or on those binary machines without guard
+     !> digits which subtract like the Cray X-MP, Cray Y-MP, Cray C-90, or
+     !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
+     !> without guard digits, but we know of none.
+
+     pure subroutine la_chbgvd(jobz,uplo,n,ka,kb,ab,ldab,bb,ldbb,w,z,ldz,work, &
+               lwork,rwork,lrwork,iwork,liwork,info)
+        use la_constants_sp
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ka,kb,ldab,ldbb,ldz,liwork,lrwork,lwork,n
+           ! Array Arguments
+           integer(ilp),intent(out) :: iwork(*)
+           real(sp),intent(out) :: rwork(*),w(*)
+           complex(sp),intent(inout) :: ab(ldab,*),bb(ldbb,*)
+           complex(sp),intent(out) :: work(*),z(ldz,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lquery,upper,wantz
+           character :: vect
+           integer(ilp) :: iinfo,inde,indwk2,indwrk,liwmin,llrwk,llwk2,lrwmin, &
+                     lwmin
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           upper = la_lsame(uplo,'U')
+           lquery = (lwork == -1 .or. lrwork == -1 .or. liwork == -1)
+           info = 0
+           if (n <= 1) then
+              lwmin = 1 + n
+              lrwmin = 1 + n
+              liwmin = 1
+           else if (wantz) then
+              lwmin = 2*n**2
+              lrwmin = 1 + 5*n + 2*n**2
+              liwmin = 3 + 5*n
+           else
+              lwmin = n
+              lrwmin = n
+              liwmin = 1
+           end if
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (upper .or. la_lsame(uplo,'L'))) then
+              info = -2
+           else if (n < 0) then
+              info = -3
+           else if (ka < 0) then
+              info = -4
+           else if (kb < 0 .or. kb > ka) then
+              info = -5
+           else if (ldab < ka + 1) then
+              info = -7
+           else if (ldbb < kb + 1) then
+              info = -9
+           else if (ldz < 1 .or. (wantz .and. ldz < n)) then
+              info = -12
+           end if
+           if (info == 0) then
+              work(1) = lwmin
+              rwork(1) = lrwmin
+              iwork(1) = liwmin
+              if (lwork < lwmin .and. .not. lquery) then
+                 info = -14
+              else if (lrwork < lrwmin .and. .not. lquery) then
+                 info = -16
+              else if (liwork < liwmin .and. .not. lquery) then
+                 info = -18
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('CHBGVD',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           ! form a split cholesky factorization of b.
+           call la_cpbstf(uplo,n,kb,bb,ldbb,info)
+           if (info /= 0) then
+              info = n + info
+              return
+           end if
+           ! transform problem to standard eigenvalue problem.
+           inde = 1
+           indwrk = inde + n
+           indwk2 = 1 + n*n
+           llwk2 = lwork - indwk2 + 2
+           llrwk = lrwork - indwrk + 2
+           call la_chbgst(jobz,uplo,n,ka,kb,ab,ldab,bb,ldbb,z,ldz,work,rwork, &
+                     iinfo)
+           ! reduce hermitian band matrix to tridiagonal form.
+           if (wantz) then
+              vect = 'U'
+           else
+              vect = 'N'
+           end if
+           call la_chbtrd(vect,uplo,n,ka,ab,ldab,w,rwork(inde),z,ldz,work,iinfo)
+
+           ! for eigenvalues only, call la_ssterf.  for eigenvectors, call la_cstedc.
+           if (.not. wantz) then
+              call la_ssterf(n,w,rwork(inde),info)
+           else
+              call la_cstedc('I',n,w,rwork(inde),work,n,work(indwk2),llwk2,rwork( &
+                        indwrk),llrwk,iwork,liwork,info)
+              call la_cgemm('N','N',n,n,n,cone,z,ldz,work,n,czero,work(indwk2), &
+                        n)
+              call la_clacpy('A',n,n,work(indwk2),n,z,ldz)
+           end if
+           work(1) = lwmin
+           rwork(1) = lrwmin
+           iwork(1) = liwmin
+           return
+     end subroutine la_chbgvd
+     !> ZHBGVD: computes all the eigenvalues, and optionally, the eigenvectors
+     !> of a complex generalized Hermitian-definite banded eigenproblem, of
+     !> the form A*x=(lambda)*B*x. Here A and B are assumed to be Hermitian
+     !> and banded, and B is also positive definite.  If eigenvectors are
+     !> desired, it uses a divide and conquer algorithm.
+     !> The divide and conquer algorithm makes very mild assumptions about
+     !> floating point arithmetic. It will work on machines with a guard
+     !> digit in add/subtract, or on those binary machines without guard
+     !> digits which subtract like the Cray X-MP, Cray Y-MP, Cray C-90, or
+     !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
+     !> without guard digits, but we know of none.
+
+     pure subroutine la_zhbgvd(jobz,uplo,n,ka,kb,ab,ldab,bb,ldbb,w,z,ldz,work, &
+               lwork,rwork,lrwork,iwork,liwork,info)
+        use la_constants_dp
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ka,kb,ldab,ldbb,ldz,liwork,lrwork,lwork,n
+           ! Array Arguments
+           integer(ilp),intent(out) :: iwork(*)
+           real(dp),intent(out) :: rwork(*),w(*)
+           complex(dp),intent(inout) :: ab(ldab,*),bb(ldbb,*)
+           complex(dp),intent(out) :: work(*),z(ldz,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lquery,upper,wantz
+           character :: vect
+           integer(ilp) :: iinfo,inde,indwk2,indwrk,liwmin,llrwk,llwk2,lrwmin, &
+                     lwmin
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           upper = la_lsame(uplo,'U')
+           lquery = (lwork == -1 .or. lrwork == -1 .or. liwork == -1)
+           info = 0
+           if (n <= 1) then
+              lwmin = 1 + n
+              lrwmin = 1 + n
+              liwmin = 1
+           else if (wantz) then
+              lwmin = 2*n**2
+              lrwmin = 1 + 5*n + 2*n**2
+              liwmin = 3 + 5*n
+           else
+              lwmin = n
+              lrwmin = n
+              liwmin = 1
+           end if
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (upper .or. la_lsame(uplo,'L'))) then
+              info = -2
+           else if (n < 0) then
+              info = -3
+           else if (ka < 0) then
+              info = -4
+           else if (kb < 0 .or. kb > ka) then
+              info = -5
+           else if (ldab < ka + 1) then
+              info = -7
+           else if (ldbb < kb + 1) then
+              info = -9
+           else if (ldz < 1 .or. (wantz .and. ldz < n)) then
+              info = -12
+           end if
+           if (info == 0) then
+              work(1) = lwmin
+              rwork(1) = lrwmin
+              iwork(1) = liwmin
+              if (lwork < lwmin .and. .not. lquery) then
+                 info = -14
+              else if (lrwork < lrwmin .and. .not. lquery) then
+                 info = -16
+              else if (liwork < liwmin .and. .not. lquery) then
+                 info = -18
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('ZHBGVD',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           ! form a split cholesky factorization of b.
+           call la_zpbstf(uplo,n,kb,bb,ldbb,info)
+           if (info /= 0) then
+              info = n + info
+              return
+           end if
+           ! transform problem to standard eigenvalue problem.
+           inde = 1
+           indwrk = inde + n
+           indwk2 = 1 + n*n
+           llwk2 = lwork - indwk2 + 2
+           llrwk = lrwork - indwrk + 2
+           call la_zhbgst(jobz,uplo,n,ka,kb,ab,ldab,bb,ldbb,z,ldz,work,rwork, &
+                     iinfo)
+           ! reduce hermitian band matrix to tridiagonal form.
+           if (wantz) then
+              vect = 'U'
+           else
+              vect = 'N'
+           end if
+           call la_zhbtrd(vect,uplo,n,ka,ab,ldab,w,rwork(inde),z,ldz,work,iinfo)
+
+           ! for eigenvalues only, call la_dsterf.  for eigenvectors, call la_zstedc.
+           if (.not. wantz) then
+              call la_dsterf(n,w,rwork(inde),info)
+           else
+              call la_zstedc('I',n,w,rwork(inde),work,n,work(indwk2),llwk2,rwork( &
+                        indwrk),llrwk,iwork,liwork,info)
+              call la_zgemm('N','N',n,n,n,cone,z,ldz,work,n,czero,work(indwk2), &
+                        n)
+              call la_zlacpy('A',n,n,work(indwk2),n,z,ldz)
+           end if
+           work(1) = lwmin
+           rwork(1) = lrwmin
+           iwork(1) = liwmin
+           return
+     end subroutine la_zhbgvd
+     !> WHBGVD: computes all the eigenvalues, and optionally, the eigenvectors
+     !> of a complex generalized Hermitian-definite banded eigenproblem, of
+     !> the form A*x=(lambda)*B*x. Here A and B are assumed to be Hermitian
+     !> and banded, and B is also positive definite.  If eigenvectors are
+     !> desired, it uses a divide and conquer algorithm.
+     !> The divide and conquer algorithm makes very mild assumptions about
+     !> floating point arithmetic. It will work on machines with a guard
+     !> digit in add/subtract, or on those binary machines without guard
+     !> digits which subtract like the Cray X-MP, Cray Y-MP, Cray C-90, or
+     !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
+     !> without guard digits, but we know of none.
+
+     pure subroutine la_whbgvd(jobz,uplo,n,ka,kb,ab,ldab,bb,ldbb,w,z,ldz,work, &
+               lwork,rwork,lrwork,iwork,liwork,info)
+        use la_constants_qp
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ka,kb,ldab,ldbb,ldz,liwork,lrwork,lwork,n
+           ! Array Arguments
+           integer(ilp),intent(out) :: iwork(*)
+           real(qp),intent(out) :: rwork(*),w(*)
+           complex(qp),intent(inout) :: ab(ldab,*),bb(ldbb,*)
+           complex(qp),intent(out) :: work(*),z(ldz,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lquery,upper,wantz
+           character :: vect
+           integer(ilp) :: iinfo,inde,indwk2,indwrk,liwmin,llrwk,llwk2,lrwmin, &
+                     lwmin
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           upper = la_lsame(uplo,'U')
+           lquery = (lwork == -1 .or. lrwork == -1 .or. liwork == -1)
+           info = 0
+           if (n <= 1) then
+              lwmin = 1 + n
+              lrwmin = 1 + n
+              liwmin = 1
+           else if (wantz) then
+              lwmin = 2*n**2
+              lrwmin = 1 + 5*n + 2*n**2
+              liwmin = 3 + 5*n
+           else
+              lwmin = n
+              lrwmin = n
+              liwmin = 1
+           end if
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (upper .or. la_lsame(uplo,'L'))) then
+              info = -2
+           else if (n < 0) then
+              info = -3
+           else if (ka < 0) then
+              info = -4
+           else if (kb < 0 .or. kb > ka) then
+              info = -5
+           else if (ldab < ka + 1) then
+              info = -7
+           else if (ldbb < kb + 1) then
+              info = -9
+           else if (ldz < 1 .or. (wantz .and. ldz < n)) then
+              info = -12
+           end if
+           if (info == 0) then
+              work(1) = lwmin
+              rwork(1) = lrwmin
+              iwork(1) = liwmin
+              if (lwork < lwmin .and. .not. lquery) then
+                 info = -14
+              else if (lrwork < lrwmin .and. .not. lquery) then
+                 info = -16
+              else if (liwork < liwmin .and. .not. lquery) then
+                 info = -18
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('WHBGVD',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           ! form a split cholesky factorization of b.
+           call la_wpbstf(uplo,n,kb,bb,ldbb,info)
+           if (info /= 0) then
+              info = n + info
+              return
+           end if
+           ! transform problem to standard eigenvalue problem.
+           inde = 1
+           indwrk = inde + n
+           indwk2 = 1 + n*n
+           llwk2 = lwork - indwk2 + 2
+           llrwk = lrwork - indwrk + 2
+           call la_whbgst(jobz,uplo,n,ka,kb,ab,ldab,bb,ldbb,z,ldz,work,rwork, &
+                     iinfo)
+           ! reduce hermitian band matrix to tridiagonal form.
+           if (wantz) then
+              vect = 'U'
+           else
+              vect = 'N'
+           end if
+           call la_whbtrd(vect,uplo,n,ka,ab,ldab,w,rwork(inde),z,ldz,work,iinfo)
+
+           ! for eigenvalues only, call la_qsterf.  for eigenvectors, call la_wstedc.
+           if (.not. wantz) then
+              call la_qsterf(n,w,rwork(inde),info)
+           else
+              call la_wstedc('I',n,w,rwork(inde),work,n,work(indwk2),llwk2,rwork( &
+                        indwrk),llrwk,iwork,liwork,info)
+              call la_wgemm('N','N',n,n,n,cone,z,ldz,work,n,czero,work(indwk2), &
+                        n)
+              call la_wlacpy('A',n,n,work(indwk2),n,z,ldz)
+           end if
+           work(1) = lwmin
+           rwork(1) = lrwmin
+           iwork(1) = liwmin
+           return
+     end subroutine la_whbgvd
+
+     !> CHBGVX: computes all the eigenvalues, and optionally, the eigenvectors
+     !> of a complex generalized Hermitian-definite banded eigenproblem, of
+     !> the form A*x=(lambda)*B*x. Here A and B are assumed to be Hermitian
+     !> and banded, and B is also positive definite.  Eigenvalues and
+     !> eigenvectors can be selected by specifying either all eigenvalues,
+     !> a range of values or a range of indices for the desired eigenvalues.
+
+     pure subroutine la_chbgvx(jobz,range,uplo,n,ka,kb,ab,ldab,bb,ldbb,q,ldq,vl, &
+               vu,il,iu,abstol,m,w,z,ldz,work,rwork,iwork,ifail,info)
+        use la_constants_sp
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,range,uplo
+           integer(ilp),intent(in) :: il,iu,ka,kb,ldab,ldbb,ldq,ldz,n
+           integer(ilp),intent(out) :: info,m
+           real(sp),intent(in) :: abstol,vl,vu
+           ! Array Arguments
+           integer(ilp),intent(out) :: ifail(*),iwork(*)
+           real(sp),intent(out) :: rwork(*),w(*)
+           complex(sp),intent(inout) :: ab(ldab,*),bb(ldbb,*)
+           complex(sp),intent(out) :: q(ldq,*),work(*),z(ldz,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: alleig,indeig,test,upper,valeig,wantz
+           character :: order,vect
+           integer(ilp) :: i,iinfo,indd,inde,indee,indibl,indisp,indiwk,indrwk,indwrk, &
+                     itmp1,j,jj,nsplit
+           real(sp) :: tmp1
+           ! Intrinsic Functions
+           intrinsic :: min
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           upper = la_lsame(uplo,'U')
+           alleig = la_lsame(range,'A')
+           valeig = la_lsame(range,'V')
+           indeig = la_lsame(range,'I')
+           info = 0
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (alleig .or. valeig .or. indeig)) then
+              info = -2
+           else if (.not. (upper .or. la_lsame(uplo,'L'))) then
+              info = -3
+           else if (n < 0) then
+              info = -4
+           else if (ka < 0) then
+              info = -5
+           else if (kb < 0 .or. kb > ka) then
+              info = -6
+           else if (ldab < ka + 1) then
+              info = -8
+           else if (ldbb < kb + 1) then
+              info = -10
+           else if (ldq < 1 .or. (wantz .and. ldq < n)) then
+              info = -12
+           else
+              if (valeig) then
+                 if (n > 0 .and. vu <= vl) info = -14
+              else if (indeig) then
+                 if (il < 1 .or. il > max(1,n)) then
+                    info = -15
+                 else if (iu < min(n,il) .or. iu > n) then
+                    info = -16
+                 end if
+              end if
+           end if
+           if (info == 0) then
+              if (ldz < 1 .or. (wantz .and. ldz < n)) then
+                 info = -21
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('CHBGVX',-info)
+              return
+           end if
+           ! quick return if possible
+           m = 0
+           if (n == 0) return
+           ! form a split cholesky factorization of b.
+           call la_cpbstf(uplo,n,kb,bb,ldbb,info)
+           if (info /= 0) then
+              info = n + info
+              return
+           end if
+           ! transform problem to standard eigenvalue problem.
+           call la_chbgst(jobz,uplo,n,ka,kb,ab,ldab,bb,ldbb,q,ldq,work,rwork, &
+                     iinfo)
+           ! solve the standard eigenvalue problem.
+           ! reduce hermitian band matrix to tridiagonal form.
+           indd = 1
+           inde = indd + n
+           indrwk = inde + n
+           indwrk = 1
+           if (wantz) then
+              vect = 'U'
+           else
+              vect = 'N'
+           end if
+           call la_chbtrd(vect,uplo,n,ka,ab,ldab,rwork(indd),rwork(inde),q,ldq, &
+                     work(indwrk),iinfo)
+           ! if all eigenvalues are desired and abstol is less than or equal
+           ! to zero, then call la_ssterf or la_csteqr.  if this fails for some
+           ! eigenvalue, then try la_sstebz.
+           test = .false.
+           if (indeig) then
+              if (il == 1 .and. iu == n) then
+                 test = .true.
+              end if
+           end if
+           if ((alleig .or. test) .and. (abstol <= zero)) then
+              call la_scopy(n,rwork(indd),1,w,1)
+              indee = indrwk + 2*n
+              call la_scopy(n - 1,rwork(inde),1,rwork(indee),1)
+              if (.not. wantz) then
+                 call la_ssterf(n,w,rwork(indee),info)
+              else
+                 call la_clacpy('A',n,n,q,ldq,z,ldz)
+                 call la_csteqr(jobz,n,w,rwork(indee),z,ldz,rwork(indrwk),info)
+
+                 if (info == 0) then
+                    do i = 1,n
+                       ifail(i) = 0
+                    end do
+                 end if
+              end if
+              if (info == 0) then
+                 m = n
+                 go to 30
+              end if
+              info = 0
+           end if
+           ! otherwise, call la_sstebz and, if eigenvectors are desired,
+           ! call la_cstein.
+           if (wantz) then
+              order = 'B'
+           else
+              order = 'E'
+           end if
+           indibl = 1
+           indisp = indibl + n
+           indiwk = indisp + n
+           call la_sstebz(range,order,n,vl,vu,il,iu,abstol,rwork(indd),rwork(inde &
+           ),m,nsplit,w,iwork(indibl),iwork(indisp),rwork(indrwk),iwork(indiwk), &
+                     info)
+           if (wantz) then
+              call la_cstein(n,rwork(indd),rwork(inde),m,w,iwork(indibl),iwork( &
+                        indisp),z,ldz,rwork(indrwk),iwork(indiwk),ifail,info)
+              ! apply unitary matrix used in reduction to tridiagonal
+              ! form to eigenvectors returned by la_cstein.
+              do j = 1,m
+                 call la_ccopy(n,z(1,j),1,work(1),1)
+                 call la_cgemv('N',n,n,cone,q,ldq,work,1,czero,z(1,j),1)
+              end do
+           end if
+           30 continue
+           ! if eigenvalues are not in order, then sort them, along with
+           ! eigenvectors.
+           if (wantz) then
+              do j = 1,m - 1
+                 i = 0
+                 tmp1 = w(j)
+                 do jj = j + 1,m
+                    if (w(jj) < tmp1) then
+                       i = jj
+                       tmp1 = w(jj)
+                    end if
+                 end do
+                 if (i /= 0) then
+                    itmp1 = iwork(indibl + i - 1)
+                    w(i) = w(j)
+                    iwork(indibl + i - 1) = iwork(indibl + j - 1)
+                    w(j) = tmp1
+                    iwork(indibl + j - 1) = itmp1
+                    call la_cswap(n,z(1,i),1,z(1,j),1)
+                    if (info /= 0) then
+                       itmp1 = ifail(i)
+                       ifail(i) = ifail(j)
+                       ifail(j) = itmp1
+                    end if
+                 end if
+              end do
+           end if
+           return
+     end subroutine la_chbgvx
+     !> ZHBGVX: computes all the eigenvalues, and optionally, the eigenvectors
+     !> of a complex generalized Hermitian-definite banded eigenproblem, of
+     !> the form A*x=(lambda)*B*x. Here A and B are assumed to be Hermitian
+     !> and banded, and B is also positive definite.  Eigenvalues and
+     !> eigenvectors can be selected by specifying either all eigenvalues,
+     !> a range of values or a range of indices for the desired eigenvalues.
+
+     pure subroutine la_zhbgvx(jobz,range,uplo,n,ka,kb,ab,ldab,bb,ldbb,q,ldq,vl, &
+               vu,il,iu,abstol,m,w,z,ldz,work,rwork,iwork,ifail,info)
+        use la_constants_dp
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,range,uplo
+           integer(ilp),intent(in) :: il,iu,ka,kb,ldab,ldbb,ldq,ldz,n
+           integer(ilp),intent(out) :: info,m
+           real(dp),intent(in) :: abstol,vl,vu
+           ! Array Arguments
+           integer(ilp),intent(out) :: ifail(*),iwork(*)
+           real(dp),intent(out) :: rwork(*),w(*)
+           complex(dp),intent(inout) :: ab(ldab,*),bb(ldbb,*)
+           complex(dp),intent(out) :: q(ldq,*),work(*),z(ldz,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: alleig,indeig,test,upper,valeig,wantz
+           character :: order,vect
+           integer(ilp) :: i,iinfo,indd,inde,indee,indibl,indisp,indiwk,indrwk,indwrk, &
+                     itmp1,j,jj,nsplit
+           real(dp) :: tmp1
+           ! Intrinsic Functions
+           intrinsic :: min
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           upper = la_lsame(uplo,'U')
+           alleig = la_lsame(range,'A')
+           valeig = la_lsame(range,'V')
+           indeig = la_lsame(range,'I')
+           info = 0
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (alleig .or. valeig .or. indeig)) then
+              info = -2
+           else if (.not. (upper .or. la_lsame(uplo,'L'))) then
+              info = -3
+           else if (n < 0) then
+              info = -4
+           else if (ka < 0) then
+              info = -5
+           else if (kb < 0 .or. kb > ka) then
+              info = -6
+           else if (ldab < ka + 1) then
+              info = -8
+           else if (ldbb < kb + 1) then
+              info = -10
+           else if (ldq < 1 .or. (wantz .and. ldq < n)) then
+              info = -12
+           else
+              if (valeig) then
+                 if (n > 0 .and. vu <= vl) info = -14
+              else if (indeig) then
+                 if (il < 1 .or. il > max(1,n)) then
+                    info = -15
+                 else if (iu < min(n,il) .or. iu > n) then
+                    info = -16
+                 end if
+              end if
+           end if
+           if (info == 0) then
+              if (ldz < 1 .or. (wantz .and. ldz < n)) then
+                 info = -21
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('ZHBGVX',-info)
+              return
+           end if
+           ! quick return if possible
+           m = 0
+           if (n == 0) return
+           ! form a split cholesky factorization of b.
+           call la_zpbstf(uplo,n,kb,bb,ldbb,info)
+           if (info /= 0) then
+              info = n + info
+              return
+           end if
+           ! transform problem to standard eigenvalue problem.
+           call la_zhbgst(jobz,uplo,n,ka,kb,ab,ldab,bb,ldbb,q,ldq,work,rwork, &
+                     iinfo)
+           ! solve the standard eigenvalue problem.
+           ! reduce hermitian band matrix to tridiagonal form.
+           indd = 1
+           inde = indd + n
+           indrwk = inde + n
+           indwrk = 1
+           if (wantz) then
+              vect = 'U'
+           else
+              vect = 'N'
+           end if
+           call la_zhbtrd(vect,uplo,n,ka,ab,ldab,rwork(indd),rwork(inde),q,ldq, &
+                     work(indwrk),iinfo)
+           ! if all eigenvalues are desired and abstol is less than or equal
+           ! to zero, then call la_dsterf or la_zsteqr.  if this fails for some
+           ! eigenvalue, then try la_dstebz.
+           test = .false.
+           if (indeig) then
+              if (il == 1 .and. iu == n) then
+                 test = .true.
+              end if
+           end if
+           if ((alleig .or. test) .and. (abstol <= zero)) then
+              call la_dcopy(n,rwork(indd),1,w,1)
+              indee = indrwk + 2*n
+              call la_dcopy(n - 1,rwork(inde),1,rwork(indee),1)
+              if (.not. wantz) then
+                 call la_dsterf(n,w,rwork(indee),info)
+              else
+                 call la_zlacpy('A',n,n,q,ldq,z,ldz)
+                 call la_zsteqr(jobz,n,w,rwork(indee),z,ldz,rwork(indrwk),info)
+
+                 if (info == 0) then
+                    do i = 1,n
+                       ifail(i) = 0
+                    end do
+                 end if
+              end if
+              if (info == 0) then
+                 m = n
+                 go to 30
+              end if
+              info = 0
+           end if
+           ! otherwise, call la_dstebz and, if eigenvectors are desired,
+           ! call la_zstein.
+           if (wantz) then
+              order = 'B'
+           else
+              order = 'E'
+           end if
+           indibl = 1
+           indisp = indibl + n
+           indiwk = indisp + n
+           call la_dstebz(range,order,n,vl,vu,il,iu,abstol,rwork(indd),rwork(inde &
+           ),m,nsplit,w,iwork(indibl),iwork(indisp),rwork(indrwk),iwork(indiwk), &
+                     info)
+           if (wantz) then
+              call la_zstein(n,rwork(indd),rwork(inde),m,w,iwork(indibl),iwork( &
+                        indisp),z,ldz,rwork(indrwk),iwork(indiwk),ifail,info)
+              ! apply unitary matrix used in reduction to tridiagonal
+              ! form to eigenvectors returned by la_zstein.
+              do j = 1,m
+                 call la_zcopy(n,z(1,j),1,work(1),1)
+                 call la_zgemv('N',n,n,cone,q,ldq,work,1,czero,z(1,j),1)
+              end do
+           end if
+           30 continue
+           ! if eigenvalues are not in order, then sort them, along with
+           ! eigenvectors.
+           if (wantz) then
+              do j = 1,m - 1
+                 i = 0
+                 tmp1 = w(j)
+                 do jj = j + 1,m
+                    if (w(jj) < tmp1) then
+                       i = jj
+                       tmp1 = w(jj)
+                    end if
+                 end do
+                 if (i /= 0) then
+                    itmp1 = iwork(indibl + i - 1)
+                    w(i) = w(j)
+                    iwork(indibl + i - 1) = iwork(indibl + j - 1)
+                    w(j) = tmp1
+                    iwork(indibl + j - 1) = itmp1
+                    call la_zswap(n,z(1,i),1,z(1,j),1)
+                    if (info /= 0) then
+                       itmp1 = ifail(i)
+                       ifail(i) = ifail(j)
+                       ifail(j) = itmp1
+                    end if
+                 end if
+              end do
+           end if
+           return
+     end subroutine la_zhbgvx
+     !> WHBGVX: computes all the eigenvalues, and optionally, the eigenvectors
+     !> of a complex generalized Hermitian-definite banded eigenproblem, of
+     !> the form A*x=(lambda)*B*x. Here A and B are assumed to be Hermitian
+     !> and banded, and B is also positive definite.  Eigenvalues and
+     !> eigenvectors can be selected by specifying either all eigenvalues,
+     !> a range of values or a range of indices for the desired eigenvalues.
+
+     pure subroutine la_whbgvx(jobz,range,uplo,n,ka,kb,ab,ldab,bb,ldbb,q,ldq,vl, &
+               vu,il,iu,abstol,m,w,z,ldz,work,rwork,iwork,ifail,info)
+        use la_constants_qp
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,range,uplo
+           integer(ilp),intent(in) :: il,iu,ka,kb,ldab,ldbb,ldq,ldz,n
+           integer(ilp),intent(out) :: info,m
+           real(qp),intent(in) :: abstol,vl,vu
+           ! Array Arguments
+           integer(ilp),intent(out) :: ifail(*),iwork(*)
+           real(qp),intent(out) :: rwork(*),w(*)
+           complex(qp),intent(inout) :: ab(ldab,*),bb(ldbb,*)
+           complex(qp),intent(out) :: q(ldq,*),work(*),z(ldz,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: alleig,indeig,test,upper,valeig,wantz
+           character :: order,vect
+           integer(ilp) :: i,iinfo,indd,inde,indee,indibl,indisp,indiwk,indrwk,indwrk, &
+                     itmp1,j,jj,nsplit
+           real(qp) :: tmp1
+           ! Intrinsic Functions
+           intrinsic :: min
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           upper = la_lsame(uplo,'U')
+           alleig = la_lsame(range,'A')
+           valeig = la_lsame(range,'V')
+           indeig = la_lsame(range,'I')
+           info = 0
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (alleig .or. valeig .or. indeig)) then
+              info = -2
+           else if (.not. (upper .or. la_lsame(uplo,'L'))) then
+              info = -3
+           else if (n < 0) then
+              info = -4
+           else if (ka < 0) then
+              info = -5
+           else if (kb < 0 .or. kb > ka) then
+              info = -6
+           else if (ldab < ka + 1) then
+              info = -8
+           else if (ldbb < kb + 1) then
+              info = -10
+           else if (ldq < 1 .or. (wantz .and. ldq < n)) then
+              info = -12
+           else
+              if (valeig) then
+                 if (n > 0 .and. vu <= vl) info = -14
+              else if (indeig) then
+                 if (il < 1 .or. il > max(1,n)) then
+                    info = -15
+                 else if (iu < min(n,il) .or. iu > n) then
+                    info = -16
+                 end if
+              end if
+           end if
+           if (info == 0) then
+              if (ldz < 1 .or. (wantz .and. ldz < n)) then
+                 info = -21
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('WHBGVX',-info)
+              return
+           end if
+           ! quick return if possible
+           m = 0
+           if (n == 0) return
+           ! form a split cholesky factorization of b.
+           call la_wpbstf(uplo,n,kb,bb,ldbb,info)
+           if (info /= 0) then
+              info = n + info
+              return
+           end if
+           ! transform problem to standard eigenvalue problem.
+           call la_whbgst(jobz,uplo,n,ka,kb,ab,ldab,bb,ldbb,q,ldq,work,rwork, &
+                     iinfo)
+           ! solve the standard eigenvalue problem.
+           ! reduce hermitian band matrix to tridiagonal form.
+           indd = 1
+           inde = indd + n
+           indrwk = inde + n
+           indwrk = 1
+           if (wantz) then
+              vect = 'U'
+           else
+              vect = 'N'
+           end if
+           call la_whbtrd(vect,uplo,n,ka,ab,ldab,rwork(indd),rwork(inde),q,ldq, &
+                     work(indwrk),iinfo)
+           ! if all eigenvalues are desired and abstol is less than or equal
+           ! to zero, then call la_qsterf or la_wsteqr.  if this fails for some
+           ! eigenvalue, then try la_qstebz.
+           test = .false.
+           if (indeig) then
+              if (il == 1 .and. iu == n) then
+                 test = .true.
+              end if
+           end if
+           if ((alleig .or. test) .and. (abstol <= zero)) then
+              call la_qcopy(n,rwork(indd),1,w,1)
+              indee = indrwk + 2*n
+              call la_qcopy(n - 1,rwork(inde),1,rwork(indee),1)
+              if (.not. wantz) then
+                 call la_qsterf(n,w,rwork(indee),info)
+              else
+                 call la_wlacpy('A',n,n,q,ldq,z,ldz)
+                 call la_wsteqr(jobz,n,w,rwork(indee),z,ldz,rwork(indrwk),info)
+
+                 if (info == 0) then
+                    do i = 1,n
+                       ifail(i) = 0
+                    end do
+                 end if
+              end if
+              if (info == 0) then
+                 m = n
+                 go to 30
+              end if
+              info = 0
+           end if
+           ! otherwise, call la_qstebz and, if eigenvectors are desired,
+           ! call la_wstein.
+           if (wantz) then
+              order = 'B'
+           else
+              order = 'E'
+           end if
+           indibl = 1
+           indisp = indibl + n
+           indiwk = indisp + n
+           call la_qstebz(range,order,n,vl,vu,il,iu,abstol,rwork(indd),rwork(inde &
+           ),m,nsplit,w,iwork(indibl),iwork(indisp),rwork(indrwk),iwork(indiwk), &
+                     info)
+           if (wantz) then
+              call la_wstein(n,rwork(indd),rwork(inde),m,w,iwork(indibl),iwork( &
+                        indisp),z,ldz,rwork(indrwk),iwork(indiwk),ifail,info)
+              ! apply unitary matrix used in reduction to tridiagonal
+              ! form to eigenvectors returned by la_wstein.
+              do j = 1,m
+                 call la_wcopy(n,z(1,j),1,work(1),1)
+                 call la_wgemv('N',n,n,cone,q,ldq,work,1,czero,z(1,j),1)
+              end do
+           end if
+           30 continue
+           ! if eigenvalues are not in order, then sort them, along with
+           ! eigenvectors.
+           if (wantz) then
+              do j = 1,m - 1
+                 i = 0
+                 tmp1 = w(j)
+                 do jj = j + 1,m
+                    if (w(jj) < tmp1) then
+                       i = jj
+                       tmp1 = w(jj)
+                    end if
+                 end do
+                 if (i /= 0) then
+                    itmp1 = iwork(indibl + i - 1)
+                    w(i) = w(j)
+                    iwork(indibl + i - 1) = iwork(indibl + j - 1)
+                    w(j) = tmp1
+                    iwork(indibl + j - 1) = itmp1
+                    call la_wswap(n,z(1,i),1,z(1,j),1)
+                    if (info /= 0) then
+                       itmp1 = ifail(i)
+                       ifail(i) = ifail(j)
+                       ifail(j) = itmp1
+                    end if
+                 end if
+              end do
+           end if
+           return
+     end subroutine la_whbgvx
+
+     !> CHEEVD: computes all eigenvalues and, optionally, eigenvectors of a
+     !> complex Hermitian matrix A.  If eigenvectors are desired, it uses a
+     !> divide and conquer algorithm.
+     !> The divide and conquer algorithm makes very mild assumptions about
+     !> floating point arithmetic. It will work on machines with a guard
+     !> digit in add/subtract, or on those binary machines without guard
+     !> digits which subtract like the Cray X-MP, Cray Y-MP, Cray C-90, or
+     !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
+     !> without guard digits, but we know of none.
+
+     subroutine la_cheevd(jobz,uplo,n,a,lda,w,work,lwork,rwork,lrwork,iwork,liwork, &
+                info)
+        use la_constants_sp,only:zero,one,cone
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,liwork,lrwork,lwork,n
+           ! Array Arguments
+           integer(ilp),intent(out) :: iwork(*)
+           real(sp),intent(out) :: rwork(*),w(*)
+           complex(sp),intent(inout) :: a(lda,*)
+           complex(sp),intent(out) :: work(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lower,lquery,wantz
+           integer(ilp) :: iinfo,imax,inde,indrwk,indtau,indwk2,indwrk,iscale,liopt, &
+                     liwmin,llrwk,llwork,llwrk2,lopt,lropt,lrwmin,lwmin
+           real(sp) :: anrm,bignum,eps,rmax,rmin,safmin,sigma,smlnum
+           ! Intrinsic Functions
+           intrinsic :: max,sqrt
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           lower = la_lsame(uplo,'L')
+           lquery = (lwork == -1 .or. lrwork == -1 .or. liwork == -1)
+           info = 0
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (lower .or. la_lsame(uplo,'U'))) then
+              info = -2
+           else if (n < 0) then
+              info = -3
+           else if (lda < max(1,n)) then
+              info = -5
+           end if
+           if (info == 0) then
+              if (n <= 1) then
+                 lwmin = 1
+                 lrwmin = 1
+                 liwmin = 1
+                 lopt = lwmin
+                 lropt = lrwmin
+                 liopt = liwmin
+              else
+                 if (wantz) then
+                    lwmin = 2*n + n*n
+                    lrwmin = 1 + 5*n + 2*n**2
+                    liwmin = 3 + 5*n
+                 else
+                    lwmin = n + 1
+                    lrwmin = n
+                    liwmin = 1
+                 end if
+                 lopt = max(lwmin,n + la_ilaenv(1,'CHETRD',uplo,n,-1,-1,-1))
+                 lropt = lrwmin
+                 liopt = liwmin
+              end if
+              work(1) = lopt
+              rwork(1) = lropt
+              iwork(1) = liopt
+              if (lwork < lwmin .and. .not. lquery) then
+                 info = -8
+              else if (lrwork < lrwmin .and. .not. lquery) then
+                 info = -10
+              else if (liwork < liwmin .and. .not. lquery) then
+                 info = -12
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('CHEEVD',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           if (n == 1) then
+              w(1) = real(a(1,1),KIND=sp)
+              if (wantz) a(1,1) = cone
+              return
+           end if
+           ! get machine constants.
+           safmin = la_slamch('SAFE MINIMUM')
+           eps = la_slamch('PRECISION')
+           smlnum = safmin/eps
+           bignum = one/smlnum
+           rmin = sqrt(smlnum)
+           rmax = sqrt(bignum)
+           ! scale matrix to allowable range, if necessary.
+           anrm = la_clanhe('M',uplo,n,a,lda,rwork)
+           iscale = 0
+           if (anrm > zero .and. anrm < rmin) then
+              iscale = 1
+              sigma = rmin/anrm
+           else if (anrm > rmax) then
+              iscale = 1
+              sigma = rmax/anrm
+           end if
+           if (iscale == 1) call la_clascl(uplo,0,0,one,sigma,n,n,a,lda,info)
+           ! call la_chetrd to reduce hermitian matrix to tridiagonal form.
+           inde = 1
+           indtau = 1
+           indwrk = indtau + n
+           indrwk = inde + n
+           indwk2 = indwrk + n*n
+           llwork = lwork - indwrk + 1
+           llwrk2 = lwork - indwk2 + 1
+           llrwk = lrwork - indrwk + 1
+           call la_chetrd(uplo,n,a,lda,w,rwork(inde),work(indtau),work(indwrk), &
+                     llwork,iinfo)
+           ! for eigenvalues only, call la_ssterf.  for eigenvectors, first call
+           ! la_cstedc to generate the eigenvector matrix, work(indwrk), of the
+           ! tridiagonal matrix, then call la_cunmtr to multiply it to the
+           ! householder transformations represented as householder vectors in
+           ! a.
+           if (.not. wantz) then
+              call la_ssterf(n,w,rwork(inde),info)
+           else
+              call la_cstedc('I',n,w,rwork(inde),work(indwrk),n,work(indwk2), &
+                        llwrk2,rwork(indrwk),llrwk,iwork,liwork,info)
+              call la_cunmtr('L',uplo,'N',n,n,a,lda,work(indtau),work(indwrk),n, &
+                        work(indwk2),llwrk2,iinfo)
+              call la_clacpy('A',n,n,work(indwrk),n,a,lda)
+           end if
+           ! if matrix was scaled, then rescale eigenvalues appropriately.
+           if (iscale == 1) then
+              if (info == 0) then
+                 imax = n
+              else
+                 imax = info - 1
+              end if
+              call la_sscal(imax,one/sigma,w,1)
+           end if
+           work(1) = lopt
+           rwork(1) = lropt
+           iwork(1) = liopt
+           return
+     end subroutine la_cheevd
+     !> ZHEEVD: computes all eigenvalues and, optionally, eigenvectors of a
+     !> complex Hermitian matrix A.  If eigenvectors are desired, it uses a
+     !> divide and conquer algorithm.
+     !> The divide and conquer algorithm makes very mild assumptions about
+     !> floating point arithmetic. It will work on machines with a guard
+     !> digit in add/subtract, or on those binary machines without guard
+     !> digits which subtract like the Cray X-MP, Cray Y-MP, Cray C-90, or
+     !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
+     !> without guard digits, but we know of none.
+
+     subroutine la_zheevd(jobz,uplo,n,a,lda,w,work,lwork,rwork,lrwork,iwork,liwork, &
+                info)
+        use la_constants_dp,only:zero,one,cone
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,liwork,lrwork,lwork,n
+           ! Array Arguments
+           integer(ilp),intent(out) :: iwork(*)
+           real(dp),intent(out) :: rwork(*),w(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: work(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lower,lquery,wantz
+           integer(ilp) :: iinfo,imax,inde,indrwk,indtau,indwk2,indwrk,iscale,liopt, &
+                     liwmin,llrwk,llwork,llwrk2,lopt,lropt,lrwmin,lwmin
+           real(dp) :: anrm,bignum,eps,rmax,rmin,safmin,sigma,smlnum
+           ! Intrinsic Functions
+           intrinsic :: max,sqrt
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           lower = la_lsame(uplo,'L')
+           lquery = (lwork == -1 .or. lrwork == -1 .or. liwork == -1)
+           info = 0
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (lower .or. la_lsame(uplo,'U'))) then
+              info = -2
+           else if (n < 0) then
+              info = -3
+           else if (lda < max(1,n)) then
+              info = -5
+           end if
+           if (info == 0) then
+              if (n <= 1) then
+                 lwmin = 1
+                 lrwmin = 1
+                 liwmin = 1
+                 lopt = lwmin
+                 lropt = lrwmin
+                 liopt = liwmin
+              else
+                 if (wantz) then
+                    lwmin = 2*n + n*n
+                    lrwmin = 1 + 5*n + 2*n**2
+                    liwmin = 3 + 5*n
+                 else
+                    lwmin = n + 1
+                    lrwmin = n
+                    liwmin = 1
+                 end if
+                 lopt = max(lwmin,n + la_ilaenv(1,'ZHETRD',uplo,n,-1,-1,-1))
+                 lropt = lrwmin
+                 liopt = liwmin
+              end if
+              work(1) = lopt
+              rwork(1) = lropt
+              iwork(1) = liopt
+              if (lwork < lwmin .and. .not. lquery) then
+                 info = -8
+              else if (lrwork < lrwmin .and. .not. lquery) then
+                 info = -10
+              else if (liwork < liwmin .and. .not. lquery) then
+                 info = -12
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('ZHEEVD',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           if (n == 1) then
+              w(1) = real(a(1,1),KIND=dp)
+              if (wantz) a(1,1) = cone
+              return
+           end if
+           ! get machine constants.
+           safmin = la_dlamch('SAFE MINIMUM')
+           eps = la_dlamch('PRECISION')
+           smlnum = safmin/eps
+           bignum = one/smlnum
+           rmin = sqrt(smlnum)
+           rmax = sqrt(bignum)
+           ! scale matrix to allowable range, if necessary.
+           anrm = la_zlanhe('M',uplo,n,a,lda,rwork)
+           iscale = 0
+           if (anrm > zero .and. anrm < rmin) then
+              iscale = 1
+              sigma = rmin/anrm
+           else if (anrm > rmax) then
+              iscale = 1
+              sigma = rmax/anrm
+           end if
+           if (iscale == 1) call la_zlascl(uplo,0,0,one,sigma,n,n,a,lda,info)
+           ! call la_zhetrd to reduce hermitian matrix to tridiagonal form.
+           inde = 1
+           indtau = 1
+           indwrk = indtau + n
+           indrwk = inde + n
+           indwk2 = indwrk + n*n
+           llwork = lwork - indwrk + 1
+           llwrk2 = lwork - indwk2 + 1
+           llrwk = lrwork - indrwk + 1
+           call la_zhetrd(uplo,n,a,lda,w,rwork(inde),work(indtau),work(indwrk), &
+                     llwork,iinfo)
+           ! for eigenvalues only, call la_dsterf.  for eigenvectors, first call
+           ! la_zstedc to generate the eigenvector matrix, work(indwrk), of the
+           ! tridiagonal matrix, then call la_zunmtr to multiply it to the
+           ! householder transformations represented as householder vectors in
+           ! a.
+           if (.not. wantz) then
+              call la_dsterf(n,w,rwork(inde),info)
+           else
+              call la_zstedc('I',n,w,rwork(inde),work(indwrk),n,work(indwk2), &
+                        llwrk2,rwork(indrwk),llrwk,iwork,liwork,info)
+              call la_zunmtr('L',uplo,'N',n,n,a,lda,work(indtau),work(indwrk),n, &
+                        work(indwk2),llwrk2,iinfo)
+              call la_zlacpy('A',n,n,work(indwrk),n,a,lda)
+           end if
+           ! if matrix was scaled, then rescale eigenvalues appropriately.
+           if (iscale == 1) then
+              if (info == 0) then
+                 imax = n
+              else
+                 imax = info - 1
+              end if
+              call la_dscal(imax,one/sigma,w,1)
+           end if
+           work(1) = lopt
+           rwork(1) = lropt
+           iwork(1) = liopt
+           return
+     end subroutine la_zheevd
+     !> WHEEVD: computes all eigenvalues and, optionally, eigenvectors of a
+     !> complex Hermitian matrix A.  If eigenvectors are desired, it uses a
+     !> divide and conquer algorithm.
+     !> The divide and conquer algorithm makes very mild assumptions about
+     !> floating point arithmetic. It will work on machines with a guard
+     !> digit in add/subtract, or on those binary machines without guard
+     !> digits which subtract like the Cray X-MP, Cray Y-MP, Cray C-90, or
+     !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
+     !> without guard digits, but we know of none.
+
+     subroutine la_wheevd(jobz,uplo,n,a,lda,w,work,lwork,rwork,lrwork,iwork,liwork, &
+                info)
+        use la_constants_qp,only:zero,one,cone
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,liwork,lrwork,lwork,n
+           ! Array Arguments
+           integer(ilp),intent(out) :: iwork(*)
+           real(qp),intent(out) :: rwork(*),w(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: work(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lower,lquery,wantz
+           integer(ilp) :: iinfo,imax,inde,indrwk,indtau,indwk2,indwrk,iscale,liopt, &
+                     liwmin,llrwk,llwork,llwrk2,lopt,lropt,lrwmin,lwmin
+           real(qp) :: anrm,bignum,eps,rmax,rmin,safmin,sigma,smlnum
+           ! Intrinsic Functions
+           intrinsic :: max,sqrt
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           lower = la_lsame(uplo,'L')
+           lquery = (lwork == -1 .or. lrwork == -1 .or. liwork == -1)
+           info = 0
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (lower .or. la_lsame(uplo,'U'))) then
+              info = -2
+           else if (n < 0) then
+              info = -3
+           else if (lda < max(1,n)) then
+              info = -5
+           end if
+           if (info == 0) then
+              if (n <= 1) then
+                 lwmin = 1
+                 lrwmin = 1
+                 liwmin = 1
+                 lopt = lwmin
+                 lropt = lrwmin
+                 liopt = liwmin
+              else
+                 if (wantz) then
+                    lwmin = 2*n + n*n
+                    lrwmin = 1 + 5*n + 2*n**2
+                    liwmin = 3 + 5*n
+                 else
+                    lwmin = n + 1
+                    lrwmin = n
+                    liwmin = 1
+                 end if
+                 lopt = max(lwmin,n + la_ilaenv(1,'WHETRD',uplo,n,-1,-1,-1))
+                 lropt = lrwmin
+                 liopt = liwmin
+              end if
+              work(1) = lopt
+              rwork(1) = lropt
+              iwork(1) = liopt
+              if (lwork < lwmin .and. .not. lquery) then
+                 info = -8
+              else if (lrwork < lrwmin .and. .not. lquery) then
+                 info = -10
+              else if (liwork < liwmin .and. .not. lquery) then
+                 info = -12
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('WHEEVD',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           if (n == 1) then
+              w(1) = real(a(1,1),KIND=qp)
+              if (wantz) a(1,1) = cone
+              return
+           end if
+           ! get machine constants.
+           safmin = la_qlamch('SAFE MINIMUM')
+           eps = la_qlamch('PRECISION')
+           smlnum = safmin/eps
+           bignum = one/smlnum
+           rmin = sqrt(smlnum)
+           rmax = sqrt(bignum)
+           ! scale matrix to allowable range, if necessary.
+           anrm = la_wlanhe('M',uplo,n,a,lda,rwork)
+           iscale = 0
+           if (anrm > zero .and. anrm < rmin) then
+              iscale = 1
+              sigma = rmin/anrm
+           else if (anrm > rmax) then
+              iscale = 1
+              sigma = rmax/anrm
+           end if
+           if (iscale == 1) call la_wlascl(uplo,0,0,one,sigma,n,n,a,lda,info)
+           ! call la_whetrd to reduce hermitian matrix to tridiagonal form.
+           inde = 1
+           indtau = 1
+           indwrk = indtau + n
+           indrwk = inde + n
+           indwk2 = indwrk + n*n
+           llwork = lwork - indwrk + 1
+           llwrk2 = lwork - indwk2 + 1
+           llrwk = lrwork - indrwk + 1
+           call la_whetrd(uplo,n,a,lda,w,rwork(inde),work(indtau),work(indwrk), &
+                     llwork,iinfo)
+           ! for eigenvalues only, call la_qsterf.  for eigenvectors, first call
+           ! la_wstedc to generate the eigenvector matrix, work(indwrk), of the
+           ! tridiagonal matrix, then call la_wunmtr to multiply it to the
+           ! householder transformations represented as householder vectors in
+           ! a.
+           if (.not. wantz) then
+              call la_qsterf(n,w,rwork(inde),info)
+           else
+              call la_wstedc('I',n,w,rwork(inde),work(indwrk),n,work(indwk2), &
+                        llwrk2,rwork(indrwk),llrwk,iwork,liwork,info)
+              call la_wunmtr('L',uplo,'N',n,n,a,lda,work(indtau),work(indwrk),n, &
+                        work(indwk2),llwrk2,iinfo)
+              call la_wlacpy('A',n,n,work(indwrk),n,a,lda)
+           end if
+           ! if matrix was scaled, then rescale eigenvalues appropriately.
+           if (iscale == 1) then
+              if (info == 0) then
+                 imax = n
+              else
+                 imax = info - 1
+              end if
+              call la_qscal(imax,one/sigma,w,1)
+           end if
+           work(1) = lopt
+           rwork(1) = lropt
+           iwork(1) = liopt
+           return
+     end subroutine la_wheevd
+
+     !> CHEGVD: computes all the eigenvalues, and optionally, the eigenvectors
+     !> of a complex generalized Hermitian-definite eigenproblem, of the form
+     !> A*x=(lambda)*B*x,  A*Bx=(lambda)*x,  or B*A*x=(lambda)*x.  Here A and
+     !> B are assumed to be Hermitian and B is also positive definite.
+     !> If eigenvectors are desired, it uses a divide and conquer algorithm.
+     !> The divide and conquer algorithm makes very mild assumptions about
+     !> floating point arithmetic. It will work on machines with a guard
+     !> digit in add/subtract, or on those binary machines without guard
+     !> digits which subtract like the Cray X-MP, Cray Y-MP, Cray C-90, or
+     !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
+     !> without guard digits, but we know of none.
+
+     subroutine la_chegvd(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,rwork,lrwork, &
+                iwork,liwork,info)
+        use la_constants_sp
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: itype,lda,ldb,liwork,lrwork,lwork,n
+           ! Array Arguments
+           integer(ilp),intent(out) :: iwork(*)
+           real(sp),intent(out) :: rwork(*),w(*)
+           complex(sp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(sp),intent(out) :: work(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lquery,upper,wantz
+           character :: trans
+           integer(ilp) :: liopt,liwmin,lopt,lropt,lrwmin,lwmin
+           ! Intrinsic Functions
+           intrinsic :: max,real
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           upper = la_lsame(uplo,'U')
+           lquery = (lwork == -1 .or. lrwork == -1 .or. liwork == -1)
+           info = 0
+           if (n <= 1) then
+              lwmin = 1
+              lrwmin = 1
+              liwmin = 1
+           else if (wantz) then
+              lwmin = 2*n + n*n
+              lrwmin = 1 + 5*n + 2*n*n
+              liwmin = 3 + 5*n
+           else
+              lwmin = n + 1
+              lrwmin = n
+              liwmin = 1
+           end if
+           lopt = lwmin
+           lropt = lrwmin
+           liopt = liwmin
+           if (itype < 1 .or. itype > 3) then
+              info = -1
+           else if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -2
+           else if (.not. (upper .or. la_lsame(uplo,'L'))) then
+              info = -3
+           else if (n < 0) then
+              info = -4
+           else if (lda < max(1,n)) then
+              info = -6
+           else if (ldb < max(1,n)) then
+              info = -8
+           end if
+           if (info == 0) then
+              work(1) = lopt
+              rwork(1) = lropt
+              iwork(1) = liopt
+              if (lwork < lwmin .and. .not. lquery) then
+                 info = -11
+              else if (lrwork < lrwmin .and. .not. lquery) then
+                 info = -13
+              else if (liwork < liwmin .and. .not. lquery) then
+                 info = -15
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('CHEGVD',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           ! form a cholesky factorization of b.
+           call la_cpotrf(uplo,n,b,ldb,info)
+           if (info /= 0) then
+              info = n + info
+              return
+           end if
+           ! transform problem to standard eigenvalue problem and solve.
+           call la_chegst(itype,uplo,n,a,lda,b,ldb,info)
+           call la_cheevd(jobz,uplo,n,a,lda,w,work,lwork,rwork,lrwork,iwork,liwork, &
+                      info)
+           lopt = max(real(lopt,KIND=sp),real(work(1),KIND=sp))
+           lropt = max(real(lropt,KIND=sp),real(rwork(1),KIND=sp))
+           liopt = max(real(liopt,KIND=sp),real(iwork(1),KIND=sp))
+           if (wantz .and. info == 0) then
+              ! backtransform eigenvectors to the original problem.
+              if (itype == 1 .or. itype == 2) then
+                 ! for a*x=(lambda)*b*x and a*b*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = inv(l)**h *y or inv(u)*y
+                 if (upper) then
+                    trans = 'N'
+                 else
+                    trans = 'C'
+                 end if
+                 call la_ctrsm('LEFT',uplo,trans,'NON-UNIT',n,n,cone,b,ldb,a,lda)
+
+              else if (itype == 3) then
+                 ! for b*a*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = l*y or u**h *y
+                 if (upper) then
+                    trans = 'C'
+                 else
+                    trans = 'N'
+                 end if
+                 call la_ctrmm('LEFT',uplo,trans,'NON-UNIT',n,n,cone,b,ldb,a,lda)
+
+              end if
+           end if
+           work(1) = lopt
+           rwork(1) = lropt
+           iwork(1) = liopt
+           return
+     end subroutine la_chegvd
+     !> ZHEGVD: computes all the eigenvalues, and optionally, the eigenvectors
+     !> of a complex generalized Hermitian-definite eigenproblem, of the form
+     !> A*x=(lambda)*B*x,  A*Bx=(lambda)*x,  or B*A*x=(lambda)*x.  Here A and
+     !> B are assumed to be Hermitian and B is also positive definite.
+     !> If eigenvectors are desired, it uses a divide and conquer algorithm.
+     !> The divide and conquer algorithm makes very mild assumptions about
+     !> floating point arithmetic. It will work on machines with a guard
+     !> digit in add/subtract, or on those binary machines without guard
+     !> digits which subtract like the Cray X-MP, Cray Y-MP, Cray C-90, or
+     !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
+     !> without guard digits, but we know of none.
+
+     subroutine la_zhegvd(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,rwork,lrwork, &
+                iwork,liwork,info)
+        use la_constants_dp
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: itype,lda,ldb,liwork,lrwork,lwork,n
+           ! Array Arguments
+           integer(ilp),intent(out) :: iwork(*)
+           real(dp),intent(out) :: rwork(*),w(*)
+           complex(dp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(dp),intent(out) :: work(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lquery,upper,wantz
+           character :: trans
+           integer(ilp) :: liopt,liwmin,lopt,lropt,lrwmin,lwmin
+           ! Intrinsic Functions
+           intrinsic :: real,max
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           upper = la_lsame(uplo,'U')
+           lquery = (lwork == -1 .or. lrwork == -1 .or. liwork == -1)
+           info = 0
+           if (n <= 1) then
+              lwmin = 1
+              lrwmin = 1
+              liwmin = 1
+           else if (wantz) then
+              lwmin = 2*n + n*n
+              lrwmin = 1 + 5*n + 2*n*n
+              liwmin = 3 + 5*n
+           else
+              lwmin = n + 1
+              lrwmin = n
+              liwmin = 1
+           end if
+           lopt = lwmin
+           lropt = lrwmin
+           liopt = liwmin
+           if (itype < 1 .or. itype > 3) then
+              info = -1
+           else if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -2
+           else if (.not. (upper .or. la_lsame(uplo,'L'))) then
+              info = -3
+           else if (n < 0) then
+              info = -4
+           else if (lda < max(1,n)) then
+              info = -6
+           else if (ldb < max(1,n)) then
+              info = -8
+           end if
+           if (info == 0) then
+              work(1) = lopt
+              rwork(1) = lropt
+              iwork(1) = liopt
+              if (lwork < lwmin .and. .not. lquery) then
+                 info = -11
+              else if (lrwork < lrwmin .and. .not. lquery) then
+                 info = -13
+              else if (liwork < liwmin .and. .not. lquery) then
+                 info = -15
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('ZHEGVD',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           ! form a cholesky factorization of b.
+           call la_zpotrf(uplo,n,b,ldb,info)
+           if (info /= 0) then
+              info = n + info
+              return
+           end if
+           ! transform problem to standard eigenvalue problem and solve.
+           call la_zhegst(itype,uplo,n,a,lda,b,ldb,info)
+           call la_zheevd(jobz,uplo,n,a,lda,w,work,lwork,rwork,lrwork,iwork,liwork, &
+                      info)
+           lopt = max(real(lopt,KIND=dp),real(work(1),KIND=dp))
+           lropt = max(real(lropt,KIND=dp),real(rwork(1),KIND=dp))
+           liopt = max(real(liopt,KIND=dp),real(iwork(1),KIND=dp))
+           if (wantz .and. info == 0) then
+              ! backtransform eigenvectors to the original problem.
+              if (itype == 1 .or. itype == 2) then
+                 ! for a*x=(lambda)*b*x and a*b*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = inv(l)**h *y or inv(u)*y
+                 if (upper) then
+                    trans = 'N'
+                 else
+                    trans = 'C'
+                 end if
+                 call la_ztrsm('LEFT',uplo,trans,'NON-UNIT',n,n,cone,b,ldb,a,lda)
+
+              else if (itype == 3) then
+                 ! for b*a*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = l*y or u**h *y
+                 if (upper) then
+                    trans = 'C'
+                 else
+                    trans = 'N'
+                 end if
+                 call la_ztrmm('LEFT',uplo,trans,'NON-UNIT',n,n,cone,b,ldb,a,lda)
+
+              end if
+           end if
+           work(1) = lopt
+           rwork(1) = lropt
+           iwork(1) = liopt
+           return
+     end subroutine la_zhegvd
+     !> WHEGVD: computes all the eigenvalues, and optionally, the eigenvectors
+     !> of a complex generalized Hermitian-definite eigenproblem, of the form
+     !> A*x=(lambda)*B*x,  A*Bx=(lambda)*x,  or B*A*x=(lambda)*x.  Here A and
+     !> B are assumed to be Hermitian and B is also positive definite.
+     !> If eigenvectors are desired, it uses a divide and conquer algorithm.
+     !> The divide and conquer algorithm makes very mild assumptions about
+     !> floating point arithmetic. It will work on machines with a guard
+     !> digit in add/subtract, or on those binary machines without guard
+     !> digits which subtract like the Cray X-MP, Cray Y-MP, Cray C-90, or
+     !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
+     !> without guard digits, but we know of none.
+
+     subroutine la_whegvd(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,rwork,lrwork, &
+                iwork,liwork,info)
+        use la_constants_qp
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: itype,lda,ldb,liwork,lrwork,lwork,n
+           ! Array Arguments
+           integer(ilp),intent(out) :: iwork(*)
+           real(qp),intent(out) :: rwork(*),w(*)
+           complex(qp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(qp),intent(out) :: work(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lquery,upper,wantz
+           character :: trans
+           integer(ilp) :: liopt,liwmin,lopt,lropt,lrwmin,lwmin
+           ! Intrinsic Functions
+           intrinsic :: real,max
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           upper = la_lsame(uplo,'U')
+           lquery = (lwork == -1 .or. lrwork == -1 .or. liwork == -1)
+           info = 0
+           if (n <= 1) then
+              lwmin = 1
+              lrwmin = 1
+              liwmin = 1
+           else if (wantz) then
+              lwmin = 2*n + n*n
+              lrwmin = 1 + 5*n + 2*n*n
+              liwmin = 3 + 5*n
+           else
+              lwmin = n + 1
+              lrwmin = n
+              liwmin = 1
+           end if
+           lopt = lwmin
+           lropt = lrwmin
+           liopt = liwmin
+           if (itype < 1 .or. itype > 3) then
+              info = -1
+           else if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -2
+           else if (.not. (upper .or. la_lsame(uplo,'L'))) then
+              info = -3
+           else if (n < 0) then
+              info = -4
+           else if (lda < max(1,n)) then
+              info = -6
+           else if (ldb < max(1,n)) then
+              info = -8
+           end if
+           if (info == 0) then
+              work(1) = lopt
+              rwork(1) = lropt
+              iwork(1) = liopt
+              if (lwork < lwmin .and. .not. lquery) then
+                 info = -11
+              else if (lrwork < lrwmin .and. .not. lquery) then
+                 info = -13
+              else if (liwork < liwmin .and. .not. lquery) then
+                 info = -15
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('WHEGVD',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           ! form a cholesky factorization of b.
+           call la_wpotrf(uplo,n,b,ldb,info)
+           if (info /= 0) then
+              info = n + info
+              return
+           end if
+           ! transform problem to standard eigenvalue problem and solve.
+           call la_whegst(itype,uplo,n,a,lda,b,ldb,info)
+           call la_wheevd(jobz,uplo,n,a,lda,w,work,lwork,rwork,lrwork,iwork,liwork, &
+                      info)
+           lopt = max(real(lopt,KIND=qp),real(work(1),KIND=qp))
+           lropt = max(real(lropt,KIND=qp),real(rwork(1),KIND=qp))
+           liopt = max(real(liopt,KIND=qp),real(iwork(1),KIND=qp))
+           if (wantz .and. info == 0) then
+              ! backtransform eigenvectors to the original problem.
+              if (itype == 1 .or. itype == 2) then
+                 ! for a*x=(lambda)*b*x and a*b*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = inv(l)**h *y or inv(u)*y
+                 if (upper) then
+                    trans = 'N'
+                 else
+                    trans = 'C'
+                 end if
+                 call la_wtrsm('LEFT',uplo,trans,'NON-UNIT',n,n,cone,b,ldb,a,lda)
+
+              else if (itype == 3) then
+                 ! for b*a*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = l*y or u**h *y
+                 if (upper) then
+                    trans = 'C'
+                 else
+                    trans = 'N'
+                 end if
+                 call la_wtrmm('LEFT',uplo,trans,'NON-UNIT',n,n,cone,b,ldb,a,lda)
+
+              end if
+           end if
+           work(1) = lopt
+           rwork(1) = lropt
+           iwork(1) = liopt
+           return
+     end subroutine la_whegvd
+
+     !> CHPEVD: computes all the eigenvalues and, optionally, eigenvectors of
+     !> a complex Hermitian matrix A in packed storage.  If eigenvectors are
+     !> desired, it uses a divide and conquer algorithm.
+     !> The divide and conquer algorithm makes very mild assumptions about
+     !> floating point arithmetic. It will work on machines with a guard
+     !> digit in add/subtract, or on those binary machines without guard
+     !> digits which subtract like the Cray X-MP, Cray Y-MP, Cray C-90, or
+     !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
+     !> without guard digits, but we know of none.
+
+     subroutine la_chpevd(jobz,uplo,n,ap,w,z,ldz,work,lwork,rwork,lrwork,iwork, &
+               liwork,info)
+        use la_constants_sp,only:zero,one,cone
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldz,liwork,lrwork,lwork,n
+           ! Array Arguments
+           integer(ilp),intent(out) :: iwork(*)
+           real(sp),intent(out) :: rwork(*),w(*)
+           complex(sp),intent(inout) :: ap(*)
+           complex(sp),intent(out) :: work(*),z(ldz,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lquery,wantz
+           integer(ilp) :: iinfo,imax,inde,indrwk,indtau,indwrk,iscale,liwmin,llrwk, &
+                     llwrk,lrwmin,lwmin
+           real(sp) :: anrm,bignum,eps,rmax,rmin,safmin,sigma,smlnum
+           ! Intrinsic Functions
+           intrinsic :: sqrt
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           lquery = (lwork == -1 .or. lrwork == -1 .or. liwork == -1)
+           info = 0
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (la_lsame(uplo,'L') .or. la_lsame(uplo,'U'))) &
+                     then
+              info = -2
+           else if (n < 0) then
+              info = -3
+           else if (ldz < 1 .or. (wantz .and. ldz < n)) then
+              info = -7
+           end if
+           if (info == 0) then
+              if (n <= 1) then
+                 lwmin = 1
+                 liwmin = 1
+                 lrwmin = 1
+              else
+                 if (wantz) then
+                    lwmin = 2*n
+                    lrwmin = 1 + 5*n + 2*n**2
+                    liwmin = 3 + 5*n
+                 else
+                    lwmin = n
+                    lrwmin = n
+                    liwmin = 1
+                 end if
+              end if
+              work(1) = lwmin
+              rwork(1) = lrwmin
+              iwork(1) = liwmin
+              if (lwork < lwmin .and. .not. lquery) then
+                 info = -9
+              else if (lrwork < lrwmin .and. .not. lquery) then
+                 info = -11
+              else if (liwork < liwmin .and. .not. lquery) then
+                 info = -13
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('CHPEVD',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           if (n == 1) then
+              w(1) = real(ap(1),KIND=sp)
+              if (wantz) z(1,1) = cone
+              return
+           end if
+           ! get machine constants.
+           safmin = la_slamch('SAFE MINIMUM')
+           eps = la_slamch('PRECISION')
+           smlnum = safmin/eps
+           bignum = one/smlnum
+           rmin = sqrt(smlnum)
+           rmax = sqrt(bignum)
+           ! scale matrix to allowable range, if necessary.
+           anrm = la_clanhp('M',uplo,n,ap,rwork)
+           iscale = 0
+           if (anrm > zero .and. anrm < rmin) then
+              iscale = 1
+              sigma = rmin/anrm
+           else if (anrm > rmax) then
+              iscale = 1
+              sigma = rmax/anrm
+           end if
+           if (iscale == 1) then
+              call la_csscal((n*(n + 1))/2,sigma,ap,1)
+           end if
+           ! call la_chptrd to reduce hermitian packed matrix to tridiagonal form.
+           inde = 1
+           indtau = 1
+           indrwk = inde + n
+           indwrk = indtau + n
+           llwrk = lwork - indwrk + 1
+           llrwk = lrwork - indrwk + 1
+           call la_chptrd(uplo,n,ap,w,rwork(inde),work(indtau),iinfo)
+           ! for eigenvalues only, call la_ssterf.  for eigenvectors, first call
+           ! la_cupgtr to generate the orthogonal matrix, then call la_cstedc.
+           if (.not. wantz) then
+              call la_ssterf(n,w,rwork(inde),info)
+           else
+              call la_cstedc('I',n,w,rwork(inde),z,ldz,work(indwrk),llwrk,rwork( &
+                        indrwk),llrwk,iwork,liwork,info)
+              call la_cupmtr('L',uplo,'N',n,n,ap,work(indtau),z,ldz,work(indwrk), &
+                         iinfo)
+           end if
+           ! if matrix was scaled, then rescale eigenvalues appropriately.
+           if (iscale == 1) then
+              if (info == 0) then
+                 imax = n
+              else
+                 imax = info - 1
+              end if
+              call la_sscal(imax,one/sigma,w,1)
+           end if
+           work(1) = lwmin
+           rwork(1) = lrwmin
+           iwork(1) = liwmin
+           return
+     end subroutine la_chpevd
+     !> ZHPEVD: computes all the eigenvalues and, optionally, eigenvectors of
+     !> a complex Hermitian matrix A in packed storage.  If eigenvectors are
+     !> desired, it uses a divide and conquer algorithm.
+     !> The divide and conquer algorithm makes very mild assumptions about
+     !> floating point arithmetic. It will work on machines with a guard
+     !> digit in add/subtract, or on those binary machines without guard
+     !> digits which subtract like the Cray X-MP, Cray Y-MP, Cray C-90, or
+     !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
+     !> without guard digits, but we know of none.
+
+     subroutine la_zhpevd(jobz,uplo,n,ap,w,z,ldz,work,lwork,rwork,lrwork,iwork, &
+               liwork,info)
+        use la_constants_dp,only:zero,one,cone
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldz,liwork,lrwork,lwork,n
+           ! Array Arguments
+           integer(ilp),intent(out) :: iwork(*)
+           real(dp),intent(out) :: rwork(*),w(*)
+           complex(dp),intent(inout) :: ap(*)
+           complex(dp),intent(out) :: work(*),z(ldz,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lquery,wantz
+           integer(ilp) :: iinfo,imax,inde,indrwk,indtau,indwrk,iscale,liwmin,llrwk, &
+                     llwrk,lrwmin,lwmin
+           real(dp) :: anrm,bignum,eps,rmax,rmin,safmin,sigma,smlnum
+           ! Intrinsic Functions
+           intrinsic :: sqrt
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           lquery = (lwork == -1 .or. lrwork == -1 .or. liwork == -1)
+           info = 0
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (la_lsame(uplo,'L') .or. la_lsame(uplo,'U'))) &
+                     then
+              info = -2
+           else if (n < 0) then
+              info = -3
+           else if (ldz < 1 .or. (wantz .and. ldz < n)) then
+              info = -7
+           end if
+           if (info == 0) then
+              if (n <= 1) then
+                 lwmin = 1
+                 liwmin = 1
+                 lrwmin = 1
+              else
+                 if (wantz) then
+                    lwmin = 2*n
+                    lrwmin = 1 + 5*n + 2*n**2
+                    liwmin = 3 + 5*n
+                 else
+                    lwmin = n
+                    lrwmin = n
+                    liwmin = 1
+                 end if
+              end if
+              work(1) = lwmin
+              rwork(1) = lrwmin
+              iwork(1) = liwmin
+              if (lwork < lwmin .and. .not. lquery) then
+                 info = -9
+              else if (lrwork < lrwmin .and. .not. lquery) then
+                 info = -11
+              else if (liwork < liwmin .and. .not. lquery) then
+                 info = -13
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('ZHPEVD',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           if (n == 1) then
+              w(1) = real(ap(1),KIND=dp)
+              if (wantz) z(1,1) = cone
+              return
+           end if
+           ! get machine constants.
+           safmin = la_dlamch('SAFE MINIMUM')
+           eps = la_dlamch('PRECISION')
+           smlnum = safmin/eps
+           bignum = one/smlnum
+           rmin = sqrt(smlnum)
+           rmax = sqrt(bignum)
+           ! scale matrix to allowable range, if necessary.
+           anrm = la_zlanhp('M',uplo,n,ap,rwork)
+           iscale = 0
+           if (anrm > zero .and. anrm < rmin) then
+              iscale = 1
+              sigma = rmin/anrm
+           else if (anrm > rmax) then
+              iscale = 1
+              sigma = rmax/anrm
+           end if
+           if (iscale == 1) then
+              call la_zdscal((n*(n + 1))/2,sigma,ap,1)
+           end if
+           ! call la_zhptrd to reduce hermitian packed matrix to tridiagonal form.
+           inde = 1
+           indtau = 1
+           indrwk = inde + n
+           indwrk = indtau + n
+           llwrk = lwork - indwrk + 1
+           llrwk = lrwork - indrwk + 1
+           call la_zhptrd(uplo,n,ap,w,rwork(inde),work(indtau),iinfo)
+           ! for eigenvalues only, call la_dsterf.  for eigenvectors, first call
+           ! la_zupgtr to generate the orthogonal matrix, then call la_zstedc.
+           if (.not. wantz) then
+              call la_dsterf(n,w,rwork(inde),info)
+           else
+              call la_zstedc('I',n,w,rwork(inde),z,ldz,work(indwrk),llwrk,rwork( &
+                        indrwk),llrwk,iwork,liwork,info)
+              call la_zupmtr('L',uplo,'N',n,n,ap,work(indtau),z,ldz,work(indwrk), &
+                         iinfo)
+           end if
+           ! if matrix was scaled, then rescale eigenvalues appropriately.
+           if (iscale == 1) then
+              if (info == 0) then
+                 imax = n
+              else
+                 imax = info - 1
+              end if
+              call la_dscal(imax,one/sigma,w,1)
+           end if
+           work(1) = lwmin
+           rwork(1) = lrwmin
+           iwork(1) = liwmin
+           return
+     end subroutine la_zhpevd
+     !> WHPEVD: computes all the eigenvalues and, optionally, eigenvectors of
+     !> a complex Hermitian matrix A in packed storage.  If eigenvectors are
+     !> desired, it uses a divide and conquer algorithm.
+     !> The divide and conquer algorithm makes very mild assumptions about
+     !> floating point arithmetic. It will work on machines with a guard
+     !> digit in add/subtract, or on those binary machines without guard
+     !> digits which subtract like the Cray X-MP, Cray Y-MP, Cray C-90, or
+     !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
+     !> without guard digits, but we know of none.
+
+     subroutine la_whpevd(jobz,uplo,n,ap,w,z,ldz,work,lwork,rwork,lrwork,iwork, &
+               liwork,info)
+        use la_constants_qp,only:zero,one,cone
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldz,liwork,lrwork,lwork,n
+           ! Array Arguments
+           integer(ilp),intent(out) :: iwork(*)
+           real(qp),intent(out) :: rwork(*),w(*)
+           complex(qp),intent(inout) :: ap(*)
+           complex(qp),intent(out) :: work(*),z(ldz,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lquery,wantz
+           integer(ilp) :: iinfo,imax,inde,indrwk,indtau,indwrk,iscale,liwmin,llrwk, &
+                     llwrk,lrwmin,lwmin
+           real(qp) :: anrm,bignum,eps,rmax,rmin,safmin,sigma,smlnum
+           ! Intrinsic Functions
+           intrinsic :: sqrt
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           lquery = (lwork == -1 .or. lrwork == -1 .or. liwork == -1)
+           info = 0
+           if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -1
+           else if (.not. (la_lsame(uplo,'L') .or. la_lsame(uplo,'U'))) &
+                     then
+              info = -2
+           else if (n < 0) then
+              info = -3
+           else if (ldz < 1 .or. (wantz .and. ldz < n)) then
+              info = -7
+           end if
+           if (info == 0) then
+              if (n <= 1) then
+                 lwmin = 1
+                 liwmin = 1
+                 lrwmin = 1
+              else
+                 if (wantz) then
+                    lwmin = 2*n
+                    lrwmin = 1 + 5*n + 2*n**2
+                    liwmin = 3 + 5*n
+                 else
+                    lwmin = n
+                    lrwmin = n
+                    liwmin = 1
+                 end if
+              end if
+              work(1) = lwmin
+              rwork(1) = lrwmin
+              iwork(1) = liwmin
+              if (lwork < lwmin .and. .not. lquery) then
+                 info = -9
+              else if (lrwork < lrwmin .and. .not. lquery) then
+                 info = -11
+              else if (liwork < liwmin .and. .not. lquery) then
+                 info = -13
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('WHPEVD',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           if (n == 1) then
+              w(1) = real(ap(1),KIND=qp)
+              if (wantz) z(1,1) = cone
+              return
+           end if
+           ! get machine constants.
+           safmin = la_qlamch('SAFE MINIMUM')
+           eps = la_qlamch('PRECISION')
+           smlnum = safmin/eps
+           bignum = one/smlnum
+           rmin = sqrt(smlnum)
+           rmax = sqrt(bignum)
+           ! scale matrix to allowable range, if necessary.
+           anrm = la_wlanhp('M',uplo,n,ap,rwork)
+           iscale = 0
+           if (anrm > zero .and. anrm < rmin) then
+              iscale = 1
+              sigma = rmin/anrm
+           else if (anrm > rmax) then
+              iscale = 1
+              sigma = rmax/anrm
+           end if
+           if (iscale == 1) then
+              call la_wqscal((n*(n + 1))/2,sigma,ap,1)
+           end if
+           ! call la_whptrd to reduce hermitian packed matrix to tridiagonal form.
+           inde = 1
+           indtau = 1
+           indrwk = inde + n
+           indwrk = indtau + n
+           llwrk = lwork - indwrk + 1
+           llrwk = lrwork - indrwk + 1
+           call la_whptrd(uplo,n,ap,w,rwork(inde),work(indtau),iinfo)
+           ! for eigenvalues only, call la_qsterf.  for eigenvectors, first call
+           ! la_wupgtr to generate the orthogonal matrix, then call la_wstedc.
+           if (.not. wantz) then
+              call la_qsterf(n,w,rwork(inde),info)
+           else
+              call la_wstedc('I',n,w,rwork(inde),z,ldz,work(indwrk),llwrk,rwork( &
+                        indrwk),llrwk,iwork,liwork,info)
+              call la_wupmtr('L',uplo,'N',n,n,ap,work(indtau),z,ldz,work(indwrk), &
+                         iinfo)
+           end if
+           ! if matrix was scaled, then rescale eigenvalues appropriately.
+           if (iscale == 1) then
+              if (info == 0) then
+                 imax = n
+              else
+                 imax = info - 1
+              end if
+              call la_qscal(imax,one/sigma,w,1)
+           end if
+           work(1) = lwmin
+           rwork(1) = lrwmin
+           iwork(1) = liwmin
+           return
+     end subroutine la_whpevd
+
+     !> CHPGVD: computes all the eigenvalues and, optionally, the eigenvectors
+     !> of a complex generalized Hermitian-definite eigenproblem, of the form
+     !> A*x=(lambda)*B*x,  A*Bx=(lambda)*x,  or B*A*x=(lambda)*x.  Here A and
+     !> B are assumed to be Hermitian, stored in packed format, and B is also
+     !> positive definite.
+     !> If eigenvectors are desired, it uses a divide and conquer algorithm.
+     !> The divide and conquer algorithm makes very mild assumptions about
+     !> floating point arithmetic. It will work on machines with a guard
+     !> digit in add/subtract, or on those binary machines without guard
+     !> digits which subtract like the Cray X-MP, Cray Y-MP, Cray C-90, or
+     !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
+     !> without guard digits, but we know of none.
+
+     subroutine la_chpgvd(itype,jobz,uplo,n,ap,bp,w,z,ldz,work,lwork,rwork,lrwork, &
+                iwork,liwork,info)
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: itype,ldz,liwork,lrwork,lwork,n
+           ! Array Arguments
+           integer(ilp),intent(out) :: iwork(*)
+           real(sp),intent(out) :: rwork(*),w(*)
+           complex(sp),intent(inout) :: ap(*),bp(*)
+           complex(sp),intent(out) :: work(*),z(ldz,*)
+        ! =====================================================================
+           ! Local Scalars
+           logical(lk) :: lquery,upper,wantz
+           character :: trans
+           integer(ilp) :: j,liwmin,lrwmin,lwmin,neig
+           ! Intrinsic Functions
+           intrinsic :: max,real
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           upper = la_lsame(uplo,'U')
+           lquery = (lwork == -1 .or. lrwork == -1 .or. liwork == -1)
+           info = 0
+           if (itype < 1 .or. itype > 3) then
+              info = -1
+           else if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -2
+           else if (.not. (upper .or. la_lsame(uplo,'L'))) then
+              info = -3
+           else if (n < 0) then
+              info = -4
+           else if (ldz < 1 .or. (wantz .and. ldz < n)) then
+              info = -9
+           end if
+           if (info == 0) then
+              if (n <= 1) then
+                 lwmin = 1
+                 liwmin = 1
+                 lrwmin = 1
+              else
+                 if (wantz) then
+                    lwmin = 2*n
+                    lrwmin = 1 + 5*n + 2*n**2
+                    liwmin = 3 + 5*n
+                 else
+                    lwmin = n
+                    lrwmin = n
+                    liwmin = 1
+                 end if
+              end if
+              work(1) = lwmin
+              rwork(1) = lrwmin
+              iwork(1) = liwmin
+              if (lwork < lwmin .and. .not. lquery) then
+                 info = -11
+              else if (lrwork < lrwmin .and. .not. lquery) then
+                 info = -13
+              else if (liwork < liwmin .and. .not. lquery) then
+                 info = -15
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('CHPGVD',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           ! form a cholesky factorization of b.
+           call la_cpptrf(uplo,n,bp,info)
+           if (info /= 0) then
+              info = n + info
+              return
+           end if
+           ! transform problem to standard eigenvalue problem and solve.
+           call la_chpgst(itype,uplo,n,ap,bp,info)
+           call la_chpevd(jobz,uplo,n,ap,w,z,ldz,work,lwork,rwork,lrwork,iwork, &
+                     liwork,info)
+           lwmin = max(real(lwmin,KIND=sp),real(work(1),KIND=sp))
+           lrwmin = max(real(lrwmin,KIND=sp),real(rwork(1),KIND=sp))
+           liwmin = max(real(liwmin,KIND=sp),real(iwork(1),KIND=sp))
+           if (wantz) then
+              ! backtransform eigenvectors to the original problem.
+              neig = n
+              if (info > 0) neig = info - 1
+              if (itype == 1 .or. itype == 2) then
+                 ! for a*x=(lambda)*b*x and a*b*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = inv(l)**h *y or inv(u)*y
+                 if (upper) then
+                    trans = 'N'
+                 else
+                    trans = 'C'
+                 end if
+                 do j = 1,neig
+                    call la_ctpsv(uplo,trans,'NON-UNIT',n,bp,z(1,j),1)
+                 end do
+              else if (itype == 3) then
+                 ! for b*a*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = l*y or u**h *y
+                 if (upper) then
+                    trans = 'C'
+                 else
+                    trans = 'N'
+                 end if
+                 do j = 1,neig
+                    call la_ctpmv(uplo,trans,'NON-UNIT',n,bp,z(1,j),1)
+                 end do
+              end if
+           end if
+           work(1) = lwmin
+           rwork(1) = lrwmin
+           iwork(1) = liwmin
+           return
+     end subroutine la_chpgvd
+     !> ZHPGVD: computes all the eigenvalues and, optionally, the eigenvectors
+     !> of a complex generalized Hermitian-definite eigenproblem, of the form
+     !> A*x=(lambda)*B*x,  A*Bx=(lambda)*x,  or B*A*x=(lambda)*x.  Here A and
+     !> B are assumed to be Hermitian, stored in packed format, and B is also
+     !> positive definite.
+     !> If eigenvectors are desired, it uses a divide and conquer algorithm.
+     !> The divide and conquer algorithm makes very mild assumptions about
+     !> floating point arithmetic. It will work on machines with a guard
+     !> digit in add/subtract, or on those binary machines without guard
+     !> digits which subtract like the Cray X-MP, Cray Y-MP, Cray C-90, or
+     !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
+     !> without guard digits, but we know of none.
+
+     subroutine la_zhpgvd(itype,jobz,uplo,n,ap,bp,w,z,ldz,work,lwork,rwork,lrwork, &
+                iwork,liwork,info)
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: itype,ldz,liwork,lrwork,lwork,n
+           ! Array Arguments
+           integer(ilp),intent(out) :: iwork(*)
+           real(dp),intent(out) :: rwork(*),w(*)
+           complex(dp),intent(inout) :: ap(*),bp(*)
+           complex(dp),intent(out) :: work(*),z(ldz,*)
+        ! =====================================================================
+           ! Local Scalars
+           logical(lk) :: lquery,upper,wantz
+           character :: trans
+           integer(ilp) :: j,liwmin,lrwmin,lwmin,neig
+           ! Intrinsic Functions
+           intrinsic :: real,max
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           upper = la_lsame(uplo,'U')
+           lquery = (lwork == -1 .or. lrwork == -1 .or. liwork == -1)
+           info = 0
+           if (itype < 1 .or. itype > 3) then
+              info = -1
+           else if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -2
+           else if (.not. (upper .or. la_lsame(uplo,'L'))) then
+              info = -3
+           else if (n < 0) then
+              info = -4
+           else if (ldz < 1 .or. (wantz .and. ldz < n)) then
+              info = -9
+           end if
+           if (info == 0) then
+              if (n <= 1) then
+                 lwmin = 1
+                 liwmin = 1
+                 lrwmin = 1
+              else
+                 if (wantz) then
+                    lwmin = 2*n
+                    lrwmin = 1 + 5*n + 2*n**2
+                    liwmin = 3 + 5*n
+                 else
+                    lwmin = n
+                    lrwmin = n
+                    liwmin = 1
+                 end if
+              end if
+              work(1) = lwmin
+              rwork(1) = lrwmin
+              iwork(1) = liwmin
+              if (lwork < lwmin .and. .not. lquery) then
+                 info = -11
+              else if (lrwork < lrwmin .and. .not. lquery) then
+                 info = -13
+              else if (liwork < liwmin .and. .not. lquery) then
+                 info = -15
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('ZHPGVD',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           ! form a cholesky factorization of b.
+           call la_zpptrf(uplo,n,bp,info)
+           if (info /= 0) then
+              info = n + info
+              return
+           end if
+           ! transform problem to standard eigenvalue problem and solve.
+           call la_zhpgst(itype,uplo,n,ap,bp,info)
+           call la_zhpevd(jobz,uplo,n,ap,w,z,ldz,work,lwork,rwork,lrwork,iwork, &
+                     liwork,info)
+           lwmin = max(real(lwmin,KIND=dp),real(work(1),KIND=dp))
+           lrwmin = max(real(lrwmin,KIND=dp),real(rwork(1),KIND=dp))
+           liwmin = max(real(liwmin,KIND=dp),real(iwork(1),KIND=dp))
+           if (wantz) then
+              ! backtransform eigenvectors to the original problem.
+              neig = n
+              if (info > 0) neig = info - 1
+              if (itype == 1 .or. itype == 2) then
+                 ! for a*x=(lambda)*b*x and a*b*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = inv(l)**h *y or inv(u)*y
+                 if (upper) then
+                    trans = 'N'
+                 else
+                    trans = 'C'
+                 end if
+                 do j = 1,neig
+                    call la_ztpsv(uplo,trans,'NON-UNIT',n,bp,z(1,j),1)
+                 end do
+              else if (itype == 3) then
+                 ! for b*a*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = l*y or u**h *y
+                 if (upper) then
+                    trans = 'C'
+                 else
+                    trans = 'N'
+                 end if
+                 do j = 1,neig
+                    call la_ztpmv(uplo,trans,'NON-UNIT',n,bp,z(1,j),1)
+                 end do
+              end if
+           end if
+           work(1) = lwmin
+           rwork(1) = lrwmin
+           iwork(1) = liwmin
+           return
+     end subroutine la_zhpgvd
+     !> WHPGVD: computes all the eigenvalues and, optionally, the eigenvectors
+     !> of a complex generalized Hermitian-definite eigenproblem, of the form
+     !> A*x=(lambda)*B*x,  A*Bx=(lambda)*x,  or B*A*x=(lambda)*x.  Here A and
+     !> B are assumed to be Hermitian, stored in packed format, and B is also
+     !> positive definite.
+     !> If eigenvectors are desired, it uses a divide and conquer algorithm.
+     !> The divide and conquer algorithm makes very mild assumptions about
+     !> floating point arithmetic. It will work on machines with a guard
+     !> digit in add/subtract, or on those binary machines without guard
+     !> digits which subtract like the Cray X-MP, Cray Y-MP, Cray C-90, or
+     !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
+     !> without guard digits, but we know of none.
+
+     subroutine la_whpgvd(itype,jobz,uplo,n,ap,bp,w,z,ldz,work,lwork,rwork,lrwork, &
+                iwork,liwork,info)
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: itype,ldz,liwork,lrwork,lwork,n
+           ! Array Arguments
+           integer(ilp),intent(out) :: iwork(*)
+           real(qp),intent(out) :: rwork(*),w(*)
+           complex(qp),intent(inout) :: ap(*),bp(*)
+           complex(qp),intent(out) :: work(*),z(ldz,*)
+        ! =====================================================================
+           ! Local Scalars
+           logical(lk) :: lquery,upper,wantz
+           character :: trans
+           integer(ilp) :: j,liwmin,lrwmin,lwmin,neig
+           ! Intrinsic Functions
+           intrinsic :: real,max
+           ! Executable Statements
+           ! test the input parameters.
+           wantz = la_lsame(jobz,'V')
+           upper = la_lsame(uplo,'U')
+           lquery = (lwork == -1 .or. lrwork == -1 .or. liwork == -1)
+           info = 0
+           if (itype < 1 .or. itype > 3) then
+              info = -1
+           else if (.not. (wantz .or. la_lsame(jobz,'N'))) then
+              info = -2
+           else if (.not. (upper .or. la_lsame(uplo,'L'))) then
+              info = -3
+           else if (n < 0) then
+              info = -4
+           else if (ldz < 1 .or. (wantz .and. ldz < n)) then
+              info = -9
+           end if
+           if (info == 0) then
+              if (n <= 1) then
+                 lwmin = 1
+                 liwmin = 1
+                 lrwmin = 1
+              else
+                 if (wantz) then
+                    lwmin = 2*n
+                    lrwmin = 1 + 5*n + 2*n**2
+                    liwmin = 3 + 5*n
+                 else
+                    lwmin = n
+                    lrwmin = n
+                    liwmin = 1
+                 end if
+              end if
+              work(1) = lwmin
+              rwork(1) = lrwmin
+              iwork(1) = liwmin
+              if (lwork < lwmin .and. .not. lquery) then
+                 info = -11
+              else if (lrwork < lrwmin .and. .not. lquery) then
+                 info = -13
+              else if (liwork < liwmin .and. .not. lquery) then
+                 info = -15
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('WHPGVD',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           ! form a cholesky factorization of b.
+           call la_wpptrf(uplo,n,bp,info)
+           if (info /= 0) then
+              info = n + info
+              return
+           end if
+           ! transform problem to standard eigenvalue problem and solve.
+           call la_whpgst(itype,uplo,n,ap,bp,info)
+           call la_whpevd(jobz,uplo,n,ap,w,z,ldz,work,lwork,rwork,lrwork,iwork, &
+                     liwork,info)
+           lwmin = max(real(lwmin,KIND=qp),real(work(1),KIND=qp))
+           lrwmin = max(real(lrwmin,KIND=qp),real(rwork(1),KIND=qp))
+           liwmin = max(real(liwmin,KIND=qp),real(iwork(1),KIND=qp))
+           if (wantz) then
+              ! backtransform eigenvectors to the original problem.
+              neig = n
+              if (info > 0) neig = info - 1
+              if (itype == 1 .or. itype == 2) then
+                 ! for a*x=(lambda)*b*x and a*b*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = inv(l)**h *y or inv(u)*y
+                 if (upper) then
+                    trans = 'N'
+                 else
+                    trans = 'C'
+                 end if
+                 do j = 1,neig
+                    call la_wtpsv(uplo,trans,'NON-UNIT',n,bp,z(1,j),1)
+                 end do
+              else if (itype == 3) then
+                 ! for b*a*x=(lambda)*x;
+                 ! backtransform eigenvectors: x = l*y or u**h *y
+                 if (upper) then
+                    trans = 'C'
+                 else
+                    trans = 'N'
+                 end if
+                 do j = 1,neig
+                    call la_wtpmv(uplo,trans,'NON-UNIT',n,bp,z(1,j),1)
+                 end do
+              end if
+           end if
+           work(1) = lwmin
+           rwork(1) = lrwmin
+           iwork(1) = liwmin
+           return
+     end subroutine la_whpgvd
+
+end module la_lapack_eigv_sym

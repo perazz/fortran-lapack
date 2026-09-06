@@ -3,12 +3,6 @@ module la_lapack
      use la_constants
      use la_blas
      use la_lapack_aux
-     use la_lapack_s
-     use la_lapack_d
-     use la_lapack_q
-     use la_lapack_c
-     use la_lapack_z
-     use la_lapack_w
      use la_lapack_auxiliary
      use la_lapack_blas_like_base
      use la_lapack_blas_like_l1
@@ -39,6 +33,22 @@ module la_lapack
      use la_lapack_orthogonal_factors_rz
      use la_lapack_svd_bidiag_qr
      use la_lapack_svd_comp2
+     use la_lapack_eigv_comp
+     use la_lapack_eigv_comp2
+     use la_lapack_eigv_gen
+     use la_lapack_eigv_gen2
+     use la_lapack_eigv_gen3
+     use la_lapack_eigv_svd_bidiag_dc
+     use la_lapack_eigv_svd_drivers
+     use la_lapack_eigv_svd_drivers2
+     use la_lapack_eigv_sym
+     use la_lapack_eigv_sym_comp
+     use la_lapack_eigv_tridiag
+     use la_lapack_eigv_tridiag2
+     use la_lapack_eigv_tridiag3
+     use la_lapack_lsq
+     use la_lapack_lsq_aux
+     use la_lapack_svd_comp
      implicit none(type,external)
      public
 
@@ -54,14 +64,14 @@ module la_lapack
           !>   \hline
           !>   B_{21} & B_{22} & 0 & 0 \\
           !>   0      & 0      & 0 & I \\
-          !>   C      & -S    & 0 & 0 
+          !>   C      & -S    & 0 & 0
           !> \end{array}
           !> \right] =
           !> \left[
           !> \begin{array}{c|c}
           !>   U_1 & 0 \\
           !>   \hline
-          !>   0 & U_2 
+          !>   0 & U_2
           !> \end{array}
           !> \right]
           !> \left[
@@ -69,14 +79,14 @@ module la_lapack
           !>   0 & 0 & -I & 0 \\
           !>   \hline
           !>   S & C & 0 & 0 \\
-          !>   0 & 0 & 0 & I 
+          !>   0 & 0 & 0 & I
           !> \end{array}
           !> \right]
           !> \left[
           !> \begin{array}{c|c}
           !>   V_1^H & 0 \\
           !>   \hline
-          !>   0 & V_2^H 
+          !>   0 & V_2^H
           !> \end{array}
           !> \right]
           !> \f]
@@ -4485,7 +4495,7 @@ module la_lapack
           !> (stopping criterion). Few tuning parameters (marked by [TP]) are
           !> available for the implementer.
           !> Further Details
-          !> 
+          !>
           !> GSVJ1 applies few sweeps of Jacobi rotations in the column space of
           !> the input M-by-N matrix A. The pivot pairs are taken from the (1,2)
           !> off-diagonal block in the corresponding N-by-N Gram matrix A^T * A. The

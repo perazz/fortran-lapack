@@ -47,6 +47,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `la_lapack_lsq_constrained`, `la_lapack_svd_comp2`,
   `la_lapack_svd_bidiag_qr`, `la_lapack_eigv_gen_aux` and
   `la_lapack_eigv_gen_hess`. The `la_lapack` generic interfaces are unchanged.
+- The LAPACK eigenvalue, singular-value and least-squares drivers are
+  generated from kind-templated fypp topic modules instead of the six per-kind
+  monoliths: `la_lapack_eigv_sym{,_comp}`, `la_lapack_eigv_tridiag{,2,3}`,
+  `la_lapack_eigv_comp{,2}`, `la_lapack_eigv_gen{,2,3}`,
+  `la_lapack_eigv_svd_{drivers,drivers2,bidiag_dc}`, `la_lapack_svd_comp`,
+  `la_lapack_lsq` and `la_lapack_lsq_aux`. The `la_lapack` generic interfaces
+  are unchanged.
+- Removed the six per-kind LAPACK modules `la_lapack_{s,d,q,c,z,w}`. Every
+  routine they held now lives in one of the 47 kind-templated topic modules,
+  which the `la_lapack` umbrella imports directly.
+- The `la_lapack` umbrella is generated from `include/la_lapack_interfaces.fypp`,
+  a data table of its 498 generic interfaces and their 1524 external-library
+  stubs, the way `la_blas` already was. `src/la_lapack.f90` and
+  `src/la_lapack_aux.f90` are renamed `src/la_lapack.F90` and
+  `src/la_lapack_aux.F90`: both carry cpp directives, so they now follow the
+  extension rule the rest of the generated tree follows. Build files that list
+  either source by name need the new spelling.
 - The `generated-sources` continuous-integration job runs
   `scripts/fypp_deploy.py --check` and fails on any drift between a template
   and its committed output.

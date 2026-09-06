@@ -21,11 +21,10 @@ module la_blas
           !> ${line}$
 #:endfor
           interface ${generic}$
-#:for specific, internal, external in entries
-#:set kind_row = LA_BY_INITIAL[specific[0]]
-#:if external
+#:for specific, internal, stub in entries
+#:if stub
 #ifdef LA_EXTERNAL_BLAS
-$:stubs["complex" if specific[0] in "czw" else "real"].format(**kind_row)
+$:stubs[stub].format(**LA_BY_INITIAL[specific[0]])
 #else
                module procedure la_${internal}$
 #endif

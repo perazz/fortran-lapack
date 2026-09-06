@@ -1,0 +1,3087 @@
+#:include "common.fypp"
+!> Least-squares drivers: QR, complete orthogonal, SVD and divide-and-conquer solutions
+module la_lapack_lsq
+     use la_constants
+     use la_blas_aux
+     use la_blas_level1
+     use la_blas_level2_gen
+     use la_blas_level3_gen
+     use la_blas_level3_tri
+     use la_lapack_aux
+     use la_lapack_auxiliary
+     use la_lapack_blas_like_base
+     use la_lapack_blas_like_l1
+     use la_lapack_blas_like_l2
+     use la_lapack_blas_like_mnorm
+     use la_lapack_lsq_aux
+     use la_lapack_orthogonal_factors_ql
+     use la_lapack_orthogonal_factors_qr
+     use la_lapack_orthogonal_factors_rz
+     use la_lapack_solve_tri_comp
+     use la_lapack_svd_bidiag_qr
+     use la_lapack_svd_comp
+     implicit none(type,external)
+     private
+
+     public :: sp,dp,qp,lk,ilp
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     public :: la_${ri}$gels
+     public :: la_${ri}$gelsy
+     public :: la_${ri}$getsls
+     public :: la_${ri}$gelsd
+     public :: la_${ri}$gelss
+#:endfor
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+     public :: la_${ri}$gels
+     public :: la_${ri}$gelsd
+     public :: la_${ri}$gelss
+     public :: la_${ri}$gelsy
+     public :: la_${ri}$getsls
+#:endfor
+
+     contains
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     !> ${ri.upper()}$GELS: solves overdetermined or underdetermined real linear systems
+     !> involving an M-by-N matrix A, or its transpose, using a QR or LQ
+     !> factorization of A.  It is assumed that A has full rank.
+     !> The following options are provided:
+     !> 1. If TRANS = 'N' and m >= n:  find the least squares solution of
+     !> an overdetermined system, i.e., solve the least squares problem
+     !> minimize || B - A*X ||.
+     !> 2. If TRANS = 'N' and m < n:  find the minimum norm solution of
+     !> an underdetermined system A * X = B.
+     !> 3. If TRANS = 'T' and m >= n:  find the minimum norm solution of
+     !> an underdetermined system A**T * X = B.
+     !> 4. If TRANS = 'T' and m < n:  find the least squares solution of
+     !> an overdetermined system, i.e., solve the least squares problem
+     !> minimize || B - A**T * X ||.
+     !> Several right hand side vectors b and solution vectors x can be
+     !> handled in a single call; they are stored as the columns of the
+     !> M-by-NRHS right hand side matrix B and the N-by-NRHS solution
+     !> matrix X.
+
+     subroutine la_${ri}$gels(trans,m,n,nrhs,a,lda,b,ldb,work,lwork,info)
+        use la_constants_${rk}$,only:zero,one
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: trans
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,lwork,m,n,nrhs
+           ! Array Arguments
+           real(${rk}$),intent(inout) :: a(lda,*),b(ldb,*)
+           real(${rk}$),intent(out) :: work(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lquery,tpsd
+           integer(ilp) :: brow,i,iascl,ibscl,j,mn,nb,scllen,wsize
+           real(${rk}$) :: anrm,bignum,bnrm,smlnum
+           ! Local Arrays
+           real(${rk}$) :: rwork(1)
+           ! Intrinsic Functions
+#:if rk == "sp"
+           intrinsic :: max,min,real
+#:else
+           intrinsic :: real,max,min
+#:endif
+           ! Executable Statements
+           ! test the input arguments.
+           info = 0
+           mn = min(m,n)
+           lquery = (lwork == -1)
+           if (.not. (la_lsame(trans,'N') .or. la_lsame(trans,'T'))) then
+              info = -1
+           else if (m < 0) then
+              info = -2
+           else if (n < 0) then
+              info = -3
+           else if (nrhs < 0) then
+              info = -4
+           else if (lda < max(1,m)) then
+              info = -6
+           else if (ldb < max(1,m,n)) then
+              info = -8
+           else if (lwork < max(1,mn + max(mn,nrhs)) .and. .not. lquery) then
+              info = -10
+           end if
+           ! figure out optimal block size
+           if (info == 0 .or. info == -10) then
+              tpsd = .true.
+              if (la_lsame(trans,'N')) tpsd = .false.
+              if (m >= n) then
+                 nb = la_ilaenv(1,'${ri.upper()}$GEQRF',' ',m,n,-1,-1)
+                 if (tpsd) then
+                    nb = max(nb,la_ilaenv(1,'${ri.upper()}$ORMQR','LN',m,nrhs,n,-1))
+                 else
+                    nb = max(nb,la_ilaenv(1,'${ri.upper()}$ORMQR','LT',m,nrhs,n,-1))
+                 end if
+              else
+                 nb = la_ilaenv(1,'${ri.upper()}$GELQF',' ',m,n,-1,-1)
+                 if (tpsd) then
+                    nb = max(nb,la_ilaenv(1,'${ri.upper()}$ORMLQ','LT',n,nrhs,m,-1))
+                 else
+                    nb = max(nb,la_ilaenv(1,'${ri.upper()}$ORMLQ','LN',n,nrhs,m,-1))
+                 end if
+              end if
+              wsize = max(1,mn + max(mn,nrhs)*nb)
+              work(1) = real(wsize,KIND=${rk}$)
+           end if
+           if (info /= 0) then
+              call la_xerbla('${ri.upper()}$GELS ',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (min(m,n,nrhs) == 0) then
+              call la_${ri}$laset('FULL',max(m,n),nrhs,zero,zero,b,ldb)
+              return
+           end if
+           ! get machine parameters
+           smlnum = la_${ri}$lamch('S')/la_${ri}$lamch('P')
+           bignum = one/smlnum
+           call la_${ri}$labad(smlnum,bignum)
+           ! scale a, b if max element outside range [smlnum,bignum]
+           anrm = la_${ri}$lange('M',m,n,a,lda,rwork)
+           iascl = 0
+           if (anrm > zero .and. anrm < smlnum) then
+              ! scale matrix norm up to smlnum
+              call la_${ri}$lascl('G',0,0,anrm,smlnum,m,n,a,lda,info)
+              iascl = 1
+           else if (anrm > bignum) then
+              ! scale matrix norm down to bignum
+              call la_${ri}$lascl('G',0,0,anrm,bignum,m,n,a,lda,info)
+              iascl = 2
+           else if (anrm == zero) then
+              ! matrix all zero. return zero solution.
+              call la_${ri}$laset('F',max(m,n),nrhs,zero,zero,b,ldb)
+              go to 50
+           end if
+           brow = m
+           if (tpsd) brow = n
+           bnrm = la_${ri}$lange('M',brow,nrhs,b,ldb,rwork)
+           ibscl = 0
+           if (bnrm > zero .and. bnrm < smlnum) then
+              ! scale matrix norm up to smlnum
+              call la_${ri}$lascl('G',0,0,bnrm,smlnum,brow,nrhs,b,ldb,info)
+              ibscl = 1
+           else if (bnrm > bignum) then
+              ! scale matrix norm down to bignum
+              call la_${ri}$lascl('G',0,0,bnrm,bignum,brow,nrhs,b,ldb,info)
+              ibscl = 2
+           end if
+           if (m >= n) then
+              ! compute qr factorization of a
+              call la_${ri}$geqrf(m,n,a,lda,work(1),work(mn + 1),lwork - mn,info)
+              ! workspace at least n, optimally n*nb
+              if (.not. tpsd) then
+                 ! least-squares problem min || a * x - b ||
+                 ! b(1:m,1:nrhs) := q**t * b(1:m,1:nrhs)
+                 call la_${ri}$ormqr('LEFT','TRANSPOSE',m,nrhs,n,a,lda,work(1),b,ldb, &
+                           work(mn + 1),lwork - mn,info)
+                 ! workspace at least nrhs, optimally nrhs*nb
+                 ! b(1:n,1:nrhs) := inv(r) * b(1:n,1:nrhs)
+                 call la_${ri}$trtrs('UPPER','NO TRANSPOSE','NON-UNIT',n,nrhs,a,lda,b,ldb, &
+                           info)
+                 if (info > 0) then
+                    return
+                 end if
+                 scllen = n
+              else
+                 ! underdetermined system of equations a**t * x = b
+                 ! b(1:n,1:nrhs) := inv(r**t) * b(1:n,1:nrhs)
+                 call la_${ri}$trtrs('UPPER','TRANSPOSE','NON-UNIT',n,nrhs,a,lda,b,ldb, &
+                           info)
+                 if (info > 0) then
+                    return
+                 end if
+                 ! b(n+1:m,1:nrhs) = zero
+                 do j = 1,nrhs
+                    do i = n + 1,m
+                       b(i,j) = zero
+                    end do
+                 end do
+                 ! b(1:m,1:nrhs) := q(1:n,:) * b(1:n,1:nrhs)
+                 call la_${ri}$ormqr('LEFT','NO TRANSPOSE',m,nrhs,n,a,lda,work(1),b,ldb, &
+                            work(mn + 1),lwork - mn,info)
+                 ! workspace at least nrhs, optimally nrhs*nb
+                 scllen = m
+              end if
+           else
+              ! compute lq factorization of a
+              call la_${ri}$gelqf(m,n,a,lda,work(1),work(mn + 1),lwork - mn,info)
+              ! workspace at least m, optimally m*nb.
+              if (.not. tpsd) then
+                 ! underdetermined system of equations a * x = b
+                 ! b(1:m,1:nrhs) := inv(l) * b(1:m,1:nrhs)
+                 call la_${ri}$trtrs('LOWER','NO TRANSPOSE','NON-UNIT',m,nrhs,a,lda,b,ldb, &
+                           info)
+                 if (info > 0) then
+                    return
+                 end if
+                 ! b(m+1:n,1:nrhs) = 0
+                 do j = 1,nrhs
+                    do i = m + 1,n
+                       b(i,j) = zero
+                    end do
+                 end do
+                 ! b(1:n,1:nrhs) := q(1:n,:)**t * b(1:m,1:nrhs)
+                 call la_${ri}$ormlq('LEFT','TRANSPOSE',n,nrhs,m,a,lda,work(1),b,ldb, &
+                           work(mn + 1),lwork - mn,info)
+                 ! workspace at least nrhs, optimally nrhs*nb
+                 scllen = n
+              else
+                 ! overdetermined system min || a**t * x - b ||
+                 ! b(1:n,1:nrhs) := q * b(1:n,1:nrhs)
+                 call la_${ri}$ormlq('LEFT','NO TRANSPOSE',n,nrhs,m,a,lda,work(1),b,ldb, &
+                            work(mn + 1),lwork - mn,info)
+                 ! workspace at least nrhs, optimally nrhs*nb
+                 ! b(1:m,1:nrhs) := inv(l**t) * b(1:m,1:nrhs)
+                 call la_${ri}$trtrs('LOWER','TRANSPOSE','NON-UNIT',m,nrhs,a,lda,b,ldb, &
+                           info)
+                 if (info > 0) then
+                    return
+                 end if
+                 scllen = m
+              end if
+           end if
+           ! undo scaling
+           if (iascl == 1) then
+              call la_${ri}$lascl('G',0,0,anrm,smlnum,scllen,nrhs,b,ldb,info)
+           else if (iascl == 2) then
+              call la_${ri}$lascl('G',0,0,anrm,bignum,scllen,nrhs,b,ldb,info)
+           end if
+           if (ibscl == 1) then
+              call la_${ri}$lascl('G',0,0,smlnum,bnrm,scllen,nrhs,b,ldb,info)
+           else if (ibscl == 2) then
+              call la_${ri}$lascl('G',0,0,bignum,bnrm,scllen,nrhs,b,ldb,info)
+           end if
+           50 continue
+           work(1) = real(wsize,KIND=${rk}$)
+           return
+     end subroutine la_${ri}$gels
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     !> ${ri.upper()}$GELSY: computes the minimum-norm solution to a real linear least
+     !> squares problem:
+     !> minimize || A * X - B ||
+     !> using a complete orthogonal factorization of A.  A is an M-by-N
+     !> matrix which may be rank-deficient.
+     !> Several right hand side vectors b and solution vectors x can be
+     !> handled in a single call; they are stored as the columns of the
+     !> M-by-NRHS right hand side matrix B and the N-by-NRHS solution
+     !> matrix X.
+     !> The routine first computes a QR factorization with column pivoting:
+     !> A * P = Q * [ R11 R12 ]
+     !> [  0  R22 ]
+     !> with R11 defined as the largest leading submatrix whose estimated
+     !> condition number is less than 1/RCOND.  The order of R11, RANK,
+     !> is the effective rank of A.
+     !> Then, R22 is considered to be negligible, and R12 is annihilated
+     !> by orthogonal transformations from the right, arriving at the
+     !> complete orthogonal factorization:
+     !> A * P = Q * [ T11 0 ] * Z
+     !> [  0  0 ]
+     !> The minimum-norm solution is then
+     !> X = P * Z**T [ inv(T11)*Q1**T*B ]
+     !> [        0         ]
+     !> where Q1 consists of the first RANK columns of Q.
+     !> This routine is basically identical to the original xGELSX except
+     !> three differences:
+     !> o The call to the subroutine xGEQPF has been substituted by the
+     !> the call to the subroutine xGEQP3. This subroutine is a Blas-3
+     !> version of the QR factorization with column pivoting.
+     !> o Matrix B (the right hand side) is updated with Blas-3.
+     !> o The permutation of matrix B (the right hand side) is faster and
+     !> more simple.
+
+     subroutine la_${ri}$gelsy(m,n,nrhs,a,lda,b,ldb,jpvt,rcond,rank,work,lwork,info)
+        use la_constants_${rk}$,only:zero,one
+
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           integer(ilp),intent(out) :: info,rank
+           integer(ilp),intent(in) :: lda,ldb,lwork,m,n,nrhs
+           real(${rk}$),intent(in) :: rcond
+           ! Array Arguments
+           integer(ilp),intent(inout) :: jpvt(*)
+           real(${rk}$),intent(inout) :: a(lda,*),b(ldb,*)
+           real(${rk}$),intent(out) :: work(*)
+        ! =====================================================================
+           ! Parameters
+           integer(ilp),parameter :: imax = 1
+           integer(ilp),parameter :: imin = 2
+
+           ! Local Scalars
+           logical(lk) :: lquery
+           integer(ilp) :: i,iascl,ibscl,ismax,ismin,j,lwkmin,lwkopt,mn,nb,nb1,nb2, &
+                     nb3,nb4
+           real(${rk}$) :: anrm,bignum,bnrm,c1,c2,s1,s2,smax,smaxpr,smin,sminpr,smlnum, &
+                     wsize
+           ! Intrinsic Functions
+           intrinsic :: abs,max,min
+           ! Executable Statements
+           mn = min(m,n)
+           ismin = mn + 1
+           ismax = 2*mn + 1
+           ! test the input arguments.
+           info = 0
+           lquery = (lwork == -1)
+           if (m < 0) then
+              info = -1
+           else if (n < 0) then
+              info = -2
+           else if (nrhs < 0) then
+              info = -3
+           else if (lda < max(1,m)) then
+              info = -5
+           else if (ldb < max(1,m,n)) then
+              info = -7
+           end if
+           ! figure out optimal block size
+           if (info == 0) then
+              if (mn == 0 .or. nrhs == 0) then
+                 lwkmin = 1
+                 lwkopt = 1
+              else
+                 nb1 = la_ilaenv(1,'${ri.upper()}$GEQRF',' ',m,n,-1,-1)
+                 nb2 = la_ilaenv(1,'${ri.upper()}$GERQF',' ',m,n,-1,-1)
+                 nb3 = la_ilaenv(1,'${ri.upper()}$ORMQR',' ',m,n,nrhs,-1)
+                 nb4 = la_ilaenv(1,'${ri.upper()}$ORMRQ',' ',m,n,nrhs,-1)
+                 nb = max(nb1,nb2,nb3,nb4)
+                 lwkmin = mn + max(2*mn,n + 1,mn + nrhs)
+                 lwkopt = max(lwkmin,mn + 2*n + nb*(n + 1),2*mn + nb*nrhs)
+              end if
+              work(1) = lwkopt
+              if (lwork < lwkmin .and. .not. lquery) then
+                 info = -12
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('${ri.upper()}$GELSY',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (mn == 0 .or. nrhs == 0) then
+              rank = 0
+              return
+           end if
+           ! get machine parameters
+           smlnum = la_${ri}$lamch('S')/la_${ri}$lamch('P')
+           bignum = one/smlnum
+           call la_${ri}$labad(smlnum,bignum)
+           ! scale a, b if max entries outside range [smlnum,bignum]
+           anrm = la_${ri}$lange('M',m,n,a,lda,work)
+           iascl = 0
+           if (anrm > zero .and. anrm < smlnum) then
+              ! scale matrix norm up to smlnum
+              call la_${ri}$lascl('G',0,0,anrm,smlnum,m,n,a,lda,info)
+              iascl = 1
+           else if (anrm > bignum) then
+              ! scale matrix norm down to bignum
+              call la_${ri}$lascl('G',0,0,anrm,bignum,m,n,a,lda,info)
+              iascl = 2
+           else if (anrm == zero) then
+              ! matrix all zero. return zero solution.
+              call la_${ri}$laset('F',max(m,n),nrhs,zero,zero,b,ldb)
+              rank = 0
+              go to 70
+           end if
+           bnrm = la_${ri}$lange('M',m,nrhs,b,ldb,work)
+           ibscl = 0
+           if (bnrm > zero .and. bnrm < smlnum) then
+              ! scale matrix norm up to smlnum
+              call la_${ri}$lascl('G',0,0,bnrm,smlnum,m,nrhs,b,ldb,info)
+              ibscl = 1
+           else if (bnrm > bignum) then
+              ! scale matrix norm down to bignum
+              call la_${ri}$lascl('G',0,0,bnrm,bignum,m,nrhs,b,ldb,info)
+              ibscl = 2
+           end if
+           ! compute qr factorization with column pivoting of a:
+              ! a * p = q * r
+           call la_${ri}$geqp3(m,n,a,lda,jpvt,work(1),work(mn + 1),lwork - mn,info)
+
+           wsize = mn + work(mn + 1)
+           ! workspace: mn+2*n+nb*(n+1).
+           ! details of householder rotations stored in work(1:mn).
+           ! determine rank using incremental condition estimation
+           work(ismin) = one
+           work(ismax) = one
+           smax = abs(a(1,1))
+           smin = smax
+           if (abs(a(1,1)) == zero) then
+              rank = 0
+              call la_${ri}$laset('F',max(m,n),nrhs,zero,zero,b,ldb)
+              go to 70
+           else
+              rank = 1
+           end if
+           10 continue
+           if (rank < mn) then
+              i = rank + 1
+              call la_${ri}$laic1(imin,rank,work(ismin),smin,a(1,i),a(i,i),sminpr, &
+                        s1,c1)
+              call la_${ri}$laic1(imax,rank,work(ismax),smax,a(1,i),a(i,i),smaxpr, &
+                        s2,c2)
+              if (smaxpr*rcond <= sminpr) then
+                 do i = 1,rank
+                    work(ismin + i - 1) = s1*work(ismin + i - 1)
+                    work(ismax + i - 1) = s2*work(ismax + i - 1)
+                 end do
+                 work(ismin + rank) = c1
+                 work(ismax + rank) = c2
+                 smin = sminpr
+                 smax = smaxpr
+                 rank = rank + 1
+                 go to 10
+              end if
+           end if
+           ! workspace: 3*mn.
+           ! logically partition r = [ r11 r12 ]
+                                   ! [  0  r22 ]
+           ! where r11 = r(1:rank,1:rank)
+           ! [r11,r12] = [ t11, 0 ] * y
+           if (rank < n) call la_${ri}$tzrzf(rank,n,a,lda,work(mn + 1),work(2*mn + 1),lwork - &
+                     2*mn,info)
+           ! workspace: 2*mn.
+           ! details of householder rotations stored in work(mn+1:2*mn)
+           ! b(1:m,1:nrhs) := q**t * b(1:m,1:nrhs)
+           call la_${ri}$ormqr('LEFT','TRANSPOSE',m,nrhs,mn,a,lda,work(1),b,ldb,work( &
+                     2*mn + 1),lwork - 2*mn,info)
+           wsize = max(wsize,2*mn + work(2*mn + 1))
+           ! workspace: 2*mn+nb*nrhs.
+           ! b(1:rank,1:nrhs) := inv(t11) * b(1:rank,1:nrhs)
+           call la_${ri}$trsm('LEFT','UPPER','NO TRANSPOSE','NON-UNIT',rank,nrhs,one,a,lda, &
+                      b,ldb)
+           do j = 1,nrhs
+              do i = rank + 1,n
+                 b(i,j) = zero
+              end do
+           end do
+           ! b(1:n,1:nrhs) := y**t * b(1:n,1:nrhs)
+           if (rank < n) then
+              call la_${ri}$ormrz('LEFT','TRANSPOSE',n,nrhs,rank,n - rank,a,lda,work(mn + 1), &
+                         b,ldb,work(2*mn + 1),lwork - 2*mn,info)
+           end if
+           ! workspace: 2*mn+nrhs.
+           ! b(1:n,1:nrhs) := p * b(1:n,1:nrhs)
+           do j = 1,nrhs
+              do i = 1,n
+                 work(jpvt(i)) = b(i,j)
+              end do
+              call la_${ri}$copy(n,work(1),1,b(1,j),1)
+           end do
+           ! workspace: n.
+           ! undo scaling
+           if (iascl == 1) then
+              call la_${ri}$lascl('G',0,0,anrm,smlnum,n,nrhs,b,ldb,info)
+              call la_${ri}$lascl('U',0,0,smlnum,anrm,rank,rank,a,lda,info)
+           else if (iascl == 2) then
+              call la_${ri}$lascl('G',0,0,anrm,bignum,n,nrhs,b,ldb,info)
+              call la_${ri}$lascl('U',0,0,bignum,anrm,rank,rank,a,lda,info)
+           end if
+           if (ibscl == 1) then
+              call la_${ri}$lascl('G',0,0,smlnum,bnrm,n,nrhs,b,ldb,info)
+           else if (ibscl == 2) then
+              call la_${ri}$lascl('G',0,0,bignum,bnrm,n,nrhs,b,ldb,info)
+           end if
+           70 continue
+           work(1) = lwkopt
+           return
+     end subroutine la_${ri}$gelsy
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     !> ${ri.upper()}$GETSLS: solves overdetermined or underdetermined real linear systems
+     !> involving an M-by-N matrix A, using a tall skinny QR or short wide LQ
+     !> factorization of A.  It is assumed that A has full rank.
+     !> The following options are provided:
+     !> 1. If TRANS = 'N' and m >= n:  find the least squares solution of
+     !> an overdetermined system, i.e., solve the least squares problem
+     !> minimize || B - A*X ||.
+     !> 2. If TRANS = 'N' and m < n:  find the minimum norm solution of
+     !> an underdetermined system A * X = B.
+     !> 3. If TRANS = 'T' and m >= n:  find the minimum norm solution of
+     !> an undetermined system A**T * X = B.
+     !> 4. If TRANS = 'T' and m < n:  find the least squares solution of
+     !> an overdetermined system, i.e., solve the least squares problem
+     !> minimize || B - A**T * X ||.
+     !> Several right hand side vectors b and solution vectors x can be
+     !> handled in a single call; they are stored as the columns of the
+     !> M-by-NRHS right hand side matrix B and the N-by-NRHS solution
+     !> matrix X.
+
+     subroutine la_${ri}$getsls(trans,m,n,nrhs,a,lda,b,ldb,work,lwork,info)
+        use la_constants_${rk}$,only:zero,one
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: trans
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,lwork,m,n,nrhs
+           ! Array Arguments
+           real(${rk}$),intent(inout) :: a(lda,*),b(ldb,*)
+           real(${rk}$),intent(out) :: work(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lquery,tran
+           integer(ilp) :: i,iascl,ibscl,j,maxmn,brow,scllen,tszo,tszm,lwo,lwm,lw1, &
+                     lw2,wsizeo,wsizem,info2
+           real(${rk}$) :: anrm,bignum,bnrm,smlnum,tq(5),workq(1)
+           ! Intrinsic Functions
+           intrinsic :: real,max,min,int
+           ! Executable Statements
+           ! test the input arguments.
+           info = 0
+           maxmn = max(m,n)
+           tran = la_lsame(trans,'T')
+           lquery = (lwork == -1 .or. lwork == -2)
+           if (.not. (la_lsame(trans,'N') .or. la_lsame(trans,'T'))) then
+              info = -1
+           else if (m < 0) then
+              info = -2
+           else if (n < 0) then
+              info = -3
+           else if (nrhs < 0) then
+              info = -4
+           else if (lda < max(1,m)) then
+              info = -6
+           else if (ldb < max(1,m,n)) then
+              info = -8
+           end if
+           if (info == 0) then
+           ! determine the optimum and minimum lwork
+            if (m >= n) then
+              call la_${ri}$geqr(m,n,a,lda,tq,-1,workq,-1,info2)
+              tszo = int(tq(1),KIND=ilp)
+              lwo = int(workq(1),KIND=ilp)
+              call la_${ri}$gemqr('L',trans,m,nrhs,n,a,lda,tq,tszo,b,ldb,workq,-1, &
+                        info2)
+              lwo = max(lwo,int(workq(1),KIND=ilp))
+              call la_${ri}$geqr(m,n,a,lda,tq,-2,workq,-2,info2)
+              tszm = int(tq(1),KIND=ilp)
+              lwm = int(workq(1),KIND=ilp)
+              call la_${ri}$gemqr('L',trans,m,nrhs,n,a,lda,tq,tszm,b,ldb,workq,-1, &
+                        info2)
+              lwm = max(lwm,int(workq(1),KIND=ilp))
+              wsizeo = tszo + lwo
+              wsizem = tszm + lwm
+            else
+              call la_${ri}$gelq(m,n,a,lda,tq,-1,workq,-1,info2)
+              tszo = int(tq(1),KIND=ilp)
+              lwo = int(workq(1),KIND=ilp)
+              call la_${ri}$gemlq('L',trans,n,nrhs,m,a,lda,tq,tszo,b,ldb,workq,-1, &
+                        info2)
+              lwo = max(lwo,int(workq(1),KIND=ilp))
+              call la_${ri}$gelq(m,n,a,lda,tq,-2,workq,-2,info2)
+              tszm = int(tq(1),KIND=ilp)
+              lwm = int(workq(1),KIND=ilp)
+              call la_${ri}$gemlq('L',trans,n,nrhs,m,a,lda,tq,tszm,b,ldb,workq,-1, &
+                        info2)
+              lwm = max(lwm,int(workq(1),KIND=ilp))
+              wsizeo = tszo + lwo
+              wsizem = tszm + lwm
+            end if
+            if ((lwork < wsizem) .and. (.not. lquery)) then
+               info = -10
+            end if
+            work(1) = real(wsizeo,KIND=${rk}$)
+           end if
+           if (info /= 0) then
+             call la_xerbla('${ri.upper()}$GETSLS',-info)
+             return
+           end if
+           if (lquery) then
+             if (lwork == -2) work(1) = real(wsizem,KIND=${rk}$)
+             return
+           end if
+           if (lwork < wsizeo) then
+             lw1 = tszm
+             lw2 = lwm
+           else
+             lw1 = tszo
+             lw2 = lwo
+           end if
+           ! quick return if possible
+           if (min(m,n,nrhs) == 0) then
+                call la_${ri}$laset('FULL',max(m,n),nrhs,zero,zero,b,ldb)
+                return
+           end if
+           ! get machine parameters
+            smlnum = la_${ri}$lamch('S')/la_${ri}$lamch('P')
+            bignum = one/smlnum
+            call la_${ri}$labad(smlnum,bignum)
+           ! scale a, b if max element outside range [smlnum,bignum]
+           anrm = la_${ri}$lange('M',m,n,a,lda,work)
+           iascl = 0
+           if (anrm > zero .and. anrm < smlnum) then
+              ! scale matrix norm up to smlnum
+              call la_${ri}$lascl('G',0,0,anrm,smlnum,m,n,a,lda,info)
+              iascl = 1
+           else if (anrm > bignum) then
+              ! scale matrix norm down to bignum
+              call la_${ri}$lascl('G',0,0,anrm,bignum,m,n,a,lda,info)
+              iascl = 2
+           else if (anrm == zero) then
+              ! matrix all zero. return zero solution.
+              call la_${ri}$laset('F',maxmn,nrhs,zero,zero,b,ldb)
+              go to 50
+           end if
+           brow = m
+           if (tran) then
+             brow = n
+           end if
+           bnrm = la_${ri}$lange('M',brow,nrhs,b,ldb,work)
+           ibscl = 0
+           if (bnrm > zero .and. bnrm < smlnum) then
+              ! scale matrix norm up to smlnum
+              call la_${ri}$lascl('G',0,0,bnrm,smlnum,brow,nrhs,b,ldb,info)
+              ibscl = 1
+           else if (bnrm > bignum) then
+              ! scale matrix norm down to bignum
+              call la_${ri}$lascl('G',0,0,bnrm,bignum,brow,nrhs,b,ldb,info)
+              ibscl = 2
+           end if
+           if (m >= n) then
+              ! compute qr factorization of a
+             call la_${ri}$geqr(m,n,a,lda,work(lw2 + 1),lw1,work(1),lw2,info)
+             if (.not. tran) then
+                 ! least-squares problem min || a * x - b ||
+                 ! b(1:m,1:nrhs) := q**t * b(1:m,1:nrhs)
+               call la_${ri}$gemqr('L','T',m,nrhs,n,a,lda,work(lw2 + 1),lw1,b,ldb,work( &
+                          1),lw2,info)
+                 ! b(1:n,1:nrhs) := inv(r) * b(1:n,1:nrhs)
+               call la_${ri}$trtrs('U','N','N',n,nrhs,a,lda,b,ldb,info)
+               if (info > 0) then
+                 return
+               end if
+               scllen = n
+             else
+                 ! overdetermined system of equations a**t * x = b
+                 ! b(1:n,1:nrhs) := inv(r**t) * b(1:n,1:nrhs)
+                 call la_${ri}$trtrs('U','T','N',n,nrhs,a,lda,b,ldb,info)
+                 if (info > 0) then
+                    return
+                 end if
+                 ! b(n+1:m,1:nrhs) = zero
+                 do j = 1,nrhs
+                    do i = n + 1,m
+                       b(i,j) = zero
+                    end do
+                 end do
+                 ! b(1:m,1:nrhs) := q(1:n,:) * b(1:n,1:nrhs)
+                 call la_${ri}$gemqr('L','N',m,nrhs,n,a,lda,work(lw2 + 1),lw1,b,ldb, &
+                           work(1),lw2,info)
+                 scllen = m
+              end if
+           else
+              ! compute lq factorization of a
+              call la_${ri}$gelq(m,n,a,lda,work(lw2 + 1),lw1,work(1),lw2,info)
+              ! workspace at least m, optimally m*nb.
+              if (.not. tran) then
+                 ! underdetermined system of equations a * x = b
+                 ! b(1:m,1:nrhs) := inv(l) * b(1:m,1:nrhs)
+                 call la_${ri}$trtrs('L','N','N',m,nrhs,a,lda,b,ldb,info)
+                 if (info > 0) then
+                    return
+                 end if
+                 ! b(m+1:n,1:nrhs) = 0
+                 do j = 1,nrhs
+                    do i = m + 1,n
+                       b(i,j) = zero
+                    end do
+                 end do
+                 ! b(1:n,1:nrhs) := q(1:n,:)**t * b(1:m,1:nrhs)
+                 call la_${ri}$gemlq('L','T',n,nrhs,m,a,lda,work(lw2 + 1),lw1,b,ldb, &
+                           work(1),lw2,info)
+                 ! workspace at least nrhs, optimally nrhs*nb
+                 scllen = n
+              else
+                 ! overdetermined system min || a**t * x - b ||
+                 ! b(1:n,1:nrhs) := q * b(1:n,1:nrhs)
+                 call la_${ri}$gemlq('L','N',n,nrhs,m,a,lda,work(lw2 + 1),lw1,b,ldb, &
+                           work(1),lw2,info)
+                 ! workspace at least nrhs, optimally nrhs*nb
+                 ! b(1:m,1:nrhs) := inv(l**t) * b(1:m,1:nrhs)
+                 call la_${ri}$trtrs('LOWER','TRANSPOSE','NON-UNIT',m,nrhs,a,lda,b,ldb, &
+                           info)
+                 if (info > 0) then
+                    return
+                 end if
+                 scllen = m
+              end if
+           end if
+           ! undo scaling
+           if (iascl == 1) then
+             call la_${ri}$lascl('G',0,0,anrm,smlnum,scllen,nrhs,b,ldb,info)
+           else if (iascl == 2) then
+             call la_${ri}$lascl('G',0,0,anrm,bignum,scllen,nrhs,b,ldb,info)
+           end if
+           if (ibscl == 1) then
+             call la_${ri}$lascl('G',0,0,smlnum,bnrm,scllen,nrhs,b,ldb,info)
+           else if (ibscl == 2) then
+             call la_${ri}$lascl('G',0,0,bignum,bnrm,scllen,nrhs,b,ldb,info)
+           end if
+           50 continue
+           work(1) = real(tszo + lwo,KIND=${rk}$)
+           return
+     end subroutine la_${ri}$getsls
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     !> ${ri.upper()}$GELSD: computes the minimum-norm solution to a real linear least
+     !> squares problem:
+     !> minimize 2-norm(| b - A*x |)
+     !> using the singular value decomposition (SVD) of A. A is an M-by-N
+     !> matrix which may be rank-deficient.
+     !> Several right hand side vectors b and solution vectors x can be
+     !> handled in a single call; they are stored as the columns of the
+     !> M-by-NRHS right hand side matrix B and the N-by-NRHS solution
+     !> matrix X.
+     !> The problem is solved in three steps:
+     !> (1) Reduce the coefficient matrix A to bidiagonal form with
+     !> Householder transformations, reducing the original problem
+     !> into a "bidiagonal least squares problem" (BLS)
+     !> (2) Solve the BLS using a divide and conquer approach.
+     !> (3) Apply back all the Householder transformations to solve
+     !> the original least squares problem.
+     !> The effective rank of A is determined by treating as zero those
+     !> singular values which are less than RCOND times the largest singular
+     !> value.
+     !> The divide and conquer algorithm makes very mild assumptions about
+     !> floating point arithmetic. It will work on machines with a guard
+     !> digit in add/subtract, or on those binary machines without guard
+     !> digits which subtract like the Cray X-MP, Cray Y-MP, Cray C-90, or
+     !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
+     !> without guard digits, but we know of none.
+
+     subroutine la_${ri}$gelsd(m,n,nrhs,a,lda,b,ldb,s,rcond,rank,work,lwork,iwork, &
+               info)
+        use la_constants_${rk}$,only:zero,one,two
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           integer(ilp),intent(out) :: info,rank
+           integer(ilp),intent(in) :: lda,ldb,lwork,m,n,nrhs
+           real(${rk}$),intent(in) :: rcond
+           ! Array Arguments
+           integer(ilp),intent(out) :: iwork(*)
+           real(${rk}$),intent(inout) :: a(lda,*),b(ldb,*)
+           real(${rk}$),intent(out) :: s(*),work(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lquery
+           integer(ilp) :: iascl,ibscl,ie,il,itau,itaup,itauq,ldwork,liwork,maxmn, &
+                     maxwrk,minmn,minwrk,mm,mnthr,nlvl,nwork,smlsiz,wlalsd
+           real(${rk}$) :: anrm,bignum,bnrm,eps,sfmin,smlnum
+           ! Intrinsic Functions
+#:if rk == "sp"
+           intrinsic :: int,log,max,min,real
+#:else
+           intrinsic :: real,int,log,max,min
+#:endif
+           ! Executable Statements
+           ! test the input arguments.
+           info = 0
+           minmn = min(m,n)
+           maxmn = max(m,n)
+#:if rk != "sp"
+           mnthr = la_ilaenv(6,'${ri.upper()}$GELSD',' ',m,n,nrhs,-1)
+#:endif
+           lquery = (lwork == -1)
+           if (m < 0) then
+              info = -1
+           else if (n < 0) then
+              info = -2
+           else if (nrhs < 0) then
+              info = -3
+           else if (lda < max(1,m)) then
+              info = -5
+           else if (ldb < max(1,maxmn)) then
+              info = -7
+           end if
+#:if rk != "sp"
+           smlsiz = la_ilaenv(9,'${ri.upper()}$GELSD',' ',0,0,0,0)
+#:endif
+           ! compute workspace.
+           ! (note: comments in the code beginning "workspace:" describe the
+           ! minimal amount of workspace needed at that point in the code,
+           ! as well as the preferred amount for good performance.
+           ! nb refers to the optimal block size for the immediately
+           ! following subroutine, as returned by la_ilaenv.)
+#:if rk != "sp"
+           minwrk = 1
+           liwork = 1
+           minmn = max(1,minmn)
+           nlvl = max(int(log(real(minmn,KIND=${rk}$)/real(smlsiz + 1,KIND=${rk}$))/log(two), &
+                     KIND=ilp) + 1,0)
+#:endif
+           if (info == 0) then
+#:if rk == "sp"
+              minwrk = 1
+              maxwrk = 1
+              liwork = 1
+              if (minmn > 0) then
+                 smlsiz = la_ilaenv(9,'${ri.upper()}$GELSD',' ',0,0,0,0)
+                 mnthr = la_ilaenv(6,'${ri.upper()}$GELSD',' ',m,n,nrhs,-1)
+                 nlvl = max(int(log(real(minmn,KIND=${rk}$)/real(smlsiz + 1,KIND=${rk}$))/log( &
+                           two),KIND=ilp) + 1,0)
+#:else
+              maxwrk = 0
+#:endif
+              liwork = 3*minmn*nlvl + 11*minmn
+              mm = m
+              if (m >= n .and. m >= mnthr) then
+#:if rk == "sp"
+                    ! path 1a - overdetermined, with many more rows than
+                              ! columns.
+#:else
+                 ! path 1a - overdetermined, with many more rows than columns.
+#:endif
+                 mm = n
+                 maxwrk = max(maxwrk,n + n*la_ilaenv(1,'${ri.upper()}$GEQRF',' ',m,n,-1,-1))
+
+#:if rk == "sp"
+                    maxwrk = max(maxwrk,n + nrhs*la_ilaenv(1,'${ri.upper()}$ORMQR','LT',m,nrhs,n,- &
+                              1))
+#:else
+                 maxwrk = max(maxwrk,n + nrhs*la_ilaenv(1,'${ri.upper()}$ORMQR','LT',m,nrhs,n,-1))
+
+#:endif
+              end if
+              if (m >= n) then
+                 ! path 1 - overdetermined or exactly determined.
+#:if rk == "sp"
+                    maxwrk = max(maxwrk,3*n + (mm + n)*la_ilaenv(1,'${ri.upper()}$GEBRD',' ',mm,n, &
+                              -1,-1))
+                    maxwrk = max(maxwrk,3*n + nrhs*la_ilaenv(1,'${ri.upper()}$ORMBR','QLT',mm,nrhs, &
+                              n,-1))
+                    maxwrk = max(maxwrk,3*n + (n - 1)*la_ilaenv(1,'${ri.upper()}$ORMBR','PLN',n, &
+                              nrhs,n,-1))
+#:else
+                 maxwrk = max(maxwrk,3*n + (mm + n)*la_ilaenv(1,'${ri.upper()}$GEBRD',' ',mm,n,-1,- &
+                           1))
+                 maxwrk = max(maxwrk,3*n + nrhs*la_ilaenv(1,'${ri.upper()}$ORMBR','QLT',mm,nrhs,n,- &
+                           1))
+                 maxwrk = max(maxwrk,3*n + (n - 1)*la_ilaenv(1,'${ri.upper()}$ORMBR','PLN',n,nrhs,n, &
+                           -1))
+#:endif
+                 wlalsd = 9*n + 2*n*smlsiz + 8*n*nlvl + n*nrhs + (smlsiz + 1)**2
+                 maxwrk = max(maxwrk,3*n + wlalsd)
+                 minwrk = max(3*n + mm,3*n + nrhs,3*n + wlalsd)
+              end if
+              if (n > m) then
+                 wlalsd = 9*m + 2*m*smlsiz + 8*m*nlvl + m*nrhs + (smlsiz + 1)**2
+                 if (n >= mnthr) then
+                    ! path 2a - underdetermined, with many more columns
+                    ! than rows.
+                    maxwrk = m + m*la_ilaenv(1,'${ri.upper()}$GELQF',' ',m,n,-1,-1)
+#:if rk == "sp"
+                       maxwrk = max(maxwrk,m*m + 4*m + 2*m*la_ilaenv(1,'${ri.upper()}$GEBRD',' ',m,m, &
+                                  -1,-1))
+                       maxwrk = max(maxwrk,m*m + 4*m + nrhs*la_ilaenv(1,'${ri.upper()}$ORMBR','QLT',m, &
+#:else
+                    maxwrk = max(maxwrk,m*m + 4*m + 2*m*la_ilaenv(1,'${ri.upper()}$GEBRD',' ',m,m,-1,- &
+                              1))
+                    maxwrk = max(maxwrk,m*m + 4*m + nrhs*la_ilaenv(1,'${ri.upper()}$ORMBR','QLT',m,nrhs, &
+                               m,-1))
+                    maxwrk = max(maxwrk,m*m + 4*m + (m - 1)*la_ilaenv(1,'${ri.upper()}$ORMBR','PLN',m, &
+#:endif
+                              nrhs,m,-1))
+#:if rk == "sp"
+                       maxwrk = max(maxwrk,m*m + 4*m + (m - 1)*la_ilaenv(1,'${ri.upper()}$ORMBR', &
+                                 'PLN',m,nrhs,m,-1))
+#:endif
+                    if (nrhs > 1) then
+                       maxwrk = max(maxwrk,m*m + m + m*nrhs)
+                    else
+                       maxwrk = max(maxwrk,m*m + 2*m)
+                    end if
+#:if rk == "sp"
+                       maxwrk = max(maxwrk,m + nrhs*la_ilaenv(1,'${ri.upper()}$ORMLQ','LT',n,nrhs,m, &
+                                  -1))
+#:else
+                    maxwrk = max(maxwrk,m + nrhs*la_ilaenv(1,'${ri.upper()}$ORMLQ','LT',n,nrhs,m,-1 &
+                              ))
+#:endif
+                    maxwrk = max(maxwrk,m*m + 4*m + wlalsd)
+           ! xxx: ensure the path 2a case below is triggered.  the workspace
+           ! calculation should use queries for all routines eventually.
+                    maxwrk = max(maxwrk,4*m + m*m + max(m,2*m - 4,nrhs,n - 3*m))
+                 else
+                    ! path 2 - remaining underdetermined cases.
+                    maxwrk = 3*m + (n + m)*la_ilaenv(1,'${ri.upper()}$GEBRD',' ',m,n,-1,-1)
+#:if rk == "sp"
+
+                       maxwrk = max(maxwrk,3*m + nrhs*la_ilaenv(1,'${ri.upper()}$ORMBR','QLT',m,nrhs, &
+                                  n,-1))
+                       maxwrk = max(maxwrk,3*m + m*la_ilaenv(1,'${ri.upper()}$ORMBR','PLN',n,nrhs,m, &
+#:else
+                    maxwrk = max(maxwrk,3*m + nrhs*la_ilaenv(1,'${ri.upper()}$ORMBR','QLT',m,nrhs,n, &
+#:endif
+                              -1))
+#:if rk != "sp"
+                    maxwrk = max(maxwrk,3*m + m*la_ilaenv(1,'${ri.upper()}$ORMBR','PLN',n,nrhs,m,-1 &
+                              ))
+#:endif
+                    maxwrk = max(maxwrk,3*m + wlalsd)
+                 end if
+                 minwrk = max(3*m + nrhs,3*m + m,3*m + wlalsd)
+#:if rk == "sp"
+                 end if
+#:endif
+              end if
+              minwrk = min(minwrk,maxwrk)
+              work(1) = maxwrk
+              iwork(1) = liwork
+              if (lwork < minwrk .and. .not. lquery) then
+                 info = -12
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('${ri.upper()}$GELSD',-info)
+              return
+           else if (lquery) then
+#:if rk == "sp"
+              return
+#:else
+              go to 10
+#:endif
+           end if
+           ! quick return if possible.
+           if (m == 0 .or. n == 0) then
+              rank = 0
+              return
+           end if
+           ! get machine parameters.
+           eps = la_${ri}$lamch('P')
+           sfmin = la_${ri}$lamch('S')
+           smlnum = sfmin/eps
+           bignum = one/smlnum
+           call la_${ri}$labad(smlnum,bignum)
+           ! scale a if max entry outside range [smlnum,bignum].
+           anrm = la_${ri}$lange('M',m,n,a,lda,work)
+           iascl = 0
+           if (anrm > zero .and. anrm < smlnum) then
+              ! scale matrix norm up to smlnum.
+              call la_${ri}$lascl('G',0,0,anrm,smlnum,m,n,a,lda,info)
+              iascl = 1
+           else if (anrm > bignum) then
+              ! scale matrix norm down to bignum.
+              call la_${ri}$lascl('G',0,0,anrm,bignum,m,n,a,lda,info)
+              iascl = 2
+           else if (anrm == zero) then
+              ! matrix all zero. return zero solution.
+              call la_${ri}$laset('F',max(m,n),nrhs,zero,zero,b,ldb)
+              call la_${ri}$laset('F',minmn,1,zero,zero,s,1)
+              rank = 0
+              go to 10
+           end if
+           ! scale b if max entry outside range [smlnum,bignum].
+           bnrm = la_${ri}$lange('M',m,nrhs,b,ldb,work)
+           ibscl = 0
+           if (bnrm > zero .and. bnrm < smlnum) then
+              ! scale matrix norm up to smlnum.
+              call la_${ri}$lascl('G',0,0,bnrm,smlnum,m,nrhs,b,ldb,info)
+              ibscl = 1
+           else if (bnrm > bignum) then
+              ! scale matrix norm down to bignum.
+              call la_${ri}$lascl('G',0,0,bnrm,bignum,m,nrhs,b,ldb,info)
+              ibscl = 2
+           end if
+           ! if m < n make sure certain entries of b are zero.
+           if (m < n) call la_${ri}$laset('F',n - m,nrhs,zero,zero,b(m + 1,1),ldb)
+           ! overdetermined case.
+           if (m >= n) then
+              ! path 1 - overdetermined or exactly determined.
+              mm = m
+              if (m >= mnthr) then
+                 ! path 1a - overdetermined, with many more rows than columns.
+                 mm = n
+                 itau = 1
+                 nwork = itau + n
+                 ! compute a=q*r.
+                 ! (workspace: need 2*n, prefer n+n*nb)
+                 call la_${ri}$geqrf(m,n,a,lda,work(itau),work(nwork),lwork - nwork + 1, &
+                           info)
+                 ! multiply b by transpose(q).
+                 ! (workspace: need n+nrhs, prefer n+nrhs*nb)
+                 call la_${ri}$ormqr('L','T',m,nrhs,n,a,lda,work(itau),b,ldb,work( &
+                           nwork),lwork - nwork + 1,info)
+                 ! zero out below r.
+                 if (n > 1) then
+                    call la_${ri}$laset('L',n - 1,n - 1,zero,zero,a(2,1),lda)
+                 end if
+              end if
+              ie = 1
+              itauq = ie + n
+              itaup = itauq + n
+              nwork = itaup + n
+              ! bidiagonalize r in a.
+              ! (workspace: need 3*n+mm, prefer 3*n+(mm+n)*nb)
+              call la_${ri}$gebrd(mm,n,a,lda,s,work(ie),work(itauq),work(itaup),work( &
+                         nwork),lwork - nwork + 1,info)
+              ! multiply b by transpose of left bidiagonalizing vectors of r.
+              ! (workspace: need 3*n+nrhs, prefer 3*n+nrhs*nb)
+              call la_${ri}$ormbr('Q','L','T',mm,nrhs,n,a,lda,work(itauq),b,ldb,work( &
+                        nwork),lwork - nwork + 1,info)
+              ! solve the bidiagonal least squares problem.
+              call la_${ri}$lalsd('U',smlsiz,n,nrhs,s,work(ie),b,ldb,rcond,rank,work( &
+                        nwork),iwork,info)
+              if (info /= 0) then
+                 go to 10
+              end if
+              ! multiply b by right bidiagonalizing vectors of r.
+              call la_${ri}$ormbr('P','L','N',n,nrhs,n,a,lda,work(itaup),b,ldb,work( &
+                        nwork),lwork - nwork + 1,info)
+           else if (n >= mnthr .and. lwork >= 4*m + m*m + max(m,2*m - 4,nrhs,n - 3*m,wlalsd)) &
+                     then
+              ! path 2a - underdetermined, with many more columns than rows
+              ! and sufficient workspace for an efficient algorithm.
+              ldwork = m
+              if (lwork >= max(4*m + m*lda + max(m,2*m - 4,nrhs,n - 3*m),m*lda + m + m*nrhs,4*m + m*lda + &
+                        wlalsd)) ldwork = lda
+              itau = 1
+              nwork = m + 1
+              ! compute a=l*q.
+              ! (workspace: need 2*m, prefer m+m*nb)
+              call la_${ri}$gelqf(m,n,a,lda,work(itau),work(nwork),lwork - nwork + 1,info)
+
+              il = nwork
+              ! copy l to work(il), zeroing out above its diagonal.
+              call la_${ri}$lacpy('L',m,m,a,lda,work(il),ldwork)
+              call la_${ri}$laset('U',m - 1,m - 1,zero,zero,work(il + ldwork),ldwork)
+              ie = il + ldwork*m
+              itauq = ie + m
+              itaup = itauq + m
+              nwork = itaup + m
+              ! bidiagonalize l in work(il).
+              ! (workspace: need m*m+5*m, prefer m*m+4*m+2*m*nb)
+              call la_${ri}$gebrd(m,m,work(il),ldwork,s,work(ie),work(itauq),work( &
+                        itaup),work(nwork),lwork - nwork + 1,info)
+              ! multiply b by transpose of left bidiagonalizing vectors of l.
+              ! (workspace: need m*m+4*m+nrhs, prefer m*m+4*m+nrhs*nb)
+              call la_${ri}$ormbr('Q','L','T',m,nrhs,m,work(il),ldwork,work(itauq),b, &
+                        ldb,work(nwork),lwork - nwork + 1,info)
+              ! solve the bidiagonal least squares problem.
+              call la_${ri}$lalsd('U',smlsiz,m,nrhs,s,work(ie),b,ldb,rcond,rank,work( &
+                        nwork),iwork,info)
+              if (info /= 0) then
+                 go to 10
+              end if
+              ! multiply b by right bidiagonalizing vectors of l.
+              call la_${ri}$ormbr('P','L','N',m,nrhs,m,work(il),ldwork,work(itaup),b, &
+                        ldb,work(nwork),lwork - nwork + 1,info)
+              ! zero out below first m rows of b.
+              call la_${ri}$laset('F',n - m,nrhs,zero,zero,b(m + 1,1),ldb)
+              nwork = itau + m
+              ! multiply transpose(q) by b.
+              ! (workspace: need m+nrhs, prefer m+nrhs*nb)
+              call la_${ri}$ormlq('L','T',n,nrhs,m,a,lda,work(itau),b,ldb,work(nwork) &
+                        ,lwork - nwork + 1,info)
+           else
+              ! path 2 - remaining underdetermined cases.
+              ie = 1
+              itauq = ie + m
+              itaup = itauq + m
+              nwork = itaup + m
+              ! bidiagonalize a.
+              ! (workspace: need 3*m+n, prefer 3*m+(m+n)*nb)
+              call la_${ri}$gebrd(m,n,a,lda,s,work(ie),work(itauq),work(itaup),work( &
+                        nwork),lwork - nwork + 1,info)
+              ! multiply b by transpose of left bidiagonalizing vectors.
+              ! (workspace: need 3*m+nrhs, prefer 3*m+nrhs*nb)
+              call la_${ri}$ormbr('Q','L','T',m,nrhs,n,a,lda,work(itauq),b,ldb,work( &
+                        nwork),lwork - nwork + 1,info)
+              ! solve the bidiagonal least squares problem.
+              call la_${ri}$lalsd('L',smlsiz,m,nrhs,s,work(ie),b,ldb,rcond,rank,work( &
+                        nwork),iwork,info)
+              if (info /= 0) then
+                 go to 10
+              end if
+              ! multiply b by right bidiagonalizing vectors of a.
+              call la_${ri}$ormbr('P','L','N',n,nrhs,m,a,lda,work(itaup),b,ldb,work( &
+                        nwork),lwork - nwork + 1,info)
+           end if
+           ! undo scaling.
+           if (iascl == 1) then
+              call la_${ri}$lascl('G',0,0,anrm,smlnum,n,nrhs,b,ldb,info)
+              call la_${ri}$lascl('G',0,0,smlnum,anrm,minmn,1,s,minmn,info)
+           else if (iascl == 2) then
+              call la_${ri}$lascl('G',0,0,anrm,bignum,n,nrhs,b,ldb,info)
+              call la_${ri}$lascl('G',0,0,bignum,anrm,minmn,1,s,minmn,info)
+           end if
+           if (ibscl == 1) then
+              call la_${ri}$lascl('G',0,0,smlnum,bnrm,n,nrhs,b,ldb,info)
+           else if (ibscl == 2) then
+              call la_${ri}$lascl('G',0,0,bignum,bnrm,n,nrhs,b,ldb,info)
+           end if
+           10 continue
+           work(1) = maxwrk
+           iwork(1) = liwork
+           return
+     end subroutine la_${ri}$gelsd
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     !> ${ri.upper()}$GELSS: computes the minimum norm solution to a real linear least
+     !> squares problem:
+     !> Minimize 2-norm(| b - A*x |).
+     !> using the singular value decomposition (SVD) of A. A is an M-by-N
+     !> matrix which may be rank-deficient.
+     !> Several right hand side vectors b and solution vectors x can be
+     !> handled in a single call; they are stored as the columns of the
+     !> M-by-NRHS right hand side matrix B and the N-by-NRHS solution matrix
+     !> X.
+     !> The effective rank of A is determined by treating as zero those
+     !> singular values which are less than RCOND times the largest singular
+     !> value.
+
+     subroutine la_${ri}$gelss(m,n,nrhs,a,lda,b,ldb,s,rcond,rank,work,lwork,info)
+        use la_constants_${rk}$,only:zero,one
+
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           integer(ilp),intent(out) :: info,rank
+           integer(ilp),intent(in) :: lda,ldb,lwork,m,n,nrhs
+           real(${rk}$),intent(in) :: rcond
+           ! Array Arguments
+           real(${rk}$),intent(inout) :: a(lda,*),b(ldb,*)
+           real(${rk}$),intent(out) :: s(*),work(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lquery
+           integer(ilp) :: bdspac,bl,chunk,i,iascl,ibscl,ie,il,itau,itaup,itauq,iwork, &
+                     ldwork,maxmn,maxwrk,minmn,minwrk,mm,mnthr
+           integer(ilp) :: lwork_${ri}$geqrf,lwork_${ri}$ormqr,lwork_${ri}$gebrd,lwork_${ri}$ormbr,lwork_${ri}$orgbr, &
+#:if rk == "sp"
+                     lwork_${ri}$ormlq
+#:else
+                     lwork_${ri}$ormlq,lwork_dgelqf
+#:endif
+           real(${rk}$) :: anrm,bignum,bnrm,eps,sfmin,smlnum,thr
+           ! Local Arrays
+           real(${rk}$) :: dum(1)
+           ! Intrinsic Functions
+           intrinsic :: max,min
+           ! Executable Statements
+           ! test the input arguments
+           info = 0
+           minmn = min(m,n)
+           maxmn = max(m,n)
+           lquery = (lwork == -1)
+           if (m < 0) then
+              info = -1
+           else if (n < 0) then
+              info = -2
+           else if (nrhs < 0) then
+              info = -3
+           else if (lda < max(1,m)) then
+              info = -5
+           else if (ldb < max(1,maxmn)) then
+              info = -7
+           end if
+           ! compute workspace
+            ! (note: comments in the code beginning "workspace:" describe the
+             ! minimal amount of workspace needed at that point in the code,
+             ! as well as the preferred amount for good performance.
+             ! nb refers to the optimal block size for the immediately
+             ! following subroutine, as returned by la_ilaenv.)
+           if (info == 0) then
+              minwrk = 1
+              maxwrk = 1
+              if (minmn > 0) then
+                 mm = m
+                 mnthr = la_ilaenv(6,'${ri.upper()}$GELSS',' ',m,n,nrhs,-1)
+                 if (m >= n .and. m >= mnthr) then
+                    ! path 1a - overdetermined, with many more rows than
+                              ! columns
+                    ! compute space needed for la_${ri}$geqrf
+                    call la_${ri}$geqrf(m,n,a,lda,dum(1),dum(1),-1,info)
+                    lwork_${ri}$geqrf = dum(1)
+                    ! compute space needed for la_${ri}$ormqr
+                    call la_${ri}$ormqr('L','T',m,nrhs,n,a,lda,dum(1),b,ldb,dum(1),-1, &
+                              info)
+                    lwork_${ri}$ormqr = dum(1)
+                    mm = n
+                    maxwrk = max(maxwrk,n + lwork_${ri}$geqrf)
+                    maxwrk = max(maxwrk,n + lwork_${ri}$ormqr)
+                 end if
+                 if (m >= n) then
+                    ! path 1 - overdetermined or exactly determined
+                    ! compute workspace needed for la_${ri}$bdsqr
+                    bdspac = max(1,5*n)
+                    ! compute space needed for la_${ri}$gebrd
+                    call la_${ri}$gebrd(mm,n,a,lda,s,dum(1),dum(1),dum(1),dum(1),-1,info &
+                              )
+                    lwork_${ri}$gebrd = dum(1)
+                    ! compute space needed for la_${ri}$ormbr
+                    call la_${ri}$ormbr('Q','L','T',mm,nrhs,n,a,lda,dum(1),b,ldb,dum(1), &
+                               -1,info)
+                    lwork_${ri}$ormbr = dum(1)
+                    ! compute space needed for la_${ri}$orgbr
+                    call la_${ri}$orgbr('P',n,n,n,a,lda,dum(1),dum(1),-1,info)
+                    lwork_${ri}$orgbr = dum(1)
+                    ! compute total workspace needed
+                    maxwrk = max(maxwrk,3*n + lwork_${ri}$gebrd)
+                    maxwrk = max(maxwrk,3*n + lwork_${ri}$ormbr)
+                    maxwrk = max(maxwrk,3*n + lwork_${ri}$orgbr)
+                    maxwrk = max(maxwrk,bdspac)
+                    maxwrk = max(maxwrk,n*nrhs)
+                    minwrk = max(3*n + mm,3*n + nrhs,bdspac)
+                    maxwrk = max(minwrk,maxwrk)
+                 end if
+                 if (n > m) then
+                    ! compute workspace needed for la_${ri}$bdsqr
+                    bdspac = max(1,5*m)
+                    minwrk = max(3*m + nrhs,3*m + n,bdspac)
+                    if (n >= mnthr) then
+                       ! path 2a - underdetermined, with many more columns
+                       ! than rows
+#:if rk != "sp"
+                       ! compute space needed for la_${ri}$gelqf
+                       call la_${ri}$gelqf(m,n,a,lda,dum(1),dum(1),-1,info)
+                       lwork_dgelqf = dum(1)
+#:endif
+                       ! compute space needed for la_${ri}$gebrd
+                       call la_${ri}$gebrd(m,m,a,lda,s,dum(1),dum(1),dum(1),dum(1),-1, &
+                                 info)
+                       lwork_${ri}$gebrd = dum(1)
+                       ! compute space needed for la_${ri}$ormbr
+                       call la_${ri}$ormbr('Q','L','T',m,nrhs,n,a,lda,dum(1),b,ldb,dum( &
+                                 1),-1,info)
+                       lwork_${ri}$ormbr = dum(1)
+                       ! compute space needed for la_${ri}$orgbr
+                       call la_${ri}$orgbr('P',m,m,m,a,lda,dum(1),dum(1),-1,info)
+                       lwork_${ri}$orgbr = dum(1)
+                       ! compute space needed for la_${ri}$ormlq
+                       call la_${ri}$ormlq('L','T',n,nrhs,m,a,lda,dum(1),b,ldb,dum(1),- &
+                                 1,info)
+                       lwork_${ri}$ormlq = dum(1)
+                       ! compute total workspace needed
+#:if rk == "sp"
+                       maxwrk = m + m*la_ilaenv(1,'${ri.upper()}$GELQF',' ',m,n,-1,-1)
+#:else
+                       maxwrk = m + lwork_dgelqf
+#:endif
+                       maxwrk = max(maxwrk,m*m + 4*m + lwork_${ri}$gebrd)
+                       maxwrk = max(maxwrk,m*m + 4*m + lwork_${ri}$ormbr)
+                       maxwrk = max(maxwrk,m*m + 4*m + lwork_${ri}$orgbr)
+                       maxwrk = max(maxwrk,m*m + m + bdspac)
+                       if (nrhs > 1) then
+                          maxwrk = max(maxwrk,m*m + m + m*nrhs)
+                       else
+                          maxwrk = max(maxwrk,m*m + 2*m)
+                       end if
+                       maxwrk = max(maxwrk,m + lwork_${ri}$ormlq)
+                    else
+                       ! path 2 - underdetermined
+                       ! compute space needed for la_${ri}$gebrd
+                       call la_${ri}$gebrd(m,n,a,lda,s,dum(1),dum(1),dum(1),dum(1),-1, &
+                                 info)
+                       lwork_${ri}$gebrd = dum(1)
+                       ! compute space needed for la_${ri}$ormbr
+                       call la_${ri}$ormbr('Q','L','T',m,nrhs,m,a,lda,dum(1),b,ldb,dum( &
+                                 1),-1,info)
+                       lwork_${ri}$ormbr = dum(1)
+                       ! compute space needed for la_${ri}$orgbr
+                       call la_${ri}$orgbr('P',m,n,m,a,lda,dum(1),dum(1),-1,info)
+                       lwork_${ri}$orgbr = dum(1)
+                       maxwrk = 3*m + lwork_${ri}$gebrd
+                       maxwrk = max(maxwrk,3*m + lwork_${ri}$ormbr)
+                       maxwrk = max(maxwrk,3*m + lwork_${ri}$orgbr)
+                       maxwrk = max(maxwrk,bdspac)
+                       maxwrk = max(maxwrk,n*nrhs)
+                    end if
+                 end if
+                 maxwrk = max(minwrk,maxwrk)
+              end if
+              work(1) = maxwrk
+              if (lwork < minwrk .and. .not. lquery) info = -12
+           end if
+           if (info /= 0) then
+              call la_xerbla('${ri.upper()}$GELSS',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (m == 0 .or. n == 0) then
+              rank = 0
+              return
+           end if
+           ! get machine parameters
+           eps = la_${ri}$lamch('P')
+           sfmin = la_${ri}$lamch('S')
+           smlnum = sfmin/eps
+           bignum = one/smlnum
+           call la_${ri}$labad(smlnum,bignum)
+           ! scale a if max element outside range [smlnum,bignum]
+           anrm = la_${ri}$lange('M',m,n,a,lda,work)
+           iascl = 0
+           if (anrm > zero .and. anrm < smlnum) then
+              ! scale matrix norm up to smlnum
+              call la_${ri}$lascl('G',0,0,anrm,smlnum,m,n,a,lda,info)
+              iascl = 1
+           else if (anrm > bignum) then
+              ! scale matrix norm down to bignum
+              call la_${ri}$lascl('G',0,0,anrm,bignum,m,n,a,lda,info)
+              iascl = 2
+           else if (anrm == zero) then
+              ! matrix all zero. return zero solution.
+              call la_${ri}$laset('F',max(m,n),nrhs,zero,zero,b,ldb)
+              call la_${ri}$laset('F',minmn,1,zero,zero,s,minmn)
+              rank = 0
+              go to 70
+           end if
+           ! scale b if max element outside range [smlnum,bignum]
+           bnrm = la_${ri}$lange('M',m,nrhs,b,ldb,work)
+           ibscl = 0
+           if (bnrm > zero .and. bnrm < smlnum) then
+              ! scale matrix norm up to smlnum
+              call la_${ri}$lascl('G',0,0,bnrm,smlnum,m,nrhs,b,ldb,info)
+              ibscl = 1
+           else if (bnrm > bignum) then
+              ! scale matrix norm down to bignum
+              call la_${ri}$lascl('G',0,0,bnrm,bignum,m,nrhs,b,ldb,info)
+              ibscl = 2
+           end if
+           ! overdetermined case
+           if (m >= n) then
+              ! path 1 - overdetermined or exactly determined
+              mm = m
+              if (m >= mnthr) then
+                 ! path 1a - overdetermined, with many more rows than columns
+                 mm = n
+                 itau = 1
+                 iwork = itau + n
+                 ! compute a=q*r
+                 ! (workspace: need 2*n, prefer n+n*nb)
+                 call la_${ri}$geqrf(m,n,a,lda,work(itau),work(iwork),lwork - iwork + 1, &
+                           info)
+                 ! multiply b by transpose(q)
+                 ! (workspace: need n+nrhs, prefer n+nrhs*nb)
+                 call la_${ri}$ormqr('L','T',m,nrhs,n,a,lda,work(itau),b,ldb,work( &
+                           iwork),lwork - iwork + 1,info)
+                 ! zero out below r
+                 if (n > 1) call la_${ri}$laset('L',n - 1,n - 1,zero,zero,a(2,1),lda)
+              end if
+              ie = 1
+              itauq = ie + n
+              itaup = itauq + n
+              iwork = itaup + n
+              ! bidiagonalize r in a
+              ! (workspace: need 3*n+mm, prefer 3*n+(mm+n)*nb)
+              call la_${ri}$gebrd(mm,n,a,lda,s,work(ie),work(itauq),work(itaup),work( &
+                         iwork),lwork - iwork + 1,info)
+              ! multiply b by transpose of left bidiagonalizing vectors of r
+              ! (workspace: need 3*n+nrhs, prefer 3*n+nrhs*nb)
+              call la_${ri}$ormbr('Q','L','T',mm,nrhs,n,a,lda,work(itauq),b,ldb,work( &
+                        iwork),lwork - iwork + 1,info)
+              ! generate right bidiagonalizing vectors of r in a
+              ! (workspace: need 4*n-1, prefer 3*n+(n-1)*nb)
+              call la_${ri}$orgbr('P',n,n,n,a,lda,work(itaup),work(iwork),lwork - iwork + &
+                        1,info)
+              iwork = ie + n
+              ! perform bidiagonal qr iteration
+                ! multiply b by transpose of left singular vectors
+                ! compute right singular vectors in a
+              ! (workspace: need bdspac)
+              call la_${ri}$bdsqr('U',n,n,0,nrhs,s,work(ie),a,lda,dum,1,b,ldb,work( &
+                        iwork),info)
+              if (info /= 0) go to 70
+              ! multiply b by reciprocals of singular values
+              thr = max(rcond*s(1),sfmin)
+              if (rcond < zero) thr = max(eps*s(1),sfmin)
+              rank = 0
+              do i = 1,n
+                 if (s(i) > thr) then
+                    call la_${ri}$rscl(nrhs,s(i),b(i,1),ldb)
+                    rank = rank + 1
+                 else
+                    call la_${ri}$laset('F',1,nrhs,zero,zero,b(i,1),ldb)
+                 end if
+              end do
+              ! multiply b by right singular vectors
+              ! (workspace: need n, prefer n*nrhs)
+              if (lwork >= ldb*nrhs .and. nrhs > 1) then
+                 call la_${ri}$gemm('T','N',n,nrhs,n,one,a,lda,b,ldb,zero,work,ldb)
+
+                 call la_${ri}$lacpy('G',n,nrhs,work,ldb,b,ldb)
+              else if (nrhs > 1) then
+                 chunk = lwork/n
+                 do i = 1,nrhs,chunk
+                    bl = min(nrhs - i + 1,chunk)
+                    call la_${ri}$gemm('T','N',n,bl,n,one,a,lda,b(1,i),ldb,zero,work, &
+                               n)
+                    call la_${ri}$lacpy('G',n,bl,work,n,b(1,i),ldb)
+                 end do
+              else
+                 call la_${ri}$gemv('T',n,n,one,a,lda,b,1,zero,work,1)
+                 call la_${ri}$copy(n,work,1,b,1)
+              end if
+           else if (n >= mnthr .and. lwork >= 4*m + m*m + max(m,2*m - 4,nrhs,n - 3*m)) then
+              ! path 2a - underdetermined, with many more columns than rows
+              ! and sufficient workspace for an efficient algorithm
+              ldwork = m
+              if (lwork >= max(4*m + m*lda + max(m,2*m - 4,nrhs,n - 3*m),m*lda + m + m*nrhs)) ldwork = &
+                        lda
+              itau = 1
+              iwork = m + 1
+              ! compute a=l*q
+              ! (workspace: need 2*m, prefer m+m*nb)
+              call la_${ri}$gelqf(m,n,a,lda,work(itau),work(iwork),lwork - iwork + 1,info)
+
+              il = iwork
+              ! copy l to work(il), zeroing out above it
+              call la_${ri}$lacpy('L',m,m,a,lda,work(il),ldwork)
+              call la_${ri}$laset('U',m - 1,m - 1,zero,zero,work(il + ldwork),ldwork)
+              ie = il + ldwork*m
+              itauq = ie + m
+              itaup = itauq + m
+              iwork = itaup + m
+              ! bidiagonalize l in work(il)
+              ! (workspace: need m*m+5*m, prefer m*m+4*m+2*m*nb)
+              call la_${ri}$gebrd(m,m,work(il),ldwork,s,work(ie),work(itauq),work( &
+                        itaup),work(iwork),lwork - iwork + 1,info)
+              ! multiply b by transpose of left bidiagonalizing vectors of l
+              ! (workspace: need m*m+4*m+nrhs, prefer m*m+4*m+nrhs*nb)
+              call la_${ri}$ormbr('Q','L','T',m,nrhs,m,work(il),ldwork,work(itauq),b, &
+                        ldb,work(iwork),lwork - iwork + 1,info)
+              ! generate right bidiagonalizing vectors of r in work(il)
+              ! (workspace: need m*m+5*m-1, prefer m*m+4*m+(m-1)*nb)
+              call la_${ri}$orgbr('P',m,m,m,work(il),ldwork,work(itaup),work(iwork), &
+                        lwork - iwork + 1,info)
+              iwork = ie + m
+              ! perform bidiagonal qr iteration,
+                 ! computing right singular vectors of l in work(il) and
+                 ! multiplying b by transpose of left singular vectors
+              ! (workspace: need m*m+m+bdspac)
+              call la_${ri}$bdsqr('U',m,m,0,nrhs,s,work(ie),work(il),ldwork,a,lda,b, &
+                         ldb,work(iwork),info)
+              if (info /= 0) go to 70
+              ! multiply b by reciprocals of singular values
+              thr = max(rcond*s(1),sfmin)
+              if (rcond < zero) thr = max(eps*s(1),sfmin)
+              rank = 0
+              do i = 1,m
+                 if (s(i) > thr) then
+                    call la_${ri}$rscl(nrhs,s(i),b(i,1),ldb)
+                    rank = rank + 1
+                 else
+                    call la_${ri}$laset('F',1,nrhs,zero,zero,b(i,1),ldb)
+                 end if
+              end do
+              iwork = ie
+              ! multiply b by right singular vectors of l in work(il)
+              ! (workspace: need m*m+2*m, prefer m*m+m+m*nrhs)
+              if (lwork >= ldb*nrhs + iwork - 1 .and. nrhs > 1) then
+                 call la_${ri}$gemm('T','N',m,nrhs,m,one,work(il),ldwork,b,ldb,zero, &
+                           work(iwork),ldb)
+                 call la_${ri}$lacpy('G',m,nrhs,work(iwork),ldb,b,ldb)
+              else if (nrhs > 1) then
+                 chunk = (lwork - iwork + 1)/m
+                 do i = 1,nrhs,chunk
+                    bl = min(nrhs - i + 1,chunk)
+                    call la_${ri}$gemm('T','N',m,bl,m,one,work(il),ldwork,b(1,i),ldb, &
+                               zero,work(iwork),m)
+                    call la_${ri}$lacpy('G',m,bl,work(iwork),m,b(1,i),ldb)
+                 end do
+              else
+                 call la_${ri}$gemv('T',m,m,one,work(il),ldwork,b(1,1),1,zero,work( &
+                           iwork),1)
+                 call la_${ri}$copy(m,work(iwork),1,b(1,1),1)
+              end if
+              ! zero out below first m rows of b
+              call la_${ri}$laset('F',n - m,nrhs,zero,zero,b(m + 1,1),ldb)
+              iwork = itau + m
+              ! multiply transpose(q) by b
+              ! (workspace: need m+nrhs, prefer m+nrhs*nb)
+              call la_${ri}$ormlq('L','T',n,nrhs,m,a,lda,work(itau),b,ldb,work(iwork) &
+                        ,lwork - iwork + 1,info)
+           else
+              ! path 2 - remaining underdetermined cases
+              ie = 1
+              itauq = ie + m
+              itaup = itauq + m
+              iwork = itaup + m
+              ! bidiagonalize a
+              ! (workspace: need 3*m+n, prefer 3*m+(m+n)*nb)
+              call la_${ri}$gebrd(m,n,a,lda,s,work(ie),work(itauq),work(itaup),work( &
+                        iwork),lwork - iwork + 1,info)
+              ! multiply b by transpose of left bidiagonalizing vectors
+              ! (workspace: need 3*m+nrhs, prefer 3*m+nrhs*nb)
+              call la_${ri}$ormbr('Q','L','T',m,nrhs,n,a,lda,work(itauq),b,ldb,work( &
+                        iwork),lwork - iwork + 1,info)
+              ! generate right bidiagonalizing vectors in a
+              ! (workspace: need 4*m, prefer 3*m+m*nb)
+              call la_${ri}$orgbr('P',m,n,m,a,lda,work(itaup),work(iwork),lwork - iwork + &
+                        1,info)
+              iwork = ie + m
+              ! perform bidiagonal qr iteration,
+                 ! computing right singular vectors of a in a and
+                 ! multiplying b by transpose of left singular vectors
+              ! (workspace: need bdspac)
+              call la_${ri}$bdsqr('L',m,n,0,nrhs,s,work(ie),a,lda,dum,1,b,ldb,work( &
+                        iwork),info)
+              if (info /= 0) go to 70
+              ! multiply b by reciprocals of singular values
+              thr = max(rcond*s(1),sfmin)
+              if (rcond < zero) thr = max(eps*s(1),sfmin)
+              rank = 0
+              do i = 1,m
+                 if (s(i) > thr) then
+                    call la_${ri}$rscl(nrhs,s(i),b(i,1),ldb)
+                    rank = rank + 1
+                 else
+                    call la_${ri}$laset('F',1,nrhs,zero,zero,b(i,1),ldb)
+                 end if
+              end do
+              ! multiply b by right singular vectors of a
+              ! (workspace: need n, prefer n*nrhs)
+              if (lwork >= ldb*nrhs .and. nrhs > 1) then
+                 call la_${ri}$gemm('T','N',n,nrhs,m,one,a,lda,b,ldb,zero,work,ldb)
+
+                 call la_${ri}$lacpy('F',n,nrhs,work,ldb,b,ldb)
+              else if (nrhs > 1) then
+                 chunk = lwork/n
+                 do i = 1,nrhs,chunk
+                    bl = min(nrhs - i + 1,chunk)
+                    call la_${ri}$gemm('T','N',n,bl,m,one,a,lda,b(1,i),ldb,zero,work, &
+                               n)
+                    call la_${ri}$lacpy('F',n,bl,work,n,b(1,i),ldb)
+                 end do
+              else
+                 call la_${ri}$gemv('T',m,n,one,a,lda,b,1,zero,work,1)
+                 call la_${ri}$copy(n,work,1,b,1)
+              end if
+           end if
+           ! undo scaling
+           if (iascl == 1) then
+              call la_${ri}$lascl('G',0,0,anrm,smlnum,n,nrhs,b,ldb,info)
+              call la_${ri}$lascl('G',0,0,smlnum,anrm,minmn,1,s,minmn,info)
+           else if (iascl == 2) then
+              call la_${ri}$lascl('G',0,0,anrm,bignum,n,nrhs,b,ldb,info)
+              call la_${ri}$lascl('G',0,0,bignum,anrm,minmn,1,s,minmn,info)
+           end if
+           if (ibscl == 1) then
+              call la_${ri}$lascl('G',0,0,smlnum,bnrm,n,nrhs,b,ldb,info)
+           else if (ibscl == 2) then
+              call la_${ri}$lascl('G',0,0,bignum,bnrm,n,nrhs,b,ldb,info)
+           end if
+           70 continue
+           work(1) = maxwrk
+           return
+     end subroutine la_${ri}$gelss
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+     !> ${ri.upper()}$GELS: solves overdetermined or underdetermined complex linear systems
+     !> involving an M-by-N matrix A, or its conjugate-transpose, using a QR
+     !> or LQ factorization of A.  It is assumed that A has full rank.
+     !> The following options are provided:
+     !> 1. If TRANS = 'N' and m >= n:  find the least squares solution of
+     !> an overdetermined system, i.e., solve the least squares problem
+     !> minimize || B - A*X ||.
+     !> 2. If TRANS = 'N' and m < n:  find the minimum norm solution of
+     !> an underdetermined system A * X = B.
+     !> 3. If TRANS = 'C' and m >= n:  find the minimum norm solution of
+     !> an underdetermined system A**H * X = B.
+     !> 4. If TRANS = 'C' and m < n:  find the least squares solution of
+     !> an overdetermined system, i.e., solve the least squares problem
+     !> minimize || B - A**H * X ||.
+     !> Several right hand side vectors b and solution vectors x can be
+     !> handled in a single call; they are stored as the columns of the
+     !> M-by-NRHS right hand side matrix B and the N-by-NRHS solution
+     !> matrix X.
+
+     subroutine la_${ri}$gels(trans,m,n,nrhs,a,lda,b,ldb,work,lwork,info)
+        use la_constants_${rk}$,only:zero,one,czero
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: trans
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,lwork,m,n,nrhs
+           ! Array Arguments
+           complex(${rk}$),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(${rk}$),intent(out) :: work(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lquery,tpsd
+           integer(ilp) :: brow,i,iascl,ibscl,j,mn,nb,scllen,wsize
+           real(${rk}$) :: anrm,bignum,bnrm,smlnum
+           ! Local Arrays
+           real(${rk}$) :: rwork(1)
+           ! Intrinsic Functions
+#:if rk == "sp"
+           intrinsic :: max,min,real
+#:else
+           intrinsic :: real,max,min
+#:endif
+           ! Executable Statements
+           ! test the input arguments.
+           info = 0
+           mn = min(m,n)
+           lquery = (lwork == -1)
+           if (.not. (la_lsame(trans,'N') .or. la_lsame(trans,'C'))) then
+              info = -1
+           else if (m < 0) then
+              info = -2
+           else if (n < 0) then
+              info = -3
+           else if (nrhs < 0) then
+              info = -4
+           else if (lda < max(1,m)) then
+              info = -6
+           else if (ldb < max(1,m,n)) then
+              info = -8
+           else if (lwork < max(1,mn + max(mn,nrhs)) .and. .not. lquery) then
+              info = -10
+           end if
+           ! figure out optimal block size
+           if (info == 0 .or. info == -10) then
+              tpsd = .true.
+              if (la_lsame(trans,'N')) tpsd = .false.
+              if (m >= n) then
+                 nb = la_ilaenv(1,'${ri.upper()}$GEQRF',' ',m,n,-1,-1)
+                 if (tpsd) then
+                    nb = max(nb,la_ilaenv(1,'${ri.upper()}$UNMQR','LN',m,nrhs,n,-1))
+                 else
+                    nb = max(nb,la_ilaenv(1,'${ri.upper()}$UNMQR','LC',m,nrhs,n,-1))
+                 end if
+              else
+                 nb = la_ilaenv(1,'${ri.upper()}$GELQF',' ',m,n,-1,-1)
+                 if (tpsd) then
+                    nb = max(nb,la_ilaenv(1,'${ri.upper()}$UNMLQ','LC',n,nrhs,m,-1))
+                 else
+                    nb = max(nb,la_ilaenv(1,'${ri.upper()}$UNMLQ','LN',n,nrhs,m,-1))
+                 end if
+              end if
+              wsize = max(1,mn + max(mn,nrhs)*nb)
+              work(1) = real(wsize,KIND=${rk}$)
+           end if
+           if (info /= 0) then
+              call la_xerbla('${ri.upper()}$GELS ',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (min(m,n,nrhs) == 0) then
+              call la_${ri}$laset('FULL',max(m,n),nrhs,czero,czero,b,ldb)
+              return
+           end if
+           ! get machine parameters
+           smlnum = la_${ci}$lamch('S')/la_${ci}$lamch('P')
+           bignum = one/smlnum
+           call la_${ci}$labad(smlnum,bignum)
+           ! scale a, b if max element outside range [smlnum,bignum]
+           anrm = la_${ri}$lange('M',m,n,a,lda,rwork)
+           iascl = 0
+           if (anrm > zero .and. anrm < smlnum) then
+              ! scale matrix norm up to smlnum
+              call la_${ri}$lascl('G',0,0,anrm,smlnum,m,n,a,lda,info)
+              iascl = 1
+           else if (anrm > bignum) then
+              ! scale matrix norm down to bignum
+              call la_${ri}$lascl('G',0,0,anrm,bignum,m,n,a,lda,info)
+              iascl = 2
+           else if (anrm == zero) then
+              ! matrix all zero. return zero solution.
+              call la_${ri}$laset('F',max(m,n),nrhs,czero,czero,b,ldb)
+              go to 50
+           end if
+           brow = m
+           if (tpsd) brow = n
+           bnrm = la_${ri}$lange('M',brow,nrhs,b,ldb,rwork)
+           ibscl = 0
+           if (bnrm > zero .and. bnrm < smlnum) then
+              ! scale matrix norm up to smlnum
+              call la_${ri}$lascl('G',0,0,bnrm,smlnum,brow,nrhs,b,ldb,info)
+              ibscl = 1
+           else if (bnrm > bignum) then
+              ! scale matrix norm down to bignum
+              call la_${ri}$lascl('G',0,0,bnrm,bignum,brow,nrhs,b,ldb,info)
+              ibscl = 2
+           end if
+           if (m >= n) then
+              ! compute qr factorization of a
+              call la_${ri}$geqrf(m,n,a,lda,work(1),work(mn + 1),lwork - mn,info)
+              ! workspace at least n, optimally n*nb
+              if (.not. tpsd) then
+                 ! least-squares problem min || a * x - b ||
+                 ! b(1:m,1:nrhs) := q**h * b(1:m,1:nrhs)
+                 call la_${ri}$unmqr('LEFT','CONJUGATE TRANSPOSE',m,nrhs,n,a,lda,work(1), &
+                           b,ldb,work(mn + 1),lwork - mn,info)
+                 ! workspace at least nrhs, optimally nrhs*nb
+                 ! b(1:n,1:nrhs) := inv(r) * b(1:n,1:nrhs)
+                 call la_${ri}$trtrs('UPPER','NO TRANSPOSE','NON-UNIT',n,nrhs,a,lda,b,ldb, &
+                           info)
+                 if (info > 0) then
+                    return
+                 end if
+                 scllen = n
+              else
+                 ! underdetermined system of equations a**t * x = b
+                 ! b(1:n,1:nrhs) := inv(r**h) * b(1:n,1:nrhs)
+                 call la_${ri}$trtrs('UPPER','CONJUGATE TRANSPOSE','NON-UNIT',n,nrhs,a,lda,b, &
+                            ldb,info)
+                 if (info > 0) then
+                    return
+                 end if
+                 ! b(n+1:m,1:nrhs) = zero
+                 do j = 1,nrhs
+                    do i = n + 1,m
+                       b(i,j) = czero
+                    end do
+                 end do
+                 ! b(1:m,1:nrhs) := q(1:n,:) * b(1:n,1:nrhs)
+                 call la_${ri}$unmqr('LEFT','NO TRANSPOSE',m,nrhs,n,a,lda,work(1),b,ldb, &
+                            work(mn + 1),lwork - mn,info)
+                 ! workspace at least nrhs, optimally nrhs*nb
+                 scllen = m
+              end if
+           else
+              ! compute lq factorization of a
+              call la_${ri}$gelqf(m,n,a,lda,work(1),work(mn + 1),lwork - mn,info)
+              ! workspace at least m, optimally m*nb.
+              if (.not. tpsd) then
+                 ! underdetermined system of equations a * x = b
+                 ! b(1:m,1:nrhs) := inv(l) * b(1:m,1:nrhs)
+                 call la_${ri}$trtrs('LOWER','NO TRANSPOSE','NON-UNIT',m,nrhs,a,lda,b,ldb, &
+                           info)
+                 if (info > 0) then
+                    return
+                 end if
+                 ! b(m+1:n,1:nrhs) = 0
+                 do j = 1,nrhs
+                    do i = m + 1,n
+                       b(i,j) = czero
+                    end do
+                 end do
+                 ! b(1:n,1:nrhs) := q(1:n,:)**h * b(1:m,1:nrhs)
+                 call la_${ri}$unmlq('LEFT','CONJUGATE TRANSPOSE',n,nrhs,m,a,lda,work(1), &
+                           b,ldb,work(mn + 1),lwork - mn,info)
+                 ! workspace at least nrhs, optimally nrhs*nb
+                 scllen = n
+              else
+                 ! overdetermined system min || a**h * x - b ||
+                 ! b(1:n,1:nrhs) := q * b(1:n,1:nrhs)
+                 call la_${ri}$unmlq('LEFT','NO TRANSPOSE',n,nrhs,m,a,lda,work(1),b,ldb, &
+                            work(mn + 1),lwork - mn,info)
+                 ! workspace at least nrhs, optimally nrhs*nb
+                 ! b(1:m,1:nrhs) := inv(l**h) * b(1:m,1:nrhs)
+                 call la_${ri}$trtrs('LOWER','CONJUGATE TRANSPOSE','NON-UNIT',m,nrhs,a,lda, &
+                           b,ldb,info)
+                 if (info > 0) then
+                    return
+                 end if
+                 scllen = m
+              end if
+           end if
+           ! undo scaling
+           if (iascl == 1) then
+              call la_${ri}$lascl('G',0,0,anrm,smlnum,scllen,nrhs,b,ldb,info)
+           else if (iascl == 2) then
+              call la_${ri}$lascl('G',0,0,anrm,bignum,scllen,nrhs,b,ldb,info)
+           end if
+           if (ibscl == 1) then
+              call la_${ri}$lascl('G',0,0,smlnum,bnrm,scllen,nrhs,b,ldb,info)
+           else if (ibscl == 2) then
+              call la_${ri}$lascl('G',0,0,bignum,bnrm,scllen,nrhs,b,ldb,info)
+           end if
+           50 continue
+           work(1) = real(wsize,KIND=${rk}$)
+           return
+     end subroutine la_${ri}$gels
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+     !> ${ri.upper()}$GELSD: computes the minimum-norm solution to a real linear least
+     !> squares problem:
+     !> minimize 2-norm(| b - A*x |)
+     !> using the singular value decomposition (SVD) of A. A is an M-by-N
+     !> matrix which may be rank-deficient.
+     !> Several right hand side vectors b and solution vectors x can be
+     !> handled in a single call; they are stored as the columns of the
+     !> M-by-NRHS right hand side matrix B and the N-by-NRHS solution
+     !> matrix X.
+     !> The problem is solved in three steps:
+     !> (1) Reduce the coefficient matrix A to bidiagonal form with
+     !> Householder transformations, reducing the original problem
+     !> into a "bidiagonal least squares problem" (BLS)
+     !> (2) Solve the BLS using a divide and conquer approach.
+     !> (3) Apply back all the Householder transformations to solve
+     !> the original least squares problem.
+     !> The effective rank of A is determined by treating as zero those
+     !> singular values which are less than RCOND times the largest singular
+     !> value.
+     !> The divide and conquer algorithm makes very mild assumptions about
+     !> floating point arithmetic. It will work on machines with a guard
+     !> digit in add/subtract, or on those binary machines without guard
+     !> digits which subtract like the Cray X-MP, Cray Y-MP, Cray C-90, or
+     !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
+     !> without guard digits, but we know of none.
+
+     subroutine la_${ri}$gelsd(m,n,nrhs,a,lda,b,ldb,s,rcond,rank,work,lwork,rwork, &
+               iwork,info)
+        use la_constants_${rk}$,only:zero,one,two,czero
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           integer(ilp),intent(out) :: info,rank
+           integer(ilp),intent(in) :: lda,ldb,lwork,m,n,nrhs
+           real(${rk}$),intent(in) :: rcond
+           ! Array Arguments
+           integer(ilp),intent(out) :: iwork(*)
+           real(${rk}$),intent(out) :: rwork(*),s(*)
+           complex(${rk}$),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(${rk}$),intent(out) :: work(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lquery
+           integer(ilp) :: iascl,ibscl,ie,il,itau,itaup,itauq,ldwork,liwork,lrwork, &
+                     maxmn,maxwrk,minmn,minwrk,mm,mnthr,nlvl,nrwork,nwork,smlsiz
+           real(${rk}$) :: anrm,bignum,bnrm,eps,sfmin,smlnum
+           ! Intrinsic Functions
+           intrinsic :: int,log,max,min,real
+           ! Executable Statements
+           ! test the input arguments.
+           info = 0
+           minmn = min(m,n)
+           maxmn = max(m,n)
+           lquery = (lwork == -1)
+           if (m < 0) then
+              info = -1
+           else if (n < 0) then
+              info = -2
+           else if (nrhs < 0) then
+              info = -3
+           else if (lda < max(1,m)) then
+              info = -5
+           else if (ldb < max(1,maxmn)) then
+              info = -7
+           end if
+           ! compute workspace.
+           ! (note: comments in the code beginning "workspace:" describe the
+           ! minimal amount of workspace needed at that point in the code,
+           ! as well as the preferred amount for good performance.
+           ! nb refers to the optimal block size for the immediately
+           ! following subroutine, as returned by la_ilaenv.)
+           if (info == 0) then
+              minwrk = 1
+              maxwrk = 1
+              liwork = 1
+              lrwork = 1
+              if (minmn > 0) then
+                 smlsiz = la_ilaenv(9,'${ri.upper()}$GELSD',' ',0,0,0,0)
+                 mnthr = la_ilaenv(6,'${ri.upper()}$GELSD',' ',m,n,nrhs,-1)
+                 nlvl = max(int(log(real(minmn,KIND=${rk}$)/real(smlsiz + 1,KIND=${rk}$))/log( &
+                           two),KIND=ilp) + 1,0)
+                 liwork = 3*minmn*nlvl + 11*minmn
+                 mm = m
+                 if (m >= n .and. m >= mnthr) then
+                    ! path 1a - overdetermined, with many more rows than
+                              ! columns.
+                    mm = n
+                    maxwrk = max(maxwrk,n*la_ilaenv(1,'${ri.upper()}$GEQRF',' ',m,n,-1,-1))
+
+                    maxwrk = max(maxwrk,nrhs*la_ilaenv(1,'${ri.upper()}$UNMQR','LC',m,nrhs,n,-1))
+
+                 end if
+                 if (m >= n) then
+                    ! path 1 - overdetermined or exactly determined.
+                    lrwork = 10*n + 2*n*smlsiz + 8*n*nlvl + 3*smlsiz*nrhs + max((smlsiz + 1)**2,n*( &
+                              1 + nrhs) + 2*nrhs)
+                    maxwrk = max(maxwrk,2*n + (mm + n)*la_ilaenv(1,'${ri.upper()}$GEBRD',' ',mm,n, &
+                              -1,-1))
+                    maxwrk = max(maxwrk,2*n + nrhs*la_ilaenv(1,'${ri.upper()}$UNMBR','QLC',mm,nrhs, &
+                              n,-1))
+                    maxwrk = max(maxwrk,2*n + (n - 1)*la_ilaenv(1,'${ri.upper()}$UNMBR','PLN',n, &
+                              nrhs,n,-1))
+                    maxwrk = max(maxwrk,2*n + n*nrhs)
+                    minwrk = max(2*n + mm,2*n + n*nrhs)
+                 end if
+                 if (n > m) then
+                    lrwork = 10*m + 2*m*smlsiz + 8*m*nlvl + 3*smlsiz*nrhs + max((smlsiz + 1)**2,n*( &
+                              1 + nrhs) + 2*nrhs)
+                    if (n >= mnthr) then
+                       ! path 2a - underdetermined, with many more columns
+                                 ! than rows.
+                       maxwrk = m + m*la_ilaenv(1,'${ri.upper()}$GELQF',' ',m,n,-1,-1)
+                       maxwrk = max(maxwrk,m*m + 4*m + 2*m*la_ilaenv(1,'${ri.upper()}$GEBRD',' ',m,m, &
+                                  -1,-1))
+                       maxwrk = max(maxwrk,m*m + 4*m + nrhs*la_ilaenv(1,'${ri.upper()}$UNMBR','QLC',m, &
+                                  nrhs,m,-1))
+                       maxwrk = max(maxwrk,m*m + 4*m + (m - 1)*la_ilaenv(1,'${ri.upper()}$UNMLQ', &
+                                 'LC',n,nrhs,m,-1))
+                       if (nrhs > 1) then
+                          maxwrk = max(maxwrk,m*m + m + m*nrhs)
+                       else
+                          maxwrk = max(maxwrk,m*m + 2*m)
+                       end if
+                       maxwrk = max(maxwrk,m*m + 4*m + m*nrhs)
+           ! xxx: ensure the path 2a case below is triggered.  the workspace
+           ! calculation should use queries for all routines eventually.
+                       maxwrk = max(maxwrk,4*m + m*m + max(m,2*m - 4,nrhs,n - 3*m))
+                    else
+                       ! path 2 - underdetermined.
+                       maxwrk = 2*m + (n + m)*la_ilaenv(1,'${ri.upper()}$GEBRD',' ',m,n,-1,-1)
+
+                       maxwrk = max(maxwrk,2*m + nrhs*la_ilaenv(1,'${ri.upper()}$UNMBR','QLC',m,nrhs, &
+                                  m,-1))
+                       maxwrk = max(maxwrk,2*m + m*la_ilaenv(1,'${ri.upper()}$UNMBR','PLN',n,nrhs,m, &
+                                  -1))
+                       maxwrk = max(maxwrk,2*m + m*nrhs)
+                    end if
+                    minwrk = max(2*m + n,2*m + m*nrhs)
+                 end if
+              end if
+              minwrk = min(minwrk,maxwrk)
+              work(1) = maxwrk
+              iwork(1) = liwork
+              rwork(1) = lrwork
+              if (lwork < minwrk .and. .not. lquery) then
+                 info = -12
+              end if
+           end if
+           if (info /= 0) then
+              call la_xerbla('${ri.upper()}$GELSD',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible.
+           if (m == 0 .or. n == 0) then
+              rank = 0
+              return
+           end if
+           ! get machine parameters.
+           eps = la_${ci}$lamch('P')
+           sfmin = la_${ci}$lamch('S')
+           smlnum = sfmin/eps
+           bignum = one/smlnum
+           call la_${ci}$labad(smlnum,bignum)
+           ! scale a if max entry outside range [smlnum,bignum].
+           anrm = la_${ri}$lange('M',m,n,a,lda,rwork)
+           iascl = 0
+           if (anrm > zero .and. anrm < smlnum) then
+              ! scale matrix norm up to smlnum
+              call la_${ri}$lascl('G',0,0,anrm,smlnum,m,n,a,lda,info)
+              iascl = 1
+           else if (anrm > bignum) then
+              ! scale matrix norm down to bignum.
+              call la_${ri}$lascl('G',0,0,anrm,bignum,m,n,a,lda,info)
+              iascl = 2
+           else if (anrm == zero) then
+              ! matrix all zero. return zero solution.
+              call la_${ri}$laset('F',max(m,n),nrhs,czero,czero,b,ldb)
+              call la_${ci}$laset('F',minmn,1,zero,zero,s,1)
+              rank = 0
+              go to 10
+           end if
+           ! scale b if max entry outside range [smlnum,bignum].
+           bnrm = la_${ri}$lange('M',m,nrhs,b,ldb,rwork)
+           ibscl = 0
+           if (bnrm > zero .and. bnrm < smlnum) then
+              ! scale matrix norm up to smlnum.
+              call la_${ri}$lascl('G',0,0,bnrm,smlnum,m,nrhs,b,ldb,info)
+              ibscl = 1
+           else if (bnrm > bignum) then
+              ! scale matrix norm down to bignum.
+              call la_${ri}$lascl('G',0,0,bnrm,bignum,m,nrhs,b,ldb,info)
+              ibscl = 2
+           end if
+           ! if m < n make sure b(m+1:n,:) = 0
+           if (m < n) call la_${ri}$laset('F',n - m,nrhs,czero,czero,b(m + 1,1),ldb)
+           ! overdetermined case.
+           if (m >= n) then
+              ! path 1 - overdetermined or exactly determined.
+              mm = m
+              if (m >= mnthr) then
+                 ! path 1a - overdetermined, with many more rows than columns
+                 mm = n
+                 itau = 1
+                 nwork = itau + n
+                 ! compute a=q*r.
+                 ! (rworkspace: need n)
+                 ! (cworkspace: need n, prefer n*nb)
+                 call la_${ri}$geqrf(m,n,a,lda,work(itau),work(nwork),lwork - nwork + 1, &
+                           info)
+                 ! multiply b by transpose(q).
+                 ! (rworkspace: need n)
+                 ! (cworkspace: need nrhs, prefer nrhs*nb)
+                 call la_${ri}$unmqr('L','C',m,nrhs,n,a,lda,work(itau),b,ldb,work( &
+                           nwork),lwork - nwork + 1,info)
+                 ! zero out below r.
+                 if (n > 1) then
+                    call la_${ri}$laset('L',n - 1,n - 1,czero,czero,a(2,1),lda)
+                 end if
+              end if
+              itauq = 1
+              itaup = itauq + n
+              nwork = itaup + n
+              ie = 1
+              nrwork = ie + n
+              ! bidiagonalize r in a.
+              ! (rworkspace: need n)
+              ! (cworkspace: need 2*n+mm, prefer 2*n+(mm+n)*nb)
+              call la_${ri}$gebrd(mm,n,a,lda,s,rwork(ie),work(itauq),work(itaup), &
+                        work(nwork),lwork - nwork + 1,info)
+              ! multiply b by transpose of left bidiagonalizing vectors of r.
+              ! (cworkspace: need 2*n+nrhs, prefer 2*n+nrhs*nb)
+              call la_${ri}$unmbr('Q','L','C',mm,nrhs,n,a,lda,work(itauq),b,ldb,work( &
+                        nwork),lwork - nwork + 1,info)
+              ! solve the bidiagonal least squares problem.
+              call la_${ri}$lalsd('U',smlsiz,n,nrhs,s,rwork(ie),b,ldb,rcond,rank,work( &
+                        nwork),rwork(nrwork),iwork,info)
+              if (info /= 0) then
+                 go to 10
+              end if
+              ! multiply b by right bidiagonalizing vectors of r.
+              call la_${ri}$unmbr('P','L','N',n,nrhs,n,a,lda,work(itaup),b,ldb,work( &
+                        nwork),lwork - nwork + 1,info)
+           else if (n >= mnthr .and. lwork >= 4*m + m*m + max(m,2*m - 4,nrhs,n - 3*m)) then
+              ! path 2a - underdetermined, with many more columns than rows
+              ! and sufficient workspace for an efficient algorithm.
+              ldwork = m
+              if (lwork >= max(4*m + m*lda + max(m,2*m - 4,nrhs,n - 3*m),m*lda + m + m*nrhs)) ldwork = &
+                        lda
+              itau = 1
+              nwork = m + 1
+              ! compute a=l*q.
+              ! (cworkspace: need 2*m, prefer m+m*nb)
+              call la_${ri}$gelqf(m,n,a,lda,work(itau),work(nwork),lwork - nwork + 1,info)
+
+              il = nwork
+              ! copy l to work(il), zeroing out above its diagonal.
+              call la_${ri}$lacpy('L',m,m,a,lda,work(il),ldwork)
+              call la_${ri}$laset('U',m - 1,m - 1,czero,czero,work(il + ldwork),ldwork)
+              itauq = il + ldwork*m
+              itaup = itauq + m
+              nwork = itaup + m
+              ie = 1
+              nrwork = ie + m
+              ! bidiagonalize l in work(il).
+              ! (rworkspace: need m)
+              ! (cworkspace: need m*m+4*m, prefer m*m+4*m+2*m*nb)
+              call la_${ri}$gebrd(m,m,work(il),ldwork,s,rwork(ie),work(itauq),work( &
+                        itaup),work(nwork),lwork - nwork + 1,info)
+              ! multiply b by transpose of left bidiagonalizing vectors of l.
+              ! (cworkspace: need m*m+4*m+nrhs, prefer m*m+4*m+nrhs*nb)
+              call la_${ri}$unmbr('Q','L','C',m,nrhs,m,work(il),ldwork,work(itauq),b, &
+                        ldb,work(nwork),lwork - nwork + 1,info)
+              ! solve the bidiagonal least squares problem.
+              call la_${ri}$lalsd('U',smlsiz,m,nrhs,s,rwork(ie),b,ldb,rcond,rank,work( &
+                        nwork),rwork(nrwork),iwork,info)
+              if (info /= 0) then
+                 go to 10
+              end if
+              ! multiply b by right bidiagonalizing vectors of l.
+              call la_${ri}$unmbr('P','L','N',m,nrhs,m,work(il),ldwork,work(itaup),b, &
+                        ldb,work(nwork),lwork - nwork + 1,info)
+              ! zero out below first m rows of b.
+              call la_${ri}$laset('F',n - m,nrhs,czero,czero,b(m + 1,1),ldb)
+              nwork = itau + m
+              ! multiply transpose(q) by b.
+              ! (cworkspace: need nrhs, prefer nrhs*nb)
+              call la_${ri}$unmlq('L','C',n,nrhs,m,a,lda,work(itau),b,ldb,work(nwork) &
+                        ,lwork - nwork + 1,info)
+           else
+              ! path 2 - remaining underdetermined cases.
+              itauq = 1
+              itaup = itauq + m
+              nwork = itaup + m
+              ie = 1
+              nrwork = ie + m
+              ! bidiagonalize a.
+              ! (rworkspace: need m)
+              ! (cworkspace: need 2*m+n, prefer 2*m+(m+n)*nb)
+              call la_${ri}$gebrd(m,n,a,lda,s,rwork(ie),work(itauq),work(itaup),work( &
+                         nwork),lwork - nwork + 1,info)
+              ! multiply b by transpose of left bidiagonalizing vectors.
+              ! (cworkspace: need 2*m+nrhs, prefer 2*m+nrhs*nb)
+              call la_${ri}$unmbr('Q','L','C',m,nrhs,n,a,lda,work(itauq),b,ldb,work( &
+                        nwork),lwork - nwork + 1,info)
+              ! solve the bidiagonal least squares problem.
+              call la_${ri}$lalsd('L',smlsiz,m,nrhs,s,rwork(ie),b,ldb,rcond,rank,work( &
+                        nwork),rwork(nrwork),iwork,info)
+              if (info /= 0) then
+                 go to 10
+              end if
+              ! multiply b by right bidiagonalizing vectors of a.
+              call la_${ri}$unmbr('P','L','N',n,nrhs,m,a,lda,work(itaup),b,ldb,work( &
+                        nwork),lwork - nwork + 1,info)
+           end if
+           ! undo scaling.
+           if (iascl == 1) then
+              call la_${ri}$lascl('G',0,0,anrm,smlnum,n,nrhs,b,ldb,info)
+              call la_${ci}$lascl('G',0,0,smlnum,anrm,minmn,1,s,minmn,info)
+           else if (iascl == 2) then
+              call la_${ri}$lascl('G',0,0,anrm,bignum,n,nrhs,b,ldb,info)
+              call la_${ci}$lascl('G',0,0,bignum,anrm,minmn,1,s,minmn,info)
+           end if
+           if (ibscl == 1) then
+              call la_${ri}$lascl('G',0,0,smlnum,bnrm,n,nrhs,b,ldb,info)
+           else if (ibscl == 2) then
+              call la_${ri}$lascl('G',0,0,bignum,bnrm,n,nrhs,b,ldb,info)
+           end if
+           10 continue
+           work(1) = maxwrk
+           iwork(1) = liwork
+           rwork(1) = lrwork
+           return
+     end subroutine la_${ri}$gelsd
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+     !> ${ri.upper()}$GELSS: computes the minimum norm solution to a complex linear
+     !> least squares problem:
+     !> Minimize 2-norm(| b - A*x |).
+     !> using the singular value decomposition (SVD) of A. A is an M-by-N
+     !> matrix which may be rank-deficient.
+     !> Several right hand side vectors b and solution vectors x can be
+     !> handled in a single call; they are stored as the columns of the
+     !> M-by-NRHS right hand side matrix B and the N-by-NRHS solution matrix
+     !> X.
+     !> The effective rank of A is determined by treating as zero those
+     !> singular values which are less than RCOND times the largest singular
+     !> value.
+
+     subroutine la_${ri}$gelss(m,n,nrhs,a,lda,b,ldb,s,rcond,rank,work,lwork,rwork, &
+               info)
+        use la_constants_${rk}$,only:zero,one,czero,cone
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           integer(ilp),intent(out) :: info,rank
+           integer(ilp),intent(in) :: lda,ldb,lwork,m,n,nrhs
+           real(${rk}$),intent(in) :: rcond
+           ! Array Arguments
+           real(${rk}$),intent(out) :: rwork(*),s(*)
+           complex(${rk}$),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(${rk}$),intent(out) :: work(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lquery
+           integer(ilp) :: bl,chunk,i,iascl,ibscl,ie,il,irwork,itau,itaup,itauq,iwork, &
+                     ldwork,maxmn,maxwrk,minmn,minwrk,mm,mnthr
+           integer(ilp) :: lwork_${ri}$geqrf,lwork_${ri}$unmqr,lwork_${ri}$gebrd,lwork_${ri}$unmbr,lwork_${ri}$ungbr, &
+                     lwork_${ri}$unmlq,lwork_${ri}$gelqf
+           real(${rk}$) :: anrm,bignum,bnrm,eps,sfmin,smlnum,thr
+           ! Local Arrays
+           complex(${rk}$) :: dum(1)
+           ! Intrinsic Functions
+           intrinsic :: max,min
+           ! Executable Statements
+           ! test the input arguments
+           info = 0
+           minmn = min(m,n)
+           maxmn = max(m,n)
+           lquery = (lwork == -1)
+           if (m < 0) then
+              info = -1
+           else if (n < 0) then
+              info = -2
+           else if (nrhs < 0) then
+              info = -3
+           else if (lda < max(1,m)) then
+              info = -5
+           else if (ldb < max(1,maxmn)) then
+              info = -7
+           end if
+           ! compute workspace
+            ! (note: comments in the code beginning "workspace:" describe the
+             ! minimal amount of workspace needed at that point in the code,
+             ! as well as the preferred amount for good performance.
+             ! cworkspace refers to complex workspace, and rworkspace refers
+             ! to real workspace. nb refers to the optimal block size for the
+             ! immediately following subroutine, as returned by la_ilaenv.)
+           if (info == 0) then
+              minwrk = 1
+              maxwrk = 1
+              if (minmn > 0) then
+                 mm = m
+                 mnthr = la_ilaenv(6,'${ri.upper()}$GELSS',' ',m,n,nrhs,-1)
+                 if (m >= n .and. m >= mnthr) then
+                    ! path 1a - overdetermined, with many more rows than
+                              ! columns
+                    ! compute space needed for la_${ri}$geqrf
+                    call la_${ri}$geqrf(m,n,a,lda,dum(1),dum(1),-1,info)
+                    lwork_${ri}$geqrf = real(dum(1),KIND=${rk}$)
+                    ! compute space needed for la_${ri}$unmqr
+                    call la_${ri}$unmqr('L','C',m,nrhs,n,a,lda,dum(1),b,ldb,dum(1),-1, &
+                              info)
+                    lwork_${ri}$unmqr = real(dum(1),KIND=${rk}$)
+                    mm = n
+                    maxwrk = max(maxwrk,n + n*la_ilaenv(1,'${ri.upper()}$GEQRF',' ',m,n,-1,-1))
+
+                    maxwrk = max(maxwrk,n + nrhs*la_ilaenv(1,'${ri.upper()}$UNMQR','LC',m,nrhs,n,- &
+                              1))
+                 end if
+                 if (m >= n) then
+                    ! path 1 - overdetermined or exactly determined
+                    ! compute space needed for la_${ri}$gebrd
+                    call la_${ri}$gebrd(mm,n,a,lda,s,s,dum(1),dum(1),dum(1),-1,info)
+
+                    lwork_${ri}$gebrd = real(dum(1),KIND=${rk}$)
+                    ! compute space needed for la_${ri}$unmbr
+                    call la_${ri}$unmbr('Q','L','C',mm,nrhs,n,a,lda,dum(1),b,ldb,dum(1), &
+                               -1,info)
+                    lwork_${ri}$unmbr = real(dum(1),KIND=${rk}$)
+                    ! compute space needed for la_${ri}$ungbr
+                    call la_${ri}$ungbr('P',n,n,n,a,lda,dum(1),dum(1),-1,info)
+                    lwork_${ri}$ungbr = real(dum(1),KIND=${rk}$)
+                    ! compute total workspace needed
+                    maxwrk = max(maxwrk,2*n + lwork_${ri}$gebrd)
+                    maxwrk = max(maxwrk,2*n + lwork_${ri}$unmbr)
+                    maxwrk = max(maxwrk,2*n + lwork_${ri}$ungbr)
+                    maxwrk = max(maxwrk,n*nrhs)
+                    minwrk = 2*n + max(nrhs,m)
+                 end if
+                 if (n > m) then
+                    minwrk = 2*m + max(nrhs,n)
+                    if (n >= mnthr) then
+                       ! path 2a - underdetermined, with many more columns
+                       ! than rows
+                       ! compute space needed for la_${ri}$gelqf
+                       call la_${ri}$gelqf(m,n,a,lda,dum(1),dum(1),-1,info)
+                       lwork_${ri}$gelqf = real(dum(1),KIND=${rk}$)
+                       ! compute space needed for la_${ri}$gebrd
+                       call la_${ri}$gebrd(m,m,a,lda,s,s,dum(1),dum(1),dum(1),-1,info)
+
+                       lwork_${ri}$gebrd = real(dum(1),KIND=${rk}$)
+                       ! compute space needed for la_${ri}$unmbr
+                       call la_${ri}$unmbr('Q','L','C',m,nrhs,n,a,lda,dum(1),b,ldb,dum( &
+                                 1),-1,info)
+                       lwork_${ri}$unmbr = real(dum(1),KIND=${rk}$)
+                       ! compute space needed for la_${ri}$ungbr
+                       call la_${ri}$ungbr('P',m,m,m,a,lda,dum(1),dum(1),-1,info)
+                       lwork_${ri}$ungbr = real(dum(1),KIND=${rk}$)
+                       ! compute space needed for la_${ri}$unmlq
+                       call la_${ri}$unmlq('L','C',n,nrhs,m,a,lda,dum(1),b,ldb,dum(1),- &
+                                 1,info)
+                       lwork_${ri}$unmlq = real(dum(1),KIND=${rk}$)
+                       ! compute total workspace needed
+                       maxwrk = m + lwork_${ri}$gelqf
+                       maxwrk = max(maxwrk,3*m + m*m + lwork_${ri}$gebrd)
+                       maxwrk = max(maxwrk,3*m + m*m + lwork_${ri}$unmbr)
+                       maxwrk = max(maxwrk,3*m + m*m + lwork_${ri}$ungbr)
+                       if (nrhs > 1) then
+                          maxwrk = max(maxwrk,m*m + m + m*nrhs)
+                       else
+                          maxwrk = max(maxwrk,m*m + 2*m)
+                       end if
+                       maxwrk = max(maxwrk,m + lwork_${ri}$unmlq)
+                    else
+                       ! path 2 - underdetermined
+                       ! compute space needed for la_${ri}$gebrd
+                       call la_${ri}$gebrd(m,n,a,lda,s,s,dum(1),dum(1),dum(1),-1,info)
+
+                       lwork_${ri}$gebrd = real(dum(1),KIND=${rk}$)
+                       ! compute space needed for la_${ri}$unmbr
+                       call la_${ri}$unmbr('Q','L','C',m,nrhs,m,a,lda,dum(1),b,ldb,dum( &
+                                 1),-1,info)
+                       lwork_${ri}$unmbr = real(dum(1),KIND=${rk}$)
+                       ! compute space needed for la_${ri}$ungbr
+                       call la_${ri}$ungbr('P',m,n,m,a,lda,dum(1),dum(1),-1,info)
+                       lwork_${ri}$ungbr = real(dum(1),KIND=${rk}$)
+                       maxwrk = 2*m + lwork_${ri}$gebrd
+                       maxwrk = max(maxwrk,2*m + lwork_${ri}$unmbr)
+                       maxwrk = max(maxwrk,2*m + lwork_${ri}$ungbr)
+                       maxwrk = max(maxwrk,n*nrhs)
+                    end if
+                 end if
+                 maxwrk = max(minwrk,maxwrk)
+              end if
+              work(1) = maxwrk
+              if (lwork < minwrk .and. .not. lquery) info = -12
+           end if
+           if (info /= 0) then
+              call la_xerbla('${ri.upper()}$GELSS',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (m == 0 .or. n == 0) then
+              rank = 0
+              return
+           end if
+           ! get machine parameters
+           eps = la_${ci}$lamch('P')
+           sfmin = la_${ci}$lamch('S')
+           smlnum = sfmin/eps
+           bignum = one/smlnum
+           call la_${ci}$labad(smlnum,bignum)
+           ! scale a if max element outside range [smlnum,bignum]
+           anrm = la_${ri}$lange('M',m,n,a,lda,rwork)
+           iascl = 0
+           if (anrm > zero .and. anrm < smlnum) then
+              ! scale matrix norm up to smlnum
+              call la_${ri}$lascl('G',0,0,anrm,smlnum,m,n,a,lda,info)
+              iascl = 1
+           else if (anrm > bignum) then
+              ! scale matrix norm down to bignum
+              call la_${ri}$lascl('G',0,0,anrm,bignum,m,n,a,lda,info)
+              iascl = 2
+           else if (anrm == zero) then
+              ! matrix all zero. return zero solution.
+              call la_${ri}$laset('F',max(m,n),nrhs,czero,czero,b,ldb)
+              call la_${ci}$laset('F',minmn,1,zero,zero,s,minmn)
+              rank = 0
+              go to 70
+           end if
+           ! scale b if max element outside range [smlnum,bignum]
+           bnrm = la_${ri}$lange('M',m,nrhs,b,ldb,rwork)
+           ibscl = 0
+           if (bnrm > zero .and. bnrm < smlnum) then
+              ! scale matrix norm up to smlnum
+              call la_${ri}$lascl('G',0,0,bnrm,smlnum,m,nrhs,b,ldb,info)
+              ibscl = 1
+           else if (bnrm > bignum) then
+              ! scale matrix norm down to bignum
+              call la_${ri}$lascl('G',0,0,bnrm,bignum,m,nrhs,b,ldb,info)
+              ibscl = 2
+           end if
+           ! overdetermined case
+           if (m >= n) then
+              ! path 1 - overdetermined or exactly determined
+              mm = m
+              if (m >= mnthr) then
+                 ! path 1a - overdetermined, with many more rows than columns
+                 mm = n
+                 itau = 1
+                 iwork = itau + n
+                 ! compute a=q*r
+                 ! (cworkspace: need 2*n, prefer n+n*nb)
+                 ! (rworkspace: none)
+                 call la_${ri}$geqrf(m,n,a,lda,work(itau),work(iwork),lwork - iwork + 1, &
+                           info)
+                 ! multiply b by transpose(q)
+                 ! (cworkspace: need n+nrhs, prefer n+nrhs*nb)
+                 ! (rworkspace: none)
+                 call la_${ri}$unmqr('L','C',m,nrhs,n,a,lda,work(itau),b,ldb,work( &
+                           iwork),lwork - iwork + 1,info)
+                 ! zero out below r
+                 if (n > 1) call la_${ri}$laset('L',n - 1,n - 1,czero,czero,a(2,1),lda)
+              end if
+              ie = 1
+              itauq = 1
+              itaup = itauq + n
+              iwork = itaup + n
+              ! bidiagonalize r in a
+              ! (cworkspace: need 2*n+mm, prefer 2*n+(mm+n)*nb)
+              ! (rworkspace: need n)
+              call la_${ri}$gebrd(mm,n,a,lda,s,rwork(ie),work(itauq),work(itaup), &
+                        work(iwork),lwork - iwork + 1,info)
+              ! multiply b by transpose of left bidiagonalizing vectors of r
+              ! (cworkspace: need 2*n+nrhs, prefer 2*n+nrhs*nb)
+              ! (rworkspace: none)
+              call la_${ri}$unmbr('Q','L','C',mm,nrhs,n,a,lda,work(itauq),b,ldb,work( &
+                        iwork),lwork - iwork + 1,info)
+              ! generate right bidiagonalizing vectors of r in a
+              ! (cworkspace: need 3*n-1, prefer 2*n+(n-1)*nb)
+              ! (rworkspace: none)
+              call la_${ri}$ungbr('P',n,n,n,a,lda,work(itaup),work(iwork),lwork - iwork + &
+                        1,info)
+              irwork = ie + n
+              ! perform bidiagonal qr iteration
+                ! multiply b by transpose of left singular vectors
+                ! compute right singular vectors in a
+              ! (cworkspace: none)
+              ! (rworkspace: need bdspac)
+              call la_${ri}$bdsqr('U',n,n,0,nrhs,s,rwork(ie),a,lda,dum,1,b,ldb, &
+                        rwork(irwork),info)
+              if (info /= 0) go to 70
+              ! multiply b by reciprocals of singular values
+              thr = max(rcond*s(1),sfmin)
+              if (rcond < zero) thr = max(eps*s(1),sfmin)
+              rank = 0
+              do i = 1,n
+                 if (s(i) > thr) then
+                    call la_${ri}$${ci}$rscl(nrhs,s(i),b(i,1),ldb)
+                    rank = rank + 1
+                 else
+                    call la_${ri}$laset('F',1,nrhs,czero,czero,b(i,1),ldb)
+                 end if
+              end do
+              ! multiply b by right singular vectors
+              ! (cworkspace: need n, prefer n*nrhs)
+              ! (rworkspace: none)
+              if (lwork >= ldb*nrhs .and. nrhs > 1) then
+                 call la_${ri}$gemm('C','N',n,nrhs,n,cone,a,lda,b,ldb,czero,work,ldb)
+
+                 call la_${ri}$lacpy('G',n,nrhs,work,ldb,b,ldb)
+              else if (nrhs > 1) then
+                 chunk = lwork/n
+                 do i = 1,nrhs,chunk
+                    bl = min(nrhs - i + 1,chunk)
+                    call la_${ri}$gemm('C','N',n,bl,n,cone,a,lda,b(1,i),ldb,czero, &
+                              work,n)
+                    call la_${ri}$lacpy('G',n,bl,work,n,b(1,i),ldb)
+                 end do
+              else
+                 call la_${ri}$gemv('C',n,n,cone,a,lda,b,1,czero,work,1)
+                 call la_${ri}$copy(n,work,1,b,1)
+              end if
+           else if (n >= mnthr .and. lwork >= 3*m + m*m + max(m,nrhs,n - 2*m)) then
+              ! underdetermined case, m much less than n
+              ! path 2a - underdetermined, with many more columns than rows
+              ! and sufficient workspace for an efficient algorithm
+              ldwork = m
+              if (lwork >= 3*m + m*lda + max(m,nrhs,n - 2*m)) ldwork = lda
+              itau = 1
+              iwork = m + 1
+              ! compute a=l*q
+              ! (cworkspace: need 2*m, prefer m+m*nb)
+              ! (rworkspace: none)
+              call la_${ri}$gelqf(m,n,a,lda,work(itau),work(iwork),lwork - iwork + 1,info)
+
+              il = iwork
+              ! copy l to work(il), zeroing out above it
+              call la_${ri}$lacpy('L',m,m,a,lda,work(il),ldwork)
+              call la_${ri}$laset('U',m - 1,m - 1,czero,czero,work(il + ldwork),ldwork)
+              ie = 1
+              itauq = il + ldwork*m
+              itaup = itauq + m
+              iwork = itaup + m
+              ! bidiagonalize l in work(il)
+              ! (cworkspace: need m*m+4*m, prefer m*m+3*m+2*m*nb)
+              ! (rworkspace: need m)
+              call la_${ri}$gebrd(m,m,work(il),ldwork,s,rwork(ie),work(itauq),work( &
+                        itaup),work(iwork),lwork - iwork + 1,info)
+              ! multiply b by transpose of left bidiagonalizing vectors of l
+              ! (cworkspace: need m*m+3*m+nrhs, prefer m*m+3*m+nrhs*nb)
+              ! (rworkspace: none)
+              call la_${ri}$unmbr('Q','L','C',m,nrhs,m,work(il),ldwork,work(itauq),b, &
+                        ldb,work(iwork),lwork - iwork + 1,info)
+              ! generate right bidiagonalizing vectors of r in work(il)
+              ! (cworkspace: need m*m+4*m-1, prefer m*m+3*m+(m-1)*nb)
+              ! (rworkspace: none)
+              call la_${ri}$ungbr('P',m,m,m,work(il),ldwork,work(itaup),work(iwork), &
+                        lwork - iwork + 1,info)
+              irwork = ie + m
+              ! perform bidiagonal qr iteration, computing right singular
+              ! vectors of l in work(il) and multiplying b by transpose of
+              ! left singular vectors
+              ! (cworkspace: need m*m)
+              ! (rworkspace: need bdspac)
+              call la_${ri}$bdsqr('U',m,m,0,nrhs,s,rwork(ie),work(il),ldwork,a,lda, &
+                        b,ldb,rwork(irwork),info)
+              if (info /= 0) go to 70
+              ! multiply b by reciprocals of singular values
+              thr = max(rcond*s(1),sfmin)
+              if (rcond < zero) thr = max(eps*s(1),sfmin)
+              rank = 0
+              do i = 1,m
+                 if (s(i) > thr) then
+                    call la_${ri}$${ci}$rscl(nrhs,s(i),b(i,1),ldb)
+                    rank = rank + 1
+                 else
+                    call la_${ri}$laset('F',1,nrhs,czero,czero,b(i,1),ldb)
+                 end if
+              end do
+              iwork = il + m*ldwork
+              ! multiply b by right singular vectors of l in work(il)
+              ! (cworkspace: need m*m+2*m, prefer m*m+m+m*nrhs)
+              ! (rworkspace: none)
+              if (lwork >= ldb*nrhs + iwork - 1 .and. nrhs > 1) then
+                 call la_${ri}$gemm('C','N',m,nrhs,m,cone,work(il),ldwork,b,ldb,czero, &
+                           work(iwork),ldb)
+                 call la_${ri}$lacpy('G',m,nrhs,work(iwork),ldb,b,ldb)
+              else if (nrhs > 1) then
+                 chunk = (lwork - iwork + 1)/m
+                 do i = 1,nrhs,chunk
+                    bl = min(nrhs - i + 1,chunk)
+                    call la_${ri}$gemm('C','N',m,bl,m,cone,work(il),ldwork,b(1,i), &
+                              ldb,czero,work(iwork),m)
+                    call la_${ri}$lacpy('G',m,bl,work(iwork),m,b(1,i),ldb)
+                 end do
+              else
+                 call la_${ri}$gemv('C',m,m,cone,work(il),ldwork,b(1,1),1,czero,work( &
+                            iwork),1)
+                 call la_${ri}$copy(m,work(iwork),1,b(1,1),1)
+              end if
+              ! zero out below first m rows of b
+              call la_${ri}$laset('F',n - m,nrhs,czero,czero,b(m + 1,1),ldb)
+              iwork = itau + m
+              ! multiply transpose(q) by b
+              ! (cworkspace: need m+nrhs, prefer m+nhrs*nb)
+              ! (rworkspace: none)
+              call la_${ri}$unmlq('L','C',n,nrhs,m,a,lda,work(itau),b,ldb,work(iwork) &
+                        ,lwork - iwork + 1,info)
+           else
+              ! path 2 - remaining underdetermined cases
+              ie = 1
+              itauq = 1
+              itaup = itauq + m
+              iwork = itaup + m
+              ! bidiagonalize a
+              ! (cworkspace: need 3*m, prefer 2*m+(m+n)*nb)
+              ! (rworkspace: need n)
+              call la_${ri}$gebrd(m,n,a,lda,s,rwork(ie),work(itauq),work(itaup),work( &
+                         iwork),lwork - iwork + 1,info)
+              ! multiply b by transpose of left bidiagonalizing vectors
+              ! (cworkspace: need 2*m+nrhs, prefer 2*m+nrhs*nb)
+              ! (rworkspace: none)
+              call la_${ri}$unmbr('Q','L','C',m,nrhs,n,a,lda,work(itauq),b,ldb,work( &
+                        iwork),lwork - iwork + 1,info)
+              ! generate right bidiagonalizing vectors in a
+              ! (cworkspace: need 3*m, prefer 2*m+m*nb)
+              ! (rworkspace: none)
+              call la_${ri}$ungbr('P',m,n,m,a,lda,work(itaup),work(iwork),lwork - iwork + &
+                        1,info)
+              irwork = ie + m
+              ! perform bidiagonal qr iteration,
+                 ! computing right singular vectors of a in a and
+                 ! multiplying b by transpose of left singular vectors
+              ! (cworkspace: none)
+              ! (rworkspace: need bdspac)
+              call la_${ri}$bdsqr('L',m,n,0,nrhs,s,rwork(ie),a,lda,dum,1,b,ldb, &
+                        rwork(irwork),info)
+              if (info /= 0) go to 70
+              ! multiply b by reciprocals of singular values
+              thr = max(rcond*s(1),sfmin)
+              if (rcond < zero) thr = max(eps*s(1),sfmin)
+              rank = 0
+              do i = 1,m
+                 if (s(i) > thr) then
+                    call la_${ri}$${ci}$rscl(nrhs,s(i),b(i,1),ldb)
+                    rank = rank + 1
+                 else
+                    call la_${ri}$laset('F',1,nrhs,czero,czero,b(i,1),ldb)
+                 end if
+              end do
+              ! multiply b by right singular vectors of a
+              ! (cworkspace: need n, prefer n*nrhs)
+              ! (rworkspace: none)
+              if (lwork >= ldb*nrhs .and. nrhs > 1) then
+                 call la_${ri}$gemm('C','N',n,nrhs,m,cone,a,lda,b,ldb,czero,work,ldb)
+
+                 call la_${ri}$lacpy('G',n,nrhs,work,ldb,b,ldb)
+              else if (nrhs > 1) then
+                 chunk = lwork/n
+                 do i = 1,nrhs,chunk
+                    bl = min(nrhs - i + 1,chunk)
+                    call la_${ri}$gemm('C','N',n,bl,m,cone,a,lda,b(1,i),ldb,czero, &
+                              work,n)
+                    call la_${ri}$lacpy('F',n,bl,work,n,b(1,i),ldb)
+                 end do
+              else
+                 call la_${ri}$gemv('C',m,n,cone,a,lda,b,1,czero,work,1)
+                 call la_${ri}$copy(n,work,1,b,1)
+              end if
+           end if
+           ! undo scaling
+           if (iascl == 1) then
+              call la_${ri}$lascl('G',0,0,anrm,smlnum,n,nrhs,b,ldb,info)
+              call la_${ci}$lascl('G',0,0,smlnum,anrm,minmn,1,s,minmn,info)
+           else if (iascl == 2) then
+              call la_${ri}$lascl('G',0,0,anrm,bignum,n,nrhs,b,ldb,info)
+              call la_${ci}$lascl('G',0,0,bignum,anrm,minmn,1,s,minmn,info)
+           end if
+           if (ibscl == 1) then
+              call la_${ri}$lascl('G',0,0,smlnum,bnrm,n,nrhs,b,ldb,info)
+           else if (ibscl == 2) then
+              call la_${ri}$lascl('G',0,0,bignum,bnrm,n,nrhs,b,ldb,info)
+           end if
+           70 continue
+           work(1) = maxwrk
+           return
+     end subroutine la_${ri}$gelss
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+     !> ${ri.upper()}$GELSY: computes the minimum-norm solution to a complex linear least
+     !> squares problem:
+     !> minimize || A * X - B ||
+     !> using a complete orthogonal factorization of A.  A is an M-by-N
+     !> matrix which may be rank-deficient.
+     !> Several right hand side vectors b and solution vectors x can be
+     !> handled in a single call; they are stored as the columns of the
+     !> M-by-NRHS right hand side matrix B and the N-by-NRHS solution
+     !> matrix X.
+     !> The routine first computes a QR factorization with column pivoting:
+     !> A * P = Q * [ R11 R12 ]
+     !> [  0  R22 ]
+     !> with R11 defined as the largest leading submatrix whose estimated
+     !> condition number is less than 1/RCOND.  The order of R11, RANK,
+     !> is the effective rank of A.
+     !> Then, R22 is considered to be negligible, and R12 is annihilated
+     !> by unitary transformations from the right, arriving at the
+     !> complete orthogonal factorization:
+     !> A * P = Q * [ T11 0 ] * Z
+     !> [  0  0 ]
+     !> The minimum-norm solution is then
+     !> X = P * Z**H [ inv(T11)*Q1**H*B ]
+     !> [        0         ]
+     !> where Q1 consists of the first RANK columns of Q.
+     !> This routine is basically identical to the original xGELSX except
+     !> three differences:
+     !> o The permutation of matrix B (the right hand side) is faster and
+     !> more simple.
+     !> o The call to the subroutine xGEQPF has been substituted by the
+     !> the call to the subroutine xGEQP3. This subroutine is a Blas-3
+     !> version of the QR factorization with column pivoting.
+     !> o Matrix B (the right hand side) is updated with Blas-3.
+
+     subroutine la_${ri}$gelsy(m,n,nrhs,a,lda,b,ldb,jpvt,rcond,rank,work,lwork,rwork, &
+               info)
+        use la_constants_${rk}$,only:zero,one,czero,cone
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           integer(ilp),intent(out) :: info,rank
+           integer(ilp),intent(in) :: lda,ldb,lwork,m,n,nrhs
+           real(${rk}$),intent(in) :: rcond
+           ! Array Arguments
+           integer(ilp),intent(inout) :: jpvt(*)
+           real(${rk}$),intent(out) :: rwork(*)
+           complex(${rk}$),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(${rk}$),intent(out) :: work(*)
+        ! =====================================================================
+           ! Parameters
+           integer(ilp),parameter :: imax = 1
+           integer(ilp),parameter :: imin = 2
+
+           ! Local Scalars
+           logical(lk) :: lquery
+           integer(ilp) :: i,iascl,ibscl,ismax,ismin,j,lwkopt,mn,nb,nb1,nb2,nb3, &
+                     nb4
+           real(${rk}$) :: anrm,bignum,bnrm,smax,smaxpr,smin,sminpr,smlnum,wsize
+           complex(${rk}$) :: c1,c2,s1,s2
+           ! Intrinsic Functions
+#:if rk == "sp"
+           intrinsic :: abs,max,min,real,cmplx
+#:else
+           intrinsic :: abs,real,cmplx,max,min
+#:endif
+           ! Executable Statements
+           mn = min(m,n)
+           ismin = mn + 1
+           ismax = 2*mn + 1
+           ! test the input arguments.
+           info = 0
+           nb1 = la_ilaenv(1,'${ri.upper()}$GEQRF',' ',m,n,-1,-1)
+           nb2 = la_ilaenv(1,'${ri.upper()}$GERQF',' ',m,n,-1,-1)
+           nb3 = la_ilaenv(1,'${ri.upper()}$UNMQR',' ',m,n,nrhs,-1)
+           nb4 = la_ilaenv(1,'${ri.upper()}$UNMRQ',' ',m,n,nrhs,-1)
+           nb = max(nb1,nb2,nb3,nb4)
+           lwkopt = max(1,mn + 2*n + nb*(n + 1),2*mn + nb*nrhs)
+           work(1) = cmplx(lwkopt,KIND=${rk}$)
+           lquery = (lwork == -1)
+           if (m < 0) then
+              info = -1
+           else if (n < 0) then
+              info = -2
+           else if (nrhs < 0) then
+              info = -3
+           else if (lda < max(1,m)) then
+              info = -5
+           else if (ldb < max(1,m,n)) then
+              info = -7
+           else if (lwork < (mn + max(2*mn,n + 1,mn + nrhs)) .and. .not. lquery) then
+              info = -12
+           end if
+           if (info /= 0) then
+              call la_xerbla('${ri.upper()}$GELSY',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (min(m,n,nrhs) == 0) then
+              rank = 0
+              return
+           end if
+           ! get machine parameters
+           smlnum = la_${ci}$lamch('S')/la_${ci}$lamch('P')
+           bignum = one/smlnum
+           call la_${ci}$labad(smlnum,bignum)
+           ! scale a, b if max entries outside range [smlnum,bignum]
+           anrm = la_${ri}$lange('M',m,n,a,lda,rwork)
+           iascl = 0
+           if (anrm > zero .and. anrm < smlnum) then
+              ! scale matrix norm up to smlnum
+              call la_${ri}$lascl('G',0,0,anrm,smlnum,m,n,a,lda,info)
+              iascl = 1
+           else if (anrm > bignum) then
+              ! scale matrix norm down to bignum
+              call la_${ri}$lascl('G',0,0,anrm,bignum,m,n,a,lda,info)
+              iascl = 2
+           else if (anrm == zero) then
+              ! matrix all zero. return zero solution.
+              call la_${ri}$laset('F',max(m,n),nrhs,czero,czero,b,ldb)
+              rank = 0
+              go to 70
+           end if
+           bnrm = la_${ri}$lange('M',m,nrhs,b,ldb,rwork)
+           ibscl = 0
+           if (bnrm > zero .and. bnrm < smlnum) then
+              ! scale matrix norm up to smlnum
+              call la_${ri}$lascl('G',0,0,bnrm,smlnum,m,nrhs,b,ldb,info)
+              ibscl = 1
+           else if (bnrm > bignum) then
+              ! scale matrix norm down to bignum
+              call la_${ri}$lascl('G',0,0,bnrm,bignum,m,nrhs,b,ldb,info)
+              ibscl = 2
+           end if
+           ! compute qr factorization with column pivoting of a:
+              ! a * p = q * r
+           call la_${ri}$geqp3(m,n,a,lda,jpvt,work(1),work(mn + 1),lwork - mn,rwork,info)
+
+           wsize = mn + real(work(mn + 1),KIND=${rk}$)
+           ! complex workspace: mn+nb*(n+1). real workspace 2*n.
+           ! details of householder rotations stored in work(1:mn).
+           ! determine rank using incremental condition estimation
+           work(ismin) = cone
+           work(ismax) = cone
+           smax = abs(a(1,1))
+           smin = smax
+           if (abs(a(1,1)) == zero) then
+              rank = 0
+              call la_${ri}$laset('F',max(m,n),nrhs,czero,czero,b,ldb)
+              go to 70
+           else
+              rank = 1
+           end if
+           10 continue
+           if (rank < mn) then
+              i = rank + 1
+              call la_${ri}$laic1(imin,rank,work(ismin),smin,a(1,i),a(i,i),sminpr, &
+                        s1,c1)
+              call la_${ri}$laic1(imax,rank,work(ismax),smax,a(1,i),a(i,i),smaxpr, &
+                        s2,c2)
+              if (smaxpr*rcond <= sminpr) then
+                 do i = 1,rank
+                    work(ismin + i - 1) = s1*work(ismin + i - 1)
+                    work(ismax + i - 1) = s2*work(ismax + i - 1)
+                 end do
+                 work(ismin + rank) = c1
+                 work(ismax + rank) = c2
+                 smin = sminpr
+                 smax = smaxpr
+                 rank = rank + 1
+                 go to 10
+              end if
+           end if
+           ! complex workspace: 3*mn.
+           ! logically partition r = [ r11 r12 ]
+                                   ! [  0  r22 ]
+           ! where r11 = r(1:rank,1:rank)
+           ! [r11,r12] = [ t11, 0 ] * y
+           if (rank < n) call la_${ri}$tzrzf(rank,n,a,lda,work(mn + 1),work(2*mn + 1),lwork - &
+                     2*mn,info)
+           ! complex workspace: 2*mn.
+           ! details of householder rotations stored in work(mn+1:2*mn)
+           ! b(1:m,1:nrhs) := q**h * b(1:m,1:nrhs)
+           call la_${ri}$unmqr('LEFT','CONJUGATE TRANSPOSE',m,nrhs,mn,a,lda,work(1),b, &
+                     ldb,work(2*mn + 1),lwork - 2*mn,info)
+           wsize = max(wsize,2*mn + real(work(2*mn + 1),KIND=${rk}$))
+           ! complex workspace: 2*mn+nb*nrhs.
+           ! b(1:rank,1:nrhs) := inv(t11) * b(1:rank,1:nrhs)
+           call la_${ri}$trsm('LEFT','UPPER','NO TRANSPOSE','NON-UNIT',rank,nrhs,cone,a, &
+                     lda,b,ldb)
+           do j = 1,nrhs
+              do i = rank + 1,n
+                 b(i,j) = czero
+              end do
+           end do
+           ! b(1:n,1:nrhs) := y**h * b(1:n,1:nrhs)
+           if (rank < n) then
+              call la_${ri}$unmrz('LEFT','CONJUGATE TRANSPOSE',n,nrhs,rank,n - rank,a,lda, &
+                        work(mn + 1),b,ldb,work(2*mn + 1),lwork - 2*mn,info)
+           end if
+           ! complex workspace: 2*mn+nrhs.
+           ! b(1:n,1:nrhs) := p * b(1:n,1:nrhs)
+           do j = 1,nrhs
+              do i = 1,n
+                 work(jpvt(i)) = b(i,j)
+              end do
+              call la_${ri}$copy(n,work(1),1,b(1,j),1)
+           end do
+           ! complex workspace: n.
+           ! undo scaling
+           if (iascl == 1) then
+              call la_${ri}$lascl('G',0,0,anrm,smlnum,n,nrhs,b,ldb,info)
+              call la_${ri}$lascl('U',0,0,smlnum,anrm,rank,rank,a,lda,info)
+           else if (iascl == 2) then
+              call la_${ri}$lascl('G',0,0,anrm,bignum,n,nrhs,b,ldb,info)
+              call la_${ri}$lascl('U',0,0,bignum,anrm,rank,rank,a,lda,info)
+           end if
+           if (ibscl == 1) then
+              call la_${ri}$lascl('G',0,0,smlnum,bnrm,n,nrhs,b,ldb,info)
+           else if (ibscl == 2) then
+              call la_${ri}$lascl('G',0,0,bignum,bnrm,n,nrhs,b,ldb,info)
+           end if
+           70 continue
+           work(1) = cmplx(lwkopt,KIND=${rk}$)
+           return
+     end subroutine la_${ri}$gelsy
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+     !> ${ri.upper()}$GETSLS: solves overdetermined or underdetermined complex linear systems
+     !> involving an M-by-N matrix A, using a tall skinny QR or short wide LQ
+     !> factorization of A.  It is assumed that A has full rank.
+     !> The following options are provided:
+     !> 1. If TRANS = 'N' and m >= n:  find the least squares solution of
+     !> an overdetermined system, i.e., solve the least squares problem
+     !> minimize || B - A*X ||.
+     !> 2. If TRANS = 'N' and m < n:  find the minimum norm solution of
+     !> an underdetermined system A * X = B.
+     !> 3. If TRANS = 'C' and m >= n:  find the minimum norm solution of
+     !> an undetermined system A**T * X = B.
+     !> 4. If TRANS = 'C' and m < n:  find the least squares solution of
+     !> an overdetermined system, i.e., solve the least squares problem
+     !> minimize || B - A**T * X ||.
+     !> Several right hand side vectors b and solution vectors x can be
+     !> handled in a single call; they are stored as the columns of the
+     !> M-by-NRHS right hand side matrix B and the N-by-NRHS solution
+     !> matrix X.
+
+     subroutine la_${ri}$getsls(trans,m,n,nrhs,a,lda,b,ldb,work,lwork,info)
+        use la_constants_${rk}$,only:zero,one,czero
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: trans
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,lwork,m,n,nrhs
+           ! Array Arguments
+           complex(${rk}$),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(${rk}$),intent(out) :: work(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lquery,tran
+           integer(ilp) :: i,iascl,ibscl,j,maxmn,brow,scllen,tszo,tszm,lwo,lwm,lw1, &
+                     lw2,wsizeo,wsizem,info2
+           real(${rk}$) :: anrm,bignum,bnrm,smlnum,dum(1)
+           complex(${rk}$) :: tq(5),workq(1)
+           ! Intrinsic Functions
+           intrinsic :: real,max,min,int
+           ! Executable Statements
+           ! test the input arguments.
+           info = 0
+           maxmn = max(m,n)
+           tran = la_lsame(trans,'C')
+           lquery = (lwork == -1 .or. lwork == -2)
+           if (.not. (la_lsame(trans,'N') .or. la_lsame(trans,'C'))) then
+              info = -1
+           else if (m < 0) then
+              info = -2
+           else if (n < 0) then
+              info = -3
+           else if (nrhs < 0) then
+              info = -4
+           else if (lda < max(1,m)) then
+              info = -6
+           else if (ldb < max(1,m,n)) then
+              info = -8
+           end if
+           if (info == 0) then
+           ! determine the optimum and minimum lwork
+            if (m >= n) then
+              call la_${ri}$geqr(m,n,a,lda,tq,-1,workq,-1,info2)
+              tszo = int(tq(1),KIND=ilp)
+              lwo = int(workq(1),KIND=ilp)
+              call la_${ri}$gemqr('L',trans,m,nrhs,n,a,lda,tq,tszo,b,ldb,workq,-1, &
+                        info2)
+              lwo = max(lwo,int(workq(1),KIND=ilp))
+              call la_${ri}$geqr(m,n,a,lda,tq,-2,workq,-2,info2)
+              tszm = int(tq(1),KIND=ilp)
+              lwm = int(workq(1),KIND=ilp)
+              call la_${ri}$gemqr('L',trans,m,nrhs,n,a,lda,tq,tszm,b,ldb,workq,-1, &
+                        info2)
+              lwm = max(lwm,int(workq(1),KIND=ilp))
+              wsizeo = tszo + lwo
+              wsizem = tszm + lwm
+            else
+              call la_${ri}$gelq(m,n,a,lda,tq,-1,workq,-1,info2)
+              tszo = int(tq(1),KIND=ilp)
+              lwo = int(workq(1),KIND=ilp)
+              call la_${ri}$gemlq('L',trans,n,nrhs,m,a,lda,tq,tszo,b,ldb,workq,-1, &
+                        info2)
+              lwo = max(lwo,int(workq(1),KIND=ilp))
+              call la_${ri}$gelq(m,n,a,lda,tq,-2,workq,-2,info2)
+              tszm = int(tq(1),KIND=ilp)
+              lwm = int(workq(1),KIND=ilp)
+              call la_${ri}$gemlq('L',trans,n,nrhs,m,a,lda,tq,tszm,b,ldb,workq,-1, &
+                        info2)
+              lwm = max(lwm,int(workq(1),KIND=ilp))
+              wsizeo = tszo + lwo
+              wsizem = tszm + lwm
+            end if
+            if ((lwork < wsizem) .and. (.not. lquery)) then
+               info = -10
+            end if
+            work(1) = real(wsizeo,KIND=${rk}$)
+           end if
+           if (info /= 0) then
+             call la_xerbla('${ri.upper()}$GETSLS',-info)
+             return
+           end if
+           if (lquery) then
+             if (lwork == -2) work(1) = real(wsizem,KIND=${rk}$)
+             return
+           end if
+           if (lwork < wsizeo) then
+             lw1 = tszm
+             lw2 = lwm
+           else
+             lw1 = tszo
+             lw2 = lwo
+           end if
+           ! quick return if possible
+           if (min(m,n,nrhs) == 0) then
+                call la_${ri}$laset('FULL',max(m,n),nrhs,czero,czero,b,ldb)
+                return
+           end if
+           ! get machine parameters
+            smlnum = la_${ci}$lamch('S')/la_${ci}$lamch('P')
+            bignum = one/smlnum
+            call la_${ci}$labad(smlnum,bignum)
+           ! scale a, b if max element outside range [smlnum,bignum]
+           anrm = la_${ri}$lange('M',m,n,a,lda,dum)
+           iascl = 0
+           if (anrm > zero .and. anrm < smlnum) then
+              ! scale matrix norm up to smlnum
+              call la_${ri}$lascl('G',0,0,anrm,smlnum,m,n,a,lda,info)
+              iascl = 1
+           else if (anrm > bignum) then
+              ! scale matrix norm down to bignum
+              call la_${ri}$lascl('G',0,0,anrm,bignum,m,n,a,lda,info)
+              iascl = 2
+           else if (anrm == zero) then
+              ! matrix all zero. return zero solution.
+              call la_${ri}$laset('F',maxmn,nrhs,czero,czero,b,ldb)
+              go to 50
+           end if
+           brow = m
+           if (tran) then
+             brow = n
+           end if
+           bnrm = la_${ri}$lange('M',brow,nrhs,b,ldb,dum)
+           ibscl = 0
+           if (bnrm > zero .and. bnrm < smlnum) then
+              ! scale matrix norm up to smlnum
+              call la_${ri}$lascl('G',0,0,bnrm,smlnum,brow,nrhs,b,ldb,info)
+              ibscl = 1
+           else if (bnrm > bignum) then
+              ! scale matrix norm down to bignum
+              call la_${ri}$lascl('G',0,0,bnrm,bignum,brow,nrhs,b,ldb,info)
+              ibscl = 2
+           end if
+           if (m >= n) then
+              ! compute qr factorization of a
+             call la_${ri}$geqr(m,n,a,lda,work(lw2 + 1),lw1,work(1),lw2,info)
+             if (.not. tran) then
+                 ! least-squares problem min || a * x - b ||
+                 ! b(1:m,1:nrhs) := q**t * b(1:m,1:nrhs)
+               call la_${ri}$gemqr('L','C',m,nrhs,n,a,lda,work(lw2 + 1),lw1,b,ldb,work( &
+                          1),lw2,info)
+                 ! b(1:n,1:nrhs) := inv(r) * b(1:n,1:nrhs)
+               call la_${ri}$trtrs('U','N','N',n,nrhs,a,lda,b,ldb,info)
+               if (info > 0) then
+                 return
+               end if
+               scllen = n
+             else
+                 ! overdetermined system of equations a**t * x = b
+                 ! b(1:n,1:nrhs) := inv(r**t) * b(1:n,1:nrhs)
+                 call la_${ri}$trtrs('U','C','N',n,nrhs,a,lda,b,ldb,info)
+                 if (info > 0) then
+                    return
+                 end if
+                 ! b(n+1:m,1:nrhs) = czero
+                 do j = 1,nrhs
+                    do i = n + 1,m
+                       b(i,j) = czero
+                    end do
+                 end do
+                 ! b(1:m,1:nrhs) := q(1:n,:) * b(1:n,1:nrhs)
+                 call la_${ri}$gemqr('L','N',m,nrhs,n,a,lda,work(lw2 + 1),lw1,b,ldb, &
+                           work(1),lw2,info)
+                 scllen = m
+              end if
+           else
+              ! compute lq factorization of a
+              call la_${ri}$gelq(m,n,a,lda,work(lw2 + 1),lw1,work(1),lw2,info)
+              ! workspace at least m, optimally m*nb.
+              if (.not. tran) then
+                 ! underdetermined system of equations a * x = b
+                 ! b(1:m,1:nrhs) := inv(l) * b(1:m,1:nrhs)
+                 call la_${ri}$trtrs('L','N','N',m,nrhs,a,lda,b,ldb,info)
+                 if (info > 0) then
+                    return
+                 end if
+                 ! b(m+1:n,1:nrhs) = 0
+                 do j = 1,nrhs
+                    do i = m + 1,n
+                       b(i,j) = czero
+                    end do
+                 end do
+                 ! b(1:n,1:nrhs) := q(1:n,:)**t * b(1:m,1:nrhs)
+                 call la_${ri}$gemlq('L','C',n,nrhs,m,a,lda,work(lw2 + 1),lw1,b,ldb, &
+                           work(1),lw2,info)
+                 ! workspace at least nrhs, optimally nrhs*nb
+                 scllen = n
+              else
+                 ! overdetermined system min || a**t * x - b ||
+                 ! b(1:n,1:nrhs) := q * b(1:n,1:nrhs)
+                 call la_${ri}$gemlq('L','N',n,nrhs,m,a,lda,work(lw2 + 1),lw1,b,ldb, &
+                           work(1),lw2,info)
+                 ! workspace at least nrhs, optimally nrhs*nb
+                 ! b(1:m,1:nrhs) := inv(l**t) * b(1:m,1:nrhs)
+                 call la_${ri}$trtrs('L','C','N',m,nrhs,a,lda,b,ldb,info)
+                 if (info > 0) then
+                    return
+                 end if
+                 scllen = m
+              end if
+           end if
+           ! undo scaling
+           if (iascl == 1) then
+             call la_${ri}$lascl('G',0,0,anrm,smlnum,scllen,nrhs,b,ldb,info)
+           else if (iascl == 2) then
+             call la_${ri}$lascl('G',0,0,anrm,bignum,scllen,nrhs,b,ldb,info)
+           end if
+           if (ibscl == 1) then
+             call la_${ri}$lascl('G',0,0,smlnum,bnrm,scllen,nrhs,b,ldb,info)
+           else if (ibscl == 2) then
+             call la_${ri}$lascl('G',0,0,bignum,bnrm,scllen,nrhs,b,ldb,info)
+           end if
+           50 continue
+           work(1) = real(tszo + lwo,KIND=${rk}$)
+           return
+     end subroutine la_${ri}$getsls
+#:endfor
+
+end module la_lapack_lsq

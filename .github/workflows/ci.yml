@@ -25,8 +25,8 @@ jobs:
         os: [ubuntu-latest, macos-latest]
         profile: [debug, release]
         exclude:
-          # The release build of the six per-kind LAPACK modules exceeds the
-          # runner budget; ubuntu covers the optimized path.
+          # The optimized build of the LAPACK sources exceeds the macOS runner
+          # budget; ubuntu covers the optimized path.
           - os: macos-latest
             profile: release
 

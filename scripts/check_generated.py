@@ -18,8 +18,8 @@ them, on the baseline side too, so that a baseline which is itself already templ
 Names that legitimately change are listed in the allow-list file, one
 `old_name  new_name|REMOVED|REFORMATTED|DOCTEXT  reason` row each; the last two name a body
 difference of one routine, named as the working tree spells it, and the comparison the gate
-holds it to.  The umbrella src/la_blas.F90 is compared as a
-whole file, with only the `use` block and allow-listed procedure names permitted to differ.
+holds it to.  The umbrella modules src/la_blas.F90 and src/la_lapack.F90 are compared as
+whole files, with only the `use` block and allow-listed procedure names permitted to differ.
 """
 
 import argparse
@@ -41,7 +41,10 @@ HIGH_LEVEL = {
     "la_least_squares", "la_norms", "la_pinv", "la_qr", "la_schur", "la_solve", "la_state",
     "la_svd", "linear_algebra",
 }
-UMBRELLAS = {"src/la_blas.F90", "src/la_lapack.f90"}
+# Umbrella modules, as the baseline names them and as the working tree names them.
+UMBRELLAS = {"src/la_blas.F90": "src/la_blas.F90",
+             "src/la_lapack.f90": "src/la_lapack.F90",
+             "src/la_lapack.F90": "src/la_lapack.F90"}
 USE_CONSTANTS = re.compile(r"(?m)^[ \t]*use la_constants_(sp|dp|qp)\b[^\n]*\n")
 KIND_OF = {"s": "sp", "d": "dp", "q": "qp", "c": "sp", "z": "dp", "w": "qp"}
 
@@ -88,7 +91,7 @@ def collect(tree):
     """`routine name -> (body, file)` over a whole tree, and the duplicate names found."""
     routines, duplicates = {}, []
     for path, text in sorted(tree.items()):
-        if path in UMBRELLAS:
+        if path in UMBRELLAS or path in UMBRELLAS.values():
             continue
         for name, (chunk, _) in K.split_routines(text).items():
             if name in routines:
@@ -236,8 +239,13 @@ def diff(a, b, na, nb):
                                           lineterm=""))
 
 
-def compare_umbrella(old, new, allow, report):
-    """The umbrella may differ only in its `use` block and in allow-listed procedure names."""
+def compare_umbrella(path, old, new, allow, report):
+    """The umbrella may differ only in its `use` block and in allow-listed procedure names.
+
+    A line that differs in trailing blanks alone is accepted and reported: an umbrella that has
+    joined the fypp pipeline goes through fprettify, which strips them.
+    """
+    name = os.path.basename(path)
     use_block = re.compile(r"(?ms)^(     use .*?\n)(?=     implicit none)")
     old_use = use_block.search(old)
     new_use = use_block.search(new)
@@ -251,10 +259,17 @@ def compare_umbrella(old, new, allow, report):
             old_rest = re.sub(r"\b%s\b" % re.escape(old_name), new_name, old_rest)
     if old_use.group(1) != new_use.group(1):
         report.append("umbrella use block:\n" + diff(old_use.group(1), new_use.group(1),
-                                                     "la_blas.F90", "la_blas.F90"))
+                                                     name, name))
     if old_rest == new_rest:
         return True
-    report.append("umbrella body:\n" + diff(old_rest, new_rest, "la_blas.F90", "la_blas.F90"))
+    old_lines = [l.rstrip() for l in old_rest.split("\n")]
+    new_lines = [l.rstrip() for l in new_rest.split("\n")]
+    if old_lines == new_lines:
+        moved = sum(1 for a, b in zip(old_rest.split("\n"), new_rest.split("\n")) if a != b)
+        report.append("umbrella %s: %d doc line(s) differ in trailing blanks only, which "
+                      "fprettify strips" % (name, moved))
+        return True
+    report.append("umbrella body:\n" + diff(old_rest, new_rest, name, name))
     return False
 
 
@@ -333,14 +348,15 @@ def main():
         counts["extra"] += 1
         failures += 1
 
-    for path in sorted(UMBRELLAS & set(old_tree)):
-        if path not in new_tree:
+    for path in sorted(set(UMBRELLAS) & set(old_tree)):
+        now = UMBRELLAS[path]
+        if now not in new_tree:
             report.append("umbrella %s disappeared" % path)
             failures += 1
             continue
-        if old_tree[path] == new_tree[path]:
+        if old_tree[path] == new_tree[now]:
             counts["umbrella PASS-BYTE"] += 1
-        elif compare_umbrella(old_tree[path], new_tree[path], allow, report):
+        elif compare_umbrella(now, old_tree[path], new_tree[now], allow, report):
             counts["umbrella PASS-BYTE (use block and renames aside)"] += 1
         else:
             counts["umbrella FAIL"] += 1
