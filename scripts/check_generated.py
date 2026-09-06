@@ -12,9 +12,10 @@ asserts, name by name, that the working tree still holds the same code:
                 local-name repairs the templates make in the q and w instances)
     FAIL        anything else
 
-The working tree may also add exactly one `use la_constants_<kind>` line per routine, whose kind
-must match the routine's own precision; the gate removes and verifies those lines rather than
-ignoring them.  Names that legitimately change are listed in the allow-list file, one
+Either side may carry exactly one `use la_constants_<kind>` line per routine, whose kind must
+match the routine's own precision; the gate removes and verifies those lines rather than ignoring
+them, on the baseline side too, so that a baseline which is itself already templated compares.
+Names that legitimately change are listed in the allow-list file, one
 `old_name  new_name|REMOVED  reason` row each.  The umbrella src/la_blas.F90 is compared as a
 whole file, with only the `use` block and allow-listed procedure names permitted to differ.
 """
@@ -39,7 +40,7 @@ HIGH_LEVEL = {
     "la_svd", "linear_algebra",
 }
 UMBRELLAS = {"src/la_blas.F90", "src/la_lapack.f90"}
-USE_CONSTANTS = re.compile(r"(?m)^[ \t]*use la_constants_(sp|dp|qp)[ \t]*\n")
+USE_CONSTANTS = re.compile(r"(?m)^[ \t]*use la_constants_(sp|dp|qp)\b[^\n]*\n")
 KIND_OF = {"s": "sp", "d": "dp", "q": "qp", "c": "sp", "z": "dp", "w": "qp"}
 
 
@@ -129,7 +130,8 @@ def strip_use(body, name):
     return USE_CONSTANTS.sub("", body), None
 
 
-LETTER_PATTERNS = (r"i([sdqczw])(?:amax|max1)", r"ila([sdqczw])(?:lc|lr|iag)", r"([sdqczw]).*")
+LETTER_PATTERNS = (r"(?:selctg|select)_([sdqczw])", r"i([sdqczw])(?:amax|max1)",
+                   r"ila([sdqczw])(?:lc|lr|iag)", r"([sdqczw]).*")
 
 
 def _own_letter(name):
@@ -243,7 +245,10 @@ def main():
             failures += 1
             continue
         matched_new.add(target)
-        old_body = old_routines[name][0]
+        old_body, problem = strip_use(old_routines[name][0], name)
+        if problem:
+            report.append("baseline %s: %s" % (name, problem))
+            failures += 1
         for was, now in renames.items():
             if re.search(r"\b%s\b" % re.escape(was), old_body):
                 old_body = re.sub(r"\b%s\b" % re.escape(was), now, old_body)

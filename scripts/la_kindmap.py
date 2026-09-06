@@ -9,6 +9,7 @@ kind-neutral form by replacing every token that encodes a precision with a role 
     @RK@  own kind (sp/dp/qp)
     @RLI@ @RLK@ @CLI@   the same three, one precision down
     @RUI@ @RUK@ @CUI@   the same three, one precision up
+    @PREC@ @PRECU@      the word a doc comment uses for the own precision, lower and upper case
 
 Two bodies of the same routine at different precisions normalize to the same text unless they
 really differ.  The placeholders map one to one onto the fypp loop variables of LA_REAL_KINDS
@@ -32,9 +33,10 @@ PLACEHOLDERS = {
     "@RUI@": "riu", "@RUK@": "rku", "@CUI@": "ciu",
 }
 
-# Routine stems that carry no precision at all.
+# Routine stems that carry no precision at all.  `iladiag` reads as `ila<d>iag` to the
+# ila?lc/ila?lr rule below, which is what produced the removed la_ilaqiag copy.
 KINDFREE = set("""lsame lsamen xerbla xerbla_array ilaenv ilaenv2stage ilatrans ilauplo
-ilaprec ieeeck iparmq iparam2stage chla_transtype""".split())
+ilaprec ieeeck iparmq iparam2stage chla_transtype iladiag""".split())
 
 PRECISION = {"sp": "single", "dp": "double", "qp": "quad"}
 
@@ -102,8 +104,18 @@ def routine_names(paths):
     return names
 
 
+IMPORT = re.compile(r"(?m)^[ \t]*import\b.*$")
+
+
 def normalize(text, letter, upper_bases=frozenset()):
-    """Rewrite a body written for kind `letter` into placeholder form."""
+    """Rewrite a body written for kind `letter` into placeholder form.
+
+    An `import` statement of an interface body names the host entities the interface needs, not
+    the precision it is written for, so it is carried through untouched.
+    """
+    kept = IMPORT.findall(text)
+    if kept:
+        text = IMPORT.sub("@IMPORT@", text)
     rl = roles(letter)
     text = re.sub(r"\bla_([A-Za-z0-9_]+)", lambda m: "la_" + map_name(m.group(1), rl), text)
 
@@ -121,7 +133,12 @@ def normalize(text, letter, upper_bases=frozenset()):
         text = re.sub(r"_%s\b" % kind, "_" + ph, text)
         text = re.sub(r"(?<![A-Za-z0-9_@])%s(?![A-Za-z0-9_])" % kind, ph, text)
     own = PRECISION[KND[INDEX[letter]]]
-    return re.sub(r"\b%s(?=[- ]precision\b)" % own, "@PREC@", text)
+    text = re.sub(r"\b%s(?=[- ]precision\b)" % own, "@PREC@", text)
+    text = re.sub(r"\b%s(?=[- ]PRECISION\b)" % own.upper(), "@PRECU@", text)
+    if kept:
+        lines = iter(kept)
+        text = re.sub("@IMPORT@", lambda m: next(lines), text)
+    return text
 
 
 def strip_comment(line):
@@ -202,6 +219,28 @@ def split_routines(text):
     return out
 
 
+ABSTRACT = re.compile(r"(?ms)^([ \t]*abstract interface[ \t]*\n)(.*?)"
+                      r"(^[ \t]*end interface[ \t]*$)")
+
+
+def split_preamble(text):
+    """Interface bodies declared before `contains`: `name -> (chunk, order)`.
+
+    `abstract interface` blocks are part of a module's declaration section, so `split_routines`
+    never sees them, yet their bodies carry a precision exactly as a routine does.
+    """
+    head = text.split("\n     contains\n", 1)[0]
+    out = collections.OrderedDict()
+    order = 0
+    for block in ABSTRACT.finditer(head):
+        body, pos = block.group(2), 0
+        for m in END_ROUTINE.finditer(body):
+            out[m.group(2)] = (body[pos:m.end()], order)
+            pos = m.end()
+            order += 1
+    return out
+
+
 def split_file(path):
     with open(path, errors="replace") as fid:
         return split_routines(fid.read())
@@ -210,6 +249,7 @@ def split_file(path):
 def to_fypp(text):
     """Turn placeholder text into fypp: `@RI@gemm` -> `${ri}$gemm`, `@RI@GEMM` -> `${ri.upper()}$GEMM`."""
     text = text.replace("@PREC@", "${LA_PRECISION[rk]}$")
+    text = text.replace("@PRECU@", "${LA_PRECISION[rk].upper()}$")
     run = re.compile(r"((?:@[A-Z0-9]+@)+)([A-Za-z0-9_]*)")
 
     def repl(m):
