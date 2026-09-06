@@ -1,6 +1,6 @@
 #:include "common.fypp"
 ! Test QR factorization 
-module test_linalg_qr
+module test_la_qr
     use linear_algebra
 
     implicit none (type,external)
@@ -107,6 +107,6 @@ module test_linalg_qr
     #:endfor
 
 
-end module test_linalg_qr
+end module test_la_qr
 
 

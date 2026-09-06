@@ -20,6 +20,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   interface.
 - `scripts/fypp_deploy.py` replaces `scripts/preprocess.sh` for regenerating
   the committed sources, and has a `--check` mode.
+  
+### Added
+
+- Linear-algebra test suite ported from the Fortran standard library
+  (test-drive dev-dependency).
 
 ### Fixed
 

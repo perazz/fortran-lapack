@@ -18,3 +18,7 @@ source-form = "free"
 source-dir="src"
 [preprocess]
 [preprocess.cpp]
+
+[dev-dependencies]
+test-drive.git = "https://github.com/fortran-lang/test-drive"
+test-drive.tag = "v0.5.0"

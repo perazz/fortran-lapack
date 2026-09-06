@@ -1,6 +1,6 @@
 #:include "common.fypp"
 ! Test inverse matrix
-module test_linalg_pseudoinverse
+module test_la_pinv
     use linear_algebra
 
     implicit none (type,external)
@@ -203,6 +203,6 @@ module test_linalg_pseudoinverse
 
     #:endfor
 
-end module test_linalg_pseudoinverse
+end module test_la_pinv
 
 

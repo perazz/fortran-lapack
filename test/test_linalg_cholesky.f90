@@ -1,6 +1,10 @@
 ! Test Cholesky factorization
-module test_la_cholesky
-    use linear_algebra
+module test_linalg_cholesky
+    use testdrive,only:error_type,check,new_unittest,unittest_type
+    use la_constants
+    use linear_algebra,only:cholesky,chol
+    use la_state_type,only:la_state
+
     implicit none(type,external)
     private
     
@@ -11,36 +15,22 @@ module test_la_cholesky
     !> Cholesky factorization tests
     subroutine test_cholesky_factorization(tests)
         !> Collection of tests
-        logical,intent(out) :: error
+        type(unittest_type),allocatable,intent(out) :: tests(:)
 
-        real :: t0,t1
-
-        call cpu_time(t0)
+        allocate (tests(0))
         
-        call test_cholesky_s(error)
-        if (error) return
-        call test_cholesky_d(error)
-        if (error) return
-        call test_cholesky_q(error)
-        if (error) return
-        call test_cholesky_c(error)
-        if (error) return
-        call test_cholesky_z(error)
-        if (error) return
-        call test_cholesky_w(error)
-        if (error) return
-
-        call cpu_time(t1)
-
-        print 1,1000*(t1 - t0),merge('SUCCESS','ERROR  ',.not. error)
-
-1       format('Cholesky factorization tests completed in ',f9.4,' milliseconds, result=',a)
+        call add_test(tests,new_unittest("least_cholesky_s",test_cholesky_s))
+        call add_test(tests,new_unittest("least_cholesky_d",test_cholesky_d))
+        call add_test(tests,new_unittest("least_cholesky_q",test_cholesky_q))
+        call add_test(tests,new_unittest("least_cholesky_c",test_cholesky_c))
+        call add_test(tests,new_unittest("least_cholesky_z",test_cholesky_z))
+        call add_test(tests,new_unittest("least_cholesky_w",test_cholesky_w))
 
     end subroutine test_cholesky_factorization
 
     !> Cholesky factorization of a random matrix
     subroutine test_cholesky_s(error)
-        logical,intent(out) :: error
+        type(error_type),allocatable,intent(out) :: error
 
         integer(ilp),parameter :: n = 3_ilp
         real(sp),parameter :: tol = 100*sqrt(epsilon(0.0_sp))
@@ -60,31 +50,22 @@ module test_la_cholesky
         ! 1) Cholesky factorization with full matrices
         call cholesky(a,l,other_zeroed=.true.,err=state)
         
-        error = .not. state%ok()
-        if (error) then
-            print *, 'cholesky (subr) :: '//state%print()
-            return
-        end if
+        call check(error,state%ok(),'cholesky (subr) :: '//state%print())
+        if (allocated(error)) return
         
-        error = .not. all(abs(a - matmul(l,transpose(l))) < tol)
-        if (error) then
-            print *, 'cholesky (subr) :: data converged'
-            return
-        end if
+        call check(error,all(abs(a - matmul(l,transpose(l))) < tol),'cholesky (subr) :: data converged')
+        if (allocated(error)) return
         
         ! 2) Function interface
         l = chol(a,other_zeroed=.true.)
         
-        error = .not. all(abs(a - matmul(l,transpose(l))) < tol)
-        if (error) then
-            print *, 'cholesky (function) :: data converged'
-            return
-        end if
+        call check(error,all(abs(a - matmul(l,transpose(l))) < tol),'cholesky (function) :: data converged')
+        if (allocated(error)) return
         
     end subroutine test_cholesky_s
 
     subroutine test_cholesky_d(error)
-        logical,intent(out) :: error
+        type(error_type),allocatable,intent(out) :: error
 
         integer(ilp),parameter :: n = 3_ilp
         real(dp),parameter :: tol = 100*sqrt(epsilon(0.0_dp))
@@ -104,31 +85,22 @@ module test_la_cholesky
         ! 1) Cholesky factorization with full matrices
         call cholesky(a,l,other_zeroed=.true.,err=state)
         
-        error = .not. state%ok()
-        if (error) then
-            print *, 'cholesky (subr) :: '//state%print()
-            return
-        end if
+        call check(error,state%ok(),'cholesky (subr) :: '//state%print())
+        if (allocated(error)) return
         
-        error = .not. all(abs(a - matmul(l,transpose(l))) < tol)
-        if (error) then
-            print *, 'cholesky (subr) :: data converged'
-            return
-        end if
+        call check(error,all(abs(a - matmul(l,transpose(l))) < tol),'cholesky (subr) :: data converged')
+        if (allocated(error)) return
         
         ! 2) Function interface
         l = chol(a,other_zeroed=.true.)
         
-        error = .not. all(abs(a - matmul(l,transpose(l))) < tol)
-        if (error) then
-            print *, 'cholesky (function) :: data converged'
-            return
-        end if
+        call check(error,all(abs(a - matmul(l,transpose(l))) < tol),'cholesky (function) :: data converged')
+        if (allocated(error)) return
         
     end subroutine test_cholesky_d
 
     subroutine test_cholesky_q(error)
-        logical,intent(out) :: error
+        type(error_type),allocatable,intent(out) :: error
 
         integer(ilp),parameter :: n = 3_ilp
         real(qp),parameter :: tol = 100*sqrt(epsilon(0.0_qp))
@@ -148,31 +120,22 @@ module test_la_cholesky
         ! 1) Cholesky factorization with full matrices
         call cholesky(a,l,other_zeroed=.true.,err=state)
         
-        error = .not. state%ok()
-        if (error) then
-            print *, 'cholesky (subr) :: '//state%print()
-            return
-        end if
+        call check(error,state%ok(),'cholesky (subr) :: '//state%print())
+        if (allocated(error)) return
         
-        error = .not. all(abs(a - matmul(l,transpose(l))) < tol)
-        if (error) then
-            print *, 'cholesky (subr) :: data converged'
-            return
-        end if
+        call check(error,all(abs(a - matmul(l,transpose(l))) < tol),'cholesky (subr) :: data converged')
+        if (allocated(error)) return
         
         ! 2) Function interface
         l = chol(a,other_zeroed=.true.)
         
-        error = .not. all(abs(a - matmul(l,transpose(l))) < tol)
-        if (error) then
-            print *, 'cholesky (function) :: data converged'
-            return
-        end if
+        call check(error,all(abs(a - matmul(l,transpose(l))) < tol),'cholesky (function) :: data converged')
+        if (allocated(error)) return
         
     end subroutine test_cholesky_q
 
     subroutine test_cholesky_c(error)
-        logical,intent(out) :: error
+        type(error_type),allocatable,intent(out) :: error
 
         integer(ilp),parameter :: n = 3_ilp
         real(sp),parameter :: tol = 100*sqrt(epsilon(0.0_sp))
@@ -192,31 +155,22 @@ module test_la_cholesky
         ! 1) Cholesky factorization with full matrices
         call cholesky(a,l,other_zeroed=.true.,err=state)
         
-        error = .not. state%ok()
-        if (error) then
-            print *, 'cholesky (subr) :: '//state%print()
-            return
-        end if
+        call check(error,state%ok(),'cholesky (subr) :: '//state%print())
+        if (allocated(error)) return
         
-        error = .not. all(abs(a - matmul(l,transpose(l))) < tol)
-        if (error) then
-            print *, 'cholesky (subr) :: data converged'
-            return
-        end if
+        call check(error,all(abs(a - matmul(l,transpose(l))) < tol),'cholesky (subr) :: data converged')
+        if (allocated(error)) return
         
         ! 2) Function interface
         l = chol(a,other_zeroed=.true.)
         
-        error = .not. all(abs(a - matmul(l,transpose(l))) < tol)
-        if (error) then
-            print *, 'cholesky (function) :: data converged'
-            return
-        end if
+        call check(error,all(abs(a - matmul(l,transpose(l))) < tol),'cholesky (function) :: data converged')
+        if (allocated(error)) return
         
     end subroutine test_cholesky_c
 
     subroutine test_cholesky_z(error)
-        logical,intent(out) :: error
+        type(error_type),allocatable,intent(out) :: error
 
         integer(ilp),parameter :: n = 3_ilp
         real(dp),parameter :: tol = 100*sqrt(epsilon(0.0_dp))
@@ -236,31 +190,22 @@ module test_la_cholesky
         ! 1) Cholesky factorization with full matrices
         call cholesky(a,l,other_zeroed=.true.,err=state)
         
-        error = .not. state%ok()
-        if (error) then
-            print *, 'cholesky (subr) :: '//state%print()
-            return
-        end if
+        call check(error,state%ok(),'cholesky (subr) :: '//state%print())
+        if (allocated(error)) return
         
-        error = .not. all(abs(a - matmul(l,transpose(l))) < tol)
-        if (error) then
-            print *, 'cholesky (subr) :: data converged'
-            return
-        end if
+        call check(error,all(abs(a - matmul(l,transpose(l))) < tol),'cholesky (subr) :: data converged')
+        if (allocated(error)) return
         
         ! 2) Function interface
         l = chol(a,other_zeroed=.true.)
         
-        error = .not. all(abs(a - matmul(l,transpose(l))) < tol)
-        if (error) then
-            print *, 'cholesky (function) :: data converged'
-            return
-        end if
+        call check(error,all(abs(a - matmul(l,transpose(l))) < tol),'cholesky (function) :: data converged')
+        if (allocated(error)) return
         
     end subroutine test_cholesky_z
 
     subroutine test_cholesky_w(error)
-        logical,intent(out) :: error
+        type(error_type),allocatable,intent(out) :: error
 
         integer(ilp),parameter :: n = 3_ilp
         real(qp),parameter :: tol = 100*sqrt(epsilon(0.0_qp))
@@ -280,27 +225,65 @@ module test_la_cholesky
         ! 1) Cholesky factorization with full matrices
         call cholesky(a,l,other_zeroed=.true.,err=state)
         
-        error = .not. state%ok()
-        if (error) then
-            print *, 'cholesky (subr) :: '//state%print()
-            return
-        end if
+        call check(error,state%ok(),'cholesky (subr) :: '//state%print())
+        if (allocated(error)) return
         
-        error = .not. all(abs(a - matmul(l,transpose(l))) < tol)
-        if (error) then
-            print *, 'cholesky (subr) :: data converged'
-            return
-        end if
+        call check(error,all(abs(a - matmul(l,transpose(l))) < tol),'cholesky (subr) :: data converged')
+        if (allocated(error)) return
         
         ! 2) Function interface
         l = chol(a,other_zeroed=.true.)
         
-        error = .not. all(abs(a - matmul(l,transpose(l))) < tol)
-        if (error) then
-            print *, 'cholesky (function) :: data converged'
-            return
-        end if
+        call check(error,all(abs(a - matmul(l,transpose(l))) < tol),'cholesky (function) :: data converged')
+        if (allocated(error)) return
         
     end subroutine test_cholesky_w
 
-end module test_la_cholesky
+    ! gcc-15 bugfix utility
+    subroutine add_test(tests,new_test)
+        type(unittest_type),allocatable,intent(inout) :: tests(:)
+        type(unittest_type),intent(in) :: new_test
+        
+        integer :: n
+        type(unittest_type),allocatable :: new_tests(:)
+        
+        if (allocated(tests)) then
+            n = size(tests)
+        else
+            n = 0
+        end if
+        
+        allocate (new_tests(n + 1))
+        if (n > 0) new_tests(1:n) = tests(1:n)
+                 new_tests(1 + n) = new_test
+        call move_alloc(from=new_tests,to=tests)
+        
+    end subroutine add_test
+
+end module test_linalg_cholesky
+
+program test_cholesky
+    use,intrinsic :: iso_fortran_env,only:error_unit
+    use testdrive,only:run_testsuite,new_testsuite,testsuite_type
+    use test_linalg_cholesky,only:test_cholesky_factorization
+    implicit none
+    integer :: stat,is
+    type(testsuite_type),allocatable :: testsuites(:)
+    character(len=*),parameter :: fmt = '("#", *(1x, a))'
+
+    stat = 0
+
+    testsuites = [ &
+        new_testsuite("linalg_cholesky",test_cholesky_factorization) &
+        ]
+
+    do is = 1,size(testsuites)
+        write (error_unit,fmt) "Testing:",testsuites(is)%name
+        call run_testsuite(testsuites(is)%collect,error_unit,stat)
+    end do
+
+    if (stat > 0) then
+        write (error_unit,'(i0, 1x, a)') stat,"test(s) failed!"
+        error stop
+    end if
+end program test_cholesky

@@ -1,5 +1,5 @@
 ! Test singular value decomposition
-module test_linalg_svd
+module test_la_svd
     use linear_algebra
 
     implicit none(type,external)
@@ -461,5 +461,5 @@ module test_linalg_svd
 
     end subroutine test_complex_svd_w
 
-end module test_linalg_svd
+end module test_la_svd
 

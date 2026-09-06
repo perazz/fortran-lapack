@@ -1,5 +1,5 @@
 ! Test eigendecomposition
-module test_linalg_eig
+module test_la_eigs
     use linear_algebra
 
     implicit none(type,external)
@@ -411,5 +411,5 @@ module test_linalg_eig
         
     end subroutine test_eig_complex_w
 
-end module test_linalg_eig
+end module test_la_eigs
 

@@ -1,4 +1,4 @@
-module test_linalg_aux
+module test_la_aux
     use linear_algebra
     implicit none (type,external)
 
@@ -43,6 +43,6 @@ module test_linalg_aux
 
     end subroutine test_formats
 
-end module test_linalg_aux
+end module test_la_aux
 
 

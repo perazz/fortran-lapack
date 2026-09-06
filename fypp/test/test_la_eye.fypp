@@ -1,5 +1,5 @@
 #:include "common.fypp"
-module test_linalg_eye
+module test_la_eye
     use linear_algebra
 
     implicit none (type,external)
@@ -129,6 +129,6 @@ module test_linalg_eye
 
     #:endfor
 
-end module test_linalg_eye
+end module test_la_eye
 
 

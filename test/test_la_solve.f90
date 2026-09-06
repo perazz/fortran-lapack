@@ -1,4 +1,4 @@
-module test_linalg_solve
+module test_la_solve
     use linear_algebra
 
     implicit none(type,external)
@@ -367,5 +367,5 @@ module test_linalg_solve
 
     end subroutine test_2x2_wsolve
 
-end module test_linalg_solve
+end module test_la_solve
 
